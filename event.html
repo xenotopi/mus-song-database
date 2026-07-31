@@ -1,1 +1,244 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>イベント詳細</title><link rel="stylesheet" href="assets/css/style.css"></head><body><div id="siteHeader"></div><main><div class="crumb">ホーム › イベント詳細</div><section class="hero"><h1 id="name">読み込み中…</h1><p id="meta">API接続中</p><div class="muse-line"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></section><div class="status" id="status">読み込み中…</div><section class="grid" id="content" hidden><article class="card"><h2>基本情報</h2><dl class="info" id="info"></dl></article><article class="card"><h2>歌唱統計</h2><div class="stats" id="stats"></div></article></section></main><div id="siteFooter"></div><script type="module">import {common} from "./assets/js/common.js";import {apiGet,fmt,esc} from "./assets/js/api.js";common("event");const id=new URLSearchParams(location.search).get("id")||"EV0002";try{const r=await apiGet("event",{id}),e=r.data,t=e.statistics||{};name.textContent=e.eventName;meta.textContent=`${fmt(e.date)}｜${e.category||"—"}｜${e.eventType||"—"}`;info.innerHTML=[["イベントID",e.eventId],["開催日",fmt(e.date)],["区分",e.category],["種別",e.eventType],["会場",e.venue?.venueName||"—"]].map(x=>`<dt>${x[0]}</dt><dd>${esc(x[1]||"—")}</dd>`).join("");stats.innerHTML=[["登録曲数",t.songCount],["重複除外",t.uniqueSongCount],["延べ人数",t.totalSingerCount],["平均人数",t.averageSingerCount]].map(x=>`<div class="stat"><div class="value">${x[1]??0}</div><div class="label">${x[0]}</div></div>`).join("");status.classList.add("hidden");content.hidden=false}catch(e){status.classList.add("error");status.textContent=e.message}</script></body></html>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>イベント詳細｜μ's Song Database</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div id="siteHeader"></div>
+
+<main>
+  <div class="crumb">ホーム › イベント詳細</div>
+
+  <section class="hero">
+    <span class="badge">イベント</span>
+    <h1 id="eventName">読み込み中…</h1>
+    <p id="heroMeta">APIから実データを取得しています。</p>
+    <div class="muse-line">
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+  </section>
+
+  <section class="quicknav" id="quickNav" hidden>
+    <a class="quickbtn disabled" id="previousButton">
+      <span class="quicklabel">← 前のイベント</span>
+      <span class="quicktitle" id="previousTitle">前のイベントはありません</span>
+      <span class="quickdate" id="previousDate"></span>
+    </a>
+
+    <div class="quickpicker">
+      <label for="eventPicker">イベントを選ぶ</label>
+      <select id="eventPicker"></select>
+    </div>
+
+    <a class="quickbtn next disabled" id="nextButton">
+      <span class="quicklabel">次のイベント →</span>
+      <span class="quicktitle" id="nextTitle">次のイベントはありません</span>
+      <span class="quickdate" id="nextDate"></span>
+    </a>
+  </section>
+
+  <div class="status" id="status">
+    <span class="page-loading">
+      データを読み込んでいます
+      <span class="loading-dots"><i></i><i></i><i></i></span>
+    </span>
+  </div>
+
+  <section class="grid" id="mainContent" hidden>
+    <article class="card">
+      <p class="kicker">EVENT INFORMATION</p>
+      <h2>基本情報</h2>
+      <dl class="info" id="eventInfo"></dl>
+    </article>
+
+    <article class="card">
+      <p class="kicker">PERFORMANCE SUMMARY</p>
+      <h2>歌唱統計</h2>
+      <div class="stats" id="eventStats"></div>
+    </article>
+  </section>
+
+  <section class="section" id="venueSection" hidden>
+    <article class="card">
+      <p class="kicker">VENUE INFORMATION</p>
+      <h2>開催・会場情報</h2>
+      <a class="venue-summary" id="venueLink" style="display:block;text-decoration:none">
+        <h3 id="venueName"></h3>
+        <p id="venueMeta"></p>
+        <p id="venueNote"></p>
+      </a>
+    </article>
+  </section>
+
+  <section class="section" id="songsSection" hidden>
+    <div class="section-head">
+      <div>
+        <p class="kicker">PERFORMED SONGS</p>
+        <h2>披露曲一覧</h2>
+      </div>
+      <div class="meta" id="songCount"></div>
+    </div>
+    <article class="card" style="padding:0;overflow:hidden" id="songList"></article>
+    <p class="detail-note" id="songOrderNote"></p>
+  </section>
+</main>
+
+<div id="siteFooter"></div>
+
+<script type="module">
+import { common } from "./assets/js/common.js";
+import { apiGet, esc, fmt } from "./assets/js/api.js";
+
+common("event");
+
+const eventNameEl = document.getElementById("eventName");
+const heroMetaEl = document.getElementById("heroMeta");
+const statusEl = document.getElementById("status");
+const quickNavEl = document.getElementById("quickNav");
+const mainContentEl = document.getElementById("mainContent");
+const venueSectionEl = document.getElementById("venueSection");
+const songsSectionEl = document.getElementById("songsSection");
+const eventInfoEl = document.getElementById("eventInfo");
+const eventStatsEl = document.getElementById("eventStats");
+const venueLinkEl = document.getElementById("venueLink");
+const venueNameEl = document.getElementById("venueName");
+const venueMetaEl = document.getElementById("venueMeta");
+const venueNoteEl = document.getElementById("venueNote");
+const songListEl = document.getElementById("songList");
+const songCountEl = document.getElementById("songCount");
+const songOrderNoteEl = document.getElementById("songOrderNote");
+const previousButtonEl = document.getElementById("previousButton");
+const previousTitleEl = document.getElementById("previousTitle");
+const previousDateEl = document.getElementById("previousDate");
+const nextButtonEl = document.getElementById("nextButton");
+const nextTitleEl = document.getElementById("nextTitle");
+const nextDateEl = document.getElementById("nextDate");
+const eventPickerEl = document.getElementById("eventPicker");
+
+const eventId = new URLSearchParams(location.search).get("id") || "EV0002";
+
+function showError(message) {
+  statusEl.classList.remove("hidden");
+  statusEl.classList.add("detail-error");
+  statusEl.innerHTML = `<strong>イベントデータを取得できませんでした。</strong>${esc(message)}`;
+  eventNameEl.textContent = "イベントデータを表示できません";
+  heroMetaEl.textContent = `Event ID：${eventId}`;
+}
+
+try {
+  const response = await apiGet("event", { id: eventId });
+  const event = response.data;
+  const stats = event.statistics || {};
+  const venue = event.venue || null;
+  const songs = Array.isArray(event.songs) ? event.songs : [];
+  const navigation = event.navigation || {};
+
+  document.title = `${event.eventName}｜μ's Song Database`;
+  eventNameEl.textContent = event.eventName || "イベント名未設定";
+  heroMetaEl.textContent = [
+    fmt(event.date),
+    event.category,
+    event.eventType
+  ].filter(Boolean).join("｜");
+
+  eventInfoEl.innerHTML = [
+    ["イベントID", event.eventId],
+    ["開催日", fmt(event.date)],
+    ["区分", event.category],
+    ["イベント種別", event.eventType],
+    ["Day", event.day || "—"],
+    ["公演", event.performance || "—"],
+    ["備考", event.note || "—"]
+  ].map(([label, value]) =>
+    `<dt>${esc(label)}</dt><dd>${esc(value || "—")}</dd>`
+  ).join("");
+
+  eventStatsEl.innerHTML = [
+    ["登録曲数", stats.songCount],
+    ["重複除外曲数", stats.uniqueSongCount],
+    ["延べ歌唱人数", stats.totalSingerCount],
+    ["平均歌唱人数", stats.averageSingerCount]
+  ].map(([label, value]) =>
+    `<div class="stat"><div class="value">${Number(value ?? 0).toLocaleString("ja-JP")}</div><div class="label">${esc(label)}</div></div>`
+  ).join("");
+
+  if (venue) {
+    venueNameEl.textContent = venue.venueName || "会場名未設定";
+    venueMetaEl.textContent = [
+      venue.prefectureCity,
+      venue.region,
+      venue.country,
+      venue.capacity ? `キャパ ${Number(venue.capacity).toLocaleString("ja-JP")}人` : ""
+    ].filter(Boolean).join("｜");
+    venueNoteEl.textContent = venue.note || "";
+    if (venue.venueId) {
+      venueLinkEl.href = `venue.html?id=${encodeURIComponent(venue.venueId)}`;
+    }
+    venueSectionEl.hidden = false;
+  }
+
+  songCountEl.textContent = `${songs.length}曲`;
+  songOrderNoteEl.textContent = event.songOrderNote || "";
+  songListEl.innerHTML = songs.length
+    ? songs.map(song => `
+      <a class="row" href="song.html?id=${encodeURIComponent(song.songId)}">
+        <span>
+          <span class="title">${esc(song.songName || "曲名未設定")}</span>
+          <span class="meta">
+            <span>${esc(song.type || "未分類")}</span>
+            <span>歌唱者：${esc(song.singer || "—")}</span>
+            <span>${esc(song.songId || "")}</span>
+          </span>
+        </span>
+        <span>›</span>
+      </a>`).join("")
+    : `<div style="padding:28px;text-align:center;color:var(--muted)">披露曲情報はありません。</div>`;
+
+  const selectItems = [
+    navigation.previous,
+    { eventId: event.eventId, eventName: event.eventName, date: event.date },
+    navigation.next
+  ].filter(Boolean);
+
+  eventPickerEl.innerHTML = selectItems.map(item => `
+    <option value="${esc(item.eventId)}" ${item.eventId === event.eventId ? "selected" : ""}>
+      ${esc(fmt(item.date))}｜${esc(item.eventName)}
+    </option>`).join("");
+
+  if (navigation.previous) {
+    previousButtonEl.classList.remove("disabled");
+    previousButtonEl.href = `?id=${encodeURIComponent(navigation.previous.eventId)}`;
+    previousTitleEl.textContent = navigation.previous.eventName;
+    previousDateEl.textContent = fmt(navigation.previous.date);
+  }
+
+  if (navigation.next) {
+    nextButtonEl.classList.remove("disabled");
+    nextButtonEl.href = `?id=${encodeURIComponent(navigation.next.eventId)}`;
+    nextTitleEl.textContent = navigation.next.eventName;
+    nextDateEl.textContent = fmt(navigation.next.date);
+  }
+
+  eventPickerEl.addEventListener("change", () => {
+    if (!eventPickerEl.value) return;
+    location.href = `?id=${encodeURIComponent(eventPickerEl.value)}`;
+  });
+
+  statusEl.classList.add("hidden");
+  quickNavEl.hidden = false;
+  mainContentEl.hidden = false;
+  songsSectionEl.hidden = false;
+
+} catch (error) {
+  console.error(error);
+  showError(error.message || "不明なエラーが発生しました。");
+}
+</script>
+</body>
+</html>

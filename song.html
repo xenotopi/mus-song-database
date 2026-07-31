@@ -1,1 +1,159 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>曲詳細</title><link rel="stylesheet" href="assets/css/style.css"></head><body><div id="siteHeader"></div><main><div class="crumb">ホーム › 曲詳細</div><section class="hero"><h1 id="name">読み込み中…</h1><p id="meta">API接続中</p><div class="muse-line"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></section><div class="status" id="status">読み込み中…</div><section class="grid" id="content" hidden><article class="card"><h2>基本情報</h2><dl class="info" id="info"></dl></article><article class="card"><h2>歌唱統計</h2><div class="stats" id="stats"></div></article></section></main><div id="siteFooter"></div><script type="module">import {common} from "./assets/js/common.js";import {apiGet,fmt,esc} from "./assets/js/api.js";common("song");const id=new URLSearchParams(location.search).get("id")||"S003";try{const r=await apiGet("song",{id}),s=r.data,t=s.statistics||{};name.textContent=s.displayName||s.songName;meta.textContent=`${s.media||"—"}｜${s.category||"—"}｜${fmt(s.releaseDate)}`;info.innerHTML=[["曲ID",s.songId],["表示名",s.displayName],["収録CD",s.recordingCd],["発売日",fmt(s.releaseDate)]].map(x=>`<dt>${x[0]}</dt><dd>${esc(x[1]||"—")}</dd>`).join("");stats.innerHTML=[["イベント",t.eventCount],["公式",t.officialEventCount],["ソロ",t.soloEventCount],["記録",t.performanceCount]].map(x=>`<div class="stat"><div class="value">${x[1]??0}</div><div class="label">${x[0]}</div></div>`).join("");status.classList.add("hidden");content.hidden=false}catch(e){status.classList.add("error");status.textContent=e.message}</script></body></html>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>曲詳細｜μ's Song Database</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div id="siteHeader"></div>
+
+<main>
+  <div class="crumb">ホーム › 曲詳細</div>
+
+  <section class="hero">
+    <span class="badge">曲</span>
+    <h1 id="songName">読み込み中…</h1>
+    <p id="heroMeta">APIから実データを取得しています。</p>
+    <div class="muse-line">
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+  </section>
+
+  <div class="status" id="status">
+    <span class="page-loading">
+      データを読み込んでいます
+      <span class="loading-dots"><i></i><i></i><i></i></span>
+    </span>
+  </div>
+
+  <section class="grid" id="mainContent" hidden>
+    <article class="card">
+      <p class="kicker">SONG INFORMATION</p>
+      <h2>基本情報</h2>
+      <dl class="info" id="songInfo"></dl>
+    </article>
+
+    <article class="card">
+      <p class="kicker">PERFORMANCE SUMMARY</p>
+      <h2>歌唱統計</h2>
+      <div class="stats" id="songStats"></div>
+      <dl class="info" id="songDates" style="margin-top:14px"></dl>
+    </article>
+  </section>
+
+  <section class="section" id="historySection" hidden>
+    <div class="section-head">
+      <div>
+        <p class="kicker">PERFORMANCE HISTORY</p>
+        <h2>歌唱履歴</h2>
+      </div>
+      <div class="meta" id="historyCount"></div>
+    </div>
+    <article class="card" style="padding:0;overflow:hidden" id="historyList"></article>
+  </section>
+</main>
+
+<div id="siteFooter"></div>
+
+<script type="module">
+import { common } from "./assets/js/common.js";
+import { apiGet, esc, fmt } from "./assets/js/api.js";
+
+common("song");
+
+const songNameEl = document.getElementById("songName");
+const heroMetaEl = document.getElementById("heroMeta");
+const statusEl = document.getElementById("status");
+const mainContentEl = document.getElementById("mainContent");
+const historySectionEl = document.getElementById("historySection");
+const songInfoEl = document.getElementById("songInfo");
+const songStatsEl = document.getElementById("songStats");
+const songDatesEl = document.getElementById("songDates");
+const historyCountEl = document.getElementById("historyCount");
+const historyListEl = document.getElementById("historyList");
+
+const songId = new URLSearchParams(location.search).get("id") || "S003";
+
+function showError(message) {
+  statusEl.classList.remove("hidden");
+  statusEl.classList.add("detail-error");
+  statusEl.innerHTML = `<strong>曲データを取得できませんでした。</strong>${esc(message)}`;
+  songNameEl.textContent = "曲データを表示できません";
+  heroMetaEl.textContent = `Song ID：${songId}`;
+}
+
+try {
+  const response = await apiGet("song", { id: songId });
+  const song = response.data;
+  const stats = song.statistics || {};
+  const performances = Array.isArray(song.performances) ? song.performances : [];
+
+  document.title = `${song.displayName || song.songName}｜μ's Song Database`;
+  songNameEl.textContent = song.displayName || song.songName || "曲名未設定";
+  heroMetaEl.textContent = [
+    song.media,
+    song.category,
+    fmt(song.releaseDate)
+  ].filter(Boolean).join("｜");
+
+  songInfoEl.innerHTML = [
+    ["曲ID", song.songId],
+    ["表示名", song.displayName],
+    ["バージョン", song.version],
+    ["収録CD", song.recordingCd],
+    ["発売日", fmt(song.releaseDate)],
+    ["メディア", song.media],
+    ["区分", song.category]
+  ].map(([label, value]) =>
+    `<dt>${esc(label)}</dt><dd>${esc(value || "—")}</dd>`
+  ).join("");
+
+  songStatsEl.innerHTML = [
+    ["歌唱イベント数", stats.eventCount],
+    ["公式イベント", stats.officialEventCount],
+    ["ソロイベント", stats.soloEventCount],
+    ["歌唱記録数", stats.performanceCount]
+  ].map(([label, value]) =>
+    `<div class="stat"><div class="value">${Number(value ?? 0).toLocaleString("ja-JP")}</div><div class="label">${esc(label)}</div></div>`
+  ).join("");
+
+  songDatesEl.innerHTML = [
+    ["初披露日", fmt(stats.firstPerformanceDate)],
+    ["最終披露日", fmt(stats.lastPerformanceDate)]
+  ].map(([label, value]) =>
+    `<dt>${esc(label)}</dt><dd>${esc(value)}</dd>`
+  ).join("");
+
+  historyCountEl.textContent = `${performances.length}件`;
+  historyListEl.innerHTML = performances.length
+    ? performances.map(item => `
+      <a class="row" href="event.html?id=${encodeURIComponent(item.eventId)}">
+        <span class="date">${esc(fmt(item.date))}</span>
+        <span>
+          <span class="title">${esc(item.eventName || "イベント名未設定")}</span>
+          <span class="meta">
+            <span>${esc(item.type || "未分類")}</span>
+            <span>歌唱者：${esc(item.singer || "—")}</span>
+            <span>${esc(item.eventId || "")}</span>
+          </span>
+        </span>
+        <span>›</span>
+      </a>`).join("")
+    : `<div style="padding:28px;text-align:center;color:var(--muted)">歌唱履歴はありません。</div>`;
+
+  statusEl.classList.add("hidden");
+  mainContentEl.hidden = false;
+  historySectionEl.hidden = false;
+
+} catch (error) {
+  console.error(error);
+  showError(error.message || "不明なエラーが発生しました。");
+}
+</script>
+</body>
+</html>

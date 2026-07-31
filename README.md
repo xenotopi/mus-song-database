@@ -19,3 +19,4 @@ https://xenotopi.github.io/mus-song-database/event.html?id=EV0002
 - Failed to fetch時の再試行ボタンと診断情報を追加
 - 前後イベント、会場、披露曲の導線を復元
 - CSS/JSへバージョンクエリを付け、GitHub Pagesの旧キャッシュを回避
+

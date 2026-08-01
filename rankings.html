@@ -1,1 +1,63 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ランキング</title><link rel="stylesheet" href="assets/css/style.css"></head><body><div id="siteHeader"></div><main><section class="hero"><h1>ランキング</h1><p>Web Prototype v1.1</p><div class="muse-line"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></section></main><div id="siteFooter"></div><script type="module">import{common}from"./assets/js/common.js";common();</script></body></html>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ランキング｜μ's Song Database</title>
+<link rel="stylesheet" href="assets/css/style.css?v=2.0.4">
+<style>
+.ranking-summary{margin-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.ranking-summary-card{min-height:108px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow)}
+.ranking-summary-value{color:var(--indigo);font-size:34px;font-weight:900;line-height:1}
+.ranking-summary-label{color:var(--muted);font-size:12px;font-weight:800}
+.ranking-tabs{margin-top:24px;display:flex;gap:8px;flex-wrap:wrap}
+.ranking-tab{border:1px solid var(--line);border-radius:999px;background:#fff;padding:9px 14px;font-weight:900;cursor:pointer}
+.ranking-tab.active{border-color:var(--indigo);background:var(--indigo);color:#fff}
+.ranking-panel{margin-top:18px}
+.ranking-list{padding:0;overflow:hidden}
+.ranking-row{display:grid;grid-template-columns:46px minmax(0,1fr) auto;gap:14px;align-items:center;padding:15px 18px;border-bottom:1px solid var(--line);text-decoration:none}
+.ranking-row:last-child{border-bottom:0}
+.ranking-row:hover{background:#fcfcff}
+.ranking-position{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:var(--indigo-soft);color:var(--indigo);font-weight:900}
+.ranking-title{display:block;font-weight:900}
+.ranking-meta{margin-top:4px;display:flex;gap:5px 12px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+.ranking-count{min-width:82px;text-align:right;color:var(--indigo);font-size:18px;font-weight:900}
+.ranking-count small{display:block;color:var(--muted);font-size:10px}
+@media(max-width:720px){.ranking-summary{grid-template-columns:repeat(2,1fr)}.ranking-row{grid-template-columns:40px minmax(0,1fr)}.ranking-count{grid-column:2;text-align:left}}
+</style>
+</head>
+<body>
+<div id="siteHeader"></div>
+<main>
+<div class="crumb">ホーム › ランキング</div>
+<section class="hero">
+<span class="badge">ランキング</span>
+<h1>Rankings</h1>
+<p>曲・イベント・会場の記録を、実データからランキングします。</p>
+<div class="muse-line"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</section>
+
+<div class="status" id="status">ランキングデータを読み込んでいます</div>
+<div class="retry-wrap"><button class="retry-button" id="retryButton" type="button" hidden>再試行</button></div>
+
+<section class="ranking-summary" id="summary" hidden>
+<article class="ranking-summary-card"><div class="ranking-summary-value" id="songCount">0</div><div class="ranking-summary-label">管理曲数</div></article>
+<article class="ranking-summary-card"><div class="ranking-summary-value" id="eventCount">0</div><div class="ranking-summary-label">登録イベント数</div></article>
+<article class="ranking-summary-card"><div class="ranking-summary-value" id="venueCount">0</div><div class="ranking-summary-label">登録会場数</div></article>
+<article class="ranking-summary-card"><div class="ranking-summary-value" id="performanceCount">0</div><div class="ranking-summary-label">歌唱記録数</div></article>
+</section>
+
+<div class="ranking-tabs" id="tabs" hidden>
+<button class="ranking-tab active" data-tab="songs" type="button">曲ランキング</button>
+<button class="ranking-tab" data-tab="events" type="button">イベントランキング</button>
+<button class="ranking-tab" data-tab="venues" type="button">会場ランキング</button>
+</div>
+
+<section class="ranking-panel" id="songsPanel" hidden><div class="section-head"><div><p class="kicker">TOP SONGS</p><h2>歌唱回数ランキング</h2></div></div><article class="card ranking-list" id="songsList"></article></section>
+<section class="ranking-panel" id="eventsPanel" hidden><div class="section-head"><div><p class="kicker">TOP EVENTS</p><h2>披露曲数ランキング</h2></div></div><article class="card ranking-list" id="eventsList"></article></section>
+<section class="ranking-panel" id="venuesPanel" hidden><div class="section-head"><div><p class="kicker">TOP VENUES</p><h2>利用イベント数ランキング</h2></div></div><article class="card ranking-list" id="venuesList"></article></section>
+</main>
+<div id="siteFooter"></div>
+<script type="module" src="assets/js/rankings.js?v=2.0.4"></script>
+</body>
+</html>

@@ -1,97 +1,215 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec";
+/**
+ * μ's Song Database Web
+ * assets/js/api.js
+ * JSONP通信対応版
+ */
+
+export const API_URL = "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec";
 
 const DEFAULT_TIMEOUT_MS = 15000;
-const DEFAULT_RETRY_COUNT = 2;
+let requestSequence = 0;
 
-function wait(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+export function jsonpRequest(options) {
+  const action = String(
+    options?.action || ""
+  ).trim();
 
-function createApiUrl(action, params = {}) {
-  const url = new URL(API_URL);
-  url.searchParams.set("action", action);
+  const params = options?.params || {};
+  const timeoutMs =
+    options?.timeoutMs ||
+    DEFAULT_TIMEOUT_MS;
 
-  Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== "") {
-      url.searchParams.set(key, String(value));
+  requestSequence += 1;
+
+  const callbackName =
+    `__musJsonpCallback_${Date.now()}_${requestSequence}`;
+
+  const script =
+    document.createElement("script");
+
+  const url =
+    new URL(API_URL);
+
+  url.searchParams.set(
+    "action",
+    action
+  );
+
+  url.searchParams.set(
+    "callback",
+    callbackName
+  );
+
+  url.searchParams.set(
+    "_t",
+    String(Date.now())
+  );
+
+  Object.entries(params).forEach(
+    ([key, value]) => {
+      if (
+        value !== undefined &&
+        value !== null &&
+        value !== ""
+      ) {
+        url.searchParams.set(
+          key,
+          String(value)
+        );
+      }
     }
-  });
+  );
 
-  // GitHub Pages・ブラウザキャッシュの影響を避ける
-  url.searchParams.set("_t", String(Date.now()));
+  let timer = null;
+  let settled = false;
 
-  return url.toString();
-}
+  function cleanup() {
+    if (timer) {
+      clearTimeout(timer);
+    }
 
-async function fetchWithTimeout(url, timeoutMs) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-
-  try {
-    return await fetch(url, {
-      method: "GET",
-      mode: "cors",
-      credentials: "omit",
-      redirect: "follow",
-      cache: "no-store",
-      headers: {
-        "Accept": "application/json,text/plain,*/*"
-      },
-      signal: controller.signal
-    });
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-export async function apiGet(action, params = {}, options = {}) {
-  const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
-  const retryCount = options.retryCount ?? DEFAULT_RETRY_COUNT;
-  let lastError = null;
-
-  for (let attempt = 0; attempt <= retryCount; attempt += 1) {
-    const requestUrl = createApiUrl(action, params);
+    if (script.parentNode) {
+      script.parentNode.removeChild(
+        script
+      );
+    }
 
     try {
-      const response = await fetchWithTimeout(requestUrl, timeoutMs);
+      delete window[callbackName];
+    } catch {
+      window[callbackName] = undefined;
+    }
+  }
 
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status} ${response.statusText}`);
+  const promise = new Promise(
+    (resolve, reject) => {
+      window[callbackName] = result => {
+        if (settled) {
+          return;
+        }
+
+        settled = true;
+        cleanup();
+
+        if (!result?.success) {
+          reject(
+            new Error(
+              result?.error?.message ||
+              "API処理に失敗しました。"
+            )
+          );
+          return;
+        }
+
+        resolve(result);
+      };
+
+      script.async = true;
+      script.src = url.toString();
+
+      script.onerror = () => {
+        if (settled) {
+          return;
+        }
+
+        settled = true;
+        cleanup();
+
+        reject(
+          new Error(
+            "JSONPスクリプトを読み込めませんでした。"
+          )
+        );
+      };
+
+      timer = window.setTimeout(
+        () => {
+          if (settled) {
+            return;
+          }
+
+          settled = true;
+          cleanup();
+
+          reject(
+            new Error(
+              "API接続がタイムアウトしました。"
+            )
+          );
+        },
+        timeoutMs
+      );
+
+      document.head.appendChild(
+        script
+      );
+    }
+  );
+
+  return {
+    promise,
+
+    cancel() {
+      if (settled) {
+        return;
       }
 
-      const text = await response.text();
+      settled = true;
+      cleanup();
+    },
+  };
+}
 
-      if (!text) {
-        throw new Error("APIの応答が空でした。");
-      }
+export async function apiGet(
+  action,
+  params = {},
+  options = {}
+) {
+  const retryCount =
+    Number.isInteger(
+      options.retryCount
+    )
+      ? options.retryCount
+      : 1;
 
-      let result;
-      try {
-        result = JSON.parse(text);
-      } catch {
-        throw new Error("APIの応答をJSONとして解析できませんでした。");
-      }
+  const timeoutMs =
+    options.timeoutMs ||
+    DEFAULT_TIMEOUT_MS;
 
-      if (!result.success) {
-        throw new Error(result.error?.message || "API処理に失敗しました。");
-      }
+  let lastError = null;
 
-      return result;
+  for (
+    let attempt = 0;
+    attempt <= retryCount;
+    attempt += 1
+  ) {
+    try {
+      const request = jsonpRequest({
+        action,
+        params,
+        timeoutMs,
+      });
+
+      return await request.promise;
 
     } catch (error) {
       lastError = error;
 
       if (attempt < retryCount) {
-        await wait(700 * (attempt + 1));
+        await new Promise(
+          resolve => setTimeout(
+            resolve,
+            600 * (attempt + 1)
+          )
+        );
       }
     }
   }
 
-  const message = lastError?.name === "AbortError"
-    ? "API接続がタイムアウトしました。"
-    : lastError?.message || "APIへ接続できませんでした。";
-
-  throw new Error(message);
+  throw lastError ||
+    new Error(
+      "APIへ接続できませんでした。"
+    );
 }
 
 export function escapeHtml(value) {
@@ -104,7 +222,7 @@ export function escapeHtml(value) {
 }
 
 export function formatDate(value) {
-  return value ? String(value).replaceAll("-", "/") : "—";
+  return value
+    ? String(value).replaceAll("-", "/")
+    : "—";
 }
-
-export { API_URL };

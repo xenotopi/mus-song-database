@@ -2,74 +2,171 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>イベント詳細｜μ's Song Database</title>
-  <link rel="stylesheet" href="assets/css/style.css?v=2.0.1">
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  >
+
+  <title>
+    イベント詳細｜μ's Song Database
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="assets/css/style.css?v=2.0.2"
+  >
 </head>
+
 <body>
   <div id="siteHeader"></div>
 
   <main>
-    <div class="crumb">ホーム › イベント詳細</div>
+    <div class="crumb">
+      ホーム › イベント詳細
+    </div>
 
     <section class="hero">
-      <span class="badge">イベント</span>
-      <h1 id="eventName">読み込み中…</h1>
-      <p id="heroMeta">APIから実データを取得しています。</p>
+      <span class="badge">
+        イベント
+      </span>
+
+      <h1 id="eventName">
+        読み込み中…
+      </h1>
+
+      <p id="heroMeta">
+        JSONPでAPIへ接続しています。
+      </p>
+
       <div class="muse-line">
-        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i>
+        <i></i><i></i><i></i>
+        <i></i><i></i><i></i>
       </div>
     </section>
 
-    <section class="quicknav" id="quickNav" hidden>
-      <a class="quickbtn disabled" id="previousButton">
-        <span class="quicklabel">← 前のイベント</span>
-        <span class="quicktitle" id="previousTitle">前のイベントはありません</span>
-        <span class="quickdate" id="previousDate"></span>
+    <section
+      class="quicknav"
+      id="quickNav"
+      hidden
+    >
+      <a
+        class="quickbtn disabled"
+        id="previousButton"
+      >
+        <span class="quicklabel">
+          ← 前のイベント
+        </span>
+
+        <span
+          class="quicktitle"
+          id="previousTitle"
+        >
+          前のイベントはありません
+        </span>
+
+        <span
+          class="quickdate"
+          id="previousDate"
+        ></span>
       </a>
 
       <div class="quickpicker">
-        <label for="eventPicker">イベントを選ぶ</label>
+        <label for="eventPicker">
+          イベントを選ぶ
+        </label>
+
         <select id="eventPicker"></select>
       </div>
 
-      <a class="quickbtn next disabled" id="nextButton">
-        <span class="quicklabel">次のイベント →</span>
-        <span class="quicktitle" id="nextTitle">次のイベントはありません</span>
-        <span class="quickdate" id="nextDate"></span>
+      <a
+        class="quickbtn next disabled"
+        id="nextButton"
+      >
+        <span class="quicklabel">
+          次のイベント →
+        </span>
+
+        <span
+          class="quicktitle"
+          id="nextTitle"
+        >
+          次のイベントはありません
+        </span>
+
+        <span
+          class="quickdate"
+          id="nextDate"
+        ></span>
       </a>
     </section>
 
-    <div class="status" id="status">
+    <div
+      class="status"
+      id="status"
+    >
       イベントデータを読み込んでいます
     </div>
 
     <div class="retry-wrap">
-      <button class="retry-button" id="retryButton" type="button" hidden>再試行</button>
+      <button
+        class="retry-button"
+        id="retryButton"
+        type="button"
+        hidden
+      >
+        再試行
+      </button>
     </div>
 
-    <div class="diagnostic" id="diagnostic" hidden></div>
-
-    <section class="grid" id="mainContent" hidden>
+    <section
+      class="grid"
+      id="mainContent"
+      hidden
+    >
       <article class="card">
-        <p class="kicker">EVENT INFORMATION</p>
+        <p class="kicker">
+          EVENT INFORMATION
+        </p>
+
         <h2>基本情報</h2>
-        <dl class="info" id="eventInfo"></dl>
+
+        <dl
+          class="info"
+          id="eventInfo"
+        ></dl>
       </article>
 
       <article class="card">
-        <p class="kicker">PERFORMANCE SUMMARY</p>
+        <p class="kicker">
+          PERFORMANCE SUMMARY
+        </p>
+
         <h2>歌唱統計</h2>
-        <div class="stats" id="eventStats"></div>
+
+        <div
+          class="stats"
+          id="eventStats"
+        ></div>
       </article>
     </section>
 
-    <section class="section" id="venueSection" hidden>
+    <section
+      class="section"
+      id="venueSection"
+      hidden
+    >
       <article class="card">
-        <p class="kicker">VENUE INFORMATION</p>
+        <p class="kicker">
+          VENUE INFORMATION
+        </p>
+
         <h2>開催・会場情報</h2>
 
-        <a class="venue-summary" id="venueLink">
+        <a
+          class="venue-summary"
+          id="venueLink"
+        >
           <h3 id="venueName"></h3>
           <p id="venueMeta"></p>
           <p id="venueNote"></p>
@@ -77,22 +174,43 @@
       </article>
     </section>
 
-    <section class="section" id="songsSection" hidden>
+    <section
+      class="section"
+      id="songsSection"
+      hidden
+    >
       <div class="section-head">
         <div>
-          <p class="kicker">PERFORMED SONGS</p>
+          <p class="kicker">
+            PERFORMED SONGS
+          </p>
+
           <h2>披露曲一覧</h2>
         </div>
-        <div class="detail-note" id="songCount"></div>
+
+        <div
+          class="detail-note"
+          id="songCount"
+        ></div>
       </div>
 
-      <article class="card song-list" id="songList"></article>
-      <p class="detail-note" id="songOrderNote"></p>
+      <article
+        class="card song-list"
+        id="songList"
+      ></article>
+
+      <p
+        class="detail-note"
+        id="songOrderNote"
+      ></p>
     </section>
   </main>
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/event.js?v=2.0.1"></script>
+  <script
+    type="module"
+    src="assets/js/event.js?v=2.0.2"
+  ></script>
 </body>
 </html>

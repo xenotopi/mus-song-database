@@ -1,22 +1,25 @@
-# v2.0 Foundation：Ranking JSONP対応版
+# v2.0：ホーム画面完全API化版
 
 ## Apps Script側
 新規追加：
-- RankingApi.gs
+- HomeApi.gs
 
 丸ごと差し替え：
 - ApiMain.gs
 
-保存後、`testGetRankings`を実行し、summary / songs / events / venues が出れば成功です。
+前提：
+- RankingApi.gs が存在すること
+
+保存後、`testGetHomeData`を実行し、summary / today / recentPerformances / topSongs / topVenues が出れば成功です。
 その後、新バージョンで再デプロイしてください。
 
 JSONP確認：
-https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec?action=rankings&limit=20&callback=callbackTest
+https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec?action=home&recentLimit=5&callback=callbackTest
 
 ## GitHub側
 上書き：
-- rankings.html
-- assets/js/rankings.js
+- index.html
+- assets/js/home.js
 
 確認：
-https://xenotopi.github.io/mus-song-database/rankings.html?build=204
+https://xenotopi.github.io/mus-song-database/?build=205

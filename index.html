@@ -1,144 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>μ's Song Database</title>
+<link rel="stylesheet" href="assets/css/style.css?v=2.0.5">
 <style>
-:root{--p:#4a148c;--p2:#6a1b9a;--bg:#f5f5f7;--card:#fff;--line:#e8e2ec;--text:#23212a;--sub:#6d6873}
-*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Yu Gothic",Meiryo,sans-serif;background:var(--bg);color:var(--text)}
-header{position:sticky;top:0;z-index:20;background:#ffffffeF;border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
-.header-inner{max-width:1100px;margin:auto;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}.brand b{display:block}.brand small{color:var(--sub)}
-nav a{color:var(--text);text-decoration:none;font-weight:700;margin-left:14px}.menu{display:none;border:0;background:#f2eafa;color:var(--p);border-radius:10px;width:42px;height:42px;font-size:22px}
-main{max-width:1100px;margin:auto;padding:24px 14px 60px}.hero{background:linear-gradient(135deg,#3b0b73,#6a1b9a);color:#fff;border-radius:20px;padding:34px 24px;box-shadow:0 14px 40px #3510521c}
-.hero h1{margin:0;font-size:clamp(32px,7vw,54px);line-height:1.05}.sub{font-weight:700;opacity:.85}.desc{max-width:720px;font-weight:650}
-.search-wrap{position:relative;margin-top:24px}.search{display:flex;align-items:center;background:#fff;border-radius:14px;padding:0 14px;min-height:56px;box-shadow:0 14px 32px #1f092e33}
-.search input{flex:1;border:0;outline:0;font-size:16px}.clear{border:0;background:none;font-size:21px;display:none}.results{position:absolute;top:64px;left:0;right:0;background:#fff;color:var(--text);border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px #230b3433;overflow:hidden;display:none;max-height:420px;overflow-y:auto}
-.result{width:100%;border:0;border-bottom:1px solid var(--line);background:#fff;padding:12px 14px;text-align:left;display:grid;grid-template-columns:auto 1fr;gap:10px;cursor:pointer}.result:hover{background:#f8f3fc}.badge{font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;height:max-content}.song{background:#eee3ff;color:#5a1e91}.event{background:#ffe7f1;color:#a42863}.venue{background:#e2f2ff;color:#17618d}
-.notice{margin-top:14px;background:#fff8dc;color:#6f5b12;border-radius:12px;padding:11px 13px;font-size:12px;font-weight:700}
-section{margin-top:28px}h2{margin:0 0 12px}.kicker{margin:0;color:var(--p2);font-size:11px;font-weight:900;letter-spacing:.12em}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px #35105210}
-.today{padding:18px;border-left:5px solid #d84e8a}.today-item{background:#f7f1fb;padding:12px;border-radius:12px;margin-top:10px}.today-item span{display:block;color:var(--sub);font-size:13px}
-.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.summary .card{padding:18px;min-height:110px;display:flex;flex-direction:column;justify-content:space-between}.num{font-size:40px;font-weight:900;color:var(--p)}.label{color:var(--sub);font-weight:700;font-size:13px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}.list-card{padding:18px}.row{display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.rank{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#f2eafa;color:var(--p);font-weight:900}.count{color:var(--p);font-weight:900}
-.recent{padding:18px}.event-group{border:1px solid var(--line);border-radius:13px;overflow:hidden;margin-top:12px}.event-head{background:#f7f1fb;padding:12px}.event-title{font-weight:900}.event-meta{display:flex;justify-content:space-between;color:var(--sub);font-size:12px}.official{background:#e9ddf7;color:#5f258e}.solo{background:#ffe5f0;color:#a32964}.pill{padding:2px 8px;border-radius:999px;font-weight:800}.songs{padding:10px 14px 12px 32px;margin:0}.more{width:100%;margin-top:14px;padding:12px;border:1px solid var(--p);background:#fff;color:var(--p);border-radius:12px;font-weight:900}
-footer{text-align:center;color:var(--sub);font-size:12px;margin-top:40px;padding-top:20px;border-top:1px solid var(--line)}
-@media(max-width:760px){nav{display:none}.menu{display:block}.summary{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.hero{padding:28px 18px}.summary .card{min-height:96px}.num{font-size:32px}}
+.home-hero{position:relative;overflow:hidden;padding:36px 28px 44px;border-radius:24px;color:#fff;background:radial-gradient(circle at 80% 10%,rgba(255,255,255,.12),transparent 28%),linear-gradient(135deg,#172033,#33366d 46%,#4f46e5);box-shadow:0 18px 48px rgba(33,38,90,.2)}
+.home-hero h1{margin:8px 0 0;font-size:clamp(36px,7vw,60px);line-height:1.05}
+.home-hero-copy{margin:16px 0 0;max-width:700px;font-weight:800}
+.home-search{margin-top:24px;min-height:58px;padding:0 18px;display:flex;align-items:center;gap:10px;border-radius:16px;background:#fff;color:var(--navy)}
+.home-search input{width:100%;border:0;outline:0;background:transparent;font-size:16px}
+.home-summary{margin-top:22px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.home-summary-card{min-height:116px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow)}
+.home-summary-value{color:var(--indigo);font-size:36px;font-weight:900;line-height:1}
+.home-summary-label{color:var(--muted);font-size:12px;font-weight:800}
+.home-grid{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.today-card{border-left:5px solid var(--ni)}
+.today-date{color:var(--indigo);font-size:18px;font-weight:900}
+.today-group{margin-top:14px;padding:14px;border-radius:14px;background:#f8f3ff}
+.today-group h3{margin:0 0 8px;font-size:15px}
+.today-item{display:block;padding:8px 0;border-bottom:1px solid rgba(79,70,229,.12);text-decoration:none}
+.today-item:last-child{border-bottom:0}
+.today-empty{color:var(--muted);font-size:13px}
+.home-ranking-list{padding:0;overflow:hidden}
+.home-ranking-row{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:12px;align-items:center;padding:13px 16px;border-bottom:1px solid var(--line);text-decoration:none}
+.home-ranking-row:last-child{border-bottom:0}
+.home-rank{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:var(--indigo-soft);color:var(--indigo);font-weight:900}
+.home-ranking-name{font-weight:900}
+.home-ranking-meta{color:var(--muted);font-size:11px}
+.home-ranking-count{color:var(--indigo);font-weight:900}
+.recent-list{display:grid;gap:14px}
+.recent-card{padding:18px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow)}
+.recent-date{color:var(--muted);font-size:12px}
+.recent-event{display:inline-block;margin-top:2px;font-size:17px;font-weight:900;text-decoration:none}
+.recent-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.recent-song-list{margin-top:14px;display:grid;gap:8px}
+.recent-song{display:flex;justify-content:space-between;gap:12px;padding:9px 12px;border-radius:12px;background:#f8f3ff;text-decoration:none}
+.recent-song-name{font-weight:800}
+.recent-song-singer{color:var(--muted);font-size:11px;text-align:right}
+@media(max-width:800px){.home-summary{grid-template-columns:repeat(2,1fr)}.home-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header>
-  <div class="header-inner">
-    <div class="brand"><b>μ's Song Database</b><small>μ's歌唱履歴データベース</small></div>
-    <nav><a href="index.html">ホーム</a><a href="song.html?id=S003">曲</a><a href="event.html?id=EV0002">イベント</a><a href="venue.html?id=VE0002">会場</a></nav>
-    <button class="menu" onclick="alert('試作版：メニューを開きます')">☰</button>
-  </div>
-</header>
+<div id="siteHeader"></div>
+<main>
+<section class="home-hero">
+<p class="kicker" style="color:#fff">μ's ARCHIVE & PERFORMANCE HISTORY</p>
+<h1>μ's Song Database</h1>
+<p class="home-hero-copy">μ'sの楽曲・イベント・会場を横断して、歌唱の歴史を検索・分析できるデータベース。</p>
+<div class="home-search"><span>⌕</span><input id="homeSearchInput" placeholder="曲・イベント・会場を検索"></div>
+<div class="muse-line"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</section>
 
-<main id="home">
-  <div class="hero">
-    <p style="font-size:12px;font-weight:900;letter-spacing:.12em;opacity:.75">μ's ARCHIVE & PERFORMANCE HISTORY</p>
-    <h1>μ's Song Database</h1>
-    <p class="sub">μ's歌唱履歴データベース</p>
-    <p class="desc">μ's楽曲116曲・117バージョンの、公式・ソロイベントにおける歌唱履歴を検索・分析できるデータベース</p>
+<div class="status" id="status">ホームデータを読み込んでいます</div>
+<div class="retry-wrap"><button class="retry-button" id="retryButton" type="button" hidden>再試行</button></div>
 
-    <div class="search-wrap">
-      <div class="search">
-        <span style="color:var(--p);font-size:21px;margin-right:8px">⌕</span>
-        <input id="q" placeholder="曲・イベント・会場を検索">
-        <button class="clear" id="clear">×</button>
-      </div>
-      <div class="results" id="results"></div>
-    </div>
-  </div>
+<section class="home-summary" id="summary" hidden>
+<article class="home-summary-card"><div class="home-summary-value" id="songCount">0</div><div class="home-summary-label">管理曲数</div></article>
+<article class="home-summary-card"><div class="home-summary-value" id="eventCount">0</div><div class="home-summary-label">登録イベント数</div></article>
+<article class="home-summary-card"><div class="home-summary-value" id="venueCount">0</div><div class="home-summary-label">登録会場数</div></article>
+<article class="home-summary-card"><div class="home-summary-value" id="performanceCount">0</div><div class="home-summary-label">歌唱記録数</div></article>
+</section>
 
-  <div class="notice">Web Prototype Version 1.1です。ホームの主要情報は順次API接続します。</div>
+<section class="home-grid" id="topSection" hidden>
+<article class="card today-card"><p class="kicker">TODAY IN μ's</p><h2>今日はμ'sのこんな日</h2><div class="today-date" id="todayDate"></div><div id="todayContent"></div></article>
+<article class="card"><p class="kicker">TOP SONGS</p><h2>歌唱回数TOP5</h2><div class="home-ranking-list" id="topSongs"></div></article>
+</section>
 
-  <section>
-    <p class="kicker">TODAY IN μ'S</p>
-    <h2>今日はμ'sのこんな日</h2>
-    <div class="card today">
-      <b style="color:var(--p)">7月30日</b>
-      <div class="today-item"><b>2013年｜ライブイベント開催</b><span>μ's関連イベントが開催されました</span></div>
-      <div class="today-item"><b>この日に初披露された曲</b><span>仮データ：Snow halation</span></div>
-      <div class="today-item"><b>この日に最後に歌われた曲</b><span>仮データ：僕たちはひとつの光</span></div>
-    </div>
-  </section>
+<section class="home-grid" id="middleSection" hidden>
+<article class="card"><p class="kicker">TOP VENUES</p><h2>利用イベント数TOP5</h2><div class="home-ranking-list" id="topVenues"></div></article>
+<article class="card"><p class="kicker">QUICK LINKS</p><h2>データベースを巡る</h2><div class="home-ranking-list">
+<a class="home-ranking-row" href="rankings.html"><span class="home-rank">1</span><span><span class="home-ranking-name">ランキングを見る</span><span class="home-ranking-meta">曲・イベント・会場を比較</span></span><span class="home-ranking-count">›</span></a>
+<a class="home-ranking-row" href="search.html"><span class="home-rank">2</span><span><span class="home-ranking-name">μ'sの歴史を検索</span><span class="home-ranking-meta">曲・イベント・会場を横断</span></span><span class="home-ranking-count">›</span></a>
+</div></article>
+</section>
 
-  <section>
-    <p class="kicker">DATABASE SUMMARY</p>
-    <h2>データ概要</h2>
-    <div class="summary">
-      <div class="card"><div class="num">116</div><div class="label">楽曲数</div></div>
-      <div class="card"><div class="num">117</div><div class="label">管理バージョン数</div></div>
-      <div class="card"><div class="num">346</div><div class="label">登録イベント数</div></div>
-      <div class="card"><div class="num">152</div><div class="label">登録会場数</div></div>
-    </div>
-  </section>
-
-  <section class="two">
-    <div id="songs">
-      <p class="kicker">TOP SONGS</p><h2>歌唱回数TOP5</h2>
-      <div class="card list-card" id="topSongs"></div>
-    </div>
-    <div id="venues">
-      <p class="kicker">TOP VENUES</p><h2>利用イベント数TOP5</h2>
-      <div class="card list-card" id="topVenues"></div>
-    </div>
-  </section>
-
-  <section id="events">
-    <p class="kicker">RECENT PERFORMANCES</p>
-    <h2>最近歌われた曲</h2>
-    <div class="card recent">
-      <div id="recent"></div>
-      <button class="more" id="more">もっと見る（20件）</button>
-    </div>
-  </section>
-
-  <footer><b>μ's Song Database</b><br>μ's歌唱履歴データベース｜Web Prototype Version 1.1</footer>
+<section class="section" id="recentSection" hidden>
+<div class="section-head"><div><p class="kicker">RECENT PERFORMANCES</p><h2>最近歌われた曲</h2></div></div>
+<div class="recent-list" id="recentList"></div>
+</section>
 </main>
-
-<script>
-const data={
-search:[
-["曲","song","Snow halation","曲ID：S002"],
-["曲","song","僕らのLIVE 君とのLIFE","曲ID：S001"],
-["曲","song","START:DASH!!（3人）","曲ID：S041"],
-["曲","song","START:DASH!!（9人）","曲ID：S046"],
-["イベント","event","μ's Final LoveLive! ～μ'sic Forever♪♪♪♪♪♪♪♪♪～ Day1","2016/03/31｜公式"],
-["イベント","event","μ's Go→Go! LoveLive! 2015 ～Dream Sensation!～","2015/01/31｜公式"],
-["イベント","event","Pile Birthday Party","ソロ"],
-["会場","venue","東京ドーム","東京都｜日本"],
-["会場","venue","東京ドームシティホール","東京都｜日本"],
-["会場","venue","さいたまスーパーアリーナ","埼玉県｜日本"],
-["会場","venue","横浜アリーナ","神奈川県｜日本"]
-],
-songs:[["Snow halation",42],["僕らのLIVE 君とのLIFE",39],["僕らは今のなかで",36],["START:DASH!!（9人）",34],["それは僕たちの奇跡",31]],
-venues:[["渋谷HUMAXシネマ",12],["東京ドームシティホール",8],["さいたまスーパーアリーナ",7],["横浜アリーナ",6],["幕張メッセ 国際展示場",5]],
-recent:[
-["2026/07/20","μ's Special Event 2026","公式",["Snow halation","僕らは今のなかで","それは僕たちの奇跡","START:DASH!!（9人）","僕たちはひとつの光"]],
-["2026/07/12","Pile Solo Live 2026","ソロ",["Private Wars","Daring!!","勇気のReason"]],
-["2026/06/28","LoveLive! Series Orchestra Concert","公式",["愛してるばんざーい！","きっと青春が聞こえる"]],
-["2026/06/14","μ's Fan Meeting Special","公式",["夏色えがおで1,2,Jump!","Wonderful Rush","No brand girls"]],
-["2026/05/30","Birthday Talk & Live","ソロ",["ありふれた悲しみの果て","孤独なHeaven"]],
-["2026/05/17","Special Stage Day1","公式",["Music S.T.A.R.T!!","LOVELESS WORLD","KiRa-KiRa Sensation!"]]
-]};
-const norm=s=>String(s||"").normalize("NFKC").toLowerCase().replace(/[’‘`´]/g,"'").replace(/\s+/g,"").replace(/μ['’]?s/g,"μs");
-const q=document.getElementById("q"),results=document.getElementById("results"),clear=document.getElementById("clear");
-q.addEventListener("input",()=>{
- const raw=q.value.trim(),n=norm(raw);clear.style.display=raw?"block":"none";
- if(n.length<2){results.style.display=raw?"block":"none";results.innerHTML='<div style="padding:16px;color:#777">2文字以上入力すると候補を表示します。</div>';return}
- const hits=data.search.map(x=>{const t=norm(x[2]+x[3]);const title=norm(x[2]);let score=999;if(title===n)score=0;else if(title.startsWith(n))score=1;else if(title.includes(n))score=2;else if(t.includes(n))score=3;return [...x,score]}).filter(x=>x[4]<999).sort((a,b)=>a[4]-b[4]).slice(0,10);
- results.style.display="block";
- results.innerHTML=hits.length?hits.map(x=>`<button class="result" onclick="alert('試作版：${x[2]} の詳細画面へ移動します')"><span class="badge ${x[1]}">${x[0]}</span><span><b>${x[2]}</b><br><small style="color:#777">${x[3]}</small></span></button>`).join(""):'<div style="padding:16px;color:#777">候補が見つかりませんでした。</div>';
-});
-clear.onclick=()=>{q.value="";results.style.display="none";clear.style.display="none";q.focus()};
-document.addEventListener("click",e=>{if(!e.target.closest(".search-wrap"))results.style.display="none"});
-function rank(target,items,unit){document.getElementById(target).innerHTML=items.map((x,i)=>`<div class="row"><div class="rank">${i+1}</div><b>${x[0]}</b><div class="count">${x[1]}${unit}</div></div>`).join("")}
-rank("topSongs",data.songs,"回");rank("topVenues",data.venues,"件");
-let exp=false;const recent=document.getElementById("recent"),more=document.getElementById("more");
-function drawRecent(){const arr=exp?data.recent:data.recent.slice(0,2);recent.innerHTML=arr.map(x=>`<div class="event-group"><div class="event-head"><div class="event-meta"><span>${x[0]}</span><span class="pill ${x[2]==="公式"?"official":"solo"}">${x[2]}</span></div><div class="event-title">${x[1]}</div></div><ul class="songs">${x[3].map(s=>`<li>${s}</li>`).join("")}</ul></div>`).join("");more.textContent=exp?"閉じる":"もっと見る（20件）"}
-more.onclick=()=>{exp=!exp;drawRecent()};drawRecent();
-</script>
+<div id="siteFooter"></div>
+<script type="module" src="assets/js/home.js?v=2.0.5"></script>
 </body>
 </html>

@@ -14,7 +14,7 @@
 
   <link
     rel="stylesheet"
-    href="assets/css/style.css?v=2.1.0"
+    href="assets/css/style.css?v=2.2.0"
   >
 
   <style>
@@ -57,6 +57,21 @@
       box-shadow:
         0 0 0 4px
         var(--light);
+    }
+
+    /* Chrome・Edge・Safari標準の検索クリアボタンを非表示 */
+    input[type="search"]::-webkit-search-cancel-button,
+    input[type="search"]::-webkit-search-decoration {
+      -webkit-appearance: none;
+      appearance: none;
+      display: none;
+    }
+
+    input[type="search"]::-ms-clear,
+    input[type="search"]::-ms-reveal {
+      display: none;
+      width: 0;
+      height: 0;
     }
 
     .search-clear {
@@ -459,7 +474,7 @@
 
   <script
     type="module"
-    src="assets/js/search.js?v=2.1.0"
+    src="assets/js/search.js?v=2.2.0"
   ></script>
 </body>
 </html>

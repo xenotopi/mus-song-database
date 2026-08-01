@@ -1,5 +1,5 @@
 import { apiGet, escapeHtml, formatDate } from "./api.js?v=2.0.2";
-import { renderCommon } from "./common.js?v=2.0.2";
+import { renderCommon } from "./common.js?v=2.1.0";
 
 renderCommon("home");
 
@@ -97,23 +97,72 @@ function renderTopVenues(items) {
 }
 
 function renderRecent(items) {
-  e.recentList.innerHTML = items.map(item => `
-    <article class="recent-card">
-      <div class="recent-date">${escapeHtml(formatDate(item.date))}</div>
-      <a class="recent-event" href="event.html?id=${encodeURIComponent(item.eventId)}">${escapeHtml(item.eventName || "イベント名未設定")}</a>
-      <div class="recent-tags">
-        <span class="type-badge">${escapeHtml(item.category || "未分類")}</span>
-        <span class="home-ranking-meta">${escapeHtml(item.eventType || "")}</span>
-        ${item.venueName ? `<a class="home-ranking-meta" href="venue.html?id=${encodeURIComponent(item.venueId)}">${escapeHtml(item.venueName)}</a>` : ""}
-      </div>
-      <div class="recent-song-list">
-        ${(item.songs || []).map(song => `
-          <a class="recent-song" href="song.html?id=${encodeURIComponent(song.songId)}">
-            <span class="recent-song-name">${escapeHtml(song.songName || "曲名未設定")}</span>
-            <span class="recent-song-singer">${escapeHtml(song.singer || "")}</span>
-          </a>`).join("")}
-      </div>
-    </article>`).join("") || `<div class="empty">最近の歌唱記録はありません。</div>`;
+  e.recentList.innerHTML = items.map(item => {
+    const performanceLabel = [
+      item.day,
+      item.performance
+    ].filter(Boolean).join(" ");
+
+    return `
+      <article class="recent-card">
+        <div class="recent-card-head">
+          <div class="recent-date">
+            ${escapeHtml(formatDate(item.date))}
+          </div>
+
+          <a
+            class="recent-event"
+            href="event.html?id=${encodeURIComponent(item.eventId)}"
+          >
+            ${escapeHtml(item.eventName || "イベント名未設定")}
+          </a>
+
+          <div class="recent-tags">
+            <span class="type-badge">
+              ${escapeHtml(item.category || "未分類")}
+            </span>
+
+            ${item.eventType ? `
+              <span class="recent-meta-link">
+                ${escapeHtml(item.eventType)}
+              </span>` : ""}
+
+            ${performanceLabel ? `
+              <span class="recent-meta-link">
+                ${escapeHtml(performanceLabel)}
+              </span>` : ""}
+
+            ${item.venueName ? `
+              <a
+                class="recent-meta-link"
+                href="venue.html?id=${encodeURIComponent(item.venueId)}"
+              >
+                ${escapeHtml(item.venueName)}
+              </a>` : ""}
+          </div>
+        </div>
+
+        <div class="recent-song-list">
+          ${(item.songs || []).map(song => `
+            <a
+              class="recent-song"
+              href="song.html?id=${encodeURIComponent(song.songId)}"
+            >
+              <span class="recent-song-name">
+                ${escapeHtml(song.songName || "曲名未設定")}
+              </span>
+
+              ${song.singer ? `
+                <span class="recent-song-singer">
+                  ${escapeHtml(song.singer)}
+                </span>` : `
+                <span class="recent-empty-singer">
+                  歌唱者情報なし
+                </span>`}
+            </a>`).join("")}
+        </div>
+      </article>`;
+  }).join("") || `<div class="empty">最近の歌唱記録はありません。</div>`;
 }
 
 function renderHome(data) {

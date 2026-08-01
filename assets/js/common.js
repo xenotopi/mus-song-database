@@ -302,8 +302,30 @@ function setupGlobalSearch_() {
 
     const items = [];
 
+    (results.singers || [])
+      .slice(0, 2)
+      .forEach(
+        item => {
+          items.push({
+            type: "歌唱者",
+            className: "singer",
+            title:
+              item.singerName ||
+              "歌唱者名未設定",
+            meta: [
+              `曲 ${Number(item.songCount || 0)}曲`,
+              `イベント ${Number(item.eventCount || 0)}件`,
+            ].join("｜"),
+            href:
+              `search.html?q=${encodeURIComponent(
+                item.singerName
+              )}&source=singer`,
+          });
+        }
+      );
+
     (results.songs || [])
-      .slice(0, 3)
+      .slice(0, 2)
       .forEach(
         item => {
           items.push({
@@ -326,7 +348,7 @@ function setupGlobalSearch_() {
       );
 
     (results.events || [])
-      .slice(0, 3)
+      .slice(0, 2)
       .forEach(
         item => {
           items.push({
@@ -349,7 +371,7 @@ function setupGlobalSearch_() {
       );
 
     (results.venues || [])
-      .slice(0, 3)
+      .slice(0, 1)
       .forEach(
         item => {
           items.push({
@@ -761,6 +783,11 @@ function injectCommonSearchStyles_() {
       border-radius: 999px;
       font-size: 10px;
       font-weight: 900;
+    }
+
+    .global-suggest-type.singer {
+      background: #dcfce7;
+      color: #15803d;
     }
 
     .global-suggest-type.song {

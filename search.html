@@ -14,7 +14,7 @@
 
   <link
     rel="stylesheet"
-    href="assets/css/style.css?v=2.2.0"
+    href="assets/css/style.css?v=2.4.0"
   >
 
   <style>
@@ -343,7 +343,30 @@
         flex-direction: column;
       }
     }
-  </style>
+  
+    .result-type.singer {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .match-reason {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: #f2f0ff;
+      color: var(--indigo);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .singer-result-note {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+</style>
 </head>
 
 <body>
@@ -433,6 +456,15 @@
 
           <button
             class="search-tab"
+            data-tab="singers"
+            type="button"
+          >
+            歌唱者
+            <span id="singerTabCount">0</span>
+          </button>
+
+          <button
+            class="search-tab"
             data-tab="songs"
             type="button"
           >
@@ -474,7 +506,7 @@
 
   <script
     type="module"
-    src="assets/js/search.js?v=2.2.0"
+    src="assets/js/search.js?v=2.4.0"
   ></script>
 </body>
 </html>

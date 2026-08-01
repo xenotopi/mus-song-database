@@ -314,7 +314,6 @@ function setupGlobalSearch_() {
               item.songName ||
               "曲名未設定",
             meta: [
-              item.songId,
               item.version,
               item.recordingCd,
             ].filter(Boolean).join("｜"),

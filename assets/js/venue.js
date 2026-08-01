@@ -228,10 +228,6 @@ function renderVenue(venue) {
 
   elements.venueInfo.innerHTML = [
     [
-      "会場ID",
-      venue.venueId,
-    ],
-    [
       "会場名",
       venue.venueName,
     ],

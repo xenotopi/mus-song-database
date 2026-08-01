@@ -1,7 +1,6 @@
-# v2.2：ホームUI改善＋検索クリアボタン修正版
+# v2.2.1：表示階層改善＋内部ID非表示版
 
 ## Apps Script側
-
 変更はありません。
 
 ## GitHub側で上書きするファイル
@@ -10,36 +9,46 @@
 - assets/js/home.js
 - search.html
 - assets/js/search.js
+- assets/js/common.js
+- assets/js/song.js
+- assets/js/event.js
+- assets/js/venue.js
+- assets/js/rankings.js
 
 ## 改善内容
 
 ### ホーム「最近歌われた曲」
+- 曲カードを白背景へ変更
+- イベント見出しの薄紫背景と明確に区別
+- 枠線をグレー系へ変更
+- 歌唱者の上に区切り線を追加
+- ホバー時のみ薄い紫を表示
 
-- 歌唱者を「歌唱：〇〇」として13pxで表示
-- 曲名と歌唱者を縦並びに変更
-- PCは2列、スマホは1列
-- イベント情報を専用ヘッダーへ整理
-- 会場・Day・公演情報を見やすく表示
-- ホバー時の視認性を改善
-- 「最新5イベント」の補足を追加
+### 内部IDの非表示
+以下の内部管理IDをユーザー画面から外しました。
 
-### 検索画面
+- 曲ID（S003など）
+- イベントID（EV0001など）
+- 会場ID（VE0001など）
 
-- ブラウザ標準の検索クリアボタンを非表示
-- 自作のクリアボタンだけを表示
-- ×が2つ並ぶ問題を解消
+対象：
+- 曲詳細の基本情報
+- 曲詳細の歌唱履歴
+- イベント詳細の基本情報
+- 会場詳細の基本情報
+- 検索結果
+- 上部検索候補
+- ランキング
+
+IDはリンクURLとAPI内部に残るため、ページ遷移・検索・管理処理には影響しません。
 
 ## 確認URL
 
 ホーム：
-https://xenotopi.github.io/mus-song-database/?build=220
+https://xenotopi.github.io/mus-song-database/?build=221
+
+曲詳細：
+https://xenotopi.github.io/mus-song-database/song.html?id=S003&build=221
 
 検索：
-https://xenotopi.github.io/mus-song-database/search.html?q=恋の&build=220
-
-## 確認ポイント
-
-1. 最近歌われた曲の歌唱者が読みやすくなっている
-2. PCでは曲カードが2列になる
-3. スマホでは1列になる
-4. 検索入力欄の×が1つだけ表示される
+https://xenotopi.github.io/mus-song-database/search.html?q=Snow&build=221

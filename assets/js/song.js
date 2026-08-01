@@ -158,10 +158,6 @@ function renderSong(song) {
 
   elements.songInfo.innerHTML = [
     [
-      "曲ID",
-      song.songId,
-    ],
-    [
       "表示名",
       song.displayName ||
       song.songName,
@@ -297,13 +293,6 @@ function renderSong(song) {
                     ${escapeHtml(
                       performance.singer ||
                       "—"
-                    )}
-                  </span>
-
-                  <span>
-                    ${escapeHtml(
-                      performance.eventId ||
-                      ""
                     )}
                   </span>
                 </span>

@@ -6,7 +6,7 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=2.1.0";
+} from "./common.js?v=2.2.1";
 
 
 renderCommon("search");
@@ -216,7 +216,6 @@ function songRow(item, query) {
     "曲名未設定";
 
   const meta = [
-    item.songId,
     item.version,
     item.recordingCd
       ? `収録CD：${item.recordingCd}`
@@ -269,7 +268,6 @@ function songRow(item, query) {
 
 function eventRow(item, query) {
   const meta = [
-    item.eventId,
     item.date
       ? formatDate(
           item.date
@@ -323,7 +321,6 @@ function eventRow(item, query) {
 
 function venueRow(item, query) {
   const meta = [
-    item.venueId,
     item.prefectureCity,
     item.region,
     item.country,

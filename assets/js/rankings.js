@@ -52,7 +52,7 @@ function render(data) {
     <a class="ranking-row" href="song.html?id=${encodeURIComponent(item.songId)}">
       <span class="ranking-position">${item.rank}</span>
       <span><span class="ranking-title">${escapeHtml(item.songName || "曲名未設定")}</span>
-      <span class="ranking-meta"><span>${escapeHtml(item.songId || "")}</span><span>${escapeHtml(item.version || "")}</span><span>イベント ${Number(item.eventCount || 0)}件</span><span>公式 ${Number(item.officialEventCount || 0)}件</span><span>ソロ ${Number(item.soloEventCount || 0)}件</span></span></span>
+      <span class="ranking-meta"><span>${escapeHtml(item.version || "")}</span><span>イベント ${Number(item.eventCount || 0)}件</span><span>公式 ${Number(item.officialEventCount || 0)}件</span><span>ソロ ${Number(item.soloEventCount || 0)}件</span></span></span>
       <span class="ranking-count">${Number(item.performanceCount || 0)}回<small>歌唱記録</small></span>
     </a>`).join("") || `<div class="empty">曲ランキングはありません。</div>`;
 

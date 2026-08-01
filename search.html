@@ -1,58 +1,465 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>検索結果｜μ's Song Database</title>
-<link rel="stylesheet" href="assets/css/style.css">
-<style>
-.search-page{margin-top:18px}.search-panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}.search-main{display:flex;gap:10px;align-items:center}.search-main input{width:100%;min-height:52px;border:1px solid var(--line);border-radius:14px;padding:0 16px;font-size:16px;outline:0}.search-main input:focus{border-color:#A5B4FC;box-shadow:0 0 0 4px var(--light)}.search-main button{min-height:52px;border:0;border-radius:14px;padding:0 20px;background:var(--indigo);color:#fff;font-weight:900;white-space:nowrap;cursor:pointer}.search-summary{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:14px;color:var(--muted);font-size:13px}.search-summary strong{color:var(--navy)}.search-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.search-tab{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:999px;padding:8px 13px;font-weight:900;cursor:pointer}.search-tab.active{background:var(--indigo);color:#fff;border-color:var(--indigo)}.result-section{margin-top:24px}.result-head{display:flex;justify-content:space-between;gap:12px;align-items:end;margin-bottom:10px}.result-count{color:var(--muted);font-size:12px}.result-card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}.result-row{display:grid;grid-template-columns:78px minmax(0,1fr) auto;gap:14px;align-items:center;padding:15px 18px;border-bottom:1px solid var(--line);text-decoration:none}.result-row:last-child{border-bottom:0}.result-row:hover{background:#FCFCFF}.result-type{display:inline-flex;justify-content:center;align-items:center;width:78px;min-height:28px;border-radius:999px;font-size:11px;font-weight:900}.result-type.song{background:#EDE9FE;color:#5B21B6}.result-type.event{background:#FCE7F3;color:#BE185D}.result-type.venue{background:#E0F2FE;color:#0369A1}.result-title{font-weight:900;line-height:1.45}.result-meta{display:flex;flex-wrap:wrap;gap:5px 12px;margin-top:4px;color:var(--muted);font-size:12px}.result-arrow{color:var(--indigo);font-size:22px;font-weight:900}.highlight{background:#FFF3C4;color:#8A5A00;border-radius:4px;padding:0 2px}.empty-state{background:#fff;border:1px solid var(--line);border-radius:20px;padding:32px 20px;text-align:center;box-shadow:var(--shadow)}.empty-state strong{display:block;margin-bottom:5px;font-size:18px}.empty-state p{margin:0;color:var(--muted)}.suggestions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:16px}.suggestions button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;font-weight:800;cursor:pointer}.loading{display:inline-flex;gap:5px;margin-left:8px}.loading i{width:7px;height:7px;border-radius:50%;background:var(--indigo);animation:searchDot 1s infinite alternate}.loading i:nth-child(2){animation-delay:.15s}.loading i:nth-child(3){animation-delay:.3s}@keyframes searchDot{to{opacity:.25;transform:translateY(-3px)}}@media(max-width:640px){.search-main{display:grid;grid-template-columns:1fr}.search-main button{width:100%}.result-row{grid-template-columns:66px minmax(0,1fr) auto;gap:10px;padding:14px 12px}.result-type{width:66px}}
-</style>
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  >
+
+  <title>
+    検索結果｜μ's Song Database
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="assets/css/style.css?v=2.1.0"
+  >
+
+  <style>
+    .search-page {
+      margin-top: 18px;
+    }
+
+    .search-panel {
+      position: relative;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .search-main {
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1fr) auto;
+      gap: 10px;
+    }
+
+    .search-input-wrap {
+      position: relative;
+    }
+
+    .search-main input {
+      width: 100%;
+      min-height: 54px;
+      padding: 0 44px 0 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      outline: 0;
+      font-size: 16px;
+    }
+
+    .search-main input:focus {
+      border-color: #a5b4fc;
+      box-shadow:
+        0 0 0 4px
+        var(--light);
+    }
+
+    .search-clear {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      background: #f1f3f7;
+      color: var(--muted);
+      cursor: pointer;
+      transform:
+        translateY(-50%);
+    }
+
+    .search-main-submit {
+      min-height: 54px;
+      padding: 0 22px;
+      border: 0;
+      border-radius: 14px;
+      background: var(--indigo);
+      color: #fff;
+      font-weight: 900;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .live-hint {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .search-summary {
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .search-summary strong {
+      color: var(--navy);
+    }
+
+    .search-tabs {
+      margin-top: 16px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .search-tab {
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--navy);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .search-tab.active {
+      border-color: var(--indigo);
+      background: var(--indigo);
+      color: #fff;
+    }
+
+    .search-tab span {
+      margin-left: 4px;
+      opacity: .65;
+      font-size: 10px;
+    }
+
+    .result-section {
+      margin-top: 24px;
+    }
+
+    .result-head {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .result-count {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .result-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .result-row {
+      display: grid;
+      grid-template-columns:
+        78px minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+    }
+
+    .result-row:last-child {
+      border-bottom: 0;
+    }
+
+    .result-row:hover,
+    .result-row.keyboard-active {
+      background: #fcfcff;
+    }
+
+    .result-type {
+      width: 78px;
+      min-height: 28px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .result-type.song {
+      background: #ede9fe;
+      color: #5b21b6;
+    }
+
+    .result-type.event {
+      background: #fce7f3;
+      color: #be185d;
+    }
+
+    .result-type.venue {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .result-title {
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+    .result-meta {
+      margin-top: 4px;
+      display: flex;
+      gap: 5px 12px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .result-arrow {
+      color: var(--indigo);
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .highlight {
+      padding: 0 2px;
+      border-radius: 4px;
+      background: #fff3c4;
+      color: #8a5a00;
+    }
+
+    .empty-state {
+      padding: 34px 20px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .empty-state strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 18px;
+    }
+
+    .empty-state p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .suggestions {
+      margin-top: 16px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .suggestions button {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .loading {
+      display: inline-flex;
+      gap: 5px;
+      margin-left: 8px;
+    }
+
+    .loading i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--indigo);
+      animation:
+        searchDot
+        1s infinite alternate;
+    }
+
+    .loading i:nth-child(2) {
+      animation-delay: .15s;
+    }
+
+    .loading i:nth-child(3) {
+      animation-delay: .3s;
+    }
+
+    @keyframes searchDot {
+      to {
+        opacity: .25;
+        transform: translateY(-3px);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .search-main {
+        grid-template-columns: 1fr;
+      }
+
+      .search-main-submit {
+        width: 100%;
+      }
+
+      .result-row {
+        grid-template-columns:
+          66px minmax(0, 1fr) auto;
+        gap: 10px;
+        padding: 14px 12px;
+      }
+
+      .result-type {
+        width: 66px;
+      }
+
+      .search-summary {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<div id="siteHeader"></div>
-<main>
-  <div class="crumb">ホーム › 検索結果</div>
-  <section class="hero">
-    <span class="badge">UNIVERSAL SEARCH</span>
-    <h1>検索結果</h1>
-    <p>曲・イベント・会場を横断して、μ'sの歴史を探します。</p>
-    <div class="muse-line"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  </section>
-  <section class="search-page">
-    <div class="search-panel">
-      <div class="search-main">
-        <input id="searchInput" placeholder="μ'sの歴史を検索" autocomplete="off">
-        <button id="searchButton" type="button">検索する</button>
-      </div>
-      <div class="search-summary"><div id="summaryText">検索語を入力してください。</div><div id="summaryCount"></div></div>
-      <div class="search-tabs" id="tabs">
-        <button class="search-tab active" data-tab="all">すべて</button>
-        <button class="search-tab" data-tab="songs">曲</button>
-        <button class="search-tab" data-tab="events">イベント</button>
-        <button class="search-tab" data-tab="venues">会場</button>
-      </div>
+  <div id="siteHeader"></div>
+
+  <main>
+    <div class="crumb">
+      ホーム › 検索結果
     </div>
-    <div id="status" class="status hidden"></div>
-    <div id="resultsArea"></div>
-  </section>
-</main>
-<div id="siteFooter"></div>
-<script type="module">
-import { common } from "./assets/js/common.js";
-import { apiGet, esc, fmt } from "./assets/js/api.js";
-common();
-const params=new URLSearchParams(location.search);const initialQuery=params.get("q")||"";const searchInput=document.getElementById("searchInput");const searchButton=document.getElementById("searchButton");const summaryText=document.getElementById("summaryText");const summaryCount=document.getElementById("summaryCount");const status=document.getElementById("status");const resultsArea=document.getElementById("resultsArea");let activeTab="all";let latestData=null;searchInput.value=initialQuery;
-const normalize=v=>String(v||"").normalize("NFKC").toLowerCase().replace(/\s+/g,"");
-function highlight(value,query){const text=String(value||"");const nt=normalize(text),nq=normalize(query);if(!nq)return esc(text);const i=nt.indexOf(nq);if(i<0)return esc(text);return `${esc(text.slice(0,i))}<span class="highlight">${esc(text.slice(i,i+query.length))}</span>${esc(text.slice(i+query.length))}`}
-function setLoading(message){status.classList.remove("hidden","error");status.innerHTML=`${esc(message)}<span class="loading"><i></i><i></i><i></i></span>`}function setError(message){status.classList.remove("hidden");status.classList.add("error");status.textContent=message}function clearStatus(){status.classList.add("hidden");status.classList.remove("error");status.textContent=""}
-function songRow(x,q){const title=x.displayName||x.songName||"曲名未設定";const meta=[x.songId,x.version,x.recordingCd?`収録CD：${x.recordingCd}`:"",x.releaseDate?`発売日：${fmt(x.releaseDate)}`:""].filter(Boolean);return `<a class="result-row" href="song.html?id=${encodeURIComponent(x.songId)}"><span class="result-type song">曲</span><span><span class="result-title">${highlight(title,q)}</span><span class="result-meta">${meta.map(v=>`<span>${highlight(v,q)}</span>`).join("")}</span></span><span class="result-arrow">›</span></a>`}
-function eventRow(x,q){const meta=[x.eventId,x.date?fmt(x.date):"",x.category,x.eventType,x.day,x.performance].filter(Boolean);return `<a class="result-row" href="event.html?id=${encodeURIComponent(x.eventId)}"><span class="result-type event">イベント</span><span><span class="result-title">${highlight(x.eventName||"イベント名未設定",q)}</span><span class="result-meta">${meta.map(v=>`<span>${highlight(v,q)}</span>`).join("")}</span></span><span class="result-arrow">›</span></a>`}
-function venueRow(x,q){const meta=[x.venueId,x.prefectureCity,x.region,x.country,x.capacity?`キャパ ${Number(x.capacity).toLocaleString("ja-JP")}人`:""].filter(Boolean);return `<a class="result-row" href="venue.html?id=${encodeURIComponent(x.venueId)}"><span class="result-type venue">会場</span><span><span class="result-title">${highlight(x.venueName||"会場名未設定",q)}</span><span class="result-meta">${meta.map(v=>`<span>${highlight(v,q)}</span>`).join("")}</span></span><span class="result-arrow">›</span></a>`}
-function section(title,kicker,count,rows){if(!rows)return"";return `<section class="result-section"><div class="result-head"><div><p class="kicker">${kicker}</p><h2>${title}</h2></div><div class="result-count">${count}件</div></div><div class="result-card">${rows}</div></section>`}
-function renderResults(){if(!latestData){resultsArea.innerHTML="";return}const q=latestData.query||searchInput.value.trim(),g=latestData.results||{},c=latestData.counts||{};const sr=(g.songs||[]).map(x=>songRow(x,q)).join(""),er=(g.events||[]).map(x=>eventRow(x,q)).join(""),vr=(g.venues||[]).map(x=>venueRow(x,q)).join("");let html="";if(activeTab==="all"||activeTab==="songs")html+=section("曲","SONGS",c.songs||0,sr);if(activeTab==="all"||activeTab==="events")html+=section("イベント","EVENTS",c.events||0,er);if(activeTab==="all"||activeTab==="venues")html+=section("会場","VENUES",c.venues||0,vr);if(!html)html=`<section class="result-section"><div class="empty-state"><strong>候補が見つかりませんでした</strong><p>別の言葉や、より短い語句でお試しください。</p><div class="suggestions"><button type="button" data-query="Snow">Snow</button><button type="button" data-query="Final">Final</button><button type="button" data-query="東京">東京</button></div></div></section>`;resultsArea.innerHTML=html;document.querySelectorAll("[data-query]").forEach(b=>b.onclick=()=>{searchInput.value=b.dataset.query;runSearch()})}
-async function runSearch(){const q=searchInput.value.trim();if(!q){latestData=null;summaryText.textContent="検索語を入力してください。";summaryCount.textContent="";resultsArea.innerHTML="";clearStatus();return}const u=new URL(location.href);u.searchParams.set("q",q);history.replaceState(null,"",u);setLoading("検索しています");try{const r=await apiGet("search",{q});latestData=r.data;summaryText.innerHTML=`「<strong>${esc(q)}</strong>」の検索結果`;summaryCount.textContent=`${latestData.totalCount||0}件`;clearStatus();renderResults()}catch(e){console.error(e);latestData=null;resultsArea.innerHTML="";summaryText.textContent="検索結果を取得できませんでした。";summaryCount.textContent="";setError(e.message||"検索中にエラーが発生しました。")}}
-document.querySelectorAll(".search-tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".search-tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");activeTab=b.dataset.tab;renderResults()});searchButton.onclick=runSearch;searchInput.onkeydown=e=>{if(e.key==="Enter")runSearch()};if(initialQuery)runSearch();
-</script>
+
+    <section class="hero">
+      <span class="badge">
+        UNIVERSAL SEARCH
+      </span>
+
+      <h1>検索結果</h1>
+
+      <p>
+        曲・イベント・会場を横断して、
+        μ'sの歴史を探します。
+      </p>
+
+      <div class="muse-line">
+        <i></i><i></i><i></i>
+        <i></i><i></i><i></i>
+        <i></i><i></i><i></i>
+      </div>
+    </section>
+
+    <section class="search-page">
+      <div class="search-panel">
+        <div class="search-main">
+          <div class="search-input-wrap">
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="2文字以上入力すると自動検索"
+              autocomplete="off"
+              autofocus
+            >
+
+            <button
+              class="search-clear"
+              id="clearButton"
+              type="button"
+              aria-label="検索語を消去"
+              hidden
+            >
+              ×
+            </button>
+          </div>
+
+          <button
+            class="search-main-submit"
+            id="searchButton"
+            type="button"
+          >
+            検索する
+          </button>
+        </div>
+
+        <div class="live-hint">
+          入力から約0.3秒後に検索します。
+          Enterキーでも検索できます。
+        </div>
+
+        <div class="search-summary">
+          <div id="summaryText">
+            検索語を入力してください。
+          </div>
+
+          <div id="summaryCount"></div>
+        </div>
+
+        <div
+          class="search-tabs"
+          id="tabs"
+        >
+          <button
+            class="search-tab active"
+            data-tab="all"
+            type="button"
+          >
+            すべて
+            <span id="allTabCount">0</span>
+          </button>
+
+          <button
+            class="search-tab"
+            data-tab="songs"
+            type="button"
+          >
+            曲
+            <span id="songTabCount">0</span>
+          </button>
+
+          <button
+            class="search-tab"
+            data-tab="events"
+            type="button"
+          >
+            イベント
+            <span id="eventTabCount">0</span>
+          </button>
+
+          <button
+            class="search-tab"
+            data-tab="venues"
+            type="button"
+          >
+            会場
+            <span id="venueTabCount">0</span>
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="status"
+        class="status"
+        hidden
+      ></div>
+
+      <div id="resultsArea"></div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script
+    type="module"
+    src="assets/js/search.js?v=2.1.0"
+  ></script>
 </body>
 </html>

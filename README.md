@@ -1,25 +1,53 @@
-# v2.0：ホーム画面完全API化版
+# v2.1：総合検索強化版
+
+優先順位1「総合検索の強化」の実装です。
 
 ## Apps Script側
-新規追加：
-- HomeApi.gs
 
-丸ごと差し替え：
-- ApiMain.gs
+変更はありません。
 
-前提：
-- RankingApi.gs が存在すること
-
-保存後、`testGetHomeData`を実行し、summary / today / recentPerformances / topSongs / topVenues が出れば成功です。
-その後、新バージョンで再デプロイしてください。
-
-JSONP確認：
-https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec?action=home&recentLimit=5&callback=callbackTest
+既存のSearch APIをそのまま利用します。
 
 ## GitHub側
-上書き：
-- index.html
-- assets/js/home.js
 
-確認：
-https://xenotopi.github.io/mus-song-database/?build=205
+以下を同じ階層へ上書きしてください。
+
+- search.html
+- assets/js/search.js
+- assets/js/common.js
+
+## 追加内容
+
+### 全ページ共通検索
+
+- 2文字以上で検索候補を表示
+- 入力停止から約0.26秒後に検索
+- 曲・イベント・会場を最大6件表示
+- 上下キーで候補移動
+- Enterで詳細ページへ移動
+- Escapeで候補を閉じる
+- 「検索結果をすべて見る」導線
+- スマホ表示対応
+
+### 検索結果ページ
+
+- 入力停止から約0.32秒後に自動検索
+- 検索ボタン・Enter検索にも対応
+- 曲・イベント・会場の件数表示
+- タブごとの件数表示
+- 上下キーで結果を選択
+- Enterで詳細ページへ移動
+- 検索語クリアボタン
+- URLのqパラメータをリアルタイム更新
+
+## 確認URL
+
+https://xenotopi.github.io/mus-song-database/search.html?q=Snow&build=210
+
+## 確認ポイント
+
+1. 「Sn」と入力すると自動検索される
+2. 上部の共通検索でも候補が表示される
+3. 上下キーとEnterでページ移動できる
+4. 曲・イベント・会場タブを切り替えられる
+5. 各結果から詳細ページへ移動できる

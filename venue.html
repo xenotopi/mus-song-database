@@ -1,1 +1,316 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>会場詳細</title><link rel="stylesheet" href="assets/css/style.css"></head><body><div id="siteHeader"></div><main><div class="crumb">ホーム › 会場詳細</div><section class="hero"><h1>会場詳細</h1><p>Venue API接続前の安定表示版です。</p><div class="muse-line"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></section><section class="section"><div class="card"><h2>準備中</h2><p>Venue API実装後に、会場基本情報・利用イベント・関連曲を接続します。</p></div></section></main><div id="siteFooter"></div><script type="module">import{common}from"./assets/js/common.js";common("venue");</script></body></html>
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  >
+
+  <title>
+    会場詳細｜μ's Song Database
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="assets/css/style.css?v=2.0.3"
+  >
+
+  <style>
+    .venue-nav {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .venue-nav-card {
+      min-height: 78px;
+      padding: 13px 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+    }
+
+    .venue-nav-card.next {
+      text-align: right;
+      align-items: flex-end;
+    }
+
+    .venue-nav-card.disabled {
+      opacity: .45;
+      pointer-events: none;
+    }
+
+    .venue-nav-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .venue-nav-title {
+      margin-top: 3px;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .venue-nav-meta {
+      margin-top: 3px;
+      color: var(--indigo);
+      font-size: 11px;
+    }
+
+    .venue-event-list,
+    .venue-song-list {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .venue-event-row,
+    .venue-song-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+    }
+
+    .venue-event-row:last-child,
+    .venue-song-row:last-child {
+      border-bottom: 0;
+    }
+
+    .venue-event-row:hover,
+    .venue-song-row:hover {
+      background: #fcfcff;
+    }
+
+    .venue-row-title {
+      display: block;
+      font-weight: 900;
+    }
+
+    .venue-row-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px 12px;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .venue-rank {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background: var(--indigo-soft);
+      color: var(--indigo);
+      font-weight: 900;
+    }
+
+    @media (max-width: 640px) {
+      .venue-nav {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="siteHeader"></div>
+
+  <main>
+    <div class="crumb">
+      ホーム › 会場詳細
+    </div>
+
+    <section class="hero">
+      <span class="badge">
+        会場
+      </span>
+
+      <h1 id="venueName">
+        読み込み中…
+      </h1>
+
+      <p id="heroMeta">
+        JSONPでAPIへ接続しています。
+      </p>
+
+      <div class="muse-line">
+        <i></i><i></i><i></i>
+        <i></i><i></i><i></i>
+        <i></i><i></i><i></i>
+      </div>
+    </section>
+
+    <section
+      class="venue-nav"
+      id="venueNav"
+      hidden
+    >
+      <a
+        class="venue-nav-card disabled"
+        id="previousVenue"
+      >
+        <span class="venue-nav-label">
+          ← 前の会場
+        </span>
+
+        <span
+          class="venue-nav-title"
+          id="previousVenueName"
+        >
+          前の会場はありません
+        </span>
+
+        <span
+          class="venue-nav-meta"
+          id="previousVenueMeta"
+        ></span>
+      </a>
+
+      <a
+        class="venue-nav-card next disabled"
+        id="nextVenue"
+      >
+        <span class="venue-nav-label">
+          次の会場 →
+        </span>
+
+        <span
+          class="venue-nav-title"
+          id="nextVenueName"
+        >
+          次の会場はありません
+        </span>
+
+        <span
+          class="venue-nav-meta"
+          id="nextVenueMeta"
+        ></span>
+      </a>
+    </section>
+
+    <div
+      class="status"
+      id="status"
+    >
+      会場データを読み込んでいます
+    </div>
+
+    <div class="retry-wrap">
+      <button
+        class="retry-button"
+        id="retryButton"
+        type="button"
+        hidden
+      >
+        再試行
+      </button>
+    </div>
+
+    <section
+      class="grid"
+      id="mainContent"
+      hidden
+    >
+      <article class="card">
+        <p class="kicker">
+          VENUE INFORMATION
+        </p>
+
+        <h2>基本情報</h2>
+
+        <dl
+          class="info"
+          id="venueInfo"
+        ></dl>
+      </article>
+
+      <article class="card">
+        <p class="kicker">
+          VENUE SUMMARY
+        </p>
+
+        <h2>利用統計</h2>
+
+        <div
+          class="stats"
+          id="venueStats"
+        ></div>
+
+        <dl
+          class="info"
+          id="venueDates"
+          style="margin-top:14px"
+        ></dl>
+      </article>
+    </section>
+
+    <section
+      class="section"
+      id="eventsSection"
+      hidden
+    >
+      <div class="section-head">
+        <div>
+          <p class="kicker">
+            EVENTS
+          </p>
+
+          <h2>開催イベント</h2>
+        </div>
+
+        <div
+          class="detail-note"
+          id="eventCount"
+        ></div>
+      </div>
+
+      <article
+        class="card venue-event-list"
+        id="eventList"
+      ></article>
+    </section>
+
+    <section
+      class="section"
+      id="topSongsSection"
+      hidden
+    >
+      <div class="section-head">
+        <div>
+          <p class="kicker">
+            TOP SONGS
+          </p>
+
+          <h2>この会場で歌われた曲</h2>
+        </div>
+      </div>
+
+      <article
+        class="card venue-song-list"
+        id="topSongList"
+      ></article>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script
+    type="module"
+    src="assets/js/venue.js?v=2.0.3"
+  ></script>
+</body>
+</html>

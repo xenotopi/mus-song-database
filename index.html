@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>μ's Song Database</title>
-<link rel="stylesheet" href="assets/css/style.css?v=2.2.1">
+<link rel="stylesheet" href="assets/css/style.css?v=2.3.0">
 <style>
 .home-hero{position:relative;overflow:hidden;padding:36px 28px 44px;border-radius:24px;color:#fff;background:radial-gradient(circle at 80% 10%,rgba(255,255,255,.12),transparent 28%),linear-gradient(135deg,#172033,#33366d 46%,#4f46e5);box-shadow:0 18px 48px rgba(33,38,90,.2)}
 .home-hero h1{margin:8px 0 0;font-size:clamp(36px,7vw,60px);line-height:1.05}
@@ -50,6 +50,25 @@
 .home-section-note{margin-left:8px;color:var(--muted);font-size:12px;font-weight:600}
 @media(max-width:800px){.home-summary{grid-template-columns:repeat(2,1fr)}.home-grid{grid-template-columns:1fr}.recent-song-list{grid-template-columns:1fr}}
 @media(max-width:520px){.recent-card-head{padding:15px}.recent-song-list{padding:13px 15px 16px}.recent-song-name{font-size:14px}.recent-song-singer{font-size:13px}}
+
+.home-featured{margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.home-featured-card{min-height:160px;padding:18px;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow);text-decoration:none}
+.home-featured-label{color:var(--indigo);font-size:11px;font-weight:900;letter-spacing:.08em}
+.home-featured-title{margin-top:16px;color:var(--navy);font-size:19px;font-weight:900;line-height:1.45}
+.home-featured-meta{margin-top:auto;padding-top:14px;color:var(--muted);font-size:12px;font-weight:700}
+.latest-event-list{display:grid;gap:10px}
+.latest-event-row{display:grid;grid-template-columns:92px minmax(0,1fr) auto;gap:12px;align-items:center;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#fff;text-decoration:none}
+.latest-event-row:hover{border-color:#c7c2f7;background:#fcfbff}
+.latest-event-date{color:var(--indigo);font-size:12px;font-weight:900}
+.latest-event-name{color:var(--navy);font-weight:900;line-height:1.4}
+.latest-event-meta{display:block;margin-top:3px;color:var(--muted);font-size:11px}
+.latest-event-arrow{color:var(--indigo);font-size:20px;font-weight:900}
+.home-more-wrap{margin-top:18px;text-align:center}
+.home-more-button{min-width:220px;min-height:46px;padding:0 20px;border:1px solid var(--indigo);border-radius:999px;background:#fff;color:var(--indigo);font-weight:900;cursor:pointer}
+.home-more-button:hover{background:var(--indigo);color:#fff}
+@media(max-width:800px){.home-featured{grid-template-columns:1fr}}
+@media(max-width:560px){.latest-event-row{grid-template-columns:1fr auto}.latest-event-date{grid-column:1/-1}}
+
 </style>
 </head>
 <body>
@@ -73,6 +92,12 @@
 <article class="home-summary-card"><div class="home-summary-value" id="performanceCount">0</div><div class="home-summary-label">歌唱記録数</div></article>
 </section>
 
+<section class="home-featured" id="featuredSection" hidden>
+<a class="home-featured-card" id="featuredSong" href="#"></a>
+<a class="home-featured-card" id="featuredVenue" href="#"></a>
+<a class="home-featured-card" id="featuredEvent" href="#"></a>
+</section>
+
 <section class="home-grid" id="topSection" hidden>
 <article class="card today-card"><p class="kicker">TODAY IN μ's</p><h2>今日はμ'sのこんな日</h2><div class="today-date" id="todayDate"></div><div id="todayContent"></div></article>
 <article class="card"><p class="kicker">TOP SONGS</p><h2>歌唱回数TOP5</h2><div class="home-ranking-list" id="topSongs"></div></article>
@@ -86,12 +111,18 @@
 </div></article>
 </section>
 
+<section class="section" id="latestEventsSection" hidden>
+<div class="section-head"><div><p class="kicker">LATEST EVENTS</p><h2>新着イベント</h2></div></div>
+<div class="latest-event-list" id="latestEventsList"></div>
+</section>
+
 <section class="section" id="recentSection" hidden>
 <div class="section-head"><div><p class="kicker">RECENT PERFORMANCES</p><h2>最近歌われた曲 <span class="home-section-note">最新5イベント</span></h2></div></div>
 <div class="recent-list" id="recentList"></div>
+<div class="home-more-wrap"><button class="home-more-button" id="recentMoreButton" type="button" hidden>もっと見る</button></div>
 </section>
 </main>
 <div id="siteFooter"></div>
-<script type="module" src="assets/js/home.js?v=2.2.1"></script>
+<script type="module" src="assets/js/home.js?v=2.3.0"></script>
 </body>
 </html>

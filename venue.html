@@ -13,7 +13,7 @@
 
   <link
     rel="stylesheet"
-    href="assets/css/style.css?v=2.0.3"
+    href="assets/css/style.css?v=2.5.0"
   >
 
   <style>
@@ -123,6 +123,156 @@
         grid-template-columns: 1fr;
       }
     }
+  
+  
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 92px;
+    }
+
+    .detail-local-nav {
+      position: sticky;
+      z-index: 50;
+      top: 68px;
+      margin-top: 16px;
+      padding: 9px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,.94);
+      box-shadow: 0 10px 28px rgba(23,32,51,.08);
+      backdrop-filter: blur(10px);
+    }
+
+    .detail-local-nav a {
+      flex: 0 0 auto;
+      padding: 8px 13px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .detail-local-nav a:hover {
+      background: var(--indigo-soft);
+      color: var(--indigo);
+    }
+
+    .discovery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .discovery-card {
+      min-height: 132px;
+      padding: 17px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      transition: transform .15s ease, border-color .15s ease;
+    }
+
+    .discovery-card:hover {
+      border-color: #bbb6f5;
+      transform: translateY(-2px);
+    }
+
+    .discovery-label {
+      color: var(--indigo);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .discovery-title {
+      margin-top: 12px;
+      color: var(--navy);
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+    .discovery-meta {
+      margin-top: auto;
+      padding-top: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .list-controls {
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .filter-pill {
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .filter-pill.active {
+      border-color: var(--indigo);
+      background: var(--indigo);
+      color: #fff;
+    }
+
+    .show-more-wrap {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .show-more-button {
+      min-width: 220px;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 1px solid var(--indigo);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--indigo);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .show-more-button:hover {
+      background: var(--indigo);
+      color: #fff;
+    }
+
+    @media (max-width: 760px) {
+      .detail-local-nav {
+        top: 60px;
+      }
+
+      .discovery-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  
+
   </style>
 </head>
 
@@ -153,6 +303,18 @@
         <i></i><i></i><i></i>
       </div>
     </section>
+
+    <nav
+      class="detail-local-nav"
+      id="detailLocalNav"
+      hidden
+      aria-label="ページ内ナビゲーション"
+    >
+      <a href="#mainContent">基本情報</a>
+      <a href="#discoverySection">この会場を巡る</a>
+      <a href="#eventsSection">開催イベント</a>
+      <a href="#topSongsSection">披露曲</a>
+    </nav>
 
     <section
       class="venue-nav"
@@ -260,6 +422,24 @@
 
     <section
       class="section"
+      id="discoverySection"
+      hidden
+    >
+      <div class="section-head">
+        <div>
+          <p class="kicker">EXPLORE THIS VENUE</p>
+          <h2>この会場を巡る</h2>
+        </div>
+      </div>
+
+      <div
+        class="discovery-grid"
+        id="venueDiscovery"
+      ></div>
+    </section>
+
+    <section
+      class="section"
       id="eventsSection"
       hidden
     >
@@ -282,6 +462,17 @@
         class="card venue-event-list"
         id="eventList"
       ></article>
+
+      <div class="show-more-wrap">
+        <button
+          class="show-more-button"
+          id="eventMoreButton"
+          type="button"
+          hidden
+        >
+          もっと見る
+        </button>
+      </div>
     </section>
 
     <section
@@ -310,7 +501,7 @@
 
   <script
     type="module"
-    src="assets/js/venue.js?v=2.0.3"
+    src="assets/js/venue.js?v=2.5.0"
   ></script>
 </body>
 </html>

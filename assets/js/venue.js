@@ -6,7 +6,7 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=2.0.2";
+} from "./common.js?v=2.5.0";
 
 
 renderCommon("venue");
@@ -33,9 +33,24 @@ const elements = {
       "retryButton"
     ),
 
+  detailLocalNav:
+    document.getElementById(
+      "detailLocalNav"
+    ),
+
   mainContent:
     document.getElementById(
       "mainContent"
+    ),
+
+  discoverySection:
+    document.getElementById(
+      "discoverySection"
+    ),
+
+  venueDiscovery:
+    document.getElementById(
+      "venueDiscovery"
     ),
 
   venueInfo:
@@ -103,6 +118,11 @@ const elements = {
       "eventList"
     ),
 
+  eventMoreButton:
+    document.getElementById(
+      "eventMoreButton"
+    ),
+
   topSongsSection:
     document.getElementById(
       "topSongsSection"
@@ -120,6 +140,9 @@ const venueId =
     location.search
   ).get("id") ||
   "VE0002";
+
+let venueEvents = [];
+let visibleEventLimit = 10;
 
 
 function setLoading() {
@@ -147,7 +170,13 @@ function setLoading() {
   elements.retryButton.hidden =
     true;
 
+  elements.detailLocalNav.hidden =
+    true;
+
   elements.mainContent.hidden =
+    true;
+
+  elements.discoverySection.hidden =
     true;
 
   elements.venueNav.hidden =
@@ -189,6 +218,164 @@ function setError(error) {
 
   elements.retryButton.hidden =
     false;
+}
+
+
+
+function renderVenueEvents_() {
+  const visible =
+    venueEvents.slice(
+      0,
+      visibleEventLimit
+    );
+
+  elements.eventList.innerHTML =
+    visible.length
+      ? visible.map(
+          event => `
+            <a
+              class="venue-event-row"
+              href="event.html?id=${encodeURIComponent(
+                event.eventId
+              )}"
+            >
+              <span>
+                <span class="venue-row-title">
+                  ${escapeHtml(
+                    event.eventName ||
+                    "イベント名未設定"
+                  )}
+                </span>
+
+                <span class="venue-row-meta">
+                  <span>
+                    ${escapeHtml(
+                      formatDate(
+                        event.date
+                      )
+                    )}
+                  </span>
+
+                  <span class="type-badge">
+                    ${escapeHtml(
+                      event.category ||
+                      "未分類"
+                    )}
+                  </span>
+
+                  <span>
+                    ${escapeHtml(
+                      [
+                        event.eventType,
+                        event.day,
+                        event.performance
+                      ]
+                        .filter(Boolean)
+                        .join("｜")
+                    )}
+                  </span>
+                </span>
+              </span>
+
+              <span class="arrow">›</span>
+            </a>`
+        ).join("")
+      : `<div class="empty">開催イベントはありません。</div>`;
+
+  elements.eventMoreButton.hidden =
+    visible.length >= venueEvents.length;
+
+  if (!elements.eventMoreButton.hidden) {
+    elements.eventMoreButton.textContent =
+      `もっと見る（残り${venueEvents.length - visible.length}件）`;
+  }
+}
+
+
+function renderVenueDiscovery_(
+  venue,
+  events,
+  topSongs,
+  navigation
+) {
+  const latestEvent =
+    events.length
+      ? events[events.length - 1]
+      : null;
+
+  const topSong =
+    topSongs.length
+      ? topSongs[0]
+      : null;
+
+  const nearby =
+    navigation.next ||
+    navigation.previous ||
+    null;
+
+  const cards = [];
+
+  if (latestEvent) {
+    cards.push({
+      label: "LATEST EVENT",
+      title: latestEvent.eventName,
+      meta: formatDate(latestEvent.date),
+      href:
+        `event.html?id=${encodeURIComponent(
+          latestEvent.eventId
+        )}`
+    });
+  }
+
+  if (topSong) {
+    cards.push({
+      label: "TOP SONG",
+      title: topSong.songName,
+      meta:
+        `${Number(
+          topSong.performanceCount || 0
+        ).toLocaleString("ja-JP")}回歌唱`,
+      href:
+        `song.html?id=${encodeURIComponent(
+          topSong.songId
+        )}`
+    });
+  }
+
+  if (nearby) {
+    cards.push({
+      label:
+        navigation.next
+          ? "NEXT VENUE"
+          : "PREVIOUS VENUE",
+      title: nearby.venueName,
+      meta: [
+        nearby.prefectureCity,
+        nearby.country
+      ].filter(Boolean).join("｜"),
+      href:
+        `venue.html?id=${encodeURIComponent(
+          nearby.venueId
+        )}`
+    });
+  }
+
+  elements.venueDiscovery.innerHTML =
+    cards.map(card => `
+      <a class="discovery-card" href="${card.href}">
+        <span class="discovery-label">
+          ${escapeHtml(card.label)}
+        </span>
+
+        <span class="discovery-title">
+          ${escapeHtml(card.title || "—")}
+        </span>
+
+        <span class="discovery-meta">
+          ${escapeHtml(card.meta || "")}
+        </span>
+      </a>`
+    ).join("");
 }
 
 
@@ -334,70 +521,13 @@ function renderVenue(venue) {
       </dd>`
   ).join("");
 
+  venueEvents = events;
+  visibleEventLimit = 10;
+
   elements.eventCount.textContent =
     `${events.length}件`;
 
-  elements.eventList.innerHTML =
-    events.length
-      ? events.map(
-          event => `
-            <a
-              class="venue-event-row"
-              href="event.html?id=${encodeURIComponent(
-                event.eventId
-              )}"
-            >
-              <span>
-                <span class="venue-row-title">
-                  ${escapeHtml(
-                    event.eventName ||
-                    "イベント名未設定"
-                  )}
-                </span>
-
-                <span class="venue-row-meta">
-                  <span>
-                    ${escapeHtml(
-                      formatDate(
-                        event.date
-                      )
-                    )}
-                  </span>
-
-                  <span class="type-badge">
-                    ${escapeHtml(
-                      event.category ||
-                      "未分類"
-                    )}
-                  </span>
-
-                  <span>
-                    ${escapeHtml(
-                      event.eventType ||
-                      ""
-                    )}
-                  </span>
-
-                  <span>
-                    ${escapeHtml(
-                      [
-                        event.day,
-                        event.performance,
-                      ].filter(Boolean).join(" ")
-                    )}
-                  </span>
-                </span>
-              </span>
-
-              <span class="arrow">
-                ›
-              </span>
-            </a>`
-        ).join("")
-      : `
-        <div class="empty">
-          開催イベントはありません。
-        </div>`;
+  renderVenueEvents_();
 
   elements.topSongList.innerHTML =
     topSongs.length
@@ -454,6 +584,12 @@ function renderVenue(venue) {
 
   elements.status.hidden =
     true;
+
+  elements.detailLocalNav.hidden =
+    false;
+
+  elements.discoverySection.hidden =
+    false;
 
   elements.mainContent.hidden =
     false;
@@ -578,3 +714,13 @@ elements.retryButton.addEventListener(
 
 
 loadVenue();
+
+
+
+elements.eventMoreButton.addEventListener(
+  "click",
+  () => {
+    visibleEventLimit += 10;
+    renderVenueEvents_();
+  }
+);

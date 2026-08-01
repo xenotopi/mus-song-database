@@ -6,7 +6,7 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=2.4.0";
+} from "./common.js?v=2.5.0";
 
 
 renderCommon("event");
@@ -36,6 +36,11 @@ const elements = {
   diagnostic:
     document.getElementById(
       "diagnostic"
+    ),
+
+  detailLocalNav:
+    document.getElementById(
+      "detailLocalNav"
     ),
 
   quickNav:
@@ -76,6 +81,16 @@ const elements = {
   eventPicker:
     document.getElementById(
       "eventPicker"
+    ),
+
+  discoverySection:
+    document.getElementById(
+      "discoverySection"
+    ),
+
+  eventDiscovery:
+    document.getElementById(
+      "eventDiscovery"
     ),
 
   mainContent:
@@ -213,6 +228,83 @@ function setError(error) {
     <b>確認用情報</b><br>
     ページを再読み込みするか、
     下の「再試行」を押してください。`;
+}
+
+
+
+function renderEventDiscovery_(
+  event,
+  venue,
+  songs,
+  navigation
+) {
+  const cards = [];
+
+  if (venue && venue.venueId) {
+    cards.push({
+      label: "VENUE",
+      title: venue.venueName || "会場詳細",
+      meta: [
+        venue.prefectureCity,
+        venue.country
+      ].filter(Boolean).join("｜"),
+      href:
+        `venue.html?id=${encodeURIComponent(
+          venue.venueId
+        )}`
+    });
+  }
+
+  if (songs.length && songs[0].songId) {
+    cards.push({
+      label: "FIRST SONG",
+      title: songs[0].songName || "披露曲",
+      meta: "披露曲一覧の先頭",
+      href:
+        `song.html?id=${encodeURIComponent(
+          songs[0].songId
+        )}`
+    });
+  }
+
+  const next =
+    navigation.next || null;
+
+  const previous =
+    navigation.previous || null;
+
+  const nearby = next || previous;
+
+  if (nearby) {
+    cards.push({
+      label: next
+        ? "NEXT EVENT"
+        : "PREVIOUS EVENT",
+      title: nearby.eventName || "関連イベント",
+      meta: formatDate(nearby.date),
+      href:
+        `event.html?id=${encodeURIComponent(
+          nearby.eventId
+        )}`
+    });
+  }
+
+  elements.eventDiscovery.innerHTML =
+    cards.map(card => `
+      <a class="discovery-card" href="${card.href}">
+        <span class="discovery-label">
+          ${escapeHtml(card.label)}
+        </span>
+
+        <span class="discovery-title">
+          ${escapeHtml(card.title || "—")}
+        </span>
+
+        <span class="discovery-meta">
+          ${escapeHtml(card.meta || "")}
+        </span>
+      </a>`
+    ).join("");
 }
 
 
@@ -425,10 +517,23 @@ function renderEvent(event) {
     navigation
   );
 
+  renderEventDiscovery_(
+    event,
+    venue,
+    songs,
+    navigation
+  );
+
   elements.status.hidden =
     true;
 
+  elements.detailLocalNav.hidden =
+    false;
+
   elements.quickNav.hidden =
+    false;
+
+  elements.discoverySection.hidden =
     false;
 
   elements.mainContent.hidden =
@@ -576,7 +681,13 @@ async function loadEvent() {
   elements.mainContent.hidden =
     true;
 
+  elements.detailLocalNav.hidden =
+    true;
+
   elements.quickNav.hidden =
+    true;
+
+  elements.discoverySection.hidden =
     true;
 
   elements.venueSection.hidden =

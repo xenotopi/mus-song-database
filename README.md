@@ -1,33 +1,61 @@
-# v2.4.1：イベント詳細ページ復旧版
-
-## 原因
-
-イベントAPIの直接URLは `success:true` で正常でした。
-
-そのためApps Script側ではなく、GitHub側のevent.jsが読み込まれる前に停止していました。
-旧event.jsは古いモジュール参照と不要なAPI_URL importを残しており、
-共通ファイル更新後にモジュール読込エラーになる可能性がありました。
+# v2.5：UIブラッシュアップ＆回遊性強化
 
 ## Apps Script側
 
 変更はありません。
 
-## GitHub側
+## GitHub側で上書きするファイル
 
-以下を同じ階層へ上書きしてください。
-
+- song.html
 - event.html
+- venue.html
+- assets/js/song.js
 - assets/js/event.js
+- assets/js/venue.js
+- assets/js/common.js
 
-## 修正内容
+## 共通UI改善
 
-- 不要なAPI_URL importを削除
-- api.jsをv2.0.2参照へ統一
-- common.jsをv2.4.0参照へ統一
-- event.jsのキャッシュ番号をv2.4.1へ更新
-- イベント画面上の内部曲IDを非表示
-- 読込失敗時には必ずエラー表示へ切り替える
+- 長いページに「TOP」ボタンを追加
+- 詳細ページ上部に固定型のページ内ナビゲーションを追加
+- カードのホバー表示と回遊導線を統一
+- スマホではページ内ナビゲーションを横スクロール可能に調整
+
+## 曲詳細
+
+- 「この曲を巡る」を追加
+  - 初披露イベント
+  - 最新歌唱イベント
+  - 最多歌唱者
+- 歌唱履歴に「すべて・公式・ソロ」フィルター
+- 最初は20件表示し、20件ずつ追加する「もっと見る」
+- 内部IDは非表示のまま維持
+
+## イベント詳細
+
+- 「このイベントを巡る」を追加
+  - 会場
+  - 披露曲の先頭
+  - 前後イベント
+- ページ内ナビゲーションから基本情報・会場・披露曲へ移動
+- 既存の前後イベントナビゲーションは維持
+
+## 会場詳細
+
+- 「この会場を巡る」を追加
+  - 最新イベント
+  - 最多歌唱曲
+  - 前後会場
+- 開催イベントを最初は10件表示
+- 10件ずつ追加する「もっと見る」
 
 ## 確認URL
 
-https://xenotopi.github.io/mus-song-database/event.html?id=EV0002&build=241
+曲：
+https://xenotopi.github.io/mus-song-database/song.html?id=S003&build=250
+
+イベント：
+https://xenotopi.github.io/mus-song-database/event.html?id=EV0002&build=250
+
+会場：
+https://xenotopi.github.io/mus-song-database/venue.html?id=VE0004&build=250

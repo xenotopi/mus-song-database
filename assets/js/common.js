@@ -119,6 +119,7 @@ export function renderCommon(active = "") {
   }
 
   setupGlobalSearch_();
+  setupBackToTop_();
 }
 
 
@@ -892,6 +893,48 @@ function injectCommonSearchStyles_() {
       }
     }
 
+    .back-to-top {
+      position: fixed;
+      z-index: 900;
+      right: 22px;
+      bottom: 22px;
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.4);
+      border-radius: 50%;
+      background: rgba(79,70,229,.94);
+      color: #fff;
+      box-shadow: 0 12px 30px rgba(35,31,95,.24);
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity .18s ease, transform .18s ease;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .back-to-top span {
+      display: block;
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .back-to-top small {
+      display: block;
+      margin-top: -8px;
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
     @media (max-width: 760px) {
       .global-search-suggestions {
         position: fixed;
@@ -899,10 +942,61 @@ function injectCommonSearchStyles_() {
         right: 12px;
         left: 12px;
       }
+
+      .back-to-top {
+        right: 14px;
+        bottom: 14px;
+        width: 48px;
+        height: 48px;
+      }
     }
   `;
 
   document.head.appendChild(
     style
   );
+}
+
+
+/**
+ * 長い詳細ページ向けの「ページ上部へ」ボタン。
+ */
+function setupBackToTop_() {
+  if (document.getElementById("backToTopButton")) {
+    return;
+  }
+
+  const button = document.createElement("button");
+
+  button.id = "backToTopButton";
+  button.className = "back-to-top";
+  button.type = "button";
+  button.setAttribute("aria-label", "ページ上部へ戻る");
+  button.innerHTML = `
+    <span aria-hidden="true">↑</span>
+    <small>TOP</small>`;
+
+  document.body.appendChild(button);
+
+  const updateVisibility = () => {
+    button.classList.toggle(
+      "visible",
+      window.scrollY > 520
+    );
+  };
+
+  button.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+
+  window.addEventListener(
+    "scroll",
+    updateVisibility,
+    { passive: true }
+  );
+
+  updateVisibility();
 }

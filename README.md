@@ -1,22 +1,29 @@
-# μ's Song Database v2.0 Foundation — Event Detail Recovery
+# v2.0 Foundation：Song詳細JSONP対応版
 
 GitHubリポジトリへ、フォルダ構成のまま上書きしてください。
 
-上書き対象:
-- event.html
-- assets/css/style.css
-- assets/js/api.js
-- assets/js/common.js
-- assets/js/event.js
+上書き対象：
 
-確認URL:
-https://xenotopi.github.io/mus-song-database/event.html?id=EV0002
+- song.html
+- assets/js/song.js
 
-変更点:
-- API通信を共通api.jsへ集約
-- タイムアウト・自動再試行・キャッシュ回避を追加
-- event.jsへ表示処理を分離
-- Failed to fetch時の再試行ボタンと診断情報を追加
-- 前後イベント、会場、披露曲の導線を復元
-- CSS/JSへバージョンクエリを付け、GitHub Pagesの旧キャッシュを回避
+Apps Script側の変更はありません。
 
+前提：
+
+- assets/js/api.js がJSONP対応版
+- assets/js/common.js がv2.0 JSONP Foundation版
+- assets/css/style.css がv2.0 Foundation版
+
+確認URL：
+
+https://xenotopi.github.io/mus-song-database/song.html?id=S003&build=202
+
+正常時に表示される内容：
+
+- Snow halation
+- 基本情報
+- 歌唱統計
+- 初披露日・最終披露日
+- 歌唱履歴
+- イベント詳細へのリンク

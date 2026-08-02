@@ -65,12 +65,12 @@ export function renderCommon(active = "") {
           </div>
 
           <button
-            class="mobile-nav-toggle"
-            id="mobileNavToggle"
+            class="mus-mobile-menu-button"
+            id="musMobileMenuButton"
             type="button"
             aria-label="メニューを開く"
             aria-expanded="false"
-            aria-controls="siteNavigation"
+            aria-controls="musMobileDrawer"
           >
             <span></span>
             <span></span>
@@ -78,7 +78,7 @@ export function renderCommon(active = "") {
           </button>
 
           <nav
-            class="nav"
+            class="nav mus-desktop-navigation"
             id="siteNavigation"
           >
             <a
@@ -131,7 +131,66 @@ export function renderCommon(active = "") {
             </a>
           </nav>
         </div>
-      </header>`;
+      </header>
+
+      <div
+        class="mus-mobile-menu-overlay"
+        id="musMobileMenuOverlay"
+        hidden
+      ></div>
+
+      <aside
+        class="mus-mobile-drawer"
+        id="musMobileDrawer"
+        aria-hidden="true"
+        aria-label="スマホメニュー"
+      >
+        <div class="mus-mobile-drawer-head">
+          <div>
+            <b>Menu</b>
+            <small>μ's Song Database</small>
+          </div>
+
+          <button
+            class="mus-mobile-menu-close"
+            id="musMobileMenuClose"
+            type="button"
+            aria-label="メニューを閉じる"
+          >
+            ×
+          </button>
+        </div>
+
+        <nav class="mus-mobile-drawer-nav">
+          <a class="${active === "home" ? "active" : ""}" href="index.html">
+            <span>ホーム</span>
+          </a>
+
+          <a class="${active === "song" ? "active" : ""}" href="song.html?id=S003">
+            <span>曲</span>
+          </a>
+
+          <a class="${active === "event" ? "active" : ""}" href="event.html?id=EV0002">
+            <span>イベント</span>
+          </a>
+
+          <a class="${active === "venue" ? "active" : ""}" href="venue.html?id=VE0002">
+            <span>会場</span>
+          </a>
+
+          <a class="${active === "rankings" ? "active" : ""}" href="rankings.html">
+            <span>ランキング</span>
+          </a>
+
+          <a class="${active === "statistics" ? "active" : ""}" href="statistics.html">
+            <span>統計</span>
+          </a>
+
+          <a class="${active === "about" ? "active" : ""}" href="about.html">
+            <span>About</span>
+          </a>
+        </nav>
+      </aside>`;
   }
 
   if (footer) {
@@ -143,7 +202,7 @@ export function renderCommon(active = "") {
         </div>
 
         <div>
-          Web Prototype v2.6.2
+          Web Prototype v2.6.3
         </div>
       </footer>`;
   }
@@ -1053,6 +1112,211 @@ function injectCommonSearchStyles_() {
         height: 48px;
       }
     }
+
+    /* v2.6.3 スマホナビ完全修正版 */
+    .mus-mobile-menu-button,
+    .mus-mobile-drawer,
+    .mus-mobile-menu-overlay {
+      box-sizing: border-box;
+    }
+
+    .mus-mobile-menu-button {
+      display: none;
+      width: 46px;
+      height: 46px;
+      padding: 10px;
+      flex: 0 0 auto;
+      border: 1px solid #dfe3ec;
+      border-radius: 13px;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(23,32,51,.08);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mus-mobile-menu-button span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      margin: 5px 0;
+      border-radius: 999px;
+      background: #172033;
+      transition:
+        transform .2s ease,
+        opacity .2s ease;
+    }
+
+    .mus-mobile-menu-button.is-open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .mus-mobile-menu-button.is-open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mus-mobile-menu-button.is-open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .mus-mobile-menu-overlay {
+      position: fixed;
+      z-index: 1998;
+      inset: 0;
+      background: rgba(15,23,42,.42);
+      opacity: 0;
+      transition: opacity .2s ease;
+    }
+
+    .mus-mobile-menu-overlay.is-open {
+      opacity: 1;
+    }
+
+    .mus-mobile-drawer {
+      position: fixed;
+      z-index: 1999;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(84vw, 320px);
+      padding: max(18px, env(safe-area-inset-top)) 16px
+        max(18px, env(safe-area-inset-bottom));
+      overflow-y: auto;
+      background: #fff;
+      box-shadow: -16px 0 44px rgba(15,23,42,.2);
+      transform: translateX(105%);
+      transition: transform .22s ease;
+      visibility: hidden;
+    }
+
+    .mus-mobile-drawer.is-open {
+      transform: translateX(0);
+      visibility: visible;
+    }
+
+    .mus-mobile-drawer-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 3px 2px 16px;
+      border-bottom: 1px solid #e7e9ef;
+    }
+
+    .mus-mobile-drawer-head b,
+    .mus-mobile-drawer-head small {
+      display: block;
+    }
+
+    .mus-mobile-drawer-head b {
+      color: #172033;
+      font-size: 20px;
+    }
+
+    .mus-mobile-drawer-head small {
+      margin-top: 3px;
+      color: #7b8498;
+      font-size: 11px;
+    }
+
+    .mus-mobile-menu-close {
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      background: #f2f3f7;
+      color: #172033;
+      font-size: 25px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .mus-mobile-drawer-nav {
+      margin-top: 16px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .mus-mobile-drawer-nav a {
+      min-height: 50px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      border: 1px solid #e7e9ef;
+      border-radius: 14px;
+      background: #fff;
+      color: #172033;
+      font-size: 14px;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .mus-mobile-drawer-nav a.active {
+      border-color: #c8c4fb;
+      background: #f2f0ff;
+      color: #4f46e5;
+    }
+
+    html.mus-menu-lock,
+    html.mus-menu-lock body {
+      overflow: hidden !important;
+      overscroll-behavior: none;
+    }
+
+    @media (max-width: 820px) {
+      .site-header {
+        overflow: visible !important;
+      }
+
+      .site-header .header-inner {
+        position: relative !important;
+        display: grid !important;
+        grid-template-columns:
+          minmax(0, 1fr) 46px !important;
+        gap: 10px 12px !important;
+        align-items: center !important;
+      }
+
+      .site-header .brand {
+        grid-column: 1 !important;
+        grid-row: 1 !important;
+        min-width: 0 !important;
+      }
+
+      .site-header .mus-mobile-menu-button {
+        display: block !important;
+        grid-column: 2 !important;
+        grid-row: 1 !important;
+        align-self: center !important;
+        justify-self: end !important;
+      }
+
+      .site-header .global-search-wrap {
+        grid-column: 1 / -1 !important;
+        grid-row: 2 !important;
+        width: 100% !important;
+        min-width: 0 !important;
+      }
+
+      .site-header .mus-desktop-navigation {
+        display: none !important;
+      }
+
+      .global-search-suggestions {
+        position: fixed !important;
+        z-index: 2001 !important;
+        top: 134px !important;
+        right: 12px !important;
+        left: 12px !important;
+      }
+    }
+
+    @media (min-width: 821px) {
+      .mus-mobile-drawer,
+      .mus-mobile-menu-overlay {
+        display: none !important;
+      }
+    }
+
   `;
 
   document.head.appendChild(
@@ -1066,71 +1330,135 @@ function injectCommonSearchStyles_() {
  * スマホ用のハンバーガーメニュー。
  */
 function setupMobileNavigation_() {
-  const toggle =
+  const button =
     document.getElementById(
-      "mobileNavToggle"
+      "musMobileMenuButton"
     );
 
-  const navigation =
+  const closeButton =
     document.getElementById(
-      "siteNavigation"
+      "musMobileMenuClose"
+    );
+
+  const drawer =
+    document.getElementById(
+      "musMobileDrawer"
+    );
+
+  const overlay =
+    document.getElementById(
+      "musMobileMenuOverlay"
     );
 
   if (
-    !toggle ||
-    !navigation
+    !button ||
+    !closeButton ||
+    !drawer ||
+    !overlay
   ) {
     return;
   }
 
-  const closeMenu = () => {
-    navigation.classList.remove(
-      "mobile-open"
+  const isOpen = () =>
+    drawer.classList.contains(
+      "is-open"
     );
 
-    toggle.classList.remove(
-      "active"
+  const openMenu = () => {
+    overlay.hidden = false;
+
+    window.requestAnimationFrame(
+      () => {
+        overlay.classList.add(
+          "is-open"
+        );
+
+        drawer.classList.add(
+          "is-open"
+        );
+      }
     );
 
-    toggle.setAttribute(
-      "aria-expanded",
+    drawer.setAttribute(
+      "aria-hidden",
       "false"
     );
 
-    toggle.setAttribute(
-      "aria-label",
-      "メニューを開く"
-    );
-  };
-
-  const openMenu = () => {
-    navigation.classList.add(
-      "mobile-open"
-    );
-
-    toggle.classList.add(
-      "active"
-    );
-
-    toggle.setAttribute(
+    button.setAttribute(
       "aria-expanded",
       "true"
     );
 
-    toggle.setAttribute(
+    button.setAttribute(
       "aria-label",
       "メニューを閉じる"
     );
+
+    button.classList.add(
+      "is-open"
+    );
+
+    document.documentElement
+      .classList.add(
+        "mus-menu-lock"
+      );
+
+    closeButton.focus();
   };
 
-  toggle.addEventListener(
+  const closeMenu = (
+    restoreFocus = false
+  ) => {
+    overlay.classList.remove(
+      "is-open"
+    );
+
+    drawer.classList.remove(
+      "is-open"
+    );
+
+    drawer.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    button.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+    button.setAttribute(
+      "aria-label",
+      "メニューを開く"
+    );
+
+    button.classList.remove(
+      "is-open"
+    );
+
+    document.documentElement
+      .classList.remove(
+        "mus-menu-lock"
+      );
+
+    window.setTimeout(
+      () => {
+        if (!isOpen()) {
+          overlay.hidden = true;
+        }
+      },
+      220
+    );
+
+    if (restoreFocus) {
+      button.focus();
+    }
+  };
+
+  button.addEventListener(
     "click",
     () => {
-      if (
-        navigation.classList.contains(
-          "mobile-open"
-        )
-      ) {
+      if (isOpen()) {
         closeMenu();
       } else {
         openMenu();
@@ -1138,38 +1466,34 @@ function setupMobileNavigation_() {
     }
   );
 
-  navigation
+  closeButton.addEventListener(
+    "click",
+    () => closeMenu(true)
+  );
+
+  overlay.addEventListener(
+    "click",
+    () => closeMenu(true)
+  );
+
+  drawer
     .querySelectorAll("a")
     .forEach(link => {
       link.addEventListener(
         "click",
-        closeMenu
+        () => closeMenu()
       );
     });
 
   document.addEventListener(
-    "click",
+    "keydown",
     event => {
       if (
-        !navigation.classList.contains(
-          "mobile-open"
-        )
+        event.key === "Escape" &&
+        isOpen()
       ) {
-        return;
+        closeMenu(true);
       }
-
-      if (
-        navigation.contains(
-          event.target
-        ) ||
-        toggle.contains(
-          event.target
-        )
-      ) {
-        return;
-      }
-
-      closeMenu();
     }
   );
 
@@ -1177,7 +1501,8 @@ function setupMobileNavigation_() {
     "resize",
     () => {
       if (
-        window.innerWidth > 760
+        window.innerWidth > 820 &&
+        isOpen()
       ) {
         closeMenu();
       }

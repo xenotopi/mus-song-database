@@ -6,7 +6,7 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=2.6.0";
+} from "./common.js?v=2.6.3";
 
 
 renderCommon("event");

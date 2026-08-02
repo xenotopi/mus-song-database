@@ -1,5 +1,5 @@
 import { apiGet, escapeHtml, formatDate } from "./api.js?v=2.0.2";
-import { renderCommon } from "./common.js?v=2.0.2";
+import { renderCommon } from "./common.js?v=2.6.3";
 
 renderCommon("rankings");
 

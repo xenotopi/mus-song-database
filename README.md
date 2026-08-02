@@ -1,29 +1,55 @@
-# v2.6.2：統計表示調整＋スマホナビ追加
+# v2.6.3：スマホナビ完全修正版
 
 ## Apps Script側
 
 変更はありません。
 
-## GitHub側で上書き
+## GitHub側
 
+`github`フォルダ内を同じ階層へすべて上書きしてください。
+
+### HTML
+
+- index.html
+- song.html
+- event.html
+- venue.html
+- search.html
+- rankings.html
 - statistics.html
-- assets/js/statistics.js
+- about.html
+
+### JavaScript
+
 - assets/js/common.js
+- assets/js/home.js
+- assets/js/song.js
+- assets/js/event.js
+- assets/js/venue.js
+- assets/js/search.js
+- assets/js/rankings.js
+- assets/js/statistics.js
+- assets/js/about.js
 
-## 統計画面
+## 今回ファイル数が多い理由
 
-- 最多年だけに付いていた背景枠と余白を削除
-- すべての棒グラフの開始位置を統一
-- 最多年は棒のグラデーションと数値色だけで強調
-- 各年の件数を15pxへ拡大
-- スマホでも件数が見やすいよう右列を拡張
-- 上部の合計・最多年・年平均を30pxへ拡大
+前回は `common.js` だけを更新しましたが、各ページのJavaScriptが
+`common.js?v=2.6.0` など古いURLを参照していたため、
+スマホではブラウザキャッシュから旧ヘッダーが読み込まれる場合がありました。
 
-## スマホナビ
+今回は以下をすべて `v2.6.3` に統一しています。
 
-スマホヘッダー右上にハンバーガーボタンを追加します。
+1. HTML → 各ページJavaScript
+2. 各ページJavaScript → common.js
+3. common.js本体
 
-ボタンを押すと以下へ移動できます。
+これにより古い共通ヘッダーを参照しません。
+
+## スマホナビの仕様
+
+画面幅820px以下で、ヘッダー右上に三本線ボタンを表示します。
+
+開くと右側からメニューが表示されます。
 
 - ホーム
 - 曲
@@ -33,12 +59,18 @@
 - 統計
 - About
 
-メニュー外を押す、リンクを押す、PC幅へ戻すと自動で閉じます。
+以下の操作で閉じます。
+
+- ×ボタン
+- 背景部分のタップ
+- メニュー項目の選択
+- Escapeキー
+- PC幅への変更
 
 ## 確認URL
 
-統計：
-https://xenotopi.github.io/mus-song-database/statistics.html?build=262
+スマホで次のURLを開いてください。
 
-曲詳細（スマホ確認）：
-https://xenotopi.github.io/mus-song-database/song.html?id=S003&build=262
+https://xenotopi.github.io/mus-song-database/song.html?id=S003&build=263
+
+右上に三本線ボタンが表示されれば成功です。

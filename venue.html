@@ -424,6 +424,59 @@
   }
 }
 
+
+    .venue-quick-nav {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 290px minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .venue-picker-wrap {
+      min-height: 78px;
+      padding: 13px 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .venue-picker-wrap label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .venue-picker {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: #fff;
+      color: var(--navy);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    @media (max-width: 760px) {
+      .venue-quick-nav {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .venue-picker-wrap {
+        grid-column: 1 / -1;
+        grid-row: 1;
+      }
+
+      .venue-nav-card {
+        min-height: 72px;
+      }
+    }
+
 </style>
 </head>
 
@@ -469,7 +522,7 @@
     </nav>
 
     <section
-      class="venue-nav"
+      class="venue-quick-nav"
       id="venueNav"
       hidden
     >
@@ -493,6 +546,18 @@
           id="previousVenueMeta"
         ></span>
       </a>
+
+
+      <div class="venue-picker-wrap">
+        <label for="venuePicker">
+          会場を選ぶ
+        </label>
+
+        <select
+          class="venue-picker"
+          id="venuePicker"
+        ></select>
+      </div>
 
       <a
         class="venue-nav-card next disabled"
@@ -686,7 +751,7 @@
 
   <script
     type="module"
-    src="assets/js/venue.js?v=2.7.0"
+    src="assets/js/venue.js?v=2.8.0"
   ></script>
 </body>
 </html>

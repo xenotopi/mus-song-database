@@ -30,6 +30,12 @@ const elements = {
   songDates: document.getElementById("songDates"),
   discoverySection: document.getElementById("discoverySection"),
   songDiscovery: document.getElementById("songDiscovery"),
+  songRecordsSection: document.getElementById("songRecordsSection"),
+  songRecordGrid: document.getElementById("songRecordGrid"),
+  songAnalysisSection: document.getElementById("songAnalysisSection"),
+  songYearChart: document.getElementById("songYearChart"),
+  singerRanking: document.getElementById("singerRanking"),
+  relatedMasterSongs: document.getElementById("relatedMasterSongs"),
   songInsightsSection: document.getElementById("songInsightsSection"),
   coPerformedSongs: document.getElementById("coPerformedSongs"),
   songTopVenues: document.getElementById("songTopVenues"),
@@ -67,6 +73,8 @@ function setLoading() {
   elements.detailLocalNav.hidden = true;
   elements.mainContent.hidden = true;
   elements.discoverySection.hidden = true;
+  elements.songRecordsSection.hidden = true;
+  elements.songAnalysisSection.hidden = true;
   elements.songInsightsSection.hidden = true;
   elements.historySection.hidden = true;
 }
@@ -319,6 +327,351 @@ function renderSongNavigation_(
 }
 
 
+
+function parseDateValue_(value) {
+  const normalized =
+    String(value || "")
+      .replaceAll("/", "-")
+      .trim();
+
+  const timestamp =
+    Date.parse(normalized);
+
+  return Number.isFinite(timestamp)
+    ? timestamp
+    : null;
+}
+
+
+function buildSongMetrics_() {
+  const yearCounts =
+    new Map();
+
+  const uniqueDates =
+    Array.from(
+      new Set(
+        performances
+          .map(item =>
+            String(item.date || "")
+              .slice(0, 10)
+          )
+          .filter(Boolean)
+      )
+    )
+      .map(date => ({
+        date: date,
+        timestamp:
+          parseDateValue_(date)
+      }))
+      .filter(item =>
+        item.timestamp !== null
+      )
+      .sort((a, b) =>
+        a.timestamp - b.timestamp
+      );
+
+  performances.forEach(item => {
+    const year =
+      String(item.date || "")
+        .slice(0, 4);
+
+    if (!year) {
+      return;
+    }
+
+    yearCounts.set(
+      year,
+      Number(
+        yearCounts.get(year) || 0
+      ) + 1
+    );
+  });
+
+  const yearly =
+    Array.from(
+      yearCounts.entries()
+    )
+      .map(([year, count]) => ({
+        year: year,
+        count: count
+      }))
+      .sort((a, b) =>
+        String(a.year).localeCompare(
+          String(b.year)
+        )
+      );
+
+  const peakYear =
+    yearly
+      .slice()
+      .sort((a, b) =>
+        b.count - a.count ||
+        String(a.year).localeCompare(
+          String(b.year)
+        )
+      )[0] || null;
+
+  let longestGap = null;
+
+  for (
+    let index = 1;
+    index < uniqueDates.length;
+    index += 1
+  ) {
+    const previous =
+      uniqueDates[index - 1];
+
+    const current =
+      uniqueDates[index];
+
+    const days =
+      Math.floor(
+        (
+          current.timestamp -
+          previous.timestamp
+        ) /
+        86400000
+      );
+
+    if (
+      !longestGap ||
+      days > longestGap.days
+    ) {
+      longestGap = {
+        days: days,
+        from: previous.date,
+        to: current.date
+      };
+    }
+  }
+
+  const officialCount =
+    performances.filter(item =>
+      getPerformanceType_(item) ===
+      "公式"
+    ).length;
+
+  const soloCount =
+    performances.filter(item =>
+      getPerformanceType_(item) ===
+      "ソロ"
+    ).length;
+
+  const total =
+    performances.length || 1;
+
+  return {
+    yearly: yearly,
+    peakYear: peakYear,
+    longestGap: longestGap,
+    officialCount: officialCount,
+    soloCount: soloCount,
+    officialRate:
+      Math.round(
+        officialCount / total * 100
+      ),
+    soloRate:
+      Math.round(
+        soloCount / total * 100
+      )
+  };
+}
+
+
+function renderSongRecords_() {
+  const metrics =
+    buildSongMetrics_();
+
+  const records = [
+    {
+      label: "最多歌唱年",
+      value:
+        metrics.peakYear
+          ? `${metrics.peakYear.year}年`
+          : "—",
+      note:
+        metrics.peakYear
+          ? `${metrics.peakYear.count}件の歌唱記録`
+          : "歌唱記録なし"
+    },
+    {
+      label: "最長ブランク",
+      value:
+        metrics.longestGap
+          ? `${metrics.longestGap.days.toLocaleString(
+              "ja-JP"
+            )}日`
+          : "—",
+      note:
+        metrics.longestGap
+          ? `${formatDate(
+              metrics.longestGap.from
+            )}〜${formatDate(
+              metrics.longestGap.to
+            )}`
+          : "比較できる履歴がありません"
+    },
+    {
+      label: "公式イベント比率",
+      value:
+        `${metrics.officialRate}%`,
+      note:
+        `公式 ${metrics.officialCount}件`
+    },
+    {
+      label: "ソロイベント比率",
+      value:
+        `${metrics.soloRate}%`,
+      note:
+        `ソロ ${metrics.soloCount}件`
+    }
+  ];
+
+  elements.songRecordGrid.innerHTML =
+    records.map(record => `
+      <article class="song-record-card">
+        <div class="song-record-label">
+          ${escapeHtml(record.label)}
+        </div>
+
+        <div class="song-record-value">
+          ${escapeHtml(record.value)}
+        </div>
+
+        <div class="song-record-note">
+          ${escapeHtml(record.note)}
+        </div>
+      </article>`
+    ).join("");
+
+  const maxCount =
+    Math.max(
+      1,
+      ...metrics.yearly.map(item =>
+        item.count
+      )
+    );
+
+  elements.songYearChart.innerHTML =
+    metrics.yearly.length
+      ? metrics.yearly.map(item => {
+          const width =
+            Math.max(
+              3,
+              Math.round(
+                item.count /
+                maxCount *
+                100
+              )
+            );
+
+          return `
+            <div class="song-year-row">
+              <span class="song-year-label">
+                ${escapeHtml(item.year)}
+              </span>
+
+              <span class="song-year-track">
+                <span
+                  class="song-year-bar"
+                  style="width:${width}%"
+                ></span>
+              </span>
+
+              <span class="song-year-value">
+                ${item.count}件
+              </span>
+            </div>`;
+        }).join("")
+      : `<div class="empty">年別データはありません。</div>`;
+}
+
+
+function renderSingerRanking_(
+  discover
+) {
+  const singers =
+    Array.isArray(
+      discover.topSingers
+    )
+      ? discover.topSingers
+      : [];
+
+  elements.singerRanking.innerHTML =
+    singers.length
+      ? singers.map(
+          (item, index) => `
+            <div class="singer-rank-row">
+              <span class="singer-rank-number">
+                ${index + 1}
+              </span>
+
+              <span class="singer-rank-name">
+                ${escapeHtml(
+                  item.name || "—"
+                )}
+              </span>
+
+              <span class="singer-rank-count">
+                ${Number(
+                  item.count || 0
+                ).toLocaleString(
+                  "ja-JP"
+                )}件
+              </span>
+            </div>`
+        ).join("")
+      : `<div class="empty">歌唱名義データはありません。</div>`;
+
+  const relatedSongs =
+    Array.isArray(
+      discover.relatedSongs
+    )
+      ? discover.relatedSongs
+      : [];
+
+  elements.relatedMasterSongs.innerHTML =
+    relatedSongs.length
+      ? relatedSongs.map(item => `
+          <a
+            class="related-master-row"
+            href="song.html?id=${encodeURIComponent(
+              item.songId
+            )}"
+          >
+            <span>
+              <span class="related-master-title">
+                ${escapeHtml(
+                  item.songName ||
+                  "曲名未設定"
+                )}
+              </span>
+
+              <span class="related-master-meta">
+                ${escapeHtml(
+                  [
+                    item.version,
+                    item.recordingCd,
+                    item.media,
+                    item.category
+                  ]
+                    .filter(Boolean)
+                    .join("｜")
+                )}
+              </span>
+            </span>
+
+            <span class="related-master-reason">
+              ${escapeHtml(
+                item.reason || "関連曲"
+              )}
+            </span>
+          </a>`
+        ).join("")
+      : `<div class="empty">同じ作品・区分の曲はありません。</div>`;
+}
+
+
 function renderSongInsights_(
   discover
 ) {
@@ -454,12 +807,15 @@ function renderSong(song) {
     `${performances.length}件`;
 
   buildSongDiscovery_(song);
+  renderSongRecords_();
   renderHistory_();
 
   elements.status.hidden = true;
   elements.detailLocalNav.hidden = false;
   elements.mainContent.hidden = false;
   elements.discoverySection.hidden = false;
+  elements.songRecordsSection.hidden = false;
+  elements.songAnalysisSection.hidden = false;
   elements.songInsightsSection.hidden = false;
   elements.historySection.hidden = false;
 }
@@ -500,6 +856,10 @@ async function loadSong() {
       discoverResponse.data || {};
 
     renderSongInsights_(
+      discoverData
+    );
+
+    renderSingerRanking_(
       discoverData
     );
 

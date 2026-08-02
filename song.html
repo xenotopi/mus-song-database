@@ -403,6 +403,196 @@
       }
     }
 
+
+    .song-record-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .song-record-card {
+      min-height: 118px;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .song-record-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .song-record-value {
+      margin-top: 10px;
+      color: var(--indigo);
+      font-size: 25px;
+      font-weight: 900;
+      line-height: 1.15;
+    }
+
+    .song-record-note {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .song-analysis-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr);
+      gap: 14px;
+    }
+
+    .song-analysis-card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .song-year-chart {
+      margin-top: 17px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .song-year-row {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) 54px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .song-year-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .song-year-track {
+      height: 13px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #eceef5;
+    }
+
+    .song-year-bar {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+    }
+
+    .song-year-value {
+      color: var(--navy);
+      font-size: 11px;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .singer-rank-list,
+    .related-master-list {
+      margin-top: 15px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .singer-rank-row {
+      display: grid;
+      grid-template-columns: 32px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #fff;
+    }
+
+    .singer-rank-number {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--indigo-soft);
+      color: var(--indigo);
+      font-weight: 900;
+    }
+
+    .singer-rank-name {
+      color: var(--navy);
+      font-weight: 900;
+    }
+
+    .singer-rank-count {
+      color: var(--indigo);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .related-master-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      text-decoration: none;
+    }
+
+    .related-master-row:hover {
+      border-color: #bdb7f5;
+      background: #fcfbff;
+    }
+
+    .related-master-title {
+      color: var(--navy);
+      font-weight: 900;
+    }
+
+    .related-master-meta {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .related-master-reason {
+      color: var(--indigo);
+      font-size: 11px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 900px) {
+      .song-record-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .song-analysis-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .song-record-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .song-record-card {
+        min-height: 104px;
+        padding: 14px;
+      }
+
+      .song-record-value {
+        font-size: 21px;
+      }
+    }
+
 </style>
 
 </head>
@@ -491,6 +681,8 @@
     >
       <a href="#mainContent">基本情報</a>
       <a href="#discoverySection">この曲を巡る</a>
+      <a href="#songRecordsSection">この曲の記録</a>
+      <a href="#songAnalysisSection">分析</a>
       <a href="#songInsightsSection">関連データ</a>
       <a href="#historySection">歌唱履歴</a>
     </nav>
@@ -567,6 +759,72 @@
         class="discovery-grid"
         id="songDiscovery"
       ></div>
+    </section>
+
+    <section
+      class="section"
+      id="songRecordsSection"
+      hidden
+    >
+      <div class="section-head">
+        <div>
+          <p class="kicker">SONG RECORDS</p>
+          <h2>この曲の記録</h2>
+        </div>
+      </div>
+
+      <div
+        class="song-record-grid"
+        id="songRecordGrid"
+      ></div>
+    </section>
+
+    <section
+      class="section"
+      id="songAnalysisSection"
+      hidden
+    >
+      <div class="section-head">
+        <div>
+          <p class="kicker">SONG ANALYSIS</p>
+          <h2>歌唱データ分析</h2>
+        </div>
+      </div>
+
+      <div class="song-analysis-grid">
+        <article class="song-analysis-card">
+          <p class="kicker">YEARLY PERFORMANCES</p>
+          <h2>年別歌唱推移</h2>
+
+          <div
+            class="song-year-chart"
+            id="songYearChart"
+          ></div>
+        </article>
+
+        <article class="song-analysis-card">
+          <p class="kicker">SINGER RANKING</p>
+          <h2>歌唱名義ランキング</h2>
+
+          <div
+            class="singer-rank-list"
+            id="singerRanking"
+          ></div>
+        </article>
+      </div>
+
+      <article
+        class="song-analysis-card"
+        style="margin-top:14px"
+      >
+        <p class="kicker">RELATED MASTER DATA</p>
+        <h2>同じ作品・区分の曲</h2>
+
+        <div
+          class="related-master-list"
+          id="relatedMasterSongs"
+        ></div>
+      </article>
     </section>
 
     <section
@@ -670,7 +928,7 @@
 
   <script
     type="module"
-    src="assets/js/song.js?v=2.7.0"
+    src="assets/js/song.js?v=2.8.0"
   ></script>
 </body>
 </html>

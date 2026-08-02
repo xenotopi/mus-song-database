@@ -73,6 +73,11 @@ const elements = {
       "venueNav"
     ),
 
+  venuePicker:
+    document.getElementById(
+      "venuePicker"
+    ),
+
   previousVenue:
     document.getElementById(
       "previousVenue"
@@ -685,10 +690,6 @@ function renderVenue(venue) {
           曲情報はありません。
         </div>`;
 
-  renderVenueNavigation(
-    navigation
-  );
-
   elements.status.hidden =
     true;
 
@@ -726,6 +727,13 @@ function renderVenueNavigation(
     navigation.next ||
     null;
 
+  const venues =
+    Array.isArray(
+      navigation.venues
+    )
+      ? navigation.venues
+      : [];
+
   if (previous) {
     elements.previousVenue.classList.remove(
       "disabled"
@@ -742,7 +750,7 @@ function renderVenueNavigation(
     elements.previousVenueMeta.textContent =
       [
         previous.prefectureCity,
-        previous.country,
+        previous.country
       ].filter(Boolean).join("｜");
 
   } else {
@@ -753,6 +761,12 @@ function renderVenueNavigation(
     elements.previousVenue.removeAttribute(
       "href"
     );
+
+    elements.previousVenueName.textContent =
+      "前の会場はありません";
+
+    elements.previousVenueMeta.textContent =
+      "";
   }
 
   if (next) {
@@ -771,7 +785,7 @@ function renderVenueNavigation(
     elements.nextVenueMeta.textContent =
       [
         next.prefectureCity,
-        next.country,
+        next.country
       ].filter(Boolean).join("｜");
 
   } else {
@@ -782,7 +796,31 @@ function renderVenueNavigation(
     elements.nextVenue.removeAttribute(
       "href"
     );
+
+    elements.nextVenueName.textContent =
+      "次の会場はありません";
+
+    elements.nextVenueMeta.textContent =
+      "";
   }
+
+  elements.venuePicker.innerHTML =
+    venues.map(item => `
+      <option
+        value="${escapeHtml(item.venueId)}"
+        ${item.venueId === venueId ? "selected" : ""}
+      >
+        ${escapeHtml(
+          [
+            item.venueName,
+            item.prefectureCity,
+            item.country
+          ]
+            .filter(Boolean)
+            .join("｜")
+        )}
+      </option>`
+    ).join("");
 }
 
 
@@ -790,20 +828,71 @@ async function loadVenue() {
   setLoading();
 
   try {
-    const response =
-      await apiGet(
-        "venue",
-        {
-          id: venueId,
-        },
-        {
-          timeoutMs: 15000,
-          retryCount: 1,
-        }
-      );
+    const [
+      response,
+      discoverResponse
+    ] =
+      await Promise.all([
+        apiGet(
+          "venue",
+          {
+            id: venueId
+          },
+          {
+            timeoutMs: 15000,
+            retryCount: 1
+          }
+        ),
+
+        apiGet(
+          "discover",
+          {
+            type: "venue",
+            id: venueId
+          },
+          {
+            timeoutMs: 30000,
+            retryCount: 1
+          }
+        )
+      ]);
+
+    const venueData =
+      response.data || {};
+
+    const discoverData =
+      discoverResponse.data || {};
+
+    const navigation =
+      discoverData.navigation ||
+      venueData.navigation ||
+      {};
 
     renderVenue(
-      response.data
+      venueData
+    );
+
+    renderVenueInsights_(
+      discoverData
+    );
+
+    renderVenueNavigation(
+      navigation
+    );
+
+    renderVenueDiscovery_(
+      venueData,
+      Array.isArray(
+        venueData.events
+      )
+        ? venueData.events
+        : [],
+      Array.isArray(
+        venueData.topSongs
+      )
+        ? venueData.topSongs
+        : [],
+      navigation
     );
 
   } catch (error) {
@@ -815,6 +904,22 @@ async function loadVenue() {
     setError(error);
   }
 }
+
+
+elements.venuePicker.addEventListener(
+  "change",
+  () => {
+    const selectedVenueId =
+      elements.venuePicker.value;
+
+    if (selectedVenueId) {
+      location.href =
+        `venue.html?id=${encodeURIComponent(
+          selectedVenueId
+        )}`;
+    }
+  }
+);
 
 
 elements.retryButton.addEventListener(

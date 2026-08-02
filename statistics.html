@@ -70,8 +70,9 @@
     .stat-summary-value {
       margin-top: 7px;
       color: var(--indigo);
-      font-size: 26px;
+      font-size: 30px;
       font-weight: 900;
+      line-height: 1.15;
     }
 
     .stat-summary-note {
@@ -118,8 +119,7 @@
     }
 
     .stat-row.is-maximum {
-      padding: 6px 8px;
-      background: #f7f5ff;
+      background: transparent;
     }
 
     .stat-year {
@@ -174,20 +174,14 @@
 
     .stat-value {
       color: var(--navy);
-      font-size: 12px;
+      font-size: 15px;
       font-weight: 900;
       text-align: right;
+      letter-spacing: .01em;
     }
 
-    .stat-max-badge {
-      display: inline-flex;
-      margin-left: 6px;
-      padding: 2px 6px;
-      border-radius: 999px;
-      background: #ebe9ff;
+    .stat-row.is-maximum .stat-value {
       color: var(--indigo);
-      font-size: 9px;
-      vertical-align: 1px;
     }
 
     @keyframes statBarGrow {
@@ -205,8 +199,12 @@
       }
 
       .stat-row {
-        grid-template-columns: 46px minmax(0,1fr) 66px;
+        grid-template-columns: 46px minmax(0,1fr) 72px;
         gap: 8px;
+      }
+
+      .stat-value {
+        font-size: 14px;
       }
 
       .stat-chart-heading {
@@ -322,7 +320,7 @@
 
   <script
     type="module"
-    src="assets/js/statistics.js?v=2.6.1"
+    src="assets/js/statistics.js?v=2.6.2"
   ></script>
 </body>
 </html>

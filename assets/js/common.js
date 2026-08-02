@@ -64,7 +64,23 @@ export function renderCommon(active = "") {
             ></div>
           </div>
 
-          <nav class="nav">
+          <button
+            class="mobile-nav-toggle"
+            id="mobileNavToggle"
+            type="button"
+            aria-label="メニューを開く"
+            aria-expanded="false"
+            aria-controls="siteNavigation"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <nav
+            class="nav"
+            id="siteNavigation"
+          >
             <a
               class="${active === "home" ? "active" : ""}"
               href="index.html"
@@ -127,12 +143,13 @@ export function renderCommon(active = "") {
         </div>
 
         <div>
-          Web Prototype v2.1
+          Web Prototype v2.6.2
         </div>
       </footer>`;
   }
 
   setupGlobalSearch_();
+  setupMobileNavigation_();
   setupBackToTop_();
 }
 
@@ -907,6 +924,42 @@ function injectCommonSearchStyles_() {
       }
     }
 
+
+    .mobile-nav-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      padding: 9px;
+      flex: 0 0 auto;
+      border: 1px solid #e1e4ec;
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .mobile-nav-toggle span {
+      display: block;
+      height: 2px;
+      margin: 5px 0;
+      border-radius: 999px;
+      background: var(--navy);
+      transition:
+        transform .18s ease,
+        opacity .18s ease;
+    }
+
+    .mobile-nav-toggle.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .mobile-nav-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-nav-toggle.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
     .back-to-top {
       position: fixed;
       z-index: 900;
@@ -957,7 +1010,43 @@ function injectCommonSearchStyles_() {
         left: 12px;
       }
 
-      .back-to-top {
+  
+    .mobile-nav-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      padding: 9px;
+      flex: 0 0 auto;
+      border: 1px solid #e1e4ec;
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .mobile-nav-toggle span {
+      display: block;
+      height: 2px;
+      margin: 5px 0;
+      border-radius: 999px;
+      background: var(--navy);
+      transition:
+        transform .18s ease,
+        opacity .18s ease;
+    }
+
+    .mobile-nav-toggle.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .mobile-nav-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-nav-toggle.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .back-to-top {
         right: 14px;
         bottom: 14px;
         width: 48px;
@@ -968,6 +1057,131 @@ function injectCommonSearchStyles_() {
 
   document.head.appendChild(
     style
+  );
+}
+
+
+
+/**
+ * スマホ用のハンバーガーメニュー。
+ */
+function setupMobileNavigation_() {
+  const toggle =
+    document.getElementById(
+      "mobileNavToggle"
+    );
+
+  const navigation =
+    document.getElementById(
+      "siteNavigation"
+    );
+
+  if (
+    !toggle ||
+    !navigation
+  ) {
+    return;
+  }
+
+  const closeMenu = () => {
+    navigation.classList.remove(
+      "mobile-open"
+    );
+
+    toggle.classList.remove(
+      "active"
+    );
+
+    toggle.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+    toggle.setAttribute(
+      "aria-label",
+      "メニューを開く"
+    );
+  };
+
+  const openMenu = () => {
+    navigation.classList.add(
+      "mobile-open"
+    );
+
+    toggle.classList.add(
+      "active"
+    );
+
+    toggle.setAttribute(
+      "aria-expanded",
+      "true"
+    );
+
+    toggle.setAttribute(
+      "aria-label",
+      "メニューを閉じる"
+    );
+  };
+
+  toggle.addEventListener(
+    "click",
+    () => {
+      if (
+        navigation.classList.contains(
+          "mobile-open"
+        )
+      ) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    }
+  );
+
+  navigation
+    .querySelectorAll("a")
+    .forEach(link => {
+      link.addEventListener(
+        "click",
+        closeMenu
+      );
+    });
+
+  document.addEventListener(
+    "click",
+    event => {
+      if (
+        !navigation.classList.contains(
+          "mobile-open"
+        )
+      ) {
+        return;
+      }
+
+      if (
+        navigation.contains(
+          event.target
+        ) ||
+        toggle.contains(
+          event.target
+        )
+      ) {
+        return;
+      }
+
+      closeMenu();
+    }
+  );
+
+  window.addEventListener(
+    "resize",
+    () => {
+      if (
+        window.innerWidth > 760
+      ) {
+        closeMenu();
+      }
+    }
   );
 }
 

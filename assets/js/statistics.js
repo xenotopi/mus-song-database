@@ -210,9 +210,6 @@ function renderChart() {
         >
           <span class="stat-year">
             ${escapeHtml(item.year)}
-            ${isMaximum
-              ? '<span class="stat-max-badge">最多</span>'
-              : ''}
           </span>
 
           <span class="stat-track">

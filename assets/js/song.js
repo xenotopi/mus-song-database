@@ -198,12 +198,20 @@ function buildSongDiscovery_(song) {
     });
   }
 
-  if (topSinger) {
+  const topSingerName =
+    topSinger
+      ? String(topSinger[0] || "").trim()
+      : "";
+
+  if (topSingerName) {
     cards.push({
-      label: "TOP SINGER",
-      title: topSinger[0],
-      meta: `${topSinger[1]}件の歌唱記録`,
-      href: `search.html?q=${encodeURIComponent(topSinger[0])}&source=singer`
+      label: "主な歌唱名義",
+      title: topSingerName,
+      meta: "この名義の関連曲・イベントを見る",
+      href:
+        `search.html?q=${encodeURIComponent(
+          topSingerName
+        )}&source=singer`
     });
   }
 

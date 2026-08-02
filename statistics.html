@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  >
+
+  <title>
+    統計｜μ's Song Database
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="assets/css/style.css?v=2.6.0"
+  >
+
+  <style>
+    .stat-controls {
+      margin-top: 18px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .stat-control {
+      padding: 8px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--navy);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .stat-control.active {
+      border-color: var(--indigo);
+      background: var(--indigo);
+      color: #fff;
+    }
+
+    .stat-chart-card {
+      margin-top: 18px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-chart {
+      margin-top: 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns:
+        54px minmax(0,1fr) 76px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .stat-year {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .stat-track {
+      height: 18px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #eceef5;
+    }
+
+    .stat-bar {
+      height: 100%;
+      border-radius: inherit;
+      background:
+        linear-gradient(
+          90deg,
+          #4f46e5,
+          #8b5cf6
+        );
+    }
+
+    .stat-value {
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 900;
+      text-align: right;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="siteHeader"></div>
+
+  <main>
+    <div class="crumb">
+      ホーム › 統計
+    </div>
+
+    <section class="hero">
+      <span class="badge">
+        VISUALIZATION
+      </span>
+
+      <h1>年別データ</h1>
+
+      <p>
+        μ'sの歌唱履歴を年ごとに眺めます。
+      </p>
+
+      <div class="muse-line">
+        <i></i><i></i><i></i>
+        <i></i><i></i><i></i>
+        <i></i><i></i><i></i>
+      </div>
+    </section>
+
+    <div
+      class="status"
+      id="status"
+    >
+      統計データを読み込んでいます…
+    </div>
+
+    <section
+      id="statisticsContent"
+      hidden
+    >
+      <div class="stat-controls">
+        <button
+          class="stat-control active"
+          data-metric="performanceCount"
+          type="button"
+        >
+          歌唱記録数
+        </button>
+
+        <button
+          class="stat-control"
+          data-metric="eventCount"
+          type="button"
+        >
+          イベント数
+        </button>
+
+        <button
+          class="stat-control"
+          data-metric="uniqueSongCount"
+          type="button"
+        >
+          歌唱曲数
+        </button>
+
+        <button
+          class="stat-control"
+          data-metric="venueCount"
+          type="button"
+        >
+          利用会場数
+        </button>
+      </div>
+
+      <article class="stat-chart-card">
+        <p class="kicker" id="chartKicker">
+          PERFORMANCE RECORDS
+        </p>
+
+        <h2 id="chartTitle">
+          年別歌唱記録数
+        </h2>
+
+        <div
+          class="stat-chart"
+          id="statisticsChart"
+        ></div>
+      </article>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script
+    type="module"
+    src="assets/js/statistics.js?v=2.6.0"
+  ></script>
+</body>
+</html>

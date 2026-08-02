@@ -6,7 +6,7 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=2.5.0";
+} from "./common.js?v=2.6.0";
 
 
 renderCommon("song");
@@ -24,6 +24,9 @@ const elements = {
   songDates: document.getElementById("songDates"),
   discoverySection: document.getElementById("discoverySection"),
   songDiscovery: document.getElementById("songDiscovery"),
+  songInsightsSection: document.getElementById("songInsightsSection"),
+  coPerformedSongs: document.getElementById("coPerformedSongs"),
+  songTopVenues: document.getElementById("songTopVenues"),
   historySection: document.getElementById("historySection"),
   historyCount: document.getElementById("historyCount"),
   visibleHistoryCount: document.getElementById("visibleHistoryCount"),
@@ -57,6 +60,7 @@ function setLoading() {
   elements.detailLocalNav.hidden = true;
   elements.mainContent.hidden = true;
   elements.discoverySection.hidden = true;
+  elements.songInsightsSection.hidden = true;
   elements.historySection.hidden = true;
 }
 
@@ -226,6 +230,79 @@ function buildSongDiscovery_(song) {
 }
 
 
+
+function renderSongInsights_(
+  discover
+) {
+  const coSongs =
+    discover.coPerformedSongs || [];
+
+  const venues =
+    discover.topVenues || [];
+
+  elements.coPerformedSongs.innerHTML =
+    coSongs.length
+      ? coSongs.map(item => `
+          <a
+            class="insight-row"
+            href="song.html?id=${encodeURIComponent(
+              item.songId
+            )}"
+          >
+            <span>
+              <span class="insight-title">
+                ${escapeHtml(
+                  item.songName ||
+                  "曲名未設定"
+                )}
+              </span>
+
+              <span class="insight-meta">
+                同じイベントで歌唱
+              </span>
+            </span>
+
+            <span class="insight-value">
+              ${Number(
+                item.eventCount || 0
+              ).toLocaleString(
+                "ja-JP"
+              )}件
+            </span>
+          </a>`
+        ).join("")
+      : `<div class="empty">関連曲データはありません。</div>`;
+
+  elements.songTopVenues.innerHTML =
+    venues.length
+      ? venues.map(item => `
+          <a
+            class="insight-row"
+            href="venue.html?id=${encodeURIComponent(
+              item.venueId
+            )}"
+          >
+            <span>
+              <span class="insight-title">
+                ${escapeHtml(
+                  item.venueName ||
+                  "会場名未設定"
+                )}
+              </span>
+            </span>
+
+            <span class="insight-value">
+              ${Number(
+                item.count || 0
+              ).toLocaleString(
+                "ja-JP"
+              )}回
+            </span>
+          </a>`
+        ).join("")
+      : `<div class="empty">会場データはありません。</div>`;
+}
+
 function renderSong(song) {
   const statistics = song.statistics || {};
 
@@ -295,6 +372,7 @@ function renderSong(song) {
   elements.detailLocalNav.hidden = false;
   elements.mainContent.hidden = false;
   elements.discoverySection.hidden = false;
+  elements.songInsightsSection.hidden = false;
   elements.historySection.hidden = false;
 }
 
@@ -303,16 +381,36 @@ async function loadSong() {
   setLoading();
 
   try {
-    const response = await apiGet(
-      "song",
-      { id: songId },
-      {
-        timeoutMs: 20000,
-        retryCount: 1
-      }
-    );
+    const [
+      response,
+      discoverResponse
+    ] = await Promise.all([
+      apiGet(
+        "song",
+        { id: songId },
+        {
+          timeoutMs: 20000,
+          retryCount: 1
+        }
+      ),
+
+      apiGet(
+        "discover",
+        {
+          type: "song",
+          id: songId
+        },
+        {
+          timeoutMs: 30000,
+          retryCount: 1
+        }
+      )
+    ]);
 
     renderSong(response.data);
+    renderSongInsights_(
+      discoverResponse.data || {}
+    );
 
   } catch (error) {
     console.error("Song API error:", error);

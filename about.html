@@ -1,1 +1,196 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>About</title><link rel="stylesheet" href="assets/css/style.css"></head><body><div id="siteHeader"></div><main><section class="hero"><h1>About</h1><p>Web Prototype v1.1</p><div class="muse-line"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></section></main><div id="siteFooter"></div><script type="module">import{common}from"./assets/js/common.js";common();</script></body></html>
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  >
+
+  <title>
+    このサイトについて｜μ's Song Database
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="assets/css/style.css?v=2.6.0"
+  >
+
+  <style>
+    .about-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns:
+        repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .about-card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .about-card p {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .about-summary {
+      display: grid;
+      grid-template-columns:
+        repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .about-number {
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    .about-number strong {
+      display: block;
+      color: var(--indigo);
+      font-size: 28px;
+    }
+
+    .about-number span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 760px) {
+      .about-grid,
+      .about-summary {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="siteHeader"></div>
+
+  <main>
+    <div class="crumb">
+      ホーム › このサイトについて
+    </div>
+
+    <section class="hero">
+      <span class="badge">
+        ABOUT
+      </span>
+
+      <h1>
+        μ's Song Databaseについて
+      </h1>
+
+      <p>
+        μ'sの公式・ソロイベントにおける
+        歌唱履歴を検索・分析する有志制作データベースです。
+      </p>
+
+      <div class="muse-line">
+        <i></i><i></i><i></i>
+        <i></i><i></i><i></i>
+        <i></i><i></i><i></i>
+      </div>
+    </section>
+
+    <div
+      class="status"
+      id="status"
+    >
+      データ概要を読み込んでいます…
+    </div>
+
+    <section
+      id="aboutContent"
+      hidden
+    >
+      <div
+        class="about-summary"
+        id="aboutSummary"
+      ></div>
+
+      <div class="about-grid">
+        <article class="about-card">
+          <p class="kicker">
+            PURPOSE
+          </p>
+
+          <h2>
+            このサイトの目的
+          </h2>
+
+          <p>
+            楽曲、イベント、会場を相互にたどりながら、
+            μ'sの歌唱の歴史を眺め、発見を楽しむためのサイトです。
+          </p>
+        </article>
+
+        <article class="about-card">
+          <p class="kicker">
+            DATA POLICY
+          </p>
+
+          <h2>
+            データの扱い
+          </h2>
+
+          <p>
+            公式イベントとソロイベントを区分して管理しています。
+            表示名とは別に、曲・イベント・会場の内部IDを用いて
+            データを関連付けています。
+          </p>
+        </article>
+
+        <article class="about-card">
+          <p class="kicker">
+            NOTICE
+          </p>
+
+          <h2>
+            ご注意
+          </h2>
+
+          <p>
+            本サイトは有志による非公式データベースです。
+            掲載情報は公式発表や記録をもとに整理していますが、
+            完全性を保証するものではありません。
+          </p>
+        </article>
+
+        <article class="about-card">
+          <p class="kicker">
+            COVERAGE
+          </p>
+
+          <h2>
+            収録期間
+          </h2>
+
+          <p id="coverageText">
+            —
+          </p>
+
+          <p id="updatedText">
+            —
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script
+    type="module"
+    src="assets/js/about.js?v=2.6.0"
+  ></script>
+</body>
+</html>

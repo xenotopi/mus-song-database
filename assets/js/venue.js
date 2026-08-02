@@ -6,7 +6,7 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=2.5.0";
+} from "./common.js?v=2.6.0";
 
 
 renderCommon("venue");
@@ -103,6 +103,21 @@ const elements = {
       "nextVenueMeta"
     ),
 
+  venueInsightsSection:
+    document.getElementById(
+      "venueInsightsSection"
+    ),
+
+  venueHistoryEvents:
+    document.getElementById(
+      "venueHistoryEvents"
+    ),
+
+  venueFirstSongs:
+    document.getElementById(
+      "venueFirstSongs"
+    ),
+
   eventsSection:
     document.getElementById(
       "eventsSection"
@@ -177,6 +192,9 @@ function setLoading() {
     true;
 
   elements.discoverySection.hidden =
+    true;
+
+  elements.venueInsightsSection.hidden =
     true;
 
   elements.venueNav.hidden =
@@ -378,6 +396,95 @@ function renderVenueDiscovery_(
     ).join("");
 }
 
+
+
+function renderVenueInsights_(
+  discover
+) {
+  const historyItems = [
+    discover.firstEvent
+      ? {
+          label: "初開催",
+          ...discover.firstEvent
+        }
+      : null,
+
+    discover.lastEvent
+      ? {
+          label: "最終開催",
+          ...discover.lastEvent
+        }
+      : null
+  ].filter(Boolean);
+
+  elements.venueHistoryEvents.innerHTML =
+    historyItems.length
+      ? historyItems.map(item => `
+          <a
+            class="insight-row"
+            href="event.html?id=${encodeURIComponent(
+              item.eventId
+            )}"
+          >
+            <span>
+              <span class="insight-title">
+                ${escapeHtml(
+                  item.eventName ||
+                  "イベント名未設定"
+                )}
+              </span>
+
+              <span class="insight-meta">
+                ${escapeHtml(
+                  item.label
+                )}｜
+                ${escapeHtml(
+                  formatDate(
+                    item.date
+                  )
+                )}
+              </span>
+            </span>
+
+            <span class="insight-value">›</span>
+          </a>`
+        ).join("")
+      : `<div class="empty">イベントデータはありません。</div>`;
+
+  const songs =
+    discover.firstPerformedSongs || [];
+
+  elements.venueFirstSongs.innerHTML =
+    songs.length
+      ? songs.map(item => `
+          <a
+            class="insight-row"
+            href="song.html?id=${encodeURIComponent(
+              item.songId
+            )}"
+          >
+            <span>
+              <span class="insight-title">
+                ${escapeHtml(
+                  item.songName ||
+                  "曲名未設定"
+                )}
+              </span>
+
+              <span class="insight-meta">
+                ${escapeHtml(
+                  formatDate(
+                    item.date
+                  )
+                )}
+              </span>
+            </span>
+
+            <span class="insight-value">›</span>
+          </a>`
+        ).join("")
+      : `<div class="empty">初披露曲はありません。</div>`;
+}
 
 function renderVenue(venue) {
   const statistics =
@@ -589,6 +696,9 @@ function renderVenue(venue) {
     false;
 
   elements.discoverySection.hidden =
+    false;
+
+  elements.venueInsightsSection.hidden =
     false;
 
   elements.mainContent.hidden =

@@ -99,6 +99,20 @@ export function renderCommon(active = "") {
             >
               ランキング
             </a>
+
+            <a
+              class="${active === "statistics" ? "active" : ""}"
+              href="statistics.html"
+            >
+              統計
+            </a>
+
+            <a
+              class="${active === "about" ? "active" : ""}"
+              href="about.html"
+            >
+              About
+            </a>
           </nav>
         </div>
       </header>`;

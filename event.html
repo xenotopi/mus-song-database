@@ -153,7 +153,158 @@
         grid-template-columns: 1fr;
       }
     }
-  </style>
+  
+.discover-panel {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff,
+      #f7f5ff
+    );
+  box-shadow: var(--shadow);
+}
+
+.discover-cards {
+  display: grid;
+  grid-template-columns:
+    repeat(3, 1fr);
+  gap: 12px;
+}
+
+.discover-item {
+  min-height: 136px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  text-decoration: none;
+}
+
+.discover-item:hover {
+  border-color: #bdb7f5;
+  transform: translateY(-1px);
+}
+
+.discover-item-label {
+  color: var(--indigo);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+.discover-item-title {
+  margin-top: 11px;
+  color: var(--navy);
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.45;
+}
+
+.discover-item-meta {
+  margin-top: auto;
+  padding-top: 10px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.insight-list {
+  display: grid;
+  gap: 9px;
+}
+
+.insight-row {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  text-decoration: none;
+}
+
+.insight-row:hover {
+  border-color: #bdb7f5;
+  background: #fcfbff;
+}
+
+.insight-title {
+  color: var(--navy);
+  font-weight: 900;
+}
+
+.insight-meta {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.insight-value {
+  color: var(--indigo);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.trend-chart {
+  display: grid;
+  gap: 9px;
+}
+
+.trend-row {
+  display: grid;
+  grid-template-columns:
+    52px minmax(0, 1fr) 62px;
+  gap: 10px;
+  align-items: center;
+}
+
+.trend-year {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.trend-track {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #eceef5;
+}
+
+.trend-bar {
+  height: 100%;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      90deg,
+      #4f46e5,
+      #8b5cf6
+    );
+}
+
+.trend-value {
+  color: var(--navy);
+  font-size: 11px;
+  font-weight: 900;
+  text-align: right;
+}
+
+@media (max-width: 760px) {
+  .discover-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+</style>
 
 </head>
 <body>
@@ -179,6 +330,7 @@
     >
       <a href="#mainContent">基本情報</a>
       <a href="#discoverySection">このイベントを巡る</a>
+      <a href="#eventInsightsSection">発見</a>
       <a href="#venueSection">会場</a>
       <a href="#songsSection">披露曲</a>
     </nav>
@@ -233,7 +385,7 @@
     >
       <div class="section-head">
         <div>
-          <p class="kicker">EXPLORE THIS EVENT</p>
+          <p class="kicker">EVENT GUIDE</p>
           <h2>このイベントを巡る</h2>
         </div>
       </div>
@@ -242,6 +394,39 @@
         class="discovery-grid"
         id="eventDiscovery"
       ></div>
+    </section>
+
+    <section
+      class="section"
+      id="eventInsightsSection"
+      hidden
+    >
+      <div class="section-head">
+        <div>
+          <p class="kicker">EVENT DISCOVERY</p>
+          <h2>このイベントの発見</h2>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <p class="kicker">ONLY HERE</p>
+          <h2>このイベントだけの曲</h2>
+          <div
+            class="insight-list"
+            id="uniqueEventSongs"
+          ></div>
+        </article>
+
+        <article class="card">
+          <p class="kicker">FIRST PERFORMANCE</p>
+          <h2>初披露された曲</h2>
+          <div
+            class="insight-list"
+            id="firstEventSongs"
+          ></div>
+        </article>
+      </div>
     </section>
 
     <section class="section" id="venueSection" hidden>
@@ -273,6 +458,6 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/event.js?v=2.5.0"></script>
+  <script type="module" src="assets/js/event.js?v=2.6.0"></script>
 </body>
 </html>

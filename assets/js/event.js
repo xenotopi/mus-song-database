@@ -6,7 +6,7 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=2.5.0";
+} from "./common.js?v=2.6.0";
 
 
 renderCommon("event");
@@ -106,6 +106,21 @@ const elements = {
   eventStats:
     document.getElementById(
       "eventStats"
+    ),
+
+  eventInsightsSection:
+    document.getElementById(
+      "eventInsightsSection"
+    ),
+
+  uniqueEventSongs:
+    document.getElementById(
+      "uniqueEventSongs"
+    ),
+
+  firstEventSongs:
+    document.getElementById(
+      "firstEventSongs"
     ),
 
   venueSection:
@@ -242,7 +257,7 @@ function renderEventDiscovery_(
 
   if (venue && venue.venueId) {
     cards.push({
-      label: "VENUE",
+      label: "開催会場",
       title: venue.venueName || "会場詳細",
       meta: [
         venue.prefectureCity,
@@ -257,34 +272,24 @@ function renderEventDiscovery_(
 
   if (songs.length && songs[0].songId) {
     cards.push({
-      label: "FIRST SONG",
-      title: songs[0].songName || "披露曲",
-      meta: "披露曲一覧の先頭",
-      href:
-        `song.html?id=${encodeURIComponent(
-          songs[0].songId
-        )}`
+      label: "披露曲",
+      title:
+        songs.length === 1
+          ? songs[0].songName
+          : `${songs[0].songName} ほか${songs.length - 1}曲`,
+      meta: "披露曲一覧を見る",
+      href: "#songsSection"
     });
   }
 
-  const next =
-    navigation.next || null;
-
-  const previous =
-    navigation.previous || null;
-
-  const nearby = next || previous;
-
-  if (nearby) {
+  if (event.eventType) {
     cards.push({
-      label: next
-        ? "NEXT EVENT"
-        : "PREVIOUS EVENT",
-      title: nearby.eventName || "関連イベント",
-      meta: formatDate(nearby.date),
+      label: "同じ種別のイベント",
+      title: event.eventType,
+      meta: "同じイベント種別を検索",
       href:
-        `event.html?id=${encodeURIComponent(
-          nearby.eventId
+        `search.html?q=${encodeURIComponent(
+          event.eventType
         )}`
     });
   }
@@ -307,6 +312,45 @@ function renderEventDiscovery_(
     ).join("");
 }
 
+
+
+function renderEventInsights_(
+  discover
+) {
+  const renderSongs =
+    items =>
+      items.length
+        ? items.map(item => `
+            <a
+              class="insight-row"
+              href="song.html?id=${encodeURIComponent(
+                item.songId
+              )}"
+            >
+              <span class="insight-title">
+                ${escapeHtml(
+                  item.songName ||
+                  "曲名未設定"
+                )}
+              </span>
+
+              <span class="insight-value">
+                ›
+              </span>
+            </a>`
+          ).join("")
+        : `<div class="empty">該当する曲はありません。</div>`;
+
+  elements.uniqueEventSongs.innerHTML =
+    renderSongs(
+      discover.uniqueSongs || []
+    );
+
+  elements.firstEventSongs.innerHTML =
+    renderSongs(
+      discover.firstPerformedSongs || []
+    );
+}
 
 function renderEvent(event) {
   const statistics =
@@ -536,6 +580,9 @@ function renderEvent(event) {
   elements.discoverySection.hidden =
     false;
 
+  elements.eventInsightsSection.hidden =
+    false;
+
   elements.mainContent.hidden =
     false;
 
@@ -690,6 +737,9 @@ async function loadEvent() {
   elements.discoverySection.hidden =
     true;
 
+  elements.eventInsightsSection.hidden =
+    true;
+
   elements.venueSection.hidden =
     true;
 
@@ -697,20 +747,41 @@ async function loadEvent() {
     true;
 
   try {
-    const response =
-      await apiGet(
-        "event",
-        {
-          id: eventId
-        },
-        {
-          timeoutMs: 25000,
-          retryCount: 1
-        }
-      );
+    const [
+      response,
+      discoverResponse
+    ] =
+      await Promise.all([
+        apiGet(
+          "event",
+          {
+            id: eventId
+          },
+          {
+            timeoutMs: 25000,
+            retryCount: 1
+          }
+        ),
+
+        apiGet(
+          "discover",
+          {
+            type: "event",
+            id: eventId
+          },
+          {
+            timeoutMs: 30000,
+            retryCount: 1
+          }
+        )
+      ]);
 
     renderEvent(
       response.data
+    );
+
+    renderEventInsights_(
+      discoverResponse.data || {}
     );
 
   } catch (error) {

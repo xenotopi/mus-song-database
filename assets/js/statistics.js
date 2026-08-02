@@ -1,11 +1,11 @@
 import {
   apiGet,
   escapeHtml
-} from "./api.js?v=2.7.0";
+} from "./api.js?v=2.0.2";
 
 import {
   renderCommon
-} from "./common.js?v=2.7.0";
+} from "./common.js?v=2.6.0";
 
 
 renderCommon("statistics");
@@ -40,6 +40,11 @@ const elements = {
   chartTitle:
     document.getElementById(
       "chartTitle"
+    ),
+
+  chartDescription:
+    document.getElementById(
+      "chartDescription"
     )
 };
 
@@ -52,26 +57,54 @@ let metric =
 const metricSettings = {
   performanceCount: {
     kicker: "PERFORMANCE RECORDS",
-    title: "年別歌唱記録数",
-    suffix: "件"
+    title: "年別の延べ歌唱記録数",
+    suffix: "件",
+    totalLabel: "期間中の延べ歌唱記録数合計",
+    maximumLabel: "歌唱記録数が最多の年",
+    averageLabel: "1年あたりの平均歌唱記録数",
+    totalNote: "同じ曲が複数回歌われた場合もすべて計上",
+    averageNote: "歌唱記録がある年のみで算出",
+    description:
+      "同じ曲が複数回歌われた場合も、歌唱記録としてすべて数えます。棒の長さは最大年を100%として比較しています。"
   },
 
   eventCount: {
     kicker: "EVENTS",
-    title: "年別イベント数",
-    suffix: "件"
+    title: "年別の登録イベント数",
+    suffix: "件",
+    totalLabel: "期間中の登録イベント数合計",
+    maximumLabel: "イベント数が最多の年",
+    averageLabel: "1年あたりの平均イベント数",
+    totalNote: "登録されているイベントを開催年ごとに集計",
+    averageNote: "イベントがある年のみで算出",
+    description:
+      "登録イベントを開催年ごとに数えています。1公演を1イベントとして集計します。"
   },
 
   uniqueSongCount: {
     kicker: "UNIQUE SONGS",
-    title: "年別歌唱曲数",
-    suffix: "曲"
+    title: "年別の重複なし歌唱曲数",
+    suffix: "曲",
+    totalLabel: "各年の歌唱曲数合計",
+    maximumLabel: "歌唱曲数が最多の年",
+    averageLabel: "1年あたりの平均歌唱曲数",
+    totalNote: "各年で重複を除いた曲数を合算",
+    averageNote: "歌唱曲がある年のみで算出",
+    description:
+      "その年に歌われた異なる曲数です。同じ曲が年内に複数回歌われても1曲として数えます。"
   },
 
   venueCount: {
     kicker: "VENUES",
-    title: "年別利用会場数",
-    suffix: "会場"
+    title: "年別の重複なし利用会場数",
+    suffix: "会場",
+    totalLabel: "各年の利用会場数合計",
+    maximumLabel: "利用会場数が最多の年",
+    averageLabel: "1年あたりの平均利用会場数",
+    totalNote: "各年で重複を除いた会場数を合算",
+    averageNote: "会場利用がある年のみで算出",
+    description:
+      "その年に利用した異なる会場数です。同じ会場を年内に複数回利用しても1会場として数えます。"
   }
 };
 
@@ -112,25 +145,28 @@ function renderSummary_(
 
   const cards = [
     {
-      label: "期間合計",
+      label:
+        setting.totalLabel,
       value:
         `${total.toLocaleString("ja-JP")}${setting.suffix}`,
       note:
-        `${values.length}年間の合計`
+        setting.totalNote
     },
     {
-      label: "最多の年",
+      label:
+        setting.maximumLabel,
       value:
         `${maximum.year}年`,
       note:
         `${maximum.value.toLocaleString("ja-JP")}${setting.suffix}`
     },
     {
-      label: "年平均",
+      label:
+        setting.averageLabel,
       value:
         `${Math.round(average).toLocaleString("ja-JP")}${setting.suffix}`,
       note:
-        "0件の年を除いて算出"
+        setting.averageNote
     }
   ];
 
@@ -162,6 +198,9 @@ function renderChart() {
 
   elements.chartTitle.textContent =
     setting.title;
+
+  elements.chartDescription.textContent =
+    setting.description;
 
   const values =
     years.map(item => ({

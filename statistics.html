@@ -98,8 +98,11 @@
     }
 
     .stat-chart-guide {
+      max-width: 390px;
       color: var(--muted);
       font-size: 11px;
+      line-height: 1.7;
+      text-align: right;
     }
 
     .stat-chart {
@@ -303,8 +306,11 @@
             </h2>
           </div>
 
-          <p class="stat-chart-guide">
-            棒の長さは最大年を100%として比較しています
+          <p
+            class="stat-chart-guide"
+            id="chartDescription"
+          >
+            同じ曲が複数回歌われた場合も、歌唱記録としてすべて数えます。
           </p>
         </div>
 
@@ -320,7 +326,7 @@
 
   <script
     type="module"
-    src="assets/js/statistics.js?v=2.7.0"
+    src="assets/js/statistics.js?v=2.8.1"
   ></script>
 </body>
 </html>

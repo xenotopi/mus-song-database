@@ -1,93 +1,65 @@
-# v2.8：曲詳細強化＋会場クイックナビ追加
+# v2.8.1：曲グラフ表示修正＋統計表記明確化
 
 ## Apps Script側
 
-### 丸ごと差し替え
+変更はありません。
 
-- DiscoverApi.gs
-- CacheApi.gs
-
-`CacheApi.gs`はキャッシュバージョンをv2.8.0へ更新しています。
-旧Discover APIのキャッシュを自動的に参照しなくなります。
-
-保存後、新バージョンとして再デプロイしてください。
-
-### API確認
-
-曲：
-
-`?action=discover&type=song&id=S003&callback=callbackTest`
-
-次が含まれていれば成功です。
-
-- navigation
-- relatedSongs
-- topSingers
-- topVenues
-- coPerformedSongs
-
-会場：
-
-`?action=discover&type=venue&id=VE0004&callback=callbackTest`
-
-次が含まれていれば成功です。
-
-- navigation.previous
-- navigation.next
-- navigation.venues
-
-## GitHub側
-
-以下を上書きしてください。
+## GitHub側で上書き
 
 - song.html
-- venue.html
-- assets/js/song.js
-- assets/js/venue.js
+- statistics.html
+- assets/js/statistics.js
 
-## 曲詳細の追加内容
+## 曲詳細の修正
 
-### この曲の記録
+### 年別歌唱推移
 
-- 最多歌唱年
-- 最長ブランク
-- 公式イベント比率
-- ソロイベント比率
+棒が空白だった原因は、棒の要素がインライン要素のままで、
+JavaScriptが指定した横幅が反映されていなかったためです。
 
-### 歌唱データ分析
+`display: block`を追加し、件数に応じて棒が表示されるよう修正しています。
 
-- 年別歌唱推移
-- 歌唱名義ランキングTOP5
-- 同じ収録CD・メディア・区分の関連曲
+### 関連曲の表記
 
-既存の以下も維持しています。
+変更前：
 
-- 前後曲
-- 曲プルダウン
-- この曲を巡る
-- 一緒に歌われた曲
-- よく歌われた会場
-- 歌唱履歴フィルター
+- 同じ作品・区分の曲
 
-## 会場クイックナビ
+変更後：
 
-会場詳細上部を次の構成に変更します。
+- 条件が近い関連曲
+- 同じ収録CD・メディア・区分をもとに表示しています。
 
-- 前の会場
-- 会場を選ぶプルダウン
-- 次の会場
+## 統計の修正
 
-PCでは3列、スマホではプルダウンを上段、前後会場を下段に表示します。
+選択中のタブに応じて、サマリーカードの見出しを具体化します。
 
-会場名に加えて都道府県・都市・国もプルダウン内へ表示するため、
-同名・類似名の会場も区別しやすくしています。
+例：歌唱記録数
+
+- 期間中の延べ歌唱記録数合計
+- 歌唱記録数が最多の年
+- 1年あたりの平均歌唱記録数
+
+例：イベント数
+
+- 期間中の登録イベント数合計
+- イベント数が最多の年
+- 1年あたりの平均イベント数
+
+例：歌唱曲数
+
+- 各年の歌唱曲数合計
+- 歌唱曲数が最多の年
+- 1年あたりの平均歌唱曲数
+
+また、各グラフに集計方法の説明文を表示します。
 
 ## 確認URL
 
 曲：
 
-https://xenotopi.github.io/mus-song-database/song.html?id=S003&build=280
+https://xenotopi.github.io/mus-song-database/song.html?id=S003&build=281
 
-会場：
+統計：
 
-https://xenotopi.github.io/mus-song-database/venue.html?id=VE0004&build=280
+https://xenotopi.github.io/mus-song-database/statistics.html?build=281

@@ -83,7 +83,7 @@ const metricSettings = {
 
   uniqueSongCount: {
     kicker: "UNIQUE SONGS",
-    title: "年別の重複なし歌唱曲数",
+    title: "年別の歌唱曲数（重複なし）",
     suffix: "曲",
     totalLabel: "各年の歌唱曲数合計",
     maximumLabel: "歌唱曲数が最多の年",
@@ -96,7 +96,7 @@ const metricSettings = {
 
   venueCount: {
     kicker: "VENUES",
-    title: "年別の重複なし利用会場数",
+    title: "年別の利用会場数（重複なし）",
     suffix: "会場",
     totalLabel: "各年の利用会場数合計",
     maximumLabel: "利用会場数が最多の年",

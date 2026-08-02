@@ -474,10 +474,18 @@
     }
 
     .song-year-track {
+      position: relative;
       height: 13px;
       overflow: hidden;
       border-radius: 999px;
-      background: #eceef5;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          #eceef5 0,
+          #eceef5 calc(25% - 1px),
+          #dfe2eb calc(25% - 1px),
+          #dfe2eb 25%
+        );
     }
 
     .song-year-bar {
@@ -930,7 +938,7 @@
 
   <script
     type="module"
-    src="assets/js/song.js?v=2.8.1"
+    src="assets/js/song.js?v=2.8.2"
   ></script>
 </body>
 </html>

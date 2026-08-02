@@ -1,4 +1,4 @@
-# v2.8.1：曲グラフ表示修正＋統計表記明確化
+# v2.8.2：会場エラー修正＋統計表記・補助線調整
 
 ## Apps Script側
 
@@ -6,60 +6,46 @@
 
 ## GitHub側で上書き
 
+- venue.html
+- assets/js/venue.js
 - song.html
 - statistics.html
 - assets/js/statistics.js
 
-## 曲詳細の修正
+## 会場詳細
 
-### 年別歌唱推移
+`venues.map is not a function`を防ぐため、返却データの形式を確認してから会場一覧を生成します。
 
-棒が空白だった原因は、棒の要素がインライン要素のままで、
-JavaScriptが指定した横幅が反映されていなかったためです。
+- 配列形式に対応
+- `{ items: [...] }`形式にも対応
+- 不正な会場データを除外
+- 関連データAPIだけ失敗しても会場基本情報は表示
+- 会場一覧を取得できない場合は現在の会場だけ表示
 
-`display: block`を追加し、件数に応じて棒が表示されるよう修正しています。
+## 曲詳細グラフ
 
-### 関連曲の表記
+年別歌唱推移の背景に25%・50%・75%の補助線を追加しました。
 
-変更前：
+## 統計
 
-- 同じ作品・区分の曲
+### 表記
 
-変更後：
+- 年別の歌唱曲数（重複なし）
+- 年別の利用会場数（重複なし）
 
-- 条件が近い関連曲
-- 同じ収録CD・メディア・区分をもとに表示しています。
+### 説明文
 
-## 統計の修正
+グラフ見出しの右側から見出し直下へ移動し、不自然な1文字改行を防ぎます。
 
-選択中のタブに応じて、サマリーカードの見出しを具体化します。
-
-例：歌唱記録数
-
-- 期間中の延べ歌唱記録数合計
-- 歌唱記録数が最多の年
-- 1年あたりの平均歌唱記録数
-
-例：イベント数
-
-- 期間中の登録イベント数合計
-- イベント数が最多の年
-- 1年あたりの平均イベント数
-
-例：歌唱曲数
-
-- 各年の歌唱曲数合計
-- 歌唱曲数が最多の年
-- 1年あたりの平均歌唱曲数
-
-また、各グラフに集計方法の説明文を表示します。
+統計グラフには既存の25%刻み補助線を維持しています。
 
 ## 確認URL
 
-曲：
+会場：
+https://xenotopi.github.io/mus-song-database/venue.html?id=VE0002&build=282
 
-https://xenotopi.github.io/mus-song-database/song.html?id=S003&build=281
+曲：
+https://xenotopi.github.io/mus-song-database/song.html?id=S003&build=282
 
 統計：
-
-https://xenotopi.github.io/mus-song-database/statistics.html?build=281
+https://xenotopi.github.io/mus-song-database/statistics.html?build=282

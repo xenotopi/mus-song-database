@@ -719,20 +719,32 @@ function renderVenue(venue) {
 function renderVenueNavigation(
   navigation
 ) {
+  const safeNavigation =
+    navigation &&
+    typeof navigation === "object"
+      ? navigation
+      : {};
+
   const previous =
-    navigation.previous ||
+    safeNavigation.previous ||
     null;
 
   const next =
-    navigation.next ||
+    safeNavigation.next ||
     null;
 
+  const rawVenues =
+    safeNavigation.venues;
+
   const venues =
-    Array.isArray(
-      navigation.venues
-    )
-      ? navigation.venues
-      : [];
+    Array.isArray(rawVenues)
+      ? rawVenues
+      : (
+          rawVenues &&
+          Array.isArray(rawVenues.items)
+            ? rawVenues.items
+            : []
+        );
 
   if (previous) {
     elements.previousVenue.classList.remove(
@@ -804,23 +816,39 @@ function renderVenueNavigation(
       "";
   }
 
+  const validVenues =
+    venues.filter(item =>
+      item &&
+      typeof item === "object" &&
+      item.venueId &&
+      item.venueName
+    );
+
   elements.venuePicker.innerHTML =
-    venues.map(item => `
-      <option
-        value="${escapeHtml(item.venueId)}"
-        ${item.venueId === venueId ? "selected" : ""}
-      >
-        ${escapeHtml(
-          [
-            item.venueName,
-            item.prefectureCity,
-            item.country
-          ]
-            .filter(Boolean)
-            .join("｜")
-        )}
-      </option>`
-    ).join("");
+    validVenues.length
+      ? validVenues.map(item => `
+          <option
+            value="${escapeHtml(item.venueId)}"
+            ${item.venueId === venueId ? "selected" : ""}
+          >
+            ${escapeHtml(
+              [
+                item.venueName,
+                item.prefectureCity,
+                item.country
+              ]
+                .filter(Boolean)
+                .join("｜")
+            )}
+          </option>`
+        ).join("")
+      : `
+          <option
+            value="${escapeHtml(venueId)}"
+            selected
+          >
+            現在の会場
+          </option>`;
 }
 
 
@@ -830,7 +858,7 @@ async function loadVenue() {
   try {
     const [
       response,
-      discoverResponse
+      discoverResult
     ] =
       await Promise.all([
         apiGet(
@@ -854,14 +882,27 @@ async function loadVenue() {
             timeoutMs: 30000,
             retryCount: 1
           }
-        )
+        ).catch(error => {
+          console.warn(
+            "Venue discover API warning:",
+            error
+          );
+
+          return {
+            data: {}
+          };
+        })
       ]);
 
     const venueData =
       response.data || {};
 
     const discoverData =
-      discoverResponse.data || {};
+      discoverResult &&
+      discoverResult.data &&
+      typeof discoverResult.data === "object"
+        ? discoverResult.data
+        : {};
 
     const navigation =
       discoverData.navigation ||

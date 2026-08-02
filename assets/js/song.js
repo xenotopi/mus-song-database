@@ -17,6 +17,12 @@ const elements = {
   heroMeta: document.getElementById("heroMeta"),
   status: document.getElementById("status"),
   retryButton: document.getElementById("retryButton"),
+  songSwitcher: document.getElementById("songSwitcher"),
+  previousSongButton: document.getElementById("previousSongButton"),
+  previousSongTitle: document.getElementById("previousSongTitle"),
+  nextSongButton: document.getElementById("nextSongButton"),
+  nextSongTitle: document.getElementById("nextSongTitle"),
+  songPicker: document.getElementById("songPicker"),
   detailLocalNav: document.getElementById("detailLocalNav"),
   mainContent: document.getElementById("mainContent"),
   songInfo: document.getElementById("songInfo"),
@@ -57,6 +63,7 @@ function setLoading() {
     </span>`;
 
   elements.retryButton.hidden = true;
+  elements.songSwitcher.hidden = true;
   elements.detailLocalNav.hidden = true;
   elements.mainContent.hidden = true;
   elements.discoverySection.hidden = true;
@@ -229,6 +236,87 @@ function buildSongDiscovery_(song) {
     ).join("");
 }
 
+
+
+
+function renderSongNavigation_(
+  navigation
+) {
+  const previous =
+    navigation.previous || null;
+
+  const next =
+    navigation.next || null;
+
+  const songs =
+    Array.isArray(
+      navigation.songs
+    )
+      ? navigation.songs
+      : [];
+
+  if (previous) {
+    elements.previousSongButton.classList.remove(
+      "disabled"
+    );
+
+    elements.previousSongButton.href =
+      `song.html?id=${encodeURIComponent(
+        previous.songId
+      )}`;
+
+    elements.previousSongTitle.textContent =
+      previous.songName;
+  } else {
+    elements.previousSongButton.classList.add(
+      "disabled"
+    );
+
+    elements.previousSongButton.removeAttribute(
+      "href"
+    );
+
+    elements.previousSongTitle.textContent =
+      "前の曲はありません";
+  }
+
+  if (next) {
+    elements.nextSongButton.classList.remove(
+      "disabled"
+    );
+
+    elements.nextSongButton.href =
+      `song.html?id=${encodeURIComponent(
+        next.songId
+      )}`;
+
+    elements.nextSongTitle.textContent =
+      next.songName;
+  } else {
+    elements.nextSongButton.classList.add(
+      "disabled"
+    );
+
+    elements.nextSongButton.removeAttribute(
+      "href"
+    );
+
+    elements.nextSongTitle.textContent =
+      "次の曲はありません";
+  }
+
+  elements.songPicker.innerHTML =
+    songs.map(item => `
+      <option
+        value="${escapeHtml(item.songId)}"
+        ${item.songId === songId ? "selected" : ""}
+      >
+        ${escapeHtml(item.songName)}
+      </option>`
+    ).join("");
+
+  elements.songSwitcher.hidden = false;
+}
 
 
 function renderSongInsights_(
@@ -408,8 +496,15 @@ async function loadSong() {
     ]);
 
     renderSong(response.data);
+    const discoverData =
+      discoverResponse.data || {};
+
     renderSongInsights_(
-      discoverResponse.data || {}
+      discoverData
+    );
+
+    renderSongNavigation_(
+      discoverData.navigation || {}
     );
 
   } catch (error) {
@@ -446,6 +541,23 @@ elements.historyMoreButton.addEventListener(
   () => {
     visibleHistoryLimit += 20;
     renderHistory_();
+  }
+);
+
+
+
+elements.songPicker.addEventListener(
+  "change",
+  () => {
+    const selectedSongId =
+      elements.songPicker.value;
+
+    if (selectedSongId) {
+      location.href =
+        `song.html?id=${encodeURIComponent(
+          selectedSongId
+        )}`;
+    }
   }
 );
 

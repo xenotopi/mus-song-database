@@ -13,7 +13,7 @@
 
   <link
     rel="stylesheet"
-    href="assets/css/style.css?v=2.6.0"
+    href="assets/css/style.css?v=2.6.1"
   >
 
   <style>
@@ -63,9 +63,52 @@
       font-size: 12px;
     }
 
+
+
+    .definition-card {
+      grid-column: 1 / -1;
+    }
+
+    .definition-grid {
+      margin-top: 15px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .definition-item {
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fafaff;
+    }
+
+    .definition-name {
+      color: var(--indigo);
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .definition-text {
+      margin-top: 8px;
+      color: var(--navy) !important;
+      font-weight: 700;
+    }
+
+    .definition-note {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-left: 4px solid var(--indigo);
+      border-radius: 8px;
+      background: #f3f2ff;
+      color: var(--navy) !important;
+      font-weight: 700;
+    }
+
     @media (max-width: 760px) {
       .about-grid,
-      .about-summary {
+      .about-summary,
+      .definition-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -118,6 +161,42 @@
       ></div>
 
       <div class="about-grid">
+        <article class="about-card definition-card">
+          <p class="kicker">
+            EVENT CLASSIFICATION
+          </p>
+
+          <h2>
+            公式イベント・ソロイベントの定義
+          </h2>
+
+          <div class="definition-grid">
+            <div class="definition-item">
+              <div class="definition-name">
+                公式イベント
+              </div>
+
+              <p class="definition-text">
+                μ's名義、またはμ'sメンバーとして出演・歌唱したイベントです。
+              </p>
+            </div>
+
+            <div class="definition-item">
+              <div class="definition-name">
+                ソロイベント
+              </div>
+
+              <p class="definition-text">
+                声優本人が個人名義・個人アーティスト名義で出演・歌唱したイベントです。
+              </p>
+            </div>
+          </div>
+
+          <p class="definition-note">
+            区分はイベントの主催者や規模ではなく、どの名義で出演・歌唱したかを基準にしています。
+          </p>
+        </article>
+
         <article class="about-card">
           <p class="kicker">
             PURPOSE
@@ -143,9 +222,9 @@
           </h2>
 
           <p>
-            公式イベントとソロイベントを区分して管理しています。
-            表示名とは別に、曲・イベント・会場の内部IDを用いて
-            データを関連付けています。
+            出演・歌唱時の名義を基準に、公式イベントとソロイベントを
+            区分して管理しています。表示名とは別に、曲・イベント・会場の
+            内部IDを用いてデータを関連付けています。
           </p>
         </article>
 
@@ -190,7 +269,7 @@
 
   <script
     type="module"
-    src="assets/js/about.js?v=2.6.0"
+    src="assets/js/about.js?v=2.6.1"
   ></script>
 </body>
 </html>

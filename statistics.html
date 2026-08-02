@@ -13,7 +13,7 @@
 
   <link
     rel="stylesheet"
-    href="assets/css/style.css?v=2.6.0"
+    href="assets/css/style.css?v=2.6.1"
   >
 
   <style>
@@ -25,13 +25,19 @@
     }
 
     .stat-control {
-      padding: 8px 13px;
+      padding: 9px 15px;
       border: 1px solid var(--line);
       border-radius: 999px;
       background: #fff;
       color: var(--navy);
       font-weight: 900;
       cursor: pointer;
+      transition: background .15s ease, color .15s ease, transform .15s ease;
+    }
+
+    .stat-control:hover {
+      transform: translateY(-1px);
+      border-color: #b9b4f4;
     }
 
     .stat-control.active {
@@ -40,27 +46,80 @@
       color: #fff;
     }
 
+    .stat-summary {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat-summary-card {
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-summary-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .stat-summary-value {
+      margin-top: 7px;
+      color: var(--indigo);
+      font-size: 26px;
+      font-weight: 900;
+    }
+
+    .stat-summary-note {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
     .stat-chart-card {
       margin-top: 18px;
-      padding: 20px;
+      padding: 22px;
       border: 1px solid var(--line);
       border-radius: 20px;
       background: #fff;
       box-shadow: var(--shadow);
     }
 
+    .stat-chart-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .stat-chart-guide {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
     .stat-chart {
-      margin-top: 18px;
+      margin-top: 20px;
       display: grid;
-      gap: 10px;
+      gap: 9px;
     }
 
     .stat-row {
       display: grid;
-      grid-template-columns:
-        54px minmax(0,1fr) 76px;
-      gap: 10px;
+      grid-template-columns: 58px minmax(0,1fr) 78px;
+      gap: 12px;
       align-items: center;
+      min-height: 27px;
+      padding: 3px 0;
+      border-radius: 10px;
+    }
+
+    .stat-row.is-maximum {
+      padding: 6px 8px;
+      background: #f7f5ff;
     }
 
     .stat-year {
@@ -69,21 +128,47 @@
       font-weight: 900;
     }
 
+    .stat-row.is-maximum .stat-year {
+      color: var(--indigo);
+    }
+
     .stat-track {
+      position: relative;
       height: 18px;
       overflow: hidden;
       border-radius: 999px;
-      background: #eceef5;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          #eceef5 0,
+          #eceef5 calc(25% - 1px),
+          #dfe2eb calc(25% - 1px),
+          #dfe2eb 25%
+        );
     }
 
     .stat-bar {
+      display: block;
       height: 100%;
+      min-width: 0;
       border-radius: inherit;
       background:
         linear-gradient(
           90deg,
           #4f46e5,
           #8b5cf6
+        );
+      box-shadow: 0 3px 9px rgba(79,70,229,.25);
+      transform-origin: left center;
+      animation: statBarGrow .45s ease both;
+    }
+
+    .stat-row.is-maximum .stat-bar {
+      background:
+        linear-gradient(
+          90deg,
+          #4338ca,
+          #ec4899
         );
     }
 
@@ -92,6 +177,42 @@
       font-size: 12px;
       font-weight: 900;
       text-align: right;
+    }
+
+    .stat-max-badge {
+      display: inline-flex;
+      margin-left: 6px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #ebe9ff;
+      color: var(--indigo);
+      font-size: 9px;
+      vertical-align: 1px;
+    }
+
+    @keyframes statBarGrow {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    @media (max-width: 760px) {
+      .stat-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-chart-card {
+        padding: 17px 14px;
+      }
+
+      .stat-row {
+        grid-template-columns: 46px minmax(0,1fr) 66px;
+        gap: 8px;
+      }
+
+      .stat-chart-heading {
+        align-items: start;
+        flex-direction: column;
+      }
     }
   </style>
 </head>
@@ -167,14 +288,27 @@
         </button>
       </div>
 
-      <article class="stat-chart-card">
-        <p class="kicker" id="chartKicker">
-          PERFORMANCE RECORDS
-        </p>
+      <div
+        class="stat-summary"
+        id="statSummary"
+      ></div>
 
-        <h2 id="chartTitle">
-          年別歌唱記録数
-        </h2>
+      <article class="stat-chart-card">
+        <div class="stat-chart-heading">
+          <div>
+            <p class="kicker" id="chartKicker">
+              PERFORMANCE RECORDS
+            </p>
+
+            <h2 id="chartTitle">
+              年別歌唱記録数
+            </h2>
+          </div>
+
+          <p class="stat-chart-guide">
+            棒の長さは最大年を100%として比較しています
+          </p>
+        </div>
 
         <div
           class="stat-chart"
@@ -188,7 +322,7 @@
 
   <script
     type="module"
-    src="assets/js/statistics.js?v=2.6.0"
+    src="assets/js/statistics.js?v=2.6.1"
   ></script>
 </body>
 </html>

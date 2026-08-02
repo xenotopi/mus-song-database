@@ -13,7 +13,7 @@
 
   <link
     rel="stylesheet"
-    href="assets/css/style.css?v=2.5.0"
+    href="assets/css/style.css?v=2.6.1"
   >
 
   <style>
@@ -314,6 +314,95 @@
   }
 }
 
+
+
+    .song-switcher {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) 280px minmax(0,1fr);
+      gap: 12px;
+    }
+
+    .song-switch-link,
+    .song-switch-select-wrap {
+      min-height: 82px;
+      padding: 13px 15px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .song-switch-link {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .song-switch-link.next {
+      text-align: right;
+      align-items: flex-end;
+    }
+
+    .song-switch-link.disabled {
+      opacity: .48;
+      pointer-events: none;
+    }
+
+    .song-switch-label {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .song-switch-title {
+      margin-top: 5px;
+      color: var(--navy);
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.4;
+    }
+
+    .song-switch-select-wrap {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .song-switch-select-wrap label {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .song-switch-select {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: #fff;
+      color: var(--navy);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    @media (max-width: 760px) {
+      .song-switcher {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .song-switch-select-wrap {
+        grid-column: 1 / -1;
+        grid-row: 1;
+      }
+
+      .song-switch-link {
+        min-height: 72px;
+      }
+    }
+
 </style>
 
 </head>
@@ -344,6 +433,54 @@
         <i></i><i></i><i></i>
         <i></i><i></i><i></i>
       </div>
+    </section>
+
+    <section
+      class="song-switcher"
+      id="songSwitcher"
+      hidden
+      aria-label="曲の切り替え"
+    >
+      <a
+        class="song-switch-link"
+        id="previousSongButton"
+        href="#"
+      >
+        <span class="song-switch-label">
+          ← 前の曲
+        </span>
+
+        <span
+          class="song-switch-title"
+          id="previousSongTitle"
+        ></span>
+      </a>
+
+      <div class="song-switch-select-wrap">
+        <label for="songPicker">
+          曲を選ぶ
+        </label>
+
+        <select
+          class="song-switch-select"
+          id="songPicker"
+        ></select>
+      </div>
+
+      <a
+        class="song-switch-link next"
+        id="nextSongButton"
+        href="#"
+      >
+        <span class="song-switch-label">
+          次の曲 →
+        </span>
+
+        <span
+          class="song-switch-title"
+          id="nextSongTitle"
+        ></span>
+      </a>
     </section>
 
     <nav
@@ -533,7 +670,7 @@
 
   <script
     type="module"
-    src="assets/js/song.js?v=2.6.0"
+    src="assets/js/song.js?v=2.6.1"
   ></script>
 </body>
 </html>

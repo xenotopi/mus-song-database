@@ -1,7 +1,7 @@
 import {
   apiGet,
   escapeHtml
-} from "./api.js?v=2.0.2";
+} from "./api.js?v=2.7.0";
 
 
 /**
@@ -202,7 +202,7 @@ export function renderCommon(active = "") {
         </div>
 
         <div>
-          Web Prototype v2.6.3
+          Web Prototype v2.7
         </div>
       </footer>`;
   }

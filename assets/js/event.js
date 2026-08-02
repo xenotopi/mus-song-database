@@ -2,11 +2,11 @@ import {
   apiGet,
   escapeHtml,
   formatDate
-} from "./api.js?v=2.0.2";
+} from "./api.js?v=2.7.0";
 
 import {
   renderCommon
-} from "./common.js?v=2.6.3";
+} from "./common.js?v=2.7.0";
 
 
 renderCommon("event");

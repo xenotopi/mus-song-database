@@ -1,8 +1,48 @@
-# v2.6.3：スマホナビ完全修正版
+# v2.7 Performance Update
+
+## 今回の目的
+
+表示速度そのものと、待っている間の体感速度を改善します。
+
+主な改善：
+
+1. GAS側キャッシュ
+2. ブラウザ内キャッシュ
+3. 同一APIの二重通信防止
+4. ホーム画面の段階表示
+5. 古いキャッシュを先に表示し、裏で更新
+
+---
 
 ## Apps Script側
 
-変更はありません。
+### 丸ごと差し替え
+
+- ApiMain.gs
+
+### 新規追加
+
+- CacheApi.gs
+
+保存後、次の順で実行してください。
+
+1. `testApiCache`
+2. ログで2回目が `hit:true` になることを確認
+3. `testPerformanceApi`
+4. 新バージョンで再デプロイ
+5. アクセス権は「全員」を維持
+
+### キャッシュ時間
+
+- ホーム：10分
+- ランキング：15分
+- 統計・About：30分
+- 曲・イベント・会場・関連データ：15分
+- 検索：5分
+
+データ更新直後は `resetApiCache` を実行してください。
+
+---
 
 ## GitHub側
 
@@ -21,6 +61,7 @@
 
 ### JavaScript
 
+- assets/js/api.js
 - assets/js/common.js
 - assets/js/home.js
 - assets/js/song.js
@@ -31,46 +72,50 @@
 - assets/js/statistics.js
 - assets/js/about.js
 
-## 今回ファイル数が多い理由
+---
 
-前回は `common.js` だけを更新しましたが、各ページのJavaScriptが
-`common.js?v=2.6.0` など古いURLを参照していたため、
-スマホではブラウザキャッシュから旧ヘッダーが読み込まれる場合がありました。
+## 表示速度の変化
 
-今回は以下をすべて `v2.6.3` に統一しています。
+### 初回アクセス
 
-1. HTML → 各ページJavaScript
-2. 各ページJavaScript → common.js
-3. common.js本体
+初回はGASがデータを作成するため、一定の待ち時間があります。
+ただし、ホームの枠組みを先に表示し、スケルトン表示へ変更しています。
 
-これにより古い共通ヘッダーを参照しません。
+### 2回目以降
 
-## スマホナビの仕様
+同じタブ内では sessionStorage のデータを先に使うため、
+ホーム・詳細・ランキング等が大幅に早く表示されます。
 
-画面幅820px以下で、ヘッダー右上に三本線ボタンを表示します。
+GAS側にもキャッシュがあるため、別端末・別ブラウザでも、
+直前に誰かが同じAPIへアクセスしていれば応答が短くなります。
 
-開くと右側からメニューが表示されます。
-
-- ホーム
-- 曲
-- イベント
-- 会場
-- ランキング
-- 統計
-- About
-
-以下の操作で閉じます。
-
-- ×ボタン
-- 背景部分のタップ
-- メニュー項目の選択
-- Escapeキー
-- PC幅への変更
+---
 
 ## 確認URL
 
-スマホで次のURLを開いてください。
+ホーム：
 
-https://xenotopi.github.io/mus-song-database/song.html?id=S003&build=263
+https://xenotopi.github.io/mus-song-database/index.html?build=270
 
-右上に三本線ボタンが表示されれば成功です。
+曲：
+
+https://xenotopi.github.io/mus-song-database/song.html?id=S003&build=270
+
+統計：
+
+https://xenotopi.github.io/mus-song-database/statistics.html?build=270
+
+---
+
+## 補足
+
+初回アクセスを完全に0秒にすることはできません。
+Apps Scriptの起動待ちとスプレッドシート読込があるためです。
+
+今回の更新では、
+
+- 初回：画面の骨組みを先に表示
+- 2回目：ブラウザキャッシュから即時表示
+- API：GASキャッシュから高速応答
+
+という3段構成にしています。

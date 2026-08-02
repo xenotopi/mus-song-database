@@ -189,6 +189,45 @@ function renderSummary_(
 }
 
 
+
+function buildStatisticsScale_(
+  maximum,
+  suffix
+) {
+  const safeMaximum =
+    Math.max(
+      1,
+      Number(maximum || 0)
+    );
+
+  const values =
+    [0, .25, .5, .75, 1]
+      .map(rate =>
+        Math.round(
+          safeMaximum * rate
+        )
+      );
+
+  return values.map(
+    (value, index) => {
+      if (
+        index > 0 &&
+        value === values[index - 1]
+      ) {
+        return "";
+      }
+
+      return (
+        value.toLocaleString(
+          "ja-JP"
+        ) +
+        suffix
+      );
+    }
+  );
+}
+
+
 function renderChart() {
   const setting =
     metricSettings[metric];
@@ -223,7 +262,26 @@ function renderChart() {
     setting
   );
 
+  const scaleLabels =
+    buildStatisticsScale_(
+      max,
+      setting.suffix
+    );
+
   elements.chart.innerHTML =
+    `
+      <div class="stat-scale">
+        <span></span>
+
+        <span class="stat-scale-labels">
+          ${scaleLabels.map(label =>
+            `<span>${escapeHtml(label)}</span>`
+          ).join("")}
+        </span>
+
+        <span></span>
+      </div>
+    ` +
     values.map(item => {
       const width =
         item.value > 0

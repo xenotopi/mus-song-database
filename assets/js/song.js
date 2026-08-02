@@ -478,6 +478,45 @@ function buildSongMetrics_() {
 }
 
 
+
+function buildGraphScaleLabels_(
+  maximum,
+  suffix
+) {
+  const safeMaximum =
+    Math.max(
+      1,
+      Number(maximum || 0)
+    );
+
+  const values =
+    [0, .25, .5, .75, 1]
+      .map(rate =>
+        Math.round(
+          safeMaximum * rate
+        )
+      );
+
+  return values.map(
+    (value, index) => {
+      if (
+        index > 0 &&
+        value === values[index - 1]
+      ) {
+        return "";
+      }
+
+      return (
+        value.toLocaleString(
+          "ja-JP"
+        ) +
+        suffix
+      );
+    }
+  );
+}
+
+
 function renderSongRecords_() {
   const metrics =
     buildSongMetrics_();
@@ -552,37 +591,57 @@ function renderSongRecords_() {
       )
     );
 
+  const scaleLabels =
+    buildGraphScaleLabels_(
+      maxCount,
+      "件"
+    );
+
   elements.songYearChart.innerHTML =
     metrics.yearly.length
-      ? metrics.yearly.map(item => {
-          const width =
-            Math.max(
-              3,
-              Math.round(
-                item.count /
-                maxCount *
-                100
-              )
-            );
+      ? `
+          <div class="song-year-scale">
+            <span></span>
 
-          return `
-            <div class="song-year-row">
-              <span class="song-year-label">
-                ${escapeHtml(item.year)}
-              </span>
+            <span class="song-year-scale-labels">
+              ${scaleLabels.map(label =>
+                `<span>${escapeHtml(label)}</span>`
+              ).join("")}
+            </span>
 
-              <span class="song-year-track">
-                <span
-                  class="song-year-bar"
-                  style="width:${width}%"
-                ></span>
-              </span>
+            <span></span>
+          </div>
 
-              <span class="song-year-value">
-                ${item.count}件
-              </span>
-            </div>`;
-        }).join("")
+          ${metrics.yearly.map(item => {
+            const width =
+              Math.max(
+                3,
+                Math.round(
+                  item.count /
+                  maxCount *
+                  100
+                )
+              );
+
+            return `
+              <div class="song-year-row">
+                <span class="song-year-label">
+                  ${escapeHtml(item.year)}
+                </span>
+
+                <span class="song-year-track">
+                  <span
+                    class="song-year-bar"
+                    style="width:${width}%"
+                  ></span>
+                </span>
+
+                <span class="song-year-value">
+                  ${item.count}件
+                </span>
+              </div>`;
+          }).join("")}
+        `
       : `<div class="empty">年別データはありません。</div>`;
 }
 

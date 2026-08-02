@@ -458,6 +458,19 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/event.js?v=2.7.0"></script>
+  <script type="module" src="assets/js/event.js?v=2.8.5"></script>
+
+  <script type="module">
+    import {
+      setupDetailContext
+    } from "./assets/js/detail-context.js?v=2.8.5";
+
+    setupDetailContext({
+      typeLabel: "イベント",
+      titleSelector: "#eventName",
+      heroSelector: ".hero"
+    });
+  </script>
+
 </body>
 </html>

@@ -215,7 +215,17 @@
         flex-direction: column;
       }
     }
-  </style>
+  
+    .stat-scale {
+      display: grid;
+      grid-template-columns:
+        58px minmax(0, 1fr) 72px;
+      gap: 12px;
+      align-items: end;
+      margin: 16px 0 4px;
+    }
+
+</style>
 </head>
 
 <body>
@@ -326,7 +336,7 @@
 
   <script
     type="module"
-    src="assets/js/statistics.js?v=2.8.2"
+    src="assets/js/statistics.js?v=2.8.5"
   ></script>
 </body>
 </html>

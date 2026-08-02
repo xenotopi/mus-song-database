@@ -1,30 +1,81 @@
-# v2.8.3：会場ページ キャッシュ完全回避版
+# v2.8.5：グラフ数値目盛り＋詳細ページ固定タイトル
 
-## 原因
+## Apps Script側
 
-画面に表示された `venues.map is not a function` は、
-v2.8.2の `venue.js` 内には存在しない処理です。
+変更はありません。
 
-そのため、ブラウザまたはGitHub Pages側で
-旧 `venue.js` が読み込まれていた可能性が高い状態でした。
+## GitHub側で上書き
 
-今回はクエリ番号だけでなく、JavaScriptのファイル名自体を変更し、
-旧ファイルのキャッシュを完全に回避します。
-
-## GitHub側
-
-### 上書き
-
+- song.html
+- event.html
 - venue.html
-
-### 新規追加
-
+- statistics.html
+- assets/js/song.js
+- assets/js/event.js
 - assets/js/venue-v283.js
+- assets/js/statistics.js
 
-古い `assets/js/venue.js` は残したままで問題ありません。
+## GitHub側で新規追加
+
+- assets/js/detail-context.js
+
+---
+
+## グラフ数値目盛り
+
+曲詳細の年別歌唱推移と、統計ページの全グラフへ、
+最大値を基準にした実数目盛りを追加しています。
+
+例：
+
+```text
+0件　4件　8件　12件　16件
+```
+
+統計ページでは選択中の指標に応じて単位が変わります。
+
+- 歌唱記録数：件
+- イベント数：件
+- 歌唱曲数：曲
+- 利用会場数：会場
+
+既存の25％・50％・75％の補助線と対応します。
+
+---
+
+## 詳細ページ固定タイトル
+
+曲・イベント・会場ページでヒーロー部分を通過すると、
+通常ヘッダーの下へ現在表示中の名称を固定表示します。
+
+例：
+
+```text
+曲｜Snow halation
+イベント｜For Smile 韓日友好チャリティーコンサート2012 昼公演
+会場｜さいたまスーパーアリーナ
+```
+
+右側の「↑ 上へ」でページ先頭へ戻れます。
+
+- ページ上部では非表示
+- PC・スマホ対応
+- 長い名称は1行で省略表示
+- API読込後の名称変更にも追従
+- スマホメニューとは重ならない位置へ表示
+
+---
 
 ## 確認URL
 
-https://xenotopi.github.io/mus-song-database/venue.html?id=VE0002&build=283
+曲：
+https://xenotopi.github.io/mus-song-database/song.html?id=S003&build=285
 
-GitHub Pagesのデプロイ完了後に確認してください。
+イベント：
+https://xenotopi.github.io/mus-song-database/event.html?id=EV0002&build=285
+
+会場：
+https://xenotopi.github.io/mus-song-database/venue.html?id=VE0002&build=285
+
+統計：
+https://xenotopi.github.io/mus-song-database/statistics.html?build=285

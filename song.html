@@ -603,6 +603,42 @@
       }
     }
 
+
+    .song-year-scale {
+      display: grid;
+      grid-template-columns:
+        48px minmax(0, 1fr) 54px;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 2px;
+    }
+
+    .song-year-scale-labels,
+    .stat-scale-labels {
+      display: grid;
+      grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .song-year-scale-labels span,
+    .stat-scale-labels span {
+      text-align: center;
+    }
+
+    .song-year-scale-labels span:first-child,
+    .stat-scale-labels span:first-child {
+      text-align: left;
+    }
+
+    .song-year-scale-labels span:last-child,
+    .stat-scale-labels span:last-child {
+      text-align: right;
+    }
+
 </style>
 
 </head>
@@ -938,7 +974,20 @@
 
   <script
     type="module"
-    src="assets/js/song.js?v=2.8.2"
+    src="assets/js/song.js?v=2.8.5"
   ></script>
+
+  <script type="module">
+    import {
+      setupDetailContext
+    } from "./assets/js/detail-context.js?v=2.8.5";
+
+    setupDetailContext({
+      typeLabel: "曲",
+      titleSelector: "#songName",
+      heroSelector: ".hero"
+    });
+  </script>
+
 </body>
 </html>

@@ -556,6 +556,11 @@
       line-height: 1.7;
     }
 
+
+    .event-performer-grid.single {
+      grid-template-columns: 1fr;
+    }
+
     @media (max-width: 900px) {
       .event-record-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -667,6 +672,20 @@
         <p class="kicker">PERFORMANCE SUMMARY</p>
         <h2>歌唱統計</h2>
         <div class="stats" id="eventStats"></div>
+
+        <div class="event-stat-help">
+          <strong>登録曲数</strong><br>
+          同じ曲の重複も含めた登録行数です。<br><br>
+
+          <strong>重複除外曲数</strong><br>
+          同じ曲を1曲として数えた曲数です。<br><br>
+
+          <strong>延べ歌唱人数</strong><br>
+          各曲の歌唱人数を合計した値です。<br><br>
+
+          <strong>平均歌唱人数</strong><br>
+          1曲あたりの平均歌唱人数です。
+        </div>
       </article>
     </section>
 
@@ -700,7 +719,7 @@
         </div>
       </div>
 
-      <div class="event-performer-grid">
+      <div class="event-performer-grid single">
         <article class="event-performer-card">
           <p class="kicker">SINGER NAMES</p>
           <h2>歌唱名義別の登場曲数</h2>
@@ -709,25 +728,6 @@
             class="performer-list"
             id="performerList"
           ></div>
-        </article>
-
-        <article class="event-performer-card">
-          <p class="kicker">STATISTICS GUIDE</p>
-          <h2>歌唱統計の見方</h2>
-
-          <div class="event-stat-help">
-            <strong>登録曲数</strong><br>
-            同じ曲の重複も含めた登録行数です。<br><br>
-
-            <strong>重複除外曲数</strong><br>
-            同じ曲を1曲として数えた曲数です。<br><br>
-
-            <strong>延べ歌唱人数</strong><br>
-            各曲の歌唱人数を合計した値です。<br><br>
-
-            <strong>平均歌唱人数</strong><br>
-            1曲あたりの平均歌唱人数です。
-          </div>
         </article>
       </div>
     </section>
@@ -872,12 +872,12 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/event.js?v=2.9.0"></script>
+  <script type="module" src="assets/js/event.js?v=2.9.1"></script>
 
   <script type="module">
     import {
       setupDetailContext
-    } from "./assets/js/detail-context.js?v=2.9.0";
+    } from "./assets/js/detail-context.js?v=2.9.1";
 
     setupDetailContext({
       typeLabel: "イベント",

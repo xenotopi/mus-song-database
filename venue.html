@@ -1084,7 +1084,20 @@
 
   <script
     type="module"
-    src="assets/js/venue-v300.js?v=3.0.1"
+    src="assets/js/venue-v300.js?v=3.0.2"
   ></script>
+
+  <script type="module">
+    import {
+      setupDetailContext
+    } from "./assets/js/detail-context.js?v=3.0.2";
+
+    setupDetailContext({
+      typeLabel: "会場",
+      titleSelector: "#venueName",
+      heroSelector: ".hero"
+    });
+  </script>
+
 </body>
 </html>

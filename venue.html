@@ -477,14 +477,242 @@
       }
     }
 
-</style>
 
-  <style>
-    .detail-local-nav {
-      display: none !important;
+    /* v3.0 会場詳細強化 */
+    .venue-record-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+      gap: 12px;
     }
-  </style>
 
+    .venue-record-card {
+      min-height: 112px;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .venue-record-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .venue-record-value {
+      margin-top: 9px;
+      color: var(--indigo);
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.15;
+    }
+
+    .venue-record-note {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .venue-analysis-grid {
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1.15fr)
+        minmax(300px, .85fr);
+      gap: 14px;
+    }
+
+    .venue-analysis-card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .venue-year-chart {
+      margin-top: 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .venue-year-scale,
+    .venue-year-row {
+      display: grid;
+      grid-template-columns:
+        48px minmax(0, 1fr) 54px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .venue-year-scale-labels {
+      display: grid;
+      grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .venue-year-scale-labels span {
+      text-align: center;
+    }
+
+    .venue-year-scale-labels span:first-child {
+      text-align: left;
+    }
+
+    .venue-year-scale-labels span:last-child {
+      text-align: right;
+    }
+
+    .venue-year-label,
+    .venue-year-value {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .venue-year-value {
+      color: var(--navy);
+      text-align: right;
+    }
+
+    .venue-year-track {
+      height: 14px;
+      overflow: hidden;
+      border-radius: 999px;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          #eceef5 0,
+          #eceef5 calc(25% - 1px),
+          #dfe2eb calc(25% - 1px),
+          #dfe2eb 25%
+        );
+    }
+
+    .venue-year-bar {
+      display: block;
+      height: 100%;
+      min-width: 3px;
+      border-radius: inherit;
+      background:
+        linear-gradient(
+          90deg,
+          #4f46e5,
+          #8b5cf6
+        );
+    }
+
+    .venue-singer-list {
+      margin-top: 15px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .venue-singer-row {
+      display: grid;
+      grid-template-columns:
+        32px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #fff;
+    }
+
+    .venue-singer-rank {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--indigo-soft);
+      color: var(--indigo);
+      font-weight: 900;
+    }
+
+    .venue-singer-name {
+      min-width: 0;
+      color: var(--navy);
+      font-weight: 900;
+    }
+
+    .venue-singer-count {
+      color: var(--indigo);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .venue-event-controls {
+      margin-bottom: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .venue-event-filter-list {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .venue-event-filter {
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .venue-event-filter.active {
+      border-color: var(--indigo);
+      background: var(--indigo);
+      color: #fff;
+    }
+
+    .venue-year-select {
+      min-height: 36px;
+      padding: 0 11px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--navy);
+      font-weight: 800;
+    }
+
+    @media (max-width: 900px) {
+      .venue-record-grid {
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+      .venue-analysis-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .venue-record-card {
+        min-height: 102px;
+        padding: 14px;
+      }
+
+      .venue-record-value {
+        font-size: 22px;
+      }
+    }
+
+</style>
 </head>
 
 <body>
@@ -646,6 +874,59 @@
 
     <section
       class="section"
+      id="venueRecordsSection"
+      hidden
+    >
+      <div class="section-head">
+        <div>
+          <p class="kicker">VENUE RECORDS</p>
+          <h2>この会場の記録</h2>
+        </div>
+      </div>
+
+      <div
+        class="venue-record-grid"
+        id="venueRecordGrid"
+      ></div>
+    </section>
+
+    <section
+      class="section"
+      id="venueAnalysisSection"
+      hidden
+    >
+      <div class="section-head">
+        <div>
+          <p class="kicker">VENUE ANALYSIS</p>
+          <h2>会場利用データ</h2>
+        </div>
+      </div>
+
+      <div class="venue-analysis-grid">
+        <article class="venue-analysis-card">
+          <p class="kicker">YEARLY EVENTS</p>
+          <h2>年別開催イベント数</h2>
+
+          <div
+            class="venue-year-chart"
+            id="venueYearChart"
+          ></div>
+        </article>
+
+        <article class="venue-analysis-card">
+          <p class="kicker">SINGER RANKING</p>
+          <h2>よく登場する歌唱名義</h2>
+
+          <div
+            class="venue-singer-list"
+            id="venueSingerList"
+          ></div>
+        </article>
+      </div>
+    </section>
+
+    <section
+      class="section"
       id="discoverySection"
       hidden
     >
@@ -715,6 +996,45 @@
         ></div>
       </div>
 
+      <div
+        class="venue-event-controls"
+        id="venueEventControls"
+      >
+        <div class="venue-event-filter-list">
+          <button
+            class="venue-event-filter active"
+            type="button"
+            data-category="all"
+          >
+            すべて
+          </button>
+
+          <button
+            class="venue-event-filter"
+            type="button"
+            data-category="公式"
+          >
+            公式
+          </button>
+
+          <button
+            class="venue-event-filter"
+            type="button"
+            data-category="ソロ"
+          >
+            ソロ
+          </button>
+        </div>
+
+        <select
+          class="venue-year-select"
+          id="venueYearSelect"
+          aria-label="開催年で絞り込む"
+        >
+          <option value="all">すべての年</option>
+        </select>
+      </div>
+
       <article
         class="card venue-event-list"
         id="eventList"
@@ -758,20 +1078,7 @@
 
   <script
     type="module"
-    src="assets/js/venue-v283.js?v=2.8.5"
+    src="assets/js/venue.js?v=2.8.2"
   ></script>
-
-  <script type="module">
-    import {
-      setupDetailContext
-    } from "./assets/js/detail-context.js?v=2.8.6";
-
-    setupDetailContext({
-      typeLabel: "会場",
-      titleSelector: "#venueName",
-      heroSelector: ".hero"
-    });
-  </script>
-
 </body>
 </html>

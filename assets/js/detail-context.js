@@ -230,16 +230,20 @@ function injectDetailContextStyles_() {
       left: 0;
       padding: 0 18px;
       pointer-events: none;
+      visibility: hidden;
       opacity: 0;
       transform: translateY(-12px);
       transition:
         opacity .18s ease,
-        transform .18s ease;
+        transform .18s ease,
+        visibility 0s linear .18s;
     }
 
     .detail-context-bar.is-visible {
+      visibility: visible;
       opacity: 1;
       transform: translateY(0);
+      transition-delay: 0s;
     }
 
     .detail-context-inner {
@@ -259,6 +263,11 @@ function injectDetailContextStyles_() {
         0 12px 28px rgba(23,32,51,.13);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
+      pointer-events: none;
+    }
+
+    .detail-context-bar.is-visible
+    .detail-context-inner {
       pointer-events: auto;
     }
 

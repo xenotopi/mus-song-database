@@ -304,6 +304,291 @@
   }
 }
 
+
+    /* v2.9 イベント詳細強化 */
+    .event-record-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .event-record-card {
+      min-height: 116px;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .event-record-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .event-record-value {
+      margin-top: 9px;
+      color: var(--indigo);
+      font-size: 27px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .event-record-note {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .event-performer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr);
+      gap: 14px;
+    }
+
+    .event-performer-card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .performer-list {
+      margin-top: 15px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .performer-row {
+      display: grid;
+      grid-template-columns: 32px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #fff;
+    }
+
+    .performer-rank {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--indigo-soft);
+      color: var(--indigo);
+      font-weight: 900;
+    }
+
+    .performer-name {
+      min-width: 0;
+      color: var(--navy);
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+    .performer-count {
+      color: var(--indigo);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .event-stat-help {
+      margin-top: 14px;
+      padding: 13px 15px;
+      border-radius: 14px;
+      background: #f7f7fb;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.75;
+    }
+
+    .event-insight-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .event-insight-card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .event-song-controls {
+      margin-bottom: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .event-song-filter-list {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .event-song-filter {
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .event-song-filter.active {
+      border-color: var(--indigo);
+      background: var(--indigo);
+      color: #fff;
+    }
+
+    .event-song-visible-count {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .event-song-row {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .event-song-row:last-child {
+      border-bottom: 0;
+    }
+
+    .event-song-row:hover {
+      background: #fcfbff;
+    }
+
+    .event-song-order {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--indigo-soft);
+      color: var(--indigo);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .event-song-body {
+      min-width: 0;
+    }
+
+    .event-song-title {
+      color: var(--navy);
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+    .event-song-meta {
+      margin-top: 6px;
+      display: flex;
+      gap: 7px 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .event-song-badges {
+      margin-top: 7px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .event-song-badge {
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .event-song-badge.first {
+      background: #e9f8ef;
+      color: #17844b;
+    }
+
+    .event-song-badge.last {
+      background: #fff0f4;
+      color: #cf3c68;
+    }
+
+    .event-song-badge.unique {
+      background: #fff6d9;
+      color: #946b00;
+    }
+
+    .event-song-arrow {
+      color: var(--indigo);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .event-song-order-note {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 13px;
+      background: #fff9e8;
+      color: #7e6516;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .event-record-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .event-performer-grid,
+      .event-insight-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .event-record-card {
+        min-height: 102px;
+        padding: 14px;
+      }
+
+      .event-record-value {
+        font-size: 23px;
+      }
+
+      .event-song-row {
+        grid-template-columns: 36px minmax(0, 1fr) auto;
+        gap: 9px;
+        padding: 13px 11px;
+      }
+
+      .event-song-order {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
 </style>
 
 
@@ -387,6 +672,68 @@
 
     <section
       class="section"
+      id="eventRecordsSection"
+      hidden
+    >
+      <div class="section-head">
+        <div>
+          <p class="kicker">EVENT RECORDS</p>
+          <h2>このイベントの記録</h2>
+        </div>
+      </div>
+
+      <div
+        class="event-record-grid"
+        id="eventRecordGrid"
+      ></div>
+    </section>
+
+    <section
+      class="section"
+      id="eventPerformersSection"
+      hidden
+    >
+      <div class="section-head">
+        <div>
+          <p class="kicker">PERFORMER SUMMARY</p>
+          <h2>歌唱名義の内訳</h2>
+        </div>
+      </div>
+
+      <div class="event-performer-grid">
+        <article class="event-performer-card">
+          <p class="kicker">SINGER NAMES</p>
+          <h2>歌唱名義別の登場曲数</h2>
+
+          <div
+            class="performer-list"
+            id="performerList"
+          ></div>
+        </article>
+
+        <article class="event-performer-card">
+          <p class="kicker">STATISTICS GUIDE</p>
+          <h2>歌唱統計の見方</h2>
+
+          <div class="event-stat-help">
+            <strong>登録曲数</strong><br>
+            同じ曲の重複も含めた登録行数です。<br><br>
+
+            <strong>重複除外曲数</strong><br>
+            同じ曲を1曲として数えた曲数です。<br><br>
+
+            <strong>延べ歌唱人数</strong><br>
+            各曲の歌唱人数を合計した値です。<br><br>
+
+            <strong>平均歌唱人数</strong><br>
+            1曲あたりの平均歌唱人数です。
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section
+      class="section"
       id="discoverySection"
       hidden
     >
@@ -415,8 +762,8 @@
         </div>
       </div>
 
-      <div class="grid">
-        <article class="card">
+      <div class="event-insight-grid">
+        <article class="event-insight-card">
           <p class="kicker">ONLY HERE</p>
           <h2>このイベントだけの曲</h2>
           <div
@@ -425,12 +772,21 @@
           ></div>
         </article>
 
-        <article class="card">
+        <article class="event-insight-card">
           <p class="kicker">FIRST PERFORMANCE</p>
           <h2>初披露された曲</h2>
           <div
             class="insight-list"
             id="firstEventSongs"
+          ></div>
+        </article>
+
+        <article class="event-insight-card">
+          <p class="kicker">LATEST PERFORMANCE</p>
+          <h2>現時点で最後に歌われた曲</h2>
+          <div
+            class="insight-list"
+            id="lastEventSongs"
           ></div>
         </article>
       </div>
@@ -458,19 +814,70 @@
         <div class="detail-note" id="songCount"></div>
       </div>
 
-      <article class="card song-list" id="songList"></article>
-      <p class="detail-note" id="songOrderNote"></p>
+      <div
+        class="event-song-controls"
+        id="eventSongControls"
+      >
+        <div class="event-song-filter-list">
+          <button
+            class="event-song-filter active"
+            type="button"
+            data-filter="all"
+          >
+            すべて
+          </button>
+
+          <button
+            class="event-song-filter"
+            type="button"
+            data-filter="first"
+          >
+            初披露
+          </button>
+
+          <button
+            class="event-song-filter"
+            type="button"
+            data-filter="last"
+          >
+            最終披露
+          </button>
+
+          <button
+            class="event-song-filter"
+            type="button"
+            data-filter="unique"
+          >
+            このイベントのみ
+          </button>
+        </div>
+
+        <div
+          class="event-song-visible-count"
+          id="eventSongVisibleCount"
+        ></div>
+      </div>
+
+      <article
+        class="card song-list"
+        id="songList"
+      ></article>
+
+      <p
+        class="event-song-order-note"
+        id="songOrderNote"
+      ></p>
     </section>
   </main>
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/event.js?v=2.8.5"></script>
+  <script type="module" src="assets/js/event.js?v=2.9.0"></script>
 
   <script type="module">
     import {
       setupDetailContext
-    } from "./assets/js/detail-context.js?v=2.8.6";
+    } from "./assets/js/detail-context.js?v=2.9.0";
 
     setupDetailContext({
       typeLabel: "イベント",

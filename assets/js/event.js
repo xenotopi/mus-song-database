@@ -108,6 +108,26 @@ const elements = {
       "eventStats"
     ),
 
+  eventRecordsSection:
+    document.getElementById(
+      "eventRecordsSection"
+    ),
+
+  eventRecordGrid:
+    document.getElementById(
+      "eventRecordGrid"
+    ),
+
+  eventPerformersSection:
+    document.getElementById(
+      "eventPerformersSection"
+    ),
+
+  performerList:
+    document.getElementById(
+      "performerList"
+    ),
+
   eventInsightsSection:
     document.getElementById(
       "eventInsightsSection"
@@ -121,6 +141,11 @@ const elements = {
   firstEventSongs:
     document.getElementById(
       "firstEventSongs"
+    ),
+
+  lastEventSongs:
+    document.getElementById(
+      "lastEventSongs"
     ),
 
   venueSection:
@@ -166,6 +191,16 @@ const elements = {
   songOrderNote:
     document.getElementById(
       "songOrderNote"
+    ),
+
+  eventSongControls:
+    document.getElementById(
+      "eventSongControls"
+    ),
+
+  eventSongVisibleCount:
+    document.getElementById(
+      "eventSongVisibleCount"
     )
 };
 
@@ -175,6 +210,12 @@ const eventId =
     location.search
   ).get("id") ||
   "EV0002";
+
+
+let currentEvent = null;
+let currentSongs = [];
+let currentDiscover = {};
+let activeSongFilter = "all";
 
 
 function setLoading() {
@@ -314,6 +355,341 @@ function renderEventDiscovery_(
 
 
 
+
+function createSongIdSet_(
+  items
+) {
+  return new Set(
+    (
+      Array.isArray(items)
+        ? items
+        : []
+    )
+      .map(item =>
+        String(
+          item.songId || ""
+        ).trim()
+      )
+      .filter(Boolean)
+  );
+}
+
+
+function renderEventRecords_(
+  event,
+  discover
+) {
+  const statistics =
+    event.statistics || {};
+
+  const uniqueSongs =
+    Array.isArray(
+      discover.uniqueSongs
+    )
+      ? discover.uniqueSongs
+      : [];
+
+  const firstSongs =
+    Array.isArray(
+      discover.firstPerformedSongs
+    )
+      ? discover.firstPerformedSongs
+      : [];
+
+  const lastSongs =
+    Array.isArray(
+      discover.lastPerformedSongs
+    )
+      ? discover.lastPerformedSongs
+      : [];
+
+  const records = [
+    {
+      label: "登録曲数",
+      value:
+        Number(
+          statistics.songCount || 0
+        ).toLocaleString("ja-JP"),
+      note: "重複を含む登録行数"
+    },
+    {
+      label: "初披露曲",
+      value:
+        `${firstSongs.length}曲`,
+      note:
+        firstSongs.length
+          ? "この開催日が初歌唱"
+          : "該当なし"
+    },
+    {
+      label: "現時点で最終披露の曲",
+      value:
+        `${lastSongs.length}曲`,
+      note:
+        lastSongs.length
+          ? "この開催日が最新歌唱"
+          : "該当なし"
+    },
+    {
+      label: "このイベントだけの曲",
+      value:
+        `${uniqueSongs.length}曲`,
+      note:
+        uniqueSongs.length
+          ? "他イベントでの記録なし"
+          : "該当なし"
+    }
+  ];
+
+  elements.eventRecordGrid.innerHTML =
+    records.map(record => `
+      <article class="event-record-card">
+        <div class="event-record-label">
+          ${escapeHtml(record.label)}
+        </div>
+
+        <div class="event-record-value">
+          ${escapeHtml(record.value)}
+        </div>
+
+        <div class="event-record-note">
+          ${escapeHtml(record.note)}
+        </div>
+      </article>`
+    ).join("");
+}
+
+
+function renderPerformerSummary_(
+  songs
+) {
+  const countMap =
+    new Map();
+
+  songs.forEach(song => {
+    const singer =
+      String(
+        song.singer || "—"
+      ).trim() || "—";
+
+    countMap.set(
+      singer,
+      Number(
+        countMap.get(singer) || 0
+      ) + 1
+    );
+  });
+
+  const rows =
+    Array.from(
+      countMap.entries()
+    )
+      .map(([name, count]) => ({
+        name: name,
+        count: count
+      }))
+      .sort((a, b) =>
+        b.count - a.count ||
+        String(a.name).localeCompare(
+          String(b.name),
+          "ja"
+        )
+      );
+
+  elements.performerList.innerHTML =
+    rows.length
+      ? rows.map(
+          (item, index) => `
+            <div class="performer-row">
+              <span class="performer-rank">
+                ${index + 1}
+              </span>
+
+              <span class="performer-name">
+                ${escapeHtml(item.name)}
+              </span>
+
+              <span class="performer-count">
+                ${item.count}曲
+              </span>
+            </div>`
+        ).join("")
+      : `<div class="empty">歌唱名義情報はありません。</div>`;
+}
+
+
+function getSongFlags_(
+  songId
+) {
+  const firstIds =
+    createSongIdSet_(
+      currentDiscover.firstPerformedSongs
+    );
+
+  const lastIds =
+    createSongIdSet_(
+      currentDiscover.lastPerformedSongs
+    );
+
+  const uniqueIds =
+    createSongIdSet_(
+      currentDiscover.uniqueSongs
+    );
+
+  return {
+    first:
+      firstIds.has(songId),
+
+    last:
+      lastIds.has(songId),
+
+    unique:
+      uniqueIds.has(songId)
+  };
+}
+
+
+function matchesSongFilter_(
+  song,
+  filter
+) {
+  if (filter === "all") {
+    return true;
+  }
+
+  const flags =
+    getSongFlags_(
+      String(song.songId || "")
+    );
+
+  return Boolean(
+    flags[filter]
+  );
+}
+
+
+function renderEventSongs_() {
+  const filtered =
+    currentSongs.filter(song =>
+      matchesSongFilter_(
+        song,
+        activeSongFilter
+      )
+    );
+
+  elements.eventSongVisibleCount.textContent =
+    `${filtered.length}/${currentSongs.length}曲表示`;
+
+  elements.songList.innerHTML =
+    filtered.length
+      ? filtered.map(
+          (song, index) => {
+            const songId =
+              String(
+                song.songId || ""
+              );
+
+            const originalIndex =
+              currentSongs.indexOf(song);
+
+            const flags =
+              getSongFlags_(
+                songId
+              );
+
+            const badges = [
+              flags.first
+                ? `<span class="event-song-badge first">初披露</span>`
+                : "",
+
+              flags.last
+                ? `<span class="event-song-badge last">最終披露</span>`
+                : "",
+
+              flags.unique
+                ? `<span class="event-song-badge unique">このイベントのみ</span>`
+                : ""
+            ]
+              .filter(Boolean)
+              .join("");
+
+            return `
+              <a
+                class="event-song-row"
+                href="song.html?id=${encodeURIComponent(
+                  songId
+                )}"
+              >
+                <span class="event-song-order">
+                  ${originalIndex + 1}
+                </span>
+
+                <span class="event-song-body">
+                  <span class="event-song-title">
+                    ${escapeHtml(
+                      song.songName ||
+                      "曲名未設定"
+                    )}
+                  </span>
+
+                  <span class="event-song-meta">
+                    <span class="type-badge">
+                      ${escapeHtml(
+                        song.type ||
+                        "未分類"
+                      )}
+                    </span>
+
+                    <span>
+                      歌唱名義：
+                      ${escapeHtml(
+                        song.singer ||
+                        "—"
+                      )}
+                    </span>
+
+                    ${
+                      song.note
+                        ? `<span>${escapeHtml(song.note)}</span>`
+                        : ""
+                    }
+                  </span>
+
+                  ${
+                    badges
+                      ? `<span class="event-song-badges">${badges}</span>`
+                      : ""
+                  }
+                </span>
+
+                <span class="event-song-arrow">
+                  ›
+                </span>
+              </a>`;
+          }
+        ).join("")
+      : `
+        <div class="empty">
+          この条件に該当する曲はありません。
+        </div>`;
+}
+
+
+function updateSongFilterButtons_() {
+  elements.eventSongControls
+    .querySelectorAll(
+      "[data-filter]"
+    )
+    .forEach(button => {
+      button.classList.toggle(
+        "active",
+        button.dataset.filter ===
+        activeSongFilter
+      );
+    });
+}
+
+
 function renderEventInsights_(
   discover
 ) {
@@ -349,6 +725,11 @@ function renderEventInsights_(
   elements.firstEventSongs.innerHTML =
     renderSongs(
       discover.firstPerformedSongs || []
+    );
+
+  elements.lastEventSongs.innerHTML =
+    renderSongs(
+      discover.lastPerformedSongs || []
     );
 }
 
@@ -502,59 +883,34 @@ function renderEvent(event) {
       false;
   }
 
+  currentEvent =
+    event;
+
+  currentSongs =
+    songs;
+
   elements.songCount.textContent =
     `${songs.length}曲`;
 
+  const orderIsSetList =
+    event.songOrderIsSetList === true;
+
   elements.songOrderNote.textContent =
-    event.songOrderNote || "";
+    orderIsSetList
+      ? (
+          event.songOrderNote ||
+          "実際の歌唱順で掲載しています。"
+        )
+      : (
+          event.songOrderNote ||
+          "掲載順は実際の歌唱順とは限りません。番号はデータベース上の登録順です。"
+        );
 
-  elements.songList.innerHTML =
-    songs.length
-      ? songs
-          .map(
-            song => `
-              <a
-                class="song-row"
-                href="song.html?id=${encodeURIComponent(
-                  song.songId
-                )}"
-              >
-                <span>
-                  <span class="song-title">
-                    ${escapeHtml(
-                      song.songName ||
-                      "曲名未設定"
-                    )}
-                  </span>
+  renderPerformerSummary_(
+    songs
+  );
 
-                  <span class="song-meta">
-                    <span class="type-badge">
-                      ${escapeHtml(
-                        song.type ||
-                        "未分類"
-                      )}
-                    </span>
-
-                    <span>
-                      歌唱者：
-                      ${escapeHtml(
-                        song.singer ||
-                        "—"
-                      )}
-                    </span>
-                  </span>
-                </span>
-
-                <span class="arrow">
-                  ›
-                </span>
-              </a>`
-          )
-          .join("")
-      : `
-        <div class="empty">
-          披露曲情報はありません。
-        </div>`;
+  renderEventSongs_();
 
   renderNavigation(
     event,
@@ -578,6 +934,12 @@ function renderEvent(event) {
     false;
 
   elements.discoverySection.hidden =
+    false;
+
+  elements.eventRecordsSection.hidden =
+    false;
+
+  elements.eventPerformersSection.hidden =
     false;
 
   elements.eventInsightsSection.hidden =
@@ -737,6 +1099,12 @@ async function loadEvent() {
   elements.discoverySection.hidden =
     true;
 
+  elements.eventRecordsSection.hidden =
+    true;
+
+  elements.eventPerformersSection.hidden =
+    true;
+
   elements.eventInsightsSection.hidden =
     true;
 
@@ -749,7 +1117,7 @@ async function loadEvent() {
   try {
     const [
       response,
-      discoverResponse
+      discoverResult
     ] =
       await Promise.all([
         apiGet(
@@ -773,16 +1141,39 @@ async function loadEvent() {
             timeoutMs: 30000,
             retryCount: 1
           }
-        )
+        ).catch(error => {
+          console.warn(
+            "Event discover API warning:",
+            error
+          );
+
+          return {
+            data: {}
+          };
+        })
       ]);
+
+    currentDiscover =
+      discoverResult &&
+      discoverResult.data &&
+      typeof discoverResult.data === "object"
+        ? discoverResult.data
+        : {};
 
     renderEvent(
       response.data
     );
 
-    renderEventInsights_(
-      discoverResponse.data || {}
+    renderEventRecords_(
+      response.data || {},
+      currentDiscover
     );
+
+    renderEventInsights_(
+      currentDiscover
+    );
+
+    renderEventSongs_();
 
   } catch (error) {
     console.error(
@@ -793,6 +1184,28 @@ async function loadEvent() {
     setError(error);
   }
 }
+
+
+elements.eventSongControls.addEventListener(
+  "click",
+  event => {
+    const button =
+      event.target.closest(
+        "[data-filter]"
+      );
+
+    if (!button) {
+      return;
+    }
+
+    activeSongFilter =
+      button.dataset.filter ||
+      "all";
+
+    updateSongFilterButtons_();
+    renderEventSongs_();
+  }
+);
 
 
 elements.retryButton.addEventListener(

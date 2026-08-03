@@ -224,8 +224,8 @@ function injectDetailContextStyles_() {
   style.textContent = `
     .detail-context-bar {
       position: fixed;
-      z-index: 850;
-      top: 68px;
+      z-index: 2200;
+      top: 0;
       right: 0;
       left: 0;
       padding: 0 18px;
@@ -258,6 +258,7 @@ function injectDetailContextStyles_() {
       box-shadow:
         0 12px 28px rgba(23,32,51,.13);
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       pointer-events: auto;
     }
 
@@ -295,7 +296,7 @@ function injectDetailContextStyles_() {
 
     @media (max-width: 820px) {
       .detail-context-bar {
-        top: 112px;
+        top: 0;
         padding: 0 8px;
       }
 

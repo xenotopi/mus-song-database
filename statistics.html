@@ -226,6 +226,52 @@
     }
 
 </style>
+
+  <style>
+    .stat-chart {
+      margin-top: 10px !important;
+    }
+
+    .stat-scale {
+      margin: 0 0 2px !important;
+    }
+
+    .stat-scale-labels {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      align-items: end;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .stat-scale-labels span {
+      min-width: 0;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .stat-scale-labels span:first-child {
+      text-align: left;
+    }
+
+    .stat-scale-labels span:last-child {
+      text-align: right;
+    }
+
+    @media (max-width: 620px) {
+      .stat-scale {
+        grid-template-columns: 46px minmax(0, 1fr) 72px !important;
+        gap: 8px !important;
+      }
+
+      .stat-scale-labels {
+        font-size: 9px;
+      }
+    }
+  </style>
+
 </head>
 
 <body>
@@ -336,7 +382,7 @@
 
   <script
     type="module"
-    src="assets/js/statistics.js?v=2.8.5"
+    src="assets/js/statistics.js?v=2.8.6"
   ></script>
 </body>
 </html>

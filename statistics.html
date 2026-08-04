@@ -230,6 +230,143 @@
         height: 360px;
       }
     }
+  
+    .chart-scroll {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      overscroll-behavior-inline: contain;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color:
+        rgba(79, 70, 229, .35)
+        transparent;
+    }
+
+    .chart-scroll::-webkit-scrollbar {
+      height: 7px;
+    }
+
+    .chart-scroll::-webkit-scrollbar-thumb {
+      border-radius: 999px;
+      background:
+        rgba(79, 70, 229, .35);
+    }
+
+    .chart-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .chart-swipe-guide {
+      display: none;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      text-align: right;
+    }
+
+    @media (max-width: 760px) {
+      .stat-controls {
+        margin-inline:
+          -14px;
+        padding-inline:
+          14px;
+        flex-wrap:
+          nowrap;
+        overflow-x:
+          auto;
+        scrollbar-width:
+          none;
+      }
+
+      .stat-controls::-webkit-scrollbar {
+        display:
+          none;
+      }
+
+      .stat-control {
+        flex:
+          0 0 auto;
+        white-space:
+          nowrap;
+      }
+
+      .chart-mode-list {
+        width:
+          100%;
+        display:
+          grid;
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+      }
+
+      .chart-mode-button {
+        width:
+          100%;
+      }
+
+      .chart-scroll {
+        margin-inline:
+          -2px;
+        padding-bottom:
+          7px;
+      }
+
+      .chart-container,
+      .comparison-chart-container {
+        width:
+          760px;
+        min-width:
+          760px;
+      }
+
+      .chart-container {
+        height:
+          350px;
+      }
+
+      .comparison-chart-container {
+        min-height:
+          330px;
+      }
+
+      .chart-swipe-guide {
+        display:
+          block;
+      }
+
+      .stat-chart-guide {
+        font-size:
+          10px;
+      }
+
+      .stat-fallback {
+        margin-inline:
+          -4px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .chart-container,
+      .comparison-chart-container {
+        width:
+          700px;
+        min-width:
+          700px;
+      }
+
+      .chart-container {
+        height:
+          330px;
+      }
+
+      .comparison-chart-container {
+        min-height:
+          310px;
+      }
+    }
+
   </style>
 </head>
 
@@ -348,12 +485,18 @@
           id="chartDescription"
         ></p>
 
-        <div class="chart-container">
-          <canvas
-            id="statisticsChart"
-            aria-label="年別統計グラフ"
-          ></canvas>
+        <div class="chart-scroll" id="mainChartScroll">
+          <div class="chart-container">
+            <canvas
+              id="statisticsChart"
+              aria-label="年別統計グラフ"
+            ></canvas>
+          </div>
         </div>
+
+        <p class="chart-swipe-guide">
+          ← グラフは左右にスワイプできます →
+        </p>
 
         <div
           class="chart-error"
@@ -383,12 +526,18 @@
         </p>
 
         <div class="comparison-grid">
-          <div class="comparison-chart-container">
-            <canvas
-              id="comparisonChart"
-              aria-label="公式とソロの比較グラフ"
-            ></canvas>
+          <div class="chart-scroll" id="comparisonChartScroll">
+            <div class="comparison-chart-container">
+              <canvas
+                id="comparisonChart"
+                aria-label="公式とソロの比較グラフ"
+              ></canvas>
+            </div>
           </div>
+
+          <p class="chart-swipe-guide">
+            ← 比較グラフは左右にスワイプできます →
+          </p>
 
           <div
             class="comparison-cards"
@@ -434,7 +583,7 @@
 
   <script
     type="module"
-    src="assets/js/statistics-v330.js?v=3.3.0"
+    src="assets/js/statistics-v331.js?v=3.3.1"
   ></script>
 </body>
 </html>

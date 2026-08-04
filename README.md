@@ -1,16 +1,4 @@
-# v3.3：統計ダッシュボード強化版
-
-## Apps Script側
-
-以下を丸ごと差し替えてください。
-
-- TrendApi.gs
-- CacheApi.gs
-
-保存後、新バージョンとして再デプロイしてください。
-
-`ApiMain.gs`のtrendsルートが既に `getTrendData_()` を呼んでいるため、
-ApiMain.gsの変更はありません。
+# v3.3.1：統計スマホ表示最適化版
 
 ## GitHub側
 
@@ -20,64 +8,44 @@ ApiMain.gsの変更はありません。
 
 ### 新規追加
 
-- assets/js/statistics-v330.js
+- assets/js/statistics-v331.js
 
-古い `assets/js/statistics.js` は残したままで問題ありません。
+Apps Script側の変更はありません。
 
-## 実装内容
+古い `assets/js/statistics-v330.js` は残したままで問題ありません。
 
-### Chart.js化
+## 修正内容
 
-- 歌唱記録数
-- イベント数
-- 年別の重複なし歌唱曲数
-- 年別の重複なし利用会場数
+### 年別グラフ
 
-をインタラクティブグラフで表示します。
+スマホではグラフ本体に横幅を確保し、
+カード内だけ左右スワイプできるようにしました。
 
-### 表示切り替え
-
-- 棒グラフ
-- 推移グラフ
+- 年ラベルを横向きで固定
+- 2012〜2026を省略せず表示
+- 右端の年が見切れないように調整
+- 棒と点の間隔をスマホ用に調整
+- スワイプ案内を表示
 
 ### 公式・ソロ比較
 
-選択中の指標を公式・ソロに分けて年別比較します。
+比較グラフも同じくカード内横スクロールへ変更しました。
 
-右側に以下も表示します。
+### 上部切り替え
 
-- 公式の期間合計と割合
-- ソロの期間合計と割合
+- 歌唱記録数
+- イベント数
+- 歌唱曲数
+- 利用会場数
 
-### 数値一覧
+はスマホでは横スクロールで選択できます。
 
-Chart.jsの読み込みに失敗しても、
-年別の全体・公式・ソロの数値一覧は表示します。
+棒グラフ・推移の切り替えは2列で表示します。
 
-### 読み込み
+### 年別数値一覧
 
-Chart.jsは統計ページでのみCDNから読み込みます。
-他ページの表示速度には影響しません。
+従来どおり横スクロールで確認できます。
 
-## API確認
+## 確認URL
 
-`?action=trends&callback=callbackTest`
-
-各年に次の項目があれば正常です。
-
-- performanceCount
-- officialPerformanceCount
-- soloPerformanceCount
-- eventCount
-- officialEventCount
-- soloEventCount
-- uniqueSongCount
-- officialUniqueSongCount
-- soloUniqueSongCount
-- venueCount
-- officialVenueCount
-- soloVenueCount
-
-## Web確認URL
-
-https://xenotopi.github.io/mus-song-database/statistics.html?build=330
+https://xenotopi.github.io/mus-song-database/statistics.html?build=331

@@ -2,30 +2,76 @@
  * μ's Song Database Web
  * assets/js/api.js
  *
- * v2.7 Performance Update
- * JSONP + sessionStorage cache
+ * v3.4 Performance & Cache Optimization
+ *
+ * - sessionStorage: 同一タブ内の高速再表示
+ * - localStorage: 再訪時の即時表示
+ * - stale-while-revalidate: 古い表示を先に返し、裏で更新
+ * - in-flight deduplication: 同一通信の重複防止
+ * - stale fallback: 通信失敗時に保存済みデータを利用
  */
 
 export const API_URL =
   "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec";
 
 const DEFAULT_TIMEOUT_MS = 15000;
-const CACHE_PREFIX = "mus-db-api-v27:";
+const CACHE_VERSION = "v3.4.0";
+const SESSION_PREFIX = `mus-db-session-${CACHE_VERSION}:`;
+const LOCAL_PREFIX = `mus-db-local-${CACHE_VERSION}:`;
+const MAX_LOCAL_CACHE_BYTES = 4.2 * 1024 * 1024;
+
 const inFlightRequests = new Map();
 let requestSequence = 0;
 
 
 const DEFAULT_CACHE_TTL = {
   home: 10 * 60 * 1000,
-  rankings: 15 * 60 * 1000,
-  trends: 30 * 60 * 1000,
-  about: 30 * 60 * 1000,
-  song: 15 * 60 * 1000,
-  event: 15 * 60 * 1000,
-  venue: 15 * 60 * 1000,
-  discover: 15 * 60 * 1000,
+  rankings: 30 * 60 * 1000,
+  trends: 60 * 60 * 1000,
+  about: 24 * 60 * 60 * 1000,
+  song: 30 * 60 * 1000,
+  event: 30 * 60 * 1000,
+  venue: 30 * 60 * 1000,
+  discover: 30 * 60 * 1000,
   search: 5 * 60 * 1000
 };
+
+
+const DEFAULT_STALE_TTL = {
+  home: 24 * 60 * 60 * 1000,
+  rankings: 24 * 60 * 60 * 1000,
+  trends: 24 * 60 * 60 * 1000,
+  about: 7 * 24 * 60 * 60 * 1000,
+  song: 7 * 24 * 60 * 60 * 1000,
+  event: 7 * 24 * 60 * 60 * 1000,
+  venue: 7 * 24 * 60 * 60 * 1000,
+  discover: 24 * 60 * 60 * 1000,
+  search: 30 * 60 * 1000
+};
+
+
+const PERSISTENT_ACTIONS = new Set([
+  "home",
+  "rankings",
+  "trends",
+  "about",
+  "song",
+  "event",
+  "venue",
+  "discover"
+]);
+
+
+const SWR_ACTIONS = new Set([
+  "home",
+  "rankings",
+  "trends",
+  "about",
+  "song",
+  "event",
+  "venue",
+  "discover"
+]);
 
 
 function stableParams(params = {}) {
@@ -51,11 +97,12 @@ function stableParams(params = {}) {
 
 
 function createCacheKey(
+  prefix,
   action,
   params = {}
 ) {
   return (
-    CACHE_PREFIX +
+    prefix +
     action +
     ":" +
     JSON.stringify(
@@ -65,35 +112,47 @@ function createCacheKey(
 }
 
 
-function readSessionCache(
-  action,
-  params
-) {
+function parseStoredValue(raw) {
+  if (!raw) {
+    return null;
+  }
+
   try {
-    const raw =
-      sessionStorage.getItem(
-        createCacheKey(
-          action,
-          params
-        )
-      );
-
-    if (!raw) {
-      return null;
-    }
-
     const stored =
       JSON.parse(raw);
 
     if (
       !stored ||
       !stored.response ||
-      !stored.savedAt
+      !Number(stored.savedAt)
     ) {
       return null;
     }
 
     return stored;
+
+  } catch {
+    return null;
+  }
+}
+
+
+function readStorage(
+  storage,
+  prefix,
+  action,
+  params
+) {
+  try {
+    return parseStoredValue(
+      storage.getItem(
+        createCacheKey(
+          prefix,
+          action,
+          params
+        )
+      )
+    );
 
   } catch (error) {
     console.warn(
@@ -106,45 +165,282 @@ function readSessionCache(
 }
 
 
-function writeSessionCache(
+function writeStorage(
+  storage,
+  prefix,
   action,
   params,
   response
 ) {
   try {
-    sessionStorage.setItem(
+    storage.setItem(
       createCacheKey(
+        prefix,
         action,
         params
       ),
       JSON.stringify({
-        savedAt: Date.now(),
-        response: response
+        savedAt:
+          Date.now(),
+
+        response:
+          response
       })
     );
 
+    return true;
+
   } catch (error) {
-    // 容量上限などで保存できなくても通信自体は継続する。
     console.warn(
       "API cache write failed:",
+      error
+    );
+
+    return false;
+  }
+}
+
+
+function removeOldLocalEntries() {
+  try {
+    const entries = [];
+
+    for (
+      let index = 0;
+      index < localStorage.length;
+      index += 1
+    ) {
+      const key =
+        localStorage.key(index);
+
+      if (
+        !key ||
+        !key.startsWith(
+          LOCAL_PREFIX
+        )
+      ) {
+        continue;
+      }
+
+      const raw =
+        localStorage.getItem(key);
+
+      const parsed =
+        parseStoredValue(raw);
+
+      entries.push({
+        key:
+          key,
+
+        bytes:
+          raw
+            ? new Blob([raw]).size
+            : 0,
+
+        savedAt:
+          Number(
+            parsed?.savedAt || 0
+          )
+      });
+    }
+
+    const totalBytes =
+      entries.reduce(
+        (sum, item) =>
+          sum + item.bytes,
+        0
+      );
+
+    if (
+      totalBytes <=
+      MAX_LOCAL_CACHE_BYTES
+    ) {
+      return;
+    }
+
+    entries
+      .sort((a, b) =>
+        a.savedAt -
+        b.savedAt
+      )
+      .forEach(item => {
+        if (
+          estimateLocalCacheBytes() <=
+          MAX_LOCAL_CACHE_BYTES *
+          0.8
+        ) {
+          return;
+        }
+
+        localStorage.removeItem(
+          item.key
+        );
+      });
+
+  } catch (error) {
+    console.warn(
+      "Local cache cleanup failed:",
       error
     );
   }
 }
 
 
-export function clearApiSessionCache() {
+function estimateLocalCacheBytes() {
+  let total = 0;
+
   try {
-    Object.keys(sessionStorage)
-      .filter(key =>
-        key.startsWith(
-          CACHE_PREFIX
+    for (
+      let index = 0;
+      index < localStorage.length;
+      index += 1
+    ) {
+      const key =
+        localStorage.key(index);
+
+      if (
+        !key ||
+        !key.startsWith(
+          LOCAL_PREFIX
         )
+      ) {
+        continue;
+      }
+
+      const raw =
+        localStorage.getItem(key);
+
+      total +=
+        new Blob([
+          key,
+          raw || ""
+        ]).size;
+    }
+
+  } catch {
+    return 0;
+  }
+
+  return total;
+}
+
+
+function readBestCache(
+  action,
+  params
+) {
+  const session =
+    readStorage(
+      sessionStorage,
+      SESSION_PREFIX,
+      action,
+      params
+    );
+
+  const local =
+    PERSISTENT_ACTIONS.has(action)
+      ? readStorage(
+          localStorage,
+          LOCAL_PREFIX,
+          action,
+          params
+        )
+      : null;
+
+  if (!session) {
+    return local
+      ? {
+          ...local,
+          source:
+            "local"
+        }
+      : null;
+  }
+
+  if (!local) {
+    return {
+      ...session,
+      source:
+        "session"
+    };
+  }
+
+  return Number(
+    session.savedAt
+  ) >=
+  Number(
+    local.savedAt
+  )
+    ? {
+        ...session,
+        source:
+          "session"
+      }
+    : {
+        ...local,
+        source:
+          "local"
+      };
+}
+
+
+function writeCaches(
+  action,
+  params,
+  response
+) {
+  writeStorage(
+    sessionStorage,
+    SESSION_PREFIX,
+    action,
+    params,
+    response
+  );
+
+  if (
+    !PERSISTENT_ACTIONS.has(
+      action
+    )
+  ) {
+    return;
+  }
+
+  removeOldLocalEntries();
+
+  const written =
+    writeStorage(
+      localStorage,
+      LOCAL_PREFIX,
+      action,
+      params,
+      response
+    );
+
+  if (!written) {
+    removeOldLocalEntries();
+
+    writeStorage(
+      localStorage,
+      LOCAL_PREFIX,
+      action,
+      params,
+      response
+    );
+  }
+}
+
+
+function clearStorageByPrefix(
+  storage,
+  prefix
+) {
+  try {
+    Object.keys(storage)
+      .filter(key =>
+        key.startsWith(prefix)
       )
       .forEach(key =>
-        sessionStorage.removeItem(
-          key
-        )
+        storage.removeItem(key)
       );
 
   } catch (error) {
@@ -156,10 +452,33 @@ export function clearApiSessionCache() {
 }
 
 
+export function clearApiSessionCache() {
+  clearStorageByPrefix(
+    sessionStorage,
+    SESSION_PREFIX
+  );
+}
+
+
+export function clearApiPersistentCache() {
+  clearStorageByPrefix(
+    localStorage,
+    LOCAL_PREFIX
+  );
+}
+
+
+export function clearAllApiCaches() {
+  clearApiSessionCache();
+  clearApiPersistentCache();
+}
+
+
 export function jsonpRequest(options) {
-  const action = String(
-    options?.action || ""
-  ).trim();
+  const action =
+    String(
+      options?.action || ""
+    ).trim();
 
   const params =
     options?.params || {};
@@ -189,13 +508,6 @@ export function jsonpRequest(options) {
   url.searchParams.set(
     "callback",
     callbackName
-  );
-
-  // ブラウザのscriptキャッシュだけを避ける。
-  // GAS側キャッシュキーには含めない。
-  url.searchParams.set(
-    "_t",
-    String(Date.now())
   );
 
   Object.entries(params).forEach(
@@ -254,6 +566,7 @@ export function jsonpRequest(options) {
                   "API処理に失敗しました。"
                 )
               );
+
               return;
             }
 
@@ -305,7 +618,8 @@ export function jsonpRequest(options) {
     );
 
   return {
-    promise: promise,
+    promise:
+      promise,
 
     cancel() {
       if (settled) {
@@ -345,9 +659,14 @@ async function requestWithRetry(
     try {
       const request =
         jsonpRequest({
-          action: action,
-          params: params,
-          timeoutMs: timeoutMs
+          action:
+            action,
+
+          params:
+            params,
+
+          timeoutMs:
+            timeoutMs
         });
 
       return await request.promise;
@@ -363,7 +682,7 @@ async function requestWithRetry(
           resolve =>
             setTimeout(
               resolve,
-              500 *
+              350 *
               (attempt + 1)
             )
         );
@@ -386,7 +705,9 @@ export async function apiGet(
   options = {}
 ) {
   const normalizedAction =
-    String(action || "").trim();
+    String(
+      action || ""
+    ).trim();
 
   const cacheEnabled =
     options.cache !== false;
@@ -394,8 +715,17 @@ export async function apiGet(
   const forceRefresh =
     options.forceRefresh === true;
 
+  const explicitSWR =
+    typeof options
+      .staleWhileRevalidate ===
+      "boolean";
+
   const staleWhileRevalidate =
-    options.staleWhileRevalidate === true;
+    explicitSWR
+      ? options.staleWhileRevalidate
+      : SWR_ACTIONS.has(
+          normalizedAction
+        );
 
   const ttlMs =
     Number(
@@ -406,9 +736,18 @@ export async function apiGet(
       5 * 60 * 1000
     );
 
+  const staleTtlMs =
+    Number(
+      options.staleCacheTtlMs ??
+      DEFAULT_STALE_TTL[
+        normalizedAction
+      ] ??
+      30 * 60 * 1000
+    );
+
   const cached =
     cacheEnabled
-      ? readSessionCache(
+      ? readBestCache(
           normalizedAction,
           params
         )
@@ -423,8 +762,17 @@ export async function apiGet(
       : Infinity;
 
   const cacheIsFresh =
-    cached &&
-    cacheAge <= ttlMs;
+    Boolean(
+      cached &&
+      cacheAge <= ttlMs
+    );
+
+  const cacheIsUsable =
+    Boolean(
+      cached &&
+      cacheAge <=
+        staleTtlMs
+    );
 
   if (
     !forceRefresh &&
@@ -432,16 +780,23 @@ export async function apiGet(
   ) {
     return {
       ...cached.response,
+
       cache: {
-        source: "session",
-        stale: false,
-        ageMs: cacheAge
+        source:
+          cached.source,
+
+        stale:
+          false,
+
+        ageMs:
+          cacheAge
       }
     };
   }
 
   const requestKey =
     createCacheKey(
+      "request:",
       normalizedAction,
       params
     );
@@ -466,7 +821,7 @@ export async function apiGet(
         )
           .then(response => {
             if (cacheEnabled) {
-              writeSessionCache(
+              writeCaches(
                 normalizedAction,
                 params,
                 response
@@ -475,12 +830,44 @@ export async function apiGet(
 
             return {
               ...response,
+
               cache: {
-                source: "network",
-                stale: false,
-                ageMs: 0
+                source:
+                  "network",
+
+                stale:
+                  false,
+
+                ageMs:
+                  0
               }
             };
+          })
+          .catch(error => {
+            if (
+              !forceRefresh &&
+              cacheIsUsable
+            ) {
+              return {
+                ...cached.response,
+
+                cache: {
+                  source:
+                    cached.source,
+
+                  stale:
+                    true,
+
+                  fallback:
+                    true,
+
+                  ageMs:
+                    cacheAge
+                }
+              };
+            }
+
+            throw error;
           })
           .finally(() => {
             inFlightRequests.delete(
@@ -498,10 +885,9 @@ export async function apiGet(
 
   if (
     !forceRefresh &&
-    cached &&
+    cacheIsUsable &&
     staleWhileRevalidate
   ) {
-    // 古い表示を即時返し、裏で新しいデータへ更新する。
     startNetworkRequest()
       .catch(error => {
         console.warn(
@@ -512,10 +898,16 @@ export async function apiGet(
 
     return {
       ...cached.response,
+
       cache: {
-        source: "session",
-        stale: true,
-        ageMs: cacheAge
+        source:
+          cached.source,
+
+        stale:
+          true,
+
+        ageMs:
+          cacheAge
       }
     };
   }
@@ -524,21 +916,85 @@ export async function apiGet(
 }
 
 
+export function prefetchApi(
+  action,
+  params = {},
+  options = {}
+) {
+  const run =
+    () =>
+      apiGet(
+        action,
+        params,
+        {
+          ...options,
+
+          staleWhileRevalidate:
+            true
+        }
+      )
+        .catch(error => {
+          console.warn(
+            `API prefetch failed: ${action}`,
+            error
+          );
+        });
+
+  if (
+    "requestIdleCallback" in
+    window
+  ) {
+    window.requestIdleCallback(
+      run,
+      {
+        timeout:
+          2500
+      }
+    );
+
+    return;
+  }
+
+  window.setTimeout(
+    run,
+    700
+  );
+}
+
+
 export function escapeHtml(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  return String(
+    value ?? ""
+  )
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 }
 
 
 export function formatDate(value) {
   return value
-    ? String(value).replaceAll(
-        "-",
-        "/"
-      )
+    ? String(value)
+        .replaceAll(
+          "-",
+          "/"
+        )
     : "—";
 }

@@ -7,9 +7,7 @@
     content="width=device-width,initial-scale=1"
   >
 
-  <title>
-    統計｜μ's Song Database
-  </title>
+  <title>統計｜μ's Song Database</title>
 
   <link
     rel="stylesheet"
@@ -24,7 +22,8 @@
       flex-wrap: wrap;
     }
 
-    .stat-control {
+    .stat-control,
+    .chart-mode-button {
       padding: 9px 15px;
       border: 1px solid var(--line);
       border-radius: 999px;
@@ -32,15 +31,10 @@
       color: var(--navy);
       font-weight: 900;
       cursor: pointer;
-      transition: background .15s ease, color .15s ease, transform .15s ease;
     }
 
-    .stat-control:hover {
-      transform: translateY(-1px);
-      border-color: #b9b4f4;
-    }
-
-    .stat-control.active {
+    .stat-control.active,
+    .chart-mode-button.active {
       border-color: var(--indigo);
       background: var(--indigo);
       color: #fff;
@@ -49,16 +43,23 @@
     .stat-summary {
       margin-top: 18px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
       gap: 12px;
     }
 
-    .stat-summary-card {
-      padding: 16px 18px;
+    .stat-summary-card,
+    .stat-chart-card,
+    .stat-comparison-card,
+    .stat-table-card {
       border: 1px solid var(--line);
-      border-radius: 17px;
       background: #fff;
       box-shadow: var(--shadow);
+    }
+
+    .stat-summary-card {
+      padding: 17px 18px;
+      border-radius: 17px;
     }
 
     .stat-summary-label {
@@ -76,25 +77,31 @@
     }
 
     .stat-summary-note {
-      margin-top: 3px;
+      margin-top: 5px;
       color: var(--muted);
       font-size: 11px;
+      line-height: 1.6;
     }
 
-    .stat-chart-card {
+    .stat-chart-card,
+    .stat-comparison-card,
+    .stat-table-card {
       margin-top: 18px;
       padding: 22px;
-      border: 1px solid var(--line);
       border-radius: 20px;
-      background: #fff;
-      box-shadow: var(--shadow);
     }
 
     .stat-chart-heading {
       display: flex;
-      align-items: end;
       justify-content: space-between;
-      gap: 12px;
+      gap: 14px;
+      align-items: end;
+    }
+
+    .chart-mode-list {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
     }
 
     .stat-chart-guide {
@@ -102,94 +109,105 @@
       color: var(--muted);
       font-size: 11px;
       line-height: 1.7;
+    }
+
+    .chart-container {
+      position: relative;
+      margin-top: 20px;
+      height: 430px;
+    }
+
+    .comparison-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns:
+        minmax(0, 1.4fr)
+        minmax(280px, .6fr);
+      gap: 18px;
+      align-items: center;
+    }
+
+    .comparison-chart-container {
+      position: relative;
+      min-height: 340px;
+    }
+
+    .comparison-cards {
+      display: grid;
+      gap: 12px;
+    }
+
+    .comparison-card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: #fafaff;
+    }
+
+    .comparison-card-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .comparison-card-value {
+      margin-top: 6px;
+      color: var(--indigo);
+      font-size: 27px;
+      font-weight: 900;
+    }
+
+    .comparison-card-note {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .stat-fallback {
+      margin-top: 16px;
+      overflow-x: auto;
+    }
+
+    .stat-fallback table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 620px;
+    }
+
+    .stat-fallback th,
+    .stat-fallback td {
+      padding: 11px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: right;
+      font-size: 12px;
+    }
+
+    .stat-fallback th:first-child,
+    .stat-fallback td:first-child {
       text-align: left;
     }
 
-    .stat-chart {
-      margin-top: 20px;
-      display: grid;
-      gap: 9px;
-    }
-
-    .stat-row {
-      display: grid;
-      grid-template-columns: 58px minmax(0,1fr) 78px;
-      gap: 12px;
-      align-items: center;
-      min-height: 27px;
-      padding: 3px 0;
-      border-radius: 10px;
-    }
-
-    .stat-row.is-maximum {
-      background: transparent;
-    }
-
-    .stat-year {
+    .stat-fallback th {
       color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .chart-error {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: 1px solid #f1c1cb;
+      border-radius: 14px;
+      background: #fff5f7;
+      color: #9b2945;
       font-size: 12px;
-      font-weight: 900;
+      line-height: 1.7;
     }
 
-    .stat-row.is-maximum .stat-year {
-      color: var(--indigo);
-    }
-
-    .stat-track {
-      position: relative;
-      height: 18px;
-      overflow: hidden;
-      border-radius: 999px;
-      background:
-        repeating-linear-gradient(
-          90deg,
-          #eceef5 0,
-          #eceef5 calc(25% - 1px),
-          #dfe2eb calc(25% - 1px),
-          #dfe2eb 25%
-        );
-    }
-
-    .stat-bar {
-      display: block;
-      height: 100%;
-      min-width: 0;
-      border-radius: inherit;
-      background:
-        linear-gradient(
-          90deg,
-          #4f46e5,
-          #8b5cf6
-        );
-      box-shadow: 0 3px 9px rgba(79,70,229,.25);
-      transform-origin: left center;
-      animation: statBarGrow .45s ease both;
-    }
-
-    .stat-row.is-maximum .stat-bar {
-      background:
-        linear-gradient(
-          90deg,
-          #4338ca,
-          #ec4899
-        );
-    }
-
-    .stat-value {
-      color: var(--navy);
-      font-size: 15px;
-      font-weight: 900;
-      text-align: right;
-      letter-spacing: .01em;
-    }
-
-    .stat-row.is-maximum .stat-value {
-      color: var(--indigo);
-    }
-
-    @keyframes statBarGrow {
-      from { transform: scaleX(0); }
-      to { transform: scaleX(1); }
+    @media (max-width: 900px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 760px) {
@@ -197,81 +215,22 @@
         grid-template-columns: 1fr;
       }
 
-      .stat-chart-card {
+      .stat-chart-card,
+      .stat-comparison-card,
+      .stat-table-card {
         padding: 17px 14px;
-      }
-
-      .stat-row {
-        grid-template-columns: 46px minmax(0,1fr) 72px;
-        gap: 8px;
-      }
-
-      .stat-value {
-        font-size: 14px;
       }
 
       .stat-chart-heading {
         align-items: start;
         flex-direction: column;
       }
-    }
-  
-    .stat-scale {
-      display: grid;
-      grid-template-columns:
-        58px minmax(0, 1fr) 72px;
-      gap: 12px;
-      align-items: end;
-      margin: 16px 0 4px;
-    }
 
-</style>
-
-  <style>
-    .stat-chart {
-      margin-top: 10px !important;
-    }
-
-    .stat-scale {
-      margin: 0 0 2px !important;
-    }
-
-    .stat-scale-labels {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      align-items: end;
-      color: var(--muted);
-      font-size: 10px;
-      font-weight: 800;
-      line-height: 1;
-    }
-
-    .stat-scale-labels span {
-      min-width: 0;
-      text-align: center;
-      white-space: nowrap;
-    }
-
-    .stat-scale-labels span:first-child {
-      text-align: left;
-    }
-
-    .stat-scale-labels span:last-child {
-      text-align: right;
-    }
-
-    @media (max-width: 620px) {
-      .stat-scale {
-        grid-template-columns: 46px minmax(0, 1fr) 72px !important;
-        gap: 8px !important;
-      }
-
-      .stat-scale-labels {
-        font-size: 9px;
+      .chart-container {
+        height: 360px;
       }
     }
   </style>
-
 </head>
 
 <body>
@@ -290,7 +249,7 @@
       <h1>年別データ</h1>
 
       <p>
-        μ'sの歌唱履歴を年ごとに眺めます。
+        μ'sの歌唱履歴を年ごとに比較します。
       </p>
 
       <div class="muse-line">
@@ -353,26 +312,115 @@
       <article class="stat-chart-card">
         <div class="stat-chart-heading">
           <div>
-            <p class="kicker" id="chartKicker">
+            <p
+              class="kicker"
+              id="chartKicker"
+            >
               PERFORMANCE RECORDS
             </p>
 
             <h2 id="chartTitle">
-              年別歌唱記録数
+              年別の延べ歌唱記録数
             </h2>
+          </div>
+
+          <div class="chart-mode-list">
+            <button
+              class="chart-mode-button active"
+              data-chart-mode="bar"
+              type="button"
+            >
+              棒グラフ
+            </button>
+
+            <button
+              class="chart-mode-button"
+              data-chart-mode="line"
+              type="button"
+            >
+              推移
+            </button>
           </div>
         </div>
 
         <p
           class="stat-chart-guide"
           id="chartDescription"
+        ></p>
+
+        <div class="chart-container">
+          <canvas
+            id="statisticsChart"
+            aria-label="年別統計グラフ"
+          ></canvas>
+        </div>
+
+        <div
+          class="chart-error"
+          id="chartError"
+          hidden
+        ></div>
+      </article>
+
+      <article class="stat-comparison-card">
+        <div class="stat-chart-heading">
+          <div>
+            <p class="kicker">
+              OFFICIAL / SOLO
+            </p>
+
+            <h2 id="comparisonTitle">
+              公式・ソロの年別比較
+            </h2>
+          </div>
+        </div>
+
+        <p
+          class="stat-chart-guide"
+          id="comparisonDescription"
         >
-          同じ曲が複数回歌われた場合も、歌唱記録としてすべて数えます。
+          選択中の指標を、イベント区分ごとに比較します。
+        </p>
+
+        <div class="comparison-grid">
+          <div class="comparison-chart-container">
+            <canvas
+              id="comparisonChart"
+              aria-label="公式とソロの比較グラフ"
+            ></canvas>
+          </div>
+
+          <div
+            class="comparison-cards"
+            id="comparisonCards"
+          ></div>
+        </div>
+
+        <div
+          class="chart-error"
+          id="comparisonError"
+          hidden
+        ></div>
+      </article>
+
+      <article class="stat-table-card">
+        <div class="stat-chart-heading">
+          <div>
+            <p class="kicker">
+              YEARLY VALUES
+            </p>
+
+            <h2>年別数値一覧</h2>
+          </div>
+        </div>
+
+        <p class="stat-chart-guide">
+          グラフを読み込みにくい環境でも、数値は一覧で確認できます。
         </p>
 
         <div
-          class="stat-chart"
-          id="statisticsChart"
+          class="stat-fallback"
+          id="statisticsTable"
         ></div>
       </article>
     </section>
@@ -381,8 +429,12 @@
   <div id="siteFooter"></div>
 
   <script
+    src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"
+  ></script>
+
+  <script
     type="module"
-    src="assets/js/statistics.js?v=2.8.6"
+    src="assets/js/statistics-v330.js?v=3.3.0"
   ></script>
 </body>
 </html>

@@ -1,61 +1,83 @@
-# v3.2.4：不要ソート削除＋イベントランキング整理版
+# v3.3：統計ダッシュボード強化版
+
+## Apps Script側
+
+以下を丸ごと差し替えてください。
+
+- TrendApi.gs
+- CacheApi.gs
+
+保存後、新バージョンとして再デプロイしてください。
+
+`ApiMain.gs`のtrendsルートが既に `getTrendData_()` を呼んでいるため、
+ApiMain.gsの変更はありません。
 
 ## GitHub側
 
 ### 上書き
 
-- rankings.html
+- statistics.html
 
 ### 新規追加
 
-- assets/js/rankings-v324.js
+- assets/js/statistics-v330.js
 
-Apps Script側の変更はありません。
+古い `assets/js/statistics.js` は残したままで問題ありません。
 
-## 修正内容
+## 実装内容
 
-### 曲ランキング
+### Chart.js化
 
-削除：
-- 曲名順
+- 歌唱記録数
+- イベント数
+- 年別の重複なし歌唱曲数
+- 年別の重複なし利用会場数
 
-残す：
-- 歌唱回数が多い順
-- 初披露が古い順
-- 最終披露が新しい順
+をインタラクティブグラフで表示します。
 
-### イベントランキング
+### 表示切り替え
 
-削除：
-- 歌唱曲数が多い順
+- 棒グラフ
+- 推移グラフ
 
-残す：
-- 歌唱記録数が多い順
-- 開催日が新しい順
-- 開催日が古い順
+### 公式・ソロ比較
 
-右側の主要指標は、通常時は歌唱記録数を表示します。
-開催日順のときだけ開催日を表示します。
+選択中の指標を公式・ソロに分けて年別比較します。
 
-### 会場ランキング
+右側に以下も表示します。
 
-削除：
-- 会場名順
+- 公式の期間合計と割合
+- ソロの期間合計と割合
 
-残す：
-- 開催イベント数が多い順
-- 歌唱曲数が多い順
+### 数値一覧
 
-### 歌唱名義ランキング
+Chart.jsの読み込みに失敗しても、
+年別の全体・公式・ソロの数値一覧は表示します。
 
-削除：
-- 歌唱名義順
+### 読み込み
 
-残す：
-- 歌唱記録数が多い順
-- 歌唱曲数が多い順
-- 出演イベント数が多い順
+Chart.jsは統計ページでのみCDNから読み込みます。
+他ページの表示速度には影響しません。
 
-## 確認URL
+## API確認
 
-https://xenotopi.github.io/mus-song-database/rankings.html?build=324
+`?action=trends&callback=callbackTest`
+
+各年に次の項目があれば正常です。
+
+- performanceCount
+- officialPerformanceCount
+- soloPerformanceCount
+- eventCount
+- officialEventCount
+- soloEventCount
+- uniqueSongCount
+- officialUniqueSongCount
+- soloUniqueSongCount
+- venueCount
+- officialVenueCount
+- soloVenueCount
+
+## Web確認URL
+
+https://xenotopi.github.io/mus-song-database/statistics.html?build=330

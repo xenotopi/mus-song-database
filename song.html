@@ -11,7 +11,7 @@
 
   <link
     rel="stylesheet"
-    href="assets/css/style.css?v=3.8.0"
+    href="assets/css/style.css?v=3.8.1"
   >
 
   <style>
@@ -847,6 +847,22 @@
       .gap-row{grid-template-columns:78px minmax(0,1fr) 62px}
     }
 
+
+    .history-year-filter{
+      margin-bottom:14px;padding:16px;border:1px solid #dcd9ff;
+      border-radius:18px;background:linear-gradient(135deg,#fff,#f8f7ff)
+    }
+    .history-year-filter-head{
+      display:flex;justify-content:space-between;gap:12px;align-items:center
+    }
+    .history-year-filter h3{margin:2px 0 0;font-size:17px}
+    .history-year-reset{
+      min-height:34px;padding:0 12px;border:1px solid var(--indigo);
+      border-radius:999px;background:#fff;color:var(--indigo);
+      font-size:11px;font-weight:900;cursor:pointer
+    }
+    .history-year-filter .year-timeline{margin-top:13px}
+
 </style>
 
 
@@ -883,7 +899,7 @@
 
   <meta name="theme-color" content="#4f46e5">
 
-  <script src="assets/js/seo-v351.js?v=3.8.0" defer></script>
+  <script src="assets/js/seo-v351.js?v=3.8.1" defer></script>
 </head>
 
 <body>
@@ -981,7 +997,7 @@
       <a href="#songRecordsSection">この曲の記録</a>
       <a href="#songAnalysisSection">分析</a>
       <a href="#songInsightsSection">関連データ</a>
-      <a href="#historySection">歌唱履歴</a>
+      <a href="#historySection">年別・歌唱履歴</a>
     </nav>
 
     <div
@@ -1042,7 +1058,7 @@
 
     <section class="section" id="releaseSection" hidden>
       <article class="official-release-card">
-        <div class="official-release-icon" aria-hidden="true">◉</div>
+        <div class="official-release-icon" aria-hidden="true">📀</div>
         <div class="official-release-body">
           <p class="kicker">OFFICIAL RELEASE</p>
           <h2>収録作品</h2>
@@ -1138,13 +1154,6 @@
         </article>
       </div>
 
-      <article class="song-analysis-card" style="margin-top:14px">
-        <p class="kicker">YEARLY TIMELINE</p>
-        <h2>年別タイムライン</h2>
-        <p class="detail-note">年を選ぶと、その年の歌唱履歴だけを表示します。</p>
-        <div id="yearTimeline" class="year-timeline"></div>
-      </article>
-
       <article
         class="song-analysis-card"
         style="margin-top:14px"
@@ -1214,6 +1223,21 @@
         ></div>
       </div>
 
+
+      <div class="history-year-filter">
+        <div class="history-year-filter-head">
+          <div>
+            <p class="kicker">YEAR FILTER</p>
+            <h3>開催年で絞り込む</h3>
+          </div>
+          <button class="history-year-reset" id="historyYearReset" type="button" hidden>
+            全期間に戻す
+          </button>
+        </div>
+        <p class="detail-note">年を選ぶと、下の歌唱履歴だけが切り替わります。</p>
+        <div id="yearTimeline" class="year-timeline"></div>
+      </div>
+
       <div class="list-controls">
         <div
           class="filter-pills"
@@ -1260,7 +1284,7 @@
 
   <script
     type="module"
-    src="assets/js/song-v380.js?v=3.8.0"
+    src="assets/js/song-v381.js?v=3.8.1"
   ></script>
 
   <script type="module">

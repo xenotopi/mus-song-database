@@ -364,7 +364,216 @@
       font-size: 12px;
     }
 
-</style>
+
+    .search-utility {
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .search-history-wrap {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-utility-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .search-history {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .search-history button,
+    .search-history-clear {
+      min-height: 30px;
+      padding: 0 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--navy);
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .search-history button:hover {
+      border-color: #b9b4f5;
+      background: #faf9ff;
+    }
+
+    .search-history-clear {
+      color: var(--muted);
+      background: transparent;
+    }
+
+    .search-key-guide {
+      display: flex;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .result-row {
+      position: relative;
+    }
+
+    .result-row.keyboard-active {
+      outline: 2px solid rgba(79,70,229,.55);
+      outline-offset: -2px;
+      background: #f7f6ff;
+    }
+
+    .result-priority {
+      margin-left: 6px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: var(--indigo);
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .result-type.singer {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .search-state {
+      margin-top: 24px;
+      padding: 36px 22px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .search-state-icon {
+      font-size: 34px;
+    }
+
+    .search-state h2 {
+      margin: 12px 0 0;
+      font-size: 23px;
+    }
+
+    .search-state p {
+      margin: 11px auto 0;
+      max-width: 560px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .search-state-actions {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .search-state-actions button {
+      min-height: 38px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--navy);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .search-state-actions button:hover {
+      border-color: var(--indigo);
+      color: var(--indigo);
+    }
+
+    .result-section[hidden] {
+      display: none;
+    }
+
+    .search-loading-card {
+      margin-top: 24px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .search-loading-line {
+      height: 16px;
+      margin: 12px 0;
+      border-radius: 999px;
+      background: linear-gradient(100deg,#eef0f5 20%,#fafbff 38%,#eef0f5 56%);
+      background-size: 220% 100%;
+      animation: searchLoading 1.1s linear infinite;
+    }
+
+    .search-loading-line:nth-child(2) {
+      width: 72%;
+    }
+
+    .search-loading-line:nth-child(3) {
+      width: 45%;
+    }
+
+    @keyframes searchLoading {
+      from { background-position: 200% 0; }
+      to { background-position: -20% 0; }
+    }
+
+    @media (max-width: 640px) {
+      .search-key-guide {
+        display: none;
+      }
+
+      .search-history-wrap {
+        width: 100%;
+      }
+
+      .search-history {
+        width: 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .search-history::-webkit-scrollbar {
+        display: none;
+      }
+
+      .search-history button {
+        flex: 0 0 auto;
+      }
+
+      .result-row {
+        grid-template-columns: 68px minmax(0,1fr) auto;
+        gap: 10px;
+        padding: 14px 13px;
+      }
+
+      .result-type {
+        width: 68px;
+      }
+
+      .result-meta {
+        font-size: 11px;
+      }
+    }
+
+  </style>
 
   <meta name="description" content="μ'sの曲・イベント・会場・歌唱名義を横断して検索できます。">
   <meta name="robots" content="index,follow,max-image-preview:large">
@@ -392,7 +601,7 @@
 
   <meta name="theme-color" content="#4f46e5">
 
-  <script src="assets/js/seo-v351.js?v=3.5.1" defer></script>
+  <script src="assets/js/seo-v351.js?v=3.7.0" defer></script>
 </head>
 
 <body>
@@ -518,6 +727,22 @@
         </div>
       </div>
 
+      <div class="search-utility">
+        <div class="search-history-wrap" id="searchHistoryWrap" hidden>
+          <span class="search-utility-label">最近の検索</span>
+          <div class="search-history" id="searchHistory"></div>
+          <button class="search-history-clear" id="searchHistoryClear" type="button">
+            履歴を消去
+          </button>
+        </div>
+
+        <div class="search-key-guide">
+          <span>↑↓ 候補を移動</span>
+          <span>Enterで開く</span>
+          <span>Escで閉じる</span>
+        </div>
+      </div>
+
       <div
         id="status"
         class="status"
@@ -532,7 +757,7 @@
 
   <script
     type="module"
-    src="assets/js/search.js?v=2.7.0"
+    src="assets/js/search-v370.js?v=3.7.0"
   ></script>
 </body>
 </html>

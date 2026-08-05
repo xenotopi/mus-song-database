@@ -1,231 +1,488 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>μ's Song Database</title>
-<link rel="stylesheet" href="assets/css/style.css?v=2.6.0">
-<style>
-.home-hero{position:relative;overflow:hidden;padding:36px 28px 44px;border-radius:24px;color:#fff;background:radial-gradient(circle at 80% 10%,rgba(255,255,255,.12),transparent 28%),linear-gradient(135deg,#172033,#33366d 46%,#4f46e5);box-shadow:0 18px 48px rgba(33,38,90,.2)}
-.home-hero h1{margin:8px 0 0;font-size:clamp(36px,7vw,60px);line-height:1.05}
-.home-hero-copy{margin:16px 0 0;max-width:700px;font-weight:800}
-.home-search{margin-top:24px;min-height:58px;padding:0 18px;display:flex;align-items:center;gap:10px;border-radius:16px;background:#fff;color:var(--navy)}
-.home-search input{width:100%;border:0;outline:0;background:transparent;font-size:16px}
-.home-summary{margin-top:22px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.home-summary-card{min-height:116px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow)}
-.home-summary-value{color:var(--indigo);font-size:36px;font-weight:900;line-height:1}
-.home-summary-label{color:var(--muted);font-size:12px;font-weight:800}
-.home-grid{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.today-card{border-left:5px solid var(--ni)}
-.today-date{color:var(--indigo);font-size:18px;font-weight:900}
-.today-group{margin-top:14px;padding:14px;border-radius:14px;background:#f8f3ff}
-.today-group h3{margin:0 0 8px;font-size:15px}
-.today-item{display:block;padding:8px 0;border-bottom:1px solid rgba(79,70,229,.12);text-decoration:none}
-.today-item:last-child{border-bottom:0}
-.today-empty{color:var(--muted);font-size:13px}
-.home-ranking-list{padding:0;overflow:hidden}
-.home-ranking-row{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:12px;align-items:center;padding:13px 16px;border-bottom:1px solid var(--line);text-decoration:none}
-.home-ranking-row:last-child{border-bottom:0}
-.home-rank{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:var(--indigo-soft);color:var(--indigo);font-weight:900}
-.home-ranking-name{font-weight:900}
-.home-ranking-meta{color:var(--muted);font-size:11px}
-.home-ranking-count{color:var(--indigo);font-weight:900}
-.recent-list{display:grid;gap:18px}
-.recent-card{overflow:hidden;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow)}
-.recent-card-head{padding:17px 18px 15px;background:linear-gradient(90deg,#fbf8ff,#f4f2ff)}
-.recent-date{color:var(--muted);font-size:12px;font-weight:700}
-.recent-event{display:inline-block;margin-top:4px;color:var(--navy);font-size:18px;font-weight:900;line-height:1.4;text-decoration:none}
-.recent-event:hover{color:var(--indigo)}
-.recent-tags{display:flex;gap:7px 10px;align-items:center;flex-wrap:wrap;margin-top:9px}
-.recent-meta-link{color:var(--muted);font-size:12px;font-weight:700;text-decoration:none}
-.recent-meta-link:hover{color:var(--indigo)}
-.recent-song-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:16px 18px 18px}
-.recent-song{min-width:0;padding:12px 14px;border:1px solid #e2e5ec;border-radius:14px;background:#fff;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
-.recent-song:hover{border-color:#aaa5f3;background:#fafaff;box-shadow:0 8px 20px rgba(79,70,229,.08);transform:translateY(-1px)}
-.recent-song-name{display:block;color:var(--navy);font-size:15px;font-weight:900;line-height:1.45}
-.recent-song-singer{display:block;margin-top:8px;padding-top:7px;border-top:1px solid #eef0f4;color:#59637a;font-size:13px;font-weight:700;line-height:1.4}
-.recent-song-singer::before{content:"歌唱：";color:#8b93a7;font-weight:600}
-.recent-song-singer:empty{display:none}
-.recent-empty-singer{display:block;margin-top:5px;color:#9aa1b2;font-size:12px}
-.home-section-note{margin-left:8px;color:var(--muted);font-size:12px;font-weight:600}
-@media(max-width:800px){.home-summary{grid-template-columns:repeat(2,1fr)}.home-grid{grid-template-columns:1fr}.recent-song-list{grid-template-columns:1fr}}
-@media(max-width:520px){.recent-card-head{padding:15px}.recent-song-list{padding:13px 15px 16px}.recent-song-name{font-size:14px}.recent-song-singer{font-size:13px}}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
 
-.home-featured{margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.home-featured-card{min-height:160px;padding:18px;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow);text-decoration:none}
-.home-featured-label{color:var(--indigo);font-size:11px;font-weight:900;letter-spacing:.08em}
-.home-featured-title{margin-top:16px;color:var(--navy);font-size:19px;font-weight:900;line-height:1.45}
-.home-featured-meta{margin-top:auto;padding-top:14px;color:var(--muted);font-size:12px;font-weight:700}
-.latest-event-list{display:grid;gap:10px}
-.latest-event-row{display:grid;grid-template-columns:92px minmax(0,1fr) auto;gap:12px;align-items:center;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#fff;text-decoration:none}
-.latest-event-row:hover{border-color:#c7c2f7;background:#fcfbff}
-.latest-event-date{color:var(--indigo);font-size:12px;font-weight:900}
-.latest-event-name{color:var(--navy);font-weight:900;line-height:1.4}
-.latest-event-meta{display:block;margin-top:3px;color:var(--muted);font-size:11px}
-.latest-event-arrow{color:var(--indigo);font-size:20px;font-weight:900}
-.home-more-wrap{margin-top:18px;text-align:center}
-.home-more-button{min-width:220px;min-height:46px;padding:0 20px;border:1px solid var(--indigo);border-radius:999px;background:#fff;color:var(--indigo);font-weight:900;cursor:pointer}
-.home-more-button:hover{background:var(--indigo);color:#fff}
-@media(max-width:800px){.home-featured{grid-template-columns:1fr}}
-@media(max-width:560px){.latest-event-row{grid-template-columns:1fr auto}.latest-event-date{grid-column:1/-1}}
+  <title>μ's Song Database</title>
+  <meta name="description" content="μ'sの楽曲・イベント・会場を横断し、歌唱履歴を検索・分析できるデータベースです。">
+  <meta name="robots" content="index,follow,max-image-preview:large">
 
+  <link rel="canonical" href="https://xenotopi.github.io/mus-song-database/">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/css/style.css?v=2.6.1">
 
-.discover-panel {
-  margin-top: 24px;
-  padding: 20px;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  background:
-    linear-gradient(
-      135deg,
-      #ffffff,
-      #f7f5ff
-    );
-  box-shadow: var(--shadow);
-}
-
-.discover-cards {
-  display: grid;
-  grid-template-columns:
-    repeat(3, 1fr);
-  gap: 12px;
-}
-
-.discover-item {
-  min-height: 136px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: #fff;
-  text-decoration: none;
-}
-
-.discover-item:hover {
-  border-color: #bdb7f5;
-  transform: translateY(-1px);
-}
-
-.discover-item-label {
-  color: var(--indigo);
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: .08em;
-}
-
-.discover-item-title {
-  margin-top: 11px;
-  color: var(--navy);
-  font-size: 16px;
-  font-weight: 900;
-  line-height: 1.45;
-}
-
-.discover-item-meta {
-  margin-top: auto;
-  padding-top: 10px;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.insight-list {
-  display: grid;
-  gap: 9px;
-}
-
-.insight-row {
-  display: grid;
-  grid-template-columns:
-    minmax(0, 1fr) auto;
-  gap: 12px;
-  align-items: center;
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: #fff;
-  text-decoration: none;
-}
-
-.insight-row:hover {
-  border-color: #bdb7f5;
-  background: #fcfbff;
-}
-
-.insight-title {
-  color: var(--navy);
-  font-weight: 900;
-}
-
-.insight-meta {
-  margin-top: 3px;
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.insight-value {
-  color: var(--indigo);
-  font-weight: 900;
-  white-space: nowrap;
-}
-
-.trend-chart {
-  display: grid;
-  gap: 9px;
-}
-
-.trend-row {
-  display: grid;
-  grid-template-columns:
-    52px minmax(0, 1fr) 62px;
-  gap: 10px;
-  align-items: center;
-}
-
-.trend-year {
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 800;
-}
-
-.trend-track {
-  height: 12px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: #eceef5;
-}
-
-.trend-bar {
-  height: 100%;
-  border-radius: inherit;
-  background:
-    linear-gradient(
-      90deg,
-      #4f46e5,
-      #8b5cf6
-    );
-}
-
-.trend-value {
-  color: var(--navy);
-  font-size: 11px;
-  font-weight: 900;
-  text-align: right;
-}
-
-@media (max-width: 760px) {
-  .discover-cards {
-    grid-template-columns: 1fr;
-  }
-}
-
-</style>
+  <meta property="og:site_name" content="μ's Song Database">
+  <meta property="og:title" content="μ's Song Database">
+  <meta property="og:description" content="μ'sの楽曲・イベント・会場を横断し、歌唱履歴を検索・分析できるデータベースです。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://xenotopi.github.io/mus-song-database/">
+  <meta property="og:image" content="https://xenotopi.github.io/mus-song-database/assets/images/og-default.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#4f46e5">
 
   <style>
+    .home-hero {
+      position: relative;
+      overflow: hidden;
+      padding: 42px 34px 36px;
+      border-radius: 26px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 82% 8%, rgba(255,255,255,.16), transparent 28%),
+        linear-gradient(135deg, #172033, #33366d 48%, #4f46e5);
+      box-shadow: 0 18px 48px rgba(33,38,90,.20);
+    }
+
+    .home-hero h1 {
+      margin: 9px 0 0;
+      font-size: clamp(38px, 7vw, 64px);
+      line-height: 1.04;
+      letter-spacing: -.035em;
+    }
+
+    .home-hero-copy {
+      margin: 17px 0 0;
+      max-width: 720px;
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.8;
+    }
+
+    .home-search-form {
+      margin-top: 25px;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) auto;
+      gap: 10px;
+    }
+
+    .home-search {
+      min-height: 58px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 16px;
+      background: #fff;
+      color: var(--navy);
+    }
+
+    .home-search input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      font-size: 16px;
+    }
+
+    .home-search-button {
+      min-width: 118px;
+      border: 0;
+      border-radius: 16px;
+      color: var(--indigo);
+      background: #fff;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .home-update {
+      margin-top: 13px;
+      color: rgba(255,255,255,.72);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .home-summary {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 12px;
+    }
+
+    .home-summary-card {
+      min-height: 116px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .home-summary-value {
+      color: var(--indigo);
+      font-size: 36px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .home-summary-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .home-start {
+      margin-top: 24px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: linear-gradient(135deg,#fff,#f8f7ff);
+      box-shadow: var(--shadow);
+    }
+
+    .home-start-grid {
+      margin-top: 15px;
+      display: grid;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+      gap: 12px;
+    }
+
+    .home-start-card {
+      min-height: 132px;
+      padding: 17px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      color: inherit;
+      text-decoration: none;
+      transition: transform .15s ease, border-color .15s ease;
+    }
+
+    .home-start-card:hover {
+      border-color: #bcb7f4;
+      transform: translateY(-2px);
+    }
+
+    .home-start-icon {
+      font-size: 22px;
+    }
+
+    .home-start-title {
+      margin-top: 12px;
+      color: var(--navy);
+      font-weight: 900;
+    }
+
+    .home-start-copy {
+      margin-top: auto;
+      padding-top: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    .home-featured {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+      gap: 14px;
+    }
+
+    .home-featured-card {
+      min-height: 160px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+    }
+
+    .home-featured-label {
+      color: var(--indigo);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .home-featured-title {
+      margin-top: 16px;
+      color: var(--navy);
+      font-size: 19px;
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+    .home-featured-meta {
+      margin-top: auto;
+      padding-top: 14px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .home-grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .today-card {
+      border-left: 5px solid var(--ni);
+    }
+
+    .today-date {
+      color: var(--indigo);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .today-group {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 14px;
+      background: #f8f3ff;
+    }
+
+    .today-group h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+
+    .today-item {
+      display: block;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(79,70,229,.12);
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .today-item:last-child {
+      border-bottom: 0;
+    }
+
+    .today-empty {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .home-ranking-list {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .home-ranking-row {
+      display: grid;
+      grid-template-columns: 36px minmax(0,1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--line);
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .home-ranking-row:last-child {
+      border-bottom: 0;
+    }
+
+    .home-rank {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--indigo-soft);
+      color: var(--indigo);
+      font-weight: 900;
+    }
+
+    .home-ranking-name {
+      color: var(--navy);
+      font-weight: 900;
+    }
+
+    .home-ranking-meta {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .home-ranking-count {
+      color: var(--indigo);
+      font-weight: 900;
+    }
+
+    .latest-event-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .latest-event-row {
+      display: grid;
+      grid-template-columns: 92px minmax(0,1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .latest-event-row:hover {
+      border-color: #c7c2f7;
+      background: #fcfbff;
+    }
+
+    .latest-event-date {
+      color: var(--indigo);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .latest-event-name {
+      color: var(--navy);
+      font-weight: 900;
+      line-height: 1.4;
+    }
+
+    .latest-event-meta {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .latest-event-arrow {
+      color: var(--indigo);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .recent-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .recent-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .recent-card-head {
+      padding: 17px 18px 15px;
+      background: linear-gradient(90deg,#fbf8ff,#f4f2ff);
+    }
+
+    .recent-date {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .recent-event {
+      display: inline-block;
+      margin-top: 4px;
+      color: var(--navy);
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .recent-tags {
+      margin-top: 9px;
+      display: flex;
+      gap: 7px 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .recent-meta-link {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .recent-song-list {
+      padding: 16px 18px 18px;
+      display: grid;
+      grid-template-columns: repeat(2,minmax(0,1fr));
+      gap: 10px;
+    }
+
+    .recent-song {
+      min-width: 0;
+      padding: 12px 14px;
+      border: 1px solid #e2e5ec;
+      border-radius: 14px;
+      background: #fff;
+      text-decoration: none;
+    }
+
+    .recent-song:hover {
+      border-color: #aaa5f3;
+      background: #fafaff;
+    }
+
+    .recent-song-name {
+      display: block;
+      color: var(--navy);
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+    .recent-song-singer {
+      display: block;
+      margin-top: 8px;
+      padding-top: 7px;
+      border-top: 1px solid #eef0f4;
+      color: #59637a;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .recent-song-singer::before {
+      content: "歌唱：";
+      color: #8b93a7;
+      font-weight: 600;
+    }
+
+    .home-more-wrap {
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .home-more-button {
+      min-width: 220px;
+      min-height: 46px;
+      padding: 0 20px;
+      border: 1px solid var(--indigo);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--indigo);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .home-section-note {
+      margin-left: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
     .home-section-loading {
       position: relative;
-      min-height: 86px;
+      min-height: 90px;
       overflow: hidden;
     }
 
@@ -235,164 +492,214 @@
       z-index: 20;
       inset: 0;
       border-radius: inherit;
-      background:
-        linear-gradient(
-          100deg,
-          rgba(247,248,251,.86) 20%,
-          rgba(255,255,255,.96) 38%,
-          rgba(247,248,251,.86) 56%
-        );
+      background: linear-gradient(
+        100deg,
+        rgba(247,248,251,.88) 20%,
+        rgba(255,255,255,.98) 38%,
+        rgba(247,248,251,.88) 56%
+      );
       background-size: 220% 100%;
-      animation:
-        homeSkeletonMove 1.15s
-        linear infinite;
+      animation: homeSkeletonMove 1.15s linear infinite;
       pointer-events: none;
     }
 
-    .home-loading-inline {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .home-loading-inline > span {
-      display: inline-flex;
-      gap: 3px;
-    }
-
-    .home-loading-inline i {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--indigo);
-      animation:
-        homeLoadingDot 1s
-        ease-in-out infinite;
-    }
-
-    .home-loading-inline i:nth-child(2) {
-      animation-delay: .12s;
-    }
-
-    .home-loading-inline i:nth-child(3) {
-      animation-delay: .24s;
-    }
-
     @keyframes homeSkeletonMove {
-      from {
-        background-position: 200% 0;
+      from { background-position: 200% 0; }
+      to { background-position: -20% 0; }
+    }
+
+    @media (max-width: 800px) {
+      .home-summary {
+        grid-template-columns: repeat(2,minmax(0,1fr));
       }
 
-      to {
-        background-position: -20% 0;
+      .home-start-grid,
+      .home-featured,
+      .home-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .recent-song-list {
+        grid-template-columns: 1fr;
       }
     }
 
-    @keyframes homeLoadingDot {
-      0%,
-      100% {
-        opacity: .35;
-        transform: translateY(0);
+    @media (max-width: 560px) {
+      .home-hero {
+        padding: 30px 20px 28px;
       }
 
-      50% {
-        opacity: 1;
-        transform: translateY(-2px);
+      .home-search-form {
+        grid-template-columns: 1fr;
       }
-    }
 
-    @media (
-      prefers-reduced-motion:
-      reduce
-    ) {
-      .home-section-loading::after,
-      .home-loading-inline i {
-        animation: none;
+      .home-search-button {
+        min-height: 48px;
+      }
+
+      .latest-event-row {
+        grid-template-columns: 1fr auto;
+      }
+
+      .latest-event-date {
+        grid-column: 1/-1;
+      }
+
+      .recent-card-head {
+        padding: 15px;
+      }
+
+      .recent-song-list {
+        padding: 13px 15px 16px;
       }
     }
   </style>
 
-
-  <meta name="description" content="μ'sの楽曲・イベント・会場を横断し、歌唱履歴を検索・分析できるデータベースです。">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-
-  <link rel="canonical" href="https://xenotopi.github.io/mus-song-database/">
-  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
-  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
-  <link rel="manifest" href="manifest.webmanifest">
-
-  <meta property="og:site_name" content="μ's Song Database">
-  <meta property="og:title" content="μ's Song Database">
-  <meta property="og:description" content="μ'sの楽曲・イベント・会場を横断し、歌唱履歴を検索・分析できるデータベースです。">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://xenotopi.github.io/mus-song-database/">
-  <meta property="og:image" content="https://xenotopi.github.io/mus-song-database/assets/images/og-default.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:locale" content="ja_JP">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="μ's Song Database">
-  <meta name="twitter:description" content="μ'sの楽曲・イベント・会場を横断し、歌唱履歴を検索・分析できるデータベースです。">
-  <meta name="twitter:image" content="https://xenotopi.github.io/mus-song-database/assets/images/og-default.png">
-
-  <meta name="theme-color" content="#4f46e5">
-
-  <script src="assets/js/seo-v351.js?v=3.5.1" defer></script>
+  <script src="assets/js/seo-v351.js?v=3.6.0" defer></script>
 </head>
+
 <body>
-<div id="siteHeader"></div>
-<main>
-<section class="home-hero">
-<p class="kicker" style="color:#fff">μ's ARCHIVE & PERFORMANCE HISTORY</p>
-<h1>μ's Song Database</h1>
-<p class="home-hero-copy">μ'sの楽曲・イベント・会場を横断して、歌唱の歴史を検索・分析できるデータベース。</p>
-<div class="home-search"><span>⌕</span><input id="homeSearchInput" placeholder="曲・イベント・会場を検索"></div>
-<div class="muse-line"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-</section>
+  <div id="siteHeader"></div>
 
-<div class="status" id="status">ホームデータを読み込んでいます</div>
-<div class="retry-wrap"><button class="retry-button" id="retryButton" type="button" hidden>再試行</button></div>
+  <main>
+    <section class="home-hero">
+      <p class="kicker" style="color:#fff">μ's ARCHIVE & PERFORMANCE HISTORY</p>
+      <h1>μ's Song Database</h1>
+      <p class="home-hero-copy">
+        μ'sの楽曲・イベント・会場を横断して、歌唱の歴史を検索・分析できるデータベース。
+      </p>
 
-<section class="home-summary" id="summary" hidden>
-<article class="home-summary-card"><div class="home-summary-value" id="songCount">0</div><div class="home-summary-label">管理曲数</div></article>
-<article class="home-summary-card"><div class="home-summary-value" id="eventCount">0</div><div class="home-summary-label">登録イベント数</div></article>
-<article class="home-summary-card"><div class="home-summary-value" id="venueCount">0</div><div class="home-summary-label">登録会場数</div></article>
-<article class="home-summary-card"><div class="home-summary-value" id="performanceCount">0</div><div class="home-summary-label">歌唱記録数</div></article>
-</section>
+      <form class="home-search-form" id="homeSearchForm">
+        <label class="home-search">
+          <span>⌕</span>
+          <input id="homeSearchInput" type="search" placeholder="曲・イベント・会場・歌唱名義を検索" autocomplete="off">
+        </label>
+        <button class="home-search-button" type="submit">検索する</button>
+      </form>
 
-<section class="home-featured" id="featuredSection" hidden>
-<a class="home-featured-card" id="featuredSong" href="#"></a>
-<a class="home-featured-card" id="featuredVenue" href="#"></a>
-<a class="home-featured-card" id="featuredEvent" href="#"></a>
-</section>
+      <div class="home-update" id="homeUpdate">最新データを確認しています…</div>
 
-<section class="home-grid" id="topSection" hidden>
-<article class="card today-card"><p class="kicker">TODAY IN μ's</p><h2>今日はμ'sのこんな日</h2><div class="today-date" id="todayDate"></div><div id="todayContent"></div></article>
-<article class="card"><p class="kicker">TOP SONGS</p><h2>歌唱回数TOP5</h2><div class="home-ranking-list" id="topSongs"></div></article>
-</section>
+      <div class="muse-line">
+        <i></i><i></i><i></i><i></i><i></i>
+        <i></i><i></i><i></i><i></i>
+      </div>
+    </section>
 
-<section class="home-grid" id="middleSection" hidden>
-<article class="card"><p class="kicker">TOP VENUES</p><h2>利用イベント数TOP5</h2><div class="home-ranking-list" id="topVenues"></div></article>
-<article class="card"><p class="kicker">QUICK LINKS</p><h2>データベースを巡る</h2><div class="home-ranking-list">
-<a class="home-ranking-row" href="rankings.html"><span class="home-rank">1</span><span><span class="home-ranking-name">ランキングを見る</span><span class="home-ranking-meta">曲・イベント・会場を比較</span></span><span class="home-ranking-count">›</span></a>
-<a class="home-ranking-row" href="search.html"><span class="home-rank">2</span><span><span class="home-ranking-name">μ'sの歴史を検索</span><span class="home-ranking-meta">曲・イベント・会場を横断</span></span><span class="home-ranking-count">›</span></a>
-</div></article>
-</section>
+    <div class="status" id="status">ホームデータを読み込んでいます…</div>
+    <div class="retry-wrap">
+      <button class="retry-button" id="retryButton" type="button" hidden>再試行</button>
+    </div>
 
-<section class="section" id="latestEventsSection" hidden>
-<div class="section-head"><div><p class="kicker">LATEST EVENTS</p><h2>新着イベント</h2></div></div>
-<div class="latest-event-list" id="latestEventsList"></div>
-</section>
+    <section class="home-summary home-section-loading" id="summary">
+      <article class="home-summary-card">
+        <div class="home-summary-value" id="songCount">—</div>
+        <div class="home-summary-label">管理曲数</div>
+      </article>
+      <article class="home-summary-card">
+        <div class="home-summary-value" id="eventCount">—</div>
+        <div class="home-summary-label">登録イベント数</div>
+      </article>
+      <article class="home-summary-card">
+        <div class="home-summary-value" id="venueCount">—</div>
+        <div class="home-summary-label">登録会場数</div>
+      </article>
+      <article class="home-summary-card">
+        <div class="home-summary-value" id="performanceCount">—</div>
+        <div class="home-summary-label">歌唱記録数</div>
+      </article>
+    </section>
 
-<section class="section" id="recentSection" hidden>
-<div class="section-head"><div><p class="kicker">RECENT PERFORMANCES</p><h2>最近歌われた曲 <span class="home-section-note">最新5イベント</span></h2></div></div>
-<div class="recent-list" id="recentList"></div>
-<div class="home-more-wrap"><button class="home-more-button" id="recentMoreButton" type="button" hidden>もっと見る</button></div>
-</section>
-</main>
-<div id="siteFooter"></div>
-<script type="module" src="assets/js/home.js?v=2.7.0"></script>
+    <section class="home-start">
+      <p class="kicker">START HERE</p>
+      <h2>μ'sの歴史を巡る</h2>
+      <div class="home-start-grid">
+        <a class="home-start-card" href="search.html">
+          <span class="home-start-icon">⌕</span>
+          <span class="home-start-title">横断検索</span>
+          <span class="home-start-copy">曲・イベント・会場・歌唱名義をまとめて検索します。</span>
+        </a>
+        <a class="home-start-card" href="rankings.html">
+          <span class="home-start-icon">↗</span>
+          <span class="home-start-title">ランキング</span>
+          <span class="home-start-copy">歌唱回数や開催数から、μ'sの記録を比較します。</span>
+        </a>
+        <a class="home-start-card" href="statistics.html">
+          <span class="home-start-icon">▥</span>
+          <span class="home-start-title">年別統計</span>
+          <span class="home-start-copy">年別・公式・ソロ別に、歌唱履歴の変化を眺めます。</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="home-featured home-section-loading" id="featuredSection">
+      <a class="home-featured-card" id="featuredSong" href="#"></a>
+      <a class="home-featured-card" id="featuredVenue" href="#"></a>
+      <a class="home-featured-card" id="featuredEvent" href="#"></a>
+    </section>
+
+    <section class="home-grid home-section-loading" id="topSection">
+      <article class="card today-card">
+        <p class="kicker">TODAY IN μ's</p>
+        <h2>今日はμ'sのこんな日</h2>
+        <div class="today-date" id="todayDate"></div>
+        <div id="todayContent"></div>
+      </article>
+
+      <article class="card">
+        <p class="kicker">TOP SONGS</p>
+        <h2>歌唱回数TOP5</h2>
+        <div class="home-ranking-list" id="topSongs"></div>
+      </article>
+    </section>
+
+    <section class="home-grid home-section-loading" id="middleSection">
+      <article class="card">
+        <p class="kicker">TOP VENUES</p>
+        <h2>利用イベント数TOP5</h2>
+        <div class="home-ranking-list" id="topVenues"></div>
+      </article>
+
+      <article class="card">
+        <p class="kicker">ABOUT THIS DATABASE</p>
+        <h2>初めての方へ</h2>
+        <p style="color:var(--muted);line-height:1.9">
+          μ's名義の公式イベントと、キャスト個人名義のソロイベントを分けて管理しています。
+          データの定義や集計方針はAboutで確認できます。
+        </p>
+        <div class="home-more-wrap">
+          <a class="home-more-button" href="about.html" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none">
+            Aboutを見る
+          </a>
+        </div>
+      </article>
+    </section>
+
+    <section class="section home-section-loading" id="latestEventsSection">
+      <div class="section-head">
+        <div>
+          <p class="kicker">LATEST EVENTS</p>
+          <h2>新着イベント</h2>
+        </div>
+      </div>
+      <div class="latest-event-list" id="latestEventsList"></div>
+    </section>
+
+    <section class="section home-section-loading" id="recentSection">
+      <div class="section-head">
+        <div>
+          <p class="kicker">RECENT PERFORMANCES</p>
+          <h2>最近歌われた曲 <span class="home-section-note">最新5イベント</span></h2>
+        </div>
+      </div>
+      <div class="recent-list" id="recentList"></div>
+      <div class="home-more-wrap">
+        <button class="home-more-button" id="recentMoreButton" type="button" hidden>もっと見る</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script type="module" src="assets/js/home-v360.js?v=3.6.0"></script>
 </body>
 </html>

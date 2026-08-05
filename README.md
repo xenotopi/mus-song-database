@@ -1,67 +1,101 @@
-# v3.4：表示速度・キャッシュ最適化版
-
-## Apps Script側
-
-以下を丸ごと差し替えてください。
-
-- CacheApi.gs
-
-保存後、新バージョンとして再デプロイしてください。
-
-再デプロイ後、Apps Scriptエディタから次を1回実行すると、
-ホーム・ランキング・統計・Aboutの初回表示も短縮できます。
-
-- warmApiCacheV34
+# v3.5.1：タイトル・meta description・OGP
 
 ## GitHub側
 
-以下を上書きしてください。
+ZIP内の `github` フォルダの内容を、GitHub Pagesのルートへ上書き・追加してください。
 
-- assets/js/api.js
+### 上書き
 
-HTMLや各ページのJavaScript変更はありません。
+- index.html
+- song.html
+- event.html
+- venue.html
+- rankings.html
+- statistics.html
+- about.html
+- search.html
 
-既存ページがすべて `assets/js/api.js` を参照しているため、
-この1ファイルでサイト全体へ反映されます。
+### 新規追加
 
-## 主な改善
+- 404.html
+- manifest.webmanifest
+- robots.txt
+- sitemap.xml
+- assets/js/seo-v351.js
+- assets/images/og-default.png
+- assets/icons/favicon.svg
+- assets/icons/favicon-32.png
+- assets/icons/apple-touch-icon.png
+- assets/icons/icon-192.png
+- assets/icons/icon-512.png
 
-### ブラウザ側
+Apps Script側の変更はありません。
 
-- sessionStorageキャッシュ
-- localStorageによる再訪キャッシュ
-- 古いキャッシュを即時表示して裏で更新
-- 同じAPIへの重複通信を1回へ統合
-- 通信失敗時に保存済みデータを表示
-- 保存容量が増えた場合は古いキャッシュから自動削除
+---
 
-### Apps Script側
+## 実装内容
 
-- CacheServiceの保存時間を延長
-- 80KB以下は通常キャッシュ
-- 大容量レスポンスはgzip圧縮＋分割キャッシュ
-- ランキング全件など、従来90KB超過で保存できなかったレスポンスにも対応
-- 主要APIの事前生成関数を追加
+### ページタイトル
 
-## 期待できる効果
+詳細ページはAPI表示後に自動更新します。
 
-- 2回目以降の表示はほぼ即時
-- ブラウザを閉じて再訪した場合も保存済みデータを先に表示
-- ホーム・ランキング・統計のGAS再計算回数を削減
-- 一時的なAPI遅延や通信失敗でも画面を表示しやすくする
+例：
 
-## 反映確認
+- Snow halation | μ's Song Database
+- イベント名 | μ's Song Database
+- 会場名 | μ's Song Database
+- 「Snow」の検索結果 | μ's Song Database
 
-ブラウザで一度強制再読み込みしてください。
+### meta description
 
-Windows：
-Ctrl + F5
+曲・イベント・会場・検索語に合わせてブラウザ上で更新します。
 
-確認時はホーム、ランキング、統計を1回ずつ開き、
-その後もう一度同じページへ移動します。
-2回目の表示が大幅に速ければ正常です。
+### OGP / Twitter Card
 
-## 注意
+全ページに共通OGP画像と基本情報を設定しています。
 
-最初の1回だけはデータ生成が必要です。
-`warmApiCacheV34`を実行すると、その最初の待ち時間も減らせます。
+注意：
+GitHub Pagesは静的サイトのため、X・LINE・Discord等のクローラーには
+HTMLへ最初から記載された「ページ種別ごとの共通タイトル」が使われる場合があります。
+曲名・イベント名・会場名まで含む個別OGP画像は、
+将来の静的ページ生成またはサーバー側生成で対応するのが確実です。
+
+### canonical
+
+現在実際に利用しているGitHub PagesのURL形式を正規URLにしています。
+
+例：
+
+- song.html?id=S0001
+- event.html?id=EV0001
+- venue.html?id=VE0001
+
+### favicon / Manifest
+
+ブラウザタブ・ホーム画面用アイコンを追加しました。
+
+### フッター
+
+`Web Prototype v2.7` を廃止し、JavaScriptで次へ置き換えます。
+
+- Version 3.5.1
+- © μ's Song Database Project
+
+### 404
+
+遊び心のある404ページを追加しています。
+
+---
+
+## 確認
+
+反映後は一度 `Ctrl + F5` で強制再読み込みしてください。
+
+確認項目：
+
+1. ブラウザタブに各ページ名が表示される
+2. 曲・イベント・会場詳細は読み込み後に固有名へ変わる
+3. 検索結果は検索語を含むタイトルになる
+4. ブラウザタブにμアイコンが表示される
+5. フッターがVersion 3.5.1へ変わる
+6. 存在しないURLで404ページが表示される

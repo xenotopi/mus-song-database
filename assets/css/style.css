@@ -401,3 +401,6 @@ h2{margin:2px 0 14px}
   .muse-line{left:18px;right:18px}
   .info{grid-template-columns:110px 1fr}
 }
+
+
+/* v3.8 song detail additions are scoped in song.html. */

@@ -11,7 +11,7 @@
 
   <link
     rel="stylesheet"
-    href="assets/css/style.css?v=2.6.1"
+    href="assets/css/style.css?v=3.8.0"
   >
 
   <style>
@@ -404,7 +404,7 @@
 
     .song-record-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 12px;
     }
 
@@ -637,6 +637,216 @@
       text-align: right;
     }
 
+
+    .song-share-actions{
+      margin-top:18px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .song-share-button{
+      min-height:38px;
+      padding:0 14px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid rgba(255,255,255,.55);
+      border-radius:999px;
+      background:rgba(255,255,255,.12);
+      color:#fff;
+      font-size:12px;
+      font-weight:900;
+      text-decoration:none;
+      cursor:pointer;
+    }
+    .song-share-button.primary{
+      background:#fff;
+      color:var(--indigo);
+    }
+    .song-share-message{
+      color:rgba(255,255,255,.85);
+      font-size:11px;
+      font-weight:800;
+    }
+    .official-release-card{
+      display:grid;
+      grid-template-columns:72px minmax(0,1fr) auto;
+      gap:18px;
+      align-items:center;
+      padding:22px;
+      border:1px solid #dcd9ff;
+      border-radius:22px;
+      background:linear-gradient(135deg,#fff,#f6f4ff);
+      box-shadow:var(--shadow);
+    }
+    .official-release-icon{
+      width:58px;
+      height:58px;
+      display:grid;
+      place-items:center;
+      border-radius:18px;
+      background:linear-gradient(135deg,#172033,#4f46e5);
+      color:#fff;
+      font-size:26px;
+      font-weight:900;
+    }
+    .official-release-title{
+      margin-top:8px;
+      color:var(--navy);
+      font-size:22px;
+      font-weight:900;
+      line-height:1.45;
+    }
+    .official-release-meta{
+      margin:12px 0 0;
+      display:flex;
+      gap:8px 18px;
+      flex-wrap:wrap;
+    }
+    .official-release-meta div{
+      display:flex;
+      gap:6px;
+      align-items:baseline;
+    }
+    .official-release-meta dt{
+      color:var(--muted);
+      font-size:11px;
+      font-weight:800;
+    }
+    .official-release-meta dd{
+      margin:0;
+      color:var(--navy);
+      font-size:12px;
+      font-weight:900;
+    }
+    .official-release-link{
+      min-height:46px;
+      padding:0 18px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      background:var(--indigo);
+      color:#fff;
+      font-weight:900;
+      text-decoration:none;
+      white-space:nowrap;
+    }
+    .official-release-note{
+      margin-top:7px;
+      color:var(--muted);
+      font-size:10px;
+      text-align:center;
+    }
+    .comparison-chart{
+      margin-top:18px;
+      display:grid;
+      gap:14px;
+    }
+    .comparison-row{
+      display:grid;
+      grid-template-columns:56px minmax(0,1fr) 58px;
+      gap:10px;
+      align-items:center;
+    }
+    .comparison-label,.comparison-value{
+      font-size:12px;
+      font-weight:900;
+    }
+    .comparison-value{text-align:right;color:var(--indigo)}
+    .comparison-track{
+      height:15px;
+      overflow:hidden;
+      border-radius:999px;
+      background:#eceef5;
+    }
+    .comparison-bar{
+      height:100%;
+      min-width:3px;
+      border-radius:inherit;
+    }
+    .comparison-bar.official{background:linear-gradient(90deg,#4f46e5,#7c6cf2)}
+    .comparison-bar.solo{background:linear-gradient(90deg,#e96a9b,#f38bb1)}
+    .gap-chart{
+      margin-top:18px;
+      display:grid;
+      gap:9px;
+    }
+    .gap-row{
+      display:grid;
+      grid-template-columns:88px minmax(0,1fr) 72px;
+      gap:9px;
+      align-items:center;
+    }
+    .gap-label{
+      color:var(--muted);
+      font-size:10px;
+      font-weight:800;
+    }
+    .gap-track{
+      height:12px;
+      border-radius:999px;
+      background:#eceef5;
+      overflow:hidden;
+    }
+    .gap-bar{
+      height:100%;
+      min-width:3px;
+      border-radius:inherit;
+      background:linear-gradient(90deg,#5cc8e8,#4f46e5);
+    }
+    .gap-value{
+      text-align:right;
+      color:var(--navy);
+      font-size:10px;
+      font-weight:900;
+    }
+    .year-timeline{
+      margin-top:16px;
+      display:flex;
+      gap:8px;
+      overflow-x:auto;
+      padding-bottom:4px;
+    }
+    .year-timeline-button{
+      flex:0 0 auto;
+      min-width:78px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+      color:var(--navy);
+      font-weight:900;
+      cursor:pointer;
+    }
+    .year-timeline-button span{
+      display:block;
+      margin-top:3px;
+      color:var(--indigo);
+      font-size:11px;
+    }
+    .year-timeline-button.active{
+      border-color:var(--indigo);
+      background:var(--indigo);
+      color:#fff;
+    }
+    .year-timeline-button.active span{color:#fff}
+    .milestone-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    @media(max-width:760px){
+      .official-release-card{grid-template-columns:56px minmax(0,1fr)}
+      .official-release-action{grid-column:1/-1}
+      .official-release-link{width:100%}
+      .official-release-note{text-align:center}
+      .song-share-actions{gap:6px}
+      .song-share-button{font-size:11px;padding:0 11px}
+      .gap-row{grid-template-columns:78px minmax(0,1fr) 62px}
+    }
+
 </style>
 
 
@@ -673,7 +883,7 @@
 
   <meta name="theme-color" content="#4f46e5">
 
-  <script src="assets/js/seo-v351.js?v=3.5.1" defer></script>
+  <script src="assets/js/seo-v351.js?v=3.8.0" defer></script>
 </head>
 
 <body>
@@ -696,6 +906,13 @@
       <p id="heroMeta">
         JSONPでAPIへ接続しています。
       </p>
+
+      <div class="song-share-actions" id="songShareActions" hidden>
+        <button type="button" class="song-share-button primary" id="shareButton">共有</button>
+        <button type="button" class="song-share-button" id="copyUrlButton">URLをコピー</button>
+        <a class="song-share-button" id="xShareButton" href="#" target="_blank" rel="noopener noreferrer">Xで共有</a>
+        <span class="song-share-message" id="shareMessage" aria-live="polite"></span>
+      </div>
 
       <div class="muse-line">
         <i></i><i></i><i></i>
@@ -759,7 +976,8 @@
       aria-label="ページ内ナビゲーション"
     >
       <a href="#mainContent">基本情報</a>
-      <a href="#discoverySection">この曲を巡る</a>
+      <a href="#releaseSection">収録作品</a>
+      <a href="#discoverySection">初披露・最終披露</a>
       <a href="#songRecordsSection">この曲の記録</a>
       <a href="#songAnalysisSection">分析</a>
       <a href="#songInsightsSection">関連データ</a>
@@ -819,6 +1037,19 @@
           id="songDates"
           style="margin-top:14px"
         ></dl>
+      </article>
+    </section>
+
+    <section class="section" id="releaseSection" hidden>
+      <article class="official-release-card">
+        <div class="official-release-icon" aria-hidden="true">◉</div>
+        <div class="official-release-body">
+          <p class="kicker">OFFICIAL RELEASE</p>
+          <h2>収録作品</h2>
+          <div class="official-release-title" id="releaseTitle">—</div>
+          <dl class="official-release-meta" id="releaseMeta"></dl>
+        </div>
+        <div class="official-release-action" id="releaseAction"></div>
       </article>
     </section>
 
@@ -892,12 +1123,34 @@
         </article>
       </div>
 
+
+      <div class="song-analysis-grid song-analysis-grid-secondary" style="margin-top:14px">
+        <article class="song-analysis-card">
+          <p class="kicker">OFFICIAL / SOLO</p>
+          <h2>公式・ソロ歌唱比較</h2>
+          <div id="officialSoloChart" class="comparison-chart"></div>
+        </article>
+
+        <article class="song-analysis-card">
+          <p class="kicker">PERFORMANCE GAPS</p>
+          <h2>歌唱間隔の推移</h2>
+          <div id="gapChart" class="gap-chart"></div>
+        </article>
+      </div>
+
+      <article class="song-analysis-card" style="margin-top:14px">
+        <p class="kicker">YEARLY TIMELINE</p>
+        <h2>年別タイムライン</h2>
+        <p class="detail-note">年を選ぶと、その年の歌唱履歴だけを表示します。</p>
+        <div id="yearTimeline" class="year-timeline"></div>
+      </article>
+
       <article
         class="song-analysis-card"
         style="margin-top:14px"
       >
         <p class="kicker">RELATED MASTER DATA</p>
-        <h2>条件が近い関連曲</h2>
+        <h2>同じ収録CD・メディア・区分の関連曲</h2>
 
         <div
           class="related-master-list"
@@ -1007,7 +1260,7 @@
 
   <script
     type="module"
-    src="assets/js/song.js?v=2.8.5"
+    src="assets/js/song-v380.js?v=3.8.0"
   ></script>
 
   <script type="module">

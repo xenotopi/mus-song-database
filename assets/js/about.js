@@ -2,7 +2,7 @@ import {
   apiGet,
   escapeHtml,
   formatDate
-} from "./api.js?v=2.7.0";
+} from "./api.js?v=3.4.0";
 
 import {
   renderCommon

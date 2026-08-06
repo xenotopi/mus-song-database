@@ -13,7 +13,7 @@
   <link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="assets/css/style.css?v=2.6.1">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.0.0">
 
   <meta property="og:site_name" content="μ's Song Database">
   <meta property="og:title" content="μ's Song Database">
@@ -553,9 +553,39 @@
         padding: 13px 15px 16px;
       }
     }
+  
+    .birthday-section{margin-top:14px;padding:16px;border:1px solid #f3c6d8;border-radius:16px;background:linear-gradient(135deg,#fff5f9,#fff)}
+    .birthday-head{display:flex;gap:10px;align-items:center}
+    .birthday-icon{font-size:24px}
+    .birthday-heading{color:#b6376c;font-size:13px;font-weight:900;letter-spacing:.06em}
+    .birthday-content{margin-top:12px;display:grid;gap:10px}
+    .birthday-person{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 10px;align-items:center}
+    .birthday-person strong{color:var(--navy);font-size:16px}
+    .birthday-person>span:last-child{grid-column:2;color:var(--muted);font-size:12px;font-weight:700}
+    .birthday-type{padding:3px 7px;border-radius:999px;background:#fce7f0;color:#a72c61;font-size:9px;font-weight:900}
+    .secret-memory-section{margin-top:24px}
+    .secret-memory-card{position:relative;overflow:hidden;padding:25px;border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:var(--shadow)}
+    .secret-memory-card::before{content:"";position:absolute;inset:0 auto 0 0;width:6px;background:#6b7a99}
+    .secret-memory-card[data-rarity="SUPER_RARE"]{border-color:#c7b6ff;background:linear-gradient(135deg,#fff,#faf7ff)}
+    .secret-memory-card[data-rarity="SUPER_RARE"]::before{background:linear-gradient(#7c5cf6,#b175ff)}
+    .secret-memory-card[data-rarity="LEGEND"]{border-color:#e6c469;background:linear-gradient(135deg,#fffdf4,#fff);box-shadow:0 15px 38px rgba(158,115,14,.13)}
+    .secret-memory-card[data-rarity="LEGEND"]::before{background:linear-gradient(#c5941e,#f0cc66)}
+    .secret-memory-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    .secret-memory-label{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .secret-memory-rarity,.secret-memory-category{display:inline-flex;min-height:25px;padding:0 9px;align-items:center;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:.06em}
+    .secret-memory-rarity{background:#edf0f6;color:#44516d}
+    [data-rarity="SUPER_RARE"] .secret-memory-rarity{background:#eee8ff;color:#6943d6}
+    [data-rarity="LEGEND"] .secret-memory-rarity{background:#fff0bb;color:#8f6810}
+    .secret-memory-category{background:#f5f6f9;color:var(--muted)}
+    .secret-memory-redraw{min-height:34px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);font-size:11px;font-weight:900;cursor:pointer}
+    .secret-memory-title{margin:20px 0 0;color:var(--navy);font-size:clamp(22px,4vw,31px);line-height:1.35}
+    .secret-memory-text{margin:14px 0 0;max-width:820px;color:#4f596f;font-size:14px;font-weight:700;line-height:1.9;white-space:pre-line}
+    .secret-memory-caption{margin-top:18px;color:var(--muted);font-size:10px;font-weight:700}
+    @media(max-width:560px){.secret-memory-card{padding:20px 18px}.secret-memory-head{align-items:center}}
+
   </style>
 
-  <script src="assets/js/seo-v351.js?v=3.6.0" defer></script>
+  <script src="assets/js/seo-v351.js?v=4.0.0" defer></script>
 </head>
 
 <body>
@@ -642,6 +672,15 @@
         <p class="kicker">TODAY IN μ's</p>
         <h2>今日はμ'sのこんな日</h2>
         <div class="today-date" id="todayDate"></div>
+
+        <section class="birthday-section" id="birthdaySection" hidden>
+          <div class="birthday-head">
+            <span class="birthday-icon" aria-hidden="true">🎉</span>
+            <span class="birthday-heading">HAPPY BIRTHDAY!</span>
+          </div>
+          <div class="birthday-content" id="birthdayContent"></div>
+        </section>
+
         <div id="todayContent"></div>
       </article>
 
@@ -652,7 +691,24 @@
       </article>
     </section>
 
-    <section class="home-grid home-section-loading" id="middleSection">
+    
+    <section class="secret-memory-section" id="secretMemorySection" hidden>
+      <article class="secret-memory-card" id="secretMemoryCard">
+        <div class="secret-memory-head">
+          <div class="secret-memory-label">
+            <span class="secret-memory-rarity" id="secretMemoryRarity"></span>
+            <span class="secret-memory-category" id="secretMemoryCategory"></span>
+          </div>
+          <button class="secret-memory-redraw" id="secretMemoryRedraw" type="button">もう一度引く</button>
+        </div>
+        <p class="kicker" style="margin-top:18px">SECRET MEMORY</p>
+        <h2 class="secret-memory-title" id="secretMemoryTitle"></h2>
+        <p class="secret-memory-text" id="secretMemoryText"></p>
+        <div class="secret-memory-caption">μ'sにまつわる小ネタをランダムで表示しています。</div>
+      </article>
+    </section>
+
+<section class="home-grid home-section-loading" id="middleSection">
       <article class="card">
         <p class="kicker">TOP VENUES</p>
         <h2>利用イベント数TOP5</h2>
@@ -700,6 +756,6 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/home-v360.js?v=3.6.0"></script>
+  <script type="module" src="assets/js/home-v400.js?v=4.0.0"></script>
 </body>
 </html>

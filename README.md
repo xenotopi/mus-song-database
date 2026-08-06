@@ -1,4 +1,4 @@
-# v4.0.1：Secret Memory UX改善版
+# v4.1：Today in μ's表示強化版
 
 ## GitHub側
 
@@ -6,37 +6,25 @@
 - index.html
 
 ### 新規追加
-- assets/js/home-v401.js
-- assets/js/secret-memory-v401.js
+- assets/js/home-v410.js
 
 ### そのまま使用
 - assets/js/birthday-data-v400.js
+- assets/js/secret-memory-v401.js
 - assets/js/about.js
 
 ### 削除可能
-- assets/js/home-v400.js
-- assets/js/secret-memory-v400.js
-
-## 修正内容
-
-- 「甜甜天使が誕生！」の後で改行
-- 再抽選ボタン押下時に0.2秒の抽選演出
-- ボタンの縮小・抽選中表示
-- カードのフェード切替
-- 再抽選時は可能な限り現在と違うカードを表示
-- Secret Memory IDを表示
-- 排出率表を追加
-
-## 排出率
-
-現在のweightから自動計算します。
-
-- COMMON：80 / 85 = 94.1%
-- SUPER RARE：4 / 85 = 4.7%
-- LEGEND：1 / 85 = 1.2%
-
-将来weightを変更すると、表示率も自動更新されます。
+- assets/js/home-v401.js
 
 ## Apps Script側
-
 変更はありません。
+
+## 実装内容
+- Today in μ'sに本日の記録件数を表示
+- イベント・初披露・最終披露の件数内訳を表示
+- 各項目へ「○年前の今日」表示を追加
+- 今年の記録は「今年の今日」と表示
+- 初披露・最終披露を色分け
+- 該当記録がない日の表示を改善
+- スマホでは件数表示を2列化
+- Birthday／Secret Memoryはv4.0.1を維持

@@ -13,7 +13,7 @@
   <link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="assets/css/style.css?v=4.0.1">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.1.0">
 
   <meta property="og:site_name" content="μ's Song Database">
   <meta property="og:title" content="μ's Song Database">
@@ -728,9 +728,107 @@
       }
     }
 
+  
+    .today-summary{
+      margin-top:12px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .today-summary span{
+      min-height:31px;
+      padding:0 10px;
+      display:inline-flex;
+      gap:6px;
+      align-items:center;
+      border:1px solid #dedbf8;
+      border-radius:999px;
+      background:#fff;
+      color:var(--muted);
+      font-size:10px;
+      font-weight:800;
+    }
+
+    .today-summary b{
+      color:var(--indigo);
+      font-size:11px;
+    }
+
+    .today-summary-total{
+      background:var(--indigo-soft) !important;
+      color:var(--indigo) !important;
+    }
+
+    .today-item{
+      position:relative;
+      padding:11px 0;
+    }
+
+    .today-item b{
+      display:block;
+      margin-top:5px;
+      line-height:1.5;
+    }
+
+    .today-anniversary-badge{
+      display:inline-flex;
+      min-height:22px;
+      padding:0 8px;
+      align-items:center;
+      border-radius:999px;
+      background:#eeeaff;
+      color:#5c48cf;
+      font-size:9px;
+      font-weight:900;
+      letter-spacing:.03em;
+    }
+
+    .today-anniversary-badge.first{
+      background:#eaf8ff;
+      color:#247da3;
+    }
+
+    .today-anniversary-badge.last{
+      background:#fff0f3;
+      color:#b84468;
+    }
+
+    .today-empty-special{
+      display:grid;
+      gap:5px;
+      padding:14px;
+      border:1px dashed #d8d3f5;
+      border-radius:13px;
+      background:#fff;
+    }
+
+    .today-empty-special strong{
+      color:var(--navy);
+    }
+
+    .today-empty-special span{
+      line-height:1.7;
+    }
+
+    @media(max-width:560px){
+      .today-summary{
+        display:grid;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+
+      .today-summary span{
+        justify-content:space-between;
+      }
+
+      .today-summary-total{
+        grid-column:1/-1;
+      }
+    }
+
   </style>
 
-  <script src="assets/js/seo-v351.js?v=4.0.1" defer></script>
+  <script src="assets/js/seo-v351.js?v=4.1.0" defer></script>
 </head>
 
 <body>
@@ -817,6 +915,7 @@
         <p class="kicker">TODAY IN μ's</p>
         <h2>今日はμ'sのこんな日</h2>
         <div class="today-date" id="todayDate"></div>
+        <div class="today-summary" id="todaySummary"></div>
 
         <section class="birthday-section" id="birthdaySection" hidden>
           <div class="birthday-head">
@@ -909,6 +1008,6 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/home-v401.js?v=4.0.1"></script>
+  <script type="module" src="assets/js/home-v410.js?v=4.1.0"></script>
 </body>
 </html>

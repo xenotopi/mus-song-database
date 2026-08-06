@@ -13,7 +13,7 @@
   <link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="assets/css/style.css?v=4.0.0">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.0.1">
 
   <meta property="og:site_name" content="μ's Song Database">
   <meta property="og:title" content="μ's Song Database">
@@ -583,9 +583,154 @@
     .secret-memory-caption{margin-top:18px;color:var(--muted);font-size:10px;font-weight:700}
     @media(max-width:560px){.secret-memory-card{padding:20px 18px}.secret-memory-head{align-items:center}}
 
+  
+    .secret-memory-id{
+      display:inline-flex;
+      min-height:25px;
+      padding:0 9px;
+      align-items:center;
+      border-radius:999px;
+      background:#f7f8fb;
+      color:#7d879c;
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.05em;
+    }
+
+    .secret-memory-card{
+      transition:
+        opacity .2s ease,
+        transform .2s ease,
+        filter .2s ease;
+    }
+
+    .secret-memory-card.is-changing{
+      opacity:.22;
+      transform:scale(.985);
+      filter:blur(1px);
+    }
+
+    .secret-memory-card.is-revealed{
+      animation:secretMemoryReveal .26s ease;
+    }
+
+    @keyframes secretMemoryReveal{
+      0%{
+        opacity:.35;
+        transform:translateY(5px) scale(.99);
+      }
+      100%{
+        opacity:1;
+        transform:none;
+      }
+    }
+
+    .secret-memory-redraw{
+      transition:
+        transform .12s ease,
+        opacity .12s ease,
+        background .12s ease;
+    }
+
+    .secret-memory-redraw:active,
+    .secret-memory-redraw.is-drawing{
+      transform:scale(.94);
+    }
+
+    .secret-memory-redraw.is-drawing{
+      opacity:.72;
+      cursor:wait;
+    }
+
+    .secret-memory-redraw:disabled{
+      cursor:wait;
+    }
+
+    .secret-memory-footer{
+      margin-top:18px;
+      padding-top:14px;
+      border-top:1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .secret-memory-caption{
+      margin-top:0;
+    }
+
+    .secret-rate-details{
+      position:relative;
+    }
+
+    .secret-rate-details summary{
+      color:var(--indigo);
+      font-size:11px;
+      font-weight:900;
+      cursor:pointer;
+      list-style:none;
+    }
+
+    .secret-rate-details summary::-webkit-details-marker{
+      display:none;
+    }
+
+    .secret-rate-details summary::after{
+      content:" ＋";
+    }
+
+    .secret-rate-details[open] summary::after{
+      content:" −";
+    }
+
+    .secret-rate-list{
+      margin-top:10px;
+      min-width:230px;
+      padding:12px;
+      display:grid;
+      gap:8px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+    }
+
+    .secret-rate-item{
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      color:var(--muted);
+      font-size:11px;
+    }
+
+    .secret-rate-item b{
+      color:var(--navy);
+      font-size:11px;
+    }
+
+    [data-rate-rarity="LEGEND"] b{
+      color:#8f6810;
+    }
+
+    [data-rate-rarity="SUPER_RARE"] b{
+      color:#6943d6;
+    }
+
+    @media(max-width:560px){
+      .secret-memory-footer{
+        display:grid;
+      }
+
+      .secret-rate-list{
+        min-width:0;
+        width:100%;
+      }
+    }
+
   </style>
 
-  <script src="assets/js/seo-v351.js?v=4.0.0" defer></script>
+  <script src="assets/js/seo-v351.js?v=4.0.1" defer></script>
 </head>
 
 <body>
@@ -698,13 +843,21 @@
           <div class="secret-memory-label">
             <span class="secret-memory-rarity" id="secretMemoryRarity"></span>
             <span class="secret-memory-category" id="secretMemoryCategory"></span>
+            <span class="secret-memory-id" id="secretMemoryId"></span>
           </div>
           <button class="secret-memory-redraw" id="secretMemoryRedraw" type="button">もう一度引く</button>
         </div>
         <p class="kicker" style="margin-top:18px">SECRET MEMORY</p>
         <h2 class="secret-memory-title" id="secretMemoryTitle"></h2>
         <p class="secret-memory-text" id="secretMemoryText"></p>
-        <div class="secret-memory-caption">μ'sにまつわる小ネタをランダムで表示しています。</div>
+        <div class="secret-memory-footer">
+          <div class="secret-memory-caption">μ'sにまつわる小ネタをランダムで表示しています。</div>
+
+          <details class="secret-rate-details">
+            <summary>排出率を見る</summary>
+            <div class="secret-rate-list" id="secretMemoryRates"></div>
+          </details>
+        </div>
       </article>
     </section>
 
@@ -756,6 +909,6 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/home-v400.js?v=4.0.0"></script>
+  <script type="module" src="assets/js/home-v401.js?v=4.0.1"></script>
 </body>
 </html>

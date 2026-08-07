@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="index,follow">
+
+  <title>いつ振り歌唱チェッカー | μ's Song Database</title>
+
+  <link rel="stylesheet" href="assets/css/style.css?v=4.3.0">
+
+  <style>
+    .gap-page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 26px 18px 64px;
+    }
+
+    .gap-hero {
+      padding: 30px;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 90% 8%, rgba(255,255,255,.16), transparent 30%),
+        linear-gradient(135deg,#18223d,#5146e5);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .gap-hero-kicker {
+      margin: 0 0 10px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      opacity: .78;
+    }
+
+    .gap-hero h1 {
+      margin: 0;
+      font-size: clamp(30px,6vw,48px);
+      line-height: 1.2;
+    }
+
+    .gap-hero p {
+      margin: 12px 0 0;
+      max-width: 760px;
+      color: #ececff;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.8;
+    }
+
+    .gap-input-card,
+    .gap-current-card,
+    .gap-result-card {
+      border: 1px solid var(--line);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .gap-input-card {
+      margin-top: 20px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) minmax(0,1.4fr) auto;
+      gap: 12px;
+      align-items: end;
+      border-radius: 20px;
+    }
+
+    .gap-field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .gap-field label {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .gap-field select {
+      width: 100%;
+      min-height: 46px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--navy);
+      font-weight: 800;
+    }
+
+    .gap-check-button {
+      min-height: 46px;
+      padding: 0 20px;
+      border: 1px solid var(--indigo);
+      border-radius: 999px;
+      background: var(--indigo);
+      color: #fff;
+      font-weight: 900;
+      cursor: pointer;
+      transition: .15s ease;
+    }
+
+    .gap-check-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(79,70,229,.18);
+    }
+
+    .gap-check-button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .gap-status {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .gap-current-card {
+      margin-top: 22px;
+      padding: 20px;
+      border-radius: 20px;
+    }
+
+    .gap-section-kicker {
+      margin: 0;
+      color: var(--indigo);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .09em;
+    }
+
+    .gap-current-title {
+      margin: 6px 0 0;
+      color: var(--navy);
+      font-size: 22px;
+      line-height: 1.45;
+    }
+
+    .gap-meta {
+      margin-top: 10px;
+      display: flex;
+      gap: 7px 12px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .gap-chip {
+      display: inline-flex;
+      min-height: 24px;
+      padding: 0 8px;
+      align-items: center;
+      border-radius: 999px;
+      background: var(--indigo-soft);
+      color: var(--indigo);
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .gap-chip.complete {
+      background: #e8f8ee;
+      color: #247847;
+    }
+
+    .gap-chip.irregular {
+      background: #fff1f3;
+      color: #b23d58;
+    }
+
+    .gap-chip.unregistered {
+      background: #f1f3f7;
+      color: #697386;
+    }
+
+    .gap-result-section {
+      margin-top: 26px;
+    }
+
+    .gap-result-head h2 {
+      margin: 4px 0 0;
+      color: var(--navy);
+      font-size: 25px;
+    }
+
+    .gap-result-grid {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+      gap: 12px;
+    }
+
+    .gap-result-card {
+      min-height: 260px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gap-result-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background: #9088e8;
+    }
+
+    .gap-result-card[data-mode="official"]::before {
+      background: #4f70e8;
+    }
+
+    .gap-result-card[data-mode="solo"]::before {
+      background: #c75d91;
+    }
+
+    .gap-result-mode {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .gap-result-value {
+      margin-top: 14px;
+      color: var(--indigo);
+      font-size: clamp(24px,4vw,34px);
+      font-weight: 900;
+      line-height: 1.3;
+    }
+
+    .gap-result-card[data-mode="official"] .gap-result-value {
+      color: #365ed8;
+    }
+
+    .gap-result-card[data-mode="solo"] .gap-result-value {
+      color: #b84476;
+    }
+
+    .gap-result-description {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.7;
+    }
+
+    .gap-previous {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .gap-previous-label {
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .06em;
+    }
+
+    .gap-previous-date {
+      margin-top: 6px;
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .gap-previous-event {
+      margin-top: 5px;
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.55;
+    }
+
+    .gap-previous-meta {
+      margin-top: 7px;
+      display: flex;
+      gap: 6px 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .gap-link {
+      margin-top: 9px;
+      display: inline-flex;
+      color: var(--indigo);
+      font-size: 10px;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .gap-note {
+      margin-top: 20px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: #f8f8fc;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .gap-input-card {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .gap-check-button {
+        grid-column: 1 / -1;
+      }
+
+      .gap-result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .gap-page {
+        padding: 18px 12px 48px;
+      }
+
+      .gap-hero {
+        padding: 22px 18px;
+      }
+
+      .gap-input-card {
+        grid-template-columns: 1fr;
+        padding: 16px;
+      }
+
+      .gap-check-button {
+        grid-column: auto;
+        width: 100%;
+      }
+
+      .gap-current-card,
+      .gap-result-card {
+        padding: 17px;
+      }
+    }
+  </style>
+
+  <script src="assets/js/seo-v351.js?v=4.3.0" defer></script>
+</head>
+
+<body>
+  <div id="siteHeader"></div>
+
+  <main class="gap-page">
+    <div class="breadcrumb">
+      <a href="index.html">ホーム</a> ›
+      <a href="rankings.html">ランキング</a> ›
+      いつ振り歌唱チェッカー
+    </div>
+
+    <section class="gap-hero">
+      <p class="gap-hero-kicker">PERFORMANCE GAP CHECKER</p>
+      <h1>いつ振り歌唱チェッカー</h1>
+      <p>
+        曲と今回の歌唱を選ぶと、直前の歌唱を
+        「全体・公式・ソロ」の3系統で同時に確認できます。
+      </p>
+    </section>
+
+    <section class="gap-input-card">
+      <div class="gap-field">
+        <label for="songSelect">曲</label>
+        <select id="songSelect">
+          <option value="">曲を選択してください</option>
+        </select>
+      </div>
+
+      <div class="gap-field">
+        <label for="performanceSelect">今回の歌唱</label>
+        <select id="performanceSelect" disabled>
+          <option value="">先に曲を選択してください</option>
+        </select>
+      </div>
+
+      <button
+        class="gap-check-button"
+        id="checkButton"
+        type="button"
+        disabled
+      >
+        判定する
+      </button>
+    </section>
+
+    <div class="gap-status" id="status">
+      曲データを読み込んでいます...
+    </div>
+
+    <section class="gap-current-card" id="currentCard" hidden>
+      <p class="gap-section-kicker">SELECTED PERFORMANCE</p>
+      <h2 class="gap-current-title" id="currentTitle"></h2>
+      <div class="gap-meta" id="currentMeta"></div>
+    </section>
+
+    <section class="gap-result-section" id="resultSection" hidden>
+      <div class="gap-result-head">
+        <p class="gap-section-kicker">RESULT</p>
+        <h2>いつ振り？</h2>
+      </div>
+
+      <div class="gap-result-grid" id="resultGrid"></div>
+
+      <div class="gap-note">
+        完全体／イレギュラー判定は「いつ振り」の判定条件には使用せず、
+        選択した歌唱・前回歌唱の補足情報として表示しています。
+        Day1→Day2など日付が変わる場合は通常の日数差、
+        同日別公演は「同日再歌唱」、
+        同じ公演内の再歌唱は「同一公演内で再歌唱」と表示します。
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script type="module" src="assets/js/gap-checker-v430.js?v=4.3.0"></script>
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>ランキング｜μ's Song Database</title>
-  <link rel="stylesheet" href="assets/css/style.css?v=4.2.1">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.3.0">
 
   <style>
     .ranking-summary {
@@ -68,7 +68,7 @@
       margin-top: 16px;
       padding: 16px;
       display: grid;
-      grid-template-columns: minmax(220px, 1.35fr) repeat(3, minmax(150px, .75fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
       border-radius: 18px;
     }
@@ -385,6 +385,62 @@
       }
     }
 
+  
+    .ranking-tool-card {
+      margin-top: 18px;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      border: 1px solid #d9d5ff;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 92% 0, rgba(92,72,207,.10), transparent 30%),
+        linear-gradient(135deg,#fbfaff,#fff);
+      box-shadow: var(--shadow);
+    }
+
+    .ranking-tool-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.7;
+    }
+
+    .ranking-tool-card strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--navy);
+      font-size: 15px;
+    }
+
+    .ranking-tool-link {
+      flex: 0 0 auto;
+      min-height: 40px;
+      padding: 0 14px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--indigo);
+      border-radius: 999px;
+      background: var(--indigo);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    @media (max-width: 620px) {
+      .ranking-tool-card {
+        display: grid;
+      }
+
+      .ranking-tool-link {
+        justify-content: center;
+      }
+    }
+
   </style>
 </head>
 
@@ -435,6 +491,17 @@
         <div class="ranking-summary-value" id="completeCount">0</div>
         <div class="ranking-summary-label">完全体歌唱数</div>
       </article>
+    </section>
+
+
+    <section class="ranking-tool-card">
+      <div>
+        <strong>いつ振り歌唱チェッカー</strong>
+        <p>曲と歌唱記録を選んで、全体・公式・ソロの前回歌唱を確認できます。</p>
+      </div>
+      <a class="ranking-tool-link" href="gap-checker.html">
+        チェッカーを開く →
+      </a>
     </section>
 
     <section class="ranking-quick-views" id="quickViews" hidden>

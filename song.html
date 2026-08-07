@@ -11,7 +11,7 @@
 
   <link
     rel="stylesheet"
-    href="assets/css/style.css?v=4.4.0"
+    href="assets/css/style.css?v=4.4.1"
   >
 
   <style>
@@ -1066,6 +1066,67 @@
       }
     }
 
+  
+    /* v4.4 追加：曲切替ナビを主要操作として強調 */
+    #songSelect {
+      min-height: 52px !important;
+      padding: 0 42px 0 15px !important;
+      border: 2px solid #bcb4ff !important;
+      border-radius: 13px !important;
+      background: #fff !important;
+      color: var(--navy) !important;
+      font-size: 16px !important;
+      font-weight: 900 !important;
+      cursor: pointer;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+
+    #songSelect:hover,
+    #songSelect:focus {
+      outline: none;
+      border-color: var(--indigo) !important;
+      box-shadow: 0 0 0 4px rgba(79,70,229,.10);
+    }
+
+    .song-selector,
+    .song-switcher,
+    .song-nav-center {
+      border-color: #cfc8ff !important;
+      background:
+        radial-gradient(circle at 88% 0, rgba(79,70,229,.10), transparent 35%),
+        linear-gradient(180deg,#fbfaff,#fff) !important;
+      box-shadow: 0 12px 32px rgba(79,70,229,.10) !important;
+    }
+
+    .song-selector label,
+    .song-switcher label,
+    .song-nav-center label,
+    .song-switch-label {
+      color: var(--indigo) !important;
+      font-size: 13px !important;
+      font-weight: 900 !important;
+    }
+
+    @media (max-width: 760px) {
+      .song-nav {
+        display: grid !important;
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+        gap: 10px !important;
+      }
+
+      .song-selector,
+      .song-switcher,
+      .song-nav-center {
+        grid-column: 1 / -1 !important;
+        grid-row: 1 !important;
+      }
+
+      #songSelect {
+        min-height: 50px !important;
+        font-size: 15px !important;
+      }
+    }
+
   </style>
 
 
@@ -1102,7 +1163,7 @@
 
   <meta name="theme-color" content="#4f46e5">
 
-  <script src="assets/js/seo-v351.js?v=4.4.0" defer></script>
+  <script src="assets/js/seo-v351.js?v=4.4.1" defer></script>
 </head>
 
 <body>
@@ -1163,7 +1224,7 @@
 
       <div class="song-switch-select-wrap">
         <label for="songPicker">
-          曲を選ぶ
+          曲を切り替える
         </label>
 
         <select
@@ -1496,7 +1557,7 @@
 
   <script
     type="module"
-    src="assets/js/song-v440.js?v=4.4.0"
+    src="assets/js/song-v441.js?v=4.4.1"
   ></script>
 
   <script type="module">

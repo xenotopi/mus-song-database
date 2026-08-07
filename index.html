@@ -13,7 +13,7 @@
   <link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="assets/css/style.css?v=4.5.0">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.5.1">
 
   <meta property="og:site_name" content="μ's Song Database">
   <meta property="og:title" content="μ's Song Database">
@@ -1621,9 +1621,238 @@
       }
     }
 
+  
+    /* =========================================================
+       v4.5.1 RESPONSIVE FIX
+       PC layout hardening
+       ========================================================= */
+
+    @media (min-width: 901px) {
+      .home-main {
+        width: 100%;
+        max-width: none !important;
+      }
+
+      .home-hero-v45 {
+        width: min(1160px, calc(100% - 48px)) !important;
+        max-width: 1160px !important;
+        min-height: 500px !important;
+        margin: 22px auto 0 !important;
+        padding: 72px 58px !important;
+        box-sizing: border-box !important;
+        border-radius: 26px !important;
+      }
+
+      .home-hero-inner {
+        width: min(760px, 72%) !important;
+        max-width: 760px !important;
+        min-width: 0 !important;
+      }
+
+      .home-hero-v45 h1,
+      .home-hero-brand,
+      .home-hero-message,
+      .home-hero-copy {
+        writing-mode: horizontal-tb !important;
+        word-break: normal !important;
+        overflow-wrap: normal !important;
+        white-space: normal !important;
+      }
+
+      .home-hero-message {
+        max-width: 720px !important;
+        font-size: clamp(42px, 4.2vw, 58px) !important;
+        line-height: 1.18 !important;
+      }
+
+      .home-search-form-v45 {
+        width: min(720px, 100%) !important;
+        max-width: 720px !important;
+      }
+
+      .home-v45-section,
+      .home-today-wrap,
+      .secret-memory-section-v45 {
+        width: min(1160px, calc(100% - 48px)) !important;
+        max-width: 1160px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        box-sizing: border-box !important;
+      }
+
+      .home-explore,
+      .home-numbers-wrap,
+      .home-discovery-section,
+      .home-footer-panel {
+        width: 100% !important;
+        max-width: none !important;
+        padding-left: max(24px, calc((100vw - 1160px) / 2)) !important;
+        padding-right: max(24px, calc((100vw - 1160px) / 2)) !important;
+        box-sizing: border-box !important;
+      }
+
+      .home-explore-grid {
+        width: min(1160px, 100%) !important;
+        max-width: 1160px !important;
+        margin: 0 auto !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 18px !important;
+      }
+
+      .home-explore-card {
+        width: auto !important;
+        min-width: 0 !important;
+        min-height: 180px !important;
+        padding: 26px 28px !important;
+        display: grid !important;
+        grid-template-columns: 48px minmax(0,1fr) 28px !important;
+        grid-template-rows: auto auto 1fr !important;
+        align-items: start !important;
+        writing-mode: horizontal-tb !important;
+        white-space: normal !important;
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
+      }
+
+      .home-explore-card * {
+        writing-mode: horizontal-tb !important;
+        text-orientation: mixed !important;
+        white-space: normal !important;
+      }
+
+      .home-explore-action,
+      .home-explore-card strong,
+      .home-explore-copy {
+        min-width: 0 !important;
+      }
+
+      .home-explore-card strong {
+        font-size: 21px !important;
+        line-height: 1.35 !important;
+      }
+
+      .home-explore-copy {
+        font-size: 12px !important;
+        line-height: 1.75 !important;
+      }
+
+      .home-today-card {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: 360px minmax(0, 1fr) !important;
+        gap: 30px !important;
+        align-items: stretch !important;
+      }
+
+      .home-today-date-block,
+      .home-today-content-block,
+      .home-today-card * {
+        writing-mode: horizontal-tb !important;
+        text-orientation: mixed !important;
+      }
+
+      .home-summary-v45 {
+        width: min(920px, 100%) !important;
+        max-width: 920px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        display: grid !important;
+        grid-template-columns: 1.45fr repeat(3, minmax(0, 1fr)) !important;
+        gap: 14px !important;
+      }
+
+      .home-summary-v45 .home-summary-card {
+        min-width: 0 !important;
+      }
+
+      .home-discovery-section > .home-v45-section-head,
+      .home-discovery-section > .home-top-songs-card,
+      .home-footer-panel > *,
+      .home-numbers-wrap > * {
+        max-width: 1160px;
+      }
+
+      .home-top-songs-card {
+        width: min(920px, 100%) !important;
+        max-width: 920px !important;
+        margin: 0 auto !important;
+      }
+
+      .home-recent-section {
+        width: min(1160px, calc(100% - 48px)) !important;
+        max-width: 1160px !important;
+      }
+
+      .recent-list-v45 {
+        width: 100% !important;
+        max-width: none !important;
+      }
+
+      .recent-list-v45 .recent-card,
+      .recent-list-v45 .recent-card * {
+        writing-mode: horizontal-tb !important;
+        text-orientation: mixed !important;
+        white-space: normal !important;
+      }
+
+      .home-footer-panel {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr) !important;
+        gap: 42px !important;
+        align-items: center !important;
+      }
+
+      .home-footer-panel > div {
+        min-width: 0 !important;
+        writing-mode: horizontal-tb !important;
+        text-orientation: mixed !important;
+      }
+
+      .home-footer-panel h2,
+      .home-footer-panel p,
+      .home-footer-panel a,
+      .home-footer-panel span,
+      .home-footer-panel strong,
+      .home-footer-panel small {
+        writing-mode: horizontal-tb !important;
+        text-orientation: mixed !important;
+        white-space: normal !important;
+        word-break: normal !important;
+      }
+
+      .home-footer-panel h2 {
+        font-size: 26px !important;
+        line-height: 1.35 !important;
+      }
+
+      .home-footer-panel p {
+        max-width: 680px !important;
+        font-size: 12px !important;
+        line-height: 1.8 !important;
+      }
+
+      .home-version-box {
+        width: 100% !important;
+        max-width: 340px !important;
+        justify-self: end !important;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .home-hero-v45 {
+        padding-left: 72px !important;
+        padding-right: 72px !important;
+      }
+
+      .home-today-card {
+        grid-template-columns: 390px minmax(0,1fr) !important;
+      }
+    }
+
   </style>
 
-  <script src="assets/js/seo-v351.js?v=4.5.0" defer></script>
+  <script src="assets/js/seo-v351.js?v=4.5.1" defer></script>
 </head>
 
 <body>
@@ -1861,6 +2090,6 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/home-v450.js?v=4.5.0"></script>
+  <script type="module" src="assets/js/home-v451.js?v=4.5.1"></script>
 </body>
 </html>

@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>ランキング | μ's Song Database</title>
-  <link rel="stylesheet" href="assets/css/style.css?v=2.5.0">
+  <title>ランキング｜μ's Song Database</title>
+  <link rel="stylesheet" href="assets/css/style.css?v=4.2.0">
 
   <style>
     .ranking-summary {
       margin-top: 20px;
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 12px;
     }
 
@@ -217,35 +217,175 @@
         text-align: left;
       }
     }
+  
+    .ranking-quick-views {
+      margin-top: 22px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(135deg, #fbfaff, #fff);
+    }
+
+    .ranking-quick-title {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .ranking-quick-list {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .ranking-quick-button {
+      min-height: 36px;
+      padding: 0 12px;
+      border: 1px solid #d9d6f4;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--navy);
+      font-size: 11px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: .15s ease;
+    }
+
+    .ranking-quick-button:hover,
+    .ranking-quick-button.active {
+      border-color: var(--indigo);
+      background: var(--indigo-soft);
+      color: var(--indigo);
+      transform: translateY(-1px);
+    }
+
+    .ranking-podium {
+      margin-top: 18px;
+    }
+
+    .ranking-podium-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .ranking-podium-card {
+      position: relative;
+      min-height: 150px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      color: inherit;
+      text-decoration: none;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .ranking-podium-card::after {
+      content: "";
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      right: -32px;
+      bottom: -42px;
+      border-radius: 50%;
+      background: var(--indigo-soft);
+      opacity: .7;
+    }
+
+    .ranking-podium-1 {
+      border-color: #e8cb72;
+      background: linear-gradient(135deg, #fffdf3, #fff);
+    }
+
+    .ranking-podium-2 {
+      border-color: #ced4df;
+      background: linear-gradient(135deg, #fafbfc, #fff);
+    }
+
+    .ranking-podium-3 {
+      border-color: #d9b394;
+      background: linear-gradient(135deg, #fffaf6, #fff);
+    }
+
+    .ranking-podium-rank {
+      color: var(--indigo);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .ranking-podium-card strong {
+      position: relative;
+      z-index: 1;
+      color: var(--navy);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .ranking-podium-value {
+      position: relative;
+      z-index: 1;
+      margin-top: auto;
+      color: var(--indigo);
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .ranking-podium-card small {
+      position: relative;
+      z-index: 1;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    @media (max-width: 900px) {
+      .ranking-summary {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .ranking-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .ranking-tabs,
+      .ranking-quick-list {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 2px;
+      }
+
+      .ranking-tabs::-webkit-scrollbar,
+      .ranking-quick-list::-webkit-scrollbar {
+        display: none;
+      }
+
+      .ranking-tab,
+      .ranking-quick-button {
+        flex: 0 0 auto;
+      }
+
+      .ranking-podium-list {
+        grid-template-columns: 1fr;
+      }
+
+      .ranking-podium-card {
+        min-height: 116px;
+      }
+    }
+
   </style>
-
-  <meta name="description" content="曲・イベント・会場・歌唱名義を、さまざまな条件でランキング表示できます。">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-
-  <link rel="canonical" href="https://xenotopi.github.io/mus-song-database/rankings.html">
-  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
-  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
-  <link rel="manifest" href="manifest.webmanifest">
-
-  <meta property="og:site_name" content="μ's Song Database">
-  <meta property="og:title" content="ランキング | μ's Song Database">
-  <meta property="og:description" content="曲・イベント・会場・歌唱名義を、さまざまな条件でランキング表示できます。">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://xenotopi.github.io/mus-song-database/rankings.html">
-  <meta property="og:image" content="https://xenotopi.github.io/mus-song-database/assets/images/og-default.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:locale" content="ja_JP">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ランキング | μ's Song Database">
-  <meta name="twitter:description" content="曲・イベント・会場・歌唱名義を、さまざまな条件でランキング表示できます。">
-  <meta name="twitter:image" content="https://xenotopi.github.io/mus-song-database/assets/images/og-default.png">
-
-  <meta name="theme-color" content="#4f46e5">
-
-  <script src="assets/js/seo-v351.js?v=3.5.1" defer></script>
 </head>
 
 <body>
@@ -291,6 +431,23 @@
         <div class="ranking-summary-value" id="singerCount">0</div>
         <div class="ranking-summary-label">歌唱名義数</div>
       </article>
+      <article class="ranking-summary-card">
+        <div class="ranking-summary-value" id="completeCount">0</div>
+        <div class="ranking-summary-label">完全体歌唱数</div>
+      </article>
+    </section>
+
+    <section class="ranking-quick-views" id="quickViews" hidden>
+      <p class="ranking-quick-title">POPULAR VIEWS</p>
+      <div class="ranking-quick-list">
+        <button class="ranking-quick-button" data-ranking-view data-tab="songs" data-sort="performance-desc" type="button">歌唱回数</button>
+        <button class="ranking-quick-button" data-ranking-view data-tab="songs" data-sort="complete-desc" type="button">完全体回数</button>
+        <button class="ranking-quick-button" data-ranking-view data-tab="songs" data-sort="complete-rate-desc" type="button">完全体率</button>
+        <button class="ranking-quick-button" data-ranking-view data-tab="songs" data-sort="gap-desc" type="button">最長ブランク</button>
+        <button class="ranking-quick-button" data-ranking-view data-tab="songs" data-sort="first-asc" type="button">初披露順</button>
+        <button class="ranking-quick-button" data-ranking-view data-tab="songs" data-sort="last-desc" type="button">最終披露順</button>
+        <button class="ranking-quick-button" data-ranking-view data-tab="venues" data-sort="event-desc" type="button">会場ランキング</button>
+      </div>
     </section>
 
     <div class="ranking-tabs" id="tabs" hidden>
@@ -326,6 +483,16 @@
         <label for="rankingSort">並べ替え</label>
         <select id="rankingSort"></select>
       </div>
+    </section>
+
+    <section class="ranking-podium" id="podium" hidden>
+      <div class="section-head">
+        <div>
+          <p class="kicker">TOP 3</p>
+          <h2>現在の条件 TOP3</h2>
+        </div>
+      </div>
+      <div class="ranking-podium-list" id="podiumList"></div>
     </section>
 
     <div class="ranking-result-head" id="resultHead" hidden>
@@ -374,6 +541,6 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/rankings-v324.js?v=3.2.4"></script>
+  <script type="module" src="assets/js/rankings-v420.js?v=4.2.0"></script>
 </body>
 </html>

@@ -11,7 +11,7 @@
 
   <link
     rel="stylesheet"
-    href="assets/css/style.css?v=3.8.2"
+    href="assets/css/style.css?v=4.2.2"
   >
 
   <style>
@@ -863,7 +863,35 @@
     }
     .history-year-filter .year-timeline{margin-top:13px}
 
-</style>
+
+    .singer-rank-row {
+      color: inherit;
+      text-decoration: none;
+      transition:
+        transform .15s ease,
+        border-color .15s ease,
+        background .15s ease,
+        box-shadow .15s ease;
+    }
+
+    .singer-rank-row:hover {
+      transform: translateY(-1px);
+      border-color: #c9c3ff;
+      background: #fbfaff;
+      box-shadow: 0 7px 18px rgba(79, 70, 229, .08);
+    }
+
+    .singer-rank-row:focus-visible {
+      outline: 2px solid var(--indigo);
+      outline-offset: 2px;
+    }
+
+    .singer-rank-row:hover .singer-rank-name,
+    .singer-rank-row:hover .singer-rank-count {
+      color: var(--indigo);
+    }
+
+  </style>
 
 
   <style>
@@ -899,7 +927,7 @@
 
   <meta name="theme-color" content="#4f46e5">
 
-  <script src="assets/js/seo-v351.js?v=3.8.2" defer></script>
+  <script src="assets/js/seo-v351.js?v=4.2.2" defer></script>
 </head>
 
 <body>
@@ -1284,7 +1312,7 @@
 
   <script
     type="module"
-    src="assets/js/song-v382.js?v=3.8.2"
+    src="assets/js/song-v422.js?v=4.2.2"
   ></script>
 
   <script type="module">

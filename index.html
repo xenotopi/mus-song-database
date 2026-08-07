@@ -13,7 +13,7 @@
   <link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="assets/css/style.css?v=4.5.1">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.5.2">
 
   <meta property="og:site_name" content="μ's Song Database">
   <meta property="og:title" content="μ's Song Database">
@@ -1850,9 +1850,94 @@
       }
     }
 
+  
+    /* =========================================================
+       v4.5.2 PC ONLY
+       Today layout fix + vertical spacing compact
+       ========================================================= */
+    @media (min-width: 901px) {
+      .home-v45-section {
+        padding-top: 64px !important;
+        padding-bottom: 64px !important;
+      }
+
+      .home-hero-v45 {
+        min-height: 440px !important;
+        padding-top: 58px !important;
+        padding-bottom: 58px !important;
+      }
+
+      .home-explore {
+        padding-top: 68px !important;
+        padding-bottom: 68px !important;
+      }
+
+      .home-today-wrap {
+        display: block !important;
+        width: min(1160px, calc(100% - 48px)) !important;
+        max-width: 1160px !important;
+        padding-top: 66px !important;
+        padding-bottom: 52px !important;
+      }
+
+      .home-today-card {
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        grid-template-columns: 390px minmax(0,1fr) !important;
+      }
+
+      .home-today-date-block {
+        min-width: 0 !important;
+      }
+
+      .home-today-content-block {
+        min-width: 0 !important;
+        width: 100% !important;
+      }
+
+      .today-summary-v45,
+      .today-content-v45,
+      .today-group,
+      .today-empty,
+      .today-empty-special {
+        width: 100% !important;
+        max-width: none !important;
+        writing-mode: horizontal-tb !important;
+        text-orientation: mixed !important;
+        white-space: normal !important;
+        word-break: normal !important;
+      }
+
+      .secret-memory-section-v45 {
+        padding-bottom: 64px !important;
+      }
+
+      .home-numbers-wrap {
+        padding-top: 64px !important;
+        padding-bottom: 64px !important;
+      }
+
+      .home-discovery-section {
+        padding-top: 64px !important;
+        padding-bottom: 64px !important;
+      }
+
+      .home-recent-section {
+        padding-top: 64px !important;
+        padding-bottom: 58px !important;
+      }
+
+      .home-footer-panel {
+        padding-top: 58px !important;
+        padding-bottom: 58px !important;
+      }
+    }
+
   </style>
 
-  <script src="assets/js/seo-v351.js?v=4.5.1" defer></script>
+  <script src="assets/js/seo-v351.js?v=4.5.2" defer></script>
 </head>
 
 <body>
@@ -1946,7 +2031,7 @@
     </section>
 
     <!-- TODAY -->
-    <section class="home-v45-section home-today-wrap home-grid home-section-loading" id="topSection">
+    <section class="home-v45-section home-today-wrap home-section-loading" id="topSection">
       <article class="home-today-card">
         <div class="home-today-date-block">
           <p class="home-eyebrow">TODAY IN μ's</p>
@@ -2090,6 +2175,6 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/home-v451.js?v=4.5.1"></script>
+  <script type="module" src="assets/js/home-v452.js?v=4.5.2"></script>
 </body>
 </html>

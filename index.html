@@ -13,7 +13,7 @@
   <link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="assets/css/style.css?v=4.1.0">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.3.2">
 
   <meta property="og:site_name" content="μ's Song Database">
   <meta property="og:title" content="μ's Song Database">
@@ -139,7 +139,7 @@
     .home-start-grid {
       margin-top: 15px;
       display: grid;
-      grid-template-columns: repeat(3,minmax(0,1fr));
+      grid-template-columns: repeat(4,minmax(0,1fr));
       gap: 12px;
     }
 
@@ -513,7 +513,10 @@
         grid-template-columns: repeat(2,minmax(0,1fr));
       }
 
-      .home-start-grid,
+      .home-start-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+      }
+
       .home-featured,
       .home-grid {
         grid-template-columns: 1fr;
@@ -525,6 +528,10 @@
     }
 
     @media (max-width: 560px) {
+      .home-start-grid {
+        grid-template-columns: 1fr;
+      }
+
       .home-hero {
         padding: 30px 20px 28px;
       }
@@ -828,7 +835,7 @@
 
   </style>
 
-  <script src="assets/js/seo-v351.js?v=4.1.0" defer></script>
+  <script src="assets/js/seo-v351.js?v=4.3.2" defer></script>
 </head>
 
 <body>
@@ -900,6 +907,11 @@
           <span class="home-start-icon">▥</span>
           <span class="home-start-title">年別統計</span>
           <span class="home-start-copy">年別・公式・ソロ別に、歌唱履歴の変化を眺めます。</span>
+        </a>
+        <a class="home-start-card" href="gap-checker.html">
+          <span class="home-start-icon">↺</span>
+          <span class="home-start-title">いつ振り歌唱チェッカー</span>
+          <span class="home-start-copy">曲と基準日を選んで、前回の歌唱がいつだったかを確認します。</span>
         </a>
       </div>
     </section>

@@ -13,7 +13,7 @@
   <link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="assets/css/style.css?v=4.3.2">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.5.0">
 
   <meta property="og:site_name" content="μ's Song Database">
   <meta property="og:title" content="μ's Song Database">
@@ -833,123 +833,918 @@
       }
     }
 
+  
+    /* =========================================================
+       v4.5 HOME COMPLETE
+       ========================================================= */
+
+    body {
+      background: #fff;
+    }
+
+    .home-main {
+      overflow: hidden;
+    }
+
+    .home-v45-section {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 88px 24px;
+    }
+
+    .home-eyebrow {
+      margin: 0;
+      color: var(--indigo);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .11em;
+    }
+
+    .home-eyebrow-light {
+      color: rgba(255,255,255,.72);
+    }
+
+    .home-v45-section-head {
+      margin-bottom: 28px;
+    }
+
+    .home-v45-section-head-center {
+      text-align: center;
+    }
+
+    .home-v45-section-head h2 {
+      margin: 8px 0 0;
+      color: var(--navy);
+      font-size: clamp(26px,3vw,32px);
+      line-height: 1.35;
+    }
+
+    .home-v45-section-head > p:last-child {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.8;
+    }
+
+    /* HERO */
+    .home-hero-v45 {
+      position: relative;
+      max-width: none;
+      min-height: 520px;
+      padding: 92px max(24px, calc((100vw - 1160px) / 2));
+      display: flex;
+      align-items: center;
+      border-radius: 0 0 34px 34px;
+      background:
+        radial-gradient(circle at 84% 17%, rgba(124,109,255,.28), transparent 26%),
+        radial-gradient(circle at 70% 85%, rgba(84,67,190,.23), transparent 34%),
+        linear-gradient(135deg, #141c35 0%, #242c58 46%, #4f46c8 100%);
+      box-shadow: 0 22px 58px rgba(25,31,65,.16);
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .home-hero-inner {
+      position: relative;
+      z-index: 2;
+      width: min(780px,100%);
+    }
+
+    .home-hero-v45 h1 {
+      margin: 14px 0 0;
+    }
+
+    .home-hero-brand {
+      display: block;
+      margin-bottom: 15px;
+      color: rgba(255,255,255,.75);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+
+    .home-hero-message {
+      display: block;
+      font-size: clamp(38px,5vw,58px);
+      font-weight: 900;
+      line-height: 1.18;
+      letter-spacing: -.035em;
+    }
+
+    .home-hero-v45 .home-hero-copy {
+      margin: 22px 0 0;
+      color: rgba(255,255,255,.82);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.9;
+    }
+
+    .home-search-form-v45 {
+      margin-top: 32px;
+      max-width: 760px;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) auto;
+      gap: 10px;
+    }
+
+    .home-search-v45 {
+      min-height: 58px;
+      padding: 0 18px;
+      display: flex;
+      gap: 11px;
+      align-items: center;
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 14px 34px rgba(9,14,40,.18);
+    }
+
+    .home-search-v45 span {
+      color: var(--indigo);
+      font-size: 23px;
+      font-weight: 900;
+    }
+
+    .home-search-v45 input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--navy);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .home-search-button-v45 {
+      min-width: 122px;
+      min-height: 58px;
+      padding: 0 22px;
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 16px;
+      background: rgba(255,255,255,.12);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      transition: .15s ease;
+    }
+
+    .home-search-button-v45:hover {
+      background: #fff;
+      color: var(--indigo);
+      transform: translateY(-2px);
+    }
+
+    .home-hero-decoration {
+      position: absolute;
+      z-index: 1;
+      right: 6%;
+      bottom: 40px;
+      width: 260px;
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 15px;
+      opacity: .42;
+      transform: rotate(-7deg);
+    }
+
+    .home-hero-decoration span {
+      aspect-ratio: 1;
+      border: 1px solid rgba(255,255,255,.45);
+      border-radius: 50%;
+      background: rgba(255,255,255,.06);
+    }
+
+    .home-system-status {
+      max-width: 1160px;
+      margin: 14px auto 0;
+      padding: 0 24px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    /* EXPLORE */
+    .home-explore {
+      max-width: none;
+      padding-left: max(24px, calc((100vw - 1160px) / 2));
+      padding-right: max(24px, calc((100vw - 1160px) / 2));
+      background:
+        radial-gradient(circle at 8% 20%, rgba(92,72,207,.07), transparent 24%),
+        linear-gradient(180deg,#faf9ff,#f7f6fc);
+    }
+
+    .home-explore-grid {
+      display: grid;
+      grid-template-columns: repeat(2,minmax(0,1fr));
+      gap: 16px;
+    }
+
+    .home-explore-card {
+      position: relative;
+      min-height: 190px;
+      padding: 26px 28px;
+      display: grid;
+      grid-template-columns: 48px minmax(0,1fr) auto;
+      grid-template-rows: auto auto 1fr;
+      column-gap: 16px;
+      border: 1px solid #e0deed;
+      border-radius: 22px;
+      background: #fff;
+      color: inherit;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(37,38,73,.06);
+      overflow: hidden;
+      transition: .18s ease;
+    }
+
+    .home-explore-card-accent {
+      border-color: #d2cdfc;
+      background:
+        radial-gradient(circle at 100% 0, rgba(92,72,207,.12), transparent 38%),
+        linear-gradient(135deg,#fff,#faf9ff);
+    }
+
+    .home-explore-card:hover {
+      transform: translateY(-3px);
+      border-color: #bdb6f3;
+      box-shadow: 0 18px 40px rgba(58,48,130,.11);
+    }
+
+    .home-explore-icon {
+      grid-row: 1 / 4;
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      background: var(--indigo-soft);
+      color: var(--indigo);
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .home-explore-action {
+      color: var(--indigo);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .home-explore-card strong {
+      margin-top: 3px;
+      color: var(--navy);
+      font-size: 21px;
+      line-height: 1.35;
+    }
+
+    .home-explore-copy {
+      margin-top: 9px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.75;
+    }
+
+    .home-explore-arrow {
+      grid-column: 3;
+      grid-row: 1 / 4;
+      align-self: center;
+      color: var(--indigo);
+      font-size: 24px;
+      font-weight: 900;
+      transition: .15s ease;
+    }
+
+    .home-explore-card:hover .home-explore-arrow {
+      transform: translateX(4px);
+    }
+
+    /* TODAY */
+    .home-today-wrap {
+      padding-top: 96px;
+      padding-bottom: 72px;
+    }
+
+    .home-today-card {
+      display: grid;
+      grid-template-columns: minmax(250px,.68fr) minmax(0,1.32fr);
+      gap: 34px;
+      padding: 34px;
+      border: 1px solid #ddd9f4;
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at 5% 8%, rgba(92,72,207,.11), transparent 30%),
+        #fff;
+      box-shadow: 0 16px 46px rgba(42,40,88,.08);
+    }
+
+    .home-today-date-block {
+      padding: 22px;
+      border-radius: 20px;
+      background: linear-gradient(160deg,#20284d,#5347cf);
+      color: #fff;
+    }
+
+    .home-today-date-block .home-eyebrow {
+      color: rgba(255,255,255,.68);
+    }
+
+    .today-date-v45 {
+      margin-top: 20px;
+      color: #fff;
+      font-size: clamp(46px,6vw,72px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -.04em;
+    }
+
+    .home-today-date-block h2 {
+      margin: 20px 0 0;
+      color: #fff;
+      font-size: 24px;
+      line-height: 1.4;
+    }
+
+    .home-today-intro {
+      margin: 9px 0 0;
+      color: rgba(255,255,255,.72);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.8;
+    }
+
+    .home-today-content-block {
+      min-width: 0;
+    }
+
+    .today-summary-v45 {
+      margin-top: 0;
+    }
+
+    .today-content-v45 {
+      margin-top: 15px;
+    }
+
+    .today-item {
+      padding: 14px 0;
+    }
+
+    .today-item b {
+      font-size: 14px;
+    }
+
+    .birthday-section-v45 {
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid #ded8ff;
+      border-radius: 17px;
+      background: linear-gradient(135deg,#faf8ff,#f2efff);
+    }
+
+    /* SECRET */
+    .secret-memory-section-v45 {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px 88px;
+    }
+
+    .secret-memory-card-v45 {
+      border: 1px solid #ddd8fb;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 96% 6%, rgba(92,72,207,.12), transparent 32%),
+        linear-gradient(135deg,#fbfaff,#f6f3ff);
+      box-shadow: 0 16px 44px rgba(54,44,120,.08);
+    }
+
+    /* NUMBERS */
+    .home-numbers-wrap {
+      max-width: none;
+      padding-left: max(24px, calc((100vw - 1160px) / 2));
+      padding-right: max(24px, calc((100vw - 1160px) / 2));
+      background: #fff;
+    }
+
+    .home-summary-v45 {
+      max-width: 920px;
+      margin: 34px auto 0;
+      display: grid;
+      grid-template-columns: 1.5fr repeat(3,1fr);
+      gap: 12px;
+    }
+
+    .home-summary-v45 .home-summary-card {
+      min-height: 150px;
+      padding: 24px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid #e4e2ee;
+      border-radius: 19px;
+      background: #fff;
+      text-align: center;
+      box-shadow: none;
+    }
+
+    .home-summary-v45 .home-summary-card-main {
+      background: linear-gradient(145deg,#242d55,#5045c7);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 14px 36px rgba(60,54,147,.14);
+    }
+
+    .home-summary-v45 .home-summary-value {
+      color: var(--indigo);
+      font-size: 38px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .home-summary-v45 .home-summary-card-main .home-summary-value {
+      color: #fff;
+      font-size: 50px;
+    }
+
+    .home-summary-v45 .home-summary-label {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .home-summary-v45 .home-summary-card-main .home-summary-label {
+      color: rgba(255,255,255,.68);
+    }
+
+    .home-summary-v45 .home-summary-card p {
+      margin: 4px 0 0;
+      color: var(--navy);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .home-summary-v45 .home-summary-card-main p {
+      color: rgba(255,255,255,.9);
+    }
+
+    .home-numbers-copy {
+      margin: 24px 0 0;
+      text-align: center;
+      color: var(--navy);
+      font-size: 14px;
+    }
+
+    /* DATA DISCOVERY */
+    .home-discovery-section {
+      max-width: none;
+      padding-left: max(24px, calc((100vw - 1160px) / 2));
+      padding-right: max(24px, calc((100vw - 1160px) / 2));
+      background: linear-gradient(180deg,#f8f7fc,#fbfbfd);
+    }
+
+    .home-top-songs-card {
+      padding: 10px 26px 24px;
+      border: 1px solid #e0deeb;
+      border-radius: 22px;
+      background: #fff;
+      box-shadow: 0 10px 32px rgba(38,39,75,.06);
+    }
+
+    .home-ranking-list-v45 .home-ranking-row,
+    .home-ranking-list-v45 a {
+      min-height: 58px;
+    }
+
+    .home-ranking-list-v45 .rank,
+    .home-ranking-list-v45 .home-ranking-rank {
+      color: var(--indigo);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .home-more-link {
+      text-decoration: none;
+    }
+
+    /* RECENT AS TIMELINE */
+    .home-recent-section {
+      padding-top: 88px;
+    }
+
+    .recent-list-v45 {
+      position: relative;
+      display: grid;
+      gap: 0;
+      padding-left: 22px;
+    }
+
+    .recent-list-v45::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 22px;
+      bottom: 22px;
+      width: 2px;
+      background: #ddd9f5;
+    }
+
+    .recent-list-v45 .recent-card {
+      position: relative;
+      margin: 0;
+      padding: 20px 22px 22px;
+      border: 0;
+      border-bottom: 1px solid #eceaf4;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .recent-list-v45 .recent-card::before {
+      content: "";
+      position: absolute;
+      left: -21px;
+      top: 25px;
+      width: 11px;
+      height: 11px;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      background: var(--indigo);
+      box-shadow: 0 0 0 1px #cfc9f3;
+    }
+
+    .recent-list-v45 .recent-date {
+      color: var(--indigo);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .recent-list-v45 .recent-event {
+      margin-top: 4px;
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    /* FOOTER PANEL */
+    .home-footer-panel {
+      max-width: none;
+      padding-left: max(24px, calc((100vw - 1160px) / 2));
+      padding-right: max(24px, calc((100vw - 1160px) / 2));
+      display: grid;
+      grid-template-columns: minmax(0,1.25fr) minmax(250px,.75fr);
+      gap: 30px;
+      align-items: center;
+      background: #171e37;
+      color: #fff;
+    }
+
+    .home-footer-panel .home-eyebrow {
+      color: #a9a3ff;
+    }
+
+    .home-footer-panel h2 {
+      margin: 7px 0 0;
+      color: #fff;
+      font-size: 24px;
+    }
+
+    .home-footer-panel p {
+      margin: 10px 0 0;
+      max-width: 650px;
+      color: rgba(255,255,255,.68);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.8;
+    }
+
+    .home-about-link {
+      margin-top: 16px;
+      display: inline-flex;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .home-version-box {
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 17px;
+      background: rgba(255,255,255,.055);
+    }
+
+    .home-version-box > span {
+      display: block;
+      color: rgba(255,255,255,.55);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .home-version-box > strong {
+      display: block;
+      margin-top: 5px;
+      font-size: 22px;
+    }
+
+    .home-version-box > small {
+      display: block;
+      margin-top: 8px;
+      color: rgba(255,255,255,.62);
+      font-size: 9px;
+      line-height: 1.6;
+    }
+
+    /* Remove old home-only layouts no longer used visually */
+    #featuredSection,
+    #middleSection,
+    #latestEventsSection {
+      display: none !important;
+    }
+
+    @media (max-width: 900px) {
+      .home-v45-section {
+        padding-top: 68px;
+        padding-bottom: 68px;
+      }
+
+      .home-hero-v45 {
+        min-height: 470px;
+        padding-top: 72px;
+        padding-bottom: 72px;
+      }
+
+      .home-hero-decoration {
+        right: -30px;
+        width: 210px;
+        opacity: .28;
+      }
+
+      .home-today-card {
+        grid-template-columns: 1fr;
+      }
+
+      .home-summary-v45 {
+        grid-template-columns: repeat(3,1fr);
+      }
+
+      .home-summary-v45 .home-summary-card-main {
+        grid-column: 1 / -1;
+      }
+
+      .home-footer-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .home-v45-section {
+        padding: 54px 16px;
+      }
+
+      .home-hero-v45 {
+        min-height: auto;
+        padding: 60px 16px 56px;
+        border-radius: 0 0 24px 24px;
+      }
+
+      .home-pc-br {
+        display: none;
+      }
+
+      .home-hero-message {
+        font-size: 34px;
+      }
+
+      .home-hero-v45 .home-hero-copy {
+        font-size: 13px;
+      }
+
+      .home-search-form-v45 {
+        grid-template-columns: 1fr;
+      }
+
+      .home-search-button-v45 {
+        background: #fff;
+        color: var(--indigo);
+      }
+
+      .home-hero-decoration {
+        display: none;
+      }
+
+      .home-explore {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .home-explore-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .home-explore-card {
+        min-height: 155px;
+        padding: 21px 20px;
+      }
+
+      .home-today-wrap {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .home-today-card {
+        padding: 17px;
+        border-radius: 20px;
+      }
+
+      .home-today-date-block {
+        padding: 20px;
+      }
+
+      .today-date-v45 {
+        font-size: 48px;
+      }
+
+      .secret-memory-section-v45 {
+        padding: 0 16px 54px;
+      }
+
+      .home-numbers-wrap,
+      .home-discovery-section,
+      .home-footer-panel {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .home-summary-v45 {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .home-summary-v45 .home-summary-card-main {
+        grid-column: 1 / -1;
+      }
+
+      .home-summary-v45 .home-summary-value {
+        font-size: 31px;
+      }
+
+      .home-summary-v45 .home-summary-card-main .home-summary-value {
+        font-size: 46px;
+      }
+
+      .home-top-songs-card {
+        padding: 8px 15px 18px;
+      }
+
+      .recent-list-v45 {
+        padding-left: 17px;
+      }
+
+      .recent-list-v45 .recent-card {
+        padding: 17px 12px 19px;
+      }
+
+      .recent-list-v45 .recent-card::before {
+        left: -16px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .home-summary-v45 {
+        grid-template-columns: 1fr;
+      }
+
+      .home-summary-v45 .home-summary-card-main {
+        grid-column: auto;
+      }
+    }
+
   </style>
 
-  <script src="assets/js/seo-v351.js?v=4.3.2" defer></script>
+  <script src="assets/js/seo-v351.js?v=4.5.0" defer></script>
 </head>
 
 <body>
   <div id="siteHeader"></div>
 
-  <main>
-    <section class="home-hero">
-      <p class="kicker" style="color:#fff">μ's ARCHIVE & PERFORMANCE HISTORY</p>
-      <h1>μ's Song Database</h1>
-      <p class="home-hero-copy">
-        μ'sの楽曲・イベント・会場を横断して、歌唱の歴史を検索・分析できるデータベース。
-      </p>
+  
+  <main class="home-main">
 
-      <form class="home-search-form" id="homeSearchForm">
-        <label class="home-search">
-          <span>⌕</span>
-          <input id="homeSearchInput" type="search" placeholder="曲・イベント・会場・歌唱名義を検索" autocomplete="off">
-        </label>
-        <button class="home-search-button" type="submit">検索する</button>
-      </form>
+    <!-- HERO -->
+    <section class="home-hero home-hero-v45">
+      <div class="home-hero-inner">
+        <p class="home-eyebrow home-eyebrow-light">μ's ARCHIVE &amp; PERFORMANCE HISTORY</p>
+        <h1>
+          <span class="home-hero-brand">μ's Song Database</span>
+          <span class="home-hero-message">μ'sの歌唱史を、<br>記録から巡る。</span>
+        </h1>
 
-      <div class="home-update" id="homeUpdate">最新データを確認しています…</div>
+        <p class="home-hero-copy">
+          楽曲・イベント・会場・歌唱名義を横断して、<br class="home-pc-br">
+          μ'sの歌唱履歴を検索・分析できるデータベースです。
+        </p>
 
-      <div class="muse-line">
-        <i></i><i></i><i></i><i></i><i></i>
-        <i></i><i></i><i></i><i></i>
+        <form class="home-search-form home-search-form-v45" id="homeSearchForm">
+          <label class="home-search home-search-v45">
+            <span aria-hidden="true">⌕</span>
+            <input
+              autocomplete="off"
+              id="homeSearchInput"
+              placeholder="曲・イベント・会場・歌唱名義を検索"
+              type="search"
+            >
+          </label>
+          <button class="home-search-button home-search-button-v45" type="submit">
+            検索する
+          </button>
+        </form>
+      </div>
+
+      <div class="home-hero-decoration" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
       </div>
     </section>
 
-    <div class="status" id="status">ホームデータを読み込んでいます…</div>
+    <div class="home-system-status" id="status">最新データを確認しています…</div>
     <div class="retry-wrap">
-      <button class="retry-button" id="retryButton" type="button" hidden>再試行</button>
+      <button id="retryButton" type="button" hidden>再試行</button>
     </div>
 
-    <section class="home-summary home-section-loading" id="summary">
-      <article class="home-summary-card">
-        <div class="home-summary-value" id="songCount">—</div>
-        <div class="home-summary-label">管理曲数</div>
-      </article>
-      <article class="home-summary-card">
-        <div class="home-summary-value" id="eventCount">—</div>
-        <div class="home-summary-label">登録イベント数</div>
-      </article>
-      <article class="home-summary-card">
-        <div class="home-summary-value" id="venueCount">—</div>
-        <div class="home-summary-label">登録会場数</div>
-      </article>
-      <article class="home-summary-card">
-        <div class="home-summary-value" id="performanceCount">—</div>
-        <div class="home-summary-label">歌唱記録数</div>
-      </article>
-    </section>
+    <!-- EXPLORE -->
+    <section class="home-v45-section home-explore">
+      <div class="home-v45-section-head home-v45-section-head-center">
+        <p class="home-eyebrow">EXPLORE μ's HISTORY</p>
+        <h2>μ'sの歴史を、好きな入口から。</h2>
+        <p>探す、比べる、振り返る。気になる記録からμ'sの歴史を巡れます。</p>
+      </div>
 
-    <section class="home-start">
-      <p class="kicker">START HERE</p>
-      <h2>μ'sの歴史を巡る</h2>
-      <div class="home-start-grid">
-        <a class="home-start-card" href="search.html">
-          <span class="home-start-icon">⌕</span>
-          <span class="home-start-title">横断検索</span>
-          <span class="home-start-copy">曲・イベント・会場・歌唱名義をまとめて検索します。</span>
+      <div class="home-explore-grid">
+        <a class="home-explore-card home-explore-card-accent" href="search.html">
+          <span class="home-explore-icon" aria-hidden="true">⌕</span>
+          <span class="home-explore-action">探す</span>
+          <strong>横断検索</strong>
+          <span class="home-explore-copy">曲・イベント・会場・歌唱名義から記録を探します。</span>
+          <span class="home-explore-arrow" aria-hidden="true">→</span>
         </a>
-        <a class="home-start-card" href="rankings.html">
-          <span class="home-start-icon">↗</span>
-          <span class="home-start-title">ランキング</span>
-          <span class="home-start-copy">歌唱回数や開催数から、μ'sの記録を比較します。</span>
+
+        <a class="home-explore-card" href="rankings.html">
+          <span class="home-explore-icon" aria-hidden="true">↗</span>
+          <span class="home-explore-action">比べる</span>
+          <strong>ランキング</strong>
+          <span class="home-explore-copy">歌唱回数や開催数からμ'sの記録を比較します。</span>
+          <span class="home-explore-arrow" aria-hidden="true">→</span>
         </a>
-        <a class="home-start-card" href="statistics.html">
-          <span class="home-start-icon">▥</span>
-          <span class="home-start-title">年別統計</span>
-          <span class="home-start-copy">年別・公式・ソロ別に、歌唱履歴の変化を眺めます。</span>
+
+        <a class="home-explore-card" href="statistics.html">
+          <span class="home-explore-icon" aria-hidden="true">▥</span>
+          <span class="home-explore-action">振り返る</span>
+          <strong>年別統計</strong>
+          <span class="home-explore-copy">年ごとの活動と歌唱履歴の変化を辿ります。</span>
+          <span class="home-explore-arrow" aria-hidden="true">→</span>
         </a>
-        <a class="home-start-card" href="gap-checker.html">
-          <span class="home-start-icon">↺</span>
-          <span class="home-start-title">いつ振り歌唱チェッカー</span>
-          <span class="home-start-copy">曲と基準日を選んで、前回の歌唱がいつだったかを確認します。</span>
+
+        <a class="home-explore-card home-explore-card-accent" href="gap-checker.html">
+          <span class="home-explore-icon" aria-hidden="true">↺</span>
+          <span class="home-explore-action">調べる</span>
+          <strong>いつ振り歌唱チェッカー</strong>
+          <span class="home-explore-copy">「あの曲、いつ振り？」を曲と基準日から調べます。</span>
+          <span class="home-explore-arrow" aria-hidden="true">→</span>
         </a>
       </div>
     </section>
 
-    <section class="home-featured home-section-loading" id="featuredSection">
-      <a class="home-featured-card" id="featuredSong" href="#"></a>
-      <a class="home-featured-card" id="featuredVenue" href="#"></a>
-      <a class="home-featured-card" id="featuredEvent" href="#"></a>
-    </section>
+    <!-- TODAY -->
+    <section class="home-v45-section home-today-wrap home-grid home-section-loading" id="topSection">
+      <article class="home-today-card">
+        <div class="home-today-date-block">
+          <p class="home-eyebrow">TODAY IN μ's</p>
+          <div class="today-date today-date-v45" id="todayDate"></div>
+          <h2>今日はμ'sのこんな日</h2>
+          <p class="home-today-intro">今日という日付に残る、μ'sのイベント・初披露・最終披露を辿ります。</p>
+        </div>
 
-    <section class="home-grid home-section-loading" id="topSection">
-      <article class="card today-card">
-        <p class="kicker">TODAY IN μ's</p>
-        <h2>今日はμ'sのこんな日</h2>
-        <div class="today-date" id="todayDate"></div>
-        <div class="today-summary" id="todaySummary"></div>
+        <div class="home-today-content-block">
+          <div class="today-summary today-summary-v45" id="todaySummary"></div>
 
-        <section class="birthday-section" id="birthdaySection" hidden>
-          <div class="birthday-head">
-            <span class="birthday-icon" aria-hidden="true">🎉</span>
-            <span class="birthday-heading">HAPPY BIRTHDAY!</span>
-          </div>
-          <div class="birthday-content" id="birthdayContent"></div>
-        </section>
+          <section class="birthday-section birthday-section-v45" id="birthdaySection" hidden>
+            <div class="birthday-head">
+              <span class="birthday-icon" aria-hidden="true">🎉</span>
+              <span class="birthday-heading">HAPPY BIRTHDAY!</span>
+            </div>
+            <div class="birthday-content" id="birthdayContent"></div>
+          </section>
 
-        <div id="todayContent"></div>
-      </article>
-
-      <article class="card">
-        <p class="kicker">TOP SONGS</p>
-        <h2>歌唱回数TOP5</h2>
-        <div class="home-ranking-list" id="topSongs"></div>
+          <div class="today-content-v45" id="todayContent"></div>
+        </div>
       </article>
     </section>
 
-    
-    <section class="secret-memory-section" id="secretMemorySection" hidden>
-      <article class="secret-memory-card" id="secretMemoryCard">
+    <!-- SECRET MEMORY -->
+    <section class="secret-memory-section secret-memory-section-v45" id="secretMemorySection" hidden>
+      <article class="secret-memory-card secret-memory-card-v45" id="secretMemoryCard">
         <div class="secret-memory-head">
           <div class="secret-memory-label">
             <span class="secret-memory-rarity" id="secretMemoryRarity"></span>
@@ -958,12 +1753,13 @@
           </div>
           <button class="secret-memory-redraw" id="secretMemoryRedraw" type="button">もう一度引く</button>
         </div>
-        <p class="kicker" style="margin-top:18px">SECRET MEMORY</p>
+
+        <p class="home-eyebrow" style="margin-top:18px">SECRET MEMORY</p>
         <h2 class="secret-memory-title" id="secretMemoryTitle"></h2>
         <p class="secret-memory-text" id="secretMemoryText"></p>
+
         <div class="secret-memory-footer">
           <div class="secret-memory-caption">μ'sにまつわる小ネタをランダムで表示しています。</div>
-
           <details class="secret-rate-details">
             <summary>排出率を見る</summary>
             <div class="secret-rate-list" id="secretMemoryRates"></div>
@@ -972,54 +1768,99 @@
       </article>
     </section>
 
-<section class="home-grid home-section-loading" id="middleSection">
-      <article class="card">
-        <p class="kicker">TOP VENUES</p>
-        <h2>利用イベント数TOP5</h2>
-        <div class="home-ranking-list" id="topVenues"></div>
-      </article>
+    <!-- NUMBERS -->
+    <section class="home-v45-section home-numbers-wrap">
+      <div class="home-v45-section-head home-v45-section-head-center">
+        <p class="home-eyebrow">μ's SONG DATABASE IN NUMBERS</p>
+        <h2>記録で見る、μ's Song Database。</h2>
+      </div>
 
-      <article class="card">
-        <p class="kicker">ABOUT THIS DATABASE</p>
-        <h2>初めての方へ</h2>
-        <p style="color:var(--muted);line-height:1.9">
-          μ's名義の公式イベントと、キャスト個人名義のソロイベントを分けて管理しています。
-          データの定義や集計方針はAboutで確認できます。
-        </p>
+      <section class="home-summary home-summary-v45 home-section-loading" id="summary">
+        <article class="home-summary-card home-summary-card-main">
+          <div class="home-summary-value" id="performanceCount">—</div>
+          <div class="home-summary-label">PERFORMANCES</div>
+          <p>歌唱記録</p>
+        </article>
+
+        <article class="home-summary-card">
+          <div class="home-summary-value" id="songCount">—</div>
+          <div class="home-summary-label">SONGS</div>
+          <p>管理曲数</p>
+        </article>
+
+        <article class="home-summary-card">
+          <div class="home-summary-value" id="eventCount">—</div>
+          <div class="home-summary-label">EVENTS</div>
+          <p>登録イベント数</p>
+        </article>
+
+        <article class="home-summary-card">
+          <div class="home-summary-value" id="venueCount">—</div>
+          <div class="home-summary-label">VENUES</div>
+          <p>登録会場数</p>
+        </article>
+      </section>
+
+      <p class="home-numbers-copy">
+        <strong>1件ずつ積み重ねた歌唱記録から、μ'sの歴史を辿る。</strong>
+      </p>
+    </section>
+
+    <!-- DATA DISCOVERY -->
+    <section class="home-v45-section home-discovery-section">
+      <div class="home-v45-section-head">
+        <p class="home-eyebrow">DATA DISCOVERY</p>
+        <h2>歌唱回数 TOP 5</h2>
+        <p>歌唱記録の多い曲から、μ'sの定番曲を覗いてみましょう。</p>
+      </div>
+
+      <div class="home-top-songs-card">
+        <div class="home-ranking-list home-ranking-list-v45" id="topSongs"></div>
         <div class="home-more-wrap">
-          <a class="home-more-button" href="about.html" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none">
-            Aboutを見る
-          </a>
-        </div>
-      </article>
-    </section>
-
-    <section class="section home-section-loading" id="latestEventsSection">
-      <div class="section-head">
-        <div>
-          <p class="kicker">LATEST EVENTS</p>
-          <h2>新着イベント</h2>
+          <a class="home-more-button home-more-link" href="rankings.html">ランキングをもっと見る →</a>
         </div>
       </div>
-      <div class="latest-event-list" id="latestEventsList"></div>
     </section>
 
-    <section class="section home-section-loading" id="recentSection">
-      <div class="section-head">
-        <div>
-          <p class="kicker">RECENT PERFORMANCES</p>
-          <h2>最近歌われた曲 <span class="home-section-note">最新5イベント</span></h2>
-        </div>
+    <!-- RECENT -->
+    <section class="home-v45-section home-recent-section section home-section-loading" id="recentSection">
+      <div class="home-v45-section-head">
+        <p class="home-eyebrow">RECENT PERFORMANCES</p>
+        <h2>最近歌われた曲</h2>
+        <p>最新のイベントから、現在へ続くμ'sの歌唱履歴を辿ります。</p>
       </div>
-      <div class="recent-list" id="recentList"></div>
+
+      <div class="recent-list recent-list-v45" id="recentList"></div>
+
       <div class="home-more-wrap">
         <button class="home-more-button" id="recentMoreButton" type="button" hidden>もっと見る</button>
       </div>
     </section>
+
+    <!-- ABOUT / VERSION -->
+    <section class="home-v45-section home-footer-panel">
+      <div>
+        <p class="home-eyebrow">ABOUT THIS DATABASE</p>
+        <h2>このデータベースについて</h2>
+        <p>
+          μ's名義の公式イベントと、キャスト個人名義のソロイベントを分けて管理しています。
+          データの定義や集計方針はAboutで確認できます。
+        </p>
+        <a class="home-about-link" href="about.html">Aboutを見る →</a>
+      </div>
+
+      <div class="home-version-box">
+        <span>DATABASE STATUS</span>
+        <strong>Web v4.5</strong>
+        <small id="homeUpdate">最新データを確認しています…</small>
+      </div>
+    </section>
+
   </main>
+
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/home-v410.js?v=4.1.0"></script>
+  <script type="module" src="assets/js/home-v450.js?v=4.5.0"></script>
 </body>
 </html>

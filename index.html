@@ -13,7 +13,7 @@
   <link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="assets/css/style.css?v=4.5.2">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.5.3">
 
   <meta property="og:site_name" content="μ's Song Database">
   <meta property="og:title" content="μ's Song Database">
@@ -997,26 +997,6 @@
       transform: translateY(-2px);
     }
 
-    .home-hero-decoration {
-      position: absolute;
-      z-index: 1;
-      right: 6%;
-      bottom: 40px;
-      width: 260px;
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 15px;
-      opacity: .42;
-      transform: rotate(-7deg);
-    }
-
-    .home-hero-decoration span {
-      aspect-ratio: 1;
-      border: 1px solid rgba(255,255,255,.45);
-      border-radius: 50%;
-      background: rgba(255,255,255,.06);
-    }
-
     .home-system-status {
       max-width: 1160px;
       margin: 14px auto 0;
@@ -1476,12 +1456,6 @@
         padding-bottom: 72px;
       }
 
-      .home-hero-decoration {
-        right: -30px;
-        width: 210px;
-        opacity: .28;
-      }
-
       .home-today-card {
         grid-template-columns: 1fr;
       }
@@ -1529,10 +1503,6 @@
       .home-search-button-v45 {
         background: #fff;
         color: var(--indigo);
-      }
-
-      .home-hero-decoration {
-        display: none;
       }
 
       .home-explore {
@@ -1935,9 +1905,66 @@
       }
     }
 
+  
+    /* v4.5.3 HERO 9色ライン */
+    .home-nine-line {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 18px;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: repeat(9, minmax(0,1fr));
+      gap: 6px;
+    }
+
+    .home-nine-line span {
+      height: 4px;
+      border-radius: 999px;
+    }
+
+    .home-nine-line span:nth-child(1) { background: #f39a3d; }
+    .home-nine-line span:nth-child(2) { background: #5bc0de; }
+    .home-nine-line span:nth-child(3) { background: #b8b8c8; }
+    .home-nine-line span:nth-child(4) { background: #3b74c5; }
+    .home-nine-line span:nth-child(5) { background: #f2c94c; }
+    .home-nine-line span:nth-child(6) { background: #ef5b6c; }
+    .home-nine-line span:nth-child(7) { background: #7f57c2; }
+    .home-nine-line span:nth-child(8) { background: #52c46a; }
+    .home-nine-line span:nth-child(9) { background: #ef71b8; }
+
+    @media (max-width: 680px) {
+      .home-nine-line {
+        left: 16px;
+        right: 16px;
+        bottom: 12px;
+        gap: 4px;
+      }
+
+      .home-nine-line span {
+        height: 3px;
+      }
+    }
+
+  
+    /* v4.5.3 Today説明文の孤立改行対策 */
+    @media (min-width: 901px) {
+      .home-today-intro {
+        max-width: 100% !important;
+        font-size: 10.25px !important;
+        line-height: 1.72 !important;
+        letter-spacing: -.015em !important;
+      }
+
+      .home-today-date-block {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+      }
+    }
+
   </style>
 
-  <script src="assets/js/seo-v351.js?v=4.5.2" defer></script>
+  <script src="assets/js/seo-v351.js?v=4.5.3" defer></script>
 </head>
 
 <body>
@@ -1976,7 +2003,7 @@
         </form>
       </div>
 
-      <div class="home-hero-decoration" aria-hidden="true">
+      <div class="home-nine-line" aria-hidden="true">
         <span></span><span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span>
       </div>
@@ -2175,6 +2202,6 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/home-v452.js?v=4.5.2"></script>
+  <script type="module" src="assets/js/home-v453.js?v=4.5.3"></script>
 </body>
 </html>

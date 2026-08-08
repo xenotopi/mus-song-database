@@ -930,6 +930,21 @@
       }
     }
 
+
+    .venue-singer-row[data-singer-link]{
+      cursor:pointer;
+      transition:border-color .15s ease,background .15s ease,transform .15s ease;
+    }
+    .venue-singer-row[data-singer-link]:hover{
+      border-color:#bbb6f5;
+      background:#fcfbff;
+      transform:translateY(-1px);
+    }
+    .venue-singer-row[data-singer-link]:focus-visible{
+      outline:3px solid rgba(79,70,229,.22);
+      outline-offset:2px;
+    }
+
 </style>
 
   <style>
@@ -1544,9 +1559,38 @@
         container.dataset.v46Checked = "1";
       }
 
+
+      function makeSingerRowsClickable() {
+        document.querySelectorAll(".venue-singer-row").forEach(row => {
+          if (row.dataset.singerLink === "1") return;
+
+          const nameEl = row.querySelector(".venue-singer-name");
+          const name = String(nameEl?.textContent || "").trim();
+          if (!name) return;
+
+          const go = () => {
+            location.href = `singer.html?name=${encodeURIComponent(name)}`;
+          };
+
+          row.dataset.singerLink = "1";
+          row.setAttribute("role", "link");
+          row.setAttribute("tabindex", "0");
+          row.setAttribute("aria-label", `${name}の歌唱名義詳細を見る`);
+
+          row.addEventListener("click", go);
+          row.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              go();
+            }
+          });
+        });
+      }
+
       function applyV46() {
         hideVenueSummarySongCount();
         addSingerColorBars();
+        makeSingerRowsClickable();
         rebuildVenueRecords();
         normalizeSingleHistory();
       }

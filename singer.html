@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="index,follow">
   <title>歌唱名義詳細 | μ's Song Database</title>
-  <link rel="stylesheet" href="assets/css/style.css?v=4.2.1">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.6.0">
 
   <style>
     .singer-page{max-width:1120px;margin:0 auto;padding:26px 18px 60px}
@@ -37,9 +37,86 @@
     .singer-status{margin-top:18px;padding:18px;border:1px solid var(--line);border-radius:16px;background:#fff}
     @media(max-width:820px){.singer-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.singer-summary-card:first-child{grid-column:1/-1}}
     @media(max-width:620px){.singer-page{padding:18px 12px 44px}.singer-hero{padding:22px 18px}.singer-history-row{grid-template-columns:1fr}.singer-song-row,.singer-history-row{padding:14px}}
+  
+    /* v4.6 Singer Detail */
+    .singer-hero-v46{
+      position:relative;overflow:hidden;padding-bottom:38px;
+      background:
+        radial-gradient(circle at 88% 8%,rgba(126,111,255,.20),transparent 27%),
+        linear-gradient(135deg,#18213d 0%,#293263 54%,#5147c9 100%);
+      box-shadow:0 18px 46px rgba(30,34,76,.12)
+    }
+    .singer-color-line{
+      position:absolute;left:28px;right:28px;bottom:16px;height:4px;
+      display:flex;gap:5px
+    }
+    .singer-color-line span{flex:1 1 0;border-radius:999px}
+    .singer-summary{margin-top:18px}
+    .singer-summary-card{border-color:#dfdced;box-shadow:0 8px 24px rgba(38,39,77,.055)}
+    .singer-summary-card:first-child{
+      background:linear-gradient(135deg,#f0f1ff,#f7f5ff);
+      border-color:#d7d3ff
+    }
+    .singer-analysis-grid{
+      display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);gap:14px
+    }
+    .singer-analysis-card{
+      padding:20px;border:1px solid #dfdced;border-radius:20px;background:#fff;
+      box-shadow:0 8px 24px rgba(38,39,77,.055)
+    }
+    .singer-analysis-card h2{margin:4px 0 0;color:var(--navy);font-size:20px}
+    .singer-year-chart{margin-top:18px;display:grid;gap:9px}
+    .singer-year-row{display:grid;grid-template-columns:52px minmax(0,1fr) 56px;gap:10px;align-items:center}
+    .singer-year-label{color:var(--muted);font-size:11px;font-weight:900}
+    .singer-year-track{height:12px;overflow:hidden;border-radius:999px;background:#eceef5}
+    .singer-year-bar{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#4f46e5,#8b5cf6)}
+    .singer-year-value{color:var(--navy);font-size:11px;font-weight:900;text-align:right}
+    .singer-type-chart{margin-top:18px;display:grid;gap:15px}
+    .singer-type-row{display:grid;grid-template-columns:46px minmax(0,1fr) 64px;gap:10px;align-items:center}
+    .singer-type-label{font-weight:900;color:var(--navy)}
+    .singer-type-track{height:14px;overflow:hidden;border-radius:999px;background:#eceef5}
+    .singer-type-bar{display:block;height:100%;border-radius:inherit}
+    .singer-type-bar.official{background:linear-gradient(90deg,#4f46e5,#7b61ff)}
+    .singer-type-bar.solo{background:linear-gradient(90deg,#d94e88,#ef75aa)}
+    .singer-type-value{font-size:11px;font-weight:900;text-align:right;color:var(--navy)}
+    .singer-song-row{grid-template-columns:38px minmax(0,1fr) auto}
+    .singer-song-rank{
+      width:30px;height:30px;display:grid;place-items:center;border-radius:50%;
+      background:var(--indigo-soft);color:var(--indigo);font-weight:900;font-size:11px
+    }
+    .singer-history-controls{
+      margin-bottom:14px;padding:16px;border:1px solid #dedaf5;border-radius:18px;background:#faf9ff
+    }
+    .singer-filter-label{margin:0 0 9px;color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.07em}
+    .singer-year-filters{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px}
+    .singer-year-pill,.singer-filter-pill{
+      flex:0 0 auto;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;
+      color:var(--navy);font-size:11px;font-weight:900;cursor:pointer
+    }
+    .singer-year-pill.active,.singer-filter-pill.active{border-color:var(--indigo);background:var(--indigo);color:#fff}
+    .singer-type-filters{margin-top:11px;display:flex;gap:7px;flex-wrap:wrap}
+    .singer-visible-count{margin-top:10px;color:var(--muted);font-size:11px;font-weight:800;text-align:right}
+    .singer-history-title a{color:var(--navy);text-decoration:none}
+    .singer-history-title a:hover{color:var(--indigo)}
+    .singer-history-event-link{color:inherit;text-decoration:none}
+    .singer-history-event-link:hover{text-decoration:underline}
+    .singer-more-wrap{margin-top:14px;text-align:center}
+    .singer-more-button{
+      min-width:220px;min-height:44px;padding:0 18px;border:1px solid var(--indigo);
+      border-radius:999px;background:#fff;color:var(--indigo);font-weight:900;cursor:pointer
+    }
+    .singer-more-button:hover{background:var(--indigo);color:#fff}
+    @media(max-width:900px){.singer-analysis-grid{grid-template-columns:1fr}}
+    @media(max-width:620px){
+      .singer-color-line{left:18px;right:18px}
+      .singer-analysis-card{padding:16px}
+      .singer-song-row{grid-template-columns:34px minmax(0,1fr) auto}
+      .singer-year-row{grid-template-columns:44px minmax(0,1fr) 50px}
+    }
+
   </style>
 
-  <script src="assets/js/seo-v351.js?v=4.2.1" defer></script>
+  <script src="assets/js/seo-v351.js?v=4.6.0" defer></script>
 </head>
 
 <body>
@@ -52,10 +129,11 @@
       歌唱名義詳細
     </div>
 
-    <section class="singer-hero">
-      <p class="singer-kicker">SINGING NAME</p>
+    <section class="singer-hero singer-hero-v46">
+      <p class="singer-kicker">SINGING NAME DETAIL</p>
       <h1 class="singer-name" id="singerName">読み込み中...</h1>
-      <p class="singer-sub">この歌唱名義で記録されている歌唱履歴を確認できます。</p>
+      <p class="singer-sub">この歌唱名義が残してきた歌唱履歴を確認できます。</p>
+      <div class="singer-color-line" id="singerColorLine" aria-hidden="true"></div>
     </section>
 
     <div class="singer-status" id="status">データを読み込んでいます...</div>
@@ -67,6 +145,30 @@
       <article class="singer-summary-card"><div class="singer-summary-value" id="eventCount">0</div><div class="singer-summary-label">出演イベント数</div></article>
       <article class="singer-summary-card"><div class="singer-summary-value" id="officialCount">0</div><div class="singer-summary-label">公式イベント</div></article>
       <article class="singer-summary-card"><div class="singer-summary-value" id="soloCount">0</div><div class="singer-summary-label">ソロイベント</div></article>
+    </section>
+
+
+    <section class="singer-section singer-analysis-section" id="analysisSection" hidden>
+      <div class="singer-section-head">
+        <div>
+          <p class="singer-section-kicker">SINGING NAME ANALYSIS</p>
+          <h2>歌唱データ分析</h2>
+        </div>
+      </div>
+
+      <div class="singer-analysis-grid">
+        <article class="singer-analysis-card">
+          <p class="singer-section-kicker">YEARLY PERFORMANCES</p>
+          <h2>年別歌唱推移</h2>
+          <div class="singer-year-chart" id="yearChart"></div>
+        </article>
+
+        <article class="singer-analysis-card">
+          <p class="singer-section-kicker">OFFICIAL / SOLO</p>
+          <h2>公式・ソロ歌唱比較</h2>
+          <div class="singer-type-chart" id="typeChart"></div>
+        </article>
+      </div>
     </section>
 
     <section class="singer-section" id="songsSection" hidden>
@@ -88,12 +190,31 @@
         </div>
         <span id="historyCount"></span>
       </div>
+
+      <div class="singer-history-controls">
+        <div class="singer-year-filter-wrap">
+          <p class="singer-filter-label">開催年で絞り込む</p>
+          <div class="singer-year-filters" id="yearFilters"></div>
+        </div>
+
+        <div class="singer-type-filters" id="typeFilters">
+          <button type="button" class="singer-filter-pill active" data-type="all">すべて</button>
+          <button type="button" class="singer-filter-pill" data-type="公式">公式</button>
+          <button type="button" class="singer-filter-pill" data-type="ソロ">ソロ</button>
+        </div>
+
+        <div class="singer-visible-count" id="visibleHistoryCount"></div>
+      </div>
+
       <div class="singer-history-list" id="historyList"></div>
+      <div class="singer-more-wrap">
+        <button class="singer-more-button" id="historyMoreButton" type="button" hidden>もっと見る</button>
+      </div>
     </section>
   </main>
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/singer-v421.js?v=4.2.1"></script>
+  <script type="module" src="assets/js/singer-v460.js?v=4.6.0"></script>
 </body>
 </html>

@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>μ'sのイベント史｜μ's Song Database</title>
+  <meta name="description" content="μ'sの歩んだ足跡を、イベントと歌唱記録から時系列で辿るイベント史です。">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.7.0">
+
+  <style>
+    .event-history-page{
+      width:min(1120px,calc(100% - 32px));
+      margin:0 auto;
+      padding:30px 0 88px;
+    }
+    .event-history-breadcrumb{
+      margin-bottom:18px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .event-history-breadcrumb a{color:inherit;text-decoration:none}
+    .event-history-breadcrumb a:hover{color:var(--indigo);text-decoration:underline}
+
+    .event-history-hero{
+      position:relative;overflow:hidden;padding:32px 30px;border-radius:24px;color:#fff;
+      background:
+        radial-gradient(circle at 88% 8%,rgba(126,111,255,.20),transparent 27%),
+        linear-gradient(135deg,#18213d 0%,#293263 54%,#5147c9 100%);
+      box-shadow:0 18px 46px rgba(30,34,76,.12);
+    }
+    .event-history-kicker,.event-history-section-kicker{
+      margin:0;font-size:10px;font-weight:900;letter-spacing:.12em;
+    }
+    .event-history-kicker{color:rgba(255,255,255,.66)}
+    .event-history-hero h1{
+      margin:8px 0 10px;font-size:clamp(30px,4vw,46px);line-height:1.15;letter-spacing:-.02em;
+    }
+    .event-history-copy{
+      margin:0;color:rgba(255,255,255,.86);font-size:14px;line-height:1.9;
+    }
+    .event-history-summary{
+      margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;
+    }
+    .event-history-chip{
+      padding:7px 11px;border:1px solid rgba(255,255,255,.18);border-radius:999px;
+      background:rgba(255,255,255,.08);font-size:11px;font-weight:900;
+    }
+
+    .event-history-status{
+      margin-top:18px;padding:18px;border:1px solid var(--line);border-radius:16px;background:#fff;
+      color:var(--muted);text-align:center;
+    }
+
+    .event-history-section{margin-top:50px}
+    .event-history-section-head{
+      display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:16px;
+    }
+    .event-history-section-kicker{color:var(--indigo)}
+    .event-history-section-head h2{
+      margin:5px 0 0;color:var(--navy);font-size:26px;line-height:1.35;
+    }
+    .event-history-section-note{
+      margin:0;color:var(--muted);font-size:11px;line-height:1.7;
+    }
+
+    .history-pickup-grid{
+      display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;
+    }
+    .history-pickup-card{
+      min-height:190px;padding:20px;border:1px solid #dedaf5;border-radius:20px;
+      background:
+        radial-gradient(circle at 100% 0,rgba(79,70,229,.08),transparent 42%),
+        #fff;
+      box-shadow:0 8px 24px rgba(38,39,77,.055);
+      color:inherit;text-decoration:none;
+    }
+    .history-pickup-card:hover{border-color:#bbb6f5;transform:translateY(-1px)}
+    .history-pickup-label{
+      color:var(--indigo);font-size:10px;font-weight:900;letter-spacing:.06em;
+    }
+    .history-pickup-title{
+      margin-top:14px;color:var(--navy);font-size:19px;font-weight:900;line-height:1.45;
+    }
+    .history-pickup-value{
+      margin-top:15px;color:var(--indigo);font-size:23px;font-weight:900;line-height:1.2;
+    }
+    .history-pickup-meta{
+      margin-top:8px;color:var(--muted);font-size:11px;line-height:1.65;
+    }
+
+    .history-controls{
+      padding:18px;border:1px solid #dedaf5;border-radius:20px;background:#fbfaff;
+      box-shadow:0 8px 24px rgba(38,39,77,.04);
+    }
+    .history-control-label{
+      margin:0 0 8px;color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.06em;
+    }
+    .history-category-filter{
+      display:flex;gap:7px;flex-wrap:wrap;
+    }
+    .history-pill{
+      min-height:36px;padding:0 13px;border:1px solid var(--line);border-radius:999px;background:#fff;
+      color:var(--navy);font-size:11px;font-weight:900;cursor:pointer;
+    }
+    .history-pill.active{
+      border-color:var(--indigo);background:var(--indigo);color:#fff;
+    }
+    .history-control-grid{
+      margin-top:14px;display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,320px);gap:12px;
+      align-items:end;
+    }
+    .history-type-select label{
+      display:block;margin-bottom:6px;color:var(--muted);font-size:10px;font-weight:900;
+    }
+    .history-type-select select{
+      width:100%;min-height:42px;padding:0 12px;border:1px solid var(--line);border-radius:11px;
+      background:#fff;color:var(--navy);font-weight:800;
+    }
+    .history-result-text{
+      color:var(--muted);font-size:11px;font-weight:800;
+    }
+
+    .history-year-nav-wrap{
+      position:sticky;top:0;z-index:80;margin-top:14px;padding:10px 0;
+      background:rgba(247,248,252,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    }
+    .history-year-nav{
+      display:flex;gap:7px;overflow-x:auto;padding:2px 1px 6px;scrollbar-width:thin;
+    }
+    .history-year-button{
+      flex:0 0 auto;min-height:36px;padding:0 12px;border:1px solid var(--line);border-radius:999px;
+      background:#fff;color:var(--navy);font-size:11px;font-weight:900;cursor:pointer;
+    }
+    .history-year-button:hover{border-color:#b9b3f7;color:var(--indigo)}
+
+    .history-years{display:grid;gap:54px}
+    .history-year-section{scroll-margin-top:66px}
+    .history-year-head{
+      display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:17px;
+      padding-bottom:12px;border-bottom:1px solid #dadce7;
+    }
+    .history-year-title{
+      margin:0;color:var(--navy);font-size:44px;font-weight:900;line-height:1;
+      letter-spacing:-.03em;
+    }
+    .history-year-stats{
+      color:var(--muted);font-size:11px;font-weight:800;text-align:right;line-height:1.65;
+    }
+
+    .history-timeline{
+      display:grid;gap:12px;
+    }
+    .history-event-row{
+      display:grid;grid-template-columns:84px minmax(0,1fr);gap:16px;align-items:start;
+    }
+    .history-date{
+      padding-top:13px;text-align:right;
+    }
+    .history-date-main{
+      display:block;color:var(--indigo);font-size:17px;font-weight:900;line-height:1;
+    }
+    .history-date-sub{
+      display:block;margin-top:5px;color:var(--muted);font-size:10px;font-weight:800;
+    }
+
+    .history-event-card{
+      position:relative;display:block;padding:17px 18px;border:1px solid #dfdced;border-radius:18px;background:#fff;
+      box-shadow:0 7px 20px rgba(38,39,77,.045);color:inherit;text-decoration:none;
+    }
+    .history-event-card::before{
+      content:"";position:absolute;left:-23px;top:22px;width:9px;height:9px;border-radius:50%;
+      background:var(--indigo);box-shadow:0 0 0 5px #efedff;
+    }
+    .history-event-card::after{
+      content:"";position:absolute;left:-19px;top:31px;bottom:-26px;width:1px;background:#ddd9f3;
+    }
+    .history-event-row:last-child .history-event-card::after{display:none}
+    .history-event-card:hover{
+      border-color:#bbb6f5;background:#fcfbff;transform:translateY(-1px);
+    }
+
+    .history-event-badges{
+      display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;
+    }
+    .history-event-badge{
+      padding:4px 8px;border-radius:999px;font-size:10px;font-weight:900;
+    }
+    .history-event-badge.official{background:#eceaff;color:#4f46e5}
+    .history-event-badge.solo{background:#fff0f5;color:#d5477a}
+    .history-event-badge.type{background:#f3f4f7;color:#51586a}
+
+    .history-event-title{
+      color:var(--navy);font-size:16px;font-weight:900;line-height:1.5;
+    }
+    .history-event-meta{
+      margin-top:8px;display:flex;gap:5px 11px;flex-wrap:wrap;color:#657083;font-size:11px;line-height:1.6;
+    }
+    .history-event-meta strong{color:#364155}
+    .history-record-tag{
+      margin-top:10px;display:inline-flex;align-items:center;min-height:28px;padding:0 9px;border-radius:999px;
+      background:#efedff;color:var(--indigo);font-size:10px;font-weight:900;
+    }
+
+    .history-empty{
+      padding:24px;border:1px solid var(--line);border-radius:16px;background:#fff;color:var(--muted);
+      text-align:center;
+    }
+
+    @media(max-width:900px){
+      .history-pickup-grid{grid-template-columns:1fr}
+    }
+
+    @media(max-width:620px){
+      .event-history-page{width:min(100% - 20px,1120px);padding-top:20px}
+      .event-history-hero{padding:26px 20px;border-radius:20px}
+      .event-history-hero h1{font-size:31px}
+      .event-history-section{margin-top:42px}
+      .event-history-section-head{display:block}
+      .event-history-section-head h2{font-size:22px}
+      .event-history-section-note{margin-top:7px}
+      .history-controls{padding:14px}
+      .history-control-grid{grid-template-columns:1fr}
+      .history-year-title{font-size:36px}
+      .history-year-head{display:block}
+      .history-year-stats{margin-top:8px;text-align:left}
+      .history-event-row{grid-template-columns:1fr;gap:7px}
+      .history-date{padding:0 0 0 4px;text-align:left}
+      .history-date-main,.history-date-sub{display:inline}
+      .history-date-sub{margin-left:7px}
+      .history-event-card::before,.history-event-card::after{display:none}
+      .history-event-card{padding:15px 14px}
+      .history-event-title{font-size:15px}
+    }
+  </style>
+</head>
+<body>
+  <div id="siteHeader"></div>
+
+  <main class="event-history-page">
+    <div class="event-history-breadcrumb">
+      <a href="index.html">ホーム</a> › イベント史
+    </div>
+
+    <section class="event-history-hero">
+      <p class="event-history-kicker">EVENT HISTORY</p>
+      <h1>μ'sのイベント史</h1>
+      <p class="event-history-copy">
+        μ'sの歩んだ足跡を、<br>
+        イベントと歌唱記録から時系列で辿ります。
+      </p>
+
+      <div class="event-history-summary" id="heroSummary" hidden>
+        <span class="event-history-chip" id="totalEventsChip"></span>
+        <span class="event-history-chip" id="yearsChip"></span>
+        <span class="event-history-chip" id="rangeChip"></span>
+      </div>
+    </section>
+
+    <div class="event-history-status" id="status">イベント史を読み込んでいます...</div>
+
+    <section class="event-history-section" id="pickupSection" hidden>
+      <div class="event-history-section-head">
+        <div>
+          <p class="event-history-section-kicker">PICK UP HISTORY</p>
+          <h2>記録から歴史を見つける</h2>
+        </div>
+        <p class="event-history-section-note">最初・最多披露曲・最新の記録からイベントへ。</p>
+      </div>
+      <div class="history-pickup-grid" id="pickupGrid"></div>
+    </section>
+
+    <section class="event-history-section" id="timelineSection" hidden>
+      <div class="event-history-section-head">
+        <div>
+          <p class="event-history-section-kicker">ALL EVENTS</p>
+          <h2>時系列で辿る</h2>
+        </div>
+        <p class="event-history-section-note">公式・ソロ・イベント種別で絞り込めます。</p>
+      </div>
+
+      <div class="history-controls">
+        <p class="history-control-label">区分</p>
+        <div class="history-category-filter" id="categoryFilters">
+          <button class="history-pill active" type="button" data-category="">すべて</button>
+          <button class="history-pill" type="button" data-category="公式">公式</button>
+          <button class="history-pill" type="button" data-category="ソロ">ソロ</button>
+        </div>
+
+        <div class="history-control-grid">
+          <div class="history-result-text" id="resultText"></div>
+          <div class="history-type-select">
+            <label for="eventTypeSelect">イベント種別</label>
+            <select id="eventTypeSelect">
+              <option value="">すべての種別</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="history-year-nav-wrap">
+        <nav class="history-year-nav" id="yearNav" aria-label="年を選ぶ"></nav>
+      </div>
+
+      <div class="history-years" id="yearsContainer"></div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script type="module" src="assets/js/events-v470.js?v=4.7.0"></script>
+</body>
+</html>

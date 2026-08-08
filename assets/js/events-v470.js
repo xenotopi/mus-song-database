@@ -55,16 +55,26 @@ function dateParts(value) {
   if (!match) {
     return {
       main: "—",
-      sub: ""
+      weekday: ""
     };
   }
+
+  const date =
+    new Date(
+      Number(match[1]),
+      Number(match[2]) - 1,
+      Number(match[3])
+    );
+
+  const weekdays =
+    ["日","月","火","水","木","金","土"];
 
   return {
     main:
       `${match[2]}.${match[3]}`,
 
-    sub:
-      match[1]
+    weekday:
+      `(${weekdays[date.getDay()]})`
   };
 }
 
@@ -345,11 +355,12 @@ function renderEventCard(item) {
 
   const dayPerformance =
     [
+      date.weekday,
       item.day,
       item.performance
     ]
       .filter(Boolean)
-      .join(" / ");
+      .join(" ");
 
   return `
     <div class="history-event-row">

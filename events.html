@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>μ'sのイベント史｜μ's Song Database</title>
-  <meta name="description" content="μ'sの歩んだ足跡を、イベントと歌唱記録から時系列で辿るイベント史です。">
+  <title>μ's楽曲歌唱イベントの歴史｜μ's Song Database</title>
+  <meta name="description" content="μ's楽曲が歌われたイベントを、歌唱記録とともに時系列で辿るページです。">
   <link rel="stylesheet" href="assets/css/style.css?v=4.7.0">
 
   <style>
@@ -151,16 +151,32 @@
       display:grid;gap:12px;
     }
     .history-event-row{
-      display:grid;grid-template-columns:84px minmax(0,1fr);gap:16px;align-items:start;
+      display:grid;grid-template-columns:112px minmax(0,1fr);gap:18px;align-items:start;
     }
     .history-date{
-      padding-top:13px;text-align:right;
+      position:relative;
+      padding:10px 12px;
+      border:1px solid #d9d6f2;
+      border-radius:14px;
+      background:#f7f6ff;
+      text-align:center;
+      box-shadow:0 4px 12px rgba(79,70,229,.05);
     }
     .history-date-main{
-      display:block;color:var(--indigo);font-size:17px;font-weight:900;line-height:1;
+      display:block;
+      color:var(--indigo);
+      font-size:22px;
+      font-weight:950;
+      line-height:1;
+      letter-spacing:.01em;
     }
     .history-date-sub{
-      display:block;margin-top:5px;color:var(--muted);font-size:10px;font-weight:800;
+      display:block;
+      margin-top:6px;
+      color:#596273;
+      font-size:11px;
+      font-weight:900;
+      line-height:1.3;
     }
 
     .history-event-card{
@@ -168,11 +184,24 @@
       box-shadow:0 7px 20px rgba(38,39,77,.045);color:inherit;text-decoration:none;
     }
     .history-event-card::before{
-      content:"";position:absolute;left:-23px;top:22px;width:9px;height:9px;border-radius:50%;
-      background:var(--indigo);box-shadow:0 0 0 5px #efedff;
+      content:"";
+      position:absolute;
+      left:-15px;
+      top:27px;
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:var(--indigo);
+      box-shadow:0 0 0 5px #efedff;
     }
     .history-event-card::after{
-      content:"";position:absolute;left:-19px;top:31px;bottom:-26px;width:1px;background:#ddd9f3;
+      content:"";
+      position:absolute;
+      left:-11px;
+      top:37px;
+      bottom:-28px;
+      width:1px;
+      background:#d8d4f1;
     }
     .history-event-row:last-child .history-event-card::after{display:none}
     .history-event-card:hover{
@@ -223,10 +252,22 @@
       .history-year-title{font-size:36px}
       .history-year-head{display:block}
       .history-year-stats{margin-top:8px;text-align:left}
-      .history-event-row{grid-template-columns:1fr;gap:7px}
-      .history-date{padding:0 0 0 4px;text-align:left}
-      .history-date-main,.history-date-sub{display:inline}
-      .history-date-sub{margin-left:7px}
+      .history-event-row{grid-template-columns:1fr;gap:8px}
+      .history-date{
+        width:max-content;
+        min-width:92px;
+        padding:8px 11px;
+        text-align:left;
+      }
+      .history-date-main{
+        display:inline;
+        font-size:18px;
+      }
+      .history-date-sub{
+        display:inline;
+        margin-left:8px;
+        font-size:10px;
+      }
       .history-event-card::before,.history-event-card::after{display:none}
       .history-event-card{padding:15px 14px}
       .history-event-title{font-size:15px}
@@ -243,10 +284,10 @@
 
     <section class="event-history-hero">
       <p class="event-history-kicker">EVENT HISTORY</p>
-      <h1>μ'sのイベント史</h1>
+      <h1>μ's楽曲歌唱イベントの歴史</h1>
       <p class="event-history-copy">
-        μ'sの歩んだ足跡を、<br>
-        イベントと歌唱記録から時系列で辿ります。
+        μ's楽曲が歌われたイベントを、<br>
+        歌唱記録とともに時系列で辿ります。
       </p>
 
       <div class="event-history-summary" id="heroSummary" hidden>

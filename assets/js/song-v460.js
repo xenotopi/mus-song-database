@@ -135,6 +135,7 @@ function normalizeMemberSource_(value) {
 
 function getRegularSingerNames_(song) {
   const candidates = [
+    song?.regularSingerPatterns,
     song?.regularSingers,
     song?.originalSingers,
     song?.officialSingers,

@@ -11,7 +11,7 @@
 
   <link
     rel="stylesheet"
-    href="assets/css/style.css?v=2.5.0"
+    href="assets/css/style.css?v=4.6.0"
   >
 
   <style>
@@ -710,6 +710,226 @@
       }
     }
 
+
+
+    /* =========================================================
+       Web v4.6 — Detail Pages & Visual Consistency
+       Venue Detail
+       ========================================================= */
+
+    .venue-hero-v46 {
+      position: relative;
+      overflow: hidden;
+      padding-top: 30px;
+      padding-bottom: 34px;
+      background:
+        radial-gradient(circle at 88% 8%, rgba(126,111,255,.20), transparent 27%),
+        linear-gradient(135deg,#18213d 0%,#293263 54%,#5147c9 100%);
+      box-shadow: 0 18px 46px rgba(30,34,76,.12);
+    }
+
+    .venue-hero-kicker {
+      margin: 0 0 8px;
+      color: rgba(255,255,255,.62);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .12em;
+    }
+
+    .venue-hero-v46 h1 {
+      max-width: 980px;
+      font-size: clamp(30px,4.2vw,48px);
+      line-height: 1.18;
+      letter-spacing: -.02em;
+      text-wrap: balance;
+    }
+
+    .venue-hero-v46 .muse-line {
+      margin-top: 24px;
+    }
+
+    .venue-quick-nav {
+      margin-top: 18px;
+      gap: 12px;
+    }
+
+    .venue-picker-wrap {
+      border-color: #cec8ff !important;
+      background:
+        radial-gradient(circle at 92% 0,rgba(79,70,229,.09),transparent 35%),
+        #fbfaff !important;
+      box-shadow: 0 9px 24px rgba(79,70,229,.08);
+    }
+
+    #mainContent {
+      margin-top: 34px;
+    }
+
+    #mainContent > .card,
+    .venue-record-card,
+    .venue-analysis-card,
+    .discovery-card,
+    #venueInsightsSection .card,
+    #eventList,
+    #topSongList {
+      border-color: #dfdced !important;
+      box-shadow: 0 8px 24px rgba(38,39,77,.055);
+    }
+
+    #mainContent .stats .stat {
+      background: #f1f3ff;
+      border: 1px solid #e5e6fb;
+    }
+
+    /* 利用統計から披露曲数を除外（VENUE RECORDSへ集約） */
+    #venueDates .v46-hidden-row {
+      display: none !important;
+    }
+
+    .venue-record-grid {
+      grid-template-columns: repeat(4,minmax(0,1fr)) !important;
+    }
+
+    .venue-record-card {
+      min-height: 132px;
+      background:
+        radial-gradient(circle at 100% 0,rgba(79,70,229,.055),transparent 38%),
+        #fff;
+    }
+
+    .venue-record-value.is-text {
+      font-size: 18px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .venue-analysis-card {
+      background:
+        radial-gradient(circle at 100% 0,rgba(79,70,229,.045),transparent 38%),
+        #fff;
+    }
+
+    .venue-singer-row {
+      position: relative;
+      overflow: hidden;
+      padding-bottom: 16px;
+    }
+
+    .venue-singer-colorbar {
+      position: absolute;
+      left: 52px;
+      right: 12px;
+      bottom: 7px;
+      height: 4px;
+      display: flex;
+      gap: 3px;
+      pointer-events: none;
+    }
+
+    .venue-singer-colorbar span {
+      flex: 1 1 0;
+      min-width: 8px;
+      border-radius: 999px;
+    }
+
+    #discoverySection,
+    #venueInsightsSection,
+    #eventsSection,
+    #topSongsSection {
+      margin-top: 58px;
+    }
+
+    #discoverySection .discovery-card,
+    #venueInsightsSection .card {
+      background:
+        radial-gradient(circle at 100% 0,rgba(79,70,229,.05),transparent 38%),
+        #fff;
+    }
+
+    .venue-history-single-note {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    #eventsSection,
+    #topSongsSection {
+      padding-top: 34px;
+      border-top: 1px solid #e9e7f1;
+    }
+
+    #eventsSection .section-head h2,
+    #topSongsSection .section-head h2,
+    #venueInsightsSection .section-head h2,
+    #discoverySection .section-head h2,
+    #venueAnalysisSection .section-head h2,
+    #venueRecordsSection .section-head h2 {
+      font-size: 26px;
+      line-height: 1.35;
+    }
+
+    .venue-event-row,
+    .venue-song-row {
+      min-height: 72px;
+    }
+
+    @media (max-width: 900px) {
+      .venue-record-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .venue-hero-v46 {
+        padding-top: 24px;
+        padding-bottom: 28px;
+      }
+
+      .venue-quick-nav {
+        grid-template-columns: 1fr 1fr !important;
+      }
+
+      .venue-picker-wrap {
+        grid-column: 1 / -1 !important;
+        grid-row: 1 !important;
+      }
+
+      #discoverySection,
+      #venueInsightsSection,
+      #eventsSection,
+      #topSongsSection {
+        margin-top: 46px;
+      }
+
+      #eventsSection .section-head h2,
+      #topSongsSection .section-head h2,
+      #venueInsightsSection .section-head h2,
+      #discoverySection .section-head h2,
+      #venueAnalysisSection .section-head h2,
+      #venueRecordsSection .section-head h2 {
+        font-size: 22px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .venue-record-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+      }
+
+      .venue-record-card {
+        min-height: 112px;
+      }
+
+      .venue-record-value.is-text {
+        font-size: 16px;
+      }
+
+      .venue-singer-colorbar {
+        left: 48px;
+      }
+    }
+
 </style>
 
   <style>
@@ -744,7 +964,7 @@
 
   <meta name="theme-color" content="#4f46e5">
 
-  <script src="assets/js/seo-v351.js?v=3.5.1" defer></script>
+  <script src="assets/js/seo-v351.js?v=4.6.0" defer></script>
 </head>
 
 <body>
@@ -755,7 +975,8 @@
       ホーム › 会場詳細
     </div>
 
-    <section class="hero">
+    <section class="hero venue-hero-v46">
+      <p class="venue-hero-kicker">VENUE DETAIL</p>
       <span class="badge">
         会場
       </span>
@@ -1110,19 +1331,235 @@
 
   <script
     type="module"
-    src="assets/js/venue-v300.js?v=3.0.2"
+    src="assets/js/venue-v300.js?v=4.6.0"
   ></script>
 
   <script type="module">
     import {
       setupDetailContext
-    } from "./assets/js/detail-context.js?v=3.0.2";
+    } from "./assets/js/detail-context.js?v=4.6.0";
 
     setupDetailContext({
       typeLabel: "会場",
       titleSelector: "#venueName",
       heroSelector: ".hero"
     });
+  </script>
+
+  <script>
+    (() => {
+      const MEMBER_COLORS = [
+        { color: "#f39a3d", keys: ["高坂穂乃果","穂乃果","新田恵海","新田"] },
+        { color: "#5bc0de", keys: ["絢瀬絵里","絵里","南條愛乃","南條"] },
+        { color: "#b8b8c8", keys: ["南ことり","ことり","内田彩","内田"] },
+        { color: "#3b74c5", keys: ["園田海未","海未","三森すずこ","三森"] },
+        { color: "#f2c94c", keys: ["星空凛","凛","飯田里穂","飯田"] },
+        { color: "#ef5b6c", keys: ["西木野真姫","真姫","Pile"] },
+        { color: "#7f57c2", keys: ["東條希","希","楠田亜衣奈","楠田"] },
+        { color: "#52c46a", keys: ["小泉花陽","花陽","久保ユリカ","久保"] },
+        { color: "#ef71b8", keys: ["矢澤にこ","にこ","徳井青空","徳井"] }
+      ];
+
+      const ALL_COLORS = MEMBER_COLORS.map(item => item.color);
+
+      function colorsForSingerName(text) {
+        const value = String(text || "").normalize("NFKC");
+        if (!value) return [];
+        if (value.includes("μ's") || value.includes("μ’s")) {
+          return ALL_COLORS.slice();
+        }
+
+        const result = [];
+        MEMBER_COLORS.forEach(member => {
+          if (member.keys.some(key => value.includes(key))) {
+            result.push(member.color);
+          }
+        });
+        return Array.from(new Set(result));
+      }
+
+      function addSingerColorBars() {
+        document.querySelectorAll(".venue-singer-row").forEach(row => {
+          if (row.dataset.v46Color === "1") return;
+
+          const nameEl = row.querySelector(".venue-singer-name");
+          if (!nameEl) return;
+
+          const colors = colorsForSingerName(nameEl.textContent);
+          if (!colors.length) return;
+
+          const bar = document.createElement("div");
+          bar.className = "venue-singer-colorbar";
+          bar.setAttribute("aria-hidden", "true");
+
+          colors.forEach(color => {
+            const piece = document.createElement("span");
+            piece.style.background = color;
+            bar.appendChild(piece);
+          });
+
+          row.appendChild(bar);
+          row.dataset.v46Color = "1";
+        });
+      }
+
+      function findInfoRowValue(dl, label) {
+        if (!dl) return "";
+        const dts = Array.from(dl.querySelectorAll("dt"));
+        const dt = dts.find(node => node.textContent.trim() === label);
+        if (!dt) return "";
+        const dd = dt.nextElementSibling;
+        return dd ? dd.textContent.trim() : "";
+      }
+
+      function hideVenueSummarySongCount() {
+        const dl = document.getElementById("venueDates");
+        if (!dl) return;
+
+        const dts = Array.from(dl.querySelectorAll("dt"));
+        const dt = dts.find(node => node.textContent.trim() === "披露曲数");
+        if (!dt) return;
+
+        dt.classList.add("v46-hidden-row");
+        const dd = dt.nextElementSibling;
+        if (dd) dd.classList.add("v46-hidden-row");
+      }
+
+      function readOriginalRecordCards() {
+        const grid = document.getElementById("venueRecordGrid");
+        if (!grid) return null;
+
+        const cards = Array.from(grid.querySelectorAll(".venue-record-card"));
+        if (cards.length < 4) return null;
+
+        const data = {};
+        cards.forEach(card => {
+          const label = card.querySelector(".venue-record-label")?.textContent.trim() || "";
+          const value = card.querySelector(".venue-record-value")?.textContent.trim() || "";
+          const note = card.querySelector(".venue-record-note")?.textContent.trim() || "";
+          if (label) data[label] = { value, note };
+        });
+        return data;
+      }
+
+      function firstSingerData() {
+        const row = document.querySelector("#venueSingerList .venue-singer-row");
+        if (!row) return null;
+        return {
+          name: row.querySelector(".venue-singer-name")?.textContent.trim() || "",
+          count: row.querySelector(".venue-singer-count")?.textContent.trim() || ""
+        };
+      }
+
+      function firstSongCount() {
+        const container = document.getElementById("venueFirstSongs");
+        if (!container) return null;
+        return container.querySelectorAll(".insight-row").length;
+      }
+
+      function rebuildVenueRecords() {
+        const grid = document.getElementById("venueRecordGrid");
+        if (!grid || grid.dataset.v46Built === "1") return;
+
+        const original = readOriginalRecordCards();
+        if (!original) return;
+
+        const dates = document.getElementById("venueDates");
+        const disclosedSongs =
+          findInfoRowValue(dates, "披露曲数") ||
+          original["歌われた曲数"]?.value ||
+          "";
+
+        const topSong = original["最多歌唱曲"] || { value: "—", note: "" };
+        const initialCount = firstSongCount();
+        const singer = firstSingerData();
+
+        if (initialCount === null || !singer) return;
+
+        const cards = [
+          {
+            label: "披露曲数",
+            value: disclosedSongs || "—",
+            note: "重複を除いた曲数"
+          },
+          {
+            label: "最多歌唱曲",
+            value: topSong.value || "—",
+            note: topSong.note || "この会場で最も多く歌われた曲",
+            text: true
+          },
+          {
+            label: "初披露曲数",
+            value: `${initialCount}曲`,
+            note: "この会場で初披露"
+          },
+          {
+            label: "最多登場歌唱名義",
+            value: singer.name || "—",
+            note: singer.count || "",
+            text: true
+          }
+        ];
+
+        grid.innerHTML = cards.map(card => `
+          <article class="venue-record-card">
+            <div class="venue-record-label">${card.label}</div>
+            <div class="venue-record-value${card.text ? " is-text" : ""}">${card.value}</div>
+            <div class="venue-record-note">${card.note}</div>
+          </article>
+        `).join("");
+
+        grid.dataset.v46Built = "1";
+      }
+
+      function normalizeSingleHistory() {
+        const container = document.getElementById("venueHistoryEvents");
+        if (!container || container.dataset.v46Checked === "1") return;
+
+        const rows = Array.from(container.querySelectorAll(".insight-row"));
+        if (rows.length < 2) return;
+
+        const keyOf = row => {
+          const href = row.getAttribute("href") || "";
+          const title = row.querySelector(".insight-title")?.textContent.trim() || "";
+          return `${href}|${title}`;
+        };
+
+        if (keyOf(rows[0]) !== keyOf(rows[1])) {
+          container.dataset.v46Checked = "1";
+          return;
+        }
+
+        rows.slice(1).forEach(row => row.remove());
+
+        const card = container.closest(".card");
+        const heading = card?.querySelector("h2");
+        if (heading) heading.textContent = "この会場での開催";
+
+        const note = document.createElement("p");
+        note.className = "venue-history-single-note";
+        note.textContent = "この会場で開催されたイベントは1件です。";
+        container.appendChild(note);
+
+        container.dataset.v46Checked = "1";
+      }
+
+      function applyV46() {
+        hideVenueSummarySongCount();
+        addSingerColorBars();
+        rebuildVenueRecords();
+        normalizeSingleHistory();
+      }
+
+      const observer = new MutationObserver(() => applyV46());
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+
+      applyV46();
+      window.addEventListener("load", applyV46);
+    })();
   </script>
 
 </body>

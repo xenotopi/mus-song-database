@@ -1,24 +1,13 @@
-# v4.5.3：ホーム演出最終調整版
+# v4.5.3 Version表記一本化 追加差分
 
-## 修正内容
-- HERO右側の9つの円形装飾を削除
-- HERO下部に9色ラインを復活
-- Today in μ's の記録0件時文言を変更
-- PC版Today説明文の「す。」孤立改行を軽減
+## 変更内容
+- 共通フッターの `Web Prototype v2.7` を削除
+- 右側は `© μ's Song Database Project` のみ表示
+- ヘッダー・検索・スマホナビ・TOPボタン等の既存処理は変更なし
 
-### Today 0件時
-**今日はまだ記録がありません。**  
-記録のない日も、μ'sの歴史の一日。
+## 反映
+現在使用中の `common.js` を、このZIP内の `common.js` で上書きしてください。
 
-## GitHub側
-### 上書き
-- index.html
-
-### 新規追加
-- assets/js/home-v453.js
-
-### 削除可能
-- assets/js/home-v452.js
-
-## Apps Script側
-変更なし。
+## 補足
+ホーム内の DATABASE STATUS は Web版の正式なVersion表示として扱います。
+`Web v4.5.3` への更新はホーム側ファイルで行います。

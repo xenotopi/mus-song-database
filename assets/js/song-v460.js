@@ -916,52 +916,7 @@ function renderSingerRanking_(
         ).join("")
       : `<div class="empty">歌唱名義データはありません。</div>`;
 
-  const relatedSongs =
-    Array.isArray(
-      discover.relatedSongs
-    )
-      ? discover.relatedSongs
-      : [];
 
-  elements.relatedMasterSongs.innerHTML =
-    relatedSongs.length
-      ? relatedSongs.map(item => `
-          <a
-            class="related-master-row"
-            href="song.html?id=${encodeURIComponent(
-              item.songId
-            )}"
-          >
-            <span>
-              <span class="related-master-title">
-                ${escapeHtml(
-                  item.songName ||
-                  "曲名未設定"
-                )}
-              </span>
-
-              <span class="related-master-meta">
-                ${escapeHtml(
-                  [
-                    item.version,
-                    item.recordingCd,
-                    item.media,
-                    item.category
-                  ]
-                    .filter(Boolean)
-                    .join("｜")
-                )}
-              </span>
-            </span>
-
-            <span class="related-master-reason">
-              ${escapeHtml(
-                item.reason || "関連曲"
-              )}
-            </span>
-          </a>`
-        ).join("")
-      : `<div class="empty">同じ収録CD・メディア・区分の関連曲はありません。</div>`;
 }
 
 

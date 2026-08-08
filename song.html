@@ -11,7 +11,7 @@
 
   <link
     rel="stylesheet"
-    href="assets/css/style.css?v=4.4.1"
+    href="assets/css/style.css?v=4.6.0"
   >
 
   <style>
@@ -1127,6 +1127,412 @@
       }
     }
 
+  
+    /* =========================================================
+       Web v4.6 — Detail Pages & Visual Consistency
+       Song Detail
+       ========================================================= */
+
+    .song-hero-v46 {
+      position: relative;
+      overflow: hidden;
+      padding-top: 30px;
+      padding-bottom: 34px;
+      background:
+        radial-gradient(circle at 88% 8%, rgba(126,111,255,.20), transparent 27%),
+        linear-gradient(135deg,#18213d 0%,#293263 54%,#5147c9 100%);
+      box-shadow: 0 18px 46px rgba(30,34,76,.12);
+    }
+
+    .song-hero-kicker {
+      margin: 0 0 8px;
+      color: rgba(255,255,255,.62);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .12em;
+    }
+
+    .song-hero-v46 h1 {
+      max-width: 900px;
+      font-size: clamp(32px,4.5vw,48px);
+      line-height: 1.2;
+      letter-spacing: -.02em;
+    }
+
+    .song-member-line {
+      --member-count: 9;
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(var(--member-count),minmax(0,1fr));
+      gap: 5px;
+    }
+
+    .song-member-line span {
+      height: 5px;
+      border-radius: 999px;
+    }
+
+    .song-switcher {
+      margin-top: 18px;
+      grid-template-columns: minmax(0,1fr) minmax(300px,1.3fr) minmax(0,1fr) !important;
+      gap: 12px !important;
+    }
+
+    .song-switch-select-wrap {
+      padding: 16px !important;
+      border: 1px solid #cec8ff !important;
+      border-radius: 17px !important;
+      background:
+        radial-gradient(circle at 92% 0,rgba(79,70,229,.09),transparent 35%),
+        #fbfaff !important;
+      box-shadow: 0 9px 24px rgba(79,70,229,.08);
+    }
+
+    .song-switch-select-wrap label {
+      color: var(--indigo) !important;
+      font-size: 12px !important;
+      font-weight: 900 !important;
+    }
+
+    .detail-local-nav-v46 {
+      margin-top: 16px;
+      padding: 6px;
+      display: grid;
+      grid-template-columns: repeat(4,minmax(0,1fr));
+      gap: 5px;
+      border: 1px solid #e4e1f3;
+      border-radius: 15px;
+      background: #faf9ff;
+    }
+
+    .detail-local-nav-v46 a {
+      min-height: 39px;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      text-decoration: none;
+      transition: .15s ease;
+    }
+
+    .detail-local-nav-v46 a:hover,
+    .detail-local-nav-v46 a:focus-visible {
+      background: var(--indigo);
+      color: #fff;
+      outline: none;
+    }
+
+    .song-main-grid-v46 {
+      margin-top: 34px;
+    }
+
+    .song-main-grid-v46 > .card,
+    #releaseSection .official-release-card,
+    #songAnalysisSection .song-analysis-card,
+    #songInsightsSection .card,
+    #historySection .card {
+      border-color: #e2e0ed;
+      box-shadow: 0 9px 28px rgba(35,38,78,.055);
+    }
+
+    .section {
+      margin-top: 58px;
+    }
+
+    .section-head h2 {
+      margin-top: 4px;
+      color: var(--navy);
+      font-size: 26px;
+      line-height: 1.35;
+    }
+
+    .section-description {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.7;
+    }
+
+    .official-release-card {
+      padding: 21px 22px !important;
+      border-color: #dcd7ff !important;
+      background:
+        radial-gradient(circle at 96% 0,rgba(79,70,229,.08),transparent 34%),
+        linear-gradient(135deg,#fbfaff,#fff) !important;
+    }
+
+    #discoverySection {
+      padding: 26px 0 0;
+      border-top: 1px solid #eceaf5;
+    }
+
+    .discovery-grid {
+      grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+      gap: 13px !important;
+    }
+
+    .discovery-card {
+      position: relative;
+      min-height: 142px;
+      padding: 20px !important;
+      border-radius: 18px !important;
+      border-color: #dfdced !important;
+      box-shadow: 0 8px 24px rgba(38,39,77,.055);
+    }
+
+    .discovery-card-performance {
+      border-color: #d4cff8 !important;
+    }
+
+    .discovery-card-checker {
+      border-color: #c9c2ff !important;
+      background:
+        radial-gradient(circle at 100% 0,rgba(79,70,229,.14),transparent 37%),
+        linear-gradient(135deg,#faf8ff,#fff) !important;
+    }
+
+    .discovery-card-checker .discovery-label,
+    .discovery-card-checker .discovery-title,
+    .discovery-card-checker .discovery-arrow {
+      color: var(--indigo);
+    }
+
+    .discovery-arrow {
+      position: absolute;
+      right: 18px;
+      bottom: 15px;
+      font-size: 22px;
+      font-weight: 900;
+      transition: transform .15s ease;
+    }
+
+    .discovery-card-checker:hover .discovery-arrow {
+      transform: translateX(4px);
+    }
+
+    .song-record-grid {
+      grid-template-columns: repeat(5,minmax(0,1fr)) !important;
+      gap: 10px !important;
+    }
+
+    .song-record-card {
+      min-height: 132px;
+      padding: 18px !important;
+      border: 1px solid #e1deed !important;
+      border-radius: 17px !important;
+      background: #fff !important;
+    }
+
+    .song-record-value {
+      margin-top: 12px !important;
+      color: var(--indigo) !important;
+      font-size: 27px !important;
+    }
+
+    #songAnalysisSection {
+      margin-top: 66px;
+      padding: 42px 0 0;
+      border-top: 1px solid #e7e4f3;
+    }
+
+    .song-analysis-grid {
+      gap: 14px !important;
+    }
+
+    .song-analysis-card {
+      border-radius: 19px !important;
+    }
+
+    .song-year-row.peak {
+      padding: 4px 5px;
+      border-radius: 8px;
+      background: #f4f1ff;
+    }
+
+    .song-year-row.peak .song-year-label,
+    .song-year-row.peak .song-year-value {
+      color: var(--indigo);
+      font-weight: 900;
+    }
+
+    .comparison-value {
+      min-width: 60px;
+      display: grid;
+      justify-items: end;
+    }
+
+    .comparison-value strong {
+      color: var(--navy);
+      font-size: 11px;
+    }
+
+    .comparison-value small {
+      margin-top: 1px;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .analysis-checker-link {
+      margin-top: 14px;
+      display: inline-flex;
+      color: var(--indigo);
+      font-size: 10px;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    #songInsightsSection {
+      margin-top: 52px;
+    }
+
+    #songInsightsSection > .grid {
+      gap: 14px;
+    }
+
+    #historySection {
+      margin-top: 68px;
+      padding-top: 42px;
+      border-top: 1px solid #e7e4f3;
+    }
+
+    .history-year-filter {
+      margin-top: 20px;
+      border-color: #ddd9f4 !important;
+      background: #faf9ff !important;
+    }
+
+    .year-timeline {
+      flex-wrap: wrap !important;
+      overflow-x: visible !important;
+    }
+
+    .song-row {
+      min-height: 76px !important;
+      padding-top: 14px !important;
+      padding-bottom: 14px !important;
+    }
+
+    .song-row .song-title {
+      color: var(--navy);
+      font-size: 14px !important;
+      font-weight: 900 !important;
+      line-height: 1.55;
+    }
+
+    .show-more-button {
+      min-width: 210px;
+      padding: 10px 22px !important;
+      display: inline-grid !important;
+      justify-items: center;
+    }
+
+    .show-more-button strong {
+      font-size: 12px;
+    }
+
+    .show-more-button small {
+      margin-top: 2px;
+      font-size: 9px;
+      opacity: .72;
+    }
+
+    @media (max-width: 900px) {
+      .song-record-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+      }
+
+      .song-record-card:last-child {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .song-hero-v46 {
+        padding-top: 24px;
+        padding-bottom: 28px;
+      }
+
+      .song-member-line {
+        gap: 3px;
+      }
+
+      .song-member-line span {
+        height: 4px;
+      }
+
+      .song-switcher {
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+      }
+
+      .song-switch-select-wrap {
+        grid-column: 1 / -1 !important;
+        grid-row: 1 !important;
+      }
+
+      .detail-local-nav-v46 {
+        display: flex !important;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .detail-local-nav-v46::-webkit-scrollbar {
+        display: none;
+      }
+
+      .detail-local-nav-v46 a {
+        min-width: 104px;
+        flex: 0 0 auto;
+      }
+
+      .section {
+        margin-top: 46px;
+      }
+
+      .section-head h2 {
+        font-size: 22px;
+      }
+
+      .discovery-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      .discovery-card {
+        min-height: 122px;
+      }
+
+      .song-analysis-grid,
+      #songInsightsSection > .grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      .year-timeline {
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+      }
+
+      #songAnalysisSection,
+      #historySection {
+        margin-top: 50px;
+        padding-top: 30px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .song-record-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      .song-record-card:last-child {
+        grid-column: auto;
+      }
+    }
+
   </style>
 
 
@@ -1163,7 +1569,7 @@
 
   <meta name="theme-color" content="#4f46e5">
 
-  <script src="assets/js/seo-v351.js?v=4.4.1" defer></script>
+  <script src="assets/js/seo-v351.js?v=4.6.0" defer></script>
 </head>
 
 <body>
@@ -1174,7 +1580,9 @@
       ホーム › 曲詳細
     </div>
 
-    <section class="hero">
+    <section class="hero song-hero-v46">
+      <p class="song-hero-kicker">SONG DETAIL</p>
+
       <span class="badge">
         曲
       </span>
@@ -1194,11 +1602,11 @@
         <span class="song-share-message" id="shareMessage" aria-live="polite"></span>
       </div>
 
-      <div class="muse-line">
-        <i></i><i></i><i></i>
-        <i></i><i></i><i></i>
-        <i></i><i></i><i></i>
-      </div>
+      <div
+        class="song-member-line"
+        id="songMemberLine"
+        aria-label="正規歌唱者カラー"
+      ></div>
     </section>
 
     <section
@@ -1250,18 +1658,15 @@
     </section>
 
     <nav
-      class="detail-local-nav"
+      class="detail-local-nav detail-local-nav-v46"
       id="detailLocalNav"
       hidden
       aria-label="ページ内ナビゲーション"
     >
       <a href="#mainContent">基本情報</a>
-      <a href="#releaseSection">収録作品</a>
-      <a href="#discoverySection">初披露・最終披露</a>
-      <a href="#songRecordsSection">この曲の記録</a>
-      <a href="#songAnalysisSection">分析</a>
-      <a href="#songInsightsSection">関連データ</a>
-      <a href="#historySection">年別・歌唱履歴</a>
+      <a href="#discoverySection">歌唱記録</a>
+      <a href="#songAnalysisSection">データ分析</a>
+      <a href="#historySection">歌唱履歴</a>
     </nav>
 
     <div
@@ -1283,7 +1688,7 @@
     </div>
 
     <section
-      class="grid"
+      class="grid song-main-grid-v46"
       id="mainContent"
       hidden
     >
@@ -1345,18 +1750,6 @@
         id="songDiscovery"
       ></div>
 
-      <a
-        class="song-gap-cta"
-        id="songGapCheckerLink"
-        href="gap-checker.html"
-      >
-        <span class="song-gap-cta-icon" aria-hidden="true">↺</span>
-        <span>
-          <strong>この曲の「いつ振り」を調べる</strong>
-          <small>曲を選択した状態でチェッカーを開きます</small>
-        </span>
-        <span class="song-gap-cta-arrow" aria-hidden="true">→</span>
-      </a>
     </section>
 
     <section
@@ -1385,7 +1778,7 @@
       <div class="section-head">
         <div>
           <p class="kicker">SONG ANALYSIS</p>
-          <h2>歌唱データ分析</h2>
+          <h2>データから見る、この曲。</h2>
         </div>
       </div>
 
@@ -1424,21 +1817,12 @@
           <h2>歌唱間隔の推移</h2>
           <p class="analysis-help">前回歌唱から次に歌われるまでの日数を、直近8区間で表示します。</p>
           <div id="gapChart" class="gap-chart"></div>
+          <a class="analysis-checker-link" id="analysisGapCheckerLink" href="gap-checker.html">
+            この曲の「いつ振り」を調べる →
+          </a>
         </article>
       </div>
 
-      <article
-        class="song-analysis-card"
-        style="margin-top:14px"
-      >
-        <p class="kicker">RELATED MASTER DATA</p>
-        <h2>同じ収録CD・メディア・区分の関連曲</h2>
-
-        <div
-          class="related-master-list"
-          id="relatedMasterSongs"
-        ></div>
-      </article>
     </section>
 
     <section
@@ -1449,7 +1833,7 @@
       <div class="section-head">
         <div>
           <p class="kicker">RELATED DATA</p>
-          <h2>関連データ</h2>
+          <h2>歌唱履歴から広がる関連データ</h2>
         </div>
       </div>
 
@@ -1488,6 +1872,7 @@
           </p>
 
           <h2>歌唱履歴</h2>
+          <p class="section-description">この曲が、いつ・どこで・誰によって歌われたかを辿ります。</p>
         </div>
 
         <div
@@ -1557,13 +1942,13 @@
 
   <script
     type="module"
-    src="assets/js/song-v441.js?v=4.4.1"
+    src="assets/js/song-v460.js?v=4.6.0"
   ></script>
 
   <script type="module">
     import {
       setupDetailContext
-    } from "./assets/js/detail-context.js?v=2.8.6";
+    } from "./assets/js/detail-context.js?v=4.6.0";
 
     setupDetailContext({
       typeLabel: "曲",

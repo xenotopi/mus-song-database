@@ -202,7 +202,7 @@ export function renderCommon(active = "") {
         </div>
 
         <div>
-          Web Prototype v2.7
+          © μ's Song Database Project
         </div>
       </footer>`;
   }

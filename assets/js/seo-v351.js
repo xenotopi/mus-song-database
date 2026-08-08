@@ -467,7 +467,7 @@
 
     if (
       current.includes(
-        "Version 3.7.0"
+        ""
       )
     ) {
       return;
@@ -480,9 +480,8 @@
       </div>
 
       <div>
-        <b>Version 3.7.0</b><br>
-        <span>© μ's Song Database Project</span>
-      </div>
+  <span>© μ's Song Database Project</span>
+</div>
     `;
   }
 

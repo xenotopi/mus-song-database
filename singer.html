@@ -221,5 +221,17 @@
   <div id="siteFooter"></div>
 
   <script type="module" src="assets/js/singer-v460.js?v=4.6.0"></script>
+  <script type="module">
+    import {
+      setupDetailContext
+    } from "./assets/js/detail-context.js?v=4.6.1";
+
+    setupDetailContext({
+      typeLabel: "歌唱名義",
+      titleSelector: "#singerName",
+      heroSelector: ".singer-hero"
+    });
+  </script>
+
 </body>
 </html>

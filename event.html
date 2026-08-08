@@ -876,6 +876,30 @@
       }
     }
 
+
+    .crumb a{
+      color:inherit;
+      text-decoration:none;
+    }
+    .crumb a:hover{
+      color:var(--indigo);
+      text-decoration:underline;
+    }
+
+    .performer-row[data-singer-link="1"]{
+      cursor:pointer;
+      transition:border-color .15s ease,background .15s ease,transform .15s ease;
+    }
+    .performer-row[data-singer-link="1"]:hover{
+      border-color:#bbb6f5;
+      background:#fcfbff;
+      transform:translateY(-1px);
+    }
+    .performer-row[data-singer-link="1"]:focus-visible{
+      outline:3px solid rgba(79,70,229,.22);
+      outline-offset:2px;
+    }
+
 </style>
 
 
@@ -918,7 +942,7 @@
   <div id="siteHeader"></div>
 
   <main>
-    <div class="crumb">ホーム › イベント詳細</div>
+    <div class="crumb"><a href="index.html">ホーム</a> › イベント詳細</div>
 
     <section class="hero event-hero-v46">
       <p class="event-hero-kicker">EVENT DETAIL</p>
@@ -1214,6 +1238,43 @@
       });
 
       normalizeEventLabels();
+    })();
+  </script>
+
+  <script>
+    (() => {
+      function makeEventPerformerRowsClickable() {
+        document.querySelectorAll("#performerList .performer-row").forEach(row => {
+          if (row.dataset.singerLink === "1") return;
+
+          const nameEl = row.querySelector(".performer-name");
+          const name = String(nameEl?.textContent || "").trim();
+          if (!name) return;
+
+          const go = () => {
+            location.href = `singer.html?name=${encodeURIComponent(name)}`;
+          };
+
+          row.dataset.singerLink = "1";
+          row.setAttribute("role", "link");
+          row.setAttribute("tabindex", "0");
+          row.setAttribute("aria-label", `${name}の歌唱名義詳細を見る`);
+
+          row.addEventListener("click", go);
+          row.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              go();
+            }
+          });
+        });
+      }
+
+      const observer = new MutationObserver(makeEventPerformerRowsClickable);
+      observer.observe(document.body, { childList:true, subtree:true });
+
+      makeEventPerformerRowsClickable();
+      window.addEventListener("load", makeEventPerformerRowsClickable);
     })();
   </script>
 

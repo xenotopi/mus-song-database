@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>曲一覧｜μ's Song Database</title>
+  <meta name="description" content="μ'sの楽曲を、歌唱回数・初披露・最終披露・メディア・区分などの歌唱記録から探せる曲一覧です。">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.7.0">
+
+  <style>
+    .songs-page{
+      width:min(1120px,calc(100% - 32px));
+      margin:0 auto;
+      padding:30px 0 88px;
+    }
+
+    .songs-breadcrumb{
+      margin-bottom:18px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .songs-breadcrumb a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    .songs-breadcrumb a:hover{
+      color:var(--indigo);
+      text-decoration:underline;
+    }
+
+    .songs-hero{
+      position:relative;
+      overflow:hidden;
+      padding:32px 30px;
+      border-radius:24px;
+      color:#fff;
+      background:
+        radial-gradient(circle at 88% 8%,rgba(126,111,255,.20),transparent 27%),
+        linear-gradient(135deg,#18213d 0%,#293263 54%,#5147c9 100%);
+      box-shadow:0 18px 46px rgba(30,34,76,.12);
+    }
+
+    .songs-hero-kicker,
+    .songs-section-kicker{
+      margin:0;
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.12em;
+    }
+
+    .songs-hero-kicker{
+      color:rgba(255,255,255,.66);
+    }
+
+    .songs-hero h1{
+      margin:8px 0 10px;
+      font-size:clamp(30px,4vw,46px);
+      line-height:1.15;
+      letter-spacing:-.02em;
+    }
+
+    .songs-hero-copy{
+      margin:0;
+      color:rgba(255,255,255,.86);
+      font-size:14px;
+      line-height:1.9;
+    }
+
+    .songs-hero-summary{
+      margin-top:20px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .songs-hero-chip{
+      padding:7px 11px;
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      font-size:11px;
+      font-weight:900;
+    }
+
+    .songs-section{
+      margin-top:50px;
+    }
+
+    .songs-section-head{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:16px;
+    }
+
+    .songs-section-kicker{
+      color:var(--indigo);
+    }
+
+    .songs-section-head h2{
+      margin:5px 0 0;
+      color:var(--navy);
+      font-size:26px;
+      line-height:1.35;
+    }
+
+    .songs-section-note{
+      margin:0;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.7;
+    }
+
+    .songs-pickup-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
+    }
+
+    .songs-pickup-card{
+      position:relative;
+      overflow:hidden;
+      min-height:190px;
+      padding:20px;
+      border:1px solid #dedaf5;
+      border-radius:20px;
+      background:
+        radial-gradient(circle at 100% 0,rgba(79,70,229,.08),transparent 42%),
+        #fff;
+      box-shadow:0 8px 24px rgba(38,39,77,.055);
+      color:inherit;
+      text-decoration:none;
+    }
+
+    .songs-pickup-card:hover{
+      border-color:#bbb6f5;
+      transform:translateY(-1px);
+    }
+
+    .songs-pickup-label{
+      color:var(--indigo);
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.06em;
+    }
+
+    .songs-pickup-title{
+      margin-top:14px;
+      color:var(--navy);
+      font-size:20px;
+      font-weight:900;
+      line-height:1.4;
+    }
+
+    .songs-pickup-value{
+      margin-top:16px;
+      color:var(--indigo);
+      font-size:26px;
+      font-weight:900;
+      line-height:1;
+    }
+
+    .songs-pickup-meta{
+      margin-top:8px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.65;
+    }
+
+    .songs-toolbar{
+      padding:18px;
+      border:1px solid #dedaf5;
+      border-radius:20px;
+      background:#fbfaff;
+      box-shadow:0 8px 24px rgba(38,39,77,.04);
+    }
+
+    .songs-search{
+      position:relative;
+    }
+
+    .songs-search input{
+      width:100%;
+      min-height:48px;
+      padding:0 15px 0 42px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+      color:var(--navy);
+      font-size:14px;
+      font-weight:800;
+    }
+
+    .songs-search-mark{
+      position:absolute;
+      left:15px;
+      top:50%;
+      transform:translateY(-50%);
+      color:var(--muted);
+      font-size:16px;
+      pointer-events:none;
+    }
+
+    .songs-filter-block{
+      margin-top:16px;
+    }
+
+    .songs-filter-label{
+      margin:0 0 8px;
+      color:var(--muted);
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.06em;
+    }
+
+    .songs-filter-pills{
+      display:flex;
+      gap:7px;
+      overflow-x:auto;
+      padding:0 0 5px;
+      scrollbar-width:thin;
+    }
+
+    .songs-filter-pill{
+      flex:0 0 auto;
+      min-height:36px;
+      padding:0 13px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:#fff;
+      color:var(--navy);
+      font-size:11px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .songs-filter-pill.active{
+      border-color:var(--indigo);
+      background:var(--indigo);
+      color:#fff;
+    }
+
+    .songs-toolbar-bottom{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(220px,320px);
+      gap:12px;
+      align-items:end;
+    }
+
+    .songs-result-text{
+      color:var(--muted);
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .songs-sort{
+      display:grid;
+      gap:6px;
+    }
+
+    .songs-sort label{
+      color:var(--muted);
+      font-size:10px;
+      font-weight:900;
+    }
+
+    .songs-sort select{
+      width:100%;
+      min-height:42px;
+      padding:0 12px;
+      border:1px solid var(--line);
+      border-radius:11px;
+      background:#fff;
+      color:var(--navy);
+      font-weight:800;
+    }
+
+    .songs-list{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+    }
+
+    .song-list-card{
+      position:relative;
+      display:grid;
+      grid-template-columns:44px minmax(0,1fr);
+      gap:12px;
+      min-height:158px;
+      padding:17px;
+      border:1px solid #dfdced;
+      border-radius:18px;
+      background:#fff;
+      box-shadow:0 7px 20px rgba(38,39,77,.045);
+      color:inherit;
+      text-decoration:none;
+    }
+
+    .song-list-card:hover{
+      border-color:#bbb6f5;
+      background:#fcfbff;
+      transform:translateY(-1px);
+    }
+
+    .song-list-rank{
+      width:36px;
+      height:36px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background:var(--indigo-soft);
+      color:var(--indigo);
+      font-size:11px;
+      font-weight:900;
+    }
+
+    .song-list-title{
+      color:var(--navy);
+      font-size:17px;
+      font-weight:900;
+      line-height:1.45;
+    }
+
+    .song-list-meta{
+      margin-top:7px;
+      display:flex;
+      gap:5px 10px;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.6;
+    }
+
+    .song-list-stats{
+      margin-top:13px;
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:8px;
+    }
+
+    .song-list-stat{
+      padding:8px 9px;
+      border-radius:10px;
+      background:#f7f7fc;
+    }
+
+    .song-list-stat b{
+      display:block;
+      color:var(--navy);
+      font-size:12px;
+      line-height:1.3;
+    }
+
+    .song-list-stat span{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:9px;
+      line-height:1.3;
+    }
+
+    .song-record-tag{
+      margin-top:11px;
+      display:inline-flex;
+      align-items:center;
+      min-height:28px;
+      padding:0 9px;
+      border-radius:999px;
+      background:#efedff;
+      color:var(--indigo);
+      font-size:10px;
+      font-weight:900;
+    }
+
+    .songs-empty,
+    .songs-status{
+      margin-top:16px;
+      padding:22px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fff;
+      color:var(--muted);
+      text-align:center;
+      line-height:1.8;
+    }
+
+    .songs-more-wrap{
+      margin-top:18px;
+      text-align:center;
+    }
+
+    .songs-more{
+      min-width:230px;
+      min-height:44px;
+      padding:0 18px;
+      border:1px solid var(--indigo);
+      border-radius:999px;
+      background:#fff;
+      color:var(--indigo);
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .songs-more:hover{
+      background:var(--indigo);
+      color:#fff;
+    }
+
+    @media(max-width:900px){
+      .songs-pickup-grid{
+        grid-template-columns:1fr;
+      }
+
+      .songs-list{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media(max-width:620px){
+      .songs-page{
+        width:min(100% - 20px,1120px);
+        padding-top:20px;
+      }
+
+      .songs-hero{
+        padding:26px 20px;
+        border-radius:20px;
+      }
+
+      .songs-hero h1{
+        font-size:31px;
+      }
+
+      .songs-section{
+        margin-top:42px;
+      }
+
+      .songs-section-head{
+        display:block;
+      }
+
+      .songs-section-head h2{
+        font-size:22px;
+      }
+
+      .songs-section-note{
+        margin-top:7px;
+      }
+
+      .songs-toolbar{
+        padding:14px;
+      }
+
+      .songs-toolbar-bottom{
+        grid-template-columns:1fr;
+      }
+
+      .song-list-card{
+        grid-template-columns:38px minmax(0,1fr);
+        min-height:0;
+        padding:15px 14px;
+      }
+
+      .song-list-rank{
+        width:32px;
+        height:32px;
+      }
+
+      .song-list-title{
+        font-size:15px;
+      }
+
+      .song-list-stats{
+        grid-template-columns:repeat(3,minmax(0,1fr));
+      }
+
+      .song-list-stat{
+        padding:7px 6px;
+      }
+
+      .song-list-stat b{
+        font-size:10px;
+      }
+
+      .song-list-stat span{
+        font-size:8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="siteHeader"></div>
+
+  <main class="songs-page">
+    <div class="songs-breadcrumb">
+      <a href="index.html">ホーム</a> › 曲一覧
+    </div>
+
+    <section class="songs-hero">
+      <p class="songs-hero-kicker">SONGS</p>
+      <h1>曲を探す</h1>
+      <p class="songs-hero-copy">
+        μ'sの楽曲を、歌唱記録とともに探せます。<br>
+        知っている曲からも、記録から初めて知る曲からも。
+      </p>
+
+      <div class="songs-hero-summary" id="heroSummary" hidden>
+        <span class="songs-hero-chip" id="totalSongsChip"></span>
+        <span class="songs-hero-chip" id="mediaCountChip"></span>
+        <span class="songs-hero-chip" id="categoryCountChip"></span>
+      </div>
+    </section>
+
+    <div class="songs-status" id="status">曲データを読み込んでいます...</div>
+
+    <section class="songs-section" id="pickupSection" hidden>
+      <div class="songs-section-head">
+        <div>
+          <p class="songs-section-kicker">PICK UP SONGS</p>
+          <h2>記録から曲を見つける</h2>
+        </div>
+        <p class="songs-section-note">曲名を知らなくても、記録を入口に巡れます。</p>
+      </div>
+
+      <div class="songs-pickup-grid" id="pickupGrid"></div>
+    </section>
+
+    <section class="songs-section" id="allSongsSection" hidden>
+      <div class="songs-section-head">
+        <div>
+          <p class="songs-section-kicker">ALL SONGS</p>
+          <h2>全曲一覧</h2>
+        </div>
+        <p class="songs-section-note">検索・メディア・区分・並び替えで絞り込めます。</p>
+      </div>
+
+      <div class="songs-toolbar">
+        <div class="songs-search">
+          <span class="songs-search-mark">⌕</span>
+          <input id="songSearch" type="search" placeholder="曲名から探す" autocomplete="off" aria-label="曲名から探す">
+        </div>
+
+        <div class="songs-filter-block">
+          <p class="songs-filter-label">メディア</p>
+          <div class="songs-filter-pills" id="mediaFilters"></div>
+        </div>
+
+        <div class="songs-filter-block">
+          <p class="songs-filter-label">区分</p>
+          <div class="songs-filter-pills" id="categoryFilters"></div>
+        </div>
+
+        <div class="songs-toolbar-bottom">
+          <div class="songs-result-text" id="resultText"></div>
+
+          <div class="songs-sort">
+            <label for="songSort">並び替え</label>
+            <select id="songSort">
+              <option value="performance">歌唱回数が多い順</option>
+              <option value="recent">最近歌われた順</option>
+              <option value="first-old">初披露が古い順</option>
+              <option value="first-new">初披露が新しい順</option>
+              <option value="gap">最長ブランク順</option>
+              <option value="name">曲名順</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="songs-list" id="songsList"></div>
+
+      <div class="songs-more-wrap">
+        <button class="songs-more" id="moreButton" type="button" hidden>もっと見る</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script type="module" src="assets/js/songs-v470.js?v=4.7.0"></script>
+</body>
+</html>

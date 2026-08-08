@@ -1144,6 +1144,84 @@
       font-weight:900;
       letter-spacing:.12em;
     }
+
+    .v46-detail-context{
+      position:fixed;
+      z-index:2200;
+      top:0;
+      right:0;
+      left:0;
+      padding:0 18px;
+      pointer-events:none;
+      visibility:hidden;
+      opacity:0;
+      transform:translateY(-12px);
+      transition:opacity .18s ease,transform .18s ease,visibility 0s linear .18s;
+    }
+    .v46-detail-context.is-visible{
+      visibility:visible;
+      opacity:1;
+      transform:translateY(0);
+      transition-delay:0s;
+    }
+    .v46-detail-context-inner{
+      width:min(1090px,100%);
+      min-height:50px;
+      margin:0 auto;
+      padding:8px 10px 8px 13px;
+      display:grid;
+      grid-template-columns:auto minmax(0,1fr) auto;
+      gap:10px;
+      align-items:center;
+      border:1px solid rgba(221,225,235,.96);
+      border-radius:0 0 15px 15px;
+      background:rgba(255,255,255,.96);
+      box-shadow:0 12px 28px rgba(23,32,51,.13);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      pointer-events:none;
+    }
+    .v46-detail-context.is-visible .v46-detail-context-inner{pointer-events:auto}
+    .v46-detail-context-type{
+      padding:5px 9px;
+      border-radius:999px;
+      background:#eceaff;
+      color:#4f46e5;
+      font-size:10px;
+      font-weight:900;
+      white-space:nowrap;
+    }
+    .v46-detail-context-title{
+      min-width:0;
+      overflow:hidden;
+      color:#172033;
+      font-size:14px;
+      font-weight:900;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .v46-detail-context-top{
+      min-height:34px;
+      padding:0 11px;
+      border:0;
+      border-radius:10px;
+      background:#4f46e5;
+      color:#fff;
+      font-size:11px;
+      font-weight:900;
+      cursor:pointer;
+    }
+    @media(max-width:820px){
+      .v46-detail-context{padding:0 8px}
+      .v46-detail-context-inner{
+        min-height:46px;
+        padding:7px 8px 7px 10px;
+        border-radius:0 0 13px 13px;
+      }
+      .v46-detail-context-title{font-size:12px}
+      .v46-detail-context-top{padding:0 9px}
+    }
+
 </style>
 
 
@@ -1576,16 +1654,77 @@
     src="assets/js/song-v441.js?v=4.4.1"
   ></script>
 
-  <script type="module">
-    import {
-      setupDetailContext
-    } from "./assets/js/detail-context.js?v=4.6.1";
+  <script>
+    (() => {
+      const TYPE_LABEL = "曲";
+      const TITLE_SELECTOR = "#songName";
+      const HERO_SELECTOR = ".hero";
+      const BAR_ID = "songDetailContextV46";
 
-    setupDetailContext({
-      typeLabel: "曲",
-      titleSelector: "#songName",
-      heroSelector: ".hero"
-    });
+      function initDetailContext() {
+        if (document.getElementById(BAR_ID)) return;
+
+        const titleElement = document.querySelector(TITLE_SELECTOR);
+        const heroElement = document.querySelector(HERO_SELECTOR);
+        if (!titleElement || !heroElement) return;
+
+        const bar = document.createElement("div");
+        bar.id = BAR_ID;
+        bar.className = "v46-detail-context";
+        bar.setAttribute("aria-hidden", "true");
+        bar.innerHTML = `
+          <div class="v46-detail-context-inner">
+            <span class="v46-detail-context-type">${TYPE_LABEL}</span>
+            <strong class="v46-detail-context-title"></strong>
+            <button class="v46-detail-context-top" type="button" aria-label="ページ上部へ戻る">↑ 上へ</button>
+          </div>
+        `;
+        document.body.appendChild(bar);
+
+        const titleOutput = bar.querySelector(".v46-detail-context-title");
+        const topButton = bar.querySelector(".v46-detail-context-top");
+
+        const updateTitle = () => {
+          const title = String(titleElement.textContent || "")
+            .replace(/\s+/g, " ")
+            .trim();
+
+          titleOutput.textContent =
+            title && !title.includes("読み込み中")
+              ? title
+              : `${TYPE_LABEL}詳細`;
+        };
+
+        const updateVisibility = () => {
+          const rect = heroElement.getBoundingClientRect();
+          const visible = rect.bottom < 68;
+          bar.classList.toggle("is-visible", visible);
+          bar.setAttribute("aria-hidden", visible ? "false" : "true");
+        };
+
+        updateTitle();
+        updateVisibility();
+
+        new MutationObserver(updateTitle).observe(titleElement, {
+          childList: true,
+          characterData: true,
+          subtree: true
+        });
+
+        window.addEventListener("scroll", updateVisibility, { passive: true });
+        window.addEventListener("resize", updateVisibility, { passive: true });
+
+        topButton.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initDetailContext, { once: true });
+      } else {
+        initDetailContext();
+      }
+    })();
   </script>
 
 </body>

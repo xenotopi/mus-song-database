@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>イベント詳細 | μ's Song Database</title>
-  <link rel="stylesheet" href="assets/css/style.css?v=2.5.0">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.6.0">
 
   <style>
     html {
@@ -594,6 +594,288 @@
       }
     }
 
+
+
+    /* =========================================================
+       Web v4.6 — Detail Pages & Visual Consistency
+       Event Detail
+       ========================================================= */
+
+    .event-hero-v46 {
+      position: relative;
+      overflow: hidden;
+      padding-top: 30px;
+      padding-bottom: 34px;
+      background:
+        radial-gradient(circle at 88% 8%, rgba(126,111,255,.20), transparent 27%),
+        linear-gradient(135deg,#18213d 0%,#293263 54%,#5147c9 100%);
+      box-shadow: 0 18px 46px rgba(30,34,76,.12);
+    }
+
+    .event-hero-kicker {
+      margin: 0 0 8px;
+      color: rgba(255,255,255,.62);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .12em;
+    }
+
+    .event-hero-v46 h1 {
+      max-width: 980px;
+      font-size: clamp(30px,4.2vw,48px);
+      line-height: 1.18;
+      letter-spacing: -.02em;
+      text-wrap: balance;
+    }
+
+    .event-hero-v46 .muse-line {
+      margin-top: 24px;
+    }
+
+    .quicknav {
+      margin-top: 18px;
+      gap: 12px !important;
+    }
+
+    .quickpicker {
+      padding: 16px !important;
+      border: 1px solid #cec8ff !important;
+      border-radius: 17px !important;
+      background:
+        radial-gradient(circle at 92% 0,rgba(79,70,229,.09),transparent 35%),
+        #fbfaff !important;
+      box-shadow: 0 9px 24px rgba(79,70,229,.08);
+    }
+
+    #mainContent {
+      margin-top: 34px;
+    }
+
+    #mainContent > .card {
+      border-color: #e2e0ed;
+      box-shadow: 0 9px 28px rgba(35,38,78,.055);
+    }
+
+    #mainContent .stats .stat {
+      background: #f1f3ff;
+      border: 1px solid #e5e6fb;
+    }
+
+    .event-stat-help-v46 {
+      margin-top: 14px;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid #e8e6f2;
+      border-radius: 14px;
+      background: #faf9ff;
+    }
+
+    .event-stat-help-v46 summary {
+      padding: 12px 14px;
+      color: var(--indigo);
+      font-size: 11px;
+      font-weight: 900;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .event-stat-help-v46 summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .event-stat-help-v46 summary::after {
+      content: "＋";
+      float: right;
+      color: var(--muted);
+    }
+
+    .event-stat-help-v46[open] summary::after {
+      content: "−";
+    }
+
+    .event-stat-help-body {
+      padding: 0 14px 12px;
+      display: grid;
+      grid-template-columns: repeat(2,minmax(0,1fr));
+      gap: 10px 16px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    .event-stat-help-body p {
+      margin: 0;
+    }
+
+    .event-record-grid {
+      grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+    }
+
+    /* 登録曲数は歌唱サマリーと重複するため v4.6 では非表示 */
+    .event-record-grid > :first-child {
+      display: none !important;
+    }
+
+    .event-record-card {
+      min-height: 126px;
+      border-color: #dfdced !important;
+      box-shadow: 0 8px 24px rgba(38,39,77,.055);
+    }
+
+    #songsSection {
+      margin-top: 58px;
+      padding-top: 34px;
+      border-top: 1px solid #e9e7f1;
+    }
+
+    #songsSection .section-head h2,
+    #eventPerformersSection .section-head h2,
+    #eventInsightsSection .section-head h2,
+    #venueSection h2,
+    #discoverySection .section-head h2 {
+      font-size: 26px;
+      line-height: 1.35;
+    }
+
+    .event-song-controls {
+      margin-top: 18px;
+    }
+
+    #songList {
+      border-color: #dfdced;
+      box-shadow: 0 9px 28px rgba(35,38,78,.055);
+    }
+
+    .event-song-row {
+      min-height: 78px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+
+    .event-song-title {
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    #eventPerformersSection,
+    #eventInsightsSection,
+    #venueSection,
+    #discoverySection {
+      margin-top: 58px;
+    }
+
+    .event-performer-card,
+    .event-insight-card,
+    #venueSection .card,
+    .discovery-card {
+      border-color: #dfdced !important;
+      box-shadow: 0 8px 24px rgba(38,39,77,.055);
+    }
+
+    .event-performer-card {
+      padding: 18px 20px;
+    }
+
+    .performer-list {
+      margin-top: 0;
+    }
+
+    .event-insight-grid {
+      gap: 13px;
+    }
+
+    .event-insight-card {
+      min-height: 168px;
+      background:
+        radial-gradient(circle at 100% 0,rgba(79,70,229,.06),transparent 38%),
+        #fff;
+    }
+
+    #venueSection .card {
+      padding: 22px;
+    }
+
+    #venueSection .venue-summary {
+      border: 1px solid #dcd8f4 !important;
+      background:
+        radial-gradient(circle at 100% 0,rgba(79,70,229,.07),transparent 34%),
+        #fbfaff !important;
+      box-shadow: none !important;
+    }
+
+    #venueSection .venue-summary:hover {
+      border-color: #bbb6f5 !important;
+      background: #f8f6ff !important;
+    }
+
+    #discoverySection {
+      padding-top: 34px;
+      border-top: 1px solid #e9e7f1;
+    }
+
+    #eventDiscovery {
+      grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+
+    /* 「披露曲」導線は上部に一覧があるため重複削除 */
+    #eventDiscovery > :nth-child(2) {
+      display: none !important;
+    }
+
+    .section {
+      margin-top: 58px;
+    }
+
+    @media (max-width: 900px) {
+      .event-record-grid {
+        grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+      }
+
+      .event-stat-help-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .event-hero-v46 {
+        padding-top: 24px;
+        padding-bottom: 28px;
+      }
+
+      .quicknav {
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+      }
+
+      .quickpicker {
+        grid-column: 1 / -1 !important;
+        grid-row: 1 !important;
+      }
+
+      .event-record-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      #eventDiscovery {
+        grid-template-columns: 1fr;
+      }
+
+      #songsSection,
+      #eventPerformersSection,
+      #eventInsightsSection,
+      #venueSection,
+      #discoverySection {
+        margin-top: 46px;
+      }
+
+      #songsSection .section-head h2,
+      #eventPerformersSection .section-head h2,
+      #eventInsightsSection .section-head h2,
+      #venueSection h2,
+      #discoverySection .section-head h2 {
+        font-size: 22px;
+      }
+    }
+
 </style>
 
 
@@ -630,7 +912,7 @@
 
   <meta name="theme-color" content="#4f46e5">
 
-  <script src="assets/js/seo-v351.js?v=3.5.1" defer></script>
+  <script src="assets/js/seo-v351.js?v=4.6.0" defer></script>
 </head>
 <body>
   <div id="siteHeader"></div>
@@ -638,7 +920,8 @@
   <main>
     <div class="crumb">ホーム › イベント詳細</div>
 
-    <section class="hero">
+    <section class="hero event-hero-v46">
+      <p class="event-hero-kicker">EVENT DETAIL</p>
       <span class="badge">イベント</span>
       <h1 id="eventName">読み込み中…</h1>
       <p id="heroMeta">APIから実データを取得しています。</p>
@@ -654,10 +937,10 @@
       aria-label="ページ内ナビゲーション"
     >
       <a href="#mainContent">基本情報</a>
-      <a href="#discoverySection">このイベントを巡る</a>
+      <a href="#songsSection">披露曲</a>
+      <a href="#eventPerformersSection">歌唱名義</a>
       <a href="#eventInsightsSection">発見</a>
       <a href="#venueSection">会場</a>
-      <a href="#songsSection">披露曲</a>
     </nav>
 
     <section class="quicknav" id="quickNav" hidden>
@@ -701,19 +984,15 @@
         <h2>歌唱統計</h2>
         <div class="stats" id="eventStats"></div>
 
-        <div class="event-stat-help">
-          <strong>登録曲数</strong><br>
-          同じ曲の重複も含めた登録行数です。<br><br>
-
-          <strong>重複除外曲数</strong><br>
-          同じ曲を1曲として数えた曲数です。<br><br>
-
-          <strong>延べ歌唱人数</strong><br>
-          各曲の歌唱人数を合計した値です。<br><br>
-
-          <strong>平均歌唱人数</strong><br>
-          1曲あたりの平均歌唱人数です。
-        </div>
+        <details class="event-stat-help event-stat-help-v46">
+          <summary>ⓘ 集計方法について</summary>
+          <div class="event-stat-help-body">
+            <p><strong>登録曲数</strong><br>同じ曲の重複を含む登録行数です。</p>
+            <p><strong>楽曲数</strong><br>同じ曲を1曲として集計します。</p>
+            <p><strong>延べ歌唱人数</strong><br>各曲の歌唱人数を合計した値です。</p>
+            <p><strong>平均歌唱人数</strong><br>1曲あたりの平均歌唱人数です。</p>
+          </div>
+        </details>
       </article>
     </section>
 
@@ -734,105 +1013,6 @@
         id="eventRecordGrid"
       ></div>
     </section>
-
-    <section
-      class="section"
-      id="eventPerformersSection"
-      hidden
-    >
-      <div class="section-head">
-        <div>
-          <p class="kicker">PERFORMER SUMMARY</p>
-          <h2>歌唱名義の内訳</h2>
-        </div>
-      </div>
-
-      <div class="event-performer-grid single">
-        <article class="event-performer-card">
-          <p class="kicker">SINGER NAMES</p>
-          <h2>歌唱名義別の登場曲数</h2>
-
-          <div
-            class="performer-list"
-            id="performerList"
-          ></div>
-        </article>
-      </div>
-    </section>
-
-    <section
-      class="section"
-      id="discoverySection"
-      hidden
-    >
-      <div class="section-head">
-        <div>
-          <p class="kicker">EVENT GUIDE</p>
-          <h2>このイベントを巡る</h2>
-        </div>
-      </div>
-
-      <div
-        class="discovery-grid"
-        id="eventDiscovery"
-      ></div>
-    </section>
-
-    <section
-      class="section"
-      id="eventInsightsSection"
-      hidden
-    >
-      <div class="section-head">
-        <div>
-          <p class="kicker">EVENT DISCOVERY</p>
-          <h2>このイベントの発見</h2>
-        </div>
-      </div>
-
-      <div class="event-insight-grid">
-        <article class="event-insight-card">
-          <p class="kicker">ONLY HERE</p>
-          <h2>このイベントだけの曲</h2>
-          <div
-            class="insight-list"
-            id="uniqueEventSongs"
-          ></div>
-        </article>
-
-        <article class="event-insight-card">
-          <p class="kicker">FIRST PERFORMANCE</p>
-          <h2>初披露された曲</h2>
-          <div
-            class="insight-list"
-            id="firstEventSongs"
-          ></div>
-        </article>
-
-        <article class="event-insight-card">
-          <p class="kicker">LATEST PERFORMANCE</p>
-          <h2>現時点で最後に歌われた曲</h2>
-          <div
-            class="insight-list"
-            id="lastEventSongs"
-          ></div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" id="venueSection" hidden>
-      <article class="card">
-        <p class="kicker">VENUE INFORMATION</p>
-        <h2>開催・会場情報</h2>
-
-        <a class="venue-summary" id="venueLink">
-          <h3 id="venueName"></h3>
-          <p id="venueMeta"></p>
-          <p id="venueNote"></p>
-        </a>
-      </article>
-    </section>
-
     <section class="section" id="songsSection" hidden>
       <div class="section-head">
         <div>
@@ -896,22 +1076,145 @@
         id="songOrderNote"
       ></p>
     </section>
+    <section
+      class="section"
+      id="eventPerformersSection"
+      hidden
+    >
+      <div class="section-head">
+        <div>
+          <p class="kicker">PERFORMER SUMMARY</p>
+          <h2>歌唱名義の内訳</h2>
+        </div>
+      </div>
+
+      <div class="event-performer-grid single">
+        <article class="event-performer-card">
+
+          <div
+            class="performer-list"
+            id="performerList"
+          ></div>
+        </article>
+      </div>
+    </section>
+    <section
+      class="section"
+      id="eventInsightsSection"
+      hidden
+    >
+      <div class="section-head">
+        <div>
+          <p class="kicker">EVENT DISCOVERY</p>
+          <h2>このイベントの発見</h2>
+        </div>
+      </div>
+
+      <div class="event-insight-grid">
+        <article class="event-insight-card">
+          <p class="kicker">ONLY HERE</p>
+          <h2>このイベントだけの曲</h2>
+          <div
+            class="insight-list"
+            id="uniqueEventSongs"
+          ></div>
+        </article>
+
+        <article class="event-insight-card">
+          <p class="kicker">FIRST PERFORMANCE</p>
+          <h2>初披露された曲</h2>
+          <div
+            class="insight-list"
+            id="firstEventSongs"
+          ></div>
+        </article>
+
+        <article class="event-insight-card">
+          <p class="kicker">LATEST PERFORMANCE</p>
+          <h2>最終披露となった曲</h2>
+          <div
+            class="insight-list"
+            id="lastEventSongs"
+          ></div>
+        </article>
+      </div>
+    </section>
+    <section class="section" id="venueSection" hidden>
+      <article class="card">
+        <p class="kicker">VENUE INFORMATION</p>
+        <h2>開催・会場情報</h2>
+
+        <a class="venue-summary" id="venueLink">
+          <h3 id="venueName"></h3>
+          <p id="venueMeta"></p>
+          <p id="venueNote"></p>
+        </a>
+      </article>
+    </section>
+    <section
+      class="section"
+      id="discoverySection"
+      hidden
+    >
+      <div class="section-head">
+        <div>
+          <p class="kicker">NEXT DISCOVERY</p>
+          <h2>このイベントから巡る</h2>
+        </div>
+      </div>
+
+      <div
+        class="discovery-grid"
+        id="eventDiscovery"
+      ></div>
+    </section>
+
+
+
+
+
   </main>
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/event-v310.js?v=3.1.0"></script>
+  <script type="module" src="assets/js/event-v310.js?v=4.6.0"></script>
 
   <script type="module">
     import {
       setupDetailContext
-    } from "./assets/js/detail-context.js?v=3.1.0";
+    } from "./assets/js/detail-context.js?v=4.6.0";
 
     setupDetailContext({
       typeLabel: "イベント",
       titleSelector: "#eventName",
       heroSelector: ".hero"
     });
+  </script>
+
+  <script>
+    (() => {
+      const normalizeEventLabels = () => {
+        const stats = document.getElementById("eventStats");
+        if (stats) {
+          stats.querySelectorAll("*").forEach(node => {
+            if (
+              node.children.length === 0 &&
+              node.textContent.trim() === "重複除外曲数"
+            ) {
+              node.textContent = "楽曲数";
+            }
+          });
+        }
+      };
+
+      const observer = new MutationObserver(normalizeEventLabels);
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+
+      normalizeEventLabels();
+    })();
   </script>
 
 </body>

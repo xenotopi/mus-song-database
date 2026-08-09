@@ -6,7 +6,7 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=4.2.1";
+} from "./common.js?v=4.7.14";
 
 renderCommon("");
 
@@ -40,6 +40,26 @@ const el = {
 
 const params = new URLSearchParams(location.search);
 const singerName = String(params.get("name") || "").trim();
+const singerCategory = String(params.get("category") || "").trim();
+
+// URL・画面表示は正式名、既存APIへの問い合わせだけ従来の詳細キーを使う。
+const SOLO_DETAIL_KEYS = new Map([
+  ["新田恵海", "新田"],
+  ["南條愛乃", "南條"],
+  ["内田彩", "内田"],
+  ["三森すずこ", "三森"],
+  ["飯田里穂", "飯田"],
+  ["Pile", "Pile"],
+  ["楠田亜衣奈", "楠田"],
+  ["久保ユリカ", "久保"],
+  ["徳井青空", "徳井"]
+]);
+
+function apiSingerName() {
+  return singerCategory === "ソロ"
+    ? (SOLO_DETAIL_KEYS.get(singerName) || singerName)
+    : singerName;
+}
 
 const MEMBER_COLORS = [
   { color:"#f39a3d", keys:["高坂穂乃果","穂乃果","新田恵海","新田"] },
@@ -247,7 +267,8 @@ function setupFilters() {
 
 function render(data) {
   const summary = data.summary || {};
-  const name = data.singerName || singerName;
+  // 正式名URLで開いた場合は、APIが従来の名字キーを返しても正式名を優先表示する。
+  const name = singerName || data.singerName || "歌唱名義未設定";
 
   el.singerName.textContent = name;
   renderSingerColors(name);
@@ -294,7 +315,7 @@ async function loadSinger() {
   try {
     const response = await apiGet(
       "singer",
-      { name: singerName }
+      { name: apiSingerName() }
     );
     render(response.data || response);
   } catch (error) {

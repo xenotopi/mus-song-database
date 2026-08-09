@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>歌唱名義から探す｜μ's Song Database</title>
+  <meta name="description" content="μ's楽曲が実際に歌われた名義を、公式・ソロ、人数、メンバーから探せる歌唱名義一覧です。">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.7.0">
+
+  <style>
+    .singers-page{
+      width:min(1120px,calc(100% - 32px));
+      margin:0 auto;
+      padding:30px 0 88px;
+    }
+
+    .singers-breadcrumb{
+      margin-bottom:18px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .singers-breadcrumb a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    .singers-hero{
+      position:relative;
+      overflow:hidden;
+      padding:32px 30px;
+      border-radius:24px;
+      color:#fff;
+      background:
+        radial-gradient(circle at 88% 8%,rgba(126,111,255,.20),transparent 27%),
+        linear-gradient(135deg,#18213d 0%,#293263 54%,#5147c9 100%);
+      box-shadow:0 18px 46px rgba(30,34,76,.12);
+    }
+
+    .singers-kicker,
+    .singers-section-kicker{
+      margin:0;
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.12em;
+    }
+
+    .singers-kicker{
+      color:rgba(255,255,255,.66);
+    }
+
+    .singers-hero h1{
+      margin:8px 0 10px;
+      font-size:clamp(30px,4vw,46px);
+      line-height:1.15;
+    }
+
+    .singers-copy{
+      margin:0;
+      color:rgba(255,255,255,.86);
+      font-size:14px;
+      line-height:1.9;
+    }
+
+    .singers-summary{
+      margin-top:20px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .singers-chip{
+      padding:7px 11px;
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      font-size:11px;
+      font-weight:900;
+    }
+
+    .singers-status{
+      margin-top:18px;
+      padding:18px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fff;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    .singers-section{
+      margin-top:50px;
+    }
+
+    .singers-section-head{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:16px;
+    }
+
+    .singers-section-kicker{
+      color:var(--indigo);
+    }
+
+    .singers-section-head h2{
+      margin:5px 0 0;
+      color:var(--navy);
+      font-size:26px;
+    }
+
+    .singers-section-note{
+      margin:0;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.7;
+    }
+
+    .singer-scope{
+      display:flex;
+      gap:8px;
+      padding:6px;
+      border:1px solid #dedaf5;
+      border-radius:16px;
+      background:#fbfaff;
+      width:max-content;
+      max-width:100%;
+    }
+
+    .singer-scope-button{
+      min-height:40px;
+      padding:0 20px;
+      border:0;
+      border-radius:12px;
+      background:transparent;
+      color:var(--navy);
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .singer-scope-button.active{
+      background:var(--indigo);
+      color:#fff;
+      box-shadow:0 5px 14px rgba(79,70,229,.18);
+    }
+
+    .singer-scope-note{
+      margin:10px 0 0;
+      color:#626b7c;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .singer-pickup-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
+    }
+
+    .singer-pickup-card{
+      min-height:190px;
+      padding:20px;
+      border:1px solid #dedaf5;
+      border-radius:20px;
+      background:#fff;
+      box-shadow:0 8px 24px rgba(38,39,77,.055);
+      color:inherit;
+      text-decoration:none;
+    }
+
+    .singer-color-line{
+      display:flex;
+      gap:4px;
+      height:4px;
+      margin:-20px -20px 16px;
+    }
+
+    .singer-color-line span{
+      flex:1;
+      min-width:4px;
+      border-radius:0 0 4px 4px;
+    }
+
+    .singer-pickup-label{
+      color:var(--indigo);
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.06em;
+    }
+
+    .singer-pickup-title{
+      margin-top:13px;
+      color:var(--navy);
+      font-size:18px;
+      font-weight:900;
+      line-height:1.5;
+    }
+
+    .singer-pickup-value{
+      margin-top:15px;
+      color:var(--indigo);
+      font-size:24px;
+      font-weight:900;
+    }
+
+    .singer-pickup-meta{
+      margin-top:7px;
+      color:#697285;
+      font-size:11px;
+    }
+
+    .singers-toolbar{
+      padding:18px;
+      border:1px solid #dedaf5;
+      border-radius:20px;
+      background:#fbfaff;
+      box-shadow:0 8px 24px rgba(38,39,77,.04);
+    }
+
+    .singers-search{
+      position:relative;
+    }
+
+    .singers-search input{
+      width:100%;
+      min-height:48px;
+      padding:0 15px 0 42px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+      color:var(--navy);
+      font-size:14px;
+      font-weight:800;
+    }
+
+    .singers-search-mark{
+      position:absolute;
+      left:15px;
+      top:50%;
+      transform:translateY(-50%);
+      color:var(--muted);
+    }
+
+    .singers-filter-block{
+      margin-top:16px;
+    }
+
+    .singers-filter-label{
+      margin:0 0 8px;
+      color:var(--muted);
+      font-size:10px;
+      font-weight:900;
+    }
+
+    .singers-pills{
+      display:flex;
+      gap:7px;
+      overflow-x:auto;
+      padding-bottom:4px;
+    }
+
+    .singers-pill{
+      flex:0 0 auto;
+      min-height:36px;
+      padding:0 13px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:#fff;
+      color:var(--navy);
+      font-size:11px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .singers-pill.active{
+      background:var(--indigo);
+      border-color:var(--indigo);
+      color:#fff;
+    }
+
+    .member-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+    }
+
+    .member-dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      flex:0 0 auto;
+    }
+
+    .singers-toolbar-bottom{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(220px,320px);
+      gap:12px;
+      align-items:end;
+    }
+
+    .singers-result{
+      color:var(--muted);
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .singers-sort{
+      display:grid;
+      gap:6px;
+    }
+
+    .singers-sort label{
+      color:var(--muted);
+      font-size:10px;
+      font-weight:900;
+    }
+
+    .singers-sort select{
+      min-height:42px;
+      padding:0 12px;
+      border:1px solid var(--line);
+      border-radius:11px;
+      background:#fff;
+      color:var(--navy);
+      font-weight:800;
+    }
+
+    .singers-list{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+    }
+
+    .singer-list-card{
+      position:relative;
+      overflow:hidden;
+      display:block;
+      min-height:185px;
+      padding:18px;
+      border:1px solid #dfdced;
+      border-radius:18px;
+      background:#fff;
+      box-shadow:0 7px 20px rgba(38,39,77,.045);
+      color:inherit;
+      text-decoration:none;
+    }
+
+    .singer-list-card:hover{
+      border-color:#bbb6f5;
+      background:#fcfbff;
+      transform:translateY(-1px);
+    }
+
+    .singer-card-colors{
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height:5px;
+      display:flex;
+      gap:2px;
+    }
+
+    .singer-card-colors span{
+      flex:1;
+    }
+
+    .singer-card-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .singer-card-badges{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+
+    .singer-card-badge{
+      min-height:24px;
+      padding:0 8px;
+      display:inline-flex;
+      align-items:center;
+      border-radius:999px;
+      background:#f1f2f7;
+      color:#50596b;
+      font-size:9px;
+      font-weight:900;
+    }
+
+    .singer-card-badge.scope{
+      background:#efedff;
+      color:var(--indigo);
+    }
+
+    .singer-card-title{
+      margin-top:13px;
+      color:var(--navy);
+      font-size:17px;
+      font-weight:900;
+      line-height:1.5;
+    }
+
+    .singer-card-member-list{
+      margin-top:7px;
+      color:#626c80;
+      font-size:10px;
+      line-height:1.6;
+    }
+
+    .singer-card-stats{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:8px;
+    }
+
+    .singer-card-stat{
+      padding:9px;
+      border-radius:10px;
+      background:#f7f7fc;
+    }
+
+    .singer-card-stat b{
+      display:block;
+      color:var(--navy);
+      font-size:12px;
+    }
+
+    .singer-card-stat span{
+      display:block;
+      margin-top:3px;
+      color:#6b7485;
+      font-size:9px;
+      font-weight:700;
+    }
+
+    .singer-record-tag{
+      margin-top:11px;
+      display:inline-flex;
+      align-items:center;
+      min-height:28px;
+      padding:0 9px;
+      border-radius:999px;
+      background:#efedff;
+      color:var(--indigo);
+      font-size:10px;
+      font-weight:900;
+    }
+
+    .singers-more-wrap{
+      margin-top:18px;
+      text-align:center;
+    }
+
+    .singers-more{
+      min-width:230px;
+      min-height:44px;
+      padding:0 18px;
+      border:1px solid var(--indigo);
+      border-radius:999px;
+      background:#fff;
+      color:var(--indigo);
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .singers-empty{
+      padding:24px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fff;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    @media(max-width:900px){
+      .singer-pickup-grid,
+      .singers-list{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media(max-width:620px){
+      .singers-page{
+        width:min(100% - 20px,1120px);
+        padding-top:20px;
+      }
+
+      .singers-hero{
+        padding:26px 20px;
+        border-radius:20px;
+      }
+
+      .singers-hero h1{
+        font-size:31px;
+      }
+
+      .singers-section{
+        margin-top:42px;
+      }
+
+      .singers-section-head{
+        display:block;
+      }
+
+      .singers-section-head h2{
+        font-size:22px;
+      }
+
+      .singers-section-note{
+        margin-top:7px;
+      }
+
+      .singers-toolbar{
+        padding:14px;
+      }
+
+      .singers-toolbar-bottom{
+        grid-template-columns:1fr;
+      }
+
+      .singer-list-card{
+        min-height:0;
+        padding:15px 14px;
+      }
+
+      .singer-card-title{
+        font-size:15px;
+      }
+
+      .singer-card-stats{
+        grid-template-columns:repeat(3,minmax(0,1fr));
+      }
+
+      .singer-card-stat{
+        padding:7px 6px;
+      }
+
+      .singer-card-stat b{
+        font-size:10px;
+      }
+
+      .singer-card-stat span{
+        font-size:8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="siteHeader"></div>
+
+  <main class="singers-page">
+    <div class="singers-breadcrumb">
+      <a href="index.html">ホーム</a> › 歌唱名義一覧
+    </div>
+
+    <section class="singers-hero">
+      <p class="singers-kicker">SINGING NAMES</p>
+      <h1>歌唱名義から探す</h1>
+
+      <p class="singers-copy">
+        ソロから9人まで。<br>
+        μ's楽曲が歌われたメンバーの組み合わせから記録を巡ります。
+      </p>
+
+      <div class="singers-summary" id="heroSummary" hidden>
+        <span class="singers-chip" id="totalChip"></span>
+        <span class="singers-chip" id="officialChip"></span>
+        <span class="singers-chip" id="soloChip"></span>
+      </div>
+    </section>
+
+    <div class="singers-status" id="status">
+      歌唱名義データを読み込んでいます...
+    </div>
+
+    <section class="singers-section" id="scopeSection" hidden>
+      <div class="singers-section-head">
+        <div>
+          <p class="singers-section-kicker">CATEGORY</p>
+          <h2>公式とソロを分けて見る</h2>
+        </div>
+      </div>
+
+      <div class="singer-scope" id="scopeButtons">
+        <button class="singer-scope-button active" type="button" data-scope="official">
+          公式
+        </button>
+        <button class="singer-scope-button" type="button" data-scope="solo">
+          ソロ
+        </button>
+      </div>
+
+      <p class="singer-scope-note" id="scopeNote"></p>
+    </section>
+
+    <section class="singers-section" id="pickupSection" hidden>
+      <div class="singers-section-head">
+        <div>
+          <p class="singers-section-kicker">PICK UP SINGING NAMES</p>
+          <h2>記録から歌唱名義を見つける</h2>
+        </div>
+      </div>
+
+      <div class="singer-pickup-grid" id="pickupGrid"></div>
+    </section>
+
+    <section class="singers-section" id="listSection" hidden>
+      <div class="singers-section-head">
+        <div>
+          <p class="singers-section-kicker">ALL SINGING NAMES</p>
+          <h2>歌唱名義を巡る</h2>
+        </div>
+
+        <p class="singers-section-note">
+          人数・メンバー・記録から絞り込めます。
+        </p>
+      </div>
+
+      <div class="singers-toolbar">
+        <div class="singers-search">
+          <span class="singers-search-mark">⌕</span>
+          <input
+            id="nameSearch"
+            type="search"
+            placeholder="歌唱名義から探す"
+            autocomplete="off"
+          >
+        </div>
+
+        <div class="singers-filter-block">
+          <p class="singers-filter-label">人数</p>
+          <div class="singers-pills" id="countFilters"></div>
+        </div>
+
+        <div class="singers-filter-block">
+          <p class="singers-filter-label" id="memberFilterLabel">メンバーから探す</p>
+          <div class="singers-pills" id="memberFilters"></div>
+        </div>
+
+        <div class="singers-toolbar-bottom">
+          <div class="singers-result" id="resultText"></div>
+
+          <div class="singers-sort">
+            <label for="singerSort">並び替え</label>
+            <select id="singerSort">
+              <option value="performance">歌唱回数が多い順</option>
+              <option value="songs">歌唱曲数が多い順</option>
+              <option value="recent">最近登場した順</option>
+              <option value="first">初登場が古い順</option>
+              <option value="name">名義順</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="singers-list" id="singersList"></div>
+
+      <div class="singers-more-wrap">
+        <button class="singers-more" id="moreButton" type="button" hidden>
+          もっと見る
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script type="module" src="assets/js/singers-v470.js?v=4.7.0"></script>
+</body>
+</html>

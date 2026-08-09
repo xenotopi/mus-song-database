@@ -1970,20 +1970,124 @@
       margin-bottom:0;
     }
 
-    /* v4.7 STEP14-A */
+    /* v4.7 STEP14-A UI FIX */
     .home-tools{
       max-width:none;
       padding-left:max(24px, calc((100vw - 1160px) / 2));
       padding-right:max(24px, calc((100vw - 1160px) / 2));
-      padding-top:62px;
-      padding-bottom:72px;
+      padding-top:58px;
+      padding-bottom:68px;
       background:#fff;
       border-top:1px solid var(--line);
     }
 
-    .home-tools .home-explore-card{
-      min-height:168px;
+    .home-tools-grid{
+      width:min(1160px,100%);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
+    }
+
+    .home-tool-card{
+      min-width:0;
+      min-height:108px;
+      padding:20px 22px;
+      display:grid;
+      grid-template-columns:44px minmax(0,1fr) 22px;
+      gap:14px;
+      align-items:center;
+      border:1px solid #e0deed;
+      border-radius:18px;
+      background:#fff;
+      color:inherit;
+      text-decoration:none;
       box-shadow:0 8px 24px rgba(37,38,73,.045);
+      transition:.18s ease;
+      writing-mode:horizontal-tb;
+    }
+
+    .home-tool-card:hover{
+      transform:translateY(-2px);
+      border-color:#c7c1f4;
+      box-shadow:0 14px 30px rgba(58,48,130,.09);
+    }
+
+    .home-tool-icon{
+      width:44px;
+      height:44px;
+      display:grid;
+      place-items:center;
+      border-radius:14px;
+      background:var(--indigo-soft);
+      color:var(--indigo);
+      font-size:22px;
+      font-weight:900;
+    }
+
+    .home-tool-body{
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:5px;
+      writing-mode:horizontal-tb;
+    }
+
+    .home-tool-body strong{
+      color:var(--navy);
+      font-size:16px;
+      line-height:1.35;
+      white-space:normal;
+      word-break:keep-all;
+      overflow-wrap:anywhere;
+    }
+
+    .home-tool-body span{
+      color:var(--muted);
+      font-size:11px;
+      font-weight:700;
+      line-height:1.65;
+      white-space:normal;
+      word-break:normal;
+      overflow-wrap:break-word;
+    }
+
+    .home-tool-arrow{
+      color:var(--indigo);
+      font-size:20px;
+      font-weight:900;
+      transition:.15s ease;
+    }
+
+    .home-tool-card:hover .home-tool-arrow{
+      transform:translateX(3px);
+    }
+
+    @media (max-width:900px){
+      .home-tools{
+        padding-left:16px;
+        padding-right:16px;
+        padding-top:48px;
+        padding-bottom:54px;
+      }
+
+      .home-tools-grid{
+        grid-template-columns:1fr;
+      }
+
+      .home-tool-card{
+        min-height:96px;
+        padding:18px;
+      }
+    }
+
+    @media (min-width:701px) and (max-width:900px){
+      .home-tools-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+      .home-tool-card:last-child{
+        grid-column:1 / -1;
+      }
     }
   </style>
 
@@ -2073,8 +2177,8 @@
         <a class="home-explore-card home-explore-card-accent" href="singers.html">
           <span class="home-explore-icon" aria-hidden="true">♪</span>
           <span class="home-explore-action">歌唱名義</span>
-          <strong>誰が歌ったかから巡る</strong>
-          <span class="home-explore-copy">誰が、どんな組み合わせでμ's楽曲を歌ったのかを探します。</span>
+          <strong>歌唱名義で探す</strong>
+          <span class="home-explore-copy">特定のメンバーや組み合わせの歌唱記録を、まとめて確認できます。</span>
           <span class="home-explore-arrow" aria-hidden="true">→</span>
         </a>
       </div>
@@ -2085,40 +2189,35 @@
       <div class="home-v45-section-head home-v45-section-head-center">
         <p class="home-eyebrow">TOOLS &amp; ANALYSIS</p>
         <h2>もっと深く調べる</h2>
-        <p>検索・ランキング・統計・いつ振りチェッカーから、気になる記録を掘り下げます。</p>
+        <p>データからμ'sの記録をさらに掘り下げられるツールはこちら。</p>
       </div>
 
-      <div class="home-explore-grid">
-        <a class="home-explore-card" href="search.html">
-          <span class="home-explore-icon" aria-hidden="true">⌕</span>
-          <span class="home-explore-action">検索</span>
-          <strong>横断検索</strong>
-          <span class="home-explore-copy">曲・イベント・会場・歌唱名義をまとめて検索します。</span>
-          <span class="home-explore-arrow" aria-hidden="true">→</span>
+      <div class="home-tools-grid">
+        <a class="home-tool-card" href="rankings.html">
+          <span class="home-tool-icon" aria-hidden="true">↗</span>
+          <span class="home-tool-body">
+            <strong>ランキング</strong>
+            <span>歌唱回数や披露曲数など、さまざまな記録を比較できます。</span>
+          </span>
+          <span class="home-tool-arrow" aria-hidden="true">→</span>
         </a>
 
-        <a class="home-explore-card" href="rankings.html">
-          <span class="home-explore-icon" aria-hidden="true">↗</span>
-          <span class="home-explore-action">比較</span>
-          <strong>ランキング</strong>
-          <span class="home-explore-copy">歌唱回数や開催数から、μ'sの記録を比較します。</span>
-          <span class="home-explore-arrow" aria-hidden="true">→</span>
+        <a class="home-tool-card" href="statistics.html">
+          <span class="home-tool-icon" aria-hidden="true">▥</span>
+          <span class="home-tool-body">
+            <strong>年別統計</strong>
+            <span>年ごとの歌唱記録をグラフや表で確認できます。</span>
+          </span>
+          <span class="home-tool-arrow" aria-hidden="true">→</span>
         </a>
 
-        <a class="home-explore-card" href="statistics.html">
-          <span class="home-explore-icon" aria-hidden="true">▥</span>
-          <span class="home-explore-action">統計</span>
-          <strong>年別統計</strong>
-          <span class="home-explore-copy">年ごとの活動と歌唱履歴の変化を振り返ります。</span>
-          <span class="home-explore-arrow" aria-hidden="true">→</span>
-        </a>
-
-        <a class="home-explore-card home-explore-card-accent" href="gap-checker.html">
-          <span class="home-explore-icon" aria-hidden="true">↺</span>
-          <span class="home-explore-action">調べる</span>
-          <strong>いつ振り歌唱チェッカー</strong>
-          <span class="home-explore-copy">「あの曲、いつ振り？」を曲と基準日から調べます。</span>
-          <span class="home-explore-arrow" aria-hidden="true">→</span>
+        <a class="home-tool-card" href="gap-checker.html">
+          <span class="home-tool-icon" aria-hidden="true">↺</span>
+          <span class="home-tool-body">
+            <strong>いつ振り歌唱チェッカー</strong>
+            <span>あの曲が歌われたのはいつ以来か、すぐに確認できます。</span>
+          </span>
+          <span class="home-tool-arrow" aria-hidden="true">→</span>
         </a>
       </div>
     </section>

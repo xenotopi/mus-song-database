@@ -36,7 +36,7 @@ export function renderCommon(active = "") {
             class="brand"
             href="index.html"
           >
-            <b>μ's Song Database</b>
+            <b class="brand-title"><span class="brand-mu">μ</span><span class="brand-rest">'s Song Database</span></b>
 
             <small>
               μ's歌唱履歴データベース

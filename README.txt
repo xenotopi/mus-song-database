@@ -1,19 +1,34 @@
-v4.7 STEP13-C 追加修正
-検索フォーム下の空の白い横長ボックスを削除
+v4.7 STEP14-A
+GitHubへそのままアップロードできる版
 
-GitHub差し替え:
-・search.html のみ
+【上書きするファイル】
+1. index.html
+2. assets/js/common.js
 
-原因:
-検索状態表示用 #status が空でも、共通CSSの見た目だけ残って白いボックスになっていました。
+【変更内容】
+ホーム
+・EXPLOREをv4.7の主要4入口へ変更
+  曲 → songs.html
+  イベント → events.html
+  場所 → venues.html
+  歌唱名義 → singers.html
+・横断検索 / ランキング / 年別統計 / いつ振りチェッカーは
+  「もっと深く調べる」へ分離
+・Today / 豆知識 / 各種既存ホーム機能は維持
 
-修正:
-・.search-page .status.hidden を display:none!important
-・空の status も display:none!important
+共通ナビ
+・曲 → songs.html
+・イベント → events.html
+・会場 → venues.html
+・PC / スマホ両方
+・STEP13-Bのalias検索候補は維持
 
-検索中 / エラー時は従来どおり表示されます。
+【反映方法】
+ZIPを解凍し、GitHubで同じパスへ上書きしてください。
+PowerShell実行は不要です。
 
 確認:
-1. search.html?q=えみつん
-2. 検索フォーム直下の空白い箱が消えている
-3. 検索結果はそのまま表示される
+・ホーム4入口
+・上部ナビ 曲/イベント/会場
+・スマホハンバーガー
+・えみつん / スノハレ等のヘッダー検索候補

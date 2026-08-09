@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   <title>μ's Song Database</title>
-  <meta name="description" content="μ'sの楽曲・イベント・会場を横断し、歌唱履歴を検索・分析できるデータベースです。">
+  <meta name="description" content="μ'sの楽曲・イベント・会場・歌唱名義を横断し、歌唱履歴を検索・分析できるデータベースです。">
   <meta name="robots" content="index,follow,max-image-preview:large">
 
   <link rel="canonical" href="https://xenotopi.github.io/mus-song-database/">
@@ -17,7 +17,7 @@
 
   <meta property="og:site_name" content="μ's Song Database">
   <meta property="og:title" content="μ's Song Database">
-  <meta property="og:description" content="μ'sの楽曲・イベント・会場を横断し、歌唱履歴を検索・分析できるデータベースです。">
+  <meta property="og:description" content="μ'sの楽曲・イベント・会場・歌唱名義を横断し、歌唱履歴を検索・分析できるデータベースです。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://xenotopi.github.io/mus-song-database/">
   <meta property="og:image" content="https://xenotopi.github.io/mus-song-database/assets/images/og-default.png">
@@ -1969,6 +1969,22 @@
     .secret-memory-section-heading h2{
       margin-bottom:0;
     }
+
+    /* v4.7 STEP14-A */
+    .home-tools{
+      max-width:none;
+      padding-left:max(24px, calc((100vw - 1160px) / 2));
+      padding-right:max(24px, calc((100vw - 1160px) / 2));
+      padding-top:62px;
+      padding-bottom:72px;
+      background:#fff;
+      border-top:1px solid var(--line);
+    }
+
+    .home-tools .home-explore-card{
+      min-height:168px;
+      box-shadow:0 8px 24px rgba(37,38,73,.045);
+    }
   </style>
 
   <script src="assets/js/seo-v351.js?v=4.6.2" defer></script>
@@ -2021,36 +2037,79 @@
       <button id="retryButton" type="button" hidden>再試行</button>
     </div>
 
-    <!-- EXPLORE -->
+    <!-- EXPLORE DATABASE -->
     <section class="home-v45-section home-explore">
       <div class="home-v45-section-head home-v45-section-head-center">
         <p class="home-eyebrow">EXPLORE μ's HISTORY</p>
-        <h2>μ'sの歴史を、好きな入口から。</h2>
-        <p>探す、比べる、振り返る。気になる記録からμ'sの歴史を巡れます。</p>
+        <h2>記録からμ'sを巡る</h2>
+        <p>曲・イベント・場所・歌唱名義。気になる入口から、μ'sの歩んだ足跡を辿れます。</p>
       </div>
 
       <div class="home-explore-grid">
-        <a class="home-explore-card home-explore-card-accent" href="search.html">
+        <a class="home-explore-card home-explore-card-accent" href="songs.html">
+          <span class="home-explore-icon" aria-hidden="true">曲</span>
+          <span class="home-explore-action">楽曲</span>
+          <strong>曲から巡る</strong>
+          <span class="home-explore-copy">全曲の歌唱記録から、知っている曲もまだ知らない曲も探します。</span>
+          <span class="home-explore-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="home-explore-card" href="events.html">
+          <span class="home-explore-icon" aria-hidden="true">◷</span>
+          <span class="home-explore-action">歴史</span>
+          <strong>イベントから巡る</strong>
+          <span class="home-explore-copy">μ's楽曲が歌われたイベントを、時系列の歴史年表から辿ります。</span>
+          <span class="home-explore-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="home-explore-card" href="venues.html">
+          <span class="home-explore-icon" aria-hidden="true">⌖</span>
+          <span class="home-explore-action">場所</span>
+          <strong>場所から巡る</strong>
+          <span class="home-explore-copy">μ's楽曲が歌われた会場から、歌唱の足跡を探します。</span>
+          <span class="home-explore-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="home-explore-card home-explore-card-accent" href="singers.html">
+          <span class="home-explore-icon" aria-hidden="true">♪</span>
+          <span class="home-explore-action">歌唱名義</span>
+          <strong>誰が歌ったかから巡る</strong>
+          <span class="home-explore-copy">誰が、どんな組み合わせでμ's楽曲を歌ったのかを探します。</span>
+          <span class="home-explore-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- TOOLS & ANALYSIS -->
+    <section class="home-v45-section home-tools">
+      <div class="home-v45-section-head home-v45-section-head-center">
+        <p class="home-eyebrow">TOOLS &amp; ANALYSIS</p>
+        <h2>もっと深く調べる</h2>
+        <p>検索・ランキング・統計・いつ振りチェッカーから、気になる記録を掘り下げます。</p>
+      </div>
+
+      <div class="home-explore-grid">
+        <a class="home-explore-card" href="search.html">
           <span class="home-explore-icon" aria-hidden="true">⌕</span>
-          <span class="home-explore-action">探す</span>
+          <span class="home-explore-action">検索</span>
           <strong>横断検索</strong>
-          <span class="home-explore-copy">曲・イベント・会場・歌唱名義から記録を探します。</span>
+          <span class="home-explore-copy">曲・イベント・会場・歌唱名義をまとめて検索します。</span>
           <span class="home-explore-arrow" aria-hidden="true">→</span>
         </a>
 
         <a class="home-explore-card" href="rankings.html">
           <span class="home-explore-icon" aria-hidden="true">↗</span>
-          <span class="home-explore-action">比べる</span>
+          <span class="home-explore-action">比較</span>
           <strong>ランキング</strong>
-          <span class="home-explore-copy">歌唱回数や開催数からμ'sの記録を比較します。</span>
+          <span class="home-explore-copy">歌唱回数や開催数から、μ'sの記録を比較します。</span>
           <span class="home-explore-arrow" aria-hidden="true">→</span>
         </a>
 
         <a class="home-explore-card" href="statistics.html">
           <span class="home-explore-icon" aria-hidden="true">▥</span>
-          <span class="home-explore-action">振り返る</span>
+          <span class="home-explore-action">統計</span>
           <strong>年別統計</strong>
-          <span class="home-explore-copy">年ごとの活動と歌唱履歴の変化を辿ります。</span>
+          <span class="home-explore-copy">年ごとの活動と歌唱履歴の変化を振り返ります。</span>
           <span class="home-explore-arrow" aria-hidden="true">→</span>
         </a>
 

@@ -28,9 +28,11 @@
 <div id="status" class="status hidden"></div><div id="resultsArea"></div>
 </section></main><div id="siteFooter"></div>
 <script type="module">
-import { common } from "./assets/js/common.js?v=4.7.13b";
-import { apiGet, esc, fmt } from "./assets/js/api.js?v=2.7.0";
-common();
+import { renderCommon } from "./assets/js/common.js?v=4.7.13b";
+import { apiGet, escapeHtml, formatDate } from "./assets/js/api.js?v=2.7.0";
+renderCommon("");
+const esc = escapeHtml;
+const fmt = formatDate;
 const params=new URLSearchParams(location.search),initialQuery=params.get("q")||"",searchInput=document.getElementById("searchInput"),searchButton=document.getElementById("searchButton"),summaryText=document.getElementById("summaryText"),summaryCount=document.getElementById("summaryCount"),status=document.getElementById("status"),resultsArea=document.getElementById("resultsArea");let activeTab="all",latestData=null;searchInput.value=initialQuery;
 const normalize=v=>String(v||"").normalize("NFKC").toLowerCase().replace(/[’'`´]/g,"").replace(/[μµ]/g,"μ").replace(/[\u3041-\u3096]/g,c=>String.fromCharCode(c.charCodeAt(0)+0x60)).replace(/[\s　・･／/～〜\-—_:：!！?？,.，。()（）【】［］「」『』"“”♡♥♪]+/g,"");
 function highlight(value,query){const text=String(value||""),nt=normalize(text),nq=normalize(query);if(!nq)return esc(text);const i=nt.indexOf(nq);if(i<0)return esc(text);return `${esc(text.slice(0,i))}<span class="highlight">${esc(text.slice(i,i+query.length))}</span>${esc(text.slice(i+query.length))}`}

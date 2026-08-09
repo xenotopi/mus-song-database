@@ -1972,7 +1972,11 @@
 
     /* v4.7 STEP14-A UI FIX */
     .home-tools{
-      max-width:none;
+      width:100% !important;
+      max-width:none !important;
+      margin-left:0 !important;
+      margin-right:0 !important;
+      box-sizing:border-box !important;
       padding-left:max(24px, calc((100vw - 1160px) / 2));
       padding-right:max(24px, calc((100vw - 1160px) / 2));
       padding-top:58px;
@@ -2063,6 +2067,29 @@
       transform:translateX(3px);
     }
 
+
+    @media (min-width:901px){
+      .home-v45-section.home-tools{
+        width:100% !important;
+        max-width:none !important;
+        margin-left:0 !important;
+        margin-right:0 !important;
+      }
+      .home-tools-grid{
+        width:min(1160px,100%) !important;
+        max-width:1160px !important;
+        grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+      }
+      .home-tool-card{
+        width:auto !important;
+        min-width:0 !important;
+        writing-mode:horizontal-tb !important;
+      }
+      .home-tool-card *{
+        writing-mode:horizontal-tb !important;
+        text-orientation:mixed !important;
+      }
+    }
     @media (max-width:900px){
       .home-tools{
         padding-left:16px;
@@ -2151,7 +2178,7 @@
 
       <div class="home-explore-grid">
         <a class="home-explore-card home-explore-card-accent" href="songs.html">
-          <span class="home-explore-icon" aria-hidden="true">曲</span>
+          <span class="home-explore-icon" aria-hidden="true">♫</span>
           <span class="home-explore-action">楽曲</span>
           <strong>曲から巡る</strong>
           <span class="home-explore-copy">全曲の歌唱記録から、知っている曲もまだ知らない曲も探します。</span>
@@ -2375,4 +2402,3 @@
   <script type="module" src="assets/js/home-v453.js?v=4.6.2"></script>
 </body>
 </html>
-

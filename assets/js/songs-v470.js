@@ -21,6 +21,7 @@ const el = {
   pickupSection: $("pickupSection"),
   pickupGrid: $("pickupGrid"),
   allSongsSection: $("allSongsSection"),
+  allSongSelect: $("allSongSelect"),
   songSearch: $("songSearch"),
   mediaFilters: $("mediaFilters"),
   categoryFilters: $("categoryFilters"),
@@ -216,6 +217,26 @@ function getRecordTag(item, maps) {
   }
 
   return "";
+}
+
+function populateAllSongSelect() {
+  if (!el.allSongSelect) return;
+
+  const sorted = allSongs
+    .slice()
+    .sort((a,b) => {
+      const an = String(a.displayName || a.songName || "");
+      const bn = String(b.displayName || b.songName || "");
+      return an.localeCompare(bn, "ja");
+    });
+
+  el.allSongSelect.innerHTML = [
+    `<option value="">曲を選択してください（全${sorted.length.toLocaleString("ja-JP")}曲）</option>`,
+    ...sorted.map(item => {
+      const title = item.displayName || item.songName || "曲名未設定";
+      return `<option value="${escapeHtml(item.songId)}">${escapeHtml(title)}</option>`;
+    })
+  ].join("");
 }
 
 function renderPickup() {
@@ -451,6 +472,7 @@ async function loadSongs() {
 
     buildFilterButtons(el.mediaFilters, mediaValues, "media");
     buildFilterButtons(el.categoryFilters, categoryValues, "category");
+    populateAllSongSelect();
     applyInitialUrlState();
 
     el.totalSongsChip.textContent =
@@ -472,6 +494,14 @@ async function loadSongs() {
     el.status.textContent =
       error?.message || "曲データを取得できませんでした。";
   }
+}
+
+if (el.allSongSelect) {
+  el.allSongSelect.addEventListener("change", () => {
+    const songId = String(el.allSongSelect.value || "").trim();
+    if (!songId) return;
+    location.href = `song.html?id=${encodeURIComponent(songId)}`;
+  });
 }
 
 el.songSearch.addEventListener("input", () => {

@@ -491,7 +491,44 @@
         font-size:8px;
       }
     }
-  </style>
+  
+    .songs-direct-select{
+      margin-bottom:14px;
+      padding:14px;
+      border:1px solid #ddd9ef;
+      border-radius:14px;
+      background:#faf9ff;
+    }
+    .songs-direct-select label{
+      display:block;
+      margin-bottom:7px;
+      color:var(--navy);
+      font-size:12px;
+      font-weight:900;
+    }
+    .songs-direct-select select{
+      width:100%;
+      min-height:46px;
+      padding:0 13px;
+      border:1px solid var(--line);
+      border-radius:11px;
+      background:#fff;
+      color:var(--navy);
+      font-size:14px;
+      font-weight:800;
+    }
+    .songs-direct-select-note{
+      margin:7px 0 0;
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.6;
+    }
+    @media(max-width:620px){
+      .songs-direct-select{padding:12px;margin-bottom:12px}
+      .songs-direct-select select{min-height:48px;font-size:16px}
+    }
+
+</style>
 </head>
 
 <body>
@@ -541,6 +578,13 @@
       </div>
 
       <div class="songs-toolbar">
+        <div class="songs-direct-select">
+          <label for="allSongSelect">全曲から直接選ぶ</label>
+          <select id="allSongSelect" aria-label="全曲から曲を選ぶ">
+            <option value="">曲を選択してください</option>
+          </select>
+          <p class="songs-direct-select-note">選択すると、その曲の詳細ページを直接開きます。</p>
+        </div>
         <div class="songs-search">
           <span class="songs-search-mark">⌕</span>
           <input id="songSearch" type="search" placeholder="曲名から探す" autocomplete="off" aria-label="曲名から探す">

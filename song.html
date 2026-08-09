@@ -1222,6 +1222,43 @@
       .v46-detail-context-top{padding:0 9px}
     }
 
+
+    /* STEP15-A: 歌唱履歴を主役にした曲詳細UX */
+    .detail-local-nav .history-nav-link{
+      background:var(--indigo);
+      color:#fff;
+      border-color:var(--indigo);
+    }
+    .detail-local-nav .history-nav-link:hover{
+      background:#4f46c8;
+      color:#fff;
+    }
+    #mainContent,
+    #songRecordsSection,
+    #historySection,
+    #songAnalysisSection,
+    #relatedSongArea{
+      scroll-margin-top:120px;
+    }
+    #historySection{
+      padding:22px;
+      border:1px solid #d8d2f3;
+      border-radius:20px;
+      background:linear-gradient(180deg,#fbfaff 0%,#fff 100%);
+    }
+    .history-purpose{
+      margin:6px 0 0;
+      color:#566074;
+      font-size:12px;
+      font-weight:700;
+      line-height:1.7;
+    }
+    #relatedSongArea{margin-top:34px}
+    @media(max-width:620px){
+      #historySection{padding:17px 14px;border-radius:17px}
+      .history-purpose{font-size:11px}
+    }
+
 </style>
 
 
@@ -1349,13 +1386,10 @@
       hidden
       aria-label="ページ内ナビゲーション"
     >
-      <a href="#mainContent">基本情報</a>
-      <a href="#releaseSection">収録作品</a>
-      <a href="#discoverySection">初披露・最終披露</a>
-      <a href="#songRecordsSection">この曲の記録</a>
+      <a href="#mainContent">概要</a>
+      <a href="#historySection" class="history-nav-link">歌唱履歴</a>
       <a href="#songAnalysisSection">分析</a>
-      <a href="#songInsightsSection">関連データ</a>
-      <a href="#historySection">年別・歌唱履歴</a>
+      <a href="#relatedSongArea">関連曲</a>
     </nav>
 
     <div
@@ -1422,6 +1456,7 @@
       </article>
     </section>
 
+    <div id="relatedSongArea"></div>
     <section
       class="section"
       id="discoverySection"
@@ -1582,6 +1617,7 @@
           </p>
 
           <h2>歌唱履歴</h2>
+            <p class="history-purpose">この曲が、いつ・どのイベントで・誰に歌われたのかを時系列で確認できます。</p>
         </div>
 
         <div
@@ -1649,7 +1685,31 @@
 
   <div id="siteFooter"></div>
 
-  <script
+  
+<script>
+(() => {
+  const main = document.querySelector("main");
+  const mainContent = document.getElementById("mainContent");
+  const records = document.getElementById("songRecordsSection");
+  const history = document.getElementById("historySection");
+  const release = document.getElementById("releaseSection");
+  const analysis = document.getElementById("songAnalysisSection");
+  const insights = document.getElementById("songInsightsSection");
+  const discovery = document.getElementById("discoverySection");
+  const relatedAnchor = document.getElementById("relatedSongArea");
+
+  if (!main || !mainContent) return;
+
+  let cursor = mainContent;
+  [records, history, release, analysis, insights, relatedAnchor, discovery].forEach(node => {
+    if (!node) return;
+    cursor.insertAdjacentElement("afterend", node);
+    cursor = node;
+  });
+})();
+</script>
+
+<script
     type="module"
     src="assets/js/song-v441.js?v=4.4.1"
   ></script>

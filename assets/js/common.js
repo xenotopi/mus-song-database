@@ -3,6 +3,11 @@ import {
   escapeHtml
 } from "./api.js?v=2.7.0";
 
+/**
+ * v4.7 STEP13-B
+ * Global Search Alias UX
+ */
+
 
 /**
  * 共通ヘッダー・フッターと、
@@ -50,7 +55,7 @@ export function renderCommon(active = "") {
                 type="search"
                 placeholder="μ'sの歴史を検索"
                 autocomplete="off"
-                aria-label="曲・イベント・会場を検索"
+                aria-label="曲・イベント・会場・歌唱名義を検索"
                 aria-expanded="false"
                 aria-controls="globalSearchSuggestions"
               >
@@ -393,23 +398,32 @@ function setupGlobalSearch_() {
 
     const items = [];
 
+    const buildAliasMeta =
+      item =>
+        item.matchAlias
+          ? `別名「${item.matchAlias}」に一致`
+          : "";
+
     (results.singers || [])
       .slice(0, 2)
       .forEach(
         item => {
           items.push({
-            type: "歌唱者",
+            type: "歌唱名義",
             className: "singer",
             title:
               item.singerName ||
-              "歌唱者名未設定",
+              "歌唱名義未設定",
             meta: [
+              buildAliasMeta(item),
               `曲 ${Number(item.songCount || 0)}曲`,
               `イベント ${Number(item.eventCount || 0)}件`,
-            ].join("｜"),
+            ].filter(Boolean).join("｜"),
             href:
               `search.html?q=${encodeURIComponent(
-                item.singerName
+                item.matchAlias ||
+                item.singerName ||
+                query
               )}&source=singer`,
           });
         }
@@ -427,6 +441,7 @@ function setupGlobalSearch_() {
               item.songName ||
               "曲名未設定",
             meta: [
+              buildAliasMeta(item),
               item.version,
               item.recordingCd,
             ].filter(Boolean).join("｜"),
@@ -449,6 +464,7 @@ function setupGlobalSearch_() {
               item.eventName ||
               "イベント名未設定",
             meta: [
+              buildAliasMeta(item),
               item.date,
               item.category,
               item.eventType,
@@ -472,6 +488,7 @@ function setupGlobalSearch_() {
               item.venueName ||
               "会場名未設定",
             meta: [
+              buildAliasMeta(item),
               item.prefectureCity,
               item.country,
             ].filter(Boolean).join("｜"),
@@ -801,7 +818,20 @@ function normalizeSearchText_(value) {
   return String(value || "")
     .normalize("NFKC")
     .toLowerCase()
-    .replace(/\s+/g, "");
+    .replace(/[’'`´]/g, "")
+    .replace(/[μµ]/g, "μ")
+    .replace(
+      /[\u3041-\u3096]/g,
+      character =>
+        String.fromCharCode(
+          character.charCodeAt(0) +
+          0x60
+        )
+    )
+    .replace(
+      /[\s　・･／/～〜\-—_:：!！?？,.，。()（）【】［］「」『』"“”♡♥♪]+/g,
+      ""
+    );
 }
 
 
@@ -852,7 +882,7 @@ function injectCommonSearchStyles_() {
     .global-suggest-item {
       display: grid;
       grid-template-columns:
-        66px minmax(0, 1fr) auto;
+        76px minmax(0, 1fr) auto;
       gap: 10px;
       align-items: center;
       padding: 12px 14px;

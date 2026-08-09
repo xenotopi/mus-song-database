@@ -23,6 +23,7 @@ const el = {
   pickupGrid: $("pickupGrid"),
   allVenuesSection: $("allVenuesSection"),
   venueSearch: $("venueSearch"),
+  allVenueSelect: $("allVenueSelect"),
   scopeFilters: $("scopeFilters"),
   prefectureSelect: $("prefectureSelect"),
   countrySelect: $("countrySelect"),
@@ -182,6 +183,29 @@ function populateSelect(
           `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`
       )
     ].join("");
+}
+
+
+function populateAllVenueSelect() {
+  if (!el.allVenueSelect) return;
+
+  const sorted = allVenues
+    .slice()
+    .sort((a,b) =>
+      String(a.venueId || "").localeCompare(
+        String(b.venueId || ""),
+        "ja",
+        { numeric:true }
+      )
+    );
+
+  el.allVenueSelect.innerHTML = [
+    `<option value="">会場を選択してください（全${sorted.length.toLocaleString("ja-JP")}会場）</option>`,
+    ...sorted.map(item => {
+      const name = item.venueName || "会場名未設定";
+      return `<option value="${escapeHtml(item.venueId)}">${escapeHtml(name)}</option>`;
+    })
+  ].join("");
 }
 
 
@@ -707,6 +731,14 @@ function syncUrl() {
 
 
 function setupControls() {
+  if (el.allVenueSelect) {
+    el.allVenueSelect.addEventListener("change", () => {
+      const venueId = el.allVenueSelect.value;
+      if (!venueId) return;
+      location.href = `venue.html?id=${encodeURIComponent(venueId)}`;
+    });
+  }
+
   el.scopeFilters
     .querySelectorAll(
       "[data-scope]"
@@ -799,6 +831,8 @@ async function loadVenues() {
         "会場一覧を取得できませんでした。"
       );
     }
+
+    populateAllVenueSelect();
 
     const summary =
       data.summary || {};

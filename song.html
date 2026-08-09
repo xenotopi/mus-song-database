@@ -1223,6 +1223,16 @@
     }
 
 
+    .basic-release{margin-top:18px;padding-top:16px;border-top:1px solid #e5e7f0}
+    .basic-release-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+    .basic-release-label{font-size:12px;font-weight:800;color:#626b7d}
+    .basic-release-head strong{font-size:16px;color:#17213b}
+    .basic-release .official-release-meta{margin:0 0 10px}
+    .basic-release .official-release-action{display:block}
+    .basic-release .official-release-link{display:inline-flex;width:auto;min-height:38px;padding:0 14px;font-size:12px}
+    .basic-release .official-release-note{display:inline-block;margin-left:8px;font-size:10px}
+    @media (max-width:640px){.basic-release .official-release-note{display:block;margin:6px 0 0}}
+
     /* STEP15-A: 歌唱履歴を主役にした曲詳細UX */
     .detail-local-nav .history-nav-link{
       background:var(--indigo);
@@ -1388,8 +1398,8 @@
     >
       <a href="#mainContent">概要</a>
       <a href="#historySection" class="history-nav-link">歌唱履歴</a>
+      <a href="#discoverySection">この曲を巡る</a>
       <a href="#songAnalysisSection">分析</a>
-      <a href="#relatedSongArea">関連曲</a>
     </nav>
 
     <div
@@ -1426,6 +1436,15 @@
           class="info"
           id="songInfo"
         ></dl>
+
+        <div id="releaseSection" class="basic-release" hidden>
+          <div class="basic-release-head">
+            <span class="basic-release-label">収録作品</span>
+            <strong id="releaseTitle">—</strong>
+          </div>
+          <dl class="official-release-meta" id="releaseMeta"></dl>
+          <div class="official-release-action" id="releaseAction"></div>
+        </div>
       </article>
 
       <article class="card">
@@ -1440,19 +1459,6 @@
           id="songStats"
         ></div>
 
-      </article>
-    </section>
-
-    <section class="section" id="releaseSection" hidden>
-      <article class="official-release-card">
-        <div class="official-release-icon" aria-hidden="true">📀</div>
-        <div class="official-release-body">
-          <p class="kicker">OFFICIAL RELEASE</p>
-          <h2>収録作品</h2>
-          <div class="official-release-title" id="releaseTitle">—</div>
-          <dl class="official-release-meta" id="releaseMeta"></dl>
-        </div>
-        <div class="official-release-action" id="releaseAction"></div>
       </article>
     </section>
 
@@ -1556,18 +1562,7 @@
         </article>
       </div>
 
-      <article
-        class="song-analysis-card"
-        style="margin-top:14px"
-      >
-        <p class="kicker">RELATED MASTER DATA</p>
-        <h2>同じ収録CD・メディア・区分の関連曲</h2>
-
-        <div
-          class="related-master-list"
-          id="relatedMasterSongs"
-        ></div>
-      </article>
+      <div id="relatedMasterSongs" hidden></div>
     </section>
 
     <section
@@ -1692,16 +1687,14 @@
   const mainContent = document.getElementById("mainContent");
   const records = document.getElementById("songRecordsSection");
   const history = document.getElementById("historySection");
-  const release = document.getElementById("releaseSection");
   const analysis = document.getElementById("songAnalysisSection");
   const insights = document.getElementById("songInsightsSection");
   const discovery = document.getElementById("discoverySection");
-  const relatedAnchor = document.getElementById("relatedSongArea");
 
   if (!main || !mainContent) return;
 
   let cursor = mainContent;
-  [records, history, release, analysis, insights, relatedAnchor, discovery].forEach(node => {
+  [records, history, discovery, analysis, insights].forEach(node => {
     if (!node) return;
     cursor.insertAdjacentElement("afterend", node);
     cursor = node;

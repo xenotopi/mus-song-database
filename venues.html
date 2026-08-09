@@ -204,6 +204,37 @@
       line-height:1.65;
     }
 
+    .venues-direct-select{
+      padding:16px;
+      margin-bottom:14px;
+      border:1px solid #dcdcff;
+      border-radius:18px;
+      background:#fbfbff;
+    }
+    .venues-direct-select label{
+      display:block;
+      margin-bottom:8px;
+      font-size:13px;
+      font-weight:800;
+      color:#17213b;
+    }
+    .venues-direct-select select{
+      width:100%;
+      min-height:46px;
+      padding:0 14px;
+      border:1px solid #dfe2ea;
+      border-radius:13px;
+      background:#fff;
+      color:#17213b;
+      font:inherit;
+      font-weight:700;
+    }
+    .venues-direct-select-note{
+      margin:7px 0 0;
+      font-size:11px;
+      color:#7b8190;
+    }
+
     .venues-toolbar{
       padding:18px;
       border:
@@ -630,6 +661,14 @@
         <p class="venues-section-note">
           会場名・地域・国・開催数から探せます。
         </p>
+      </div>
+
+      <div class="venues-direct-select">
+        <label for="allVenueSelect">全会場から直接選ぶ</label>
+        <select id="allVenueSelect" aria-label="全会場から直接選ぶ">
+          <option value="">会場を選択してください</option>
+        </select>
+        <p class="venues-direct-select-note">選択すると、その会場の詳細ページを直接開きます。</p>
       </div>
 
       <div class="venues-toolbar">

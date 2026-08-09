@@ -224,11 +224,13 @@ function populateAllSongSelect() {
 
   const sorted = allSongs
     .slice()
-    .sort((a,b) => {
-      const an = String(a.displayName || a.songName || "");
-      const bn = String(b.displayName || b.songName || "");
-      return an.localeCompare(bn, "ja");
-    });
+    .sort((a,b) =>
+      String(a.songId || "").localeCompare(
+        String(b.songId || ""),
+        "ja",
+        { numeric:true }
+      )
+    );
 
   el.allSongSelect.innerHTML = [
     `<option value="">曲を選択してください（全${sorted.length.toLocaleString("ja-JP")}曲）</option>`,

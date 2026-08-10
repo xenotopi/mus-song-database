@@ -15,9 +15,13 @@ const el = {
   rankingSection:$("rankingSection"),
   topSongs:$("topSongs"),
   topVenues:$("topVenues"),
-  singerSection:$("singerSection"),
-  officialComposition:$("officialComposition"),
-  soloComposition:$("soloComposition"),
+  heroSummary:$("heroSummary"),
+  heroSongs:$("heroSongs"),
+  heroEvents:$("heroEvents"),
+  heroYears:$("heroYears"),
+  comparisonSection:$("comparisonSection"),
+  officialSoloChart:$("officialSoloChart"),
+  officialSoloSummary:$("officialSoloSummary"),
   discoverySection:$("discoverySection"),
   discoveryCards:$("discoveryCards")
 };
@@ -27,6 +31,7 @@ let rankings = {};
 let singerData = {};
 let metric = "performanceCount";
 let chart = null;
+let comparisonChart = null;
 
 const metricSettings = {
   performanceCount:{label:"歌唱記録数",suffix:"件",note:"同じ曲が複数回歌われた場合も、それぞれ1件の歌唱記録として数えます。"},
@@ -52,6 +57,26 @@ function renderOverview(){
       <div class="stats-overview-value">${value.toLocaleString("ja-JP")}</div>
       <div class="stats-overview-note">${escapeHtml(suffix)}</div>
     </article>`).join("");
+
+  if (el.heroSummary) {
+    el.heroSongs.textContent = `全${number(s.songCount).toLocaleString("ja-JP")}曲`;
+    el.heroEvents.textContent = `${number(s.eventCount).toLocaleString("ja-JP")}イベント`;
+
+    const validYears = trends
+      .map(item => number(item.year))
+      .filter(Boolean);
+
+    if (validYears.length) {
+      const first = Math.min(...validYears);
+      const last = Math.max(...validYears);
+      el.heroYears.textContent = `${first} — ${last}`;
+    } else {
+      el.heroYears.textContent = "年別データ";
+    }
+
+    el.heroSummary.hidden = false;
+  }
+
   el.overviewSection.hidden = false;
 }
 
@@ -88,7 +113,14 @@ function renderYearlyChart(){
         tooltip:{callbacks:{label:ctx => `${setting.label}：${number(ctx.raw).toLocaleString("ja-JP")}${setting.suffix}`}}
       },
       scales:{
-        x:{grid:{display:false},ticks:{color:"#64748b",autoSkip:false,maxRotation:0,minRotation:0,font:{size:11,weight:"700"}}},
+        x:{grid:{display:false},ticks:{
+          color:"#64748b",
+          autoSkip:window.innerWidth <= 620,
+          maxTicksLimit:window.innerWidth <= 620 ? 8 : undefined,
+          maxRotation:0,
+          minRotation:0,
+          font:{size:11,weight:"700"}
+        }},
         y:{beginAtZero:true,ticks:{precision:0,color:"#64748b"},grid:{color:"rgba(148,163,184,.18)"}}
       }
     }
@@ -147,32 +179,99 @@ function renderRankings(){
   el.rankingSection.hidden = false;
 }
 
-function compositionRows(items){
-  const counts = new Map();
-  (items || []).forEach(item => {
-    const count = number(item.memberCount);
-    if(!count) return;
-    counts.set(count,(counts.get(count) || 0) + 1);
+function renderOfficialSoloComparison(){
+  if (!el.comparisonSection || typeof window.Chart !== "function") return;
+
+  const labels = trends.map(item => String(item.year || ""));
+  const officialValues = trends.map(item => number(item.officialPerformanceCount));
+  const soloValues = trends.map(item => number(item.soloPerformanceCount));
+
+  if (comparisonChart) comparisonChart.destroy();
+
+  comparisonChart = new window.Chart(el.officialSoloChart,{
+    type:"bar",
+    data:{
+      labels,
+      datasets:[
+        {
+          label:"公式",
+          data:officialValues,
+          backgroundColor:"rgba(87,78,224,.82)",
+          borderRadius:5,
+          borderSkipped:false
+        },
+        {
+          label:"ソロ",
+          data:soloValues,
+          backgroundColor:"rgba(223,90,145,.82)",
+          borderRadius:5,
+          borderSkipped:false
+        }
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      interaction:{mode:"index",intersect:false},
+      plugins:{
+        legend:{
+          position:"top",
+          labels:{
+            usePointStyle:true,
+            boxWidth:8,
+            color:"#4f596c",
+            font:{size:11,weight:"700"}
+          }
+        },
+        tooltip:{
+          callbacks:{
+            label:ctx => `${ctx.dataset.label}：${number(ctx.raw).toLocaleString("ja-JP")}件`
+          }
+        }
+      },
+      scales:{
+        x:{
+          stacked:false,
+          grid:{display:false},
+          ticks:{
+            color:"#64748b",
+            autoSkip:window.innerWidth <= 620,
+            maxTicksLimit:window.innerWidth <= 620 ? 7 : undefined,
+            maxRotation:0,
+            minRotation:0,
+            font:{size:10,weight:"700"}
+          }
+        },
+        y:{
+          beginAtZero:true,
+          ticks:{precision:0,color:"#64748b"},
+          grid:{color:"rgba(148,163,184,.18)"}
+        }
+      }
+    }
   });
 
-  const rows = [...counts.entries()].sort((a,b) => a[0] - b[0]);
-  const maximum = Math.max(...rows.map(([,value]) => value),1);
+  const officialTotal = officialValues.reduce((sum,value) => sum + value,0);
+  const soloTotal = soloValues.reduce((sum,value) => sum + value,0);
+  const total = officialTotal + soloTotal;
 
-  return rows.map(([memberCount,value]) => {
-    const width = Math.max(5,Math.round(value / maximum * 100));
-    return `
-      <div class="stats-composition-row">
-        <div class="stats-composition-label">${memberCount}人</div>
-        <div class="stats-composition-track"><div class="stats-composition-fill" style="width:${width}%"></div></div>
-        <div class="stats-composition-value">${value.toLocaleString("ja-JP")}名義</div>
-      </div>`;
-  }).join("");
-}
+  const percent = value =>
+    total > 0 ? Math.round(value / total * 1000) / 10 : 0;
 
-function renderSingerComposition(){
-  el.officialComposition.innerHTML = compositionRows(Array.isArray(singerData.official) ? singerData.official : []);
-  el.soloComposition.innerHTML = compositionRows(Array.isArray(singerData.solo) ? singerData.solo : []);
-  el.singerSection.hidden = false;
+  el.officialSoloSummary.innerHTML = `
+    <div class="stats-comparison-item official">
+      <div class="stats-comparison-item-label">公式</div>
+      <div class="stats-comparison-item-value">${officialTotal.toLocaleString("ja-JP")}件</div>
+      <div class="stats-rank-meta">全体の${percent(officialTotal)}%</div>
+    </div>
+    <div class="stats-comparison-item solo">
+      <div class="stats-comparison-item-label">ソロ</div>
+      <div class="stats-comparison-item-value">${soloTotal.toLocaleString("ja-JP")}件</div>
+      <div class="stats-rank-meta">全体の${percent(soloTotal)}%</div>
+    </div>
+  `;
+
+  el.comparisonSection.hidden = false;
 }
 
 function renderDiscovery(){
@@ -262,7 +361,7 @@ async function load(){
     renderOverview();
     renderYearlyChart();
     renderRankings();
-    renderSingerComposition();
+    renderOfficialSoloComparison();
     renderDiscovery();
 
     el.status.hidden = true;

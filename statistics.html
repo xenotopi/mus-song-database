@@ -436,6 +436,141 @@
       .stats-ranking-card,.stats-composition-card{padding:15px}
       .stats-composition-row{grid-template-columns:68px minmax(0,1fr) 48px}
     }
+
+    /* STEP16-B FIX: hero / comparison / mobile chart */
+    .stats-hero{
+      position:relative;
+      overflow:hidden;
+      padding:34px 30px 31px;
+      border-radius:24px;
+      background:linear-gradient(110deg,#17213f 0%,#2d376c 42%,#5148c9 100%)!important;
+      box-shadow:0 18px 40px rgba(29,38,77,.15);
+    }
+    .stats-hero::after{
+      content:"";
+      position:absolute;
+      left:28px;
+      right:28px;
+      bottom:14px;
+      height:4px;
+      border-radius:999px;
+      background:linear-gradient(90deg,
+        #ff8a32 0 11%,
+        #5ac8df 11% 22%,
+        #c6c6c6 22% 33%,
+        #2d66b1 33% 44%,
+        #f2c236 44% 55%,
+        #e94262 55% 66%,
+        #7b4ab4 66% 77%,
+        #55ad53 77% 88%,
+        #ef6aa6 88% 100%);
+    }
+    .stats-hero .badge{
+      background:rgba(255,255,255,.12);
+    }
+    .stats-hero-summary{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:19px;
+      padding-bottom:12px;
+    }
+    .stats-hero-chip{
+      min-height:32px;
+      padding:0 11px;
+      display:inline-flex;
+      align-items:center;
+      border:1px solid rgba(255,255,255,.28);
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      font-size:10px;
+      font-weight:900;
+    }
+
+    .stats-comparison-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(280px,.72fr);
+      gap:14px;
+    }
+    .stats-comparison-chart{
+      padding:20px;
+    }
+    .stats-comparison-canvas{
+      position:relative;
+      height:320px;
+    }
+    .stats-comparison-summary{
+      padding:20px;
+    }
+    .stats-comparison-total{
+      display:grid;
+      gap:13px;
+    }
+    .stats-comparison-item{
+      padding:14px;
+      border:1px solid #ebe8f5;
+      border-radius:14px;
+      background:#fbfaff;
+    }
+    .stats-comparison-item-label{
+      color:#697286;
+      font-size:10px;
+      font-weight:900;
+    }
+    .stats-comparison-item-value{
+      margin-top:5px;
+      color:var(--navy);
+      font-size:24px;
+      font-weight:900;
+    }
+    .stats-comparison-item.official .stats-comparison-item-value{color:#574ee0}
+    .stats-comparison-item.solo .stats-comparison-item-value{color:#df5a91}
+    .stats-comparison-note{
+      margin:12px 0 0;
+      color:#7a8190;
+      font-size:10px;
+      line-height:1.65;
+    }
+
+    @media(max-width:900px){
+      .stats-comparison-grid{grid-template-columns:1fr}
+    }
+
+    @media(max-width:620px){
+      .stats-hero{
+        padding:25px 20px 30px;
+      }
+      .stats-hero::after{
+        left:20px;
+        right:20px;
+        bottom:12px;
+      }
+      .stats-hero-summary{
+        margin-top:16px;
+      }
+
+      /* 横軸の年が潰れないよう、スマホではグラフ自体を横スクロール */
+      .stats-chart-wrap{
+        height:310px;
+        overflow-x:auto;
+        overflow-y:hidden;
+        -webkit-overflow-scrolling:touch;
+      }
+      .stats-chart-inner{
+        position:relative;
+        width:760px;
+        height:300px;
+      }
+      .stats-chart-wrap canvas{
+        min-width:0!important;
+        width:760px!important;
+        max-width:none!important;
+      }
+      .stats-comparison-canvas{
+        height:290px;
+      }
+    }
 </style>
 
   <meta name="description" content="μ'sの歌唱履歴を年別・公式・ソロ別など、さまざまな視点から分析できます。">
@@ -477,6 +612,11 @@
       <span class="badge">STATISTICS</span>
       <h1>数字で見る μ's Song Database</h1>
       <p>歌唱記録・イベント・会場・歌唱名義を横断して、μ'sの歌唱史を数字から眺めます。</p>
+      <div class="stats-hero-summary" id="heroSummary" hidden>
+        <span class="stats-hero-chip" id="heroSongs"></span>
+        <span class="stats-hero-chip" id="heroEvents"></span>
+        <span class="stats-hero-chip" id="heroYears"></span>
+      </div>
     </section>
 
     <div class="status" id="status">統計データを読み込んでいます…</div>
@@ -502,7 +642,7 @@
           <button class="stats-metric-button" type="button" data-metric="uniqueSongCount">歌唱曲数</button>
           <button class="stats-metric-button" type="button" data-metric="venueCount">利用会場数</button>
         </div>
-        <div class="stats-chart-wrap"><canvas id="yearlyChart" aria-label="年別統計グラフ"></canvas></div>
+        <div class="stats-chart-wrap"><div class="stats-chart-inner"><canvas id="yearlyChart" aria-label="年別統計グラフ"></canvas></div></div>
         <p class="stats-chart-note" id="yearlyNote"></p>
       </article>
     </section>
@@ -523,25 +663,33 @@
         </article>
       </div>
     </section>
-
-    <section class="stats-section" id="singerSection" hidden>
+    <section class="stats-section" id="comparisonSection" hidden>
       <div class="stats-section-head">
-        <div><p class="kicker">SINGING FORMATIONS</p><h2>歌唱名義の人数構成</h2></div>
-        <a class="stats-more-link" href="singers.html">歌唱名義を見に行く →</a>
+        <div>
+          <p class="kicker">OFFICIAL / SOLO</p>
+          <h2>公式・ソロの年別歌唱記録</h2>
+        </div>
+        <p>年ごとの歌唱記録を、公式とソロに分けて比較できます。</p>
       </div>
-      <div class="stats-grid-2">
-        <article class="stats-card stats-composition-card">
-          <h3 class="stats-mini-title">公式歌唱</h3>
-          <div class="stats-composition-list" id="officialComposition"></div>
+
+      <div class="stats-comparison-grid">
+        <article class="stats-card stats-comparison-chart">
+          <div class="stats-comparison-canvas">
+            <canvas id="officialSoloChart" aria-label="公式・ソロ年別歌唱記録グラフ"></canvas>
+          </div>
         </article>
-        <article class="stats-card stats-composition-card">
-          <h3 class="stats-mini-title">ソロイベント</h3>
-          <div class="stats-composition-list" id="soloComposition"></div>
+
+        <article class="stats-card stats-comparison-summary">
+          <h3 class="stats-mini-title">期間中の歌唱記録</h3>
+          <div class="stats-comparison-total" id="officialSoloSummary"></div>
+          <p class="stats-comparison-note">
+            各年の歌唱記録を公式・ソロの区分で集計しています。
+          </p>
         </article>
       </div>
     </section>
 
-    <section class="stats-section" id="discoverySection" hidden>
+<section class="stats-section" id="discoverySection" hidden>
       <div class="stats-section-head">
         <div><p class="kicker">DISCOVER</p><h2>数字から記録を巡る</h2></div>
         <p>気になる記録から、そのまま詳細へ移動できます。</p>

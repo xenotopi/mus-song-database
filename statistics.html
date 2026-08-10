@@ -648,6 +648,79 @@
         height:285px!important;
       }
     }
+
+    /* STEP16-B graph UX final */
+    .stats-chart-mode-tabs{
+      display:flex;
+      gap:7px;
+      margin-top:10px;
+    }
+    .stats-chart-mode-button{
+      min-height:34px;
+      padding:0 12px;
+      border:1px solid #ddd9ef;
+      border-radius:999px;
+      background:#fff;
+      color:#566074;
+      font-size:10px;
+      font-weight:900;
+      cursor:pointer;
+    }
+    .stats-chart-mode-button.active{
+      border-color:var(--indigo);
+      background:var(--indigo-soft);
+      color:var(--indigo);
+    }
+
+    .stats-chart-wrap,
+    .stats-comparison-canvas{
+      overflow-x:auto!important;
+      overflow-y:hidden!important;
+      -webkit-overflow-scrolling:touch;
+    }
+    .stats-chart-inner,
+    .stats-comparison-inner{
+      height:100%;
+    }
+
+    @media(min-width:621px){
+      .stats-chart-wrap{height:330px!important}
+      .stats-chart-inner{width:100%!important;min-width:0!important;height:320px!important}
+      .stats-chart-inner canvas{width:100%!important;height:320px!important;max-width:100%!important}
+      .stats-comparison-canvas{height:300px!important}
+      .stats-comparison-inner{width:100%!important;min-width:0!important;height:290px!important}
+      .stats-comparison-inner canvas{width:100%!important;height:290px!important;max-width:100%!important}
+    }
+
+    @media(max-width:620px){
+      .stats-chart-wrap{height:305px!important}
+      .stats-chart-inner{
+        width:max(100%, 840px)!important;
+        min-width:840px!important;
+        height:290px!important;
+      }
+      .stats-chart-inner canvas{
+        width:840px!important;
+        max-width:none!important;
+        height:290px!important;
+      }
+
+      .stats-comparison-canvas{height:285px!important}
+      .stats-comparison-inner{
+        width:max(100%, 840px)!important;
+        min-width:840px!important;
+        height:270px!important;
+      }
+      .stats-comparison-inner canvas{
+        width:840px!important;
+        max-width:none!important;
+        height:270px!important;
+      }
+
+      .stats-chart-mode-tabs{
+        margin-top:8px;
+      }
+    }
 </style>
 
   <meta name="description" content="μ'sの歌唱履歴を年別・公式・ソロ別など、さまざまな視点から分析できます。">
@@ -718,6 +791,10 @@
           <button class="stats-metric-button" type="button" data-metric="eventCount">イベント数</button>
           <button class="stats-metric-button" type="button" data-metric="uniqueSongCount">歌唱曲数</button>
           <button class="stats-metric-button" type="button" data-metric="venueCount">利用会場数</button>
+        </div>
+        <div class="stats-chart-mode-tabs" aria-label="グラフ表示切替">
+          <button class="stats-chart-mode-button active" type="button" data-chart-mode="bar">棒グラフ</button>
+          <button class="stats-chart-mode-button" type="button" data-chart-mode="line">推移</button>
         </div>
         <div class="stats-chart-wrap"><div class="stats-chart-inner"><canvas id="yearlyChart" aria-label="年別統計グラフ"></canvas></div></div>
         <p class="stats-chart-note" id="yearlyNote"></p>

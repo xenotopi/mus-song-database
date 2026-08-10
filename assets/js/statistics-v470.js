@@ -30,6 +30,7 @@ let trends = [];
 let rankings = {};
 let singerData = {};
 let metric = "performanceCount";
+let chartMode = "bar";
 let chart = null;
 let comparisonChart = null;
 
@@ -91,17 +92,26 @@ function renderYearlyChart(){
   const labels = trends.map(item => String(item.year || ""));
   const values = trends.map(item => number(item[metric]));
 
+  const isLine = chartMode === "line";
+
   chart = new window.Chart(el.yearlyChart,{
-    type:"bar",
+    type:isLine ? "line" : "bar",
     data:{
       labels,
       datasets:[{
         label:setting.label,
         data:values,
-        backgroundColor:"rgba(79,70,229,.78)",
+        backgroundColor:isLine ? "rgba(79,70,229,.14)" : "rgba(79,70,229,.78)",
+        borderColor:"#4f46e5",
         hoverBackgroundColor:"#4338ca",
-        borderRadius:6,
-        borderSkipped:false
+        borderRadius:isLine ? 0 : 7,
+        borderSkipped:false,
+        borderWidth:isLine ? 3 : 0,
+        tension:.28,
+        pointRadius:isLine ? 4 : 0,
+        pointHoverRadius:isLine ? 6 : 0,
+        pointBackgroundColor:"#4f46e5",
+        fill:isLine
       }]
     },
     options:{
@@ -110,6 +120,13 @@ function renderYearlyChart(){
       animation:false,
       resizeDelay:0,
       interaction:{mode:"index",intersect:false},
+      datasets:{
+        bar:{
+          categoryPercentage:.82,
+          barPercentage:.82,
+          maxBarThickness:46
+        }
+      },
       plugins:{
         legend:{display:false},
         tooltip:{callbacks:{label:ctx => `${setting.label}：${number(ctx.raw).toLocaleString("ja-JP")}${setting.suffix}`}}
@@ -118,8 +135,8 @@ function renderYearlyChart(){
         x:{grid:{display:false},ticks:{
           color:"#64748b",
           autoSkip:false,
-          maxRotation:0,
-          minRotation:0,
+            maxRotation:0,
+            minRotation:0,
           font:{size:11,weight:"700"}
         }},
         y:{beginAtZero:true,ticks:{precision:0,color:"#64748b"},grid:{color:"rgba(148,163,184,.18)"}}
@@ -232,6 +249,13 @@ function renderOfficialSoloComparison(){
           }
         }
       },
+      datasets:{
+        bar:{
+          categoryPercentage:.78,
+          barPercentage:.82,
+          maxBarThickness:30
+        }
+      },
       scales:{
         x:{
           stacked:false,
@@ -342,6 +366,19 @@ function setupMetricTabs(){
   });
 }
 
+
+function setupChartModeTabs(){
+  document.querySelectorAll("[data-chart-mode]").forEach(button => {
+    button.addEventListener("click",() => {
+      document.querySelectorAll("[data-chart-mode]").forEach(item =>
+        item.classList.toggle("active", item === button)
+      );
+      chartMode = button.dataset.chartMode || "bar";
+      requestAnimationFrame(() => renderYearlyChart());
+    });
+  });
+}
+
 async function load(){
   try{
     const [trendResponse,rankingResponse,singerResponse] = await Promise.all([
@@ -376,4 +413,5 @@ async function load(){
 }
 
 setupMetricTabs();
+setupChartModeTabs();
 load();

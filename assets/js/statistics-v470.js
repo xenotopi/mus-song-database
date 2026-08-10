@@ -107,6 +107,8 @@ function renderYearlyChart(){
     options:{
       responsive:true,
       maintainAspectRatio:false,
+      animation:false,
+      resizeDelay:0,
       interaction:{mode:"index",intersect:false},
       plugins:{
         legend:{display:false},
@@ -115,8 +117,7 @@ function renderYearlyChart(){
       scales:{
         x:{grid:{display:false},ticks:{
           color:"#64748b",
-          autoSkip:window.innerWidth <= 620,
-          maxTicksLimit:window.innerWidth <= 620 ? 8 : undefined,
+          autoSkip:false,
           maxRotation:0,
           minRotation:0,
           font:{size:11,weight:"700"}
@@ -212,6 +213,8 @@ function renderOfficialSoloComparison(){
     options:{
       responsive:true,
       maintainAspectRatio:false,
+      animation:false,
+      resizeDelay:0,
       interaction:{mode:"index",intersect:false},
       plugins:{
         legend:{
@@ -235,8 +238,7 @@ function renderOfficialSoloComparison(){
           grid:{display:false},
           ticks:{
             color:"#64748b",
-            autoSkip:window.innerWidth <= 620,
-            maxTicksLimit:window.innerWidth <= 620 ? 7 : undefined,
+            autoSkip:false,
             maxRotation:0,
             minRotation:0,
             font:{size:10,weight:"700"}
@@ -335,7 +337,7 @@ function setupMetricTabs(){
     button.addEventListener("click",() => {
       document.querySelectorAll("[data-metric]").forEach(item => item.classList.toggle("active",item === button));
       metric = button.dataset.metric || "performanceCount";
-      renderYearlyChart();
+      requestAnimationFrame(() => renderYearlyChart());
     });
   });
 }

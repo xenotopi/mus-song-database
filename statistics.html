@@ -571,6 +571,83 @@
         height:290px;
       }
     }
+
+    /* STEP16-B chart stability fix */
+    .stats-chart-wrap{
+      position:relative;
+      height:360px!important;
+      overflow:visible;
+    }
+    .stats-chart-inner{
+      position:relative;
+      width:100%;
+      height:100%;
+      min-width:0;
+    }
+    .stats-chart-inner canvas{
+      display:block!important;
+      width:100%!important;
+      height:100%!important;
+      min-width:0!important;
+      max-width:100%!important;
+    }
+
+    .stats-comparison-canvas{
+      position:relative;
+      height:320px!important;
+      overflow:visible;
+    }
+    .stats-comparison-inner{
+      position:relative;
+      width:100%;
+      height:100%;
+      min-width:0;
+    }
+    .stats-comparison-inner canvas{
+      display:block!important;
+      width:100%!important;
+      height:100%!important;
+      min-width:0!important;
+      max-width:100%!important;
+    }
+
+    @media(max-width:620px){
+      .stats-chart-wrap,
+      .stats-comparison-canvas{
+        overflow-x:auto!important;
+        overflow-y:hidden!important;
+        -webkit-overflow-scrolling:touch;
+        padding-bottom:5px;
+      }
+
+      .stats-chart-wrap{
+        height:315px!important;
+      }
+      .stats-chart-inner{
+        width:900px!important;
+        height:300px!important;
+        min-width:900px!important;
+      }
+      .stats-chart-inner canvas{
+        width:900px!important;
+        max-width:none!important;
+        height:300px!important;
+      }
+
+      .stats-comparison-canvas{
+        height:300px!important;
+      }
+      .stats-comparison-inner{
+        width:900px!important;
+        height:285px!important;
+        min-width:900px!important;
+      }
+      .stats-comparison-inner canvas{
+        width:900px!important;
+        max-width:none!important;
+        height:285px!important;
+      }
+    }
 </style>
 
   <meta name="description" content="μ'sの歌唱履歴を年別・公式・ソロ別など、さまざまな視点から分析できます。">
@@ -675,7 +752,9 @@
       <div class="stats-comparison-grid">
         <article class="stats-card stats-comparison-chart">
           <div class="stats-comparison-canvas">
-            <canvas id="officialSoloChart" aria-label="公式・ソロ年別歌唱記録グラフ"></canvas>
+            <div class="stats-comparison-inner">
+              <canvas id="officialSoloChart" aria-label="公式・ソロ年別歌唱記録グラフ"></canvas>
+            </div>
           </div>
         </article>
 

@@ -43,6 +43,36 @@ const metricSettings = {
 
 const number = value => Number(value || 0);
 
+const barValueLabels = {
+  id:"barValueLabels",
+  afterDatasetsDraw(chart){
+    if (chart.config.type !== "bar") return;
+    if (chart.canvas?.id !== "yearlyChart") return;
+
+    const {ctx} = chart;
+    const isMobile = window.innerWidth <= 620;
+
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "bottom";
+    ctx.fillStyle = "#4f596c";
+    ctx.font = `${isMobile ? 8 : 10}px system-ui, -apple-system, sans-serif`;
+
+    chart.data.datasets.forEach((dataset,datasetIndex) => {
+      const meta = chart.getDatasetMeta(datasetIndex);
+      meta.data.forEach((bar,index) => {
+        const value = Number(dataset.data[index] || 0);
+        if (!Number.isFinite(value)) return;
+        const y = Math.max(bar.y - 4, chart.chartArea.top + 10);
+        ctx.fillText(String(value), bar.x, y);
+      });
+    });
+
+    ctx.restore();
+  }
+};
+
+
 function renderOverview(){
   const s = rankings.summary || {};
   const cards = [
@@ -95,6 +125,7 @@ function renderYearlyChart(){
   const isLine = chartMode === "line";
 
   chart = new window.Chart(el.yearlyChart,{
+    plugins:[barValueLabels],
     type:isLine ? "line" : "bar",
     data:{
       labels,
@@ -119,6 +150,7 @@ function renderYearlyChart(){
       maintainAspectRatio:false,
       animation:false,
       resizeDelay:0,
+      layout:{padding:{top:16}},
       interaction:{mode:"index",intersect:false},
       datasets:{
         bar:{
@@ -137,7 +169,7 @@ function renderYearlyChart(){
           autoSkip:false,
             maxRotation:0,
             minRotation:0,
-          font:{size:11,weight:"700"}
+          font:{size:window.innerWidth <= 620 ? 8 : 11,weight:"700"}
         }},
         y:{beginAtZero:true,ticks:{precision:0,color:"#64748b"},grid:{color:"rgba(148,163,184,.18)"}}
       }
@@ -265,7 +297,7 @@ function renderOfficialSoloComparison(){
             autoSkip:false,
             maxRotation:0,
             minRotation:0,
-            font:{size:10,weight:"700"}
+            font:{size:window.innerWidth <= 620 ? 8 : 10,weight:"700"}
           }
         },
         y:{

@@ -367,7 +367,76 @@
       }
     }
 
-  </style>
+  
+    /* STEP16-B statistics redesign */
+    .stats-page{width:min(1120px,calc(100% - 32px));margin:0 auto;padding:28px 0 70px}
+    .stats-hero{padding:34px 30px;border-radius:24px;background:radial-gradient(circle at 85% 20%,rgba(255,255,255,.18),transparent 25%),linear-gradient(135deg,#312e81,#5b4bd3 58%,#7566ec);color:#fff;box-shadow:0 18px 40px rgba(49,46,129,.18)}
+    .stats-hero .badge{display:inline-flex;align-items:center;min-height:28px;padding:0 10px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;font-size:10px;font-weight:900;letter-spacing:.08em}
+    .stats-hero h1{margin:13px 0 8px;font-size:38px;line-height:1.15}
+    .stats-hero p{margin:0;color:rgba(255,255,255,.86);font-size:13px;line-height:1.8}
+    .stats-section{margin-top:38px}
+    .stats-section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:14px}
+    .stats-section-head .kicker{margin:0 0 5px;color:var(--indigo);font-size:10px;font-weight:900;letter-spacing:.08em}
+    .stats-section-head h2{margin:0;color:var(--navy);font-size:24px}
+    .stats-section-head p{margin:0;color:var(--muted);font-size:11px;line-height:1.7}
+    .stats-overview{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+    .stats-overview-card{padding:17px 15px;border:1px solid #e2dff1;border-radius:17px;background:#fff;box-shadow:0 7px 20px rgba(38,39,77,.045)}
+    .stats-overview-label{color:#6b7280;font-size:10px;font-weight:800}
+    .stats-overview-value{margin-top:7px;color:var(--navy);font-size:25px;font-weight:900;line-height:1}
+    .stats-overview-note{margin-top:7px;color:#8a91a1;font-size:9px;line-height:1.5}
+    .stats-card{border:1px solid #e2dff1;border-radius:20px;background:#fff;box-shadow:0 8px 24px rgba(38,39,77,.045)}
+    .stats-chart-card{padding:20px}
+    .stats-metric-tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+    .stats-metric-tabs::-webkit-scrollbar{display:none}
+    .stats-metric-button{flex:0 0 auto;min-height:36px;padding:0 13px;border:1px solid #ddd9ef;border-radius:999px;background:#fff;color:#566074;font-size:10px;font-weight:900;cursor:pointer}
+    .stats-metric-button.active{border-color:var(--indigo);background:var(--indigo);color:#fff}
+    .stats-chart-wrap{position:relative;height:360px;margin-top:15px}
+    .stats-chart-note{margin:10px 0 0;color:#7a8190;font-size:10px;line-height:1.65}
+    .stats-grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .stats-ranking-card,.stats-composition-card{padding:19px}
+    .stats-mini-title{margin:0 0 12px;color:var(--navy);font-size:16px}
+    .stats-rank-list{display:grid;gap:8px}
+    .stats-rank-row{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;align-items:center;min-height:54px;padding:9px 10px;border:1px solid #ece9f5;border-radius:13px;color:inherit;text-decoration:none}
+    .stats-rank-row:hover{border-color:#c9c3f3;background:#fbfaff}
+    .stats-rank-no{width:28px;height:28px;display:grid;place-items:center;border-radius:50%;background:var(--indigo-soft);color:var(--indigo);font-size:10px;font-weight:900}
+    .stats-rank-name{min-width:0;color:var(--navy);font-size:12px;font-weight:900;line-height:1.45}
+    .stats-rank-meta{margin-top:3px;color:#818899;font-size:9px;line-height:1.5}
+    .stats-rank-value{color:var(--indigo);font-size:13px;font-weight:900;white-space:nowrap}
+    .stats-composition-list{display:grid;gap:11px}
+    .stats-composition-row{display:grid;grid-template-columns:80px minmax(0,1fr) 54px;gap:10px;align-items:center}
+    .stats-composition-label{color:#4f596c;font-size:11px;font-weight:800}
+    .stats-composition-track{height:10px;overflow:hidden;border-radius:999px;background:#efedf7}
+    .stats-composition-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#5b4bd3,#8a7df0)}
+    .stats-composition-value{text-align:right;color:var(--navy);font-size:11px;font-weight:900}
+    .stats-discovery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .stats-discovery-card{min-height:155px;padding:18px;border:1px solid #e2dff1;border-radius:18px;background:#fff;color:inherit;text-decoration:none;box-shadow:0 7px 20px rgba(38,39,77,.04)}
+    .stats-discovery-card:hover{transform:translateY(-1px);border-color:#c9c3f3}
+    .stats-discovery-label{color:var(--indigo);font-size:9px;font-weight:900;letter-spacing:.07em}
+    .stats-discovery-title{margin-top:9px;color:var(--navy);font-size:15px;font-weight:900;line-height:1.45}
+    .stats-discovery-value{margin-top:12px;color:var(--indigo);font-size:24px;font-weight:900}
+    .stats-discovery-meta{margin-top:7px;color:#7a8190;font-size:10px;line-height:1.6}
+    .stats-more-link{display:inline-flex;align-items:center;min-height:38px;padding:0 14px;border:1px solid var(--indigo);border-radius:999px;color:var(--indigo);font-size:10px;font-weight:900;text-decoration:none}
+    .stats-error{margin-top:18px;padding:16px;border:1px solid #fecaca;border-radius:14px;background:#fff7f7;color:#991b1b;font-size:12px;line-height:1.7}
+    @media(max-width:900px){.stats-overview{grid-template-columns:repeat(3,minmax(0,1fr))}.stats-grid-2{grid-template-columns:1fr}}
+    @media(max-width:620px){
+      .stats-page{width:min(100% - 20px,1120px);padding-top:18px}
+      .stats-hero{padding:25px 20px;border-radius:20px}
+      .stats-hero h1{font-size:30px}
+      .stats-section{margin-top:30px}
+      .stats-section-head{display:block}
+      .stats-section-head h2{font-size:21px}
+      .stats-section-head p{margin-top:6px}
+      .stats-overview{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .stats-overview-card{padding:15px 13px}
+      .stats-overview-value{font-size:22px}
+      .stats-chart-card{padding:14px}
+      .stats-chart-wrap{height:300px;overflow-x:auto}
+      .stats-chart-wrap canvas{min-width:650px}
+      .stats-discovery-grid{grid-template-columns:1fr}
+      .stats-ranking-card,.stats-composition-card{padding:15px}
+      .stats-composition-row{grid-template-columns:68px minmax(0,1fr) 48px}
+    }
+</style>
 
   <meta name="description" content="μ'sの歌唱履歴を年別・公式・ソロ別など、さまざまな視点から分析できます。">
   <meta name="robots" content="index,follow,max-image-preview:large">
@@ -398,220 +467,92 @@
   <script src="assets/js/seo-v351.js?v=3.5.1" defer></script>
 </head>
 
+
 <body>
   <div id="siteHeader"></div>
+  <main class="stats-page">
+    <div class="crumb"><a href="index.html">ホーム</a> › 統計</div>
 
-  <main>
-    <div class="crumb">
-      ホーム › 統計
-    </div>
+    <section class="stats-hero">
+      <span class="badge">STATISTICS</span>
+      <h1>数字で見る μ's Song Database</h1>
+      <p>歌唱記録・イベント・会場・歌唱名義を横断して、μ'sの歌唱史を数字から眺めます。</p>
+    </section>
 
-    <section class="hero">
-      <span class="badge">
-        VISUALIZATION
-      </span>
+    <div class="status" id="status">統計データを読み込んでいます…</div>
+    <div class="stats-error" id="statsError" hidden></div>
 
-      <h1>年別データ</h1>
+    <section class="stats-section" id="overviewSection" hidden>
+      <div class="stats-section-head">
+        <div><p class="kicker">DATABASE OVERVIEW</p><h2>データベース全体</h2></div>
+        <p>現在登録されているデータの規模です。</p>
+      </div>
+      <div class="stats-overview" id="overviewCards"></div>
+    </section>
 
-      <p>
-        μ'sの歌唱履歴を年ごとに比較します。
-      </p>
+    <section class="stats-section" id="yearlySection" hidden>
+      <div class="stats-section-head">
+        <div><p class="kicker">YEARLY HISTORY</p><h2>年ごとの歌唱記録</h2></div>
+        <p>年ごとの活動量を指標を切り替えて比較できます。</p>
+      </div>
+      <article class="stats-card stats-chart-card">
+        <div class="stats-metric-tabs">
+          <button class="stats-metric-button active" type="button" data-metric="performanceCount">歌唱記録数</button>
+          <button class="stats-metric-button" type="button" data-metric="eventCount">イベント数</button>
+          <button class="stats-metric-button" type="button" data-metric="uniqueSongCount">歌唱曲数</button>
+          <button class="stats-metric-button" type="button" data-metric="venueCount">利用会場数</button>
+        </div>
+        <div class="stats-chart-wrap"><canvas id="yearlyChart" aria-label="年別統計グラフ"></canvas></div>
+        <p class="stats-chart-note" id="yearlyNote"></p>
+      </article>
+    </section>
 
-      <div class="muse-line">
-        <i></i><i></i><i></i>
-        <i></i><i></i><i></i>
-        <i></i><i></i><i></i>
+    <section class="stats-section" id="rankingSection" hidden>
+      <div class="stats-section-head">
+        <div><p class="kicker">TOP RECORDS</p><h2>記録から見る μ's</h2></div>
+        <a class="stats-more-link" href="rankings.html">ランキングをもっと見る →</a>
+      </div>
+      <div class="stats-grid-2">
+        <article class="stats-card stats-ranking-card">
+          <h3 class="stats-mini-title">歌唱回数 TOP5</h3>
+          <div class="stats-rank-list" id="topSongs"></div>
+        </article>
+        <article class="stats-card stats-ranking-card">
+          <h3 class="stats-mini-title">開催イベント数が多い会場 TOP5</h3>
+          <div class="stats-rank-list" id="topVenues"></div>
+        </article>
       </div>
     </section>
 
-    <div
-      class="status"
-      id="status"
-    >
-      統計データを読み込んでいます…
-    </div>
-
-    <section
-      id="statisticsContent"
-      hidden
-    >
-      <div class="stat-controls">
-        <button
-          class="stat-control active"
-          data-metric="performanceCount"
-          type="button"
-        >
-          歌唱記録数
-        </button>
-
-        <button
-          class="stat-control"
-          data-metric="eventCount"
-          type="button"
-        >
-          イベント数
-        </button>
-
-        <button
-          class="stat-control"
-          data-metric="uniqueSongCount"
-          type="button"
-        >
-          歌唱曲数
-        </button>
-
-        <button
-          class="stat-control"
-          data-metric="venueCount"
-          type="button"
-        >
-          利用会場数
-        </button>
+    <section class="stats-section" id="singerSection" hidden>
+      <div class="stats-section-head">
+        <div><p class="kicker">SINGING FORMATIONS</p><h2>歌唱名義の人数構成</h2></div>
+        <a class="stats-more-link" href="singers.html">歌唱名義を見に行く →</a>
       </div>
+      <div class="stats-grid-2">
+        <article class="stats-card stats-composition-card">
+          <h3 class="stats-mini-title">公式歌唱</h3>
+          <div class="stats-composition-list" id="officialComposition"></div>
+        </article>
+        <article class="stats-card stats-composition-card">
+          <h3 class="stats-mini-title">ソロイベント</h3>
+          <div class="stats-composition-list" id="soloComposition"></div>
+        </article>
+      </div>
+    </section>
 
-      <div
-        class="stat-summary"
-        id="statSummary"
-      ></div>
-
-      <article class="stat-chart-card">
-        <div class="stat-chart-heading">
-          <div>
-            <p
-              class="kicker"
-              id="chartKicker"
-            >
-              PERFORMANCE RECORDS
-            </p>
-
-            <h2 id="chartTitle">
-              年別の延べ歌唱記録数
-            </h2>
-          </div>
-
-          <div class="chart-mode-list">
-            <button
-              class="chart-mode-button active"
-              data-chart-mode="bar"
-              type="button"
-            >
-              棒グラフ
-            </button>
-
-            <button
-              class="chart-mode-button"
-              data-chart-mode="line"
-              type="button"
-            >
-              推移
-            </button>
-          </div>
-        </div>
-
-        <p
-          class="stat-chart-guide"
-          id="chartDescription"
-        ></p>
-
-        <div class="chart-scroll" id="mainChartScroll">
-          <div class="chart-container">
-            <canvas
-              id="statisticsChart"
-              aria-label="年別統計グラフ"
-            ></canvas>
-          </div>
-        </div>
-
-        <p class="chart-swipe-guide">
-          ← グラフは左右にスワイプできます →
-        </p>
-
-        <div
-          class="chart-error"
-          id="chartError"
-          hidden
-        ></div>
-      </article>
-
-      <article class="stat-comparison-card">
-        <div class="stat-chart-heading">
-          <div>
-            <p class="kicker">
-              OFFICIAL / SOLO
-            </p>
-
-            <h2 id="comparisonTitle">
-              公式・ソロの年別比較
-            </h2>
-          </div>
-        </div>
-
-        <p
-          class="stat-chart-guide"
-          id="comparisonDescription"
-        >
-          選択中の指標を、イベント区分ごとに比較します。
-        </p>
-
-        <div class="comparison-grid">
-          <div class="chart-scroll" id="comparisonChartScroll">
-            <div class="comparison-chart-container">
-              <canvas
-                id="comparisonChart"
-                aria-label="公式とソロの比較グラフ"
-              ></canvas>
-            </div>
-          </div>
-
-          <p class="chart-swipe-guide">
-            ← 比較グラフは左右にスワイプできます →
-          </p>
-
-          <div
-            class="comparison-cards"
-            id="comparisonCards"
-          ></div>
-        </div>
-
-        <div
-          class="chart-error"
-          id="comparisonError"
-          hidden
-        ></div>
-      </article>
-
-      <article class="stat-table-card">
-        <div class="stat-chart-heading">
-          <div>
-            <p class="kicker">
-              YEARLY VALUES
-            </p>
-
-            <h2>年別数値一覧</h2>
-          </div>
-        </div>
-
-        <p class="stat-chart-guide">
-          グラフを読み込みにくい環境でも、数値は一覧で確認できます。
-        </p>
-
-        <div
-          class="stat-fallback"
-          id="statisticsTable"
-        ></div>
-      </article>
+    <section class="stats-section" id="discoverySection" hidden>
+      <div class="stats-section-head">
+        <div><p class="kicker">DISCOVER</p><h2>数字から記録を巡る</h2></div>
+        <p>気になる記録から、そのまま詳細へ移動できます。</p>
+      </div>
+      <div class="stats-discovery-grid" id="discoveryCards"></div>
     </section>
   </main>
 
   <div id="siteFooter"></div>
-
-  <script
-    src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"
-  ></script>
-
-  <script
-    type="module"
-    src="assets/js/statistics-v331.js?v=3.3.1"
-  ></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script type="module" src="assets/js/statistics-v470.js?v=4.7.0"></script>
 </body>
+
 </html>

@@ -2,11 +2,11 @@ import {
   apiGet,
   escapeHtml,
   formatDate
-} from "./api.js?v=3.4.0";
+} from "./api.js?v=4.6.2";
 
 import {
   renderCommon
-} from "./common.js?v=2.7.0";
+} from "./common.js?v=4.7.1";
 
 
 renderCommon("about");
@@ -16,11 +16,6 @@ const elements = {
   status:
     document.getElementById(
       "status"
-    ),
-
-  content:
-    document.getElementById(
-      "aboutContent"
     ),
 
   summary:
@@ -33,22 +28,95 @@ const elements = {
       "coverageText"
     ),
 
-  updatedText:
+  lastUpdated:
     document.getElementById(
-      "updatedText"
+      "aboutLastUpdated"
+    ),
+
+  apiUpdated:
+    document.getElementById(
+      "aboutApiUpdated"
     )
 };
 
 
-async function loadAbout() {
+function formatPageUpdated() {
+  const value =
+    new Date(
+      document.lastModified
+    );
+
+  if (
+    Number.isNaN(
+      value.getTime()
+    )
+  ) {
+    elements.lastUpdated.textContent =
+      "—";
+
+    return;
+  }
+
+  elements.lastUpdated.dateTime =
+    value
+      .toISOString()
+      .slice(
+        0,
+        10
+      );
+
+  elements.lastUpdated.textContent =
+    new Intl.DateTimeFormat(
+      "ja-JP",
+      {
+        dateStyle:
+          "long"
+      }
+    ).format(value);
+}
+
+
+function formatApiUpdated(
+  value
+) {
+  const date =
+    new Date(
+      value || ""
+    );
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+    return "";
+  }
+
+  return new Intl.DateTimeFormat(
+    "ja-JP",
+    {
+      dateStyle:
+        "medium",
+
+      timeStyle:
+        "short"
+    }
+  ).format(date);
+}
+
+
+async function loadAboutSummary() {
   try {
     const response =
       await apiGet(
         "about",
         {},
         {
-          timeoutMs: 30000,
-          retryCount: 1
+          timeoutMs:
+            30000,
+
+          retryCount:
+            1
         }
       );
 
@@ -95,40 +163,52 @@ async function loadAbout() {
           </div>`
       ).join("");
 
-    elements.coverageText.textContent =
-      [
-        formatDate(
-          summary.firstRecordedDate
-        ),
-        formatDate(
-          summary.lastRecordedDate
-        )
-      ]
-        .filter(Boolean)
-        .join("〜") ||
-      "収録期間を取得できませんでした。";
+    const firstDate =
+      summary.firstRecordedDate
+        ? formatDate(
+            summary.firstRecordedDate
+          )
+        : "";
 
-    elements.updatedText.textContent =
-      `API確認日時：${String(
-        data.updatedAt || ""
-      ).replace(
-        "T",
-        " "
-      )}`;
+    const lastDate =
+      summary.lastRecordedDate
+        ? formatDate(
+            summary.lastRecordedDate
+          )
+        : "";
+
+    elements.coverageText.textContent =
+      firstDate && lastDate
+        ? `収録期間：${firstDate}〜${lastDate}`
+        : "収録期間を取得できませんでした。";
+
+    const apiUpdated =
+      formatApiUpdated(
+        data.updatedAt
+      );
+
+    elements.apiUpdated.textContent =
+      apiUpdated
+        ? `データ確認：${apiUpdated}`
+        : "";
 
     elements.status.hidden = true;
-    elements.content.hidden = false;
+    elements.summary.hidden = false;
+    elements.coverageText.hidden = false;
 
   } catch (error) {
+    console.error(error);
+
     elements.status.classList.add(
       "error"
     );
 
     elements.status.textContent =
-      error?.message ||
-      "データ概要を取得できませんでした。";
+      "データ概要を取得できませんでした。ページ本文はそのままご覧いただけます。";
   }
 }
 
 
-loadAbout();
+formatPageUpdated();
+loadAboutSummary();
+

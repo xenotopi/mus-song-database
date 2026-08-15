@@ -3,6 +3,11 @@ import {
   escapeHtml
 } from "./api.js?v=2.7.0";
 
+const SITE_METADATA = Object.freeze({
+  version:
+    "Web v4.7.0"
+});
+
 /**
  * v4.7 STEP13-B
  * Global Search Alias UX
@@ -213,6 +218,15 @@ export function renderCommon(active = "") {
         </div>
       </footer>`;
   }
+
+  document
+    .querySelectorAll(
+      "[data-site-version]"
+    )
+    .forEach(element => {
+      element.textContent =
+        SITE_METADATA.version;
+    });
 
   setupGlobalSearch_();
   setupMobileNavigation_();
@@ -1588,3 +1602,4 @@ function setupBackToTop_() {
 
   updateVisibility();
 }
+

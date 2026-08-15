@@ -315,10 +315,10 @@
       case "about.html":
         return {
           title:
-            `About | ${SITE_NAME}`,
+            `μ's Song Databaseとは | ${SITE_NAME}`,
 
           description:
-            "μ's Song Databaseの概要、データの集計方針、サイトについて紹介しています。",
+            "μ's Song Databaseの目的、収録範囲、集計方針、公式・ソロの区分、情報提供について紹介します。",
 
           type:
             "website",
@@ -533,3 +533,4 @@
 
   scheduleUpdate();
 })();
+

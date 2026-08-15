@@ -7,112 +7,415 @@
     content="width=device-width,initial-scale=1"
   >
 
-  <title>About | μ's Song Database</title>
+  <title>μ's Song Databaseとは | μ's Song Database</title>
 
   <link
     rel="stylesheet"
-    href="assets/css/style.css?v=2.6.1"
+    href="assets/css/style.css?v=4.7.0"
   >
 
   <style>
-    .about-grid {
-      margin-top: 18px;
+    .about-page {
+      min-width: 0;
+    }
+
+    .about-page *,
+    .about-page *::before,
+    .about-page *::after {
+      box-sizing: border-box;
+    }
+
+    .about-hero h1,
+    .about-section h2,
+    .about-section h3,
+    .about-section p,
+    .about-section li,
+    .about-explore-card {
+      overflow-wrap: anywhere;
+    }
+
+    .about-content {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .about-section {
+      margin-top: 44px;
+    }
+
+    .about-section-head {
+      margin-bottom: 18px;
+    }
+
+    .about-section-head h2 {
+      margin: 3px 0 0;
+      font-size: clamp(23px, 4vw, 30px);
+      line-height: 1.35;
+    }
+
+    .about-copy {
       display: grid;
-      grid-template-columns:
-        repeat(2, 1fr);
-      gap: 14px;
+      gap: 12px;
+      max-width: 850px;
     }
 
-    .about-card {
-      padding: 20px;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background: #fff;
-      box-shadow: var(--shadow);
+    .about-copy p {
+      margin: 0;
+      color: #4f596c;
+      font-size: 14px;
+      line-height: 2;
     }
 
-    .about-card p {
-      color: var(--muted);
+    .about-copy-spaced {
+      margin-top: 16px;
+    }
+
+    .about-note {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-left: 4px solid var(--indigo);
+      border-radius: 0 14px 14px 0;
+      background: var(--indigo-soft);
+      color: #424b61;
+      font-size: 13px;
       line-height: 1.8;
     }
 
     .about-summary {
       display: grid;
-      grid-template-columns:
-        repeat(4, 1fr);
-      gap: 12px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 20px;
     }
 
     .about-number {
+      min-width: 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 7px 20px rgba(38, 39, 77, .04);
+    }
+
+    .about-number strong {
+      display: block;
+      color: var(--indigo);
+      font-size: 26px;
+      line-height: 1.2;
+    }
+
+    .about-number span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .about-coverage {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .about-record-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .about-record-item {
+      min-width: 0;
+      padding: 16px 12px;
+      border: 1px solid #e0deed;
+      border-radius: 15px;
+      background: #fff;
+      color: var(--navy);
+      font-size: 13px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .about-record-item span {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      margin: 0 auto 9px;
+      place-items: center;
+      border-radius: 11px;
+      background: var(--indigo-soft);
+      color: var(--indigo);
+      font-size: 17px;
+    }
+
+    .about-record-detail {
+      margin: 16px 0 0;
+      color: #4f596c;
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .about-definition-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .about-definition {
+      min-width: 0;
+      padding: 20px;
+      border: 1px solid #e0deed;
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(38, 39, 77, .045);
+    }
+
+    .about-definition-label {
+      color: var(--indigo);
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .about-definition p {
+      margin: 9px 0 0;
+      color: #4f596c;
+      font-size: 13px;
+      line-height: 1.85;
+    }
+
+    .about-point-list {
+      display: grid;
+      gap: 0;
+      margin: 0;
+      padding: 0;
+      border-block: 1px solid var(--line);
+      list-style: none;
+    }
+
+    .about-point-list li {
+      position: relative;
+      padding: 14px 10px 14px 30px;
+      border-bottom: 1px solid var(--line);
+      color: #4f596c;
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .about-point-list li:last-child {
+      border-bottom: 0;
+    }
+
+    .about-point-list li::before {
+      content: "";
+      position: absolute;
+      top: 23px;
+      left: 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--indigo);
+      box-shadow: 0 0 0 4px var(--indigo-soft);
+    }
+
+    .about-action-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: center;
+      padding: 22px;
+      border: 1px solid #d8d4f1;
+      border-radius: 20px;
+      background:
+        linear-gradient(135deg, #fff, #f8f7ff);
+    }
+
+    .about-action-panel p {
+      margin: 0;
+      color: #4f596c;
+      font-size: 13px;
+      line-height: 1.85;
+    }
+
+    .about-action-panel p + p {
+      margin-top: 8px;
+    }
+
+    .about-cta {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 18px;
+      border-radius: 999px;
+      background: var(--indigo);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 10px 24px rgba(79, 70, 229, .2);
+    }
+
+    .about-cta:hover {
+      background: #4338ca;
+      transform: translateY(-1px);
+    }
+
+    .about-rights {
+      padding: 18px 20px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      color: #4f596c;
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    .about-update-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .about-update-item {
+      min-width: 0;
       padding: 17px;
       border: 1px solid var(--line);
       border-radius: 16px;
       background: #fff;
     }
 
-    .about-number strong {
+    .about-update-item span {
       display: block;
-      color: var(--indigo);
-      font-size: 28px;
-    }
-
-    .about-number span {
       color: var(--muted);
-      font-size: 12px;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .08em;
     }
 
-
-
-    .definition-card {
-      grid-column: 1 / -1;
-    }
-
-    .definition-grid {
-      margin-top: 15px;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .definition-item {
-      padding: 17px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: #fafaff;
-    }
-
-    .definition-name {
-      color: var(--indigo);
+    .about-update-item strong,
+    .about-update-item time {
+      display: block;
+      margin-top: 6px;
+      color: var(--navy);
       font-size: 17px;
       font-weight: 900;
     }
 
-    .definition-text {
-      margin-top: 8px;
-      color: var(--navy) !important;
-      font-weight: 700;
+    .about-api-updated {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 11px;
     }
 
-    .definition-note {
-      margin-top: 14px;
-      padding: 12px 14px;
-      border-left: 4px solid var(--indigo);
-      border-radius: 8px;
-      background: #f3f2ff;
-      color: var(--navy) !important;
-      font-weight: 700;
+    .about-explore-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .about-explore-card {
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      min-width: 0;
+      padding: 16px;
+      border: 1px solid #e0deed;
+      border-radius: 17px;
+      background: #fff;
+      color: inherit;
+      text-decoration: none;
+      transition: .18s ease;
+    }
+
+    .about-explore-card:hover {
+      border-color: #bdb6f3;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(58, 48, 130, .08);
+    }
+
+    .about-explore-icon {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--indigo-soft);
+      color: var(--indigo);
+      font-size: 19px;
+      font-weight: 900;
+    }
+
+    .about-explore-card strong {
+      display: block;
+      color: var(--navy);
+      font-size: 14px;
+    }
+
+    .about-explore-card small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .about-explore-arrow {
+      color: var(--indigo);
+      font-size: 20px;
+      font-weight: 900;
     }
 
     @media (max-width: 760px) {
-      .about-grid,
-      .about-summary,
-      .definition-grid {
-        grid-template-columns: 1fr;
+      .about-section {
+        margin-top: 34px;
+      }
+
+      .about-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .about-record-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .about-record-item:last-child {
+        grid-column: 1 / -1;
+      }
+
+      .about-definition-grid,
+      .about-update-grid,
+      .about-explore-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .about-action-panel {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .about-cta {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .about-summary {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .about-record-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .about-record-item:last-child {
+        grid-column: auto;
       }
     }
   </style>
 
-  <meta name="description" content="μ's Song Databaseの概要、データの集計方針、サイトについて紹介しています。">
+  <meta name="description" content="μ's Song Databaseの目的、収録範囲、集計方針、公式・ソロの区分、情報提供について紹介します。">
   <meta name="robots" content="index,follow,max-image-preview:large">
 
   <link rel="canonical" href="https://xenotopi.github.io/mus-song-database/about.html">
@@ -122,8 +425,8 @@
   <link rel="manifest" href="manifest.webmanifest">
 
   <meta property="og:site_name" content="μ's Song Database">
-  <meta property="og:title" content="About | μ's Song Database">
-  <meta property="og:description" content="μ's Song Databaseの概要、データの集計方針、サイトについて紹介しています。">
+  <meta property="og:title" content="μ's Song Databaseとは | μ's Song Database">
+  <meta property="og:description" content="μ'sの歌唱記録を辿るための非公式データベースについて紹介します。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://xenotopi.github.io/mus-song-database/about.html">
   <meta property="og:image" content="https://xenotopi.github.io/mus-song-database/assets/images/og-default.png">
@@ -132,170 +435,257 @@
   <meta property="og:locale" content="ja_JP">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="About | μ's Song Database">
-  <meta name="twitter:description" content="μ's Song Databaseの概要、データの集計方針、サイトについて紹介しています。">
+  <meta name="twitter:title" content="μ's Song Databaseとは | μ's Song Database">
+  <meta name="twitter:description" content="μ'sの歌唱記録を辿るための非公式データベースについて紹介します。">
   <meta name="twitter:image" content="https://xenotopi.github.io/mus-song-database/assets/images/og-default.png">
 
   <meta name="theme-color" content="#4f46e5">
 
-  <script src="assets/js/seo-v351.js?v=3.5.1" defer></script>
+  <script src="assets/js/seo-v351.js?v=3.5.2" defer></script>
 </head>
 
 <body>
   <div id="siteHeader"></div>
 
-  <main>
+  <main class="about-page">
     <div class="crumb">
-      ホーム › このサイトについて
+      <a href="index.html">ホーム</a> › このサイトについて
     </div>
 
-    <section class="hero">
-      <span class="badge">
-        ABOUT
-      </span>
-
-      <h1>
-        μ's Song Databaseについて
-      </h1>
-
+    <section class="hero about-hero">
+      <span class="badge">ABOUT THIS DATABASE</span>
+      <h1>μ's Song Databaseとは</h1>
       <p>
-        μ'sの公式・ソロイベントにおける
-        歌唱履歴を検索・分析する有志制作データベースです。
+        μ'sの楽曲が、いつ・どこで・誰に歌われたのか。<br>
+        歌唱記録を辿るための非公式データベースです。
       </p>
 
-      <div class="muse-line">
+      <div class="muse-line" aria-hidden="true">
         <i></i><i></i><i></i>
         <i></i><i></i><i></i>
         <i></i><i></i><i></i>
       </div>
     </section>
 
-    <div
-      class="status"
-      id="status"
-    >
-      データ概要を読み込んでいます…
-    </div>
+    <div class="about-content">
+      <section class="about-section" aria-labelledby="aboutSiteTitle">
+        <div class="about-section-head">
+          <p class="kicker">ABOUT THIS SITE</p>
+          <h2 id="aboutSiteTitle">このサイトについて</h2>
+        </div>
 
-    <section
-      id="aboutContent"
-      hidden
-    >
-      <div
-        class="about-summary"
-        id="aboutSummary"
-      ></div>
-
-      <div class="about-grid">
-        <article class="about-card definition-card">
-          <p class="kicker">
-            EVENT CLASSIFICATION
+        <div class="about-copy">
+          <p>
+            μ's Song Databaseは、μ'sの楽曲が「いつ・どこで・誰に歌われたのか」を記録し、その歴史をさまざまな角度から辿るためのデータベースです。
           </p>
+          <p>
+            楽曲、イベント、会場、歌唱名義を横断して、これまでの歌唱記録を検索・閲覧できます。
+          </p>
+          <p>
+            もともと個人で収集・整理してきた歌唱記録をもとに、より見やすく、記録同士のつながりを辿れる形としてWebサイト化しています。
+          </p>
+        </div>
 
-          <h2>
-            公式イベント・ソロイベントの定義
-          </h2>
+        <div class="about-note">
+          初回表示時など、データの読み込みに少し時間がかかる場合があります。
+        </div>
 
-          <div class="definition-grid">
-            <div class="definition-item">
-              <div class="definition-name">
-                公式イベント
-              </div>
+        <div class="status" id="status" role="status" aria-live="polite">
+          データ概要を読み込んでいます…
+        </div>
 
-              <p class="definition-text">
-                μ's名義、またはμ'sメンバーとして出演・歌唱したイベントです。
-              </p>
-            </div>
+        <div class="about-summary" id="aboutSummary" hidden></div>
+        <p class="about-coverage" id="coverageText" hidden></p>
+      </section>
 
-            <div class="definition-item">
-              <div class="definition-name">
-                ソロイベント
-              </div>
+      <section class="about-section" aria-labelledby="aboutRecordsTitle">
+        <div class="about-section-head">
+          <p class="kicker">RECORDED DATA</p>
+          <h2 id="aboutRecordsTitle">収録している記録</h2>
+        </div>
 
-              <p class="definition-text">
-                声優本人が個人名義・個人アーティスト名義で出演・歌唱したイベントです。
-              </p>
-            </div>
+        <div class="about-record-grid">
+          <div class="about-record-item"><span aria-hidden="true">♫</span>楽曲</div>
+          <div class="about-record-item"><span aria-hidden="true">♪</span>歌唱履歴</div>
+          <div class="about-record-item"><span aria-hidden="true">◷</span>イベント</div>
+          <div class="about-record-item"><span aria-hidden="true">⌖</span>会場</div>
+          <div class="about-record-item"><span aria-hidden="true">μ</span>歌唱名義</div>
+        </div>
+
+        <p class="about-record-detail">
+          各記録をもとに、初披露、最終披露、歌唱回数、最長ブランク、年別記録、各種ランキング・統計などを確認できます。通常のライブ・イベントに加え、TV番組等での歌唱を収録対象とする場合もあります。
+        </p>
+      </section>
+
+      <section class="about-section" aria-labelledby="aboutCategoryTitle">
+        <div class="about-section-head">
+          <p class="kicker">OFFICIAL / SOLO</p>
+          <h2 id="aboutCategoryTitle">「公式」と「ソロ」について</h2>
+        </div>
+
+        <div class="about-copy">
+          <p>
+            本データベースでは、μ'sとしての活動に関する記録と、キャスト個人の活動内でμ's楽曲が歌われた記録を区別して管理しています。
+          </p>
+        </div>
+
+        <div class="about-definition-grid">
+          <article class="about-definition">
+            <div class="about-definition-label">公式</div>
+            <p>μ'sおよびラブライブ！関連の公式イベント等における歌唱記録を中心に扱います。</p>
+          </article>
+
+          <article class="about-definition">
+            <div class="about-definition-label">ソロ</div>
+            <p>キャスト個人のライブやイベント等でμ's楽曲が歌われた記録を扱います。</p>
+          </article>
+        </div>
+
+        <div class="about-copy about-copy-spaced">
+          <p>
+            両者を分けることで、μ'sとしての活動記録と、その後もキャストによって歌い継がれてきた記録を、それぞれの文脈で確認できるようにしています。
+          </p>
+          <p>
+            一方で、検索・統計など一部機能では両方の記録を横断して確認できます。
+          </p>
+        </div>
+      </section>
+
+      <section class="about-section" aria-labelledby="aboutPolicyTitle">
+        <div class="about-section-head">
+          <p class="kicker">DATA POLICY</p>
+          <h2 id="aboutPolicyTitle">集計・データの考え方</h2>
+        </div>
+
+        <ul class="about-point-list">
+          <li>歌唱記録は、基本的に公演・歌唱単位の記録をもとに集計しています。</li>
+          <li>同一イベントでも、Dayや昼／夜など別公演の場合は、それぞれの記録として扱う場合があります。</li>
+          <li>歌唱回数と歌唱曲数（ユニーク曲数）は、別の指標として扱います。</li>
+          <li>曲、イベント、会場などは、内部的にIDを基準として管理しています。</li>
+          <li>サイト上の分類には、閲覧・分析のための独自分類を含みます。</li>
+        </ul>
+      </section>
+
+      <section class="about-section" aria-labelledby="aboutDataTitle">
+        <div class="about-section-head">
+          <p class="kicker">ABOUT THE DATA</p>
+          <h2 id="aboutDataTitle">データについて</h2>
+        </div>
+
+        <div class="about-copy">
+          <p>
+            掲載データは、公開されている情報や各種資料などをもとに、個人で収集・整理したものです。
+          </p>
+          <p>
+            可能な限り正確な記録を目指していますが、情報の不足、記録漏れ、表記の誤りなどが含まれる可能性があります。
+          </p>
+          <p>
+            情報の追加・訂正に伴い、歌唱回数やランキング、統計値などが変更される場合があります。
+          </p>
+        </div>
+      </section>
+
+      <section class="about-section" aria-labelledby="aboutFeedbackTitle">
+        <div class="about-section-head">
+          <p class="kicker">FEEDBACK</p>
+          <h2 id="aboutFeedbackTitle">情報提供・訂正について</h2>
+        </div>
+
+        <div class="about-action-panel">
+          <div>
+            <p>掲載内容に誤りや不足している記録を見つけた場合は、情報提供・訂正フォームからお知らせください。</p>
+            <p>内容を確認のうえ、必要に応じてデータの追加・訂正を行います。</p>
           </div>
 
-          <p class="definition-note">
-            区分はイベントの主催者や規模ではなく、どの名義で出演・歌唱したかを基準にしています。
-          </p>
-        </article>
+          <a
+            class="about-cta"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSdTfw1VIig4-xEkp7v8pq58RMPALgX6mliUXkxEkC31PHXbVA/viewform?usp=publish-editor"
+            target="_blank"
+            rel="noopener noreferrer external"
+            aria-label="外部サイトの情報提供・訂正フォームを新しいタブで開く"
+          >
+            情報提供・訂正フォームを開く
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
 
-        <article class="about-card">
-          <p class="kicker">
-            PURPOSE
-          </p>
+      <section class="about-section" aria-labelledby="aboutRightsTitle">
+        <div class="about-section-head">
+          <p class="kicker">NOTICE</p>
+          <h2 id="aboutRightsTitle">非公式サイト・権利について</h2>
+        </div>
 
-          <h2>
-            このサイトの目的
-          </h2>
+        <div class="about-rights">
+          「本サイトはファン個人による非公式・非営利のデータベースです。公式および関係各社とは一切関係ありません。掲載している作品名・楽曲名・人物名等の権利は、それぞれの権利者に帰属します。」
+        </div>
+      </section>
 
-          <p>
-            楽曲、イベント、会場を相互にたどりながら、
-            μ'sの歌唱の歴史を眺め、発見を楽しむためのサイトです。
-          </p>
-        </article>
+      <section class="about-section" aria-labelledby="aboutUpdateTitle">
+        <div class="about-section-head">
+          <p class="kicker">UPDATE</p>
+          <h2 id="aboutUpdateTitle">更新について</h2>
+        </div>
 
-        <article class="about-card">
-          <p class="kicker">
-            DATA POLICY
-          </p>
+        <div class="about-update-grid">
+          <div class="about-update-item">
+            <span>VERSION</span>
+            <strong data-site-version>Web versionを確認しています…</strong>
+          </div>
 
-          <h2>
-            データの扱い
-          </h2>
+          <div class="about-update-item">
+            <span>最終更新</span>
+            <time id="aboutLastUpdated">確認しています…</time>
+          </div>
+        </div>
 
-          <p>
-            出演・歌唱時の名義を基準に、公式イベントとソロイベントを
-            区分して管理しています。表示名とは別に、曲・イベント・会場の
-            内部IDを用いてデータを関連付けています。
-          </p>
-        </article>
+        <p class="about-api-updated" id="aboutApiUpdated"></p>
+        <p class="about-record-detail">
+          データは随時追加・訂正され、掲載件数やランキング、統計値が更新される場合があります。
+        </p>
+      </section>
 
-        <article class="about-card">
-          <p class="kicker">
-            NOTICE
-          </p>
+      <section class="about-section" aria-labelledby="aboutExploreTitle">
+        <div class="about-section-head">
+          <p class="kicker">EXPLORE μ's HISTORY</p>
+          <h2 id="aboutExploreTitle">記録を巡る</h2>
+        </div>
 
-          <h2>
-            ご注意
-          </h2>
+        <div class="about-explore-grid">
+          <a class="about-explore-card" href="songs.html">
+            <span class="about-explore-icon" aria-hidden="true">♫</span>
+            <span><strong>曲から巡る</strong><small>楽曲ごとの歌唱履歴を見る</small></span>
+            <span class="about-explore-arrow" aria-hidden="true">→</span>
+          </a>
 
-          <p>
-            本サイトは有志による非公式データベースです。
-            掲載情報は公式発表や記録をもとに整理していますが、
-            完全性を保証するものではありません。
-          </p>
-        </article>
+          <a class="about-explore-card" href="events.html">
+            <span class="about-explore-icon" aria-hidden="true">◷</span>
+            <span><strong>イベントから巡る</strong><small>開催順に歌唱の歴史を辿る</small></span>
+            <span class="about-explore-arrow" aria-hidden="true">→</span>
+          </a>
 
-        <article class="about-card">
-          <p class="kicker">
-            COVERAGE
-          </p>
+          <a class="about-explore-card" href="venues.html">
+            <span class="about-explore-icon" aria-hidden="true">⌖</span>
+            <span><strong>会場から巡る</strong><small>歌唱が行われた場所から探す</small></span>
+            <span class="about-explore-arrow" aria-hidden="true">→</span>
+          </a>
 
-          <h2>
-            収録期間
-          </h2>
-
-          <p id="coverageText">
-            —
-          </p>
-
-          <p id="updatedText">
-            —
-          </p>
-        </article>
-      </div>
-    </section>
+          <a class="about-explore-card" href="singers.html">
+            <span class="about-explore-icon" aria-hidden="true">♪</span>
+            <span><strong>歌唱名義から巡る</strong><small>メンバーや組み合わせから探す</small></span>
+            <span class="about-explore-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </section>
+    </div>
   </main>
 
   <div id="siteFooter"></div>
 
   <script
     type="module"
-    src="assets/js/about.js?v=2.7.0"
+    src="assets/js/about.js?v=4.7.1"
   ></script>
 </body>
 </html>
+

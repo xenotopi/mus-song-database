@@ -55,19 +55,20 @@
 
     .about-copy {
       display: grid;
-      gap: 12px;
-      max-width: 850px;
+      gap: 8px;
+      max-width: 840px;
     }
 
     .about-copy p {
       margin: 0;
-      color: #4f596c;
-      font-size: 14px;
-      line-height: 2;
+      color: #3f4758;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.85;
     }
 
     .about-copy-spaced {
-      margin-top: 16px;
+      margin-top: 14px;
     }
 
     .about-note {
@@ -149,10 +150,12 @@
     }
 
     .about-record-detail {
-      margin: 16px 0 0;
-      color: #4f596c;
+      max-width: 840px;
+      margin: 14px 0 0;
+      color: #3f4758;
       font-size: 14px;
-      line-height: 1.9;
+      font-weight: 500;
+      line-height: 1.85;
     }
 
     .about-definition-grid {
@@ -178,37 +181,37 @@
 
     .about-definition p {
       margin: 9px 0 0;
-      color: #4f596c;
-      font-size: 13px;
+      color: #3f4758;
+      font-size: 14px;
+      font-weight: 500;
       line-height: 1.85;
     }
 
     .about-point-list {
       display: grid;
-      gap: 0;
+      gap: 2px;
       margin: 0;
-      padding: 0;
-      border-block: 1px solid var(--line);
+      padding: 10px 18px;
+      border: 1px solid #e0deed;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #fff, #faf9ff);
+      box-shadow: 0 8px 24px rgba(38, 39, 77, .04);
       list-style: none;
     }
 
     .about-point-list li {
       position: relative;
-      padding: 14px 10px 14px 30px;
-      border-bottom: 1px solid var(--line);
-      color: #4f596c;
-      font-size: 13px;
-      line-height: 1.75;
-    }
-
-    .about-point-list li:last-child {
-      border-bottom: 0;
+      padding: 10px 8px 10px 30px;
+      color: #3f4758;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.8;
     }
 
     .about-point-list li::before {
       content: "";
       position: absolute;
-      top: 23px;
+      top: 19px;
       left: 8px;
       width: 8px;
       height: 8px;
@@ -231,8 +234,9 @@
 
     .about-action-panel p {
       margin: 0;
-      color: #4f596c;
-      font-size: 13px;
+      color: #3f4758;
+      font-size: 14px;
+      font-weight: 500;
       line-height: 1.85;
     }
 
@@ -263,13 +267,15 @@
     }
 
     .about-rights {
+      max-width: 840px;
       padding: 18px 20px;
       border: 1px solid var(--line);
       border-radius: 16px;
       background: #fff;
-      color: #4f596c;
-      font-size: 13px;
-      line-height: 1.9;
+      color: #3f4758;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.85;
     }
 
     .about-update-grid {
@@ -395,6 +401,10 @@
         grid-template-columns: minmax(0, 1fr);
       }
 
+      .about-point-list {
+        padding: 8px 12px;
+      }
+
       .about-cta {
         width: 100%;
       }
@@ -509,7 +519,7 @@
           <div class="about-record-item"><span aria-hidden="true">♪</span>歌唱履歴</div>
           <div class="about-record-item"><span aria-hidden="true">◷</span>イベント</div>
           <div class="about-record-item"><span aria-hidden="true">⌖</span>会場</div>
-          <div class="about-record-item"><span aria-hidden="true">μ</span>歌唱名義</div>
+          <div class="about-record-item"><span aria-hidden="true">👥</span>歌唱名義</div>
         </div>
 
         <p class="about-record-detail">
@@ -617,7 +627,7 @@
         </div>
 
         <div class="about-rights">
-          「本サイトはファン個人による非公式・非営利のデータベースです。公式および関係各社とは一切関係ありません。掲載している作品名・楽曲名・人物名等の権利は、それぞれの権利者に帰属します。」
+          本サイトはファン個人による非公式・非営利のデータベースです。公式および関係各社とは一切関係ありません。掲載している作品名・楽曲名・人物名等の権利は、それぞれの権利者に帰属します。
         </div>
       </section>
 
@@ -671,7 +681,7 @@
           </a>
 
           <a class="about-explore-card" href="singers.html">
-            <span class="about-explore-icon" aria-hidden="true">♪</span>
+            <span class="about-explore-icon" aria-hidden="true">👥</span>
             <span><strong>歌唱名義から巡る</strong><small>メンバーや組み合わせから探す</small></span>
             <span class="about-explore-arrow" aria-hidden="true">→</span>
           </a>
@@ -688,4 +698,3 @@
   ></script>
 </body>
 </html>
-

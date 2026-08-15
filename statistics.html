@@ -15,359 +15,6 @@
   >
 
   <style>
-    .stat-controls {
-      margin-top: 18px;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .stat-control,
-    .chart-mode-button {
-      padding: 9px 15px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
-      color: var(--navy);
-      font-weight: 900;
-      cursor: pointer;
-    }
-
-    .stat-control.active,
-    .chart-mode-button.active {
-      border-color: var(--indigo);
-      background: var(--indigo);
-      color: #fff;
-    }
-
-    .stat-summary {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .stat-summary-card,
-    .stat-chart-card,
-    .stat-comparison-card,
-    .stat-table-card {
-      border: 1px solid var(--line);
-      background: #fff;
-      box-shadow: var(--shadow);
-    }
-
-    .stat-summary-card {
-      padding: 17px 18px;
-      border-radius: 17px;
-    }
-
-    .stat-summary-label {
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    .stat-summary-value {
-      margin-top: 7px;
-      color: var(--indigo);
-      font-size: 30px;
-      font-weight: 900;
-      line-height: 1.15;
-    }
-
-    .stat-summary-note {
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.6;
-    }
-
-    .stat-chart-card,
-    .stat-comparison-card,
-    .stat-table-card {
-      margin-top: 18px;
-      padding: 22px;
-      border-radius: 20px;
-    }
-
-    .stat-chart-heading {
-      display: flex;
-      justify-content: space-between;
-      gap: 14px;
-      align-items: end;
-    }
-
-    .chart-mode-list {
-      display: flex;
-      gap: 7px;
-      flex-wrap: wrap;
-    }
-
-    .stat-chart-guide {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.7;
-    }
-
-    .chart-container {
-      position: relative;
-      margin-top: 20px;
-      height: 430px;
-    }
-
-    .comparison-grid {
-      margin-top: 16px;
-      display: grid;
-      grid-template-columns:
-        minmax(0, 1.4fr)
-        minmax(280px, .6fr);
-      gap: 18px;
-      align-items: center;
-    }
-
-    .comparison-chart-container {
-      position: relative;
-      min-height: 340px;
-    }
-
-    .comparison-cards {
-      display: grid;
-      gap: 12px;
-    }
-
-    .comparison-card {
-      padding: 16px;
-      border: 1px solid var(--line);
-      border-radius: 15px;
-      background: #fafaff;
-    }
-
-    .comparison-card-label {
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 900;
-    }
-
-    .comparison-card-value {
-      margin-top: 6px;
-      color: var(--indigo);
-      font-size: 27px;
-      font-weight: 900;
-    }
-
-    .comparison-card-note {
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    .stat-fallback {
-      margin-top: 16px;
-      overflow-x: auto;
-    }
-
-    .stat-fallback table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 620px;
-    }
-
-    .stat-fallback th,
-    .stat-fallback td {
-      padding: 11px 10px;
-      border-bottom: 1px solid var(--line);
-      text-align: right;
-      font-size: 12px;
-    }
-
-    .stat-fallback th:first-child,
-    .stat-fallback td:first-child {
-      text-align: left;
-    }
-
-    .stat-fallback th {
-      color: var(--muted);
-      font-size: 10px;
-      font-weight: 900;
-    }
-
-    .chart-error {
-      margin-top: 18px;
-      padding: 14px 16px;
-      border: 1px solid #f1c1cb;
-      border-radius: 14px;
-      background: #fff5f7;
-      color: #9b2945;
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    @media (max-width: 900px) {
-      .comparison-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 760px) {
-      .stat-summary {
-        grid-template-columns: 1fr;
-      }
-
-      .stat-chart-card,
-      .stat-comparison-card,
-      .stat-table-card {
-        padding: 17px 14px;
-      }
-
-      .stat-chart-heading {
-        align-items: start;
-        flex-direction: column;
-      }
-
-      .chart-container {
-        height: 360px;
-      }
-    }
-  
-    .chart-scroll {
-      width: 100%;
-      overflow-x: auto;
-      overflow-y: hidden;
-      overscroll-behavior-inline: contain;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: thin;
-      scrollbar-color:
-        rgba(79, 70, 229, .35)
-        transparent;
-    }
-
-    .chart-scroll::-webkit-scrollbar {
-      height: 7px;
-    }
-
-    .chart-scroll::-webkit-scrollbar-thumb {
-      border-radius: 999px;
-      background:
-        rgba(79, 70, 229, .35);
-    }
-
-    .chart-scroll::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .chart-swipe-guide {
-      display: none;
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 10px;
-      font-weight: 800;
-      text-align: right;
-    }
-
-    @media (max-width: 760px) {
-      .stat-controls {
-        margin-inline:
-          -14px;
-        padding-inline:
-          14px;
-        flex-wrap:
-          nowrap;
-        overflow-x:
-          auto;
-        scrollbar-width:
-          none;
-      }
-
-      .stat-controls::-webkit-scrollbar {
-        display:
-          none;
-      }
-
-      .stat-control {
-        flex:
-          0 0 auto;
-        white-space:
-          nowrap;
-      }
-
-      .chart-mode-list {
-        width:
-          100%;
-        display:
-          grid;
-        grid-template-columns:
-          repeat(2, minmax(0, 1fr));
-      }
-
-      .chart-mode-button {
-        width:
-          100%;
-      }
-
-      .chart-scroll {
-        margin-inline:
-          -2px;
-        padding-bottom:
-          7px;
-      }
-
-      .chart-container,
-      .comparison-chart-container {
-        width:
-          760px;
-        min-width:
-          760px;
-      }
-
-      .chart-container {
-        height:
-          350px;
-      }
-
-      .comparison-chart-container {
-        min-height:
-          330px;
-      }
-
-      .chart-swipe-guide {
-        display:
-          block;
-      }
-
-      .stat-chart-guide {
-        font-size:
-          10px;
-      }
-
-      .stat-fallback {
-        margin-inline:
-          -4px;
-      }
-    }
-
-    @media (max-width: 420px) {
-      .chart-container,
-      .comparison-chart-container {
-        width:
-          700px;
-        min-width:
-          700px;
-      }
-
-      .chart-container {
-        height:
-          330px;
-      }
-
-      .comparison-chart-container {
-        min-height:
-          310px;
-      }
-    }
-
-  
     /* STEP16-B statistics redesign */
     .stats-page{width:min(1120px,calc(100% - 32px));margin:0 auto;padding:28px 0 70px}
     .stats-hero{padding:34px 30px;border-radius:24px;background:radial-gradient(circle at 85% 20%,rgba(255,255,255,.18),transparent 25%),linear-gradient(135deg,#312e81,#5b4bd3 58%,#7566ec);color:#fff;box-shadow:0 18px 40px rgba(49,46,129,.18)}
@@ -390,7 +37,6 @@
     .stats-metric-tabs::-webkit-scrollbar{display:none}
     .stats-metric-button{flex:0 0 auto;min-height:36px;padding:0 13px;border:1px solid #ddd9ef;border-radius:999px;background:#fff;color:#566074;font-size:10px;font-weight:900;cursor:pointer}
     .stats-metric-button.active{border-color:var(--indigo);background:var(--indigo);color:#fff}
-    .stats-chart-wrap{position:relative;height:360px;margin-top:15px}
     .stats-chart-note{margin:10px 0 0;color:#7a8190;font-size:10px;line-height:1.65}
     .stats-grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
     .stats-ranking-card,.stats-composition-card{padding:19px}
@@ -430,348 +76,300 @@
       .stats-overview-card{padding:15px 13px}
       .stats-overview-value{font-size:22px}
       .stats-chart-card{padding:14px}
-      .stats-chart-wrap{height:300px;overflow-x:auto}
-      .stats-chart-wrap canvas{min-width:650px}
       .stats-discovery-grid{grid-template-columns:1fr}
       .stats-ranking-card,.stats-composition-card{padding:15px}
       .stats-composition-row{grid-template-columns:68px minmax(0,1fr) 48px}
     }
 
-    /* STEP16-B FIX: hero / comparison / mobile chart */
-    .stats-hero{
-      position:relative;
-      overflow:hidden;
-      padding:34px 30px 31px;
-      border-radius:24px;
-      background:linear-gradient(110deg,#17213f 0%,#2d376c 42%,#5148c9 100%)!important;
-      box-shadow:0 18px 40px rgba(29,38,77,.15);
-    }
-    .stats-hero::after{
-      content:"";
-      position:absolute;
-      left:28px;
-      right:28px;
-      bottom:14px;
-      height:4px;
-      border-radius:999px;
-      background:linear-gradient(90deg,
-        #ff8a32 0 11%,
-        #5ac8df 11% 22%,
-        #c6c6c6 22% 33%,
-        #2d66b1 33% 44%,
-        #f2c236 44% 55%,
-        #e94262 55% 66%,
-        #7b4ab4 66% 77%,
-        #55ad53 77% 88%,
-        #ef6aa6 88% 100%);
-    }
-    .stats-hero .badge{
-      background:rgba(255,255,255,.12);
-    }
-    .stats-hero-summary{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:19px;
-      padding-bottom:12px;
-    }
-    .stats-hero-chip{
-      min-height:32px;
-      padding:0 11px;
-      display:inline-flex;
-      align-items:center;
-      border:1px solid rgba(255,255,255,.28);
-      border-radius:999px;
-      background:rgba(255,255,255,.08);
-      color:#fff;
-      font-size:10px;
-      font-weight:900;
-    }
-
-    .stats-comparison-grid{
-      display:grid;
-      grid-template-columns:minmax(0,1fr) minmax(280px,.72fr);
-      gap:14px;
-    }
-    .stats-comparison-chart{
-      padding:20px;
-    }
-    .stats-comparison-canvas{
-      position:relative;
-      height:320px;
-    }
-    .stats-comparison-summary{
-      padding:20px;
-    }
-    .stats-comparison-total{
-      display:grid;
-      gap:13px;
-    }
-    .stats-comparison-item{
-      padding:14px;
-      border:1px solid #ebe8f5;
-      border-radius:14px;
-      background:#fbfaff;
-    }
-    .stats-comparison-item-label{
-      color:#697286;
-      font-size:10px;
-      font-weight:900;
-    }
-    .stats-comparison-item-value{
-      margin-top:5px;
-      color:var(--navy);
-      font-size:24px;
-      font-weight:900;
-    }
-    .stats-comparison-item.official .stats-comparison-item-value{color:#574ee0}
-    .stats-comparison-item.solo .stats-comparison-item-value{color:#df5a91}
-    .stats-comparison-note{
-      margin:12px 0 0;
-      color:#7a8190;
-      font-size:10px;
-      line-height:1.65;
-    }
-
-    @media(max-width:900px){
-      .stats-comparison-grid{grid-template-columns:1fr}
-    }
-
-    @media(max-width:620px){
-      .stats-hero{
-        padding:25px 20px 30px;
-      }
-      .stats-hero::after{
-        left:20px;
-        right:20px;
-        bottom:12px;
-      }
-      .stats-hero-summary{
-        margin-top:16px;
-      }
-
-      /* 横軸の年が潰れないよう、スマホではグラフ自体を横スクロール */
-      .stats-chart-wrap{
-        height:310px;
-        overflow-x:auto;
-        overflow-y:hidden;
-        -webkit-overflow-scrolling:touch;
-      }
-      .stats-chart-inner{
-        position:relative;
-        width:760px;
-        height:300px;
-      }
-      .stats-chart-wrap canvas{
-        min-width:0!important;
-        width:760px!important;
-        max-width:none!important;
-      }
-      .stats-comparison-canvas{
-        height:290px;
-      }
-    }
-
-    /* STEP16-B chart stability fix */
-    .stats-chart-wrap{
-      position:relative;
-      height:360px!important;
-      overflow:visible;
-    }
-    .stats-chart-inner{
-      position:relative;
-      width:100%;
-      height:100%;
-      min-width:0;
-    }
-    .stats-chart-inner canvas{
-      display:block!important;
-      width:100%!important;
-      height:100%!important;
-      min-width:0!important;
-      max-width:100%!important;
-    }
-
-    .stats-comparison-canvas{
-      position:relative;
-      height:320px!important;
-      overflow:visible;
-    }
-    .stats-comparison-inner{
-      position:relative;
-      width:100%;
-      height:100%;
-      min-width:0;
-    }
-    .stats-comparison-inner canvas{
-      display:block!important;
-      width:100%!important;
-      height:100%!important;
-      min-width:0!important;
-      max-width:100%!important;
-    }
-
-    @media(max-width:620px){
-      .stats-chart-wrap,
-      .stats-comparison-canvas{
-        overflow-x:auto!important;
-        overflow-y:hidden!important;
-        -webkit-overflow-scrolling:touch;
-        padding-bottom:5px;
-      }
-
-      .stats-chart-wrap{
-        height:315px!important;
-      }
-      .stats-chart-inner{
-        width:100%!important;
-        height:300px!important;
-        min-width:100%!important;
-      }
-      .stats-chart-inner canvas{
-        width:100%!important;
-        max-width:none!important;
-        height:300px!important;
-      }
-
-      .stats-comparison-canvas{
-        height:300px!important;
-      }
-      .stats-comparison-inner{
-        width:100%!important;
-        height:285px!important;
-        min-width:100%!important;
-      }
-      .stats-comparison-inner canvas{
-        width:100%!important;
-        max-width:none!important;
-        height:285px!important;
-      }
-    }
-
-    /* STEP16-B graph UX final */
-    .stats-chart-mode-tabs{
-      display:flex;
-      gap:7px;
-      margin-top:10px;
-    }
-    .stats-chart-mode-button{
-      min-height:34px;
-      padding:0 12px;
-      border:1px solid #ddd9ef;
-      border-radius:999px;
-      background:#fff;
-      color:#566074;
-      font-size:10px;
-      font-weight:900;
-      cursor:pointer;
-    }
-    .stats-chart-mode-button.active{
-      border-color:var(--indigo);
-      background:var(--indigo-soft);
-      color:var(--indigo);
-    }
-
-    .stats-chart-wrap,
-    .stats-comparison-canvas{
-      overflow-x:auto!important;
-      overflow-y:hidden!important;
-      -webkit-overflow-scrolling:touch;
-    }
-    .stats-chart-inner,
-    .stats-comparison-inner{
-      height:100%;
-    }
-
-    @media(min-width:621px){
-      .stats-chart-wrap{height:330px!important}
-      .stats-chart-inner{width:100%!important;min-width:0!important;height:320px!important}
-      .stats-chart-inner canvas{width:100%!important;height:320px!important;max-width:100%!important}
-      .stats-comparison-canvas{height:300px!important}
-      .stats-comparison-inner{width:100%!important;min-width:0!important;height:290px!important}
-      .stats-comparison-inner canvas{width:100%!important;height:290px!important;max-width:100%!important}
-    }
-
-    @media(max-width:620px){
-      .stats-chart-wrap{height:305px!important}
-      .stats-chart-inner{
-        width:100%!important;
-        min-width:0!important;
-        height:290px!important;
-      }
-      .stats-chart-inner canvas{
-        width:100%!important;
-        max-width:none!important;
-        height:290px!important;
-      }
-
-      .stats-comparison-canvas{height:285px!important}
-      .stats-comparison-inner{
-        width:100%!important;
-        min-width:0!important;
-        height:270px!important;
-      }
-      .stats-comparison-inner canvas{
-        width:100%!important;
-        max-width:none!important;
-        height:270px!important;
-      }
-
-      .stats-chart-mode-tabs{
-        margin-top:8px;
-      }
-    }
-
-    /* STEP16-B mobile chart final */
+    /* STEP16-B: hero, comparison, and responsive charts */
+    .stats-page,
+    .stats-section,
     .stats-grid-2,
     .stats-comparison-grid,
     .stats-card,
     .stats-chart-card,
     .stats-comparison-chart,
-    .stats-comparison-summary{
-      min-width:0!important;
-      max-width:100%;
+    .stats-comparison-summary {
+      max-width: 100%;
+      min-width: 0;
+    }
+
+    .stats-page *,
+    .stats-page *::before,
+    .stats-page *::after {
+      box-sizing: border-box;
+    }
+
+    .stats-hero {
+      position: relative;
+      overflow: hidden;
+      padding: 34px 30px 31px;
+      background:
+        linear-gradient(
+          110deg,
+          #17213f 0%,
+          #2d376c 42%,
+          #5148c9 100%
+        );
+      box-shadow: 0 18px 40px rgba(29, 38, 77, .15);
+    }
+
+    .stats-hero::after {
+      content: "";
+      position: absolute;
+      right: 28px;
+      bottom: 14px;
+      left: 28px;
+      height: 4px;
+      border-radius: 999px;
+      background:
+        linear-gradient(
+          90deg,
+          #ff8a32 0 11%,
+          #5ac8df 11% 22%,
+          #c6c6c6 22% 33%,
+          #2d66b1 33% 44%,
+          #f2c236 44% 55%,
+          #e94262 55% 66%,
+          #7b4ab4 66% 77%,
+          #55ad53 77% 88%,
+          #ef6aa6 88% 100%
+        );
+    }
+
+    .stats-hero .badge {
+      background: rgba(255, 255, 255, .12);
+    }
+
+    .stats-hero-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 19px;
+      padding-bottom: 12px;
+    }
+
+    .stats-hero-chip {
+      display: inline-flex;
+      min-height: 32px;
+      align-items: center;
+      padding: 0 11px;
+      border: 1px solid rgba(255, 255, 255, .28);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .08);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .stats-grid-2 > *,
+    .stats-comparison-grid > * {
+      min-width: 0;
+    }
+
+    .stats-chart-mode-tabs {
+      display: flex;
+      gap: 7px;
+      margin-top: 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .stats-chart-mode-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .stats-chart-mode-button {
+      flex: 0 0 auto;
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid #ddd9ef;
+      border-radius: 999px;
+      background: #fff;
+      color: #566074;
+      font-size: 10px;
+      font-weight: 900;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .stats-chart-mode-button.active {
+      border-color: var(--indigo);
+      background: var(--indigo-soft);
+      color: var(--indigo);
     }
 
     .stats-chart-wrap,
-    .stats-comparison-canvas{
-      width:100%!important;
-      max-width:100%!important;
-      overflow:hidden!important;
-      contain:layout inline-size paint;
+    .stats-comparison-canvas {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      contain: layout paint;
+    }
+
+    .stats-chart-wrap {
+      height: 330px;
+      margin-top: 15px;
+    }
+
+    .stats-comparison-canvas {
+      height: 300px;
     }
 
     .stats-chart-inner,
-    .stats-comparison-inner{
-      width:100%!important;
-      min-width:0!important;
-      max-width:100%!important;
+    .stats-comparison-inner {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      height: 100%;
+      min-width: 0;
     }
 
     .stats-chart-inner canvas,
-    .stats-comparison-inner canvas{
-      display:block!important;
-      width:100%!important;
-      min-width:0!important;
-      max-width:100%!important;
+    .stats-comparison-inner canvas {
+      display: block;
+      max-width: 100%;
     }
 
-    @media(max-width:620px){
-      .stats-chart-wrap{height:290px!important}
-      .stats-chart-inner{height:280px!important}
-      .stats-chart-inner canvas{height:280px!important}
+    .stats-comparison-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, .72fr);
+      gap: 14px;
+    }
 
-      .stats-comparison-canvas{height:275px!important}
-      .stats-comparison-inner{height:265px!important}
-      .stats-comparison-inner canvas{height:265px!important}
+    .stats-comparison-chart,
+    .stats-comparison-summary {
+      padding: 20px;
+    }
 
-      .stats-comparison-grid{
-        width:100%!important;
-        max-width:100%!important;
-        overflow:hidden!important;
+    .stats-comparison-total {
+      display: grid;
+      gap: 13px;
+    }
+
+    .stats-comparison-item {
+      padding: 14px;
+      border: 1px solid #ebe8f5;
+      border-radius: 14px;
+      background: #fbfaff;
+    }
+
+    .stats-comparison-item-label {
+      color: #697286;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .stats-comparison-item-value {
+      margin-top: 5px;
+      color: var(--navy);
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .stats-comparison-item.official .stats-comparison-item-value {
+      color: #574ee0;
+    }
+
+    .stats-comparison-item.solo .stats-comparison-item-value {
+      color: #df5a91;
+    }
+
+    .stats-comparison-note {
+      margin: 12px 0 0;
+      color: #7a8190;
+      font-size: 10px;
+      line-height: 1.65;
+    }
+
+    .stats-rank-row > span:nth-child(2) {
+      min-width: 0;
+    }
+
+    .stats-rank-name,
+    .stats-rank-meta {
+      display: block;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 900px) {
+      .stats-comparison-grid {
+        grid-template-columns: minmax(0, 1fr);
       }
-      .stats-comparison-summary{
-        width:auto!important;
+    }
+
+    @media (max-width: 620px) {
+      .stats-hero {
+        padding: 25px 20px 30px;
+      }
+
+      .stats-hero::after {
+        right: 20px;
+        bottom: 12px;
+        left: 20px;
+      }
+
+      .stats-hero-summary {
+        margin-top: 16px;
+      }
+
+      .stats-chart-mode-tabs {
+        margin-top: 8px;
+      }
+
+      .stats-chart-wrap,
+      .stats-comparison-canvas {
+        overflow-x: auto;
+        overflow-y: hidden;
+        overscroll-behavior-inline: contain;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(79, 70, 229, .35) transparent;
+      }
+
+      .stats-chart-wrap {
+        height: 315px;
+      }
+
+      .stats-comparison-canvas {
+        height: 300px;
+      }
+
+      .stats-chart-inner,
+      .stats-comparison-inner {
+        width: 780px;
+        max-width: none;
+        min-width: 780px;
+      }
+
+      .stats-chart-inner {
+        height: 300px;
+      }
+
+      .stats-comparison-inner {
+        height: 285px;
+      }
+
+      .stats-chart-wrap::-webkit-scrollbar,
+      .stats-comparison-canvas::-webkit-scrollbar {
+        height: 7px;
+      }
+
+      .stats-chart-wrap::-webkit-scrollbar-thumb,
+      .stats-comparison-canvas::-webkit-scrollbar-thumb {
+        border-radius: 999px;
+        background: rgba(79, 70, 229, .35);
+      }
+
+      .stats-chart-wrap::-webkit-scrollbar-track,
+      .stats-comparison-canvas::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .stats-comparison-chart,
+      .stats-comparison-summary {
+        padding: 15px;
       }
     }
 </style>

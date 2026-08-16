@@ -6,7 +6,7 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=4.5.3";
+} from "./common.js?v=4.8.0";
 
 import {
   getBirthdaysForDate

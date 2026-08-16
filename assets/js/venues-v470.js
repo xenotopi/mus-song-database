@@ -6,7 +6,7 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=4.6.2";
+} from "./common.js?v=4.8.0";
 
 renderCommon("venue");
 

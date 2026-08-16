@@ -1,11 +1,16 @@
 import {
   apiGet,
-  escapeHtml
+  escapeHtml,
+  formatDate
 } from "./api.js?v=2.7.0";
+
+import {
+  buildSingerUrl
+} from "./singer-links.js?v=4.8.0";
 
 const SITE_METADATA = Object.freeze({
   version:
-    "Web v4.7.0"
+    "Web v4.8.0"
 });
 
 /**
@@ -428,6 +433,7 @@ function setupGlobalSearch_() {
             type: "歌唱名義",
             className: "singer",
             title:
+              item.displayName ||
               item.singerName ||
               "歌唱名義未設定",
             meta: [
@@ -435,15 +441,8 @@ function setupGlobalSearch_() {
               `曲 ${Number(item.songCount || 0)}曲`,
               `イベント ${Number(item.eventCount || 0)}件`,
             ].filter(Boolean).join("｜"),
-            href: (() => {
-              const title = item.singerName || "";
-              const soloNames = [
-                "新田恵海", "南條愛乃", "内田彩", "三森すずこ", "飯田里穂",
-                "Pile", "楠田亜衣奈", "久保ユリカ", "徳井青空"
-              ];
-              const category = item.category || (soloNames.includes(title) ? "ソロ" : "公式");
-              return `singer.html?name=${encodeURIComponent(title)}&category=${encodeURIComponent(category)}`;
-            })(),
+            href:
+              buildSingerUrl(item),
           });
         }
       );
@@ -484,7 +483,9 @@ function setupGlobalSearch_() {
               "イベント名未設定",
             meta: [
               buildAliasMeta(item),
-              item.date,
+              item.date
+                ? formatDate(item.date)
+                : "",
               item.category,
               item.eventType,
             ].filter(Boolean).join("｜"),
@@ -1602,4 +1603,3 @@ function setupBackToTop_() {
 
   updateVisibility();
 }
-

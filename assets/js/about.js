@@ -6,7 +6,7 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=4.7.1";
+} from "./common.js?v=4.8.0";
 
 
 renderCommon("about");
@@ -211,4 +211,3 @@ async function loadAboutSummary() {
 
 formatPageUpdated();
 loadAboutSummary();
-

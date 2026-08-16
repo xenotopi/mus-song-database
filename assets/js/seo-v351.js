@@ -260,6 +260,26 @@
           canonical
         };
 
+      case "singer.html":
+        if (!entityName) {
+          return null;
+        }
+
+        return {
+          title:
+            `${entityName} | ${SITE_NAME}`,
+
+          description:
+            truncate(
+              `「${entityName}」の歌唱回数、歌唱曲、出演イベント、歌唱履歴を掲載しています。`
+            ),
+
+          type:
+            "article",
+
+          canonical
+        };
+
       case "search.html": {
         const query =
           getSearchQuery();
@@ -533,4 +553,3 @@
 
   scheduleUpdate();
 })();
-

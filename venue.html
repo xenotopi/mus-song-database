@@ -1353,7 +1353,7 @@
 
   <script
     type="module"
-    src="assets/js/venue-v300.js?v=4.6.0"
+    src="assets/js/venue-v300.js?v=4.8.0"
   ></script>
 
   <script type="module">
@@ -1573,10 +1573,13 @@
 
           const nameEl = row.querySelector(".venue-singer-name");
           const name = String(nameEl?.textContent || "").trim();
+          const singerId = String(row.dataset.singerId || "").trim();
           if (!name) return;
 
           const go = () => {
-            location.href = `singer.html?name=${encodeURIComponent(name)}`;
+            location.href = singerId
+              ? `singer.html?id=${encodeURIComponent(singerId)}`
+              : `singer.html?name=${encodeURIComponent(name)}`;
           };
 
           row.dataset.singerLink = "1";

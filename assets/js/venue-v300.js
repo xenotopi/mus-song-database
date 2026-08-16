@@ -6,7 +6,7 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=2.7.0";
+} from "./common.js?v=4.8.0";
 
 
 renderCommon("venue");
@@ -191,10 +191,12 @@ const elements = {
 
 
 const venueId =
-  new URLSearchParams(
-    location.search
-  ).get("id") ||
-  "VE0002";
+  String(
+    new URLSearchParams(
+      location.search
+    ).get("id") ||
+    ""
+  ).trim();
 
 let venueEvents = [];
 let visibleEventLimit = 10;
@@ -259,11 +261,26 @@ function setLoading() {
 
 
 function setError(error) {
+  const missing = !venueId;
+  const notFound = /見つかりません/.test(
+    String(error?.message || "")
+  );
+  const title = missing
+    ? "会場が指定されていません"
+    : notFound
+      ? "該当する会場が見つかりません"
+      : "会場データを表示できません";
+
   elements.venueName.textContent =
-    "会場データを表示できません";
+    title;
 
   elements.heroMeta.textContent =
-    `Venue ID：${venueId}`;
+    missing
+      ? "会場一覧から見たい会場を選択してください。"
+      : `Venue ID：${venueId}`;
+
+  document.title =
+    `${title}｜μ's Song Database`;
 
   elements.status.hidden =
     false;
@@ -274,7 +291,7 @@ function setError(error) {
 
   elements.status.innerHTML = `
     <strong>
-      会場データを取得できませんでした。
+      ${escapeHtml(title)}
     </strong>
 
     <span>
@@ -282,10 +299,12 @@ function setError(error) {
         error?.message ||
         "不明なエラー"
       )}
-    </span>`;
+    </span>
+
+    <a href="venues.html">会場一覧へ戻る</a>`;
 
   elements.retryButton.hidden =
-    false;
+    missing || notFound;
 }
 
 
@@ -671,14 +690,16 @@ function renderVenueAnalysisV30_(
     singers.length
       ? singers.map(
           (item, index) => `
-            <div class="venue-singer-row">
+            <div class="venue-singer-row" data-singer-id="${escapeHtml(item.singerId || "")}">
               <span class="venue-singer-rank">
                 ${index + 1}
               </span>
 
               <span class="venue-singer-name">
                 ${escapeHtml(
-                  item.name || "—"
+                  item.displayName ||
+                  item.name ||
+                  "—"
                 )}
               </span>
 
@@ -1200,6 +1221,14 @@ function renderVenueNavigation(
 
 
 async function loadVenue() {
+  if (!venueId) {
+    setError({
+      message:
+        "会場一覧から見たい会場を選択してください。"
+    });
+    return;
+  }
+
   setLoading();
 
   try {

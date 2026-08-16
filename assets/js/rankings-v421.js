@@ -6,7 +6,11 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=4.2.1";
+} from "./common.js?v=4.8.0";
+
+import {
+  buildSingerUrl
+} from "./singer-links.js?v=4.8.0";
 
 renderCommon("rankings");
 
@@ -497,7 +501,7 @@ function renderVenues(items) {
 function renderSingers(items) {
   el.singersList.innerHTML = items.length
     ? items.map((item, index) => rankRow({
-        href: `singer.html?name=${encodeURIComponent(item.singerName)}`,
+        href: buildSingerUrl(item),
         rank: index + 1,
         title: item.singerName || "歌唱名義未設定",
         meta: [
@@ -545,7 +549,7 @@ function renderPodium(items) {
             ? `event.html?id=${encodeURIComponent(item.eventId)}`
             : activeTab === "venues"
               ? `venue.html?id=${encodeURIComponent(item.venueId)}`
-              : `singer.html?name=${encodeURIComponent(item.singerName || "")}`;
+              : buildSingerUrl(item);
 
       return `
         <a class="ranking-podium-card ranking-podium-${index + 1}" href="${href}">

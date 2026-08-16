@@ -998,9 +998,11 @@
       content: attr(data-tooltip);
       position: absolute;
       z-index: 30;
-      left: 50%;
+      left: var(--metric-tooltip-left, 50%);
       bottom: calc(100% + 8px);
-      width: min(260px, 72vw);
+      width: 260px;
+      max-width: calc(100vw - 32px);
+      box-sizing: border-box;
       padding: 9px 10px;
       border: 1px solid #dcd8f7;
       border-radius: 10px;
@@ -1704,7 +1706,7 @@
 
 <script
     type="module"
-    src="assets/js/song-v441.js?v=4.4.1"
+    src="assets/js/song-v441.js?v=4.8.0"
   ></script>
 
   <script>

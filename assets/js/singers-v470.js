@@ -6,7 +6,11 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=4.6.2";
+} from "./common.js?v=4.8.0";
+
+import {
+  buildSingerUrl
+} from "./singer-links.js?v=4.8.0";
 
 renderCommon("ranking");
 
@@ -303,7 +307,7 @@ function renderPickupCard(label, item, meta) {
   }
 
   const href =
-    `singer.html?name=${encodeURIComponent(item.detailName)}&category=${encodeURIComponent(item.category)}`;
+    buildSingerUrl(item);
 
   return `
     <a class="singer-pickup-card" href="${href}">
@@ -443,7 +447,7 @@ function renderList() {
     visible.length
       ? visible.map((item,index) => {
           const href =
-            `singer.html?name=${encodeURIComponent(item.detailName)}&category=${encodeURIComponent(item.category)}`;
+            buildSingerUrl(item);
 
           const tag =
             recordTag(item, maps);

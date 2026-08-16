@@ -6,7 +6,7 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=2.7.0";
+} from "./common.js?v=4.8.0";
 
 
 renderCommon("event");
@@ -206,10 +206,12 @@ const elements = {
 
 
 const eventId =
-  new URLSearchParams(
-    location.search
-  ).get("id") ||
-  "EV0002";
+  String(
+    new URLSearchParams(
+      location.search
+    ).get("id") ||
+    ""
+  ).trim();
 
 
 let currentEvent = null;
@@ -249,11 +251,26 @@ function setLoading() {
 
 
 function setError(error) {
+  const missing = !eventId;
+  const notFound = /見つかりません/.test(
+    String(error?.message || "")
+  );
+  const title = missing
+    ? "イベントが指定されていません"
+    : notFound
+      ? "該当するイベントが見つかりません"
+      : "イベントデータを表示できません";
+
   elements.eventName.textContent =
-    "イベントデータを表示できません";
+    title;
 
   elements.heroMeta.textContent =
-    "データ取得時にエラーが発生しました。";
+    missing
+      ? "イベント一覧から見たいイベントを選択してください。"
+      : "指定されたイベントを表示できませんでした。";
+
+  document.title =
+    `${title}｜μ's Song Database`;
 
   elements.status.hidden =
     false;
@@ -264,7 +281,7 @@ function setError(error) {
 
   elements.status.innerHTML = `
     <strong>
-      イベントデータを取得できませんでした。
+      ${escapeHtml(title)}
     </strong>
 
     <span>
@@ -272,13 +289,15 @@ function setError(error) {
         error?.message ||
         "不明なエラー"
       )}
-    </span>`;
+    </span>
+
+    <a href="events.html">イベント一覧へ戻る</a>`;
 
   elements.retryButton.hidden =
-    false;
+    missing || notFound;
 
   elements.diagnostic.hidden =
-    false;
+    missing || notFound;
 
   elements.diagnostic.innerHTML = `
     <b>確認用情報</b><br>
@@ -469,25 +488,30 @@ function renderPerformerSummary_(
   songs.forEach(song => {
     const singer =
       String(
-        song.singer || "—"
+        song.singerDisplayName ||
+        song.singer ||
+        "—"
       ).trim() || "—";
 
-    countMap.set(
-      singer,
-      Number(
-        countMap.get(singer) || 0
-      ) + 1
-    );
+    const key = String(
+      song.singerId ||
+      `${song.singerCategory || ""}｜${song.singer || singer}`
+    ).trim();
+
+    const current = countMap.get(key) || {
+      singerId: song.singerId || "",
+      name: singer,
+      count: 0
+    };
+
+    current.count += 1;
+    countMap.set(key, current);
   });
 
   const rows =
     Array.from(
-      countMap.entries()
+      countMap.values()
     )
-      .map(([name, count]) => ({
-        name: name,
-        count: count
-      }))
       .sort((a, b) =>
         b.count - a.count ||
         String(a.name).localeCompare(
@@ -500,7 +524,7 @@ function renderPerformerSummary_(
     rows.length
       ? rows.map(
           (item, index) => `
-            <div class="performer-row">
+            <div class="performer-row" data-singer-id="${escapeHtml(item.singerId || "")}">
               <span class="performer-rank">
                 ${index + 1}
               </span>
@@ -1100,6 +1124,14 @@ function renderNavigation(
 
 
 async function loadEvent() {
+  if (!eventId) {
+    setError({
+      message:
+        "イベント一覧から見たいイベントを選択してください。"
+    });
+    return;
+  }
+
   setLoading();
 
   elements.mainContent.hidden =

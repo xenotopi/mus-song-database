@@ -6,7 +6,7 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=4.7.14";
+} from "./common.js?v=4.8.0";
 
 renderCommon("");
 
@@ -39,27 +39,9 @@ const el = {
 };
 
 const params = new URLSearchParams(location.search);
+const singerId = String(params.get("id") || "").trim();
 const singerName = String(params.get("name") || "").trim();
 const singerCategory = String(params.get("category") || "").trim();
-
-// URL・画面表示は正式名、既存APIへの問い合わせだけ従来の詳細キーを使う。
-const SOLO_DETAIL_KEYS = new Map([
-  ["新田恵海", "新田"],
-  ["南條愛乃", "南條"],
-  ["内田彩", "内田"],
-  ["三森すずこ", "三森"],
-  ["飯田里穂", "飯田"],
-  ["Pile", "Pile"],
-  ["楠田亜衣奈", "楠田"],
-  ["久保ユリカ", "久保"],
-  ["徳井青空", "徳井"]
-]);
-
-function apiSingerName() {
-  return singerCategory === "ソロ"
-    ? (SOLO_DETAIL_KEYS.get(singerName) || singerName)
-    : singerName;
-}
 
 const MEMBER_COLORS = [
   { color:"#f39a3d", keys:["高坂穂乃果","穂乃果","新田恵海","新田"] },
@@ -267,14 +249,27 @@ function setupFilters() {
 
 function render(data) {
   const summary = data.summary || {};
-  // 正式名URLで開いた場合は、APIが従来の名字キーを返しても正式名を優先表示する。
-  const name = singerName || data.singerName || "歌唱名義未設定";
+  const name =
+    data.displayName ||
+    data.singerName ||
+    "歌唱名義未設定";
 
   el.singerName.textContent = name;
   renderSingerColors(name);
 
   document.title =
     `${name} | 歌唱名義詳細 | μ's Song Database`;
+
+  if (
+    data.singerId &&
+    singerId !== data.singerId
+  ) {
+    history.replaceState(
+      null,
+      "",
+      `singer.html?id=${encodeURIComponent(data.singerId)}`
+    );
+  }
 
   el.performanceCount.textContent =
     Number(summary.performanceCount || 0).toLocaleString("ja-JP");
@@ -301,10 +296,27 @@ function render(data) {
   el.historySection.hidden = false;
 }
 
+function showSingerError(title, message, canRetry = false) {
+  el.singerName.textContent = title;
+  document.title = `${title} | μ's Song Database`;
+  el.status.hidden = false;
+  el.status.innerHTML = `
+    <p>${escapeHtml(message)}</p>
+    <p><a href="singers.html">歌唱名義一覧へ戻る</a></p>
+  `;
+  el.retryButton.hidden = !canRetry;
+  el.summary.hidden = true;
+  el.analysisSection.hidden = true;
+  el.songsSection.hidden = true;
+  el.historySection.hidden = true;
+}
+
 async function loadSinger() {
-  if (!singerName) {
-    el.singerName.textContent = "歌唱名義が指定されていません";
-    el.status.textContent = "ランキングの歌唱名義から開き直してください。";
+  if (!singerId && !singerName) {
+    showSingerError(
+      "歌唱名義が指定されていません",
+      "歌唱名義一覧から見たい名義を選択してください。"
+    );
     return;
   }
 
@@ -315,14 +327,21 @@ async function loadSinger() {
   try {
     const response = await apiGet(
       "singer",
-      { name: apiSingerName() }
+      {
+        id: singerId,
+        name: singerName,
+        category: singerCategory
+      }
     );
     render(response.data || response);
   } catch (error) {
     console.error(error);
-    el.status.textContent =
-      error?.message || "歌唱名義データを取得できませんでした。";
-    el.retryButton.hidden = false;
+    showSingerError(
+      "歌唱名義が見つかりません",
+      error?.message ||
+        "指定された歌唱名義を取得できませんでした。",
+      true
+    );
   }
 }
 

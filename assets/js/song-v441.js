@@ -6,7 +6,11 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=4.4.1";
+} from "./common.js?v=4.8.0";
+
+import {
+  buildSingerUrl
+} from "./singer-links.js?v=4.8.0";
 
 
 renderCommon("song");
@@ -62,8 +66,10 @@ const elements = {
 
 
 const songId =
-  new URLSearchParams(location.search).get("id") ||
-  "S003";
+  String(
+    new URLSearchParams(location.search).get("id") ||
+    ""
+  ).trim();
 
 let performances = [];
 let historyFilter = "all";
@@ -98,15 +104,29 @@ function setLoading() {
 
 
 function setError(error) {
-  elements.songName.textContent = "曲データを表示できません";
-  elements.heroMeta.textContent = "データ取得時にエラーが発生しました。";
+  const missing = !songId;
+  const notFound = /見つかりません/.test(
+    String(error?.message || "")
+  );
+  const title = missing
+    ? "曲が指定されていません"
+    : notFound
+      ? "該当する曲が見つかりません"
+      : "曲データを表示できません";
+
+  elements.songName.textContent = title;
+  elements.heroMeta.textContent = missing
+    ? "曲一覧から見たい曲を選択してください。"
+    : "指定された曲を表示できませんでした。";
+  document.title = `${title}｜μ's Song Database`;
   elements.status.hidden = false;
   elements.status.classList.add("error");
   elements.status.innerHTML = `
-    <strong>曲データを取得できませんでした。</strong>
-    <span>${escapeHtml(error?.message || "不明なエラー")}</span>`;
+    <strong>${escapeHtml(title)}</strong>
+    <span>${escapeHtml(error?.message || elements.heroMeta.textContent)}</span>
+    <a href="songs.html">曲一覧へ戻る</a>`;
 
-  elements.retryButton.hidden = false;
+  elements.retryButton.hidden = missing || notFound;
 }
 
 
@@ -177,7 +197,9 @@ function renderHistory_() {
                   <span>
                     歌唱者：
                     ${escapeHtml(
-                      performance.singer || "—"
+                      performance.singerDisplayName ||
+                      performance.singer ||
+                      "—"
                     )}
                   </span>
                 </span>
@@ -202,18 +224,31 @@ function buildSongDiscovery_(song) {
   const singerCounts = new Map();
 
   performances.forEach(item => {
-    const singer = String(item.singer || "").trim();
-    if (!singer) return;
+    const key = String(
+      item.singerId ||
+      `${item.singerCategory || ""}｜${item.singer || ""}`
+    ).trim();
 
-    singerCounts.set(
-      singer,
-      Number(singerCounts.get(singer) || 0) + 1
-    );
+    if (!key) return;
+
+    const current = singerCounts.get(key) || {
+      singerId: item.singerId || "",
+      category: item.singerCategory || "",
+      rawName: item.singer || "",
+      displayName:
+        item.singerDisplayName ||
+        item.singer ||
+        "",
+      count: 0
+    };
+
+    current.count += 1;
+    singerCounts.set(key, current);
   });
 
   const topSinger =
-    Array.from(singerCounts.entries())
-      .sort((a, b) => b[1] - a[1])[0] || null;
+    Array.from(singerCounts.values())
+      .sort((a, b) => b.count - a.count)[0] || null;
 
   const firstPerformance = performances[0] || null;
   const latestPerformance =
@@ -243,7 +278,11 @@ function buildSongDiscovery_(song) {
 
   const topSingerName =
     topSinger
-      ? String(topSinger[0] || "").trim()
+      ? String(
+          topSinger.displayName ||
+          topSinger.rawName ||
+          ""
+        ).trim()
       : "";
 
   if (topSingerName) {
@@ -252,9 +291,7 @@ function buildSongDiscovery_(song) {
       title: topSingerName,
       meta: "この名義の歌唱履歴を見る",
       href:
-        `singer.html?name=${encodeURIComponent(
-          topSingerName
-        )}`
+        buildSingerUrl(topSinger)
     });
   }
 
@@ -713,9 +750,7 @@ function renderSingerRanking_(
           (item, index) => `
             <a
               class="singer-rank-row"
-              href="singer.html?name=${encodeURIComponent(
-                item.name || ""
-              )}"
+              href="${buildSingerUrl(item)}"
               aria-label="${escapeHtml(
                 item.name || "歌唱名義"
               )}の歌唱名義詳細を見る"
@@ -1172,6 +1207,35 @@ function renderSong(song) {
 
 
 function setupMetricHelp_() {
+  const positionTooltip = button => {
+    if (!button) return;
+
+    const rect = button.getBoundingClientRect();
+    const width = Math.min(260, window.innerWidth - 32);
+    const half = width / 2;
+    const viewportCenter = Math.min(
+      window.innerWidth - 16 - half,
+      Math.max(
+        16 + half,
+        rect.left + rect.width / 2
+      )
+    );
+
+    button.style.setProperty(
+      "--metric-tooltip-left",
+      `${viewportCenter - rect.left}px`
+    );
+  };
+
+  const positionAll = () => {
+    document
+      .querySelectorAll(".metric-help")
+      .forEach(positionTooltip);
+  };
+
+  positionAll();
+  window.addEventListener("resize", positionAll);
+
   document.addEventListener("click", event => {
     const button = event.target.closest(".metric-help");
 
@@ -1182,9 +1246,22 @@ function setupMetricHelp_() {
     });
 
     if (button) {
+      positionTooltip(button);
       button.classList.toggle("open");
       event.stopPropagation();
     }
+  });
+
+  document.addEventListener("pointerover", event => {
+    positionTooltip(
+      event.target.closest(".metric-help")
+    );
+  });
+
+  document.addEventListener("focusin", event => {
+    positionTooltip(
+      event.target.closest(".metric-help")
+    );
   });
 
   document.addEventListener("keydown", event => {
@@ -1199,50 +1276,58 @@ function setupMetricHelp_() {
 setupMetricHelp_();
 
 async function loadSong() {
+  if (!songId) {
+    setError({
+      message:
+        "曲一覧から見たい曲を選択してください。"
+    });
+    return;
+  }
+
   setLoading();
 
   try {
-    const [
-      response,
-      discoverResponse
-    ] = await Promise.all([
-      apiGet(
-        "song",
-        { id: songId },
-        {
-          timeoutMs: 20000,
-          retryCount: 1
-        }
-      ),
-
-      apiGet(
-        "discover",
-        {
-          type: "song",
-          id: songId
-        },
-        {
-          timeoutMs: 30000,
-          retryCount: 1
-        }
-      )
-    ]);
+    const response = await apiGet(
+      "song",
+      { id: songId },
+      {
+        timeoutMs: 20000,
+        retryCount: 1
+      }
+    );
 
     renderSong(response.data);
-    const discoverData =
-      discoverResponse.data || {};
 
-    renderSongInsights_(
-      discoverData
-    );
+    try {
+      const discoverResponse =
+        await apiGet(
+          "discover",
+          {
+            type: "song",
+            id: songId
+          },
+          {
+            timeoutMs: 30000,
+            retryCount: 1
+          }
+        );
 
-    renderSingerRanking_(
-      discoverData
-    );
+      const discoverData =
+        discoverResponse.data || {};
 
-    renderSongNavigation_(
-      discoverData.navigation || {}
-    );
+      renderSongInsights_(discoverData);
+      renderSingerRanking_(discoverData);
+      renderSongNavigation_(
+        discoverData.navigation || {}
+      );
+    } catch (discoverError) {
+      console.error(
+        "Song discover API error:",
+        discoverError
+      );
+      elements.songInsightsSection.hidden = true;
+      elements.discoverySection.hidden = true;
+    }
 
   } catch (error) {
     console.error("Song API error:", error);

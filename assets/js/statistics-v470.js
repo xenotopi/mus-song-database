@@ -1,5 +1,6 @@
 import { apiGet, escapeHtml, formatDate } from "./api.js?v=4.6.2";
-import { renderCommon } from "./common.js?v=4.6.2";
+import { renderCommon } from "./common.js?v=4.8.0";
+import { buildSingerUrl } from "./singer-links.js?v=4.8.0";
 
 renderCommon("statistics");
 
@@ -43,6 +44,30 @@ const metricSettings = {
 
 const number = value => Number(value || 0);
 
+function getSongCountBreakdown(summary){
+  const hasBreakdown =
+    Object.prototype.hasOwnProperty.call(summary,"performedSongCount") &&
+    Object.prototype.hasOwnProperty.call(summary,"unperformedSongCount");
+
+  if (hasBreakdown) {
+    return {
+      registered:number(summary.songCount),
+      performed:number(summary.performedSongCount),
+      unperformed:number(summary.unperformedSongCount)
+    };
+  }
+
+  // v4.7以前のAPIは songCount=歌唱済み曲数だったため、移行中も
+  // 確定値（未歌唱6曲）を加えて登録曲数を表示する。
+  const performed = number(summary.songCount);
+  const unperformed = performed ? 6 : 0;
+  return {
+    registered:performed + unperformed,
+    performed,
+    unperformed
+  };
+}
+
 const barValueLabels = {
   id:"barValueLabels",
   afterDatasetsDraw(chart){
@@ -75,12 +100,22 @@ const barValueLabels = {
 
 function renderOverview(){
   const s = rankings.summary || {};
+  const singerSummary = singerData.summary || {};
+  const songCounts = getSongCountBreakdown(s);
   const cards = [
-    ["登録曲数",number(s.songCount),"曲"],
+    ["登録曲数",songCounts.registered,"曲"],
+    ["歌唱済み",songCounts.performed,"曲"],
+    ["未歌唱曲",songCounts.unperformed,"曲"],
     ["イベント数",number(s.eventCount),"件"],
     ["会場数",number(s.venueCount),"会場"],
     ["歌唱記録数",number(s.performanceCount),"件"],
-    ["歌唱名義数",number(s.singerCount),"名義"]
+    [
+      "歌唱名義数",
+      number(singerSummary.total || s.singerCount),
+      singerSummary.official || singerSummary.solo
+        ? `名義（公式${number(singerSummary.official)}・ソロ${number(singerSummary.solo)}）`
+        : "名義"
+    ]
   ];
   el.overviewCards.innerHTML = cards.map(([label,value,suffix]) => `
     <article class="stats-overview-card">
@@ -90,7 +125,7 @@ function renderOverview(){
     </article>`).join("");
 
   if (el.heroSummary) {
-    el.heroSongs.textContent = `全${number(s.songCount).toLocaleString("ja-JP")}曲`;
+    el.heroSongs.textContent = `全${songCounts.registered.toLocaleString("ja-JP")}曲`;
     el.heroEvents.textContent = `${number(s.eventCount).toLocaleString("ja-JP")}イベント`;
 
     const validYears = trends
@@ -373,7 +408,7 @@ function renderDiscovery(){
       title:topSoloSinger.displayName || topSoloSinger.detailName || "",
       value:`${number(topSoloSinger.performanceCount).toLocaleString("ja-JP")}回`,
       meta:"ソロイベントで最も歌唱記録が多い名義",
-      href:`singer.html?name=${encodeURIComponent(topSoloSinger.detailName || "")}&category=ソロ`
+      href:buildSingerUrl(topSoloSinger)
     }
   ].filter(Boolean);
 
@@ -412,8 +447,7 @@ function setupChartModeTabs(){
 }
 
 async function load(){
-  try{
-    const [trendResponse,rankingResponse,singerResponse] = await Promise.all([
+  const results = await Promise.allSettled([
       apiGet("trends",{},{
         timeoutMs:30000,retryCount:1,cache:true,cacheTtlMs:300000
       }),
@@ -425,23 +459,58 @@ async function load(){
       })
     ]);
 
-    trends = Array.isArray(trendResponse.data?.years) ? trendResponse.data.years : [];
-    rankings = rankingResponse.data || {};
-    singerData = singerResponse.data || {};
+  const [trendResult, rankingResult, singerResult] = results;
+  const failures = results.filter(item => item.status === "rejected");
 
-    renderOverview();
+  if (trendResult.status === "fulfilled") {
+    trends = Array.isArray(trendResult.value.data?.years)
+      ? trendResult.value.data.years
+      : [];
     renderYearlyChart();
-    renderRankings();
     renderOfficialSoloComparison();
-    renderDiscovery();
+  }
 
+  if (rankingResult.status === "fulfilled") {
+    rankings = rankingResult.value.data || {};
+  }
+
+  if (singerResult.status === "fulfilled") {
+    singerData = singerResult.value.data || {};
+  }
+
+  if (rankingResult.status === "fulfilled") {
+    renderOverview();
+    renderRankings();
+  }
+
+  if (
+    rankingResult.status === "fulfilled" ||
+    singerResult.status === "fulfilled"
+  ) {
+    renderDiscovery();
+  }
+
+  if (!failures.length) {
     el.status.hidden = true;
-  }catch(error){
-    console.error(error);
+    el.error.hidden = true;
+    return;
+  }
+
+  failures.forEach(item =>
+    console.error(item.reason)
+  );
+
+  if (failures.length === results.length) {
     el.status.hidden = true;
     el.error.hidden = false;
-    el.error.textContent = error?.message || "統計データを取得できませんでした。";
+    el.error.textContent = "統計データを取得できませんでした。";
+    return;
   }
+
+  el.status.hidden = false;
+  el.status.textContent =
+    "一部の統計データを取得できませんでした。取得できた項目を表示しています。";
+  el.error.hidden = true;
 }
 
 setupMetricTabs();

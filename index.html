@@ -587,6 +587,8 @@
     .secret-memory-redraw{min-height:34px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);font-size:11px;font-weight:900;cursor:pointer}
     .secret-memory-title{margin:20px 0 0;color:var(--navy);font-size:clamp(22px,4vw,31px);line-height:1.35}
     .secret-memory-text{margin:14px 0 0;max-width:820px;color:#4f596f;font-size:14px;font-weight:700;line-height:1.9;white-space:pre-line}
+    .secret-memory-link{display:inline-flex;min-height:40px;margin-top:18px;padding:0 16px;align-items:center;border:1px solid var(--indigo);border-radius:999px;background:#fff;color:var(--indigo);font-size:12px;font-weight:900;text-decoration:none;transition:transform .12s ease,background .12s ease}
+    .secret-memory-link:hover{background:var(--light);transform:translateY(-1px)}
     .secret-memory-caption{margin-top:18px;color:var(--muted);font-size:10px;font-weight:700}
     @media(max-width:560px){.secret-memory-card{padding:20px 18px}.secret-memory-head{align-items:center}}
 
@@ -2295,6 +2297,7 @@
         <p class="home-eyebrow" style="margin-top:18px">SECRET MEMORY</p>
         <h2 class="secret-memory-title" id="secretMemoryTitle"></h2>
         <p class="secret-memory-text" id="secretMemoryText"></p>
+        <a class="secret-memory-link" id="secretMemoryLink" hidden></a>
 
         <div class="secret-memory-footer">
           <div class="secret-memory-caption">μ'sにまつわる小ネタをランダムで表示しています。</div>
@@ -2399,6 +2402,6 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/home-v453.js?v=4.8.0"></script>
+  <script type="module" src="assets/js/home-v453.js?v=4.8.1"></script>
 </body>
 </html>

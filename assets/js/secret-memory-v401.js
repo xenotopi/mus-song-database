@@ -21,6 +21,9 @@ export const SECRET_MEMORY_DATA = Object.freeze([
   category:"ライブ",
   title:"Dreamin' Go! Go!!",
   text:"えみつんはずっと「Dreamin' Go! Go!!」のCメロ辺りでヘドバンしたかった。",
+  relatedType:"song",
+  relatedId:"S104",
+  linkLabel:"曲の歌唱履歴を見る",
   enabled:true
 },
 {
@@ -29,6 +32,9 @@ export const SECRET_MEMORY_DATA = Object.freeze([
   category:"ユニット",
   title:"甜甜天使",
   text:"2025年11月のOverseas広州イベント発、μ'sの新ユニット「甜甜天使」が誕生！\n\nほのりんまきの新ユニットによる「Beat in Angel」を見逃すな！",
+  relatedType:"song",
+  relatedId:"S049",
+  linkLabel:"曲の歌唱履歴を見る",
   enabled:true
 }
 ]);

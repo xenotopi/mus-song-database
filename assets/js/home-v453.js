@@ -15,7 +15,11 @@ import {
 import {
   drawSecretMemory,
   SECRET_MEMORY_RARITY
-} from "./secret-memory-v401.js?v=4.5.3";
+} from "./secret-memory-v401.js?v=4.8.1";
+
+import {
+  buildSingerUrl
+} from "./singer-links.js?v=4.8.0";
 
 
 renderCommon("home");
@@ -105,6 +109,9 @@ const elements = {
   secretMemoryText:
     $("secretMemoryText"),
 
+  secretMemoryLink:
+    $("secretMemoryLink"),
+
   secretMemoryRedraw:
     $("secretMemoryRedraw"),
 
@@ -151,6 +158,38 @@ let recentItems = [];
 let recentVisibleCount = 5;
 let currentSecretMemoryId = "";
 let secretMemoryDrawing = false;
+
+
+function buildSecretMemoryRelatedUrl(item = {}) {
+  const relatedType =
+    String(item.relatedType || "")
+      .trim()
+      .toLowerCase();
+
+  const relatedId =
+    String(item.relatedId || "")
+      .trim();
+
+  if (!relatedType || !relatedId) {
+    return "";
+  }
+
+  if (relatedType === "singer") {
+    return buildSingerUrl({
+      singerId: relatedId
+    });
+  }
+
+  const detailPage = {
+    song: "song.html",
+    event: "event.html",
+    venue: "venue.html"
+  }[relatedType];
+
+  return detailPage
+    ? `${detailPage}?id=${encodeURIComponent(relatedId)}`
+    : "";
+}
 
 
 function setLoading() {
@@ -531,6 +570,20 @@ function renderSecretMemory(options = {}) {
   elements.secretMemoryId.textContent = item.id || "";
   elements.secretMemoryTitle.textContent = item.title || "";
   elements.secretMemoryText.textContent = item.text || "";
+
+  const relatedUrl =
+    buildSecretMemoryRelatedUrl(item);
+
+  if (relatedUrl) {
+    elements.secretMemoryLink.href = relatedUrl;
+    elements.secretMemoryLink.textContent =
+      item.linkLabel || "詳細を見る";
+    elements.secretMemoryLink.hidden = false;
+  } else {
+    elements.secretMemoryLink.removeAttribute("href");
+    elements.secretMemoryLink.textContent = "";
+    elements.secretMemoryLink.hidden = true;
+  }
 
   const totalWeight =
     Object.values(SECRET_MEMORY_RARITY)

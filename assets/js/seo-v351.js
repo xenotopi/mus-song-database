@@ -2,9 +2,10 @@
  * μ's Song Database
  * SEO / UX Metadata v3.5.1
  *
- * Static HTML owns description, robots, OGP, and Twitter Card metadata.
- * This browser-only helper adds a self-referencing canonical URL and
- * normalizes the tab title after a valid detail record has been rendered.
+ * Static HTML owns description, OGP, and Twitter Card metadata.
+ * Detail templates start as noindex. This browser-only helper marks a
+ * successfully rendered detail as indexable, adds its self-referencing
+ * canonical URL, and normalizes the tab title.
  */
 
 (() => {
@@ -66,6 +67,14 @@
     lastSignature = "";
   }
 
+  function setRobots(content) {
+    const robots = document.head.querySelector('meta[name="robots"]');
+
+    if (robots && robots.content !== content) {
+      robots.content = content;
+    }
+  }
+
   function setDynamicCanonical(id) {
     let canonical = document.head.querySelector('link[rel="canonical"]');
 
@@ -87,6 +96,7 @@
 
     if (!pageConfig.idPattern.test(id) || !renderedTitle) {
       removeDynamicCanonical();
+      setRobots("noindex,follow");
       return;
     }
 
@@ -98,6 +108,7 @@
 
     document.title = `${renderedTitle}｜${SITE_NAME}`;
     setDynamicCanonical(id);
+    setRobots("index,follow,max-image-preview:large");
     lastSignature = signature;
   }
 

@@ -105,7 +105,7 @@ function renderOverview(){
   const cards = [
     ["登録曲数",songCounts.registered,"曲"],
     ["歌唱済み",songCounts.performed,"曲"],
-    ["未歌唱曲",songCounts.unperformed,"曲"],
+    ["未歌唱曲",songCounts.unperformed,"曲","songs.html?filter=unperformed"],
     ["イベント数",number(s.eventCount),"件"],
     ["会場数",number(s.venueCount),"会場"],
     ["歌唱記録数",number(s.performanceCount),"件"],
@@ -117,12 +117,14 @@ function renderOverview(){
         : "名義"
     ]
   ];
-  el.overviewCards.innerHTML = cards.map(([label,value,suffix]) => `
-    <article class="stats-overview-card">
+  el.overviewCards.innerHTML = cards.map(([label,value,suffix,href]) => `
+    ${href
+      ? `<a class="stats-overview-card stats-overview-card-link" href="${href}" aria-label="${escapeHtml(label)} ${value.toLocaleString("ja-JP")}${escapeHtml(suffix)}を見る">`
+      : '<article class="stats-overview-card">'}
       <div class="stats-overview-label">${escapeHtml(label)}</div>
       <div class="stats-overview-value">${value.toLocaleString("ja-JP")}</div>
       <div class="stats-overview-note">${escapeHtml(suffix)}</div>
-    </article>`).join("");
+    ${href ? "</a>" : "</article>"}`).join("");
 
   if (el.heroSummary) {
     el.heroSongs.textContent = `全${songCounts.registered.toLocaleString("ja-JP")}曲`;

@@ -25,6 +25,7 @@ const el = {
   songSearch: $("songSearch"),
   mediaFilters: $("mediaFilters"),
   categoryFilters: $("categoryFilters"),
+  performanceFilters: $("performanceFilters"),
   resultText: $("resultText"),
   songSort: $("songSort"),
   songsList: $("songsList"),
@@ -34,6 +35,7 @@ const el = {
 let allSongs = [];
 let selectedMedia = "";
 let selectedCategory = "";
+let selectedPerformance = "";
 let visibleLimit = 24;
 
 const params = new URLSearchParams(location.search);
@@ -93,6 +95,26 @@ function buildFilterButtons(container, values, kind) {
   });
 }
 
+function setupPerformanceFilter() {
+  el.performanceFilters
+    .querySelectorAll("[data-performance]")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        selectedPerformance = button.dataset.performance || "";
+
+        el.performanceFilters
+          .querySelectorAll("[data-performance]")
+          .forEach(item => {
+            item.classList.toggle("active", item === button);
+          });
+
+        visibleLimit = 24;
+        syncUrl();
+        renderSongs();
+      });
+    });
+}
+
 function sortByDateDesc(a,b,key) {
   return String(b[key] || "").localeCompare(String(a[key] || ""));
 }
@@ -116,8 +138,11 @@ function getFilteredSongs() {
     const categoryOK =
       !selectedCategory ||
       item.songCategory === selectedCategory;
+    const performanceOK =
+      selectedPerformance !== "unperformed" ||
+      Number(item.performanceCount || 0) === 0;
 
-    return queryOK && mediaOK && categoryOK;
+    return queryOK && mediaOK && categoryOK && performanceOK;
   });
 
   const sorted = filtered.slice();
@@ -382,6 +407,12 @@ function syncUrl() {
     next.searchParams.delete("category");
   }
 
+  if (selectedPerformance === "unperformed") {
+    next.searchParams.set("filter", selectedPerformance);
+  } else {
+    next.searchParams.delete("filter");
+  }
+
   if (el.songSort.value !== "performance") {
     next.searchParams.set("sort", el.songSort.value);
   } else {
@@ -398,6 +429,8 @@ function applyInitialUrlState() {
     String(params.get("media") || "").trim();
   const requestedCategory =
     String(params.get("category") || "").trim();
+  const requestedFilter =
+    String(params.get("filter") || "").trim();
   const requestedSort =
     String(params.get("sort") || "").trim();
 
@@ -427,6 +460,22 @@ function applyInitialUrlState() {
       selectedCategory = requestedCategory;
       el.categoryFilters
         .querySelectorAll("[data-category]")
+        .forEach(item =>
+          item.classList.toggle("active", item === button)
+        );
+    }
+  }
+
+  if (requestedFilter === "unperformed") {
+    const button =
+      el.performanceFilters.querySelector(
+        '[data-performance="unperformed"]'
+      );
+
+    if (button) {
+      selectedPerformance = requestedFilter;
+      el.performanceFilters
+        .querySelectorAll("[data-performance]")
         .forEach(item =>
           item.classList.toggle("active", item === button)
         );
@@ -474,6 +523,7 @@ async function loadSongs() {
 
     buildFilterButtons(el.mediaFilters, mediaValues, "media");
     buildFilterButtons(el.categoryFilters, categoryValues, "category");
+    setupPerformanceFilter();
     populateAllSongSelect();
     applyInitialUrlState();
 

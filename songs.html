@@ -578,7 +578,7 @@
           <p class="songs-section-kicker">ALL SONGS</p>
           <h2>全曲一覧</h2>
         </div>
-        <p class="songs-section-note">検索・メディア・区分・並び替えで絞り込めます。</p>
+        <p class="songs-section-note">検索・メディア・区分・歌唱状況・並び替えで絞り込めます。</p>
       </div>
 
       <div class="songs-toolbar">
@@ -602,6 +602,14 @@
         <div class="songs-filter-block">
           <p class="songs-filter-label">区分</p>
           <div class="songs-filter-pills" id="categoryFilters"></div>
+        </div>
+
+        <div class="songs-filter-block">
+          <p class="songs-filter-label">歌唱状況</p>
+          <div class="songs-filter-pills" id="performanceFilters">
+            <button type="button" class="songs-filter-pill active" data-performance="">すべて</button>
+            <button type="button" class="songs-filter-pill" data-performance="unperformed">未歌唱</button>
+          </div>
         </div>
 
         <div class="songs-toolbar-bottom">
@@ -631,6 +639,6 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/songs-v470.js?v=4.8.0"></script>
+  <script type="module" src="assets/js/songs-v470.js?v=4.8.0&amp;cache=step17d"></script>
 </body>
 </html>

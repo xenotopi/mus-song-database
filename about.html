@@ -244,6 +244,27 @@
       margin-top: 8px;
     }
 
+    #analytics-privacy {
+      scroll-margin-top: 88px;
+    }
+
+    .about-privacy-copy {
+      max-width: 840px;
+    }
+
+    .about-consent-status {
+      margin-top: 14px;
+      color: var(--navy);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .about-settings-button {
+      border: 0;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
     .about-cta {
       display: inline-flex;
       min-height: 48px;
@@ -620,6 +641,37 @@
             情報提供・訂正フォームを開く
             <span aria-hidden="true">↗</span>
           </a>
+        </div>
+      </section>
+
+      <section class="about-section" aria-labelledby="aboutAnalyticsTitle">
+        <div class="about-section-head" id="analytics-privacy">
+          <p class="kicker">ANALYTICS &amp; PRIVACY</p>
+          <h2 id="aboutAnalyticsTitle">アクセス解析について</h2>
+        </div>
+
+        <div class="about-action-panel" aria-labelledby="aboutAnalyticsTitle">
+          <div class="about-copy about-privacy-copy">
+            <p>当サイトでは、サイトの利用状況を把握し、サービス改善に役立てるためGoogle Analyticsを利用しています。</p>
+            <p>Google Analyticsを利用したアクセス解析は、利用者が同意した場合のみ有効になります。</p>
+            <p>アクセス解析が有効な場合、閲覧したページ、利用環境、サイト内での一部操作などの情報がGoogleへ送信される場合があります。</p>
+            <p>当サイトでは、検索欄に入力された文字列を独自のアクセス解析イベントとしてGoogle Analyticsへ送信しません。また、URLに含まれる検索用パラメータについても、Google Analytics側で除去する設定を行っています。</p>
+            <p>Google AnalyticsではCookieが使用される場合があります。</p>
+            <p>当サイトではアクセス解析のための独自ユーザーIDを作成せず、Google Signals、Google広告との連携、広告パーソナライズは利用しません。</p>
+            <p>アクセス解析への同意は、このページの「アクセス解析の設定を変更」からいつでも変更できます。</p>
+            <p>なお、お問い合わせにはGoogleフォームを利用しており、Googleフォーム上で入力された内容はGoogleのサービスを通じて送信されます。</p>
+            <p class="about-consent-status">
+              現在：<span data-musdb-analytics-consent-status>確認しています…</span>
+            </p>
+          </div>
+
+          <button
+            class="about-cta about-settings-button"
+            type="button"
+            data-musdb-analytics-settings
+          >
+            アクセス解析の設定を変更
+          </button>
         </div>
       </section>
 

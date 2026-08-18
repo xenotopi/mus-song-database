@@ -1297,6 +1297,25 @@ async function loadVenue() {
       discoverData
     );
 
+    const renderedVenueId = String(
+      venueData.venueId || venueId
+    );
+    if (/^VE\d+$/.test(renderedVenueId)) {
+      window.MusDbAnalytics?.trackOnce(
+        `view_detail:venue:${renderedVenueId}`,
+        "view_detail",
+        {
+          content_type: "venue",
+          item_id: renderedVenueId,
+          item_name: venueData.venueName || "",
+          content_category:
+            venueData.region ||
+            venueData.country ||
+            ""
+        }
+      );
+    }
+
     renderVenueAnalysisV30_(
       discoverData
     );

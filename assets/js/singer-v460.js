@@ -333,7 +333,30 @@ async function loadSinger() {
         category: singerCategory
       }
     );
-    render(response.data || response);
+    const singerData = response.data || response;
+    render(singerData);
+
+    const renderedSingerId = String(
+      singerData.singerId || singerId
+    );
+    if (/^SN\d+$/.test(renderedSingerId)) {
+      window.MusDbAnalytics?.trackOnce(
+        `view_detail:singer:${renderedSingerId}`,
+        "view_detail",
+        {
+          content_type: "singer",
+          item_id: renderedSingerId,
+          item_name:
+            singerData.displayName ||
+            singerData.singerName ||
+            "",
+          content_category:
+            singerData.category ||
+            singerCategory ||
+            ""
+        }
+      );
+    }
   } catch (error) {
     console.error(error);
     showSingerError(

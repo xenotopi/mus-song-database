@@ -1222,6 +1222,25 @@ async function loadEvent() {
 
     renderEventSongs_();
 
+    const renderedEventId = String(
+      response.data?.eventId || eventId
+    );
+    if (/^EV\d+$/.test(renderedEventId)) {
+      window.MusDbAnalytics?.trackOnce(
+        `view_detail:event:${renderedEventId}`,
+        "view_detail",
+        {
+          content_type: "event",
+          item_id: renderedEventId,
+          item_name: response.data?.eventName || "",
+          content_category:
+            response.data?.category ||
+            response.data?.eventType ||
+            ""
+        }
+      );
+    }
+
   } catch (error) {
     console.error(
       "Event API error:",

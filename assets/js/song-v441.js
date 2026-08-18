@@ -1298,6 +1298,28 @@ async function loadSong() {
 
     renderSong(response.data);
 
+    const renderedSongId = String(
+      response.data?.songId || songId
+    );
+    if (/^S\d+$/.test(renderedSongId)) {
+      window.MusDbAnalytics?.trackOnce(
+        `view_detail:song:${renderedSongId}`,
+        "view_detail",
+        {
+          content_type: "song",
+          item_id: renderedSongId,
+          item_name:
+            response.data?.displayName ||
+            response.data?.songName ||
+            "",
+          content_category:
+            response.data?.category ||
+            response.data?.media ||
+            ""
+        }
+      );
+    }
+
     try {
       const discoverResponse =
         await apiGet(

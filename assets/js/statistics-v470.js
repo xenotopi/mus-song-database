@@ -119,7 +119,7 @@ function renderOverview(){
   ];
   el.overviewCards.innerHTML = cards.map(([label,value,suffix,href]) => `
     ${href
-      ? `<a class="stats-overview-card stats-overview-card-link" href="${href}" aria-label="${escapeHtml(label)} ${value.toLocaleString("ja-JP")}${escapeHtml(suffix)}を見る">`
+      ? `<a class="stats-overview-card stats-overview-card-link" href="${href}" aria-label="${escapeHtml(label)} ${value.toLocaleString("ja-JP")}${escapeHtml(suffix)}を見る"${label === "未歌唱曲" ? ' data-musdb-analytics-event="unperformed_click" data-navigation-source="statistics" data-filter-type="performance" data-filter-value="unperformed"' : ""}>`
       : '<article class="stats-overview-card">'}
       <div class="stats-overview-label">${escapeHtml(label)}</div>
       <div class="stats-overview-value">${value.toLocaleString("ja-JP")}</div>

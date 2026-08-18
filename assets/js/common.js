@@ -8,6 +8,10 @@ import {
   buildSingerUrl
 } from "./singer-links.js?v=4.8.0";
 
+import {
+  initializeAnalytics
+} from "./analytics.js?v=1.0.0";
+
 const SITE_METADATA = Object.freeze({
   version:
     "Web v4.8.0"
@@ -26,6 +30,7 @@ const SITE_METADATA = Object.freeze({
  * @param {string} active
  */
 export function renderCommon(active = "") {
+  initializeAnalytics();
   injectCommonSearchStyles_();
 
   const header =
@@ -341,6 +346,16 @@ function setupGlobalSearch_() {
     if (!query) {
       return;
     }
+
+    window.MusDbAnalytics?.trackEvent(
+      "search_submit",
+      {
+        search_source: "header"
+      }
+    );
+    window.MusDbAnalytics?.rememberSearchSource(
+      "header"
+    );
 
     location.href =
       `search.html?q=${encodeURIComponent(

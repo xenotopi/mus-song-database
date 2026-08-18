@@ -157,6 +157,7 @@ const loadingSections = [
 let recentItems = [];
 let recentVisibleCount = 5;
 let currentSecretMemoryId = "";
+let currentSecretMemoryItem = null;
 let secretMemoryDrawing = false;
 
 
@@ -562,6 +563,7 @@ function renderSecretMemory(options = {}) {
 
   currentSecretMemoryId =
     item.id || "";
+  currentSecretMemoryItem = item;
 
   elements.secretMemorySection.hidden = false;
   elements.secretMemoryCard.dataset.rarity = item.rarity;
@@ -578,9 +580,20 @@ function renderSecretMemory(options = {}) {
     elements.secretMemoryLink.href = relatedUrl;
     elements.secretMemoryLink.textContent =
       item.linkLabel || "詳細を見る";
+    elements.secretMemoryLink.dataset.musdbAnalyticsEvent =
+      "trivia_related_click";
+    elements.secretMemoryLink.dataset.triviaId = item.id || "";
+    elements.secretMemoryLink.dataset.rarity = item.rarity || "";
+    elements.secretMemoryLink.dataset.relatedType = item.relatedType || "";
+    elements.secretMemoryLink.dataset.relatedId = item.relatedId || "";
     elements.secretMemoryLink.hidden = false;
   } else {
     elements.secretMemoryLink.removeAttribute("href");
+    delete elements.secretMemoryLink.dataset.musdbAnalyticsEvent;
+    delete elements.secretMemoryLink.dataset.triviaId;
+    delete elements.secretMemoryLink.dataset.rarity;
+    delete elements.secretMemoryLink.dataset.relatedType;
+    delete elements.secretMemoryLink.dataset.relatedId;
     elements.secretMemoryLink.textContent = "";
     elements.secretMemoryLink.hidden = true;
   }
@@ -630,6 +643,17 @@ async function redrawSecretMemory() {
   renderSecretMemory({
     excludeCurrent: true
   });
+
+  if (currentSecretMemoryItem) {
+    window.MusDbAnalytics?.trackEvent(
+      "trivia_draw",
+      {
+        trivia_id: currentSecretMemoryItem.id || "",
+        rarity: currentSecretMemoryItem.rarity || "",
+        draw_type: "manual"
+      }
+    );
+  }
 
   elements.secretMemoryCard.classList.remove("is-changing");
   elements.secretMemoryCard.classList.add("is-revealed");
@@ -917,6 +941,16 @@ elements.homeSearchForm.addEventListener(
       elements.homeSearchInput.focus();
       return;
     }
+
+    window.MusDbAnalytics?.trackEvent(
+      "search_submit",
+      {
+        search_source: "home"
+      }
+    );
+    window.MusDbAnalytics?.rememberSearchSource(
+      "home"
+    );
 
     location.href =
       `search.html?q=${encodeURIComponent(query)}`;

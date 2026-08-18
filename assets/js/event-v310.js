@@ -1242,10 +1242,17 @@ async function loadEvent() {
     }
 
   } catch (error) {
-    console.error(
-      "Event API error:",
-      error
-    );
+    const isExpectedNotFound =
+      /見つかりません|該当(?:する)?データ(?:が)?ありません/.test(
+        String(error?.message || "")
+      );
+
+    if (!isExpectedNotFound) {
+      console.error(
+        "Event API error:",
+        error
+      );
+    }
 
     setError(error);
   }

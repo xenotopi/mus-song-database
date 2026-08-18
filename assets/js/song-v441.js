@@ -1352,7 +1352,15 @@ async function loadSong() {
     }
 
   } catch (error) {
-    console.error("Song API error:", error);
+    const isExpectedNotFound =
+      /見つかりません|該当(?:する)?データ(?:が)?ありません/.test(
+        String(error?.message || "")
+      );
+
+    if (!isExpectedNotFound) {
+      console.error("Song API error:", error);
+    }
+
     setError(error);
   }
 }

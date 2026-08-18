@@ -358,7 +358,15 @@ async function loadSinger() {
       );
     }
   } catch (error) {
-    console.error(error);
+    const isExpectedNotFound =
+      /見つかりません|該当(?:する)?データ(?:が)?ありません/.test(
+        String(error?.message || "")
+      );
+
+    if (!isExpectedNotFound) {
+      console.error(error);
+    }
+
     showSingerError(
       "歌唱名義が見つかりません",
       error?.message ||

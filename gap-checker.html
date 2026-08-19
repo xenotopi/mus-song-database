@@ -39,8 +39,10 @@
     .gap-song-search{position:relative;min-width:0}
     .gap-field{display:grid;gap:7px;min-width:0}
     .gap-field label{color:var(--muted);font-size:10px;font-weight:900}
-    .gap-field input{width:100%;min-width:0;min-height:46px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--navy);font-weight:800}
-    .gap-field input:focus,.gap-song-suggest-item:focus-visible,.gap-tab:focus-visible,.gap-check-button:focus-visible,.gap-share-button:focus-visible{outline:3px solid rgba(79,70,229,.2);outline-offset:2px}
+    .gap-field input,.gap-field select{width:100%;min-width:0;min-height:46px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--navy);font-weight:800}
+    .gap-field input:focus,.gap-field select:focus,.gap-song-suggest-item:focus-visible,.gap-tab:focus-visible,.gap-check-button:focus-visible,.gap-share-button:focus-visible,.gap-history-toggle:focus-visible{outline:3px solid rgba(79,70,229,.2);outline-offset:2px}
+    .gap-input-or{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:9px;font-weight:900}
+    .gap-input-or::before,.gap-input-or::after{height:1px;flex:1;background:var(--line);content:""}
     .gap-song-suggestions{position:absolute;z-index:1200;top:calc(100% + 7px);left:0;right:0;overflow:hidden;border:1px solid var(--line);border-radius:15px;background:#fff;box-shadow:0 18px 44px rgba(23,32,51,.2)}
     .gap-song-suggest-list{max-height:min(44vh,360px);overflow-y:auto;overscroll-behavior:contain}
     .gap-song-suggest-item{width:100%;min-height:58px;padding:10px 13px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 12px;align-items:center;border:0;border-bottom:1px solid var(--line);background:#fff;color:var(--navy);text-align:left;cursor:pointer}
@@ -76,6 +78,7 @@
     .gap-context{margin:14px 0 0;color:var(--muted);font-size:12px;font-weight:800;line-height:1.7}
     .gap-main-value{margin-top:12px;color:var(--indigo);font-size:clamp(38px,8vw,68px);font-weight:950;line-height:1.08;letter-spacing:-.035em;overflow-wrap:anywhere}
     .gap-main-formatted{margin-top:8px;color:#655da0;font-size:clamp(15px,3vw,21px);font-weight:900;line-height:1.5}
+    .gap-consecutive-badge{margin-top:10px;display:inline-flex;padding:6px 11px;border:1px solid #cfc9ff;border-radius:999px;background:#f1efff;color:#5043bd;font-size:11px;font-weight:950;letter-spacing:.04em}
     .gap-empty{margin-top:18px;padding:22px 18px;border:1px dashed #cfc9ec;border-radius:16px;background:#fff;color:var(--navy);font-size:15px;font-weight:900;line-height:1.8;text-align:center}
     .gap-empty small{margin-top:6px;display:block;color:var(--muted);font-size:11px;font-weight:700}
     .gap-date-grid{margin-top:22px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
@@ -94,18 +97,23 @@
     .gap-fact-label{color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.05em}
     .gap-fact-value{margin-top:7px;color:var(--navy);font-size:15px;font-weight:900;line-height:1.55;overflow-wrap:anywhere}
     .gap-fact-sub{margin-top:4px;color:var(--muted);font-size:10px;font-weight:700;line-height:1.6}
+    .gap-history-toggle-wrap{margin-top:16px;text-align:center}
+    .gap-history-toggle{min-height:42px;padding:8px 18px;border:1px solid var(--indigo);border-radius:999px;background:#fff;color:var(--indigo);font-size:11px;font-weight:900;cursor:pointer}
+    .gap-history-toggle:hover{background:#f3f1ff}
+    .gap-mode-note{margin-top:8px;color:var(--muted);font-size:9px;font-weight:700;line-height:1.6}
     .gap-actions{margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
     .gap-share-button{background:#111827;border-color:#111827}
     .gap-share-note{color:var(--muted);font-size:10px;font-weight:700;line-height:1.6}
     .gap-guide{margin-top:20px;padding:15px 16px;border:1px solid #e8e6f7;border-radius:14px;background:#faf9ff;color:var(--muted);font-size:11px;font-weight:700;line-height:1.8}
     @media(max-width:900px){
       .gap-input-card{grid-template-columns:1fr 1fr}
-      .gap-check-button{width:100%}
+      .gap-check-button{grid-column:1/-1;width:100%}
     }
     @media(max-width:620px){
       .gap-page{padding:18px 12px 48px}
       .gap-hero{padding:22px 18px}
       .gap-input-card{grid-template-columns:1fr;padding:16px}
+      .gap-check-button{grid-column:auto}
       .gap-song-suggest-list{max-height:min(42vh,320px)}
       .gap-controls{grid-template-columns:1fr;padding:14px}
       .gap-share-card{padding:18px 15px}
@@ -132,12 +140,17 @@
     <section class="gap-input-card" aria-labelledby="gapInputTitle">
       <h2 id="gapInputTitle" hidden>判定条件</h2>
       <div class="gap-field">
-        <label for="songSearch">曲を検索・選択</label>
+        <label for="songSearch">曲を検索</label>
         <div class="gap-song-search" id="gapSongSearchWrap">
           <input id="songSearch" type="search" inputmode="search" autocomplete="off" placeholder="曲名・略称・曲IDを入力" aria-autocomplete="list" aria-expanded="false" aria-controls="gapSongSuggestions">
-          <input id="songSelect" type="hidden" value="">
           <div class="gap-song-suggestions" id="gapSongSuggestions" role="listbox" aria-label="曲の候補" hidden></div>
         </div>
+        <span class="gap-input-or" aria-hidden="true">または</span>
+        <label for="songSelect">曲一覧から選択</label>
+        <select id="songSelect">
+          <option value="">曲データを読み込んでいます...</option>
+        </select>
+        <input id="selectedSongId" type="hidden" value="">
       </div>
       <div class="gap-field">
         <label for="baseDate">基準日</label>
@@ -169,6 +182,7 @@
             <button class="gap-tab" type="button" data-mode="current" aria-pressed="true">もし今日歌われたら</button>
             <button class="gap-tab" type="button" data-mode="latest" aria-pressed="false">前回は何日ぶり？</button>
           </div>
+          <span class="gap-mode-note">「前回は何日ぶり？」は、登録済みの歌唱記録をもとに判定します。</span>
         </div>
       </div>
       <article class="gap-share-card" id="gapShareCard" aria-live="polite">
@@ -186,6 +200,6 @@
     </section>
   </main>
   <div id="siteFooter"></div>
-  <script type="module" src="assets/js/gap-checker-v490.js?v=4.9.1"></script>
+  <script type="module" src="assets/js/gap-checker-v490.js?v=4.9.2"></script>
 </body>
 </html>

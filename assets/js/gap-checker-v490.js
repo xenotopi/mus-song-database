@@ -9,10 +9,7 @@ import {
 
 renderCommon("");
 
-const SHARE_HASHTAGS = Object.freeze([
-  "#μʼs",
-  "#μsSongDatabase"
-]);
+const SHARE_HASHTAG = "#μʼsSongDatabase";
 const SEARCH_DEBOUNCE_MS = 220;
 const MAX_SUGGESTIONS = 8;
 const SEARCH_QUERY_EXPANSIONS = Object.freeze({
@@ -34,6 +31,7 @@ const state = {
   result: null,
   scope: "all",
   mode: "current",
+  gapIndex: 0,
   loading: false,
   suggestions: [],
   activeSuggestionIndex: -1,
@@ -46,6 +44,7 @@ const $ = id => document.getElementById(id);
 const el = {
   songSearch: $("songSearch"),
   songSelect: $("songSelect"),
+  selectedSongId: $("selectedSongId"),
   songSearchWrap: $("gapSongSearchWrap"),
   songSuggestions: $("gapSongSuggestions"),
   baseDate: $("baseDate"),
@@ -139,7 +138,7 @@ function hideStatus() {
 function syncButton() {
   el.checkButton.disabled = (
     state.loading ||
-    !el.songSelect.value ||
+    !el.selectedSongId.value ||
     !isValidDate(el.baseDate.value)
   );
 }
@@ -153,7 +152,7 @@ function clearResult() {
 
 function currentUrl() {
   const url = new URL("gap-checker.html", location.href);
-  const songId = el.songSelect.value;
+  const songId = el.selectedSongId.value;
   const baseDate = el.baseDate.value;
 
   url.search = "";
@@ -168,6 +167,9 @@ function currentUrl() {
 
   url.searchParams.set("scope", state.scope);
   url.searchParams.set("mode", state.mode);
+  if (state.mode === "latest" && state.gapIndex > 0) {
+    url.searchParams.set("gapIndex", String(state.gapIndex));
+  }
   return url;
 }
 
@@ -185,12 +187,23 @@ function selectSong(songId) {
     return false;
   }
 
+  el.selectedSongId.value = song.id;
   el.songSelect.value = song.id;
   el.songSearch.value = song.name;
   state.suggestions = [];
   el.songSuggestions.innerHTML = "";
   closeSongSuggestions();
   return true;
+}
+
+function populateSongSelect() {
+  el.songSelect.innerHTML =
+    '<option value="">曲一覧から選択してください</option>' +
+    state.songs.map(song =>
+      '<option value="' + escapeHtml(song.id) + '">' +
+        escapeHtml(song.id + " " + song.name) +
+      "</option>"
+    ).join("");
 }
 
 function localSuggestionScore(song, normalizedQuery) {
@@ -345,8 +358,8 @@ async function requestAliasSuggestions(query, requestId) {
       "search",
       { q: searchQuery },
       {
-        timeoutMs: 12000,
-        retryCount: 0
+        timeoutMs: 20000,
+        retryCount: 1
       }
     );
 
@@ -367,7 +380,7 @@ async function requestAliasSuggestions(query, requestId) {
 
     console.warn("Gap checker song suggestion failed:", error);
     renderSuggestionState(
-      "候補を取得できませんでした。曲名または曲IDでもう一度お試しください。"
+      "候補を取得できませんでした。下の曲一覧からも選択できます。"
     );
   }
 }
@@ -509,9 +522,8 @@ function renderCurrentFacts(scopeData) {
   );
 }
 
-function renderLatestFacts(scopeData) {
-  const latest = scopeData.latestPerformanceGap || {};
-  const rank = latest.historyRank || {};
+function renderLatestFacts(scopeData, gap) {
+  const rank = gap?.historyRank || {};
   let rankingValue = rank.rank !== null &&
     rank.rank !== undefined &&
     Number.isFinite(Number(rank.rank))
@@ -542,6 +554,79 @@ function renderLatestFacts(scopeData) {
         "</div>" +
       "</section>" +
       renderLongestFact(scopeData.longestGap) +
+    "</div>"
+  );
+}
+
+function normalizeRecentGap(gap) {
+  if (!gap) {
+    return null;
+  }
+
+  return {
+    ...gap,
+    previousDate: gap.fromDate,
+    latestDate: gap.toDate,
+    previousEvents: gap.fromEvents || [],
+    latestEvents: gap.toEvents || []
+  };
+}
+
+function latestGaps(scopeData) {
+  const recent = Array.isArray(scopeData.recentGaps)
+    ? scopeData.recentGaps.map(normalizeRecentGap).filter(Boolean)
+    : [];
+
+  if (recent.length) {
+    return recent;
+  }
+
+  return scopeData.latestPerformanceGap
+    ? [scopeData.latestPerformanceGap]
+    : [];
+}
+
+function activeLatestGap(scopeData) {
+  const gaps = latestGaps(scopeData);
+  if (state.gapIndex >= gaps.length) {
+    state.gapIndex = 0;
+  }
+  return gaps[state.gapIndex] || null;
+}
+
+function latestDateLabels() {
+  const infix = state.scope === "official"
+    ? "公式"
+    : state.scope === "solo"
+      ? "ソロ"
+      : "";
+
+  return {
+    latest: "今回の" + infix + "歌唱",
+    previous: "その前の" + infix + "歌唱"
+  };
+}
+
+function renderRecentGapToggle(scopeData, gap) {
+  const gaps = latestGaps(scopeData);
+  const canShowPrevious =
+    state.gapIndex === 0 &&
+    Number(gap?.days) === 1 &&
+    gaps.length > 1;
+
+  if (!canShowPrevious && state.gapIndex === 0) {
+    return "";
+  }
+
+  const targetIndex = canShowPrevious ? 1 : 0;
+  const label = canShowPrevious
+    ? "その前のブランクを見る"
+    : "最新のブランクへ戻る";
+
+  return (
+    '<div class="gap-history-toggle-wrap">' +
+      '<button class="gap-history-toggle" type="button" data-gap-index="' +
+        targetIndex + '">' + escapeHtml(label) + "</button>" +
     "</div>"
   );
 }
@@ -662,7 +747,7 @@ function renderResult() {
 
   const scopeData = data.scopes[state.scope];
   const gap = state.mode === "latest"
-    ? scopeData.latestPerformanceGap
+    ? activeLatestGap(scopeData)
     : scopeData.currentGap;
   let body = renderCardHeader(data);
 
@@ -692,14 +777,21 @@ function renderResult() {
     );
     el.shareActions.hidden = false;
   } else {
+    const labels = latestDateLabels();
+    const consecutive = Number(gap.days) === 1
+      ? '<div class="gap-consecutive-badge">連日歌唱</div>'
+      : "";
+
     body += (
       '<div class="gap-main-value">' + formatNumber(gap.days) + "日ぶりでした</div>" +
+      consecutive +
       '<div class="gap-main-formatted">' + escapeHtml(gap.formatted || "") + "</div>" +
       '<div class="gap-date-grid">' +
-        renderDateBlock("その前の歌唱", gap.previousDate, gap.previousEvents) +
-        renderDateBlock("直近の歌唱", gap.latestDate, gap.latestEvents) +
+        renderDateBlock(labels.latest, gap.latestDate, gap.latestEvents) +
+        renderDateBlock(labels.previous, gap.previousDate, gap.previousEvents) +
       "</div>" +
-      renderLatestFacts(scopeData)
+      renderLatestFacts(scopeData, gap) +
+      renderRecentGapToggle(scopeData, gap)
     );
     el.shareActions.hidden = false;
   }
@@ -720,6 +812,39 @@ function scopePhrase() {
     return "ソロで";
   }
   return "";
+}
+
+function shortenShareText(value, maxLength) {
+  const text = String(value || "").trim();
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.slice(0, Math.max(1, maxLength - 1)).trimEnd() + "…";
+}
+
+function shareEventName(events) {
+  const names = Array.from(new Set(
+    (Array.isArray(events) ? events : [])
+      .map(event => String(event?.eventName || "").trim())
+      .filter(Boolean)
+  ));
+
+  if (!names.length) {
+    return "";
+  }
+
+  const first = shortenShareText(names[0], 56);
+  return names.length > 1
+    ? first + "（ほか" + (names.length - 1) + "件）"
+    : first;
+}
+
+function appendSharePerformance(lines, label, date, events) {
+  lines.push(label + "：", formatJapaneseDate(date));
+  const eventName = shareEventName(events);
+  if (eventName) {
+    lines.push(eventName);
+  }
 }
 
 function rareShareLine(scopeData, gap) {
@@ -762,17 +887,40 @@ function shareText(scopeData, gap) {
   const scope = scopePhrase();
 
   if (state.mode === "latest") {
-    const latestContext = scope
-      ? scope + "前回歌われたときは"
-      : "前回の歌唱は";
+    const latestContext = state.gapIndex > 0
+      ? (
+          state.scope === "all"
+            ? "その前の歌唱は"
+            : "その前の" + SCOPE_LABELS[state.scope] + "歌唱は"
+        )
+      : (
+          scope
+            ? scope + "前回歌われたときは"
+            : "前回の歌唱は"
+        );
+    const consecutive = Number(gap.days) === 1
+      ? "（連日歌唱）"
+      : "";
+    const labels = latestDateLabels();
 
     lines.push(
       latestContext,
       (gap.formatted || (formatNumber(gap.days) + "日ぶり")) +
-        "（" + formatNumber(gap.days) + "日）でした",
-      "",
-      "今回：" + formatJapaneseDate(gap.latestDate),
-      "前回：" + formatJapaneseDate(gap.previousDate)
+        "（" + formatNumber(gap.days) + "日）でした" + consecutive,
+      ""
+    );
+    appendSharePerformance(
+      lines,
+      labels.latest,
+      gap.latestDate,
+      gap.latestEvents
+    );
+    lines.push("");
+    appendSharePerformance(
+      lines,
+      labels.previous,
+      gap.previousDate,
+      gap.previousEvents
     );
   } else {
     const currentContext = data.baseDateRelation === "today"
@@ -783,8 +931,13 @@ function shareText(scopeData, gap) {
       currentContext,
       (gap.formatted || (formatNumber(gap.days) + "日ぶり")) +
         "（" + formatNumber(gap.days) + "日）",
-      "",
-      "前回歌唱：" + formatJapaneseDate(gap.previousDate)
+      ""
+    );
+    appendSharePerformance(
+      lines,
+      "前回歌唱",
+      gap.previousDate,
+      gap.previousEvents
     );
   }
 
@@ -793,7 +946,7 @@ function shareText(scopeData, gap) {
     lines.push("", rare);
   }
 
-  lines.push("", SHARE_HASHTAGS.join(" "), currentUrl().toString());
+  lines.push("", SHARE_HASHTAG, currentUrl().toString());
   return lines.join("\n");
 }
 
@@ -811,7 +964,7 @@ function updateShareLink(scopeData, gap) {
 function activeMetrics() {
   const scopeData = state.result?.scopes?.[state.scope];
   const gap = state.mode === "latest"
-    ? scopeData?.latestPerformanceGap
+    ? activeLatestGap(scopeData || {})
     : scopeData?.currentGap;
   const rank = state.mode === "latest"
     ? gap?.historyRank?.rank
@@ -853,8 +1006,8 @@ async function requestGapV2(params) {
       cache: false,
       forceRefresh: true,
       staleWhileRevalidate: false,
-      timeoutMs: 30000,
-      retryCount: 0
+      timeoutMs: 45000,
+      retryCount: 1
     }
   );
 
@@ -866,7 +1019,7 @@ function isExpectedError(error) {
 }
 
 async function runCheck() {
-  const songId = el.songSelect.value;
+  const songId = el.selectedSongId.value;
   const baseDate = el.baseDate.value;
 
   if (!songId || !isValidDate(baseDate) || state.loading) {
@@ -874,6 +1027,7 @@ async function runCheck() {
   }
 
   state.loading = true;
+  state.gapIndex = 0;
   clearResult();
   el.checkButton.textContent = "判定中…";
   syncButton();
@@ -904,7 +1058,9 @@ async function runCheck() {
     }
 
     showStatus(
-      error?.message || "判定中にエラーが発生しました。もう一度お試しください。",
+      isExpectedError(error)
+        ? error.message
+        : "判定データを取得できませんでした。時間をおいて「判定する」をもう一度押してください。",
       "error"
     );
   } finally {
@@ -918,6 +1074,7 @@ function readInitialParams() {
   const params = new URLSearchParams(location.search);
   const requestedScope = params.get("scope");
   const requestedMode = params.get("mode");
+  const requestedGapIndex = Number(params.get("gapIndex") || 0);
   const requestedBaseDate = String(params.get("baseDate") || "").trim();
 
   state.scope = VALID_SCOPES.has(requestedScope)
@@ -926,6 +1083,14 @@ function readInitialParams() {
   state.mode = VALID_MODES.has(requestedMode)
     ? requestedMode
     : "current";
+  state.gapIndex = (
+    state.mode === "latest" &&
+    Number.isInteger(requestedGapIndex) &&
+    requestedGapIndex >= 0 &&
+    requestedGapIndex < 5
+  )
+    ? requestedGapIndex
+    : 0;
 
   return {
     songId: String(params.get("song") || "").trim(),
@@ -971,6 +1136,7 @@ async function initializePage() {
     }
 
     state.songs = data.songs;
+    populateSongSelect();
     el.baseDate.value = data.baseDate || data.todayJst || "";
 
     const restored = initial.songId
@@ -1003,8 +1169,7 @@ async function initializePage() {
   } catch (error) {
     console.error(error);
     showStatus(
-      error?.message ||
-      "曲データを取得できませんでした。ページを再読み込みしてもう一度お試しください。",
+      "判定データを取得できませんでした。ページを再読み込みしてもう一度お試しください。",
       "error"
     );
   } finally {
@@ -1017,11 +1182,29 @@ async function initializePage() {
 
 el.songSearch.addEventListener("input", () => {
   clearResult();
+  state.gapIndex = 0;
+  el.selectedSongId.value = "";
   el.songSelect.value = "";
   showStatus("候補から曲を選択してください。");
   replaceStateUrl();
   syncButton();
   scheduleSongSuggestions();
+});
+
+el.songSelect.addEventListener("change", () => {
+  clearResult();
+  state.gapIndex = 0;
+
+  if (el.songSelect.value && selectSong(el.songSelect.value)) {
+    showStatus("曲を選択しました。「判定する」を押してください。");
+  } else {
+    el.selectedSongId.value = "";
+    el.songSearch.value = "";
+    showStatus("曲を検索するか、曲一覧から選択してください。");
+  }
+
+  replaceStateUrl();
+  syncButton();
 });
 
 el.songSearch.addEventListener("focus", () => {
@@ -1096,6 +1279,7 @@ document.addEventListener("click", event => {
 
 el.baseDate.addEventListener("change", () => {
   clearResult();
+  state.gapIndex = 0;
 
   if (el.baseDate.value && !isValidDate(el.baseDate.value)) {
     showStatus(
@@ -1117,6 +1301,7 @@ el.scopeTabs.addEventListener("click", event => {
   }
 
   state.scope = button.dataset.scope;
+  state.gapIndex = 0;
   updateTabs();
   replaceStateUrl();
 
@@ -1132,12 +1317,29 @@ el.modeTabs.addEventListener("click", event => {
   }
 
   state.mode = button.dataset.mode;
+  state.gapIndex = 0;
   updateTabs();
   replaceStateUrl();
 
   if (state.result) {
     renderResult();
   }
+});
+
+el.resultContent.addEventListener("click", event => {
+  const button = event.target.closest("[data-gap-index]");
+  if (!button || !state.result || state.mode !== "latest") {
+    return;
+  }
+
+  const nextIndex = Number(button.dataset.gapIndex);
+  if (!Number.isInteger(nextIndex) || nextIndex < 0) {
+    return;
+  }
+
+  state.gapIndex = nextIndex;
+  renderResult();
+  replaceStateUrl();
 });
 
 el.checkButton.addEventListener("click", runCheck);

@@ -10,6 +10,9 @@ import {
 renderCommon("");
 
 const SHARE_HASHTAG = "#μʼsSongDatabase";
+const X_POST_MAX_WEIGHT = 280;
+const X_SHARE_SAFE_WEIGHT = X_POST_MAX_WEIGHT - 20;
+const X_TRANSFORMED_URL_WEIGHT = 23;
 const SEARCH_DEBOUNCE_MS = 220;
 const MAX_SUGGESTIONS = 8;
 const SEARCH_QUERY_EXPANSIONS = Object.freeze({
@@ -816,13 +819,85 @@ function scopePhrase() {
 
 function shortenShareText(value, maxLength) {
   const text = String(value || "").trim();
-  if (text.length <= maxLength) {
+  const characters = Array.from(text);
+  if (characters.length <= maxLength) {
     return text;
   }
-  return text.slice(0, Math.max(1, maxLength - 1)).trimEnd() + "…";
+  return characters
+    .slice(0, Math.max(1, maxLength - 1))
+    .join("")
+    .trimEnd() + "…";
 }
 
-function shareEventName(events) {
+function isXSingleWeightCodePoint(codePoint) {
+  return (
+    codePoint <= 4351 ||
+    (codePoint >= 8192 && codePoint <= 8205) ||
+    (codePoint >= 8208 && codePoint <= 8223) ||
+    (codePoint >= 8242 && codePoint <= 8247)
+  );
+}
+
+function estimateXTextWeight(value) {
+  return Array.from(String(value || "").normalize("NFC"))
+    .reduce((total, character) =>
+      total + (
+        isXSingleWeightCodePoint(character.codePointAt(0))
+          ? 1
+          : 2
+      ), 0);
+}
+
+function estimateXWeightedLength(value) {
+  const text = String(value || "").normalize("NFC");
+  const urlPattern = /https?:\/\/[^\s]+/gu;
+  let total = 0;
+  let cursor = 0;
+
+  for (const match of text.matchAll(urlPattern)) {
+    total += estimateXTextWeight(text.slice(cursor, match.index));
+    total += X_TRANSFORMED_URL_WEIGHT;
+    cursor = match.index + match[0].length;
+  }
+
+  return total + estimateXTextWeight(text.slice(cursor));
+}
+
+function isShareTextSafe(value) {
+  return estimateXWeightedLength(value) <= X_SHARE_SAFE_WEIGHT;
+}
+
+function truncateShareTextByWeight(value, maxWeight) {
+  const text = String(value || "").trim().normalize("NFC");
+  if (estimateXTextWeight(text) <= maxWeight) {
+    return text;
+  }
+
+  const ellipsis = "…";
+  const ellipsisWeight = estimateXTextWeight(ellipsis);
+  const targetWeight = Math.max(0, maxWeight - ellipsisWeight);
+  let used = 0;
+  let result = "";
+
+  for (const character of Array.from(text)) {
+    const weight = estimateXTextWeight(character);
+    if (used + weight > targetWeight) {
+      break;
+    }
+    result += character;
+    used += weight;
+  }
+
+  return result.trimEnd()
+    ? result.trimEnd() + ellipsis
+    : ellipsis;
+}
+
+function shareEventName(events, mode = "full") {
+  if (mode === "none") {
+    return "";
+  }
+
   const names = Array.from(new Set(
     (Array.isArray(events) ? events : [])
       .map(event => String(event?.eventName || "").trim())
@@ -833,15 +908,31 @@ function shareEventName(events) {
     return "";
   }
 
-  const first = shortenShareText(names[0], 56);
+  const first = mode === "short"
+    ? shortenShareText(names[0], 28)
+    : names[0];
   return names.length > 1
     ? first + "（ほか" + (names.length - 1) + "件）"
     : first;
 }
 
-function appendSharePerformance(lines, label, date, events) {
-  lines.push(label + "：", formatJapaneseDate(date));
-  const eventName = shareEventName(events);
+function formatShareShortDate(value) {
+  const match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  return match
+    ? match[1] + "/" + match[2] + "/" + match[3]
+    : "日付不明";
+}
+
+function appendSharePerformance(
+  lines,
+  label,
+  date,
+  events,
+  eventMode,
+  dateFormatter
+) {
+  lines.push(label + "：", dateFormatter(date));
+  const eventName = shareEventName(events, eventMode);
   if (eventName) {
     lines.push(eventName);
   }
@@ -881,73 +972,241 @@ function rareShareLine(scopeData, gap) {
   return "";
 }
 
-function shareText(scopeData, gap) {
-  const data = state.result;
-  const lines = ["🎵 " + data.selectedSong.name, ""];
+function latestShareContext() {
   const scope = scopePhrase();
-
-  if (state.mode === "latest") {
-    const latestContext = state.gapIndex > 0
-      ? (
-          state.scope === "all"
-            ? "その前の歌唱は"
-            : "その前の" + SCOPE_LABELS[state.scope] + "歌唱は"
-        )
-      : (
-          scope
-            ? scope + "前回歌われたときは"
-            : "前回の歌唱は"
-        );
-    const consecutive = Number(gap.days) === 1
-      ? "（連日歌唱）"
-      : "";
-    const labels = latestDateLabels();
-
-    lines.push(
-      latestContext,
-      (gap.formatted || (formatNumber(gap.days) + "日ぶり")) +
-        "（" + formatNumber(gap.days) + "日）でした" + consecutive,
-      ""
-    );
-    appendSharePerformance(
-      lines,
-      labels.latest,
-      gap.latestDate,
-      gap.latestEvents
-    );
-    lines.push("");
-    appendSharePerformance(
-      lines,
-      labels.previous,
-      gap.previousDate,
-      gap.previousEvents
-    );
-  } else {
-    const currentContext = data.baseDateRelation === "today"
-      ? scope + "今日歌われたら"
-      : scope + formatJapaneseDate(data.baseDate) + "に歌われていたら";
-
-    lines.push(
-      currentContext,
-      (gap.formatted || (formatNumber(gap.days) + "日ぶり")) +
-        "（" + formatNumber(gap.days) + "日）",
-      ""
-    );
-    appendSharePerformance(
-      lines,
-      "前回歌唱",
-      gap.previousDate,
-      gap.previousEvents
-    );
+  if (state.gapIndex > 0) {
+    return state.scope === "all"
+      ? "その前の歌唱は"
+      : "その前の" + SCOPE_LABELS[state.scope] + "歌唱は";
   }
 
-  const rare = rareShareLine(scopeData, gap);
+  return scope
+    ? scope + "前回歌われたときは"
+    : "前回の歌唱は";
+}
+
+function currentShareContext(data, dateFormatter) {
+  const scope = scopePhrase();
+  return data.baseDateRelation === "today"
+    ? scope + "今日歌われたら"
+    : scope + dateFormatter(data.baseDate) + "に歌われていたら";
+}
+
+function shareGapResult(gap, includeConsecutive) {
+  const suffix = (
+    includeConsecutive &&
+    Number(gap.days) === 1
+  )
+    ? "（連日歌唱）"
+    : "";
+
+  return (
+    (gap.formatted || (formatNumber(gap.days) + "日ぶり")) +
+    "（" + formatNumber(gap.days) + "日）" +
+    (state.mode === "latest" ? "でした" : "") +
+    suffix
+  );
+}
+
+function buildShareTextVersion(scopeData, gap, options) {
+  const data = state.result;
+  const lines = ["🎵 " + options.title, ""];
+  const dateFormatter = options.shortDates
+    ? formatShareShortDate
+    : formatJapaneseDate;
+
+  if (state.mode === "latest") {
+    lines.push(
+      latestShareContext(),
+      shareGapResult(gap, options.includeConsecutive),
+      ""
+    );
+
+    if (options.compactDates) {
+      lines.push(
+        "今回：" + dateFormatter(gap.latestDate),
+        "その前：" + dateFormatter(gap.previousDate)
+      );
+    } else {
+      const labels = latestDateLabels();
+      appendSharePerformance(
+        lines,
+        labels.latest,
+        gap.latestDate,
+        gap.latestEvents,
+        options.eventMode,
+        dateFormatter
+      );
+      lines.push("");
+      appendSharePerformance(
+        lines,
+        labels.previous,
+        gap.previousDate,
+        gap.previousEvents,
+        options.eventMode,
+        dateFormatter
+      );
+    }
+  } else {
+    lines.push(
+      currentShareContext(data, dateFormatter),
+      shareGapResult(gap, options.includeConsecutive),
+      ""
+    );
+
+    if (options.compactDates) {
+      lines.push(
+        (options.shortDateLabel ? "前回：" : "前回歌唱：") +
+        dateFormatter(gap.previousDate)
+      );
+    } else {
+      appendSharePerformance(
+        lines,
+        "前回歌唱",
+        gap.previousDate,
+        gap.previousEvents,
+        options.eventMode,
+        dateFormatter
+      );
+    }
+  }
+
+  const rare = options.includeRare
+    ? rareShareLine(scopeData, gap)
+    : "";
   if (rare) {
     lines.push("", rare);
   }
 
   lines.push("", SHARE_HASHTAG, currentUrl().toString());
   return lines.join("\n");
+}
+
+function buildShareTextCandidates(scopeData, gap) {
+  const title = state.result.selectedSong.name;
+  const common = {
+    title: title,
+    shortDates: false,
+    compactDates: false,
+    shortDateLabel: false,
+    includeRare: true,
+    includeConsecutive: true
+  };
+
+  return [
+    {
+      level: "LEVEL_1_FULL",
+      text: buildShareTextVersion(scopeData, gap, {
+        ...common,
+        eventMode: "full"
+      })
+    },
+    {
+      level: "LEVEL_1_SHORT_EVENT",
+      text: buildShareTextVersion(scopeData, gap, {
+        ...common,
+        eventMode: "short"
+      })
+    },
+    {
+      level: "LEVEL_2_COMPACT",
+      text: buildShareTextVersion(scopeData, gap, {
+        ...common,
+        eventMode: "none",
+        compactDates: true
+      })
+    },
+    {
+      level: "LEVEL_3_MINIMAL",
+      text: buildShareTextVersion(scopeData, gap, {
+        ...common,
+        eventMode: "none",
+        compactDates: true,
+        shortDateLabel: true,
+        includeRare: false
+      })
+    },
+    {
+      level: "LEVEL_4_SHORT_DATE",
+      text: buildShareTextVersion(scopeData, gap, {
+        ...common,
+        eventMode: "none",
+        compactDates: true,
+        shortDateLabel: true,
+        shortDates: true,
+        includeRare: false
+      })
+    },
+    {
+      level: "LEVEL_4_NO_CONSECUTIVE",
+      text: buildShareTextVersion(scopeData, gap, {
+        ...common,
+        eventMode: "none",
+        compactDates: true,
+        shortDateLabel: true,
+        shortDates: true,
+        includeRare: false,
+        includeConsecutive: false
+      })
+    }
+  ];
+}
+
+function buildUltraShortShareText(gap) {
+  const url = currentUrl().toString();
+  const scopeLabel = state.scope === "all"
+    ? ""
+    : SCOPE_LABELS[state.scope] + "：";
+  const preferredResult = scopeLabel + shareGapResult(gap, false);
+  const fallbackResult = scopeLabel + formatNumber(gap.days) + "日ぶり";
+
+  const createText = (title, result) => [
+    "🎵 " + title,
+    "",
+    result,
+    "",
+    SHARE_HASHTAG,
+    url
+  ].join("\n");
+
+  let result = preferredResult;
+  let emptyTitleText = createText("", result);
+  if (!isShareTextSafe(emptyTitleText)) {
+    result = fallbackResult;
+    emptyTitleText = createText("", result);
+  }
+
+  const titleBudget = Math.max(
+    2,
+    X_SHARE_SAFE_WEIGHT - estimateXWeightedLength(emptyTitleText)
+  );
+  const title = truncateShareTextByWeight(
+    state.result.selectedSong.name,
+    titleBudget
+  );
+  const text = createText(title, result);
+
+  if (isShareTextSafe(text)) {
+    return text;
+  }
+
+  return createText("…", fallbackResult);
+}
+
+function selectShareTextCandidate(scopeData, gap) {
+  const candidates = buildShareTextCandidates(scopeData, gap);
+  const selected = candidates.find(candidate =>
+    isShareTextSafe(candidate.text)
+  );
+
+  return selected || {
+    level: "FINAL_DEFENSE",
+    text: buildUltraShortShareText(gap)
+  };
+}
+
+function shareText(scopeData, gap) {
+  return selectShareTextCandidate(scopeData, gap).text;
 }
 
 function updateShareLink(scopeData, gap) {

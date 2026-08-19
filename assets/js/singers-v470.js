@@ -6,13 +6,13 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=4.8.0";
+} from "./common.js?v=4.9.1";
 
 import {
   buildSingerUrl
 } from "./singer-links.js?v=4.8.0";
 
-renderCommon("ranking");
+renderCommon("singer");
 
 const $ = id =>
   document.getElementById(id);

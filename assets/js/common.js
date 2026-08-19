@@ -132,6 +132,13 @@ export function renderCommon(active = "") {
             </a>
 
             <a
+              class="${active === "singer" ? "active" : ""}"
+              href="singers.html"
+            >
+              歌唱名義
+            </a>
+
+            <a
               class="${active === "rankings" ? "active" : ""}"
               href="rankings.html"
             >
@@ -198,6 +205,10 @@ export function renderCommon(active = "") {
 
           <a class="${active === "venue" ? "active" : ""}" href="venues.html">
             <span>会場</span>
+          </a>
+
+          <a class="${active === "singer" ? "active" : ""}" href="singers.html">
+            <span>歌唱名義</span>
           </a>
 
           <a class="${active === "rankings" ? "active" : ""}" href="rankings.html">
@@ -1327,7 +1338,7 @@ function injectCommonSearchStyles_() {
       overscroll-behavior: none;
     }
 
-    @media (max-width: 820px) {
+    @media (max-width: 980px) {
       .site-header {
         overflow: visible !important;
       }
@@ -1375,7 +1386,7 @@ function injectCommonSearchStyles_() {
       }
     }
 
-    @media (min-width: 821px) {
+    @media (min-width: 981px) {
       .mus-mobile-drawer,
       .mus-mobile-menu-overlay {
         display: none !important;

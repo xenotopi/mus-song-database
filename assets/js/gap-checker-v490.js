@@ -9,7 +9,15 @@ import {
 
 renderCommon("");
 
-const SHARE_HASHTAG = "#μsSongDatabase";
+const SHARE_HASHTAGS = Object.freeze([
+  "#μʼs",
+  "#μsSongDatabase"
+]);
+const SEARCH_DEBOUNCE_MS = 220;
+const MAX_SUGGESTIONS = 8;
+const SEARCH_QUERY_EXPANSIONS = Object.freeze({
+  "ボクラ": "僕ら"
+});
 const VALID_SCOPES = new Set(["all", "official", "solo"]);
 const VALID_MODES = new Set(["current", "latest"]);
 const EXPECTED_ERROR_PATTERN =
@@ -26,7 +34,11 @@ const state = {
   result: null,
   scope: "all",
   mode: "current",
-  loading: false
+  loading: false,
+  suggestions: [],
+  activeSuggestionIndex: -1,
+  suggestionRequestId: 0,
+  suggestionTimer: null
 };
 
 const $ = id => document.getElementById(id);
@@ -34,6 +46,8 @@ const $ = id => document.getElementById(id);
 const el = {
   songSearch: $("songSearch"),
   songSelect: $("songSelect"),
+  songSearchWrap: $("gapSongSearchWrap"),
+  songSuggestions: $("gapSongSuggestions"),
   baseDate: $("baseDate"),
   checkButton: $("checkButton"),
   status: $("status"),
@@ -50,7 +64,19 @@ function normalizeSearch(value) {
   return String(value || "")
     .normalize("NFKC")
     .toLocaleLowerCase("ja")
-    .replace(/\s+/g, "");
+    .replace(/[’'`´]/g, "")
+    .replace(/[μµ]/g, "μ")
+    .replace(
+      /[\u3041-\u3096]/g,
+      character =>
+        String.fromCharCode(
+          character.charCodeAt(0) + 0x60
+        )
+    )
+    .replace(
+      /[\s　・･／/～〜\-—_:：!！?？,.，。()（）【】［］「」『』"“”♡♥♪]+/g,
+      ""
+    );
 }
 
 function isValidDate(value) {
@@ -92,10 +118,6 @@ function formatNumber(value) {
   return Number.isFinite(number)
     ? number.toLocaleString("ja-JP")
     : "—";
-}
-
-function stripBuri(value) {
-  return String(value || "").replace(/ぶり$/, "");
 }
 
 function showStatus(message, kind) {
@@ -157,39 +179,229 @@ function replaceStateUrl() {
   );
 }
 
-function renderSongOptions(query, preferredSongId) {
-  const normalizedQuery = normalizeSearch(query);
-  const selectedSongId = preferredSongId || el.songSelect.value;
-  const filtered = state.songs.filter(song => {
-    if (!normalizedQuery) {
-      return true;
-    }
-
-    return normalizeSearch(song.id + song.name).includes(normalizedQuery);
-  });
-
-  el.songSelect.innerHTML =
-    '<option value="">曲を選択してください</option>' +
-    filtered.map(song =>
-      '<option value="' + escapeHtml(song.id) + '">' +
-        escapeHtml(song.id + " " + song.name) +
-      "</option>"
-    ).join("");
-
-  if (selectedSongId && filtered.some(song => song.id === selectedSongId)) {
-    el.songSelect.value = selectedSongId;
-  }
-}
-
 function selectSong(songId) {
   const song = state.songs.find(item => item.id === songId);
   if (!song) {
     return false;
   }
 
+  el.songSelect.value = song.id;
   el.songSearch.value = song.name;
-  renderSongOptions(song.name, song.id);
+  state.suggestions = [];
+  el.songSuggestions.innerHTML = "";
+  closeSongSuggestions();
   return true;
+}
+
+function localSuggestionScore(song, normalizedQuery) {
+  const normalizedId = normalizeSearch(song.id);
+  const normalizedName = normalizeSearch(song.name);
+
+  if (normalizedId === normalizedQuery) return 1200;
+  if (normalizedName === normalizedQuery) return 1100;
+  if (normalizedId.startsWith(normalizedQuery)) return 950;
+  if (normalizedName.startsWith(normalizedQuery)) return 900;
+
+  const nameIndex = normalizedName.indexOf(normalizedQuery);
+  if (nameIndex >= 0) return 700 - Math.min(nameIndex, 100);
+
+  return 0;
+}
+
+function findLocalSongCandidates(query) {
+  const normalizedQuery = normalizeSearch(query);
+  if (!normalizedQuery) {
+    return [];
+  }
+
+  return state.songs
+    .map(song => ({
+      id: song.id,
+      name: song.name,
+      score: localSuggestionScore(song, normalizedQuery),
+      matchAlias: ""
+    }))
+    .filter(song => song.score > 0)
+    .sort((a, b) =>
+      b.score - a.score ||
+      a.id.localeCompare(b.id, "ja")
+    )
+    .slice(0, MAX_SUGGESTIONS);
+}
+
+function mapApiSongCandidates(data, query) {
+  const knownIds = new Set(state.songs.map(song => song.id));
+  const normalizedQuery = normalizeSearch(query);
+
+  return (data?.results?.songs || [])
+    .filter(item => {
+      const id = String(item.songId || "");
+      const name = String(item.displayName || item.songName || "");
+      const alias = String(item.matchAlias || "");
+
+      return (
+        knownIds.has(id) &&
+        (
+          normalizeSearch(name).includes(normalizedQuery) ||
+          normalizeSearch(alias).includes(normalizedQuery)
+        )
+      );
+    })
+    .map(item => ({
+      id: String(item.songId || ""),
+      name: String(item.displayName || item.songName || "曲名未設定"),
+      score: Number(item.score || 0),
+      matchAlias: String(item.matchAlias || "")
+    }))
+    .slice(0, MAX_SUGGESTIONS);
+}
+
+function apiSuggestionQuery(query) {
+  return SEARCH_QUERY_EXPANSIONS[normalizeSearch(query)] || query;
+}
+
+function closeSongSuggestions() {
+  el.songSuggestions.hidden = true;
+  el.songSearch.setAttribute("aria-expanded", "false");
+  state.activeSuggestionIndex = -1;
+}
+
+function openSongSuggestions() {
+  el.songSuggestions.hidden = false;
+  el.songSearch.setAttribute("aria-expanded", "true");
+}
+
+function renderSuggestionState(message) {
+  state.suggestions = [];
+  state.activeSuggestionIndex = -1;
+  el.songSuggestions.innerHTML =
+    '<div class="gap-song-suggest-state" role="status">' +
+      escapeHtml(message) +
+    "</div>";
+  openSongSuggestions();
+}
+
+function updateActiveSuggestion() {
+  const buttons = Array.from(
+    el.songSuggestions.querySelectorAll("[data-song-id]")
+  );
+
+  buttons.forEach((button, index) => {
+    const active = index === state.activeSuggestionIndex;
+    button.setAttribute("aria-selected", String(active));
+    if (active) {
+      button.scrollIntoView({ block: "nearest" });
+    }
+  });
+}
+
+function renderSongSuggestions(candidates) {
+  state.suggestions = candidates.slice(0, MAX_SUGGESTIONS);
+  state.activeSuggestionIndex = -1;
+
+  if (!state.suggestions.length) {
+    renderSuggestionState("一致する曲はありません。別の文字でお試しください。");
+    return;
+  }
+
+  el.songSuggestions.innerHTML =
+    '<div class="gap-song-suggest-list">' +
+    state.suggestions.map(song => {
+      const meta = song.matchAlias
+        ? '別名「' + song.matchAlias + '」に一致'
+        : "候補を選択して曲を確定";
+
+      return (
+        '<button class="gap-song-suggest-item" type="button" role="option" ' +
+        'aria-selected="false" data-song-id="' + escapeHtml(song.id) + '">' +
+          '<span class="gap-song-suggest-name">' + escapeHtml(song.name) + "</span>" +
+          '<span class="gap-song-suggest-id">' + escapeHtml(song.id) + "</span>" +
+          '<span class="gap-song-suggest-meta">' + escapeHtml(meta) + "</span>" +
+        "</button>"
+      );
+    }).join("") +
+    "</div>";
+
+  openSongSuggestions();
+}
+
+function confirmSongSelection(songId) {
+  if (!selectSong(songId)) {
+    return;
+  }
+
+  clearResult();
+  showStatus("曲を選択しました。「判定する」を押してください。");
+  replaceStateUrl();
+  syncButton();
+}
+
+async function requestAliasSuggestions(query, requestId) {
+  renderSuggestionState("検索別名を確認しています...");
+
+  try {
+    const searchQuery = apiSuggestionQuery(query);
+    const response = await apiGet(
+      "search",
+      { q: searchQuery },
+      {
+        timeoutMs: 12000,
+        retryCount: 0
+      }
+    );
+
+    if (
+      requestId !== state.suggestionRequestId ||
+      query !== el.songSearch.value.trim()
+    ) {
+      return;
+    }
+
+    renderSongSuggestions(
+      mapApiSongCandidates(response.data || {}, searchQuery)
+    );
+  } catch (error) {
+    if (requestId !== state.suggestionRequestId) {
+      return;
+    }
+
+    console.warn("Gap checker song suggestion failed:", error);
+    renderSuggestionState(
+      "候補を取得できませんでした。曲名または曲IDでもう一度お試しください。"
+    );
+  }
+}
+
+function scheduleSongSuggestions() {
+  window.clearTimeout(state.suggestionTimer);
+  state.suggestionRequestId += 1;
+
+  const query = el.songSearch.value.trim();
+  const localCandidates = findLocalSongCandidates(query);
+
+  if (!query) {
+    state.suggestions = [];
+    el.songSuggestions.innerHTML = "";
+    closeSongSuggestions();
+    return;
+  }
+
+  if (localCandidates.length) {
+    renderSongSuggestions(localCandidates);
+    return;
+  }
+
+  if (query.length < 2) {
+    renderSuggestionState("2文字以上入力すると検索別名も探せます。");
+    return;
+  }
+
+  const requestId = state.suggestionRequestId;
+  renderSuggestionState("候補を探しています...");
+  state.suggestionTimer = window.setTimeout(
+    () => requestAliasSuggestions(query, requestId),
+    SEARCH_DEBOUNCE_MS
+  );
 }
 
 function updateTabs() {
@@ -550,20 +762,27 @@ function shareText(scopeData, gap) {
   const scope = scopePhrase();
 
   if (state.mode === "latest") {
+    const latestContext = scope
+      ? scope + "前回歌われたときは"
+      : "前回の歌唱は";
+
     lines.push(
-      scope + "前回の歌唱は",
-      stripBuri(gap.formatted) + "（" + formatNumber(gap.days) + "日）ぶりでした",
+      latestContext,
+      (gap.formatted || (formatNumber(gap.days) + "日ぶり")) +
+        "（" + formatNumber(gap.days) + "日）でした",
       "",
       "今回：" + formatJapaneseDate(gap.latestDate),
       "前回：" + formatJapaneseDate(gap.previousDate)
     );
   } else {
-    const prefix = data.baseDateRelation === "today"
-      ? "今日"
-      : formatJapaneseDate(data.baseDate) + "に";
+    const currentContext = data.baseDateRelation === "today"
+      ? scope + "今日歌われたら"
+      : scope + formatJapaneseDate(data.baseDate) + "に歌われていたら";
+
     lines.push(
-      prefix + scope + "歌われたら",
-      stripBuri(gap.formatted) + "（" + formatNumber(gap.days) + "日）ぶり",
+      currentContext,
+      (gap.formatted || (formatNumber(gap.days) + "日ぶり")) +
+        "（" + formatNumber(gap.days) + "日）",
       "",
       "前回歌唱：" + formatJapaneseDate(gap.previousDate)
     );
@@ -574,8 +793,8 @@ function shareText(scopeData, gap) {
     lines.push("", rare);
   }
 
-  lines.push("", "μ's Song Database", SHARE_HASHTAG, currentUrl().toString());
-  return lines.join("\\n");
+  lines.push("", SHARE_HASHTAGS.join(" "), currentUrl().toString());
+  return lines.join("\n");
 }
 
 function updateShareLink(scopeData, gap) {
@@ -752,7 +971,6 @@ async function initializePage() {
     }
 
     state.songs = data.songs;
-    renderSongOptions("");
     el.baseDate.value = data.baseDate || data.todayJst || "";
 
     const restored = initial.songId
@@ -784,7 +1002,6 @@ async function initializePage() {
     replaceStateUrl();
   } catch (error) {
     console.error(error);
-    renderSongOptions("");
     showStatus(
       error?.message ||
       "曲データを取得できませんでした。ページを再読み込みしてもう一度お試しください。",
@@ -800,26 +1017,81 @@ async function initializePage() {
 
 el.songSearch.addEventListener("input", () => {
   clearResult();
-  renderSongOptions(el.songSearch.value, "");
   el.songSelect.value = "";
   showStatus("候補から曲を選択してください。");
   replaceStateUrl();
   syncButton();
+  scheduleSongSuggestions();
 });
 
-el.songSelect.addEventListener("change", () => {
-  clearResult();
-  const song = state.songs.find(item => item.id === el.songSelect.value);
+el.songSearch.addEventListener("focus", () => {
+  if (state.suggestions.length && el.songSearch.value.trim()) {
+    openSongSuggestions();
+  }
+});
 
-  if (song) {
-    el.songSearch.value = song.name;
-    showStatus("曲を選択しました。「判定する」を押してください。");
-  } else {
-    showStatus("曲を検索・選択してください。");
+el.songSearch.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    closeSongSuggestions();
+    return;
   }
 
-  replaceStateUrl();
-  syncButton();
+  if (!state.suggestions.length) {
+    return;
+  }
+
+  if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+    event.preventDefault();
+    openSongSuggestions();
+
+    if (event.key === "ArrowDown") {
+      state.activeSuggestionIndex =
+        state.activeSuggestionIndex < state.suggestions.length - 1
+          ? state.activeSuggestionIndex + 1
+          : 0;
+    } else {
+      state.activeSuggestionIndex =
+        state.activeSuggestionIndex > 0
+          ? state.activeSuggestionIndex - 1
+          : state.suggestions.length - 1;
+    }
+
+    updateActiveSuggestion();
+    return;
+  }
+
+  if (event.key !== "Enter") {
+    return;
+  }
+
+  const active = state.suggestions[state.activeSuggestionIndex];
+  const normalizedQuery = normalizeSearch(el.songSearch.value);
+  const exact = state.suggestions.find(song =>
+    normalizeSearch(song.id) === normalizedQuery ||
+    normalizeSearch(song.name) === normalizedQuery ||
+    normalizeSearch(song.matchAlias) === normalizedQuery
+  );
+  const target = active || exact;
+
+  if (target) {
+    event.preventDefault();
+    confirmSongSelection(target.id);
+  }
+});
+
+el.songSuggestions.addEventListener("click", event => {
+  const button = event.target.closest("[data-song-id]");
+  if (!button) {
+    return;
+  }
+
+  confirmSongSelection(button.dataset.songId);
+});
+
+document.addEventListener("click", event => {
+  if (!el.songSearchWrap.contains(event.target)) {
+    closeSongSuggestions();
+  }
 });
 
 el.baseDate.addEventListener("change", () => {

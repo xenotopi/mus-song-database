@@ -36,11 +36,20 @@
     .gap-hero h1{margin:0;font-size:clamp(30px,6vw,48px);line-height:1.2}
     .gap-hero p{margin:12px 0 0;max-width:760px;color:#ececff;font-size:13px;font-weight:700;line-height:1.8}
     .gap-input-card{margin-top:20px;padding:20px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(180px,.65fr) auto;gap:14px;align-items:end;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow)}
-    .gap-song-fields{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:8px}
+    .gap-song-search{position:relative;min-width:0}
     .gap-field{display:grid;gap:7px;min-width:0}
     .gap-field label{color:var(--muted);font-size:10px;font-weight:900}
-    .gap-field select,.gap-field input{width:100%;min-width:0;min-height:46px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--navy);font-weight:800}
-    .gap-field input:focus,.gap-field select:focus,.gap-tab:focus-visible,.gap-check-button:focus-visible,.gap-share-button:focus-visible{outline:3px solid rgba(79,70,229,.2);outline-offset:2px}
+    .gap-field input{width:100%;min-width:0;min-height:46px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--navy);font-weight:800}
+    .gap-field input:focus,.gap-song-suggest-item:focus-visible,.gap-tab:focus-visible,.gap-check-button:focus-visible,.gap-share-button:focus-visible{outline:3px solid rgba(79,70,229,.2);outline-offset:2px}
+    .gap-song-suggestions{position:absolute;z-index:1200;top:calc(100% + 7px);left:0;right:0;overflow:hidden;border:1px solid var(--line);border-radius:15px;background:#fff;box-shadow:0 18px 44px rgba(23,32,51,.2)}
+    .gap-song-suggest-list{max-height:min(44vh,360px);overflow-y:auto;overscroll-behavior:contain}
+    .gap-song-suggest-item{width:100%;min-height:58px;padding:10px 13px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 12px;align-items:center;border:0;border-bottom:1px solid var(--line);background:#fff;color:var(--navy);text-align:left;cursor:pointer}
+    .gap-song-suggest-item:last-child{border-bottom:0}
+    .gap-song-suggest-item:hover,.gap-song-suggest-item[aria-selected="true"]{background:#f7f5ff}
+    .gap-song-suggest-name{font-size:13px;font-weight:900;line-height:1.5;overflow-wrap:anywhere}
+    .gap-song-suggest-id{color:var(--indigo);font-size:10px;font-weight:900;white-space:nowrap}
+    .gap-song-suggest-meta{grid-column:1/-1;color:var(--muted);font-size:9px;font-weight:700;line-height:1.45;overflow-wrap:anywhere}
+    .gap-song-suggest-state{padding:16px 13px;color:var(--muted);font-size:11px;font-weight:700;line-height:1.6;text-align:center}
     .gap-check-button,.gap-share-button{min-height:46px;padding:0 20px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--indigo);border-radius:999px;background:var(--indigo);color:#fff;font-weight:900;text-decoration:none;cursor:pointer;transition:.15s ease}
     .gap-check-button:hover,.gap-share-button:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(79,70,229,.18)}
     .gap-check-button:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
@@ -91,14 +100,13 @@
     .gap-guide{margin-top:20px;padding:15px 16px;border:1px solid #e8e6f7;border-radius:14px;background:#faf9ff;color:var(--muted);font-size:11px;font-weight:700;line-height:1.8}
     @media(max-width:900px){
       .gap-input-card{grid-template-columns:1fr 1fr}
-      .gap-song-fields{grid-column:1/-1}
       .gap-check-button{width:100%}
     }
     @media(max-width:620px){
       .gap-page{padding:18px 12px 48px}
       .gap-hero{padding:22px 18px}
       .gap-input-card{grid-template-columns:1fr;padding:16px}
-      .gap-song-fields{grid-template-columns:1fr}
+      .gap-song-suggest-list{max-height:min(42vh,320px)}
       .gap-controls{grid-template-columns:1fr;padding:14px}
       .gap-share-card{padding:18px 15px}
       .gap-card-top{display:block}
@@ -125,11 +133,10 @@
       <h2 id="gapInputTitle" hidden>判定条件</h2>
       <div class="gap-field">
         <label for="songSearch">曲を検索・選択</label>
-        <div class="gap-song-fields">
-          <input id="songSearch" type="search" inputmode="search" autocomplete="off" placeholder="曲名・曲IDで絞り込み">
-          <select id="songSelect" aria-label="曲の候補">
-            <option value="">曲を選択してください</option>
-          </select>
+        <div class="gap-song-search" id="gapSongSearchWrap">
+          <input id="songSearch" type="search" inputmode="search" autocomplete="off" placeholder="曲名・略称・曲IDを入力" aria-autocomplete="list" aria-expanded="false" aria-controls="gapSongSuggestions">
+          <input id="songSelect" type="hidden" value="">
+          <div class="gap-song-suggestions" id="gapSongSuggestions" role="listbox" aria-label="曲の候補" hidden></div>
         </div>
       </div>
       <div class="gap-field">
@@ -179,6 +186,6 @@
     </section>
   </main>
   <div id="siteFooter"></div>
-  <script type="module" src="assets/js/gap-checker-v490.js?v=4.9.0"></script>
+  <script type="module" src="assets/js/gap-checker-v490.js?v=4.9.1"></script>
 </body>
 </html>

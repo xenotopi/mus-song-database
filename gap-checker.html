@@ -35,129 +35,150 @@
     .gap-hero-kicker{margin:0 0 10px;font-size:11px;font-weight:900;letter-spacing:.1em;opacity:.78}
     .gap-hero h1{margin:0;font-size:clamp(30px,6vw,48px);line-height:1.2}
     .gap-hero p{margin:12px 0 0;max-width:760px;color:#ececff;font-size:13px;font-weight:700;line-height:1.8}
-
-    .gap-input-card{margin-top:20px;padding:20px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(180px,.65fr) auto;gap:12px;align-items:end;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow)}
-    .gap-field{display:grid;gap:7px}
+    .gap-input-card{margin-top:20px;padding:20px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(180px,.65fr) auto;gap:14px;align-items:end;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow)}
+    .gap-song-fields{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:8px}
+    .gap-field{display:grid;gap:7px;min-width:0}
     .gap-field label{color:var(--muted);font-size:10px;font-weight:900}
-    .gap-field select,.gap-field input{width:100%;min-height:46px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--navy);font-weight:800}
-    .gap-check-button{min-height:46px;padding:0 20px;border:1px solid var(--indigo);border-radius:999px;background:var(--indigo);color:#fff;font-weight:900;cursor:pointer;transition:.15s ease}
-    .gap-check-button:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(79,70,229,.18)}
-    .gap-check-button:disabled{opacity:.5;cursor:not-allowed;transform:none}
-
-    .gap-status{margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--muted);font-size:12px;font-weight:700}
-    .gap-selected{margin-top:22px;padding:20px;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow)}
-    .gap-selected-kicker{margin:0;color:var(--indigo);font-size:10px;font-weight:900;letter-spacing:.09em}
-    .gap-selected h2{margin:6px 0 0;color:var(--navy);font-size:22px;line-height:1.45}
-    .gap-selected-meta{margin-top:8px;color:var(--muted);font-size:11px;font-weight:700}
-
+    .gap-field select,.gap-field input{width:100%;min-width:0;min-height:46px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--navy);font-weight:800}
+    .gap-field input:focus,.gap-field select:focus,.gap-tab:focus-visible,.gap-check-button:focus-visible,.gap-share-button:focus-visible{outline:3px solid rgba(79,70,229,.2);outline-offset:2px}
+    .gap-check-button,.gap-share-button{min-height:46px;padding:0 20px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--indigo);border-radius:999px;background:var(--indigo);color:#fff;font-weight:900;text-decoration:none;cursor:pointer;transition:.15s ease}
+    .gap-check-button:hover,.gap-share-button:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(79,70,229,.18)}
+    .gap-check-button:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+    .gap-status{margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--muted);font-size:12px;font-weight:700;line-height:1.7}
+    .gap-status[data-kind="error"]{border-color:#f3c5c5;background:#fff8f8;color:#a33a3a}
+    .gap-status[data-kind="notice"]{border-color:#ded9f7;background:#faf9ff;color:#504798}
     .gap-result-section{margin-top:26px}
+    .gap-result-head{display:flex;align-items:end;justify-content:space-between;gap:16px}
     .gap-result-kicker{margin:0;color:var(--indigo);font-size:10px;font-weight:900;letter-spacing:.09em}
     .gap-result-head h2{margin:4px 0 0;color:var(--navy);font-size:25px}
-    .gap-result-grid{margin-top:14px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-
-    .gap-result-card{min-height:270px;padding:20px;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow);overflow:hidden;position:relative}
-    .gap-result-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:#7f74e8}
-    .gap-result-card[data-mode="official"]::before{background:#4468df}
-    .gap-result-card[data-mode="solo"]::before{background:#c74c83}
-
-    .gap-result-title{margin:0;padding-left:2px;color:var(--navy);font-size:18px;font-weight:900;line-height:1.45}
-    .gap-result-sub{margin-top:3px;color:var(--muted);font-size:9px;font-weight:900;letter-spacing:.08em}
-    .gap-result-value{margin-top:17px;color:var(--indigo);font-size:clamp(25px,4vw,34px);font-weight:900;line-height:1.3}
-    .gap-result-card[data-mode="official"] .gap-result-value{color:#365ed8}
-    .gap-result-card[data-mode="solo"] .gap-result-value{color:#b84476}
-    .gap-result-description{margin-top:8px;color:var(--muted);font-size:11px;font-weight:700;line-height:1.7}
-
-    .gap-previous{margin-top:auto;padding-top:16px;border-top:1px solid var(--line)}
-    .gap-previous-label{color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.06em}
-    .gap-previous-date{margin-top:8px;color:var(--navy);font-size:17px;font-weight:900;line-height:1.4}
-    .gap-previous-event{margin-top:7px;color:var(--navy);font-size:15px;font-weight:900;line-height:1.6}
-    .gap-previous-meta{margin-top:7px;display:flex;gap:6px 10px;flex-wrap:wrap;color:var(--muted);font-size:10px;font-weight:700}
-    .gap-link{margin-top:9px;display:inline-flex;color:var(--indigo);font-size:10px;font-weight:900;text-decoration:none}
-
+    .gap-song-link{color:var(--indigo);font-size:11px;font-weight:900;text-decoration:none}
+    .gap-controls{margin-top:14px;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:14px;border:1px solid var(--line);border-radius:18px;background:#fff}
+    .gap-control-group{display:grid;gap:8px;min-width:0}
+    .gap-control-label{color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.06em}
+    .gap-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+    .gap-tabs--mode{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .gap-tab{min-height:42px;padding:7px 10px;border:1px solid var(--line);border-radius:12px;background:#f8f8fc;color:var(--muted);font-size:12px;font-weight:900;line-height:1.35;cursor:pointer}
+    .gap-tab[aria-pressed="true"]{border-color:var(--indigo);background:#efedff;color:var(--indigo);box-shadow:inset 0 0 0 1px var(--indigo)}
+    .gap-share-card{margin-top:14px;padding:24px;border:1px solid #ddd9f4;border-radius:22px;background:radial-gradient(circle at 92% 4%,rgba(115,99,255,.13),transparent 30%),linear-gradient(180deg,#fff,#fbfaff);box-shadow:var(--shadow);overflow:hidden}
+    .gap-card-top{display:flex;align-items:start;justify-content:space-between;gap:14px}
+    .gap-card-kicker{margin:0;color:var(--indigo);font-size:10px;font-weight:900;letter-spacing:.1em}
+    .gap-card-title{margin:6px 0 0;color:var(--navy);font-size:clamp(20px,4vw,29px);line-height:1.4;overflow-wrap:anywhere}
+    .gap-scope-badge{flex:none;padding:7px 11px;border-radius:999px;background:#eeeafd;color:#5043bd;font-size:10px;font-weight:900}
+    .gap-context{margin:14px 0 0;color:var(--muted);font-size:12px;font-weight:800;line-height:1.7}
+    .gap-main-value{margin-top:12px;color:var(--indigo);font-size:clamp(38px,8vw,68px);font-weight:950;line-height:1.08;letter-spacing:-.035em;overflow-wrap:anywhere}
+    .gap-main-formatted{margin-top:8px;color:#655da0;font-size:clamp(15px,3vw,21px);font-weight:900;line-height:1.5}
+    .gap-empty{margin-top:18px;padding:22px 18px;border:1px dashed #cfc9ec;border-radius:16px;background:#fff;color:var(--navy);font-size:15px;font-weight:900;line-height:1.8;text-align:center}
+    .gap-empty small{margin-top:6px;display:block;color:var(--muted);font-size:11px;font-weight:700}
+    .gap-date-grid{margin-top:22px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .gap-date-block{padding:15px;border:1px solid var(--line);border-radius:16px;background:#fff;min-width:0}
+    .gap-date-label{color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.06em}
+    .gap-date-value{margin-top:6px;color:var(--navy);font-size:18px;font-weight:900;line-height:1.4}
+    .gap-event-list{margin:11px 0 0;padding:0;display:grid;gap:8px;list-style:none}
+    .gap-event{padding-top:9px;border-top:1px solid var(--line);min-width:0}
+    .gap-event-name{color:var(--navy);font-size:12px;font-weight:900;line-height:1.6;overflow-wrap:anywhere}
+    .gap-event-name a{color:inherit;text-decoration:none}
+    .gap-event-name a:hover{color:var(--indigo);text-decoration:underline}
+    .gap-event-meta{margin-top:3px;display:flex;gap:4px 9px;flex-wrap:wrap;color:var(--muted);font-size:9px;font-weight:700;line-height:1.5}
+    .gap-no-event{margin-top:9px;color:var(--muted);font-size:10px;font-weight:700}
+    .gap-facts{margin-top:12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .gap-fact{padding:15px;border:1px solid var(--line);border-radius:16px;background:#fff;min-width:0}
+    .gap-fact-label{color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.05em}
+    .gap-fact-value{margin-top:7px;color:var(--navy);font-size:15px;font-weight:900;line-height:1.55;overflow-wrap:anywhere}
+    .gap-fact-sub{margin-top:4px;color:var(--muted);font-size:10px;font-weight:700;line-height:1.6}
+    .gap-actions{margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .gap-share-button{background:#111827;border-color:#111827}
+    .gap-share-note{color:var(--muted);font-size:10px;font-weight:700;line-height:1.6}
     .gap-guide{margin-top:20px;padding:15px 16px;border:1px solid #e8e6f7;border-radius:14px;background:#faf9ff;color:var(--muted);font-size:11px;font-weight:700;line-height:1.8}
-
     @media(max-width:900px){
       .gap-input-card{grid-template-columns:1fr 1fr}
-      .gap-check-button{grid-column:1/-1}
-      .gap-result-grid{grid-template-columns:1fr}
+      .gap-song-fields{grid-column:1/-1}
+      .gap-check-button{width:100%}
     }
-
     @media(max-width:620px){
       .gap-page{padding:18px 12px 48px}
       .gap-hero{padding:22px 18px}
       .gap-input-card{grid-template-columns:1fr;padding:16px}
-      .gap-check-button{grid-column:auto;width:100%}
-      .gap-selected,.gap-result-card{padding:17px}
+      .gap-song-fields{grid-template-columns:1fr}
+      .gap-controls{grid-template-columns:1fr;padding:14px}
+      .gap-share-card{padding:18px 15px}
+      .gap-card-top{display:block}
+      .gap-scope-badge{margin-top:10px;display:inline-flex}
+      .gap-date-grid,.gap-facts{grid-template-columns:1fr}
+      .gap-actions{align-items:stretch;flex-direction:column}
+      .gap-share-button{width:100%}
+      .gap-share-note{text-align:center}
     }
   </style>
 
   <script src="assets/js/seo-v351.js?v=4.4.0&amp;cache=step18a" defer></script>
 </head>
-
 <body>
   <div id="siteHeader"></div>
-
   <main class="gap-page">
-    <div class="breadcrumb">
-      <a href="index.html">ホーム</a> ›
-      いつ振り歌唱チェッカー
-    </div>
-
+    <div class="breadcrumb"><a href="index.html">ホーム</a> › いつ振り歌唱チェッカー</div>
     <section class="gap-hero">
       <p class="gap-hero-kicker">PERFORMANCE GAP CHECKER</p>
       <h1>いつ振り歌唱チェッカー</h1>
-      <p>
-        曲と基準日を選ぶと、その日より前に最後に歌われた記録を
-        「すべて・公式・ソロ」に分けて確認できます。
-      </p>
+      <p>曲と基準日を選ぶと、もしその日に歌われたら何日ぶりになるか、直近の歌唱間隔や歴代記録とあわせて確認できます。</p>
     </section>
-
-    <section class="gap-input-card">
+    <section class="gap-input-card" aria-labelledby="gapInputTitle">
+      <h2 id="gapInputTitle" hidden>判定条件</h2>
       <div class="gap-field">
-        <label for="songSelect">曲</label>
-        <select id="songSelect">
-          <option value="">曲を選択してください</option>
-        </select>
+        <label for="songSearch">曲を検索・選択</label>
+        <div class="gap-song-fields">
+          <input id="songSearch" type="search" inputmode="search" autocomplete="off" placeholder="曲名・曲IDで絞り込み">
+          <select id="songSelect" aria-label="曲の候補">
+            <option value="">曲を選択してください</option>
+          </select>
+        </div>
       </div>
-
       <div class="gap-field">
         <label for="baseDate">基準日</label>
-        <input id="baseDate" type="date">
+        <input id="baseDate" type="date" min="2000-01-01" max="2100-12-31">
       </div>
-
-      <button class="gap-check-button" id="checkButton" type="button" disabled>
-        判定する
-      </button>
+      <button class="gap-check-button" id="checkButton" type="button" disabled>判定する</button>
     </section>
-
-    <div class="gap-status" id="status">
-      曲データを読み込んでいます...
-    </div>
-
-    <section class="gap-selected" id="selectedCard" hidden>
-      <p class="gap-selected-kicker">CHECK CONDITION</p>
-      <h2 id="selectedTitle"></h2>
-      <div class="gap-selected-meta" id="selectedMeta"></div>
-    </section>
-
+    <div class="gap-status" id="status" role="status" aria-live="polite">曲データを読み込んでいます...</div>
     <section class="gap-result-section" id="resultSection" hidden>
       <div class="gap-result-head">
-        <p class="gap-result-kicker">RESULT</p>
-        <h2>いつ振り？</h2>
+        <div>
+          <p class="gap-result-kicker">RESULT</p>
+          <h2>判定結果</h2>
+        </div>
+        <a class="gap-song-link" id="songDetailLink" href="songs.html">この曲の記録を見る →</a>
       </div>
-
-      <div class="gap-result-grid" id="resultGrid"></div>
-
+      <div class="gap-controls" aria-label="表示する判定結果">
+        <div class="gap-control-group">
+          <span class="gap-control-label">集計区分</span>
+          <div class="gap-tabs" id="scopeTabs">
+            <button class="gap-tab" type="button" data-scope="all" aria-pressed="true">すべて</button>
+            <button class="gap-tab" type="button" data-scope="official" aria-pressed="false">公式</button>
+            <button class="gap-tab" type="button" data-scope="solo" aria-pressed="false">ソロ</button>
+          </div>
+        </div>
+        <div class="gap-control-group">
+          <span class="gap-control-label">判定モード</span>
+          <div class="gap-tabs gap-tabs--mode" id="modeTabs">
+            <button class="gap-tab" type="button" data-mode="current" aria-pressed="true">もし今日歌われたら</button>
+            <button class="gap-tab" type="button" data-mode="latest" aria-pressed="false">前回は何日ぶり？</button>
+          </div>
+        </div>
+      </div>
+      <article class="gap-share-card" id="gapShareCard" aria-live="polite">
+        <div id="resultContent"></div>
+      </article>
+      <div class="gap-actions" id="shareActions" hidden>
+        <a class="gap-share-button" id="xShareLink" href="#" target="_blank" rel="noopener noreferrer">Xで共有</a>
+        <span class="gap-share-note">結果カードはスクリーンショットでも共有できます。</span>
+      </div>
       <div class="gap-guide">
-        指定した日付より前に、その曲が最後に歌われた記録を表示します。
-        基準日当日の歌唱は含めません。
-        同じ日に複数の歌唱記録がある場合は、その日の最新記録を前回歌唱として扱います。
+        「今歌われたら？」は基準日より前の最終歌唱からの日数、
+        「前回は何日ぶり？」は基準日時点で最新の2歌唱日の間隔です。
+        同日に複数イベントがある場合は、該当するイベントをすべて表示します。
       </div>
     </section>
   </main>
-
   <div id="siteFooter"></div>
-
-  <script type="module" src="assets/js/gap-checker-v462.js?v=4.8.0"></script>
+  <script type="module" src="assets/js/gap-checker-v490.js?v=4.9.0"></script>
 </body>
 </html>

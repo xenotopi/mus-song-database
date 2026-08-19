@@ -10,7 +10,7 @@ import {
 
 import {
   initializeAnalytics
-} from "./analytics.js?v=1.0.0";
+} from "./analytics.js?v=1.1.0";
 
 const SITE_METADATA = Object.freeze({
   version:

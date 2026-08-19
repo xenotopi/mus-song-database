@@ -13,7 +13,9 @@ const EVENT_PARAMS = Object.freeze({
   search_result: ["search_source", "result_count", "result_category", "is_zero_result"],
   trivia_draw: ["trivia_id", "rarity", "draw_type"],
   trivia_related_click: ["trivia_id", "rarity", "related_type", "related_id"],
-  unperformed_click: ["navigation_source", "filter_type", "filter_value"]
+  unperformed_click: ["navigation_source", "filter_type", "filter_value"],
+  gap_check: ["song_id", "scope", "mode", "has_history", "is_top10", "is_long_gap"],
+  gap_share: ["song_id", "scope", "mode", "share_method", "has_history", "is_top10", "is_long_gap"]
 });
 
 const sentOnce = new Set();
@@ -374,4 +376,3 @@ window.MusDbAnalytics = Object.freeze({
   rememberSearchSource,
   consumeSearchSource
 });
-

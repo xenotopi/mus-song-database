@@ -15,7 +15,7 @@ import {
 import {
   drawSecretMemory,
   SECRET_MEMORY_RARITY
-} from "./secret-memory-v401.js?v=4.8.1";
+} from "./secret-memory-v401.js?v=4.9.2";
 
 import {
   buildSingerUrl

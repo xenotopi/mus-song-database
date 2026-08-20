@@ -123,42 +123,56 @@ function setupThankYouEnding_(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-  if (
-    reducedMotion ||
-    !("IntersectionObserver" in window)
-  ) {
+  if (reducedMotion) {
     message.classList.add(
       "is-visible"
     );
     return;
   }
 
-  const observer =
-    new IntersectionObserver(
-      entries => {
-        if (
-          !entries.some(
-            entry =>
-              entry.isIntersecting
-          )
-        ) {
-          return;
-        }
+  const revealAtPageBottom =
+    () => {
+      const pageBottom =
+        window.innerHeight +
+        window.scrollY;
 
-        message.classList.add(
-          "is-visible"
-        );
-        observer.disconnect();
-      },
-      {
-        rootMargin:
-          "0px 0px -6% 0px",
-        threshold:
-          0.4
+      const documentBottom =
+        document.documentElement
+          .scrollHeight;
+
+      if (
+        pageBottom <
+        documentBottom - 80
+      ) {
+        return;
       }
-    );
 
-  observer.observe(message);
+      message.classList.add(
+        "is-visible"
+      );
+
+      window.removeEventListener(
+        "scroll",
+        revealAtPageBottom
+      );
+      window.removeEventListener(
+        "resize",
+        revealAtPageBottom
+      );
+    };
+
+  window.addEventListener(
+    "scroll",
+    revealAtPageBottom,
+    { passive: true }
+  );
+  window.addEventListener(
+    "resize",
+    revealAtPageBottom,
+    { passive: true }
+  );
+
+  revealAtPageBottom();
 }
 
 

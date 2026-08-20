@@ -1271,6 +1271,37 @@
       .history-purpose{font-size:11px}
     }
 
+    .song-thank-you{
+      max-width:100%;
+      margin:68px auto 24px;
+      padding:0 16px;
+      color:#766f91;
+      font-size:14px;
+      font-weight:700;
+      letter-spacing:.08em;
+      line-height:1.8;
+      text-align:center;
+      opacity:0;
+      transform:translateY(8px);
+      transition:opacity .9s ease,transform .9s ease;
+    }
+    .song-thank-you.is-visible{
+      opacity:1;
+      transform:none;
+    }
+    @media(max-width:560px){
+      .song-thank-you{
+        margin:52px auto 18px;
+        font-size:13px;
+      }
+    }
+    @media(prefers-reduced-motion:reduce){
+      .song-thank-you{
+        transform:none;
+        transition:none;
+      }
+    }
+
 </style>
 
 
@@ -1708,7 +1739,7 @@
 
 <script
     type="module"
-    src="assets/js/song-v441.js?v=4.9.1"
+    src="assets/js/song-v441.js?v=4.9.2"
   ></script>
 
   <script>

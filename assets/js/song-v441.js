@@ -78,6 +78,90 @@ let selectedYear = "all";
 let currentSong = null;
 
 
+const THANK_YOU_SONG_ID =
+  "S089";
+
+
+function setupThankYouEnding_(
+  renderedSongId
+) {
+  if (
+    renderedSongId !==
+    THANK_YOU_SONG_ID
+  ) {
+    return;
+  }
+
+  const main =
+    document.querySelector("main");
+
+  if (
+    !main ||
+    document.getElementById(
+      "songThankYou"
+    )
+  ) {
+    return;
+  }
+
+  const message =
+    document.createElement("p");
+
+  message.id =
+    "songThankYou";
+  message.className =
+    "song-thank-you";
+  message.textContent =
+    "ありがとう";
+
+  main.appendChild(message);
+
+  const reducedMotion =
+    typeof window.matchMedia ===
+      "function" &&
+    window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+  if (
+    reducedMotion ||
+    !("IntersectionObserver" in window)
+  ) {
+    message.classList.add(
+      "is-visible"
+    );
+    return;
+  }
+
+  const observer =
+    new IntersectionObserver(
+      entries => {
+        if (
+          !entries.some(
+            entry =>
+              entry.isIntersecting
+          )
+        ) {
+          return;
+        }
+
+        message.classList.add(
+          "is-visible"
+        );
+        observer.disconnect();
+      },
+      {
+        rootMargin:
+          "0px 0px -6% 0px",
+        threshold:
+          0.4
+      }
+    );
+
+  observer.observe(message);
+}
+
+
 function setLoading() {
   elements.songName.textContent = "読み込み中…";
   elements.heroMeta.textContent = "JSONPでAPIへ接続しています。";
@@ -1301,6 +1385,11 @@ async function loadSong() {
     const renderedSongId = String(
       response.data?.songId || songId
     );
+
+    setupThankYouEnding_(
+      renderedSongId
+    );
+
     if (/^S\d+$/.test(renderedSongId)) {
       window.MusDbAnalytics?.trackOnce(
         `view_detail:song:${renderedSongId}`,

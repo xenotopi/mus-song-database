@@ -14,7 +14,7 @@ import {
 
 const SITE_METADATA = Object.freeze({
   version:
-    "Web v4.8.0"
+    "Web v4.9.0"
 });
 
 /**

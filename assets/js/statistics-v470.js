@@ -1,4 +1,4 @@
-import { apiGet, escapeHtml, formatDate } from "./api.js?v=4.6.2";
+import { apiGet, escapeHtml, formatDate } from "./api.js?v=4.9.5";
 import { renderCommon } from "./common.js?v=4.9.1";
 import { buildSingerUrl } from "./singer-links.js?v=4.8.0";
 

@@ -1,7 +1,7 @@
 import {
   apiGet,
   escapeHtml
-} from "./api.js?v=3.4.0";
+} from "./api.js?v=4.9.5";
 
 import {
   renderCommon

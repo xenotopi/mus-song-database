@@ -2,7 +2,7 @@
  * μ's Song Database Web
  * assets/js/api.js
  *
- * v3.4 Performance & Cache Optimization
+ * v4.9.5 STEP21-E Revision-aware Cache
  *
  * - sessionStorage: 同一タブ内の高速再表示
  * - localStorage: 再訪時の即時表示
@@ -15,13 +15,28 @@ export const API_URL =
   "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec";
 
 const DEFAULT_TIMEOUT_MS = 15000;
-const CACHE_VERSION = "v3.4.0";
+const CACHE_VERSION = "v4.9.5";
 const SESSION_PREFIX = `mus-db-session-${CACHE_VERSION}:`;
 const LOCAL_PREFIX = `mus-db-local-${CACHE_VERSION}:`;
+const LEGACY_SESSION_PREFIXES = [
+  "mus-db-session-v3.4.0:"
+];
+const LEGACY_LOCAL_PREFIXES = [
+  "mus-db-local-v3.4.0:"
+];
+const ALL_SESSION_PREFIXES = [
+  SESSION_PREFIX,
+  ...LEGACY_SESSION_PREFIXES
+];
+const ALL_LOCAL_PREFIXES = [
+  LOCAL_PREFIX,
+  ...LEGACY_LOCAL_PREFIXES
+];
 const MAX_LOCAL_CACHE_BYTES = 4.2 * 1024 * 1024;
 
 const inFlightRequests = new Map();
 let requestSequence = 0;
+let dataRevisionPromise = null;
 
 
 const DEFAULT_CACHE_TTL = {
@@ -98,6 +113,28 @@ function stableParams(params = {}) {
 
 function createCacheKey(
   prefix,
+  revision,
+  action,
+  params = {}
+) {
+  return (
+    prefix +
+    "revision:" +
+    encodeURIComponent(
+      String(revision || "")
+    ) +
+    ":" +
+    action +
+    ":" +
+    JSON.stringify(
+      stableParams(params)
+    )
+  );
+}
+
+
+function createLegacyCacheKey(
+  prefix,
   action,
   params = {}
 ) {
@@ -140,6 +177,7 @@ function parseStoredValue(raw) {
 function readStorage(
   storage,
   prefix,
+  revision,
   action,
   params
 ) {
@@ -148,6 +186,7 @@ function readStorage(
       storage.getItem(
         createCacheKey(
           prefix,
+          revision,
           action,
           params
         )
@@ -168,6 +207,7 @@ function readStorage(
 function writeStorage(
   storage,
   prefix,
+  revision,
   action,
   params,
   response
@@ -176,12 +216,16 @@ function writeStorage(
     storage.setItem(
       createCacheKey(
         prefix,
+        revision,
         action,
         params
       ),
       JSON.stringify({
         savedAt:
           Date.now(),
+
+        revision:
+          revision,
 
         response:
           response
@@ -201,6 +245,98 @@ function writeStorage(
 }
 
 
+function readNewestStorageFallback(
+  storage,
+  prefixes,
+  action,
+  params
+) {
+  try {
+    const suffix =
+      ":" +
+      action +
+      ":" +
+      JSON.stringify(
+        stableParams(params)
+      );
+
+    let newest = null;
+
+    for (
+      let index = 0;
+      index < storage.length;
+      index += 1
+    ) {
+      const key =
+        storage.key(index);
+
+      if (!key) {
+        continue;
+      }
+
+      const prefix =
+        prefixes.find(item =>
+          key.startsWith(item)
+        );
+
+      if (!prefix) {
+        continue;
+      }
+
+      const isLegacy =
+        key ===
+        createLegacyCacheKey(
+          prefix,
+          action,
+          params
+        );
+
+      const isRevisionCache =
+        key.startsWith(
+          prefix +
+          "revision:"
+        ) &&
+        key.endsWith(suffix);
+
+      if (
+        !isLegacy &&
+        !isRevisionCache
+      ) {
+        continue;
+      }
+
+      const stored =
+        parseStoredValue(
+          storage.getItem(key)
+        );
+
+      if (
+        !stored ||
+        (
+          newest &&
+          Number(newest.savedAt) >=
+          Number(stored.savedAt)
+        )
+      ) {
+        continue;
+      }
+
+      newest = stored;
+    }
+
+    return newest;
+
+  } catch (error) {
+    console.warn(
+      "API fallback cache read failed:",
+      error
+    );
+
+    return null;
+  }
+}
+
+
 function removeOldLocalEntries() {
   try {
     const entries = [];
@@ -215,8 +351,9 @@ function removeOldLocalEntries() {
 
       if (
         !key ||
-        !key.startsWith(
-          LOCAL_PREFIX
+        !ALL_LOCAL_PREFIXES.some(
+          prefix =>
+            key.startsWith(prefix)
         )
       ) {
         continue;
@@ -300,8 +437,9 @@ function estimateLocalCacheBytes() {
 
       if (
         !key ||
-        !key.startsWith(
-          LOCAL_PREFIX
+        !ALL_LOCAL_PREFIXES.some(
+          prefix =>
+            key.startsWith(prefix)
         )
       ) {
         continue;
@@ -327,12 +465,14 @@ function estimateLocalCacheBytes() {
 
 function readBestCache(
   action,
-  params
+  params,
+  revision
 ) {
   const session =
     readStorage(
       sessionStorage,
       SESSION_PREFIX,
+      revision,
       action,
       params
     );
@@ -342,6 +482,66 @@ function readBestCache(
       ? readStorage(
           localStorage,
           LOCAL_PREFIX,
+          revision,
+          action,
+          params
+        )
+      : null;
+
+  if (!session) {
+    return local
+      ? {
+          ...local,
+          source:
+            "local"
+        }
+      : null;
+  }
+
+  if (!local) {
+    return {
+      ...session,
+      source:
+        "session"
+    };
+  }
+
+  return Number(
+    session.savedAt
+  ) >=
+  Number(
+    local.savedAt
+  )
+    ? {
+        ...session,
+        source:
+          "session"
+      }
+    : {
+        ...local,
+        source:
+          "local"
+      };
+}
+
+
+function readBestFallbackCache(
+  action,
+  params
+) {
+  const session =
+    readNewestStorageFallback(
+      sessionStorage,
+      ALL_SESSION_PREFIXES,
+      action,
+      params
+    );
+
+  const local =
+    PERSISTENT_ACTIONS.has(action)
+      ? readNewestStorageFallback(
+          localStorage,
+          ALL_LOCAL_PREFIXES,
           action,
           params
         )
@@ -387,11 +587,13 @@ function readBestCache(
 function writeCaches(
   action,
   params,
-  response
+  response,
+  revision
 ) {
   writeStorage(
     sessionStorage,
     SESSION_PREFIX,
+    revision,
     action,
     params,
     response
@@ -411,6 +613,7 @@ function writeCaches(
     writeStorage(
       localStorage,
       LOCAL_PREFIX,
+      revision,
       action,
       params,
       response
@@ -422,6 +625,7 @@ function writeCaches(
     writeStorage(
       localStorage,
       LOCAL_PREFIX,
+      revision,
       action,
       params,
       response
@@ -453,17 +657,23 @@ function clearStorageByPrefix(
 
 
 export function clearApiSessionCache() {
-  clearStorageByPrefix(
-    sessionStorage,
-    SESSION_PREFIX
+  ALL_SESSION_PREFIXES.forEach(
+    prefix =>
+      clearStorageByPrefix(
+        sessionStorage,
+        prefix
+      )
   );
 }
 
 
 export function clearApiPersistentCache() {
-  clearStorageByPrefix(
-    localStorage,
-    LOCAL_PREFIX
+  ALL_LOCAL_PREFIXES.forEach(
+    prefix =>
+      clearStorageByPrefix(
+        localStorage,
+        prefix
+      )
   );
 }
 
@@ -699,6 +909,50 @@ async function requestWithRetry(
 }
 
 
+function getCurrentDataRevision() {
+  if (dataRevisionPromise) {
+    return dataRevisionPromise;
+  }
+
+  dataRevisionPromise =
+    requestWithRetry(
+      "revision",
+      {},
+      {
+        timeoutMs:
+          8000,
+
+        retryCount:
+          0
+      }
+    )
+      .then(response => {
+        const revision =
+          String(
+            response?.data
+              ?.dataRevision ||
+            ""
+          ).trim();
+
+        if (!revision) {
+          throw new Error(
+            "データRevisionを取得できませんでした。"
+          );
+        }
+
+        return revision;
+      })
+      .catch(error => {
+        dataRevisionPromise =
+          null;
+
+        throw error;
+      });
+
+  return dataRevisionPromise;
+}
+
+
 export async function apiGet(
   action,
   params = {},
@@ -709,8 +963,31 @@ export async function apiGet(
       action || ""
     ).trim();
 
+  const revisionAware =
+    normalizedAction !==
+      "revision" &&
+    normalizedAction !==
+      "gapV2";
+
+  let dataRevision = "";
+
+  if (revisionAware) {
+    try {
+      dataRevision =
+        await getCurrentDataRevision();
+
+    } catch (error) {
+      console.warn(
+        "Data revision check failed; using network-first mode:",
+        error
+      );
+    }
+  }
+
   const cacheEnabled =
-    options.cache !== false;
+    options.cache !== false &&
+    normalizedAction !==
+      "revision";
 
   const forceRefresh =
     options.forceRefresh === true;
@@ -746,10 +1023,23 @@ export async function apiGet(
     );
 
   const cached =
-    cacheEnabled
+    cacheEnabled &&
+    dataRevision
       ? readBestCache(
           normalizedAction,
-          params
+          params,
+          dataRevision
+        )
+      : null;
+
+  const fallbackCached =
+    cacheEnabled
+      ? (
+          cached ||
+          readBestFallbackCache(
+            normalizedAction,
+            params
+          )
         )
       : null;
 
@@ -774,6 +1064,22 @@ export async function apiGet(
         staleTtlMs
     );
 
+  const fallbackCacheAge =
+    fallbackCached
+      ? Date.now() -
+        Number(
+          fallbackCached.savedAt ||
+          0
+        )
+      : Infinity;
+
+  const fallbackIsUsable =
+    Boolean(
+      fallbackCached &&
+      fallbackCacheAge <=
+        staleTtlMs
+    );
+
   if (
     !forceRefresh &&
     cacheIsFresh
@@ -788,6 +1094,9 @@ export async function apiGet(
         stale:
           false,
 
+        revision:
+          dataRevision,
+
         ageMs:
           cacheAge
       }
@@ -797,6 +1106,8 @@ export async function apiGet(
   const requestKey =
     createCacheKey(
       "request:",
+      dataRevision ||
+        "revision-unavailable",
       normalizedAction,
       params
     );
@@ -820,11 +1131,15 @@ export async function apiGet(
           options
         )
           .then(response => {
-            if (cacheEnabled) {
+            if (
+              cacheEnabled &&
+              dataRevision
+            ) {
               writeCaches(
                 normalizedAction,
                 params,
-                response
+                response,
+                dataRevision
               );
             }
 
@@ -838,6 +1153,10 @@ export async function apiGet(
                 stale:
                   false,
 
+                revision:
+                  dataRevision ||
+                  null,
+
                 ageMs:
                   0
               }
@@ -846,14 +1165,14 @@ export async function apiGet(
           .catch(error => {
             if (
               !forceRefresh &&
-              cacheIsUsable
+              fallbackIsUsable
             ) {
               return {
-                ...cached.response,
+                ...fallbackCached.response,
 
                 cache: {
                   source:
-                    cached.source,
+                    fallbackCached.source,
 
                   stale:
                     true,
@@ -861,8 +1180,15 @@ export async function apiGet(
                   fallback:
                     true,
 
+                  revisionFallback:
+                    true,
+
+                  revision:
+                    fallbackCached.revision ||
+                    null,
+
                   ageMs:
-                    cacheAge
+                    fallbackCacheAge
                 }
               };
             }
@@ -905,6 +1231,9 @@ export async function apiGet(
 
         stale:
           true,
+
+        revision:
+          dataRevision,
 
         ageMs:
           cacheAge

@@ -2,7 +2,7 @@
  * μ's Song Database Web
  * assets/js/api.js
  *
- * v4.9.5 STEP21-E Revision-aware Cache
+ * v4.9.5 STEP PERF-01 Revision-aware Cache
  *
  * - sessionStorage: 同一タブ内の高速再表示
  * - localStorage: 再訪時の即時表示
@@ -33,10 +33,15 @@ const ALL_LOCAL_PREFIXES = [
   ...LEGACY_LOCAL_PREFIXES
 ];
 const MAX_LOCAL_CACHE_BYTES = 4.2 * 1024 * 1024;
+const DATA_REVISION_SESSION_KEY =
+  `${SESSION_PREFIX}data-revision`;
+const DATA_REVISION_TTL_MS =
+  15 * 1000;
 
 const inFlightRequests = new Map();
 let requestSequence = 0;
 let dataRevisionPromise = null;
+let dataRevisionPromiseFetchedAt = 0;
 
 
 const DEFAULT_CACHE_TTL = {
@@ -909,10 +914,122 @@ async function requestWithRetry(
 }
 
 
+function readStoredDataRevision() {
+  try {
+    const stored =
+      JSON.parse(
+        sessionStorage.getItem(
+          DATA_REVISION_SESSION_KEY
+        ) ||
+        "null"
+      );
+
+    const revision =
+      String(
+        stored?.revision ||
+        ""
+      ).trim();
+
+    const fetchedAt =
+      Number(
+        stored?.fetchedAt ||
+        0
+      );
+
+    const ageMs =
+      Date.now() -
+      fetchedAt;
+
+    if (
+      !revision ||
+      !Number.isFinite(fetchedAt) ||
+      fetchedAt <= 0 ||
+      ageMs < 0 ||
+      ageMs > DATA_REVISION_TTL_MS
+    ) {
+      return null;
+    }
+
+    return {
+      revision:
+        revision,
+
+      fetchedAt:
+        fetchedAt
+    };
+
+  } catch (error) {
+    console.warn(
+      "Data revision cache read failed:",
+      error
+    );
+
+    return null;
+  }
+}
+
+
+function writeStoredDataRevision(
+  revision,
+  fetchedAt
+) {
+  try {
+    sessionStorage.setItem(
+      DATA_REVISION_SESSION_KEY,
+      JSON.stringify({
+        revision:
+          revision,
+
+        fetchedAt:
+          fetchedAt
+      })
+    );
+
+  } catch (error) {
+    console.warn(
+      "Data revision cache write failed:",
+      error
+    );
+  }
+}
+
+
 function getCurrentDataRevision() {
-  if (dataRevisionPromise) {
+  const now =
+    Date.now();
+
+  if (
+    dataRevisionPromise &&
+    now -
+      dataRevisionPromiseFetchedAt <=
+      DATA_REVISION_TTL_MS
+  ) {
     return dataRevisionPromise;
   }
+
+  dataRevisionPromise =
+    null;
+
+  dataRevisionPromiseFetchedAt =
+    0;
+
+  const stored =
+    readStoredDataRevision();
+
+  if (stored) {
+    dataRevisionPromiseFetchedAt =
+      stored.fetchedAt;
+
+    dataRevisionPromise =
+      Promise.resolve(
+        stored.revision
+      );
+
+    return dataRevisionPromise;
+  }
+
+  dataRevisionPromiseFetchedAt =
+    now;
 
   dataRevisionPromise =
     requestWithRetry(
@@ -940,11 +1057,25 @@ function getCurrentDataRevision() {
           );
         }
 
+        const fetchedAt =
+          Date.now();
+
+        dataRevisionPromiseFetchedAt =
+          fetchedAt;
+
+        writeStoredDataRevision(
+          revision,
+          fetchedAt
+        );
+
         return revision;
       })
       .catch(error => {
         dataRevisionPromise =
           null;
+
+        dataRevisionPromiseFetchedAt =
+          0;
 
         throw error;
       });

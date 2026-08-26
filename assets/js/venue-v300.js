@@ -2,11 +2,11 @@ import {
   apiGet,
   escapeHtml,
   formatDate
-} from "./api.js?v=4.9.5";
+} from "./api.js?v=4.9.5&cache=perf01";
 
 import {
   renderCommon
-} from "./common.js?v=4.9.1";
+} from "./common.js?v=4.9.1&cache=perf01";
 
 
 renderCommon("venue");
@@ -1220,74 +1220,22 @@ function renderVenueNavigation(
 }
 
 
-async function loadVenue() {
-  if (!venueId) {
-    setError({
-      message:
-        "会場一覧から見たい会場を選択してください。"
-    });
-    return;
-  }
-
-  setLoading();
-
+async function renderVenueDiscoverWhenReady_(
+  venueData,
+  discoverRequest
+) {
   try {
-    const [
-      response,
-      discoverResult
-    ] =
-      await Promise.all([
-        apiGet(
-          "venue",
-          {
-            id: venueId
-          },
-          {
-            timeoutMs: 15000,
-            retryCount: 1
-          }
-        ),
-
-        apiGet(
-          "discover",
-          {
-            type: "venue",
-            id: venueId
-          },
-          {
-            timeoutMs: 30000,
-            retryCount: 1
-          }
-        ).catch(error => {
-          console.warn(
-            "Venue discover API warning:",
-            error
-          );
-
-          return {
-            data: {}
-          };
-        })
-      ]);
-
-    const venueData =
-      response.data || {};
-
     const discoverData =
-      discoverResult &&
-      discoverResult.data &&
-      typeof discoverResult.data === "object"
-        ? discoverResult.data
-        : {};
+      await discoverRequest;
+
+    if (!discoverData) {
+      return;
+    }
 
     const navigation =
       discoverData.navigation ||
       venueData.navigation ||
       {};
-
-    renderVenue(
-      venueData
-    );
 
     currentDiscoverData =
       discoverData;
@@ -1296,25 +1244,6 @@ async function loadVenue() {
       venueData,
       discoverData
     );
-
-    const renderedVenueId = String(
-      venueData.venueId || venueId
-    );
-    if (/^VE\d+$/.test(renderedVenueId)) {
-      window.MusDbAnalytics?.trackOnce(
-        `view_detail:venue:${renderedVenueId}`,
-        "view_detail",
-        {
-          content_type: "venue",
-          item_id: renderedVenueId,
-          item_name: venueData.venueName || "",
-          content_category:
-            venueData.region ||
-            venueData.country ||
-            ""
-        }
-      );
-    }
 
     renderVenueAnalysisV30_(
       discoverData
@@ -1341,6 +1270,143 @@ async function loadVenue() {
         ? venueData.topSongs
         : [],
       navigation
+    );
+
+    elements.venueAnalysisSection.hidden =
+      false;
+
+    elements.venueInsightsSection.hidden =
+      false;
+
+  } catch (error) {
+    console.error(
+      "Venue discover render error:",
+      error
+    );
+  }
+}
+
+
+async function loadVenue() {
+  if (!venueId) {
+    setError({
+      message:
+        "会場一覧から見たい会場を選択してください。"
+    });
+    return;
+  }
+
+  setLoading();
+
+  try {
+    const venueRequest =
+      apiGet(
+        "venue",
+        {
+          id: venueId
+        },
+        {
+          timeoutMs: 15000,
+          retryCount: 1
+        }
+      );
+
+    const discoverRequest =
+      apiGet(
+        "discover",
+        {
+          type: "venue",
+          id: venueId
+        },
+        {
+          timeoutMs: 30000,
+          retryCount: 1
+        }
+      )
+        .then(result =>
+          result &&
+          result.data &&
+          typeof result.data === "object"
+            ? result.data
+            : {}
+        )
+        .catch(error => {
+          console.warn(
+            "Venue discover API warning:",
+            error
+          );
+
+          return null;
+        });
+
+    const response =
+      await venueRequest;
+
+    const venueData =
+      response.data || {};
+
+    const navigation =
+      venueData.navigation ||
+      {};
+
+    renderVenue(
+      venueData
+    );
+
+    currentDiscoverData = {};
+
+    renderVenueRecordsV30_(
+      venueData,
+      currentDiscoverData
+    );
+
+    renderVenueNavigation(
+      navigation
+    );
+
+    renderVenueDiscovery_(
+      venueData,
+      Array.isArray(
+        venueData.events
+      )
+        ? venueData.events
+        : [],
+      Array.isArray(
+        venueData.topSongs
+      )
+        ? venueData.topSongs
+        : [],
+      navigation
+    );
+
+    elements.venueAnalysisSection.hidden =
+      true;
+
+    elements.venueInsightsSection.hidden =
+      true;
+
+    const renderedVenueId = String(
+      venueData.venueId || venueId
+    );
+    if (/^VE\d+$/.test(renderedVenueId)) {
+      window.MusDbAnalytics?.trackOnce(
+        `view_detail:venue:${renderedVenueId}`,
+        "view_detail",
+        {
+          content_type: "venue",
+          item_id: renderedVenueId,
+          item_name: venueData.venueName || "",
+          content_category:
+            venueData.region ||
+            venueData.country ||
+            ""
+        }
+      );
+    }
+
+    void renderVenueDiscoverWhenReady_(
+      venueData,
+      discoverRequest
     );
 
   } catch (error) {

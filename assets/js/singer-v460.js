@@ -2,11 +2,11 @@ import {
   apiGet,
   escapeHtml,
   formatDate
-} from "./api.js?v=4.9.5";
+} from "./api.js?v=4.9.5&cache=perf01";
 
 import {
   renderCommon
-} from "./common.js?v=4.9.1";
+} from "./common.js?v=4.9.1&cache=perf01";
 
 renderCommon("singer");
 

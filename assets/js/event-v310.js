@@ -2,11 +2,11 @@ import {
   apiGet,
   escapeHtml,
   formatDate
-} from "./api.js?v=4.9.5";
+} from "./api.js?v=4.9.5&cache=perf01";
 
 import {
   renderCommon
-} from "./common.js?v=4.9.1";
+} from "./common.js?v=4.9.1&cache=perf01";
 
 
 renderCommon("event");
@@ -1123,6 +1123,47 @@ function renderNavigation(
 }
 
 
+async function renderEventDiscoverWhenReady_(
+  eventData,
+  discoverRequest
+) {
+  try {
+    const discoverData =
+      await discoverRequest;
+
+    if (!discoverData) {
+      return;
+    }
+
+    currentDiscover =
+      discoverData;
+
+    renderEventRecords_(
+      eventData,
+      discoverData
+    );
+
+    renderEventInsights_(
+      discoverData
+    );
+
+    renderEventSongs_();
+
+    elements.eventRecordsSection.hidden =
+      false;
+
+    elements.eventInsightsSection.hidden =
+      false;
+
+  } catch (error) {
+    console.error(
+      "Event discover render error:",
+      error
+    );
+  }
+}
+
+
 async function loadEvent() {
   if (!eventId) {
     setError({
@@ -1162,68 +1203,66 @@ async function loadEvent() {
     true;
 
   try {
-    const [
-      response,
-      discoverResult
-    ] =
-      await Promise.all([
-        apiGet(
-          "event",
-          {
-            id: eventId
-          },
-          {
-            timeoutMs: 25000,
-            retryCount: 1
-          }
-        ),
+    const eventRequest =
+      apiGet(
+        "event",
+        {
+          id: eventId
+        },
+        {
+          timeoutMs: 25000,
+          retryCount: 1
+        }
+      );
 
-        apiGet(
-          "discover",
-          {
-            type: "event",
-            id: eventId
-          },
-          {
-            timeoutMs: 30000,
-            retryCount: 1
-          }
-        ).catch(error => {
+    const discoverRequest =
+      apiGet(
+        "discover",
+        {
+          type: "event",
+          id: eventId
+        },
+        {
+          timeoutMs: 30000,
+          retryCount: 1
+        }
+      )
+        .then(result =>
+          result &&
+          result.data &&
+          typeof result.data === "object"
+            ? result.data
+            : {}
+        )
+        .catch(error => {
           console.warn(
             "Event discover API warning:",
             error
           );
 
-          return {
-            data: {}
-          };
-        })
-      ]);
+          return null;
+        });
 
-    currentDiscover =
-      discoverResult &&
-      discoverResult.data &&
-      typeof discoverResult.data === "object"
-        ? discoverResult.data
-        : {};
+    const response =
+      await eventRequest;
+
+    const eventData =
+      response.data || {};
+
+    currentDiscover = {};
 
     renderEvent(
-      response.data
+      eventData
     );
 
-    renderEventRecords_(
-      response.data || {},
-      currentDiscover
-    );
+    elements.eventRecordsSection.hidden =
+      true;
 
-    renderEventInsights_(
-      currentDiscover
-    );
-
-    renderEventSongs_();
+    elements.eventInsightsSection.hidden =
+      true;
 
     const renderedEventId = String(
-      response.data?.eventId || eventId
+      eventData.eventId || eventId
     );
     if (/^EV\d+$/.test(renderedEventId)) {
       window.MusDbAnalytics?.trackOnce(
@@ -1232,14 +1271,19 @@ async function loadEvent() {
         {
           content_type: "event",
           item_id: renderedEventId,
-          item_name: response.data?.eventName || "",
+          item_name: eventData.eventName || "",
           content_category:
-            response.data?.category ||
-            response.data?.eventType ||
+            eventData.category ||
+            eventData.eventType ||
             ""
         }
       );
     }
+
+    void renderEventDiscoverWhenReady_(
+      eventData,
+      discoverRequest
+    );
 
   } catch (error) {
     const isExpectedNotFound =

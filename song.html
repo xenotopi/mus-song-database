@@ -998,6 +998,7 @@
       content: attr(data-tooltip);
       position: absolute;
       z-index: 30;
+      display: none;
       left: var(--metric-tooltip-left, 50%);
       bottom: calc(100% + 8px);
       width: 260px;
@@ -1022,6 +1023,7 @@
     .metric-help:hover::after,
     .metric-help:focus-visible::after,
     .metric-help.open::after {
+      display: block;
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }

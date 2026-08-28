@@ -1,11 +1,11 @@
 import {
   apiGet,
   escapeHtml
-} from "./api.js?v=4.9.5&cache=perf01";
+} from "./api.js?v=4.9.6&cache=revision-nonblocking";
 
 import {
   renderCommon
-} from "./common.js?v=4.9.1&cache=perf01";
+} from "./common.js?v=4.9.1&cache=revision-nonblocking";
 
 renderCommon("");
 

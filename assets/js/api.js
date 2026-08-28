@@ -2,7 +2,7 @@
  * μ's Song Database Web
  * assets/js/api.js
  *
- * v4.9.5 STEP PERF-01 Revision-aware Cache
+ * v4.9.6 Cache-first Revision Validation
  *
  * - sessionStorage: 同一タブ内の高速再表示
  * - localStorage: 再訪時の即時表示
@@ -37,8 +37,11 @@ const DATA_REVISION_SESSION_KEY =
   `${SESSION_PREFIX}data-revision`;
 const DATA_REVISION_TTL_MS =
   15 * 1000;
+const DEFAULT_PROVISIONAL_STALE_TTL_MS =
+  30 * 60 * 1000;
 
 const inFlightRequests = new Map();
+const backgroundRefreshes = new Map();
 let requestSequence = 0;
 let dataRevisionPromise = null;
 let dataRevisionPromiseFetchedAt = 0;
@@ -914,7 +917,12 @@ async function requestWithRetry(
 }
 
 
-function readStoredDataRevision() {
+function readStoredDataRevision(
+  options = {}
+) {
+  const allowExpired =
+    options.allowExpired === true;
+
   try {
     const stored =
       JSON.parse(
@@ -940,12 +948,19 @@ function readStoredDataRevision() {
       Date.now() -
       fetchedAt;
 
+    const expired =
+      ageMs >
+      DATA_REVISION_TTL_MS;
+
     if (
       !revision ||
       !Number.isFinite(fetchedAt) ||
       fetchedAt <= 0 ||
       ageMs < 0 ||
-      ageMs > DATA_REVISION_TTL_MS
+      (
+        expired &&
+        !allowExpired
+      )
     ) {
       return null;
     }
@@ -955,7 +970,13 @@ function readStoredDataRevision() {
         revision,
 
       fetchedAt:
-        fetchedAt
+        fetchedAt,
+
+      ageMs:
+        ageMs,
+
+      expired:
+        expired
     };
 
   } catch (error) {
@@ -966,6 +987,47 @@ function readStoredDataRevision() {
 
     return null;
   }
+}
+
+
+function rememberDataRevision(
+  revision,
+  fetchedAt = Date.now()
+) {
+  const normalized =
+    String(
+      revision || ""
+    ).trim();
+
+  if (!normalized) {
+    return;
+  }
+
+  dataRevisionPromiseFetchedAt =
+    fetchedAt;
+
+  dataRevisionPromise =
+    Promise.resolve(
+      normalized
+    );
+
+  writeStoredDataRevision(
+    normalized,
+    fetchedAt
+  );
+}
+
+
+function getResponseDataRevision(
+  response
+) {
+  return String(
+    response?.data?._cache
+      ?.revision ||
+    response?.data
+      ?.dataRevision ||
+    ""
+  ).trim();
 }
 
 
@@ -1031,7 +1093,9 @@ function getCurrentDataRevision() {
   dataRevisionPromiseFetchedAt =
     now;
 
-  dataRevisionPromise =
+  let revisionRequest = null;
+
+  revisionRequest =
     requestWithRetry(
       "revision",
       {},
@@ -1060,10 +1124,7 @@ function getCurrentDataRevision() {
         const fetchedAt =
           Date.now();
 
-        dataRevisionPromiseFetchedAt =
-          fetchedAt;
-
-        writeStoredDataRevision(
+        rememberDataRevision(
           revision,
           fetchedAt
         );
@@ -1071,16 +1132,250 @@ function getCurrentDataRevision() {
         return revision;
       })
       .catch(error => {
-        dataRevisionPromise =
-          null;
+        if (
+          dataRevisionPromise ===
+          revisionRequest
+        ) {
+          dataRevisionPromise =
+            null;
 
-        dataRevisionPromiseFetchedAt =
-          0;
+          dataRevisionPromiseFetchedAt =
+            0;
+        }
 
         throw error;
       });
 
+  dataRevisionPromise =
+    revisionRequest;
+
   return dataRevisionPromise;
+}
+
+
+function cacheNetworkResponse(
+  action,
+  params,
+  response,
+  cacheEnabled
+) {
+  const responseRevision =
+    getResponseDataRevision(
+      response
+    );
+
+  if (
+    cacheEnabled &&
+    responseRevision
+  ) {
+    writeCaches(
+      action,
+      params,
+      response,
+      responseRevision
+    );
+  }
+
+  return responseRevision;
+}
+
+
+function startBackgroundRevisionRefresh(
+  action,
+  params,
+  options,
+  ttlMs
+) {
+  const backgroundKey =
+    createCacheKey(
+      "background:",
+      "revision-validation",
+      action,
+      params
+    );
+
+  if (
+    backgroundRefreshes.has(
+      backgroundKey
+    )
+  ) {
+    return backgroundRefreshes.get(
+      backgroundKey
+    );
+  }
+
+  const promise =
+    getCurrentDataRevision()
+      .then(currentRevision => {
+        const currentCache =
+          readBestCache(
+            action,
+            params,
+            currentRevision
+          );
+
+        const currentCacheAge =
+          currentCache
+            ? Date.now() -
+              Number(
+                currentCache.savedAt ||
+                0
+              )
+            : Infinity;
+
+        if (
+          currentCache &&
+          currentCacheAge <=
+            ttlMs
+        ) {
+          return null;
+        }
+
+        return requestWithRetry(
+          action,
+          params,
+          options
+        )
+          .then(response => {
+            const responseRevision =
+              cacheNetworkResponse(
+                action,
+                params,
+                response,
+                true
+              );
+
+            if (!responseRevision) {
+              throw new Error(
+                "APIレスポンスのRevisionを確認できないため、バックグラウンドキャッシュを保存しませんでした。"
+              );
+            }
+
+            return response;
+          });
+      })
+      .finally(() => {
+        backgroundRefreshes.delete(
+          backgroundKey
+        );
+      });
+
+  backgroundRefreshes.set(
+    backgroundKey,
+    promise
+  );
+
+  return promise;
+}
+
+
+function requestWithoutRevisionBlock(
+  action,
+  params,
+  options,
+  cacheEnabled
+) {
+  const requestKey =
+    createCacheKey(
+      "request:",
+      "revision-pending",
+      action,
+      params
+    );
+
+  if (
+    inFlightRequests.has(
+      requestKey
+    )
+  ) {
+    return inFlightRequests.get(
+      requestKey
+    );
+  }
+
+  let validatedRevision = "";
+
+  getCurrentDataRevision()
+    .then(revision => {
+      validatedRevision =
+        revision;
+    })
+    .catch(error => {
+      console.warn(
+        "Data revision check failed; the main API response remains available:",
+        error
+      );
+    });
+
+  const promise =
+    requestWithRetry(
+      action,
+      params,
+      options
+    )
+      .then(response => {
+        const responseRevision =
+          cacheNetworkResponse(
+            action,
+            params,
+            response,
+            cacheEnabled
+          );
+
+        if (
+          responseRevision &&
+          (
+            !validatedRevision ||
+            responseRevision ===
+              validatedRevision
+          )
+        ) {
+          rememberDataRevision(
+            responseRevision
+          );
+        }
+
+        if (
+          cacheEnabled &&
+          !responseRevision
+        ) {
+          console.warn(
+            "API response revision unavailable; response was not cached:",
+            action
+          );
+        }
+
+        return {
+          ...response,
+
+          cache: {
+            source:
+              "network",
+
+            stale:
+              false,
+
+            revision:
+              responseRevision ||
+              null,
+
+            ageMs:
+              0
+          }
+        };
+      })
+      .finally(() => {
+        inFlightRequests.delete(
+          requestKey
+        );
+      });
+
+  inFlightRequests.set(
+    requestKey,
+    promise
+  );
+
+  return promise;
 }
 
 
@@ -1099,21 +1394,6 @@ export async function apiGet(
       "revision" &&
     normalizedAction !==
       "gapV2";
-
-  let dataRevision = "";
-
-  if (revisionAware) {
-    try {
-      dataRevision =
-        await getCurrentDataRevision();
-
-    } catch (error) {
-      console.warn(
-        "Data revision check failed; using network-first mode:",
-        error
-      );
-    }
-  }
 
   const cacheEnabled =
     options.cache !== false &&
@@ -1150,8 +1430,123 @@ export async function apiGet(
       DEFAULT_STALE_TTL[
         normalizedAction
       ] ??
-      30 * 60 * 1000
+      DEFAULT_PROVISIONAL_STALE_TTL_MS
     );
+
+  const storedRevision =
+    revisionAware
+      ? readStoredDataRevision({
+          allowExpired:
+            true
+        })
+      : null;
+
+  const canUseNonBlockingRevision =
+    revisionAware &&
+    cacheEnabled &&
+    !forceRefresh;
+
+  if (
+    canUseNonBlockingRevision &&
+    (
+      !storedRevision ||
+      storedRevision.expired
+    )
+  ) {
+    const provisionalCache =
+      readBestFallbackCache(
+        normalizedAction,
+        params
+      );
+
+    const provisionalCacheAge =
+      provisionalCache
+        ? Date.now() -
+          Number(
+            provisionalCache.savedAt ||
+            0
+          )
+        : Infinity;
+
+    const provisionalCacheIsUsable =
+      Boolean(
+        provisionalCache &&
+        provisionalCacheAge <=
+          staleTtlMs
+      );
+
+    if (provisionalCacheIsUsable) {
+      startBackgroundRevisionRefresh(
+        normalizedAction,
+        params,
+        options,
+        ttlMs
+      )
+        .catch(error => {
+          console.warn(
+            "Background revision refresh failed; provisional cache remains visible:",
+            error
+          );
+        });
+
+      return {
+        ...provisionalCache.response,
+
+        cache: {
+          source:
+            provisionalCache.source,
+
+          stale:
+            true,
+
+          provisional:
+            true,
+
+          revisionPending:
+            true,
+
+          revision:
+            provisionalCache.revision ||
+            null,
+
+          ageMs:
+            provisionalCacheAge,
+
+          staleTtlMs:
+            staleTtlMs
+        }
+      };
+    }
+
+    return requestWithoutRevisionBlock(
+      normalizedAction,
+      params,
+      options,
+      cacheEnabled
+    );
+  }
+
+  let dataRevision =
+    storedRevision &&
+    !storedRevision.expired
+      ? storedRevision.revision
+      : "";
+
+  if (
+    revisionAware &&
+    !dataRevision
+  ) {
+    try {
+      dataRevision =
+        await getCurrentDataRevision();
+
+    } catch (error) {
+      console.warn(
+        "Data revision check failed; using network-first mode:",
+        error
+      );
+    }
+  }
 
   const cached =
     cacheEnabled &&
@@ -1262,17 +1657,13 @@ export async function apiGet(
           options
         )
           .then(response => {
-            if (
-              cacheEnabled &&
-              dataRevision
-            ) {
-              writeCaches(
+            const responseRevision =
+              cacheNetworkResponse(
                 normalizedAction,
                 params,
                 response,
-                dataRevision
+                cacheEnabled
               );
-            }
 
             return {
               ...response,
@@ -1285,7 +1676,7 @@ export async function apiGet(
                   false,
 
                 revision:
-                  dataRevision ||
+                  responseRevision ||
                   null,
 
                 ageMs:

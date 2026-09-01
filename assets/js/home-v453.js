@@ -9,8 +9,14 @@ import {
 } from "./common.js?v=4.9.1&cache=revision-nonblocking";
 
 import {
-  getBirthdaysForDate
-} from "./birthday-data-v400.js?v=4.5.3";
+  getBirthdaysForMonthDay
+} from "./birthday-data-v400.js?v=4.9.3&cache=today-jst";
+
+import {
+  getJstDateKey,
+  getMillisecondsUntilNextJstDay,
+  isHomeResponseForJstDate
+} from "./home-date-v493.js?v=4.9.3&cache=today-jst";
 
 import {
   drawSecretMemory,
@@ -159,6 +165,10 @@ let recentVisibleCount = 5;
 let currentSecretMemoryId = "";
 let currentSecretMemoryItem = null;
 let secretMemoryDrawing = false;
+let renderedTodayDateKey = "";
+let homeLoadPromise = null;
+let homeDateTimerId = null;
+let homeHasRendered = false;
 
 
 function buildSecretMemoryRelatedUrl(item = {}) {
@@ -246,6 +256,61 @@ function setError(error) {
 
   elements.homeUpdate.textContent =
     "データを更新できませんでした";
+}
+
+
+function setTodayRefreshPending() {
+  elements.todayDate.textContent =
+    "";
+
+  elements.todaySummary.innerHTML = `
+    <span class="today-summary-total">
+      本日の記録を確認中…
+    </span>
+  `;
+
+  elements.todayContent.innerHTML = `
+    <section class="today-group">
+      <div class="today-empty">
+        JSTの本日分を取得しています。
+      </div>
+    </section>
+  `;
+
+  elements.birthdaySection.hidden =
+    true;
+
+  elements.birthdayContent.innerHTML =
+    "";
+}
+
+
+function setTodayRefreshError(error) {
+  elements.todayDate.textContent =
+    "";
+
+  elements.todaySummary.innerHTML = `
+    <span class="today-summary-total">
+      本日の記録を確認できませんでした
+    </span>
+  `;
+
+  elements.todayContent.innerHTML = `
+    <section class="today-group">
+      <div class="today-empty">
+        ${escapeHtml(error?.message || "時間をおいて再度お試しください。")}
+      </div>
+    </section>
+  `;
+
+  elements.birthdaySection.hidden =
+    true;
+
+  elements.birthdayContent.innerHTML =
+    "";
+
+  elements.homeUpdate.textContent =
+    "Today in μ'sの日付更新に失敗しました";
 }
 
 
@@ -510,8 +575,12 @@ function renderToday(today) {
 
 
 
-function renderBirthdays() {
-  const birthdays = getBirthdaysForDate(new Date());
+function renderBirthdays(today) {
+  const birthdays =
+    getBirthdaysForMonthDay(
+      today.month,
+      today.day
+    );
 
   elements.birthdaySection.hidden =
     birthdays.length === 0;
@@ -842,6 +911,15 @@ function renderHome(response) {
   const data =
     response.data || {};
 
+  renderedTodayDateKey =
+    String(
+      data.today?.dateKey ||
+      ""
+    ).trim();
+
+  homeHasRendered =
+    true;
+
   recentItems =
     Array.isArray(data.recentPerformances)
       ? data.recentPerformances
@@ -858,7 +936,9 @@ function renderHome(response) {
     data.today || {}
   );
 
-  renderBirthdays();
+  renderBirthdays(
+    data.today || {}
+  );
   renderSecretMemory();
 
   renderTopSongs(
@@ -889,34 +969,82 @@ function renderHome(response) {
 }
 
 
-async function loadHome() {
-  setLoading();
+function requestHome(
+  forceRefresh
+) {
+  return apiGet(
+    "home",
+    {
+      recentLimit:
+        20
+    },
+    {
+      timeoutMs:
+        30000,
+
+      retryCount:
+        1,
+
+      cache:
+        true,
+
+      cacheTtlMs:
+        600000,
+
+      staleWhileRevalidate:
+        true,
+
+      forceRefresh:
+        Boolean(forceRefresh)
+    }
+  );
+}
+
+
+async function performHomeLoad(
+  options = {}
+) {
+  const dateRefresh =
+    options.dateRefresh === true;
+
+  let forceRefresh =
+    options.forceRefresh === true;
+
+  if (dateRefresh) {
+    setTodayRefreshPending();
+  } else {
+    setLoading();
+  }
 
   try {
-    const response =
-      await apiGet(
-        "home",
-        {
-          recentLimit:
-            20
-        },
-        {
-          timeoutMs:
-            30000,
-
-          retryCount:
-            1,
-
-          cache:
-            true,
-
-          cacheTtlMs:
-            600000,
-
-          staleWhileRevalidate:
-            true
-        }
+    let response =
+      await requestHome(
+        forceRefresh
       );
+
+    if (
+      !isHomeResponseForJstDate(
+        response
+      ) &&
+      !forceRefresh
+    ) {
+      // 前日cacheやdateKeyのない旧cacheは描画せず、
+      // SWRが開始した通信と同じin-flight requestを待つ。
+      setTodayRefreshPending();
+      forceRefresh = true;
+      response =
+        await requestHome(true);
+    }
+
+    if (
+      !isHomeResponseForJstDate(
+        response
+      )
+    ) {
+      throw new Error(
+        "JSTの本日分を確認できませんでした。"
+      );
+    }
 
     renderHome(
       response
@@ -924,8 +1052,82 @@ async function loadHome() {
 
   } catch (error) {
     console.error(error);
-    setError(error);
+
+    if (
+      dateRefresh ||
+      homeHasRendered
+    ) {
+      setTodayRefreshError(error);
+    } else {
+      setError(error);
+    }
   }
+}
+
+
+function loadHome(
+  options = {}
+) {
+  if (homeLoadPromise) {
+    return homeLoadPromise;
+  }
+
+  homeLoadPromise =
+    performHomeLoad(options)
+      .finally(() => {
+        homeLoadPromise =
+          null;
+      });
+
+  return homeLoadPromise;
+}
+
+
+function refreshHomeIfDateChanged() {
+  if (
+    renderedTodayDateKey &&
+    renderedTodayDateKey ===
+      getJstDateKey()
+  ) {
+    return Promise.resolve();
+  }
+
+  return loadHome({
+    dateRefresh:
+      homeHasRendered,
+
+    forceRefresh:
+      true
+  });
+}
+
+
+function scheduleNextJstDateCheck() {
+  if (homeDateTimerId !== null) {
+    window.clearTimeout(
+      homeDateTimerId
+    );
+  }
+
+  homeDateTimerId =
+    window.setTimeout(
+      () => {
+        homeDateTimerId =
+          null;
+
+        refreshHomeIfDateChanged()
+          .finally(
+            scheduleNextJstDateCheck
+          );
+      },
+      getMillisecondsUntilNextJstDay()
+    );
+}
+
+
+function handleHomeDateCheck() {
+  scheduleNextJstDateCheck();
+  refreshHomeIfDateChanged();
 }
 
 
@@ -974,7 +1176,7 @@ elements.recentMoreButton.addEventListener(
 
 elements.retryButton.addEventListener(
   "click",
-  loadHome
+  () => loadHome()
 );
 
 
@@ -983,5 +1185,26 @@ elements.secretMemoryRedraw.addEventListener(
   redrawSecretMemory
 );
 
+
+window.addEventListener(
+  "focus",
+  handleHomeDateCheck
+);
+
+
+document.addEventListener(
+  "visibilitychange",
+  () => {
+    if (
+      document.visibilityState ===
+        "visible"
+    ) {
+      handleHomeDateCheck();
+    }
+  }
+);
+
+
+scheduleNextJstDateCheck();
 
 loadHome();

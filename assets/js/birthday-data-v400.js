@@ -19,8 +19,22 @@ export const BIRTHDAY_DATA = Object.freeze([
 { id:"BD-A009",type:"cast",name:"徳井青空",month:12,day:26,suffix:"さん" }
 ]);
 
-export function getBirthdaysForDate(date = new Date()) {
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
+export function getBirthdaysForMonthDay(
+  monthValue,
+  dayValue
+) {
+  const month =
+    Number(monthValue);
+
+  const day =
+    Number(dayValue);
+
   return BIRTHDAY_DATA.filter(item => item.month === month && item.day === day);
+}
+
+export function getBirthdaysForDate(date = new Date()) {
+  return getBirthdaysForMonthDay(
+    date.getMonth() + 1,
+    date.getDate()
+  );
 }

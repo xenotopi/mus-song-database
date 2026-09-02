@@ -1,0 +1,8 @@
+{
+  "name": "musdb-event-venue-card",
+  "private": true,
+  "scripts": {
+    "render:event": "node ../render-post-card.cjs --fixture event-record",
+    "render:venue": "node ../render-post-card.cjs --id X0008"
+  }
+}

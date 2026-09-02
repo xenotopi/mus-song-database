@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>イベント・会場記録カード｜μ's Song Database</title>
+  <link rel="stylesheet" href="../card-shared/card-brand.css">
+  <link rel="stylesheet" href="event-venue-card.css">
+</head>
+<body>
+  <main id="recordCard" class="post-card event-venue-card" aria-label="イベント・会場記録 投稿カード">
+    <div class="post-card__orb post-card__orb--top" aria-hidden="true"></div>
+    <div class="post-card__orb post-card__orb--bottom" aria-hidden="true"></div>
+
+    <header class="post-card__header">
+      <div class="brand-lockup" aria-label="μ's Song Database">
+        <span class="brand-lockup__mu">μ</span>
+        <span class="brand-lockup__copy">
+          <strong>'s Song Database</strong>
+          <small>μ's歌唱履歴データベース</small>
+        </span>
+      </div>
+      <span id="cardSeries" class="card-series">EVENT RECORD</span>
+    </header>
+
+    <section class="event-venue-card__hero">
+      <span id="heroLabel" class="field-label field-label--light">EVENT</span>
+      <h1 id="cardTitle" class="fit-text" data-min-size="32">イベント・会場名</h1>
+      <div class="event-venue-card__hero-meta">
+        <strong id="cardMeta">日付・所在地</strong>
+        <span id="cardCategory">公式イベント</span>
+      </div>
+    </section>
+
+    <section class="card-surface event-venue-card__content">
+      <article id="recordFeature" class="event-venue-card__feature">
+        <span id="featureLabel" class="field-label">会場</span>
+        <strong id="featureValue" class="fit-text" data-min-size="25">会場名</strong>
+      </article>
+
+      <div id="recordStats" class="event-venue-card__stats">
+        <article>
+          <span id="stat1Label">登録曲数</span>
+          <strong class="fit-text" data-min-size="34"><b id="stat1Value">--</b><small id="stat1Unit">曲</small></strong>
+        </article>
+        <article>
+          <span id="stat2Label">延べ歌唱人数（曲別合計）</span>
+          <strong class="fit-text" data-min-size="34"><b id="stat2Value">--</b><small id="stat2Unit">人</small></strong>
+        </article>
+        <article id="stat3Card">
+          <span id="stat3Label">フルメンバー歌唱</span>
+          <strong class="fit-text" data-min-size="34"><b id="stat3Value">--</b><small id="stat3Unit">曲</small></strong>
+        </article>
+      </div>
+
+      <div id="venueDates" class="event-venue-card__dates" hidden>
+        <article>
+          <span class="field-label">最初の開催日</span>
+          <strong id="firstDate">----</strong>
+        </article>
+        <article>
+          <span class="field-label">最新の開催日</span>
+          <strong id="latestDate">----</strong>
+        </article>
+      </div>
+    </section>
+
+    <footer class="post-card__footer">
+      <div class="member-line" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <p>記録で見る、μ'sの歌唱履歴。</p>
+      <strong>μ's Song Database</strong>
+    </footer>
+  </main>
+
+  <script src="../card-shared/card-runtime.js"></script>
+  <script src="event-venue-card.js"></script>
+</body>
+</html>

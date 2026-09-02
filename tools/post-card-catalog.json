@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "posts": {
+    "X0003": {
+      "categoryId": "X02",
+      "eventId": "EV0347",
+      "songId": "S098"
+    },
+    "X0008": {
+      "categoryId": "X05",
+      "venueId": "VE0038"
+    },
+    "X0009": {
+      "categoryId": "X01",
+      "eventId": "EV0017",
+      "songId": "S007"
+    },
+    "X0010": {
+      "categoryId": "X04"
+    },
+    "X0011": {
+      "categoryId": "X03",
+      "songId": "S049",
+      "scope": "official"
+    }
+  }
+}

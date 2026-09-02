@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "fixtures": {
+    "blank-ranking": {
+      "categoryId": "X03"
+    },
+    "event-record": {
+      "categoryId": "X05",
+      "eventId": "EV0051"
+    }
+  }
+}

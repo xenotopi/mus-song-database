@@ -1,0 +1,12 @@
+{
+  "name": "musdb-today-card-renderer",
+  "private": true,
+  "version": "1.0.0",
+  "description": "1080x1350 Today card renderer for μ's Song Database",
+  "scripts": {
+    "render": "node render-today-card.cjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.1"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "musdb-blank-card-renderer",
+  "private": true,
+  "version": "1.0.0",
+  "description": "1080x1350 song interval card renderer for μ's Song Database",
+  "scripts": {
+    "render": "node ../render-post-card.cjs --id X0011"
+  }
+}

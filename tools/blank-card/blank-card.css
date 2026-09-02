@@ -1,0 +1,131 @@
+.blank-card {
+  --bottom-orb: rgba(246, 196, 69, .12);
+  grid-template-rows: auto auto 1fr auto;
+  gap: 34px;
+}
+
+.blank-card__song {
+  display: flex;
+  min-height: 210px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 34px 42px 38px;
+  border-radius: 28px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--navy), var(--indigo-dark) 48%, var(--indigo));
+  box-shadow: 0 22px 54px rgba(33, 38, 90, .2);
+}
+
+.blank-card__song h1 {
+  max-height: 132px;
+  margin: 0;
+  overflow: hidden;
+  font-size: 70px;
+  font-weight: 900;
+  letter-spacing: -.045em;
+  line-height: 1.1;
+}
+
+.blank-card__content {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 24px;
+  padding: 32px 34px 34px;
+}
+
+.blank-card__gap {
+  display: grid;
+  place-items: center;
+  min-height: 174px;
+  border-radius: 24px;
+  color: #fff;
+  background: linear-gradient(145deg, #242d55, #5045c7);
+}
+
+.blank-card__gap strong {
+  display: flex;
+  align-items: baseline;
+  line-height: 1;
+}
+
+.blank-card__gap span {
+  font-size: 112px;
+  font-weight: 900;
+  letter-spacing: -.06em;
+}
+
+.blank-card__gap small {
+  margin-left: 14px;
+  font-size: 42px;
+  font-weight: 900;
+}
+
+.blank-card__records {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 54px minmax(0, 1fr);
+  gap: 10px;
+  align-items: stretch;
+}
+
+.blank-card__records article {
+  min-width: 0;
+  padding: 24px 25px;
+  border: 1px solid var(--line);
+  border-radius: 21px;
+  background: #fbfbfd;
+}
+
+.blank-card__records time {
+  display: block;
+  color: var(--indigo);
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.blank-card__records strong {
+  display: block;
+  max-height: 104px;
+  margin-top: 15px;
+  overflow: hidden;
+  font-size: 29px;
+  font-weight: 900;
+  letter-spacing: -.025em;
+  line-height: 1.2;
+}
+
+.blank-card__arrow {
+  display: grid;
+  place-items: center;
+  color: var(--indigo);
+  font-size: 38px;
+  font-weight: 900;
+}
+
+.blank-card__meta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  padding: 23px 26px;
+  border: 1px solid #ded8ff;
+  border-radius: 21px;
+  background: linear-gradient(135deg, #faf8ff, #f2efff);
+}
+
+.blank-card__meta .field-label {
+  margin-bottom: 7px;
+}
+
+.blank-card__meta > div > strong {
+  font-size: 31px;
+  font-weight: 900;
+}
+
+.blank-card__category {
+  padding: 10px 22px 9px;
+  border-radius: 999px;
+  color: var(--indigo);
+  background: #e9e7ff;
+  font-size: 25px;
+  font-weight: 900;
+}

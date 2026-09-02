@@ -1,0 +1,128 @@
+.today-card {
+  grid-template-rows: auto auto 1fr auto;
+  gap: 42px;
+}
+
+.today-card__intro {
+  padding: 36px 42px 40px;
+  border-radius: 28px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--navy), var(--indigo-dark) 48%, var(--indigo));
+  box-shadow: 0 22px 54px rgba(33, 38, 90, .2);
+}
+
+.today-card__eyebrow {
+  margin: 0;
+  color: rgba(255, 255, 255, .82);
+  font-size: 31px;
+  font-weight: 900;
+  letter-spacing: .03em;
+}
+
+.today-card__intro h1 {
+  margin: 18px 0 0;
+  font-size: 68px;
+  font-weight: 900;
+  letter-spacing: -.035em;
+  line-height: 1.08;
+}
+
+.today-card__content {
+  display: grid;
+  grid-template-rows: minmax(236px, 1.45fr) minmax(106px, .66fr) minmax(150px, .9fr);
+  gap: 22px;
+  padding: 36px;
+}
+
+.today-card__event {
+  padding: 19px 25px 20px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #fbfbfd;
+}
+
+.today-card__event p {
+  min-height: 43px;
+  max-height: 84px;
+  margin: 0;
+  overflow: hidden;
+  font-size: 34px;
+  font-weight: 850;
+  letter-spacing: -.02em;
+  line-height: 1.22;
+}
+
+.today-card__song {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 236px;
+  padding: 34px 38px 38px;
+  border-radius: 24px;
+  color: #fff;
+  background: linear-gradient(145deg, #242d55, #5045c7);
+}
+
+.today-card__song h2 {
+  max-height: 178px;
+  margin: 0;
+  overflow: hidden;
+  font-size: 68px;
+  font-weight: 900;
+  letter-spacing: -.04em;
+  line-height: 1.12;
+}
+
+.today-card__details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 20px;
+}
+
+.meta-item {
+  padding: 24px 26px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #fbfbfd;
+}
+
+.meta-item strong {
+  display: block;
+  font-size: 38px;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.meta-item--tags {
+  border-color: #ded8ff;
+  background: linear-gradient(135deg, #faf8ff, #f2efff);
+}
+
+.tag-line {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  gap: 15px;
+}
+
+.detail-tag {
+  width: fit-content;
+  padding: 7px 18px 6px;
+  border-radius: 999px;
+  color: var(--indigo);
+  background: #e9e7ff;
+  font-size: 27px !important;
+  white-space: nowrap;
+}
+
+.detail-tag--note {
+  color: #36376f;
+  background: #fff;
+}
+
+.tag-divider {
+  width: 2px;
+  height: 34px;
+  border-radius: 999px;
+  background: #c9c4ea;
+}

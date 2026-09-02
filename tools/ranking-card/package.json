@@ -1,0 +1,12 @@
+{
+  "name": "musdb-ranking-card-renderer",
+  "private": true,
+  "version": "1.0.0",
+  "description": "1080x1350 ranking card renderer for μ's Song Database",
+  "scripts": {
+    "render": "node render-ranking-card.cjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.1"
+  }
+}

@@ -1,0 +1,167 @@
+.event-venue-card {
+  --bottom-orb: rgba(92, 200, 232, .12);
+  grid-template-rows: auto auto 1fr auto;
+  gap: 36px;
+}
+
+.event-venue-card__hero {
+  display: flex;
+  min-height: 290px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 34px 42px 38px;
+  border-radius: 28px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--navy), var(--indigo-dark) 48%, var(--indigo));
+  box-shadow: 0 22px 54px rgba(33, 38, 90, .2);
+}
+
+.event-venue-card__hero h1 {
+  max-height: 178px;
+  margin: 0;
+  overflow: hidden;
+  font-size: 66px;
+  font-weight: 900;
+  letter-spacing: -.045em;
+  line-height: 1.1;
+}
+
+.event-venue-card__hero-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 22px;
+}
+
+.event-venue-card__hero-meta > strong {
+  font-size: 27px;
+  font-weight: 900;
+}
+
+.event-venue-card__hero-meta > span {
+  flex: 0 0 auto;
+  padding: 11px 18px;
+  border-radius: 999px;
+  color: var(--indigo-dark);
+  background: #fff;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.event-venue-card__content {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 26px;
+  padding: 34px;
+}
+
+.event-venue-card__feature {
+  padding: 25px 28px 28px;
+  border-left: 6px solid var(--indigo);
+  border-radius: 8px 20px 20px 8px;
+  background: #f8f8fc;
+}
+
+.event-venue-card__feature strong {
+  display: block;
+  max-height: 92px;
+  overflow: hidden;
+  font-size: 40px;
+  font-weight: 900;
+  letter-spacing: -.025em;
+  line-height: 1.18;
+}
+
+.event-venue-card__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.event-venue-card__stats article {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  border: 1px solid #ded8ff;
+  border-radius: 22px;
+  background: linear-gradient(145deg, #fff, #f2efff);
+}
+
+.event-venue-card__stats article > span {
+  min-height: 54px;
+  color: var(--muted);
+  font-size: 21px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.event-venue-card__stats strong {
+  display: block;
+  max-width: 100%;
+  max-height: 92px;
+  margin-top: 12px;
+  overflow: hidden;
+  color: var(--indigo);
+  font-size: 68px;
+  font-weight: 900;
+  letter-spacing: -.05em;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.event-venue-card__stats b {
+  font: inherit;
+}
+
+.event-venue-card__stats small {
+  margin-left: 5px;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.event-venue-card__dates {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.event-venue-card__dates article {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px 28px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: #fbfbfd;
+}
+
+.event-venue-card__dates strong {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -.025em;
+}
+
+.event-venue-card[data-mode="venue"] .event-venue-card__content {
+  grid-template-rows: minmax(0, 1fr) auto;
+}
+
+.event-venue-card[data-mode="venue"] .event-venue-card__stats {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.event-venue-card[data-mode="venue"] .event-venue-card__stats article > span {
+  font-size: 25px;
+}
+
+.event-venue-card[data-mode="venue"] .event-venue-card__stats strong {
+  font-size: 88px;
+}
+
+[hidden] {
+  display: none !important;
+}

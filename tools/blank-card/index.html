@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>いつ振りカード｜μ's Song Database</title>
+  <link rel="stylesheet" href="../card-shared/card-brand.css">
+  <link rel="stylesheet" href="blank-card.css">
+</head>
+<body>
+  <main id="blankCard" class="post-card blank-card" aria-label="いつ振り／ブランク 投稿カード" data-mode="single">
+    <div class="post-card__orb post-card__orb--top" aria-hidden="true"></div>
+    <div class="post-card__orb post-card__orb--bottom" aria-hidden="true"></div>
+
+    <header class="post-card__header">
+      <div class="brand-lockup" aria-label="μ's Song Database">
+        <span class="brand-lockup__mu">μ</span>
+        <span class="brand-lockup__copy">
+          <strong>'s Song Database</strong>
+          <small>μ's歌唱履歴データベース</small>
+        </span>
+      </div>
+      <span class="card-series">SONG INTERVAL</span>
+    </header>
+
+    <section class="blank-card__song">
+      <span class="field-label field-label--light">SONG</span>
+      <h1 id="cardSong" class="fit-text" data-min-size="46">曲名</h1>
+    </section>
+
+    <section class="card-surface blank-card__content">
+      <div class="blank-card__gap" aria-label="歌唱間隔">
+        <strong><span id="gapDays">----</span><small>日ぶり</small></strong>
+      </div>
+
+      <div class="blank-card__records">
+        <article>
+          <span class="field-label">前回歌唱日</span>
+          <time id="previousDate">----</time>
+          <strong id="previousEvent" class="fit-text" data-min-size="22">前回イベント</strong>
+        </article>
+        <span class="blank-card__arrow" aria-hidden="true">→</span>
+        <article>
+          <span class="field-label">再歌唱日</span>
+          <time id="returnDate">----</time>
+          <strong id="returnEvent" class="fit-text" data-min-size="22">再歌唱イベント</strong>
+        </article>
+      </div>
+
+      <div class="blank-card__meta">
+        <div>
+          <span class="field-label">再歌唱時の歌唱名義</span>
+          <strong id="cardSinger">歌唱名義</strong>
+        </div>
+        <strong id="cardCategory" class="blank-card__category">区分</strong>
+      </div>
+    </section>
+
+    <footer class="post-card__footer">
+      <div class="member-line" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <p>記録で見る、μ'sの歌唱履歴。</p>
+      <strong>μ's Song Database</strong>
+    </footer>
+  </main>
+
+  <script src="../card-shared/card-runtime.js"></script>
+  <script src="blank-card.js"></script>
+</body>
+</html>

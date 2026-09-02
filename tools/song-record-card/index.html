@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>楽曲記録カード｜μ's Song Database</title>
+  <link rel="stylesheet" href="../card-shared/card-brand.css">
+  <link rel="stylesheet" href="song-record-card.css">
+</head>
+<body>
+  <main id="songRecordCard" class="post-card song-record-card" aria-label="楽曲記録 投稿カード">
+    <div class="post-card__orb post-card__orb--top" aria-hidden="true"></div>
+    <div class="post-card__orb post-card__orb--bottom" aria-hidden="true"></div>
+
+    <header class="post-card__header">
+      <div class="brand-lockup" aria-label="μ's Song Database">
+        <span class="brand-lockup__mu">μ</span>
+        <span class="brand-lockup__copy">
+          <strong>'s Song Database</strong>
+          <small>μ's歌唱履歴データベース</small>
+        </span>
+      </div>
+      <span class="card-series">SONG RECORD</span>
+    </header>
+
+    <section class="song-record-card__hero">
+      <span class="field-label field-label--light">SONG</span>
+      <h1 id="cardSong" class="fit-text" data-min-size="48">曲名</h1>
+    </section>
+
+    <section class="card-surface song-record-card__content">
+      <div class="song-record-card__dates">
+        <article>
+          <span class="field-label">初披露日</span>
+          <strong id="firstDate">----</strong>
+        </article>
+        <article>
+          <span class="field-label">最終披露日</span>
+          <strong id="lastDate">----</strong>
+        </article>
+      </div>
+
+      <div class="song-record-card__stats" aria-label="歌唱回数">
+        <article>
+          <span>公式歌唱</span>
+          <strong><b id="officialCount">--</b><small>回</small></strong>
+        </article>
+        <article>
+          <span>ソロ歌唱</span>
+          <strong><b id="soloCount">--</b><small>回</small></strong>
+        </article>
+        <article>
+          <span>フルメンバー歌唱</span>
+          <strong><b id="completeCount">--</b><small>回</small></strong>
+        </article>
+      </div>
+
+      <article id="latestRecord" class="song-record-card__representative">
+        <span class="field-label">直近の歌唱</span>
+        <time id="latestDate">----</time>
+        <strong id="latestEvent" class="fit-text" data-min-size="24">イベント名</strong>
+        <p id="latestSinger">歌唱名義</p>
+      </article>
+    </section>
+
+    <footer class="post-card__footer">
+      <div class="member-line" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <p>記録で見る、μ'sの歌唱履歴。</p>
+      <strong>μ's Song Database</strong>
+    </footer>
+  </main>
+
+  <script src="../card-shared/card-runtime.js"></script>
+  <script src="song-record-card.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Generated post-card images
+/outputs/
+
+# Local dependencies
+/tools/**/node_modules/
+
+# Local Google Sheets/OAuth settings and credentials
+/tools/post-card-sync.config.json
+/tools/.post-card-oauth/
+/tools/oauth-client.json
+/tools/oauth-token.json
+/.post-card-oauth/

@@ -1,0 +1,205 @@
+:root {
+  --navy: #172033;
+  --indigo: #4f46e5;
+  --indigo-dark: #33366d;
+  --indigo-soft: #eef2ff;
+  --bg: #f7f8fa;
+  --line: #e5e7eb;
+  --muted: #6b7280;
+  --card: #ffffff;
+  --h: #f58220;
+  --e: #5cc8e8;
+  --k: #b7b7b7;
+  --u: #2b65b1;
+  --r: #f6c445;
+  --m: #e64b5d;
+  --n: #7b4bb7;
+  --ha: #65b74b;
+  --ni: #e96a9b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 1080px;
+  height: 1350px;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  color: var(--navy);
+  background: var(--bg);
+  font-family: "Yu Gothic", "Hiragino Sans", Meiryo, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.post-card {
+  --bottom-orb: rgba(92, 200, 232, .11);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  width: 1080px;
+  height: 1350px;
+  padding: 66px 72px 58px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 7% 4%, rgba(79, 70, 229, .15), transparent 27%),
+    radial-gradient(circle at 96% 86%, var(--bottom-orb), transparent 25%),
+    linear-gradient(160deg, #fbfbfd 0%, #f7f8fa 62%, #f3f2ff 100%);
+}
+
+.post-card::before {
+  position: absolute;
+  z-index: -1;
+  inset: 22px;
+  border: 1px solid rgba(79, 70, 229, .12);
+  border-radius: 38px;
+  content: "";
+}
+
+.post-card__orb {
+  position: absolute;
+  z-index: -1;
+  border-radius: 999px;
+  opacity: .5;
+}
+
+.post-card__orb--top {
+  top: -130px;
+  right: -120px;
+  width: 390px;
+  height: 390px;
+  background: rgba(79, 70, 229, .12);
+}
+
+.post-card__orb--bottom {
+  bottom: -160px;
+  left: -130px;
+  width: 420px;
+  height: 420px;
+  background: var(--bottom-orb);
+}
+
+.post-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.brand-lockup__mu {
+  margin-right: 7px;
+  color: var(--indigo);
+  font-size: 58px;
+  font-weight: 900;
+  letter-spacing: -.08em;
+  line-height: .82;
+}
+
+.brand-lockup__copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-lockup__copy strong {
+  font-size: 27px;
+  font-weight: 900;
+  letter-spacing: .01em;
+}
+
+.brand-lockup__copy small {
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.card-series {
+  padding: 11px 18px 9px;
+  border: 1px solid rgba(79, 70, 229, .2);
+  border-radius: 999px;
+  color: var(--indigo);
+  background: rgba(255, 255, 255, .78);
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: .13em;
+}
+
+.card-surface {
+  min-height: 0;
+  border: 1px solid #ddd9f4;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 96% 3%, rgba(79, 70, 229, .09), transparent 28%),
+    #fff;
+  box-shadow: 0 18px 48px rgba(42, 40, 88, .09);
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: .13em;
+}
+
+.field-label--light {
+  color: rgba(255, 255, 255, .65);
+}
+
+.post-card__footer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px 30px;
+  align-items: end;
+}
+
+.member-line {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 8px;
+  height: 8px;
+}
+
+.member-line i {
+  border-radius: 999px;
+}
+
+.member-line i:nth-child(1) { background: var(--h); }
+.member-line i:nth-child(2) { background: var(--e); }
+.member-line i:nth-child(3) { background: var(--k); }
+.member-line i:nth-child(4) { background: var(--u); }
+.member-line i:nth-child(5) { background: var(--r); }
+.member-line i:nth-child(6) { background: var(--m); }
+.member-line i:nth-child(7) { background: var(--n); }
+.member-line i:nth-child(8) { background: var(--ha); }
+.member-line i:nth-child(9) { background: var(--ni); }
+
+.post-card__footer p,
+.post-card__footer strong {
+  margin: 0;
+}
+
+.post-card__footer p {
+  color: var(--muted);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.post-card__footer strong {
+  font-size: 24px;
+  font-weight: 900;
+}

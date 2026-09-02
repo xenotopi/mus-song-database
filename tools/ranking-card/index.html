@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>ランキングカード｜μ's Song Database</title>
+  <link rel="stylesheet" href="../card-shared/card-brand.css">
+  <link rel="stylesheet" href="ranking-card.css">
+</head>
+<body>
+  <main id="rankingCard" class="post-card ranking-card" aria-label="ランキング 投稿カード">
+    <div class="post-card__orb post-card__orb--top" aria-hidden="true"></div>
+    <div class="post-card__orb post-card__orb--bottom" aria-hidden="true"></div>
+
+    <header class="post-card__header">
+      <div class="brand-lockup" aria-label="μ's Song Database">
+        <span class="brand-lockup__mu">μ</span>
+        <span class="brand-lockup__copy">
+          <strong>'s Song Database</strong>
+          <small>μ's歌唱履歴データベース</small>
+        </span>
+      </div>
+      <span id="cardLabel" class="card-series">DATABASE RANKING</span>
+    </header>
+
+    <section class="ranking-card__intro">
+      <h1 id="cardTitle" class="fit-text" data-min-size="36">公式歌唱数ランキング</h1>
+    </section>
+
+    <section class="card-surface ranking-card__content">
+      <div class="ranking-card__leaders">
+        <article class="leader-card leader-card--first">
+          <span class="leader-card__rank">1位</span>
+          <div class="leader-card__main">
+            <h2 id="rank1Name" class="fit-text" data-min-size="28">ミはμ'sicのミ</h2>
+            <strong class="fit-text" data-min-size="30"><span id="rank1Count">53</span><small id="rank1Unit">回</small></strong>
+          </div>
+        </article>
+
+        <article class="leader-card leader-card--second">
+          <span class="leader-card__rank">2位</span>
+          <div class="leader-card__main">
+            <h2 id="rank2Name" class="fit-text" data-min-size="28">Snow halation</h2>
+            <strong class="fit-text" data-min-size="28"><span id="rank2Count">51</span><small id="rank2Unit">回</small></strong>
+          </div>
+        </article>
+      </div>
+
+      <div class="ranking-card__others" aria-label="3位から5位">
+        <div class="ranking-row">
+          <span>3位</span>
+          <strong id="rank3Name" class="fit-text" data-min-size="20">僕らは今のなかで</strong>
+          <b class="fit-text" data-min-size="18"><span id="rank3Count">48</span><small id="rank3Unit">回</small></b>
+        </div>
+        <div class="ranking-row">
+          <span>4位</span>
+          <strong id="rank4Name" class="fit-text" data-min-size="20">僕らのLIVE 君とのLIFE</strong>
+          <b class="fit-text" data-min-size="18"><span id="rank4Count">46</span><small id="rank4Unit">回</small></b>
+        </div>
+        <div class="ranking-row">
+          <span>5位</span>
+          <strong id="rank5Name" class="fit-text" data-min-size="20">No brand girls</strong>
+          <b class="fit-text" data-min-size="18"><span id="rank5Count">35</span><small id="rank5Unit">回</small></b>
+        </div>
+      </div>
+    </section>
+
+    <footer class="post-card__footer ranking-card__footer">
+      <div class="member-line" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <p>記録で見る、μ'sの歌唱履歴。</p>
+      <strong>μ's Song Database</strong>
+    </footer>
+  </main>
+
+  <script src="../card-shared/card-runtime.js"></script>
+  <script src="ranking-card.js"></script>
+</body>
+</html>

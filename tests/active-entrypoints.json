@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "pages": {
+    "404.html": {
+      "js": [
+        "assets/js/seo-v351.js",
+        "assets/js/common.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
+    "about.html": {
+      "js": [
+        "assets/js/seo-v351.js",
+        "assets/js/about.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
+    "event.html": {
+      "js": [
+        "assets/js/seo-v351.js",
+        "assets/js/event-v310.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
+    "events.html": {
+      "js": [
+        "assets/js/events-v470.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
+    "gap-checker.html": {
+      "js": [
+        "assets/js/seo-v351.js",
+        "assets/js/gap-checker-v490.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
+    "index.html": {
+      "js": [
+        "assets/js/seo-v351.js",
+        "assets/js/home-v453.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
+    "rankings.html": {
+      "js": [
+        "assets/js/rankings-v421.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
+    "search.html": {
+      "js": [
+        "assets/js/common.js",
+        "assets/js/api.js",
+        "assets/js/singer-links.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
+    "singer.html": {
+      "js": [
+        "assets/js/seo-v351.js",
+        "assets/js/singer-v460.js",
+        "assets/js/detail-context.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
+    "singers.html": {
+      "js": [
+        "assets/js/singers-v470.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
+    "song.html": {
+      "js": [
+        "assets/js/seo-v351.js",
+        "assets/js/song-v441.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
+    "songs.html": {
+      "js": [
+        "assets/js/songs-v470.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
+    "statistics.html": {
+      "js": [
+        "assets/js/seo-v351.js",
+        "assets/js/statistics-v470.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
+    "venue.html": {
+      "js": [
+        "assets/js/seo-v351.js",
+        "assets/js/venue-v300.js",
+        "assets/js/detail-context.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
+    "venues.html": {
+      "js": [
+        "assets/js/venues-v470.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    }
+  },
+  "activeJavaScript": [
+    "assets/js/about.js",
+    "assets/js/analytics.js",
+    "assets/js/api.js",
+    "assets/js/birthday-data-v400.js",
+    "assets/js/common.js",
+    "assets/js/detail-context.js",
+    "assets/js/event-v310.js",
+    "assets/js/events-v470.js",
+    "assets/js/gap-checker-v490.js",
+    "assets/js/home-date-v493.js",
+    "assets/js/home-v453.js",
+    "assets/js/rankings-v421.js",
+    "assets/js/secret-memory-v401.js",
+    "assets/js/seo-v351.js",
+    "assets/js/singer-links.js",
+    "assets/js/singer-v460.js",
+    "assets/js/singers-v470.js",
+    "assets/js/song-v441.js",
+    "assets/js/songs-v470.js",
+    "assets/js/statistics-v470.js",
+    "assets/js/venue-v300.js",
+    "assets/js/venues-v470.js"
+  ],
+  "activeCss": [
+    "assets/css/analytics-consent.css",
+    "assets/css/style.css"
+  ]
+}

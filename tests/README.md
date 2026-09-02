@@ -46,3 +46,15 @@ npm --prefix tests run e2e
 
 Public APIがHTTP 429/5xx、通信失敗、タイムアウトになったページは、Webコードの失敗と区別できる理由を付けてSKIPします。
 ローカルassetの参照切れ、JavaScript例外、Console error、主要DOM未描画、横overflowはFAILです。
+
+## Search API contract
+
+Public Search APIのalias、重要な曲順位、曲以外のカテゴリ検索をread-onlyで確認します。
+実データの追加で変わりやすい総件数は固定せず、既知対象の包含、alias情報、重要な先頭順位だけを検証します。
+
+```powershell
+npm --prefix tests run contract:search
+```
+
+APIの通信失敗、タイムアウト、HTTP 429/5xxは理由付きSKIPです。
+HTTP 200でのレスポンス形式不正、対象欠落、aliasまたは順位の仕様違反はFAILです。

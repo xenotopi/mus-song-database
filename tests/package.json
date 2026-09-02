@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Read-only browser regression tests for the public μ's Song Database web UI",
   "scripts": {
+    "contract:search": "node --test search-api-contract.test.cjs",
     "e2e": "node --test web-e2e.test.cjs"
   },
   "devDependencies": {

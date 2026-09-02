@@ -1,0 +1,12 @@
+{
+  "name": "musdb-web-e2e",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Read-only browser regression tests for the public μ's Song Database web UI",
+  "scripts": {
+    "e2e": "node --test web-e2e.test.cjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.1"
+  }
+}

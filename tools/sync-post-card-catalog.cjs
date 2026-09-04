@@ -7,15 +7,17 @@ const { getSheetsReadonlyAccessToken } = require("./google-sheets-readonly-auth.
 
 const DEFAULT_CATALOG = path.join(__dirname, "post-card-catalog.json");
 const DEFAULT_CONFIG = path.join(__dirname, "post-card-sync.config.json");
-const REQUIRED_HEADERS = Object.freeze(["投稿ID", "カテゴリID", "Event ID", "Song ID", "Venue ID", "集計範囲"]);
+const REQUIRED_HEADERS = Object.freeze(["投稿ID", "カテゴリID", "Event ID", "Song ID", "Venue ID", "Release ID", "集計範囲"]);
 const SUPPORTED_CATEGORIES = new Set(["X01", "X02", "X03", "X04", "X05"]);
 const BLANK_SCOPES = new Set(["all", "official", "solo"]);
+const RANKING_SCOPES = new Set(["official", "solo"]);
 const ID_PATTERNS = Object.freeze({
   postId: /^X\d{4}$/,
   categoryId: /^X\d{2}$/,
   eventId: /^EV\d{4}$/,
   songId: /^S\d{3}$/,
-  venueId: /^VE\d{4}$/
+  venueId: /^VE\d{4}$/,
+  releaseId: /^R\d{4}$/
 });
 
 function normalize(value) {
@@ -130,8 +132,13 @@ function validateReferences(rowNumber, categoryId, refs, errors) {
   Object.entries(refs).forEach(([field, value]) => {
     if (value && !ID_PATTERNS[field].test(value)) errors.push(`行${rowNumber}: ${field}の形式が不正です（${value}）。`);
   });
-  if (categoryId === "X01" && (!refs.eventId || !refs.songId)) {
-    errors.push(`行${rowNumber}: X01にはEvent IDとSong IDが必要です。`);
+  if (categoryId === "X01") {
+    if (refs.releaseId) {
+      if (!refs.songId) errors.push(`行${rowNumber}: リリースTodayにはRelease IDとSong IDが必要です。`);
+      if (refs.eventId || refs.venueId) errors.push(`行${rowNumber}: リリースTodayではEvent IDとVenue IDを保存しません。`);
+    } else if (!refs.eventId || !refs.songId) {
+      errors.push(`行${rowNumber}: イベントTodayにはEvent IDとSong IDが必要です。`);
+    }
   }
   if ((categoryId === "X02" || categoryId === "X03") && !refs.songId) {
     errors.push(`行${rowNumber}: ${categoryId}にはSong IDが必要です。`);
@@ -140,6 +147,9 @@ function validateReferences(rowNumber, categoryId, refs, errors) {
     const modeCount = Number(Boolean(refs.eventId)) + Number(Boolean(refs.venueId));
     if (modeCount !== 1) errors.push(`行${rowNumber}: X05はEvent IDまたはVenue IDのどちらか一方が必要です。`);
     if (refs.songId) errors.push(`行${rowNumber}: X05ではSong IDを保存しません。`);
+  }
+  if (categoryId !== "X01" && refs.releaseId) {
+    errors.push(`行${rowNumber}: Release IDはX01でのみ指定できます。`);
   }
 }
 
@@ -158,14 +168,16 @@ function parseSheetRows(rows, existingPosts = {}) {
     const refs = {
       eventId: normalize(row[headerIndexes["Event ID"]]),
       songId: normalize(row[headerIndexes["Song ID"]]),
-      venueId: normalize(row[headerIndexes["Venue ID"]])
+      venueId: normalize(row[headerIndexes["Venue ID"]]),
+      releaseId: normalize(row[headerIndexes["Release ID"]])
     };
     const scope = normalizeScope(row[headerIndexes["集計範囲"]]);
-    const hasAnyValue = Boolean(postId || categoryId || refs.eventId || refs.songId || refs.venueId || scope);
+    const hasAnyValue = Boolean(postId || categoryId || refs.eventId || refs.songId || refs.venueId || refs.releaseId || scope);
     if (!hasAnyValue) return;
-    const hasReferenceId = Boolean(refs.eventId || refs.songId || refs.venueId);
+    const hasReferenceId = Boolean(refs.eventId || refs.songId || refs.venueId || refs.releaseId);
     const existsInCatalog = Boolean(postId && Object.hasOwn(existingPosts, postId));
-    if (!hasReferenceId && !existsInCatalog) {
+    const isConfiguredRanking = categoryId === "X04" && Boolean(scope);
+    if (!hasReferenceId && !existsInCatalog && !isConfiguredRanking) {
       excluded.push({ postId: postId || `行${rowNumber}`, reason: "同期対象外" });
       return;
     }
@@ -180,7 +192,7 @@ function parseSheetRows(rows, existingPosts = {}) {
       seenPostIds.set(postId, rowNumber);
     }
     if (!categoryId) {
-      if (refs.eventId || refs.songId || refs.venueId) errors.push(`行${rowNumber}: 参照IDがありますがカテゴリIDが空です。`);
+      if (refs.eventId || refs.songId || refs.venueId || refs.releaseId) errors.push(`行${rowNumber}: 参照IDがありますがカテゴリIDが空です。`);
       else excluded.push({ postId, reason: "カテゴリ未設定" });
       return;
     }
@@ -192,18 +204,20 @@ function parseSheetRows(rows, existingPosts = {}) {
       excluded.push({ postId, reason: `同期対象外カテゴリ ${categoryId}` });
       return;
     }
-    if (scope && !BLANK_SCOPES.has(scope)) {
-      errors.push(`行${rowNumber}: 集計範囲はall / official / soloのいずれかです（${scope}）。`);
-    }
-    if (scope && categoryId !== "X03") {
-      errors.push(`行${rowNumber}: 集計範囲はX03でのみ指定できます。`);
+    if (scope && categoryId === "X03" && !BLANK_SCOPES.has(scope)) {
+      errors.push(`行${rowNumber}: X03の集計範囲はall / official / soloのいずれかです（${scope}）。`);
+    } else if (scope && categoryId === "X04" && !RANKING_SCOPES.has(scope)) {
+      errors.push(`行${rowNumber}: X04の集計範囲はofficial / soloのいずれかです（${scope}）。`);
+    } else if (scope && categoryId !== "X03" && categoryId !== "X04") {
+      errors.push(`行${rowNumber}: 集計範囲はX03またはX04でのみ指定できます。`);
     }
     validateReferences(rowNumber, categoryId, refs, errors);
     const post = { categoryId };
     if (refs.eventId) post.eventId = refs.eventId;
     if (refs.songId) post.songId = refs.songId;
     if (refs.venueId) post.venueId = refs.venueId;
-    if (categoryId === "X03" && scope) post.scope = scope;
+    if (refs.releaseId) post.releaseId = refs.releaseId;
+    if ((categoryId === "X03" || categoryId === "X04") && scope) post.scope = scope;
     posts[postId] = post;
   });
   return { posts, errors, excluded, headerIndexes };
@@ -219,7 +233,7 @@ function loadCatalog(catalogPath) {
 
 function stablePost(post) {
   const result = { categoryId: post.categoryId };
-  ["eventId", "songId", "venueId", "scope"].forEach((key) => {
+  ["eventId", "songId", "venueId", "releaseId", "scope"].forEach((key) => {
     if (post[key]) result[key] = post[key];
   });
   return result;

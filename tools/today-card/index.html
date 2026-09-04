@@ -29,7 +29,7 @@
       <h1 id="cardDate">2013年9月1日</h1>
     </section>
 
-    <section class="card-surface today-card__content">
+    <section id="eventTodayContent" class="card-surface today-card__content">
       <div class="today-card__song">
         <span class="field-label field-label--light">SONG</span>
         <h2 id="cardSong" class="fit-text" data-min-size="46">ダイヤモンドプリンセスの憂鬱</h2>
@@ -54,6 +54,30 @@
             <strong id="cardNote" class="detail-tag detail-tag--note">ショートVer.</strong>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section id="releaseTodayContent" class="card-surface release-today" hidden>
+      <div class="release-today__hero">
+        <span class="field-label field-label--light">RELEASE</span>
+        <h2 id="cardReleaseSong" class="fit-text" data-min-size="50">Wonderful Rush</h2>
+        <strong id="cardAnniversary" class="release-today__anniversary">14周年</strong>
+      </div>
+
+      <div class="release-today__stats">
+        <div class="release-stat">
+          <span class="field-label">歌唱記録</span>
+          <p><strong id="cardTotalCount">21</strong><span>回</span></p>
+        </div>
+        <div class="release-stat release-stat--official">
+          <span class="field-label">公式歌唱</span>
+          <p><strong id="cardOfficialCount">12</strong><span>回</span></p>
+        </div>
+      </div>
+
+      <div class="release-today__related">
+        <span class="field-label">カップリング</span>
+        <p><strong id="cardRelatedSong" class="fit-text" data-min-size="28">Oh, Love &amp; Peace!</strong></p>
       </div>
     </section>
 

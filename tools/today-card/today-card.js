@@ -8,7 +8,12 @@
     song: "ダイヤモンドプリンセスの憂鬱",
     singer: "三森すずこ",
     category: "ソロ",
-    note: "ショートVer."
+    note: "ショートVer.",
+    mode: "event",
+    anniversary: "14周年",
+    totalCount: "21",
+    officialCount: "12",
+    relatedSong: "Oh, Love & Peace!"
   });
 
   const card = window.MusdbPostCard.readCard(DEFAULT_CARD, { category: ["type"] });
@@ -19,13 +24,23 @@
     cardSong: card.song,
     cardSinger: card.singer,
     cardCategory: card.category,
-    cardNote: card.note
+    cardNote: card.note,
+    cardReleaseSong: card.song,
+    cardAnniversary: card.anniversary,
+    cardTotalCount: card.totalCount,
+    cardOfficialCount: card.officialCount,
+    cardRelatedSong: card.relatedSong
   };
 
   window.MusdbPostCard.bindText(fields);
 
   document.title = `${card.id} Todayカード｜μ's Song Database`;
-  document.getElementById("todayCard")?.setAttribute("data-card-id", card.id);
+  const root = document.getElementById("todayCard");
+  const isRelease = card.mode === "release";
+  root?.setAttribute("data-card-id", card.id);
+  root?.setAttribute("data-mode", isRelease ? "release" : "event");
+  document.getElementById("eventTodayContent").hidden = isRelease;
+  document.getElementById("releaseTodayContent").hidden = !isRelease;
 
   window.MusdbPostCard.finish();
 })();

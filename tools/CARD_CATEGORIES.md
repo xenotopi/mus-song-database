@@ -5,7 +5,7 @@
 
 | カテゴリID | カード種別 | テンプレート |
 | --- | --- | --- |
-| X01 | Today | `today-card` |
+| X01 | Today（Event ID＋Song ID、またはRelease ID＋Song ID） | `today-card` |
 | X02 | 楽曲記録 | `song-record-card` |
 | X03 | いつ振り／ブランク | `blank-card` |
 | X04 | ランキング | `ranking-card` |

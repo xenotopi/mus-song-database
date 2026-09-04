@@ -31,10 +31,7 @@
     }
   });
 
-  const fields = {
-    cardTitle: card.title,
-    cardLabel: card.label
-  };
+  const fields = { cardTitle: card.title };
   rows.forEach((row, index) => {
     const rank = index + 1;
     fields[`rank${rank}Name`] = row.name;

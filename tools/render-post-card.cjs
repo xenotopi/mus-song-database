@@ -41,6 +41,20 @@ function formatJapaneseDate(isoDate) {
   return `${Number(matched[1])}年${Number(matched[2])}月${Number(matched[3])}日`;
 }
 
+function formatDotDate(isoDate) {
+  const matched = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(isoDate || ""));
+  if (!matched) throw new Error(`発売日の形式が不正です: ${isoDate || "空欄"}`);
+  return `${matched[1]}.${matched[2]}.${matched[3]}`;
+}
+
+function getJstYear(now = new Date()) {
+  const year = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric"
+  }).format(now);
+  return Number(year);
+}
+
 async function buildTodayValues(id, post) {
   if (!post.eventId || !post.songId) {
     throw new Error(`${id}: Todayカードに必要なEvent IDまたはSong IDがありません。`);
@@ -60,10 +74,66 @@ async function buildTodayValues(id, post) {
   };
 }
 
-async function buildRankingValues(id) {
-  const category = "公式";
+async function buildReleaseTodayValues(id, post) {
+  if (!post.releaseId || !post.songId) {
+    throw new Error(`${id}: リリースTodayカードに必要なRelease IDまたはSong IDがありません。`);
+  }
+  if (!/^R\d{4}$/.test(post.releaseId)) throw new Error(`${id}: Release IDの形式が不正です。`);
+
+  const song = await fetchApi("song", { id: post.songId });
+  if (song.songId !== post.songId) throw new Error(`${id}: Song IDのAPI照合に失敗しました。`);
+  if (!song.recordingCd || !song.releaseDate) throw new Error(`${id}: リリース情報がPublic APIにありません。`);
+
+  const releaseYear = Number(String(song.releaseDate).slice(0, 4));
+  const anniversary = getJstYear() - releaseYear;
+  const totalCount = Number(song.statistics?.performanceCount);
+  const officialCount = Number(song.statistics?.officialEventCount);
+  if (!Number.isInteger(anniversary) || anniversary < 0
+    || !Number.isFinite(totalCount) || !Number.isFinite(officialCount)) {
+    throw new Error(`${id}: リリースTodayの集計値が不正です。`);
+  }
+
+  const search = await fetchApi("search", { q: song.recordingCd });
+  const relatedSongs = (Array.isArray(search.results?.songs) ? search.results.songs : [])
+    .filter((candidate) => candidate.songId !== song.songId
+      && candidate.recordingCd === song.recordingCd
+      && candidate.releaseDate === song.releaseDate
+      && candidate.category === "カップリング");
+  if (relatedSongs.length !== 1) {
+    throw new Error(`${id}: 同日発売のカップリング曲を一意に特定できませんでした。`);
+  }
+
+  return {
+    id,
+    mode: "release",
+    date: formatDotDate(song.releaseDate),
+    song: song.recordingCd,
+    anniversary: `${anniversary}周年`,
+    totalCount: String(totalCount),
+    officialCount: String(officialCount),
+    relatedSong: relatedSongs[0].displayName || relatedSongs[0].songName
+  };
+}
+
+const RANKING_SCOPES = Object.freeze({
+  official: Object.freeze({
+    category: "公式",
+    title: "公式歌唱数ランキング",
+    label: "DATABASE RANKING"
+  }),
+  solo: Object.freeze({
+    category: "ソロ",
+    title: "声優ソロ系歌唱数ランキング",
+    label: "VOICE ACTOR SOLO RANKING"
+  })
+});
+
+async function buildRankingValues(id, scopeValue) {
+  const scope = String(scopeValue || "official").trim().toLowerCase();
+  const definition = RANKING_SCOPES[scope];
+  if (!definition) throw new Error(`${id}: X04の集計範囲はofficial / soloのいずれかです。`);
   const limit = 5;
-  const data = await fetchApi("rankings", { limit, category, schema: "4.2.1" });
+  const data = await fetchApi("rankings", { limit, category: definition.category, schema: "4.2.1" });
   const songs = Array.isArray(data.songs) ? data.songs.slice(0, limit) : [];
   if (songs.length !== 5) throw new Error(`${id}: ランキング上位5件を取得できませんでした。`);
   songs.forEach((song, index) => {
@@ -73,8 +143,8 @@ async function buildRankingValues(id) {
   });
   return {
     id,
-    title: `${category}歌唱数ランキング`,
-    label: "DATABASE RANKING",
+    title: definition.title,
+    label: definition.label,
     unit: "回",
     rows: JSON.stringify(songs.map((song) => ({
       rank: song.rank,
@@ -294,7 +364,9 @@ async function main() {
   let outputQualifier = "";
   if (post.categoryId === "X01") {
     templateDir = path.join(__dirname, "today-card");
-    values = await buildTodayValues(id, post);
+    values = post.releaseId
+      ? await buildReleaseTodayValues(id, post)
+      : await buildTodayValues(id, post);
   } else if (post.categoryId === "X02") {
     templateDir = path.join(__dirname, "song-record-card");
     values = await buildSongRecordValues(id, post);
@@ -310,7 +382,7 @@ async function main() {
     }
   } else if (post.categoryId === "X04") {
     templateDir = path.join(__dirname, "ranking-card");
-    values = await buildRankingValues(id);
+    values = await buildRankingValues(id, post.scope);
   } else if (post.categoryId === "X05") {
     templateDir = path.join(__dirname, "event-venue-card");
     if (post.eventId && post.venueId) {

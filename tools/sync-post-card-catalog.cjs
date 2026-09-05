@@ -4,11 +4,12 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { parseArguments } = require("./card-shared/render-card.cjs");
 const { getSheetsReadonlyAccessToken } = require("./google-sheets-readonly-auth.cjs");
+const { BIRTHDAY_COLUMNS, birthdayFromRow, validateBirthday } = require("./birthday-card/catalog-data.cjs");
 
 const DEFAULT_CATALOG = path.join(__dirname, "post-card-catalog.json");
 const DEFAULT_CONFIG = path.join(__dirname, "post-card-sync.config.json");
 const REQUIRED_HEADERS = Object.freeze(["投稿ID", "カテゴリID", "Event ID", "Song ID", "Venue ID", "Release ID", "集計範囲"]);
-const SUPPORTED_CATEGORIES = new Set(["X01", "X02", "X03", "X04", "X05"]);
+const SUPPORTED_CATEGORIES = new Set(["X01", "X02", "X03", "X04", "X05", "X08"]);
 const BLANK_SCOPES = new Set(["all", "official", "solo"]);
 const RANKING_SCOPES = new Set(["official", "solo"]);
 const ID_PATTERNS = Object.freeze({
@@ -93,16 +94,17 @@ async function fetchSheetRows({ spreadsheetId, sheetName, accessToken }) {
   const indexes = resolveHeaders(headerRow);
 
   const endpoint = new URL(`https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId)}/values:batchGet`);
-  REQUIRED_HEADERS.forEach((header) => {
+  const selectedHeaders = Object.keys(indexes);
+  selectedHeaders.forEach((header) => {
     const letter = columnLetter(indexes[header]);
     endpoint.searchParams.append("ranges", `${sheet}!${letter}2:${letter}`);
   });
   endpoint.searchParams.set("majorDimension", "ROWS");
   endpoint.searchParams.set("valueRenderOption", "FORMATTED_VALUE");
   const payload = await fetchSheetsJson(endpoint, accessToken);
-  const columns = REQUIRED_HEADERS.map((_header, index) => payload.valueRanges?.[index]?.values || []);
+  const columns = selectedHeaders.map((_header, index) => payload.valueRanges?.[index]?.values || []);
   const rowCount = Math.max(0, ...columns.map((column) => column.length));
-  const rows = [REQUIRED_HEADERS.slice()];
+  const rows = [selectedHeaders];
   for (let rowIndex = 0; rowIndex < rowCount; rowIndex += 1) {
     rows.push(columns.map((column) => column[rowIndex]?.[0] ?? ""));
   }
@@ -125,7 +127,8 @@ function resolveHeaders(headerRow) {
     if (duplicates.length) details.push(`重複ヘッダー: ${[...new Set(duplicates)].join(", ")}`);
     throw new Error(details.join(" / "));
   }
-  return Object.fromEntries(REQUIRED_HEADERS.map((header) => [header, indexes.get(header)]));
+  const selectedHeaders = [...REQUIRED_HEADERS, ...Object.values(BIRTHDAY_COLUMNS).filter((header) => indexes.has(header))];
+  return Object.fromEntries(selectedHeaders.map((header) => [header, indexes.get(header)]));
 }
 
 function validateReferences(rowNumber, categoryId, refs, errors) {
@@ -150,6 +153,10 @@ function validateReferences(rowNumber, categoryId, refs, errors) {
   }
   if (categoryId !== "X01" && refs.releaseId) {
     errors.push(`行${rowNumber}: Release IDはX01でのみ指定できます。`);
+  }
+  if (categoryId === "X08") {
+    if (!refs.songId) errors.push(`行${rowNumber}: Birthday最多曲のSong IDが必要です。`);
+    if (refs.eventId || refs.venueId) errors.push(`行${rowNumber}: BirthdayではEvent ID・Venue IDを保存しません。`);
   }
 }
 
@@ -177,7 +184,7 @@ function parseSheetRows(rows, existingPosts = {}) {
     const hasReferenceId = Boolean(refs.eventId || refs.songId || refs.venueId || refs.releaseId);
     const existsInCatalog = Boolean(postId && Object.hasOwn(existingPosts, postId));
     const isConfiguredRanking = categoryId === "X04" && Boolean(scope);
-    if (!hasReferenceId && !existsInCatalog && !isConfiguredRanking) {
+    if (!hasReferenceId && !existsInCatalog && !isConfiguredRanking && categoryId !== "X08") {
       excluded.push({ postId: postId || `行${rowNumber}`, reason: "同期対象外" });
       return;
     }
@@ -218,6 +225,13 @@ function parseSheetRows(rows, existingPosts = {}) {
     if (refs.venueId) post.venueId = refs.venueId;
     if (refs.releaseId) post.releaseId = refs.releaseId;
     if ((categoryId === "X03" || categoryId === "X04") && scope) post.scope = scope;
+    if (categoryId === "X08") {
+      try {
+        post.birthdayCard = birthdayFromRow(row, headerIndexes);
+      } catch (error) {
+        errors.push(`行${rowNumber}: ${error.message}`);
+      }
+    }
     posts[postId] = post;
   });
   return { posts, errors, excluded, headerIndexes };
@@ -236,6 +250,7 @@ function stablePost(post) {
   ["eventId", "songId", "venueId", "releaseId", "scope"].forEach((key) => {
     if (post[key]) result[key] = post[key];
   });
+  if (post.categoryId === "X08") result.birthdayCard = validateBirthday(post.birthdayCard);
   return result;
 }
 

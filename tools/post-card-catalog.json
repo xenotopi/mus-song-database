@@ -36,6 +36,22 @@
     "X0014": {
       "categoryId": "X04",
       "scope": "solo"
+    },
+    "X0021": {
+      "categoryId": "X08",
+      "songId": "S036",
+      "birthdayCard": {
+        "mode": "character",
+        "displayName": "南ことり",
+        "honorific": "ちゃん",
+        "birthday": "09.12",
+        "themeColor": "#B7B7B7",
+        "regularSongCount": 68,
+        "officialPerformanceCount": 472,
+        "topSongName": "僕らは今のなかで",
+        "topSongCount": 45,
+        "asOf": "2026-09-05"
+      }
     }
   }
 }

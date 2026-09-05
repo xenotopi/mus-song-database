@@ -3,6 +3,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { parseArguments, renderCard } = require("./card-shared/render-card.cjs");
+const { birthdayRenderValues } = require("./birthday-card/catalog-data.cjs");
 
 const PUBLIC_API = "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec";
 const DEFAULT_CATALOG = path.join(__dirname, "post-card-catalog.json");
@@ -395,8 +396,11 @@ async function main() {
     } else {
       throw new Error(`${id}: X05にEvent IDまたはVenue IDが必要です。`);
     }
+  } else if (post.categoryId === "X08") {
+    templateDir = path.join(__dirname, "birthday-card");
+    values = birthdayRenderValues(id, post);
   } else {
-    throw new Error(`${id}: カテゴリ${post.categoryId || "未設定"}は未対応です（対応: X01, X02, X03, X04, X05）。`);
+    throw new Error(`${id}: カテゴリ${post.categoryId || "未設定"}は未対応です（対応: X01, X02, X03, X04, X05, X08）。`);
   }
 
   const outputPath = path.resolve(

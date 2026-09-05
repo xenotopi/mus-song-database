@@ -9,7 +9,7 @@ const PRESETS = Object.freeze({
     event: "みもパ！vol.1 第2回",
     song: "ダイヤモンドプリンセスの憂鬱",
     singer: "三森すずこ",
-    category: "ソロ",
+    category: "声優ソロ系",
     note: "ショートVer."
   })
 });

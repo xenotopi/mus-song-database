@@ -70,8 +70,8 @@ async function buildTodayValues(id, post) {
     event: event.eventName,
     song: performance.songName,
     singer: performance.singerDisplayName || performance.singer,
-    category: performance.singerCategory || performance.type || event.category,
-    note: performance.note || "記載なし"
+    category: displayTodayCategory(performance.singerCategory || performance.type || event.category),
+    note: performance.note || ""
   };
 }
 
@@ -190,6 +190,11 @@ const displayEventCategory = (category) => ({
   "ソロ": "声優ソロ系イベント"
 })[category] || category;
 
+const displayTodayCategory = (category) => ({
+  "公式": "公式イベント",
+  "ソロ": "声優ソロ系"
+})[category] || category;
+
 async function buildEventRecordValues(id, eventId) {
   const event = await fetchApi("event", { id: eventId });
   if (event.eventId !== eventId) throw new Error(`${id}: Event IDのAPI照合に失敗しました。`);
@@ -227,7 +232,7 @@ async function buildVenueRecordValues(id, venueId) {
   const venue = await fetchApi("venue", { id: venueId });
   if (venue.venueId !== venueId) throw new Error(`${id}: Venue IDのAPI照合に失敗しました。`);
   const statistics = venue.statistics || {};
-  const numericFields = ["eventCount", "performanceCount"];
+  const numericFields = ["performanceCount", "uniqueSongCount"];
   numericFields.forEach((field) => {
     if (!Number.isFinite(Number(statistics[field]))) throw new Error(`${id}: 会場統計${field}が不正です。`);
   });
@@ -243,12 +248,12 @@ async function buildVenueRecordValues(id, venueId) {
     category: "",
     featureLabel: "",
     featureValue: "",
-    stat1Label: "開催イベント数",
-    stat1Value: String(Number(statistics.eventCount)),
-    stat1Unit: "イベント",
-    stat2Label: "歌唱記録数",
-    stat2Value: String(Number(statistics.performanceCount)),
-    stat2Unit: "件",
+    stat1Label: "歌唱記録",
+    stat1Value: String(Number(statistics.performanceCount)),
+    stat1Unit: "件",
+    stat2Label: "記録楽曲",
+    stat2Value: String(Number(statistics.uniqueSongCount)),
+    stat2Unit: "曲",
     stat3Label: "",
     stat3Value: "",
     stat3Unit: "",

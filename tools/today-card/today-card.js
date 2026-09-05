@@ -7,8 +7,8 @@
     event: "みもパ！vol.1 第2回",
     song: "ダイヤモンドプリンセスの憂鬱",
     singer: "三森すずこ",
-    category: "ソロ",
-    note: "ショートVer.",
+    category: "声優ソロ系",
+    note: "",
     mode: "event",
     anniversary: "14周年",
     totalCount: "21",
@@ -41,6 +41,18 @@
   root?.setAttribute("data-mode", isRelease ? "release" : "event");
   document.getElementById("eventTodayContent").hidden = isRelease;
   document.getElementById("releaseTodayContent").hidden = !isRelease;
+  const categoryElement = document.getElementById("cardCategory");
+  const noteElement = document.getElementById("cardNote");
+  const detailItem = categoryElement.closest(".meta-item--tags");
+  const tagDivider = detailItem.querySelector(".tag-divider");
+  categoryElement.hidden = !card.category;
+  categoryElement.style.display = card.category ? "" : "none";
+  noteElement.hidden = !card.note;
+  noteElement.style.display = card.note ? "" : "none";
+  tagDivider.hidden = !card.category || !card.note;
+  tagDivider.style.display = card.category && card.note ? "" : "none";
+  detailItem.hidden = !card.category && !card.note;
+  detailItem.style.display = card.category || card.note ? "" : "none";
 
   window.MusdbPostCard.finish();
 })();

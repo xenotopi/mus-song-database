@@ -1,0 +1,69 @@
+.birthday-card {
+  display: grid;
+  grid-template-rows: 76px 596px 338px 144px;
+  row-gap: 22px;
+  padding: 66px 80px 64px;
+  background: #fff;
+}
+.birthday-card::before { content: none; }
+.birthday-card .post-card__header { align-items: flex-start; }
+.birthday-hero { position: relative; isolation: isolate; text-align: center; padding-top: 20px; }
+.birthday-background { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; fill: var(--character-color); opacity: .07; pointer-events: none; }
+.birthday-motif { position: relative; display: flex; justify-content: center; align-items: center; height: 118px; }
+.birthday-flourish { position: absolute; width: 540px; height: 118px; color: var(--character-color); }
+.birthday-cake { position: relative; width: 90px; height: 98px; }
+.birthday-card[data-cake="false"] .birthday-motif { visibility: hidden; }
+.birthday-cake__body { fill: #fff; stroke: var(--muted); stroke-width: 2; }
+.birthday-cake__accent { fill: var(--character-color); stroke: var(--character-color); stroke-width: 1.5; }
+.birthday-cake__flame { fill: #f5a623; }
+.birthday-cake__icing { stroke: var(--character-color); stroke-width: 2; }
+.birthday-cake__plate { stroke: var(--muted); stroke-width: 2; }
+.birthday-greeting {
+  display: block;
+  width: 740px;
+  height: 130px;
+  margin: 0 auto 6px;
+  fill: var(--indigo);
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  line-height: 1.3;
+}
+.birthday-hero h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 156px;
+  margin: 0 60px;
+  gap: .18em;
+  color: var(--navy);
+  font-size: 112px;
+  line-height: 1.3;
+  font-weight: 800;
+  white-space: nowrap;
+}
+#characterName { flex: 0 0 auto; }
+#honorific { flex: 0 0 auto; font-size: .59em; font-weight: 700; transform: translateY(.15em); }
+#honorific:empty { display: none; }
+.birthday-date {
+  margin: 0;
+  color: var(--navy);
+  font-size: 84px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .06em;
+  line-height: 1.2;
+}
+.birthday-records { border-top: 1px solid var(--line); }
+.birthday-records h2 { margin: 0; font-size: 29px; font-weight: 600; color: var(--indigo-dark); }
+.birthday-metrics { display: grid; grid-template-columns: 1fr 1fr; padding: 27px 0 25px; text-align: center; }
+.metric-value { margin: 12px 0 0; font-size: 46px; font-weight: 700; line-height: 1.35; font-variant-numeric: tabular-nums; }
+.metric-value small { margin-left: 8px; font-size: 29px; font-weight: 500; }
+.birthday-top-song { border-top: 1px solid var(--line); padding-top: 24px; }
+.top-song-row { display: grid; grid-template-columns: minmax(0, 1fr) 154px; gap: 24px; align-items: center; margin-top: 12px; }
+#topSongName { margin: 0; height: 110px; display: flex; align-items: center; font-size: 43px; font-weight: 700; line-height: 1.28; overflow-wrap: anywhere; }
+.top-song-row .metric-value { margin: 0; text-align: right; }
+.birthday-notes { padding-top: 10px; color: var(--muted); font-size: 24px; line-height: 1.65; }
+.birthday-notes p { margin: 0; }
+#performanceNote { height: 40px; white-space: nowrap; }
+.birthday-notes .birthday-as-of { margin-top: 16px; font-size: 22px; }

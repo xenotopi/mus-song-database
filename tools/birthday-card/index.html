@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Birthdayカード｜μ's Song Database</title>
+  <link rel="stylesheet" href="../card-shared/card-brand.css">
+  <link rel="stylesheet" href="birthday-card.css">
+</head>
+<body>
+  <main id="birthdayCard" class="post-card birthday-card">
+    <header class="post-card__header">
+      <div class="brand-lockup" aria-label="μ's Song Database">
+        <span class="brand-lockup__mu">μ</span>
+        <span class="brand-lockup__copy">
+          <strong>'s Song Database</strong>
+          <small>μ's歌唱履歴データベース</small>
+        </span>
+      </div>
+    </header>
+    <section class="birthday-hero" aria-label="誕生日">
+      <svg class="birthday-background" viewBox="0 0 920 596" aria-hidden="true" focusable="false">
+        <path d="M560 0 C660 90 820 30 920 120 V0Z"/>
+        <path d="M0 418 C116 430 108 549 285 596 H0Z"/>
+      </svg>
+      <svg class="birthday-greeting" viewBox="0 0 740 130" role="img" aria-label="HAPPY BIRTHDAY">
+        <defs><path id="birthdayArch" d="M55 98 Q370 28 685 98"/></defs>
+        <text><textPath href="#birthdayArch" startOffset="50%" text-anchor="middle">HAPPY BIRTHDAY</textPath></text>
+      </svg>
+      <h1 id="birthdayName" class="fit-text" data-min-size="52"><span id="characterName"></span><span id="honorific"></span></h1>
+      <div class="birthday-motif" aria-hidden="true">
+      <svg class="birthday-flourish" viewBox="0 0 540 118" focusable="false">
+        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M76 66 C103 36 147 90 181 69 M359 69 C393 90 437 36 464 66"/>
+        </g>
+        <path d="M197 46 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2Z M343 46 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2Z" fill="currentColor"/>
+      </svg>
+      <svg class="birthday-cake" viewBox="0 0 88 96" focusable="false">
+        <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path class="birthday-cake__flame" d="M44 5 C37 13 38 19 44 19 C50 19 51 13 44 5Z"/>
+          <rect class="birthday-cake__accent" x="41" y="24" width="6" height="14" rx="2"/>
+          <rect class="birthday-cake__body" x="22" y="39" width="44" height="22" rx="5"/>
+          <path class="birthday-cake__icing" d="M23 47 Q28 55 34 47 Q39 55 44 47 Q49 55 54 47 Q60 55 65 47"/>
+          <rect class="birthday-cake__body" x="13" y="61" width="62" height="21" rx="5"/>
+          <path class="birthday-cake__icing" d="M14 68 Q21 77 28 68 Q36 77 44 68 Q52 77 60 68 Q68 77 74 68"/>
+          <path class="birthday-cake__plate" d="M10 86 H78"/>
+        </g>
+      </svg>
+      </div>
+      <p id="birthday" class="birthday-date"></p>
+    </section>
+    <section class="birthday-records" aria-label="歌唱記録">
+      <div class="birthday-metrics">
+        <div><h2>正規参加曲</h2><p class="metric-value fit-text" data-min-size="30"><span id="regularSongCount"></span><small>曲</small></p></div>
+        <div><h2>公式歌唱記録</h2><p class="metric-value fit-text" data-min-size="30"><span id="officialPerformanceCount"></span><small>回</small></p></div>
+      </div>
+      <div class="birthday-top-song">
+        <h2>公式歌唱 最多曲</h2>
+        <div class="top-song-row">
+          <p id="topSongName" class="fit-text" data-min-size="28"></p>
+          <p class="metric-value fit-text" data-min-size="28"><span id="topSongCount"></span><small>回</small></p>
+        </div>
+      </div>
+    </section>
+    <footer class="birthday-notes">
+      <p>正規参加曲：正規歌唱メンバーに含まれる楽曲</p>
+      <p id="performanceNote" class="fit-text" data-min-size="20"></p>
+      <p id="asOf" class="birthday-as-of"></p>
+    </footer>
+  </main>
+  <script src="../card-shared/card-runtime.js"></script>
+  <script src="birthday-card.js"></script>
+</body>
+</html>

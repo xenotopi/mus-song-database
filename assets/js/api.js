@@ -55,6 +55,8 @@ const DEFAULT_CACHE_TTL = {
   song: 30 * 60 * 1000,
   event: 30 * 60 * 1000,
   venue: 30 * 60 * 1000,
+  releaseList: 24 * 60 * 60 * 1000,
+  release: 24 * 60 * 60 * 1000,
   discover: 30 * 60 * 1000,
   search: 5 * 60 * 1000
 };
@@ -68,6 +70,8 @@ const DEFAULT_STALE_TTL = {
   song: 7 * 24 * 60 * 60 * 1000,
   event: 7 * 24 * 60 * 60 * 1000,
   venue: 7 * 24 * 60 * 60 * 1000,
+  releaseList: 7 * 24 * 60 * 60 * 1000,
+  release: 7 * 24 * 60 * 60 * 1000,
   discover: 24 * 60 * 60 * 1000,
   search: 30 * 60 * 1000
 };
@@ -81,6 +85,8 @@ const PERSISTENT_ACTIONS = new Set([
   "song",
   "event",
   "venue",
+  "releaseList",
+  "release",
   "discover"
 ]);
 
@@ -93,7 +99,14 @@ const SWR_ACTIONS = new Set([
   "song",
   "event",
   "venue",
+  "releaseList",
+  "release",
   "discover"
+]);
+
+const REVISION_INHERITING_ACTIONS = new Set([
+  "releaseList",
+  "release"
 ]);
 
 
@@ -778,12 +791,19 @@ export function jsonpRequest(options) {
             cleanup();
 
             if (!result?.success) {
-              reject(
+              const error =
                 new Error(
                   result?.error?.message ||
                   "API処理に失敗しました。"
-                )
-              );
+                );
+
+              error.code =
+                String(
+                  result?.error?.code ||
+                  ""
+                ).trim();
+
+              reject(error);
 
               return;
             }
@@ -1157,11 +1177,19 @@ function cacheNetworkResponse(
   action,
   params,
   response,
-  cacheEnabled
+  cacheEnabled,
+  validatedRevision = ""
 ) {
   const responseRevision =
     getResponseDataRevision(
       response
+    ) ||
+    (
+      REVISION_INHERITING_ACTIONS.has(
+        action
+      )
+        ? String(validatedRevision || "").trim()
+        : ""
     );
 
   if (
@@ -1242,7 +1270,8 @@ function startBackgroundRevisionRefresh(
                 action,
                 params,
                 response,
-                true
+                true,
+                currentRevision
               );
 
             if (!responseRevision) {
@@ -1295,16 +1324,21 @@ function requestWithoutRevisionBlock(
 
   let validatedRevision = "";
 
-  getCurrentDataRevision()
+  const revisionValidation =
+    getCurrentDataRevision()
     .then(revision => {
       validatedRevision =
         revision;
+
+      return revision;
     })
     .catch(error => {
       console.warn(
         "Data revision check failed; the main API response remains available:",
         error
       );
+
+      return "";
     });
 
   const promise =
@@ -1313,13 +1347,23 @@ function requestWithoutRevisionBlock(
       params,
       options
     )
-      .then(response => {
+      .then(async response => {
+        if (
+          !getResponseDataRevision(response) &&
+          !validatedRevision &&
+          REVISION_INHERITING_ACTIONS.has(action)
+        ) {
+          validatedRevision =
+            await revisionValidation;
+        }
+
         const responseRevision =
-          cacheNetworkResponse(
-            action,
-            params,
-            response,
-            cacheEnabled
+            cacheNetworkResponse(
+              action,
+              params,
+              response,
+              cacheEnabled,
+              validatedRevision
           );
 
         if (
@@ -1662,7 +1706,8 @@ export async function apiGet(
                 normalizedAction,
                 params,
                 response,
-                cacheEnabled
+                cacheEnabled,
+                dataRevision
               );
 
             return {

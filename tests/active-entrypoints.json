@@ -62,6 +62,22 @@
         "assets/css/style.css"
       ]
     },
+    "release.html": {
+      "js": [
+        "assets/js/release-v500.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
+    "releases.html": {
+      "js": [
+        "assets/js/releases-v500.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
     "search.html": {
       "js": [
         "assets/js/common.js",
@@ -148,6 +164,8 @@
     "assets/js/home-date-v493.js",
     "assets/js/home-v453.js",
     "assets/js/rankings-v421.js",
+    "assets/js/release-v500.js",
+    "assets/js/releases-v500.js",
     "assets/js/secret-memory-v401.js",
     "assets/js/seo-v351.js",
     "assets/js/singer-links.js",

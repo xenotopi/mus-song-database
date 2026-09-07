@@ -1233,9 +1233,11 @@
     .basic-release-head strong{font-size:16px;color:#17213b}
     .basic-release .official-release-meta{margin:0 0 10px}
     .basic-release .official-release-action{display:block}
+    .basic-release .official-release-links{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
     .basic-release .official-release-link{display:inline-flex;width:auto;min-height:38px;padding:0 14px;font-size:12px}
-    .basic-release .official-release-note{display:inline-block;margin-left:8px;font-size:10px}
-    @media (max-width:640px){.basic-release .official-release-note{display:block;margin:6px 0 0}}
+    .basic-release .release-detail-link{border:1px solid var(--indigo);background:#fff;color:var(--indigo)}
+    .basic-release .official-release-note{display:block;margin-top:7px;font-size:10px;text-align:left}
+    @media (max-width:640px){.basic-release .official-release-links{align-items:stretch}.basic-release .official-release-link{width:100%;white-space:normal;text-align:center}.basic-release .official-release-note{margin:6px 0 0;text-align:center}}
 
     /* STEP15-A: 歌唱履歴を主役にした曲詳細UX */
     .detail-local-nav .history-nav-link{
@@ -1742,7 +1744,7 @@
 
 <script
     type="module"
-    src="assets/js/song-v441.js?v=4.9.3&amp;cache=revision-nonblocking"
+    src="assets/js/song-v441.js?v=4.9.4&amp;cache=release-detail-link"
   ></script>
 
   <script>

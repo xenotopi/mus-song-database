@@ -17,6 +17,8 @@ const PAGE_CASES = Object.freeze([
   { name: "ホーム", path: "/index.html", ready: "#summary:not([hidden])", content: "#performanceCount" },
   { name: "曲一覧", path: "/songs.html", ready: "#allSongsSection:not([hidden])", content: "#songsList .song-list-card" },
   { name: "曲詳細", path: "/song.html?id=S003", ready: "#mainContent:not([hidden])", content: "#historyList" },
+  { name: "リリース一覧", path: "/releases.html", ready: "#allReleasesSection:not([hidden])", content: "#releasesList .release-list-card" },
+  { name: "リリース詳細", path: "/release.html?id=R0015", ready: "#mainContent:not([hidden])", content: "#debutSongs .release-song-row" },
   { name: "イベント一覧", path: "/events.html", ready: "#timelineSection:not([hidden])", content: "#yearsContainer .history-event-card" },
   { name: "イベント詳細", path: "/event.html?id=EV0017", ready: "#mainContent:not([hidden])", content: "#songList" },
   { name: "会場一覧", path: "/venues.html", ready: "#allVenuesSection:not([hidden])", content: "#venuesList .venue-list-card" },
@@ -262,7 +264,7 @@ async function waitForNavigationReady(page, selector) {
   await page.locator(selector).first().waitFor({ state: "visible", timeout: READY_TIMEOUT_MS });
 }
 
-test("主要15ページ read-only E2E", { timeout: 12 * 60 * 1000 }, async t => {
+test("主要17ページ read-only E2E", { timeout: 12 * 60 * 1000 }, async t => {
   const server = await createStaticServer();
   const browser = await launchBrowser();
   const context = await browser.newContext({

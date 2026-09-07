@@ -21,7 +21,7 @@ node --test tests/web-smoke.test.cjs
 
 ## Read-only E2E
 
-主要15ページを実ブラウザで開き、主要DOM、Console error、実在IDの詳細ページ、390px表示の横overflow、主要導線を確認します。
+主要17ページを実ブラウザで開き、主要DOM、Console error、実在IDの詳細ページ、390px表示の横overflow、主要導線を確認します。
 ローカルのWebファイルを一時HTTPサーバーで配信し、Public APIにはGET/JSONPのread-only通信だけを行います。
 
 初回だけPlaywrightを準備します。
@@ -58,3 +58,30 @@ npm --prefix tests run contract:search
 
 APIの通信失敗、タイムアウト、HTTP 429/5xxは理由付きSKIPです。
 HTTP 200でのレスポンス形式不正、対象欠落、aliasまたは順位の仕様違反はFAILです。
+
+## Release list E2E
+
+Release一覧の描画、検索・分類・年・並び順、URL状態復元、エラー再試行、390px表示を確認します。
+Public APIにはGET/JSONPのread-only通信だけを行います。
+
+```powershell
+npm --prefix tests run e2e:release
+```
+
+Release詳細の実データ、0曲状態、欠損表示、エラー処理、一覧との相互遷移は次で確認します。
+
+```powershell
+npm --prefix tests run e2e:release-detail
+```
+
+曲詳細の既存収録作品表示と、Song APIの `debutRelease.releaseId` を使ったRelease詳細との相互リンクは次で確認します。
+
+```powershell
+npm --prefix tests run e2e:song-release
+```
+
+共通ナビの項目順、Release active状態、PC幅での非衝突、モバイルドロワーの開閉は次で確認します。
+
+```powershell
+npm --prefix tests run e2e:navigation
+```

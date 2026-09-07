@@ -1015,19 +1015,35 @@ function renderOfficialRelease_(song) {
     `).join("");
 
   const url = String(song.officialReleaseUrl || "").trim();
+  const debutReleaseId = String(
+    song.debutRelease?.releaseId || ""
+  ).trim();
+  const hasDebutRelease = /^R\d{4}$/.test(debutReleaseId);
 
   elements.releaseAction.innerHTML =
-    url
-      ? `
+    `<div class="official-release-links">
+      ${url
+        ? `
         <a class="official-release-link"
            href="${escapeHtml(url)}"
            target="_blank"
            rel="noopener noreferrer">
           公式作品ページを見る ↗
         </a>
-        <div class="official-release-note">新しいタブで開きます</div>
       `
-      : `<div class="official-release-note">公式作品ページは未登録です</div>`;
+        : ""}
+      ${hasDebutRelease
+        ? `
+        <a class="official-release-link release-detail-link"
+           href="release.html?id=${encodeURIComponent(debutReleaseId)}">
+          リリース詳細を見る
+        </a>
+      `
+        : ""}
+    </div>
+    ${url
+      ? `<div class="official-release-note">新しいタブで開きます</div>`
+      : `<div class="official-release-note">公式作品ページは未登録です</div>`}`;
 
   elements.releaseSection.hidden = false;
 }

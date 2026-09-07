@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <title>リリース一覧｜μ's Song Database</title>
+  <meta name="description" content="μ's関連作品を発売日から辿るリリース一覧です。">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://xenotopi.github.io/mus-song-database/releases.html">
+  <meta property="og:site_name" content="μ's Song Database">
+  <meta property="og:title" content="リリース一覧｜μ's Song Database">
+  <meta property="og:description" content="μ's関連作品を発売日から辿るリリース一覧です。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://xenotopi.github.io/mus-song-database/releases.html">
+  <meta property="og:image" content="https://xenotopi.github.io/mus-song-database/assets/images/og-default-v2.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.7.0">
+  <style>
+    .releases-page{width:min(1120px,calc(100% - 32px));margin:0 auto;padding:30px 0 88px}
+    .releases-breadcrumb{margin-bottom:18px;color:var(--muted);font-size:12px}
+    .releases-breadcrumb a{color:inherit;text-decoration:none}
+    .releases-breadcrumb a:hover{color:var(--indigo);text-decoration:underline}
+    .releases-hero{position:relative;overflow:hidden;padding:32px 30px;border-radius:24px;color:#fff;background:radial-gradient(circle at 88% 8%,rgba(126,111,255,.20),transparent 27%),linear-gradient(135deg,#18213d 0%,#293263 54%,#5147c9 100%);box-shadow:0 18px 46px rgba(30,34,76,.12)}
+    .releases-hero-kicker,.releases-section-kicker{margin:0;font-size:10px;font-weight:900;letter-spacing:.12em}
+    .releases-hero-kicker{color:rgba(255,255,255,.66)}
+    .releases-hero h1{margin:8px 0 10px;font-size:clamp(30px,4vw,46px);line-height:1.15;letter-spacing:-.02em}
+    .releases-hero-copy{margin:0;color:rgba(255,255,255,.86);font-size:14px;line-height:1.9}
+    .releases-hero-summary{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+    .releases-hero-chip{display:inline-flex;align-items:center;min-height:31px;padding:5px 11px;border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(255,255,255,.09);font-size:12px;font-weight:800}
+    .releases-status{margin-top:18px;padding:18px;border:1px solid var(--line);border-radius:16px;background:#fff;color:var(--muted)}
+    .releases-status.error{color:#991b1b;border-color:#fecaca;background:#fff7f7}
+    .releases-status button{min-height:44px;margin-top:12px;padding:0 17px;border:0;border-radius:12px;background:var(--indigo);color:#fff;font-weight:900;cursor:pointer}
+    .releases-section{margin-top:28px}
+    .releases-section-head{display:flex;justify-content:space-between;gap:16px;align-items:end;margin-bottom:14px}
+    .releases-section-kicker{color:var(--indigo)}
+    .releases-section h2{margin:5px 0 0;font-size:26px;color:var(--navy)}
+    .releases-section-note{margin:0;color:var(--muted);font-size:12px}
+    .releases-toolbar{padding:18px;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow)}
+    .releases-control-grid{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,minmax(150px,210px));gap:12px;align-items:end}
+    .releases-field{min-width:0}
+    .releases-field label,.releases-filter-label{display:block;margin:0 0 7px;color:var(--muted);font-size:11px;font-weight:900;letter-spacing:.05em}
+    .releases-field input,.releases-field select{width:100%;min-width:0;min-height:48px;border:1px solid var(--line);border-radius:13px;background:#fff;padding:0 13px;color:var(--navy);font:inherit}
+    .releases-field input:focus,.releases-field select:focus{outline:0;border-color:#a5b4fc;box-shadow:0 0 0 4px var(--light)}
+    .releases-filter-block{margin-top:16px}
+    .releases-filter-pills{display:flex;gap:8px;flex-wrap:wrap}
+    .releases-filter-pill{min-height:40px;padding:7px 13px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);font-weight:900;cursor:pointer}
+    .releases-filter-pill.active{border-color:var(--indigo);background:var(--indigo);color:#fff}
+    .releases-result-text{margin-top:16px;color:var(--muted);font-size:12px;font-weight:800}
+    .releases-list{margin-top:14px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff;box-shadow:var(--shadow)}
+    .release-list-card{display:grid;grid-template-columns:132px minmax(0,1fr) auto 18px;gap:18px;align-items:center;padding:19px 20px;border-bottom:1px solid var(--line);color:inherit;text-decoration:none}
+    .release-list-card:last-child{border-bottom:0}
+    .release-list-card:hover{background:#fcfcff}
+    .release-list-date{color:var(--muted);font-size:13px;font-weight:800;white-space:nowrap}
+    .release-list-main{min-width:0}
+    .release-list-title{color:var(--navy);font-size:17px;font-weight:900;line-height:1.55;overflow-wrap:anywhere}
+    .release-list-meta{display:flex;gap:7px 12px;flex-wrap:wrap;margin-top:6px;color:var(--muted);font-size:12px}
+    .release-list-category{display:inline-flex;align-items:center;min-height:30px;padding:5px 11px;border-radius:999px;background:#f0edff;color:var(--indigo);font-size:11px;font-weight:900;white-space:nowrap}
+    .release-list-arrow{color:var(--indigo);font-size:22px;font-weight:900}
+    .releases-empty{padding:34px 20px;text-align:center;color:var(--muted)}
+    .releases-more-wrap{text-align:center;margin-top:18px}
+    .releases-more{min-height:48px;padding:0 22px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--indigo);font-weight:900;cursor:pointer}
+    @media(max-width:900px){.releases-control-grid{grid-template-columns:1fr 1fr}.releases-control-grid .releases-search{grid-column:1/-1}}
+    @media(max-width:620px){.releases-page{width:min(100% - 24px,1120px);padding:18px 0 56px}.releases-hero{padding:26px 20px;border-radius:20px}.releases-section-head{display:block}.releases-section-note{margin-top:7px}.releases-control-grid{grid-template-columns:1fr}.releases-control-grid .releases-search{grid-column:auto}.release-list-card{grid-template-columns:minmax(0,1fr) 18px;gap:9px 12px;padding:17px 15px}.release-list-date{grid-column:1/-1}.release-list-main{grid-column:1;grid-row:2}.release-list-arrow{grid-column:2;grid-row:2;align-self:center}.release-list-category{grid-column:1;grid-row:3;justify-self:start}}
+  </style>
+</head>
+<body>
+  <div id="siteHeader"></div>
+  <main class="releases-page">
+    <div class="releases-breadcrumb"><a href="index.html">ホーム</a> › リリース</div>
+    <section class="releases-hero">
+      <p class="releases-hero-kicker">RELEASES</p>
+      <h1>リリース</h1>
+      <p class="releases-hero-copy">μ's関連作品を発売日から辿る</p>
+      <div class="releases-hero-summary" id="heroSummary" hidden><span class="releases-hero-chip" id="totalReleasesChip"></span></div>
+    </section>
+    <div class="releases-status" id="status">リリースデータを読み込んでいます...</div>
+    <section class="releases-section" id="allReleasesSection" hidden>
+      <div class="releases-section-head">
+        <div><p class="releases-section-kicker">ALL RELEASES</p><h2>リリース一覧</h2></div>
+        <p class="releases-section-note">作品名・分類・発売年・並び順で絞り込めます。</p>
+      </div>
+      <div class="releases-toolbar">
+        <div class="releases-control-grid">
+          <div class="releases-field releases-search"><label for="releaseSearch">リリース名</label><input id="releaseSearch" type="search" placeholder="作品名から探す" autocomplete="off"></div>
+          <div class="releases-field"><label for="releaseYear">発売年</label><select id="releaseYear"><option value="">すべての年</option></select></div>
+          <div class="releases-field"><label for="releaseSort">並び替え</label><select id="releaseSort"><option value="new">新しい順</option><option value="old">古い順</option></select></div>
+        </div>
+        <div class="releases-filter-block"><p class="releases-filter-label">分類</p><div class="releases-filter-pills" id="classificationFilters"></div></div>
+        <div class="releases-result-text" id="resultText"></div>
+      </div>
+      <div class="releases-list" id="releasesList"></div>
+      <div class="releases-more-wrap"><button class="releases-more" id="moreButton" type="button" hidden>もっと見る</button></div>
+    </section>
+  </main>
+  <div id="siteFooter"></div>
+  <script type="module" src="assets/js/releases-v500.js?v=5.0.0&amp;cache=release-list"></script>
+</body>
+</html>

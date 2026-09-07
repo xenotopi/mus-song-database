@@ -118,6 +118,13 @@ export function renderCommon(active = "") {
             </a>
 
             <a
+              class="${active === "release" ? "active" : ""}"
+              href="releases.html"
+            >
+              リリース
+            </a>
+
+            <a
               class="${active === "event" ? "active" : ""}"
               href="events.html"
             >
@@ -197,6 +204,10 @@ export function renderCommon(active = "") {
 
           <a class="${active === "song" ? "active" : ""}" href="songs.html">
             <span>曲</span>
+          </a>
+
+          <a class="${active === "release" ? "active" : ""}" href="releases.html">
+            <span>リリース</span>
           </a>
 
           <a class="${active === "event" ? "active" : ""}" href="events.html">

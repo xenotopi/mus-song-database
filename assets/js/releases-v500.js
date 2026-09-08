@@ -8,14 +8,23 @@ const el = {
   status: $("status"), heroSummary: $("heroSummary"), totalReleasesChip: $("totalReleasesChip"),
   allReleasesSection: $("allReleasesSection"), releaseSearch: $("releaseSearch"),
   releaseYear: $("releaseYear"), releaseSort: $("releaseSort"),
-  classificationFilters: $("classificationFilters"), resultText: $("resultText"),
+  classificationFilters: $("classificationFilters"), releaseTypeBlock: $("releaseTypeBlock"),
+  releaseTypeFilters: $("releaseTypeFilters"), resultText: $("resultText"),
   releasesList: $("releasesList"), moreButton: $("moreButton")
 };
 
 const params = new URLSearchParams(location.search);
 let allReleases = [];
 let selectedClassification = "";
+let selectedReleaseType = "";
 let visibleLimit = 24;
+
+const CLASSIFICATION_ORDER = ["CD", "Blu-ray", "特典"];
+const RELEASE_TYPE_ORDER = {
+  CD: ["シングル", "Solo Live!", "ラジオCD", "サウンドトラック", "ベストアルバム", "コンプリートBOX", "企画アルバム"],
+  "Blu-ray": ["アニメBlu-ray", "劇場版Blu-ray", "ライブBlu-ray", "映像集", "映像BOX"],
+  特典: ["前売券特典", "全巻購入特典"]
+};
 
 function normalizeText(value) {
   return String(value || "").normalize("NFKC").toLocaleLowerCase("ja");
@@ -46,8 +55,9 @@ function filteredReleases() {
   allReleases.filter(item => {
     const queryOK = !query || normalizeText(item.releaseName).includes(query);
     const classificationOK = !selectedClassification || item.classification === selectedClassification;
+    const releaseTypeOK = !selectedReleaseType || item.releaseType === selectedReleaseType;
     const yearOK = !year || releaseYear(item.releaseDate) === year;
-    return queryOK && classificationOK && yearOK;
+    return queryOK && classificationOK && releaseTypeOK && yearOK;
   }).forEach(item => (validDate(item.releaseDate) ? dated : undated).push(item));
 
   const direction = el.releaseSort.value === "old" ? 1 : -1;
@@ -57,16 +67,58 @@ function filteredReleases() {
 }
 
 function buildClassificationFilters() {
-  const values = [...new Set(allReleases.map(item => String(item.classification || "").trim()).filter(Boolean))]
-    .sort((a, b) => a.localeCompare(b, "ja"));
+  const available = new Set(allReleases.map(item => String(item.classification || "").trim()).filter(Boolean));
+  const values = CLASSIFICATION_ORDER.filter(value => available.has(value));
   el.classificationFilters.innerHTML = ["", ...values].map(value => `
-    <button type="button" class="releases-filter-pill${value ? "" : " active"}" data-classification="${escapeHtml(value)}">
+    <button type="button" class="releases-filter-pill${value ? "" : " active"}" data-classification="${escapeHtml(value)}" aria-pressed="${value ? "false" : "true"}">
       ${escapeHtml(value || "すべて")}
     </button>`).join("");
   el.classificationFilters.querySelectorAll("[data-classification]").forEach(button => {
     button.addEventListener("click", () => {
-      selectedClassification = button.dataset.classification || "";
-      el.classificationFilters.querySelectorAll("[data-classification]").forEach(item => item.classList.toggle("active", item === button));
+      const nextClassification = button.dataset.classification || "";
+      if (nextClassification !== selectedClassification) selectedReleaseType = "";
+      selectedClassification = nextClassification;
+      updateClassificationSelection();
+      buildReleaseTypeFilters();
+      visibleLimit = 24;
+      syncUrl();
+      renderReleases();
+    });
+  });
+}
+
+function updateClassificationSelection() {
+  el.classificationFilters.querySelectorAll("[data-classification]").forEach(item => {
+    const active = item.dataset.classification === selectedClassification;
+    item.classList.toggle("active", active);
+    item.setAttribute("aria-pressed", String(active));
+  });
+}
+
+function availableReleaseTypes(classification) {
+  if (!classification) return [];
+  const actual = new Set(allReleases.filter(item => item.classification === classification).map(item => String(item.releaseType || "").trim()).filter(Boolean));
+  return (RELEASE_TYPE_ORDER[classification] || []).filter(value => actual.has(value));
+}
+
+function buildReleaseTypeFilters() {
+  const values = availableReleaseTypes(selectedClassification);
+  if (!selectedClassification) {
+    selectedReleaseType = "";
+    el.releaseTypeFilters.innerHTML = "";
+    el.releaseTypeBlock.hidden = true;
+    return;
+  }
+  if (!values.includes(selectedReleaseType)) selectedReleaseType = "";
+  el.releaseTypeBlock.hidden = false;
+  el.releaseTypeFilters.innerHTML = ["", ...values].map(value => `
+    <button type="button" class="releases-filter-pill${value === selectedReleaseType ? " active" : ""}" data-release-type="${escapeHtml(value)}" aria-pressed="${value === selectedReleaseType}">
+      ${escapeHtml(value || "すべて")}
+    </button>`).join("");
+  el.releaseTypeFilters.querySelectorAll("[data-release-type]").forEach(button => {
+    button.addEventListener("click", () => {
+      selectedReleaseType = button.dataset.releaseType || "";
+      buildReleaseTypeFilters();
       visibleLimit = 24;
       syncUrl();
       renderReleases();
@@ -97,7 +149,7 @@ function renderReleases() {
 
 function syncUrl() {
   const next = new URL(location.href);
-  const values = { q: el.releaseSearch.value.trim(), classification: selectedClassification, year: el.releaseYear.value, sort: el.releaseSort.value === "old" ? "old" : "" };
+  const values = { q: el.releaseSearch.value.trim(), classification: selectedClassification, type: selectedReleaseType, year: el.releaseYear.value, sort: el.releaseSort.value === "old" ? "old" : "" };
   Object.entries(values).forEach(([key, value]) => value ? next.searchParams.set(key, value) : next.searchParams.delete(key));
   history.replaceState(null, "", next);
 }
@@ -111,8 +163,13 @@ function applyInitialUrlState() {
   const button = [...el.classificationFilters.querySelectorAll("[data-classification]")].find(item => item.dataset.classification === classification);
   if (button && classification) {
     selectedClassification = classification;
-    el.classificationFilters.querySelectorAll("[data-classification]").forEach(item => item.classList.toggle("active", item === button));
+    updateClassificationSelection();
   }
+  const requestedType = String(params.get("type") || "");
+  const validTypes = availableReleaseTypes(selectedClassification);
+  selectedReleaseType = validTypes.includes(requestedType) ? requestedType : "";
+  buildReleaseTypeFilters();
+  if (requestedType !== selectedReleaseType) syncUrl();
 }
 
 async function loadReleases() {

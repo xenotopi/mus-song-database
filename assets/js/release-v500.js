@@ -3,7 +3,7 @@ import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
-const elements = { breadcrumbName: $("breadcrumbName"), releaseName: $("releaseName"), heroMeta: $("heroMeta"), status: $("status"), mainContent: $("mainContent"), releaseInfo: $("releaseInfo"), officialRelease: $("officialRelease"), debutSongs: $("debutSongs") };
+const elements = { breadcrumbName: $("breadcrumbName"), releaseName: $("releaseName"), heroMeta: $("heroMeta"), status: $("status"), mainContent: $("mainContent"), releaseInfo: $("releaseInfo"), officialRelease: $("officialRelease"), relatedEventsHost: $("relatedEventsHost"), debutSongs: $("debutSongs") };
 const releaseId = String(new URLSearchParams(location.search).get("id") || "").trim();
 
 function setLoading() {
@@ -37,15 +37,27 @@ function renderRelease(release) {
   const name = String(release.releaseName || "リリース名未設定");
   const date = release.releaseDate ? formatDate(release.releaseDate) : "発売日未登録";
   const classification = String(release.classification || "分類未設定");
+  const releaseType = String(release.releaseType || "").trim();
   elements.releaseName.textContent = name;
   elements.breadcrumbName.textContent = name;
-  elements.heroMeta.innerHTML = `<span>${escapeHtml(date)}</span><span>${escapeHtml(classification)}</span>`;
+  elements.heroMeta.innerHTML = `<span>${escapeHtml(date)}</span><span>${escapeHtml(classification)}</span>${releaseType ? `<span>${escapeHtml(releaseType)}</span>` : ""}`;
   document.title = `${name}｜μ's Song Database`;
-  const info = [["発売日", date], ["分類", classification]];
+  const info = [["発売日", date], ["大分類", classification]];
+  if (releaseType) info.push(["リリース種別", releaseType]);
   if (String(release.sourceMedia || "").trim()) info.push(["曲マスター由来メディア", release.sourceMedia]);
   elements.releaseInfo.innerHTML = info.map(([label, value]) => `<div class="release-info-row"><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("");
   const officialUrl = String(release.officialReleaseUrl || "").trim();
   elements.officialRelease.innerHTML = officialUrl ? `<a class="release-official-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">公式作品ページを見る ↗</a>` : `<p class="release-official-empty">公式作品ページは未登録です</p>`;
+  const relatedEvents = (Array.isArray(release.relatedEvents) ? release.relatedEvents : [])
+    .map((event, index) => ({ event, index, order: Number(event?.order) }))
+    .filter(({ event }) => event && typeof event === "object" && /^EV\d+$/.test(String(event.eventId || "")) && String(event.eventName || "").trim())
+    .sort((a, b) => (Number.isFinite(a.order) ? a.order : Number.MAX_SAFE_INTEGER) - (Number.isFinite(b.order) ? b.order : Number.MAX_SAFE_INTEGER) || a.index - b.index)
+    .map(({ event }) => event);
+  elements.relatedEventsHost.innerHTML = relatedEvents.length ? `<section class="release-related" aria-labelledby="relatedEventsHeading"><p class="release-section-kicker">RELATED EVENTS</p><h2 id="relatedEventsHeading">関連イベント</h2><div class="release-event-list">${relatedEvents.map(event => {
+    const eventDate = String(event.date || "").trim();
+    const relation = String(event.relation || "").trim();
+    return `<a class="release-event-row" href="event.html?id=${encodeURIComponent(event.eventId)}"><span class="release-event-copy"><span class="release-event-title">${escapeHtml(event.eventName)}</span>${eventDate || relation ? `<span class="release-event-meta">${eventDate ? `<span>${escapeHtml(formatDate(eventDate))}</span>` : ""}${relation ? `<span>${escapeHtml(relation)}</span>` : ""}</span>` : ""}</span><span class="release-event-arrow" aria-hidden="true">›</span></a>`;
+  }).join("")}</div></section>` : "";
   const songs = Array.isArray(release.debutSongs) ? release.debutSongs : [];
   elements.debutSongs.innerHTML = songs.length ? `<div class="release-song-list">${songs.map(song => {
     const songName = String(song.songName || song.displayName || "曲名未設定");

@@ -61,14 +61,14 @@ HTTP 200でのレスポンス形式不正、対象欠落、aliasまたは順位�
 
 ## Release list E2E
 
-Release一覧の描画、検索・分類・年・並び順、URL状態復元、エラー再試行、390px表示を確認します。
-Public APIにはGET/JSONPのread-only通信だけを行います。
+Release一覧の描画、検索・大分類→リリース種別の2段階filter・年・並び順、URL状態復元、不正query正規化、pagination、エラー再試行、390px表示を確認します。
+Public APIのreleaseListをNodeからread-only取得してブラウザへfixtureとして渡し、実データに対するUI挙動を安定して確認します。
 
 ```powershell
 npm --prefix tests run e2e:release
 ```
 
-Release詳細の実データ、0曲状態、欠損表示、エラー処理、一覧との相互遷移は次で確認します。
+Release詳細のreleaseType、条件付きrelatedEvents、Event導線、複数Event順序、0曲状態、欠損表示、エラー処理、一覧との相互遷移は次で確認します。
 
 ```powershell
 npm --prefix tests run e2e:release-detail

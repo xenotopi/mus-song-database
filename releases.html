@@ -89,7 +89,8 @@
           <div class="releases-field"><label for="releaseYear">発売年</label><select id="releaseYear"><option value="">すべての年</option></select></div>
           <div class="releases-field"><label for="releaseSort">並び替え</label><select id="releaseSort"><option value="new">新しい順</option><option value="old">古い順</option></select></div>
         </div>
-        <div class="releases-filter-block"><p class="releases-filter-label">分類</p><div class="releases-filter-pills" id="classificationFilters"></div></div>
+        <div class="releases-filter-block"><p class="releases-filter-label" id="classificationFilterLabel">分類</p><div class="releases-filter-pills" id="classificationFilters" role="group" aria-labelledby="classificationFilterLabel"></div></div>
+        <div class="releases-filter-block" id="releaseTypeBlock" hidden><p class="releases-filter-label" id="releaseTypeFilterLabel">リリース種別</p><div class="releases-filter-pills" id="releaseTypeFilters" role="group" aria-labelledby="releaseTypeFilterLabel"></div></div>
         <div class="releases-result-text" id="resultText"></div>
       </div>
       <div class="releases-list" id="releasesList"></div>

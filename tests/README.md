@@ -91,3 +91,11 @@ npm --prefix tests run e2e:song-release
 ```powershell
 npm --prefix tests run e2e:navigation
 ```
+
+## Home Today Release E2E
+
+Home APIの`today.releases`を使った発売記念日表示、API周年値、0件・複数件・最大6件、長文・escape、既存Todayカテゴリ、HomeからRelease詳細への往復、390px表示をローカルfixtureで確認します。
+
+```powershell
+npm --prefix tests run e2e:home-today-release
+```

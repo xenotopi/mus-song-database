@@ -425,7 +425,42 @@ function renderAnniversaryLabel(dateValue) {
 }
 
 
+function getTodayReleases(today) {
+  return Array.isArray(today.releases)
+    ? today.releases.filter(item =>
+        /^R\d{4}$/.test(
+          String(item?.releaseId || "").trim()
+        )
+      )
+    : [];
+}
+
+
+function renderReleaseAnniversaryLabel(value) {
+  return Number.isFinite(value) && value >= 0
+    ? value === 0
+      ? "本日発売"
+      : `発売から${value}周年`
+    : "";
+}
+
+
+function getReleaseYearLabel(value) {
+  const match =
+    String(value || "").match(
+      /^(\d{4})-\d{2}-\d{2}$/
+    );
+
+  return match
+    ? `${match[1]}年`
+    : "";
+}
+
+
 function renderTodaySummary(today) {
+  const releaseCount =
+    getTodayReleases(today).length;
+
   const eventCount =
     Array.isArray(today.events)
       ? today.events.length
@@ -442,6 +477,7 @@ function renderTodaySummary(today) {
       : 0;
 
   const total =
+    releaseCount +
     eventCount +
     firstCount +
     lastCount;
@@ -450,6 +486,11 @@ function renderTodaySummary(today) {
     <span class="today-summary-total">
       本日の記録
       <b>${total.toLocaleString("ja-JP")}件</b>
+    </span>
+
+    <span>
+      リリース
+      <b>${releaseCount.toLocaleString("ja-JP")}</b>
     </span>
 
     <span>
@@ -477,6 +518,42 @@ function renderToday(today) {
   renderTodaySummary(today);
 
   const groups = [
+    {
+      title:
+        "この日に発売された作品",
+
+      items:
+        getTodayReleases(today),
+
+      omitWhenEmpty:
+        true,
+
+      render:
+        item => {
+          const anniversary =
+            renderReleaseAnniversaryLabel(
+              item.anniversary
+            );
+
+          const meta =
+            [
+              getReleaseYearLabel(
+                item.releaseDate
+              ),
+              item.classification
+            ]
+              .filter(Boolean)
+              .join("｜");
+
+          return `
+            <a class="today-item" href="release.html?id=${encodeURIComponent(item.releaseId)}">
+              ${anniversary ? `<span class="today-anniversary-badge">${escapeHtml(anniversary)}</span>` : ""}
+              <b>${escapeHtml(item.releaseName || "リリース名未設定")}</b>
+              ${meta ? `<div class="home-ranking-meta">${escapeHtml(meta)}</div>` : ""}
+            </a>
+          `;
+        }
+    },
     {
       title:
         "この日に開催されたイベント",
@@ -557,6 +634,10 @@ function renderToday(today) {
 
   elements.todayContent.innerHTML =
     groups
+      .filter(group =>
+        !group.omitWhenEmpty ||
+        group.items.length
+      )
       .map(group => `
         <section class="today-group">
           <h3>${escapeHtml(group.title)}</h3>

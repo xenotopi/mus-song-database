@@ -98,6 +98,16 @@ const elements = {
       "mainContent"
     ),
 
+  relatedReleasesSection:
+    document.getElementById(
+      "relatedReleasesSection"
+    ),
+
+  relatedReleaseList:
+    document.getElementById(
+      "relatedReleaseList"
+    ),
+
   eventInfo:
     document.getElementById(
       "eventInfo"
@@ -757,6 +767,94 @@ function renderEventInsights_(
     );
 }
 
+
+function renderRelatedReleases_(
+  relatedReleases
+) {
+  const releases =
+    Array.isArray(
+      relatedReleases
+    )
+      ? relatedReleases.filter(release =>
+          release &&
+          /^R\d{4}$/.test(
+            String(
+              release.releaseId || ""
+            ).trim()
+          )
+        )
+      : [];
+
+  if (!releases.length) {
+    elements.relatedReleaseList.innerHTML =
+      "";
+
+    elements.relatedReleasesSection.hidden =
+      true;
+
+    return;
+  }
+
+  elements.relatedReleaseList.innerHTML =
+    releases.map(release => {
+      const releaseId =
+        String(
+          release.releaseId
+        ).trim();
+
+      const releaseDate =
+        release.releaseDate
+          ? formatDate(
+              release.releaseDate
+            )
+          : "";
+
+      const metadata = [
+        releaseDate,
+        release.classification,
+        release.releaseType,
+        release.relation
+      ]
+        .map(value =>
+          String(
+            value || ""
+          ).trim()
+        )
+        .filter(Boolean);
+
+      return `
+        <a
+          class="event-release-row"
+          href="release.html?id=${encodeURIComponent(
+            releaseId
+          )}"
+        >
+          <span class="event-release-copy">
+            <span class="event-release-title">
+              ${escapeHtml(
+                release.releaseName ||
+                "リリース名未設定"
+              )}
+            </span>
+
+            ${
+              metadata.length
+                ? `<span class="event-release-meta">${metadata.map(value => `<span>${escapeHtml(value)}</span>`).join("")}</span>`
+                : ""
+            }
+          </span>
+
+          <span
+            class="event-release-arrow"
+            aria-hidden="true"
+          >›</span>
+        </a>`;
+    }).join("");
+
+  elements.relatedReleasesSection.hidden =
+    false;
+}
+
 function renderEvent(event) {
   const statistics =
     event.statistics || {};
@@ -912,6 +1010,10 @@ function renderEvent(event) {
 
   currentSongs =
     songs;
+
+  renderRelatedReleases_(
+    event.relatedReleases
+  );
 
   elements.songCount.textContent =
     `${songs.length}曲`;
@@ -1176,6 +1278,9 @@ async function loadEvent() {
   setLoading();
 
   elements.mainContent.hidden =
+    true;
+
+  elements.relatedReleasesSection.hidden =
     true;
 
   elements.detailLocalNav.hidden =

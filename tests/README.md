@@ -80,6 +80,12 @@ Release詳細のreleaseType、条件付きrelatedEvents、Event導線、複数Ev
 npm --prefix tests run e2e:release-detail
 ```
 
+Event詳細のrelatedReleases表示、0件非表示、API順、Release導線、長文・XSS・不正ID・390px表示は次で確認します。
+
+```powershell
+npm --prefix tests run e2e:event-release
+```
+
 曲詳細の既存収録作品表示と、Song APIの `debutRelease.releaseId` を使ったRelease詳細との相互リンクは次で確認します。
 
 ```powershell

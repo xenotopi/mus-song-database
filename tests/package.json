@@ -11,6 +11,7 @@
     "e2e:release": "node --test release-list.test.cjs",
     "e2e:release-detail": "node --test release-detail.test.cjs",
     "e2e:song-release": "node --test song-release-link.test.cjs",
+    "e2e:event-release": "node --test event-related-releases-ui.test.cjs",
     "e2e": "node --test web-e2e.test.cjs"
   },
   "devDependencies": {

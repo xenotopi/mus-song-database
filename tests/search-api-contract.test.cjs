@@ -68,7 +68,7 @@ async function requestSearch(query) {
   assert.equal(payload?.data?.query, query, `query echo (${query})`);
   assert.ok(payload?.data?.results, `results object (${query})`);
 
-  for (const category of ["songs", "events", "venues", "singers"]) {
+  for (const category of ["songs", "releases", "events", "venues", "singers"]) {
     assert.ok(
       Array.isArray(payload.data.results[category]),
       `${category} result array (${query})`
@@ -156,5 +156,20 @@ test("会場完全名は横浜アリーナ (VE0022)を先頭で返す", async t 
   await withSearch(t, "横浜アリーナ", data => {
     assert.ok(data.results.venues.length > 0, "venue resultが存在すること");
     assert.equal(data.results.venues[0].venueId, "VE0022");
+  });
+});
+
+test("Wonderful Rushは曲とReleaseの両カテゴリで返す", async t => {
+  await withSearch(t, "Wonderful Rush", data => {
+    assert.equal(data.results.songs[0]?.songId, "S032");
+    assert.equal(data.results.releases[0]?.releaseId, "R0015");
+    assert.equal(data.results.releases[0]?.releaseType, "シングル");
+  });
+});
+
+test("SUNNY DAY SONGは曲とReleaseの両カテゴリで返す", async t => {
+  await withSearch(t, "SUNNY DAY SONG", data => {
+    assert.equal(data.results.songs[0]?.songId, "S100");
+    assert.equal(data.results.releases[0]?.releaseId, "R0058");
   });
 });

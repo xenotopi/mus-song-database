@@ -59,6 +59,12 @@ npm --prefix tests run contract:search
 APIの通信失敗、タイムアウト、HTTP 429/5xxは理由付きSKIPです。
 HTTP 200でのレスポンス形式不正、対象欠落、aliasまたは順位の仕様違反はFAILです。
 
+検索結果ページと共通ヘッダー候補のRelease表示、カテゴリ切替、長文・XSS・欠損互換、キーボード操作、390px表示はローカルfixtureで確認します。
+
+```powershell
+npm --prefix tests run e2e:search-release
+```
+
 ## Release list E2E
 
 Release一覧の描画、検索・大分類→リリース種別の2段階filter・年・並び順、URL状態復元、不正query正規化、pagination、エラー再試行、390px表示を確認します。

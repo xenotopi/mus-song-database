@@ -508,6 +508,32 @@ function setupGlobalSearch_() {
         }
       );
 
+    (results.releases || [])
+      .slice(0, 1)
+      .forEach(
+        item => {
+          items.push({
+            type: "リリース",
+            className: "release",
+            title:
+              item.releaseName ||
+              "リリース名未設定",
+            meta: [
+              buildAliasMeta(item),
+              item.releaseDate
+                ? formatDate(item.releaseDate)
+                : "発売日未登録",
+              item.releaseType ||
+                item.classification,
+            ].filter(Boolean).join("｜"),
+            href:
+              `release.html?id=${encodeURIComponent(
+                item.releaseId
+              )}`,
+          });
+        }
+      );
+
     (results.events || [])
       .slice(0, 2)
       .forEach(
@@ -971,6 +997,11 @@ function injectCommonSearchStyles_() {
     .global-suggest-type.song {
       background: #ede9fe;
       color: #5b21b6;
+    }
+
+    .global-suggest-type.release {
+      background: #eef2ff;
+      color: #4338ca;
     }
 
     .global-suggest-type.event {

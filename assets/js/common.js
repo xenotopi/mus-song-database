@@ -692,8 +692,8 @@ function setupGlobalSearch_() {
             q: query,
           },
           {
-            timeoutMs: 12000,
-            retryCount: 0,
+            timeoutMs: 15000,
+            retryCount: 1,
           }
         );
 

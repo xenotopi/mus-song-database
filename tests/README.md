@@ -65,6 +65,12 @@ HTTP 200でのレスポンス形式不正、対象欠落、aliasまたは順位�
 npm --prefix tests run e2e:search-release
 ```
 
+JSONPのtimeout後に遅延応答が到着する通信lifecycle、callbackの安全な破棄、Headerの限定retry設定は次で確認します。
+
+```powershell
+npm --prefix tests run test:api-jsonp
+```
+
 ## Release list E2E
 
 Release一覧の描画、検索・大分類→リリース種別の2段階filter・年・並び順、URL状態復元、不正query正規化、pagination、エラー再試行、390px表示を確認します。

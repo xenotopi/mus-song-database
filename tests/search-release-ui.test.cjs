@@ -146,11 +146,40 @@ test("共通ヘッダー候補はRelease最大1件、全体最大6件、キー�
   assert.equal(await page.locator(".global-suggest-type.release").count(), 1);
   assert.equal(await page.locator('.global-suggest-item[href="song.html?id=S032"]').count(), 1);
   assert.equal(await page.locator('.global-suggest-item[href="release.html?id=R0015"]').count(), 1);
+  assert.equal(await input.getAttribute("aria-expanded"), "true");
   await input.press("ArrowDown");
   assert.equal(await page.locator(".global-suggest-item.active").count(), 1);
+  await input.press("ArrowUp");
+  assert.equal(await page.locator(".global-suggest-item.active").count(), 1);
+  for (const width of [1440, 1024, 768, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true, `${width}px overflow`);
+  }
   await input.press("Escape");
   assert.equal(await page.locator("#globalSearchSuggestions").isHidden(), true);
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
   assert.deepEqual(issues, []);
   await page.close();
+});
+
+test("共通ヘッダー候補はclickとEnterの既存遷移を維持する", async () => {
+  {
+    const { page, issues } = await openPage("/about.html");
+    const input = page.locator("#globalSearchInput");
+    await input.fill("Wonderful Rush");
+    await page.locator('.global-suggest-item[href="release.html?id=R0015"]').click();
+    await page.waitForURL("**/release.html?id=R0015");
+    assert.deepEqual(issues, []);
+    await page.close();
+  }
+  {
+    const { page, issues } = await openPage("/about.html");
+    const input = page.locator("#globalSearchInput");
+    await input.fill("Wonderful Rush");
+    await page.locator(".global-suggest-item").first().waitFor();
+    await input.press("Enter");
+    await page.waitForURL("**/search.html?q=Wonderful%20Rush");
+    assert.deepEqual(issues, []);
+    await page.close();
+  }
 });

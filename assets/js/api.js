@@ -15,6 +15,7 @@ export const API_URL =
   "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec";
 
 const DEFAULT_TIMEOUT_MS = 15000;
+const JSONP_LATE_CALLBACK_TTL_MS = 60000;
 const CACHE_VERSION = "v4.9.5";
 const SESSION_PREFIX = `mus-db-session-${CACHE_VERSION}:`;
 const LOCAL_PREFIX = `mus-db-local-${CACHE_VERSION}:`;
@@ -759,7 +760,28 @@ export function jsonpRequest(options) {
   let timer = null;
   let settled = false;
 
-  function cleanup() {
+  function removeCallback(
+    expectedCallback = null
+  ) {
+    if (
+      expectedCallback &&
+      window[callbackName] !==
+        expectedCallback
+    ) {
+      return;
+    }
+
+    try {
+      delete window[callbackName];
+    } catch {
+      window[callbackName] =
+        undefined;
+    }
+  }
+
+  function cleanup(
+    keepLateCallback = false
+  ) {
     if (timer) {
       clearTimeout(timer);
     }
@@ -770,12 +792,26 @@ export function jsonpRequest(options) {
       );
     }
 
-    try {
-      delete window[callbackName];
-    } catch {
+    if (keepLateCallback) {
+      const lateResponseNoop =
+        () => {};
+
       window[callbackName] =
-        undefined;
+        lateResponseNoop;
+
+      window.setTimeout(
+        () => {
+          removeCallback(
+            lateResponseNoop
+          );
+        },
+        JSONP_LATE_CALLBACK_TTL_MS
+      );
+
+      return;
     }
+
+    removeCallback();
   }
 
   const promise =
@@ -821,7 +857,7 @@ export function jsonpRequest(options) {
           }
 
           settled = true;
-          cleanup();
+          cleanup(true);
 
           reject(
             new Error(
@@ -838,7 +874,7 @@ export function jsonpRequest(options) {
               }
 
               settled = true;
-              cleanup();
+              cleanup(true);
 
               reject(
                 new Error(
@@ -865,7 +901,7 @@ export function jsonpRequest(options) {
       }
 
       settled = true;
-      cleanup();
+      cleanup(true);
     }
   };
 }

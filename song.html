@@ -1239,6 +1239,9 @@
     .basic-release .official-release-note{display:block;margin-top:7px;font-size:10px;text-align:left}
     @media (max-width:640px){.basic-release .official-release-links{align-items:stretch}.basic-release .official-release-link{width:100%;white-space:normal;text-align:center}.basic-release .official-release-note{margin:6px 0 0;text-align:center}}
 
+    .song-included-releases{margin-top:24px}.song-included-releases .section-head{align-items:flex-end}.song-included-release-count{flex:none;color:var(--muted);font-size:13px;font-weight:900}.song-included-release-list{display:grid;gap:14px}.song-included-release-card{min-width:0;padding:18px;border:1px solid var(--line);border-radius:16px;background:#fff}.song-included-release-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.song-included-release-link{min-width:0;color:var(--navy);font-size:16px;font-weight:900;line-height:1.55;text-decoration:none;overflow-wrap:anywhere}.song-included-release-link:hover{text-decoration:underline}.song-included-release-link:focus-visible{outline:3px solid rgba(79,70,229,.34);outline-offset:3px;border-radius:4px}.song-included-release-arrow{color:var(--indigo);font-size:20px}.song-included-release-badges{display:flex;justify-content:flex-end;gap:6px;flex-wrap:wrap;flex:none}.song-included-release-badge,.song-included-variant{display:inline-flex;max-width:100%;padding:3px 8px;border:1px solid var(--line);border-radius:999px;background:#fafaff;color:var(--indigo);font-size:11px;font-weight:900;line-height:1.4;overflow-wrap:anywhere}.song-included-release-badge.debut{border-color:#c9c4ff;background:#f0efff}.song-included-release-date{margin:7px 0 0;color:var(--muted);font-size:12px;font-weight:700}.song-included-relation-list{margin-top:14px;border-top:1px solid var(--line)}.song-included-relation-row{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;min-height:42px;padding:10px 2px;border-bottom:1px solid var(--line);color:var(--muted);font-size:12px;font-weight:800}.song-included-relation-row:last-child{border-bottom:0;padding-bottom:0}.song-included-relation-empty{color:var(--muted);font-weight:700}.song-included-releases-empty,.song-included-releases-error{padding:20px 18px;border:1px solid var(--line);border-radius:16px;color:var(--muted);line-height:1.8}.song-included-releases-error{border-color:#fecaca;background:#fff7f7;color:#991b1b}.song-included-releases-error a{color:inherit;font-weight:900}
+    @media(max-width:620px){.song-included-release-head{display:block}.song-included-release-badges{justify-content:flex-start;margin-top:9px}.song-included-release-card{padding:16px 14px}.song-included-relation-row{align-items:flex-start;flex-direction:column;gap:6px}}
+
     /* STEP15-A: 歌唱履歴を主役にした曲詳細UX */
     .detail-local-nav .history-nav-link{
       background:var(--indigo);
@@ -1502,6 +1505,11 @@
       </article>
     </section>
 
+    <section class="section song-included-releases" id="includedReleasesSection" aria-labelledby="includedReleasesHeading" hidden>
+      <div class="section-head"><div><p class="kicker">INCLUDED RELEASES</p><h2 id="includedReleasesHeading">収録リリース</h2></div><span class="song-included-release-count" id="includedReleasesCount"></span></div>
+      <div id="includedReleasesContent"></div>
+    </section>
+
     <div id="relatedSongArea"></div>
     <section
       class="section"
@@ -1744,7 +1752,7 @@
 
 <script
     type="module"
-    src="assets/js/song-v441.js?v=4.9.4&amp;cache=release-detail-link"
+    src="assets/js/song-v441.js?v=5.0.0&amp;cache=included-releases"
   ></script>
 
   <script>

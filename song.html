@@ -1743,7 +1743,7 @@
   if (!main || !mainContent) return;
 
   let cursor = mainContent;
-  [includedReleases, records, history, discovery, analysis, insights].forEach(node => {
+  [records, analysis, history, includedReleases, discovery, insights].forEach(node => {
     if (!node) return;
     cursor.insertAdjacentElement("afterend", node);
     cursor = node;

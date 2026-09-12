@@ -127,6 +127,12 @@ test("Release詳細", async t => {
       assert.match(await page.locator("#releaseInfo").innerText(), new RegExp(expected.date.replaceAll("/", "\\/")));
       assert.match(await page.locator("#releaseInfo").innerText(), /大分類[\s\S]*リリース種別/);
       assert.equal(await page.locator(".release-related").count(), 0);
+      assert.equal(await page.locator("#debutSongsSection").isVisible(), true);
+      assert.equal(await page.evaluate(() => {
+        const included = document.querySelector("#includedSongsSection");
+        const debut = document.querySelector("#debutSongsSection");
+        return Boolean(included && debut && (included.compareDocumentPosition(debut) & Node.DOCUMENT_POSITION_FOLLOWING));
+      }), true, "収録楽曲は初出・由来楽曲より前に配置");
       assert.deepEqual((await page.locator(".release-song-row").evaluateAll(nodes => nodes.map(node => new URL(node.href).searchParams.get("id")))).sort(), expected.songs);
       const official = page.locator(".release-official-link");
       assert.equal(await official.getAttribute("target"), "_blank");
@@ -197,11 +203,11 @@ test("Release詳細", async t => {
     await page.close();
   });
 
-  await t.test("R0068のdebutSongs 0件は正常な空状態", async () => {
+  await t.test("R0068のdebutSongs 0件はsectionごと非表示", async () => {
     const { page, issues } = await openDetail("R0068");
     await waitForDetail(page);
-    assert.equal(await page.locator(".release-songs-empty").innerText(), "このリリースを初出・由来とする登録曲はありません");
-    assert.doesNotMatch(await page.locator("body").innerText(), /収録曲なし|曲情報がありません/);
+    assert.equal(await page.locator("#debutSongsSection").isVisible(), false);
+    assert.doesNotMatch(await page.locator("body").innerText(), /このリリースを初出・由来として登録している楽曲はありません/);
     assert.deepEqual(issues, []);
     await page.close();
   });
@@ -262,6 +268,8 @@ test("Release詳細", async t => {
       const { page, issues } = await openDetail(expected.id);
       await waitForDetail(page);
       assert.equal(await page.locator("#includedSongsSection").isVisible(), expected.section);
+      assert.equal(await page.locator("#includedSongsSection").evaluate(node => node.classList.contains("is-empty")), true);
+      assert.equal(await page.locator("#includedSongsCount").innerText(), "");
       assert.equal(await page.locator("#includedSongsSection .release-songs-empty").count(), expected.empty ? 1 : 0);
       if (expected.progress) assert.match(await page.locator(".release-coverage-note").innerText(), new RegExp(expected.progress));
       if (expected.id === "R0072") assert.equal(await page.locator("#includedSongsCount").innerText(), "");
@@ -287,7 +295,8 @@ test("Release詳細", async t => {
         { relationId: "RT9003", songId: "S101", songName: "？←HEARTBEAT", displayName: "<script>alert(1)</script>", disc: null, track: null, displayOrder: 3, variant: null }
       ] },
       R9012: { status: "complete", publicNote: null, songs: [] },
-      R9013: { status: "not_applicable", publicNote: null, songs: [] }
+      R9013: { status: "not_applicable", publicNote: null, songs: [] },
+      R9014: { status: "unreviewed", publicNote: null, songs: [] }
     };
     for (const [id, fixture] of Object.entries(fixtures)) {
       const page = await browser.newPage({ viewport: { width: 390, height: 900 } });
@@ -304,8 +313,11 @@ test("Release詳細", async t => {
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
       } else if (id === "R9012") {
         assert.equal(await page.locator("#includedSongsSection .release-songs-empty").innerText(), "収録楽曲の登録はありません。");
-      } else {
+      } else if (id === "R9013") {
         assert.equal(await page.locator("#includedSongsSection").isVisible(), false);
+      } else {
+        assert.equal(await page.locator("#includedSongsSection").isVisible(), true);
+        assert.equal(await page.locator(".release-coverage-note").innerText(), "収録情報を確認中です。");
       }
       await page.close();
     }

@@ -3,7 +3,7 @@ import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
-const elements = { breadcrumbName: $("breadcrumbName"), releaseName: $("releaseName"), heroMeta: $("heroMeta"), status: $("status"), mainContent: $("mainContent"), releaseInfo: $("releaseInfo"), officialRelease: $("officialRelease"), relatedEventsHost: $("relatedEventsHost"), debutSongs: $("debutSongs"), includedSongsSection: $("includedSongsSection"), includedSongsCount: $("includedSongsCount"), includedSongsContent: $("includedSongsContent") };
+const elements = { breadcrumbName: $("breadcrumbName"), releaseName: $("releaseName"), heroMeta: $("heroMeta"), status: $("status"), mainContent: $("mainContent"), releaseInfo: $("releaseInfo"), officialRelease: $("officialRelease"), relatedEventsHost: $("relatedEventsHost"), debutSongsSection: $("debutSongsSection"), debutSongs: $("debutSongs"), includedSongsSection: $("includedSongsSection"), includedSongsCount: $("includedSongsCount"), includedSongsContent: $("includedSongsContent") };
 const releaseId = String(new URLSearchParams(location.search).get("id") || "").trim();
 
 function setLoading() {
@@ -13,6 +13,7 @@ function setLoading() {
   elements.status.classList.remove("error");
   elements.status.textContent = "リリースデータを読み込んでいます...";
   elements.mainContent.hidden = true;
+  elements.debutSongsSection.hidden = true;
   elements.includedSongsSection.hidden = true;
 }
 
@@ -28,6 +29,7 @@ function setError(title, message, retryable) {
   elements.breadcrumbName.textContent = title;
   document.title = `${title}｜μ's Song Database`;
   elements.mainContent.hidden = true;
+  elements.debutSongsSection.hidden = true;
   elements.includedSongsSection.hidden = true;
   elements.status.hidden = false;
   elements.status.classList.add("error");
@@ -66,16 +68,21 @@ function renderIncludedSongs(release) {
   }
   const status = String(meta.status);
   const note = meta.publicNote == null ? "" : String(meta.publicNote).trim();
+  elements.includedSongsSection.classList.toggle("is-empty", songs.length === 0);
   if (status === "not_applicable" && songs.length === 0 && !note) {
     elements.includedSongsSection.hidden = true;
     return;
   }
-  elements.includedSongsCount.textContent = status === "special_hold" && songs.length === 0 ? "" : `${songs.length}件`;
+  elements.includedSongsCount.textContent = songs.length === 0 ? "" : `${songs.length}件`;
   const progress = status === "partial" && Number.isFinite(Number(meta.confirmedCount)) && Number.isFinite(Number(meta.pendingCount))
     ? `<span class="release-coverage-progress">確認済み${Number(meta.confirmedCount)}件 / 確認中${Number(meta.pendingCount)}件</span>` : "";
   const noteHtml = note || progress ? `<p class="release-coverage-note">${note ? escapeHtml(note) : ""}${progress}</p>` : "";
   if (songs.length === 0) {
-    const empty = status === "complete" ? '<div class="release-songs-empty">収録楽曲の登録はありません。</div>' : "";
+    const empty = status === "complete"
+      ? '<div class="release-songs-empty">収録楽曲の登録はありません。</div>'
+      : status === "unreviewed" && !noteHtml
+        ? '<p class="release-coverage-note">収録情報を確認中です。</p>'
+        : "";
     elements.includedSongsContent.innerHTML = noteHtml + empty;
     elements.includedSongsSection.hidden = false;
     return;
@@ -131,11 +138,12 @@ function renderRelease(release) {
     return `<a class="release-event-row" href="event.html?id=${encodeURIComponent(event.eventId)}"><span class="release-event-copy"><span class="release-event-title">${escapeHtml(event.eventName)}</span>${eventDate || relation ? `<span class="release-event-meta">${eventDate ? `<span>${escapeHtml(formatDate(eventDate))}</span>` : ""}${relation ? `<span>${escapeHtml(relation)}</span>` : ""}</span>` : ""}</span><span class="release-event-arrow" aria-hidden="true">›</span></a>`;
   }).join("")}</div></section>` : "";
   const songs = Array.isArray(release.debutSongs) ? release.debutSongs : [];
+  elements.debutSongsSection.hidden = songs.length === 0;
   elements.debutSongs.innerHTML = songs.length ? `<div class="release-song-list">${songs.map(song => {
     const songName = String(song.songName || song.displayName || "曲名未設定");
     const displayName = String(song.displayName || "").trim();
     return `<a class="release-song-row" href="song.html?id=${encodeURIComponent(song.songId)}"><span class="release-song-copy"><span class="release-song-title">${escapeHtml(songName)}</span>${displayName && displayName !== songName ? `<span class="release-song-display">${escapeHtml(displayName)}</span>` : ""}</span><span class="release-song-arrow" aria-hidden="true">›</span></a>`;
-  }).join("")}</div>` : `<div class="release-songs-empty">このリリースを初出・由来とする登録曲はありません</div>`;
+  }).join("")}</div>` : "";
   renderIncludedSongs(release);
   elements.status.hidden = true;
   elements.mainContent.hidden = false;

@@ -50,6 +50,19 @@ async function openSong(songId, viewport = { width: 1280, height: 900 }) {
 }
 
 test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, async t => {
+  await t.test("S003・S046・S100は初期/描画後ともindexで自己参照canonical", async () => {
+    const initial = fs.readFileSync(path.join(ROOT, "song.html"), "utf8");
+    assert.match(initial, /<meta name="robots" content="index,follow,max-image-preview:large">/);
+    for (const songId of ["S003", "S046", "S100"]) {
+      const { page, issues } = await openSong(songId);
+      assert.equal(await page.locator('meta[name="robots"]').getAttribute("content"), "index,follow,max-image-preview:large");
+      assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), `https://xenotopi.github.io/mus-song-database/song.html?id=${songId}`);
+      assert.match(await page.title(), /｜μ's Song Database$/);
+      assert.deepEqual(issues, []);
+      await page.close();
+    }
+  });
+
   await t.test("S100は4作品・13件をRelease単位でgroupしR0090の2relationを保持", async () => {
     const { page, issues } = await openSong("S100");
     assert.equal(await page.locator("#includedReleasesCount").innerText(), "4作品・13件");

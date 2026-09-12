@@ -3,9 +3,8 @@
  * SEO / UX Metadata v3.5.1
  *
  * Static HTML owns description, OGP, and Twitter Card metadata.
- * Detail templates start as noindex. This browser-only helper marks a
- * successfully rendered detail as indexable, adds its self-referencing
- * canonical URL, and normalizes the tab title.
+ * This browser-only helper validates detail routes, adds a self-referencing
+ * canonical URL after a successful render, and normalizes the tab title.
  */
 
 (() => {
@@ -16,7 +15,13 @@
   const DETAIL_PAGES = {
     "song.html": {
       idPattern: /^S\d+$/,
-      titleSelector: "#songTitle, main h1"
+      titleSelector: "#songTitle, main h1",
+      initiallyIndexable: true
+    },
+    "release.html": {
+      idPattern: /^R\d{4}$/,
+      titleSelector: "#releaseName, main h1",
+      initiallyIndexable: true
     },
     "event.html": {
       idPattern: /^EV\d+$/,
@@ -45,19 +50,15 @@
     return String(value || "").replace(/\s+/g, " ").trim();
   }
 
-  function getRenderedTitle() {
+  function getRenderedState() {
     const element = document.querySelector(pageConfig.titleSelector);
     const title = cleanText(element?.textContent);
 
-    if (
-      !title ||
-      /読み込み中|取得できません|見つかりません|エラー|未設定/.test(title) ||
-      /^(曲|イベント|会場|歌唱名義)詳細$/.test(title)
-    ) {
-      return "";
-    }
+    if (!title || /読み込み中/.test(title)) return { state: "loading", title: "" };
+    if (/取得できません|見つかりません|エラー|未設定/.test(title)) return { state: "error", title: "" };
+    if (/^(曲|イベント|会場|歌唱名義|リリース)詳細$/.test(title)) return { state: "loading", title: "" };
 
-    return title;
+    return { state: "ready", title };
   }
 
   function removeDynamicCanonical() {
@@ -92,13 +93,21 @@
 
   function updateDetailMetadata() {
     const id = cleanText(new URLSearchParams(location.search).get("id"));
-    const renderedTitle = getRenderedTitle();
+    const rendered = getRenderedState();
 
-    if (!pageConfig.idPattern.test(id) || !renderedTitle) {
+    if (!pageConfig.idPattern.test(id) || rendered.state === "error") {
       removeDynamicCanonical();
       setRobots("noindex,follow");
       return;
     }
+
+    if (rendered.state === "loading") {
+      removeDynamicCanonical();
+      if (!pageConfig.initiallyIndexable) setRobots("noindex,follow");
+      return;
+    }
+
+    const renderedTitle = rendered.title;
 
     const signature = `${pageName}|${id}|${renderedTitle}`;
 

@@ -13,6 +13,8 @@
     "e2e:release-detail": "node --test release-detail.test.cjs",
     "e2e:song-release": "node --test song-release-link.test.cjs",
     "e2e:event-release": "node --test event-related-releases-ui.test.cjs",
+    "test:seo-indexing": "node --test seo-indexing.test.cjs",
+    "sitemap:check": "node ../tools/generate-sitemap.cjs --check",
     "e2e": "node --test web-e2e.test.cjs"
   },
   "devDependencies": {

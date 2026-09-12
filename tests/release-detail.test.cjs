@@ -95,6 +95,27 @@ function jsonpResult(route, data) {
 }
 
 test("Release詳細", async t => {
+  await t.test("R0070・R0088・R0090はID付き自己参照canonical", async () => {
+    for (const id of ["R0070", "R0088", "R0090"]) {
+      const { page, issues } = await openDetail(id);
+      await waitForDetail(page);
+      assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), `https://xenotopi.github.io/mus-song-database/release.html?id=${id}`);
+      assert.equal(await page.locator('meta[name="robots"]').getAttribute("content"), "index,follow,max-image-preview:large");
+      assert.match(await page.title(), /｜μ's Song Database$/);
+      assert.deepEqual(issues, []);
+      await page.close();
+    }
+  });
+
+  await t.test("余分なqueryをcanonicalから除外", async () => {
+    const { page, issues } = await openDetail("R0090%26utm_source%3Dx");
+    await page.goto(`${baseUrl}/release.html?id=R0090&utm_source=x&foo=bar`, { waitUntil: "domcontentloaded" });
+    await waitForDetail(page);
+    assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), "https://xenotopi.github.io/mus-song-database/release.html?id=R0090");
+    assert.deepEqual(issues, []);
+    await page.close();
+  });
+
   await t.test("R0015とR0058の複数debutSongs・公式URL", async () => {
     for (const expected of [
       { id: "R0015", name: "Wonderful Rush", date: "2012/09/05", songs: ["S032", "S033"] },
@@ -300,6 +321,9 @@ test("Release詳細", async t => {
       assert.match(await page.locator("#releaseName").innerText(), id == null ? /指定されていません/ : /形式が正しくありません/);
       assert.equal(await page.locator("#retryButton").count(), 0);
       assert.equal(releaseCalls, 0);
+      assert.equal(await page.locator('link[rel="canonical"]').count(), 0);
+      await page.waitForFunction(() => document.querySelector('meta[name="robots"]')?.content === "noindex,follow");
+      assert.equal(await page.locator('meta[name="robots"]').getAttribute("content"), "noindex,follow");
       await page.close();
     }
   });
@@ -309,6 +333,8 @@ test("Release詳細", async t => {
     await page.locator("#status.error").waitFor({ state: "visible", timeout: 45000 });
     assert.equal(await page.locator("#releaseName").innerText(), "該当するリリースが見つかりません");
     assert.equal(await page.locator("#retryButton").count(), 0);
+    assert.equal(await page.locator('link[rel="canonical"]').count(), 0);
+    assert.equal(await page.locator('meta[name="robots"]').getAttribute("content"), "noindex,follow");
     assert.deepEqual(issues, []);
     await page.close();
   });

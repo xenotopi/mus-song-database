@@ -111,3 +111,18 @@ Home APIの`today.releases`を使った発売記念日表示、API周年値、0�
 ```powershell
 npm --prefix tests run e2e:home-today-release
 ```
+
+## Detail SEO / sitemap
+
+Song・Release詳細のindex方針、Releaseの自己参照canonical基盤、sitemapのURL件数・重複・形式を確認します。
+
+```powershell
+npm --prefix tests run test:seo-indexing
+npm --prefix tests run sitemap:check
+```
+
+`sitemap.xml`は本番Public APIの`releaseList`と`rankings.songs`を正式なID一覧として生成します。
+
+```powershell
+node tools/generate-sitemap.cjs
+```

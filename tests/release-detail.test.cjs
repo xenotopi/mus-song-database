@@ -52,7 +52,7 @@ async function installApiFixtures(page) {
 
 test.before(async () => {
   releaseListFixture = await fetchApi("releaseList");
-  const ids = ["R0015", "R0041", "R0054", "R0058", "R0060", "R0068", "R0069", "R0074", "R0087"];
+  const ids = ["R0015", "R0041", "R0054", "R0058", "R0060", "R0068", "R0069", "R0070", "R0071", "R0072", "R0074", "R0077", "R0087", "R0088", "R0090"];
   const details = await Promise.all(ids.map(id => fetchApi("release", { id })));
   ids.forEach((id, index) => releaseDetailFixtures.set(id, details[index]));
   server = http.createServer((request, response) => {
@@ -151,7 +151,7 @@ test("Release詳細", async t => {
       const url = new URL(route.request().url());
       const callback = url.searchParams.get("callback");
       const index = Number(url.searchParams.get("id")?.slice(1)) - 9100;
-      return jsonpResult(route, url.searchParams.get("action") === "revision" ? { dataRevision: "test" } : { releaseId: url.searchParams.get("id"), releaseDate: "2026-09-09", releaseName: `表示耐性 ${types[index]}`, classification: "CD", releaseType: types[index], sourceMedia: "CD", officialReleaseUrl: "", relatedEvents: [null, {}, { eventId: "INVALID", eventName: "除外" }], debutSongs: [] });
+      return jsonpResult(route, url.searchParams.get("action") === "revision" ? { dataRevision: "test" } : { releaseId: url.searchParams.get("id"), releaseDate: "2026-09-09", releaseName: `表示耐性 ${types[index]}`, classification: "CD", releaseType: types[index], sourceMedia: "CD", officialReleaseUrl: "", relatedEvents: [null, {}, { eventId: "INVALID", eventName: "除外" }], debutSongs: [], includedSongs: [], includedSongsMeta: { status: "complete", confirmedCount: 0, pendingCount: 0, publicNote: null } });
     });
     for (let index = 0; index < types.length; index += 1) {
       await page.goto(`${baseUrl}/release.html?id=R${9100 + index}`, { waitUntil: "domcontentloaded" });
@@ -188,7 +188,7 @@ test("Release詳細", async t => {
   await t.test("URLなし・発売日なし・非表示項目・HTML escape", async () => {
     const { page, issues } = await openDetail("R9001");
     await page.route(/script\.google(?:usercontent)?\.com\/.*[?&]action=release(?:&|$)/, route => jsonpResult(route, {
-      releaseId: "R9001", releaseDate: "", releaseName: "<img src=x onerror=alert(1)> 長いテスト作品", classification: "その他", releaseType: "<script>alert(1)</script>", sourceMedia: "テスト媒体", officialReleaseUrl: "", todayEligible: true, note: "SECRET_INTERNAL_NOTE", relatedEvents: null, debutSongs: []
+      releaseId: "R9001", releaseDate: "", releaseName: "<img src=x onerror=alert(1)> 長いテスト作品", classification: "その他", releaseType: "<script>alert(1)</script>", sourceMedia: "テスト媒体", officialReleaseUrl: "", todayEligible: true, note: "SECRET_INTERNAL_NOTE", relatedEvents: null, debutSongs: [], includedSongs: [], includedSongsMeta: { status: "complete", confirmedCount: 0, pendingCount: 0, publicNote: null }
     }));
     await page.reload({ waitUntil: "domcontentloaded" });
     await waitForDetail(page);
@@ -200,6 +200,94 @@ test("Release詳細", async t => {
     assert.equal(await page.locator("#releaseInfo script").count(), 0);
     assert.deepEqual(issues, []);
     await page.close();
+  });
+
+  await t.test("収録情報のcomplete・partial・special_holdとDisc表示", async () => {
+    const cases = [
+      { id: "R0070", count: 31, groups: 2, details: 0, progress: null },
+      { id: "R0071", count: 17, groups: 2, details: 0, progress: "確認済み17件 / 確認中1件" },
+      { id: "R0077", count: 115, groups: 0, details: 9, progress: "確認済み115件 / 確認中9件" },
+      { id: "R0088", count: 285, groups: 0, details: 27, progress: null },
+      { id: "R0090", count: 116, groups: 0, details: 12, progress: null }
+    ];
+    for (const expected of cases) {
+      const started = Date.now();
+      const { page, issues } = await openDetail(expected.id);
+      await waitForDetail(page);
+      assert.equal(await page.locator("#includedSongsCount").innerText(), `${expected.count}件`);
+      assert.equal(await page.locator(".release-included-song-row").count(), expected.count);
+      assert.equal(await page.locator(".release-disc-group").count(), expected.groups);
+      assert.equal(await page.locator(".release-disc-details").count(), expected.details);
+      if (expected.details) {
+        assert.equal(await page.locator(".release-disc-details[open]").count(), 1);
+      }
+      if (expected.progress) assert.match(await page.locator(".release-coverage-note").innerText(), new RegExp(expected.progress));
+      if (expected.id === "R0088") assert.ok(Date.now() - started < 10000, "285件を10秒以内に描画");
+      if (expected.id === "R0090") {
+        const sunny = page.locator('.release-included-song-row[href="song.html?id=S100"]');
+        assert.equal(await sunny.count(), 2);
+        assert.equal(await sunny.filter({ hasText: "Movie Edit" }).count(), 1);
+      }
+      assert.deepEqual(issues, []);
+      await page.close();
+    }
+  });
+
+  await t.test("0件coverage状態と収録schema異常をsection内で処理", async () => {
+    for (const expected of [
+      { id: "R0068", section: true, progress: "確認済み0件 / 確認中48件", empty: false },
+      { id: "R0072", section: true, progress: null, empty: false }
+    ]) {
+      const { page, issues } = await openDetail(expected.id);
+      await waitForDetail(page);
+      assert.equal(await page.locator("#includedSongsSection").isVisible(), expected.section);
+      assert.equal(await page.locator("#includedSongsSection .release-songs-empty").count(), expected.empty ? 1 : 0);
+      if (expected.progress) assert.match(await page.locator(".release-coverage-note").innerText(), new RegExp(expected.progress));
+      if (expected.id === "R0072") assert.equal(await page.locator("#includedSongsCount").innerText(), "");
+      assert.deepEqual(issues, []);
+      await page.close();
+    }
+
+    const page = await browser.newPage();
+    await installApiFixtures(page);
+    await page.route(/script\.google(?:usercontent)?\.com\/.*[?&]action=release(?:&|$)/, route => jsonpResult(route, { releaseId: "R9010", releaseName: "schema test", classification: "CD", releaseType: "シングル", relatedEvents: [], debutSongs: [] }));
+    await page.goto(`${baseUrl}/release.html?id=R9010`, { waitUntil: "domcontentloaded" });
+    await waitForDetail(page);
+    assert.equal(await page.locator(".release-inclusion-error").innerText(), "収録情報を表示できません。再読み込みしてください。");
+    assert.equal(await page.locator("#status.error").count(), 0);
+    await page.close();
+  });
+
+  await t.test("1Disc・Disc不明・variant・重複relation・escape・not_applicable", async () => {
+    const fixtures = {
+      R9011: { status: "unreviewed", publicNote: "<b>確認中</b>", songs: [
+        { relationId: "RT9001", songId: "S100", songName: "SUNNY DAY SONG", displayName: "SUNNY DAY SONG", disc: 3, track: 9, displayOrder: 1, variant: "<img src=x onerror=alert(1)>" },
+        { relationId: "RT9002", songId: "S100", songName: "SUNNY DAY SONG", displayName: "SUNNY DAY SONG", disc: 3, track: 10, displayOrder: 2, variant: "Movie Edit" },
+        { relationId: "RT9003", songId: "S101", songName: "？←HEARTBEAT", displayName: "<script>alert(1)</script>", disc: null, track: null, displayOrder: 3, variant: null }
+      ] },
+      R9012: { status: "complete", publicNote: null, songs: [] },
+      R9013: { status: "not_applicable", publicNote: null, songs: [] }
+    };
+    for (const [id, fixture] of Object.entries(fixtures)) {
+      const page = await browser.newPage({ viewport: { width: 390, height: 900 } });
+      await installApiFixtures(page);
+      await page.route(/script\.google(?:usercontent)?\.com\/.*[?&]action=release(?:&|$)/, route => jsonpResult(route, { releaseId: id, releaseName: "fixture", classification: "CD", releaseType: "シングル", relatedEvents: [], debutSongs: [], includedSongs: fixture.songs, includedSongsMeta: { status: fixture.status, confirmedCount: fixture.songs.length, pendingCount: null, publicNote: fixture.publicNote } }));
+      await page.goto(`${baseUrl}/release.html?id=${id}`, { waitUntil: "domcontentloaded" });
+      await waitForDetail(page);
+      if (id === "R9011") {
+        assert.equal(await page.locator(".release-included-song-row").count(), 3);
+        assert.equal(await page.locator('.release-included-song-row[href="song.html?id=S100"]').count(), 2);
+        assert.match(await page.locator("#includedSongsContent").innerText(), /Disc 3[\s\S]*Track 9/);
+        assert.match(await page.locator("#includedSongsContent").innerText(), /Disc情報なし/);
+        assert.equal(await page.locator("#includedSongsContent img, #includedSongsContent script").count(), 0);
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
+      } else if (id === "R9012") {
+        assert.equal(await page.locator("#includedSongsSection .release-songs-empty").innerText(), "収録楽曲の登録はありません。");
+      } else {
+        assert.equal(await page.locator("#includedSongsSection").isVisible(), false);
+      }
+      await page.close();
+    }
   });
 
   await t.test("idなし・形式不正ではAPIを呼ばない", async () => {

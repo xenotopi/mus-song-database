@@ -3,7 +3,7 @@ import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
-const elements = { breadcrumbName: $("breadcrumbName"), releaseName: $("releaseName"), heroMeta: $("heroMeta"), status: $("status"), mainContent: $("mainContent"), releaseInfo: $("releaseInfo"), officialRelease: $("officialRelease"), relatedEventsHost: $("relatedEventsHost"), debutSongs: $("debutSongs") };
+const elements = { breadcrumbName: $("breadcrumbName"), releaseName: $("releaseName"), heroMeta: $("heroMeta"), status: $("status"), mainContent: $("mainContent"), releaseInfo: $("releaseInfo"), officialRelease: $("officialRelease"), relatedEventsHost: $("relatedEventsHost"), debutSongs: $("debutSongs"), includedSongsSection: $("includedSongsSection"), includedSongsCount: $("includedSongsCount"), includedSongsContent: $("includedSongsContent") };
 const releaseId = String(new URLSearchParams(location.search).get("id") || "").trim();
 
 function setLoading() {
@@ -13,6 +13,7 @@ function setLoading() {
   elements.status.classList.remove("error");
   elements.status.textContent = "リリースデータを読み込んでいます...";
   elements.mainContent.hidden = true;
+  elements.includedSongsSection.hidden = true;
 }
 
 function errorKind(error) {
@@ -27,10 +28,81 @@ function setError(title, message, retryable) {
   elements.breadcrumbName.textContent = title;
   document.title = `${title}｜μ's Song Database`;
   elements.mainContent.hidden = true;
+  elements.includedSongsSection.hidden = true;
   elements.status.hidden = false;
   elements.status.classList.add("error");
   elements.status.innerHTML = `<strong>${escapeHtml(title)}</strong><span>${escapeHtml(message)}</span><div class="release-status-actions">${retryable ? '<button id="retryButton" type="button">再試行</button>' : ""}<a href="releases.html">リリース一覧へ戻る</a></div>`;
   if (retryable) $("retryButton")?.addEventListener("click", loadRelease, { once: true });
+}
+
+const inclusionStatuses = new Set(["complete", "partial", "special_hold", "unreviewed", "not_applicable"]);
+
+function inclusionError() {
+  elements.includedSongsCount.textContent = "";
+  elements.includedSongsContent.innerHTML = '<p class="release-inclusion-error">収録情報を表示できません。再読み込みしてください。</p>';
+  elements.includedSongsSection.hidden = false;
+}
+
+function includedSongRow(song, grouped) {
+  const title = String(song.displayName || song.songName || "曲名未設定");
+  const position = grouped
+    ? (song.track == null ? "" : `Track ${song.track}`)
+    : [song.disc == null ? "" : `Disc ${song.disc}`, song.track == null ? "" : `Track ${song.track}`].filter(Boolean).join(" / ");
+  const variant = song.variant == null ? "" : String(song.variant);
+  return `<a class="release-included-song-row" href="song.html?id=${encodeURIComponent(song.songId)}"><span class="release-included-song-copy"><span class="release-included-song-title">${escapeHtml(title)}</span>${position || variant ? `<span class="release-included-song-meta">${position ? `<span>${escapeHtml(position)}</span>` : ""}${variant ? `<span class="release-variant">${escapeHtml(variant)}</span>` : ""}</span>` : ""}</span><span class="release-included-song-arrow" aria-hidden="true">›</span></a>`;
+}
+
+function renderIncludedSongs(release) {
+  const songs = release.includedSongs;
+  const meta = release.includedSongsMeta;
+  if (!Array.isArray(songs) || !meta || typeof meta !== "object" || Array.isArray(meta) || !inclusionStatuses.has(String(meta.status || ""))) {
+    inclusionError();
+    return;
+  }
+  const valid = songs.every(song => song && typeof song === "object" && /^RT\d{4}$/.test(String(song.relationId || "")) && /^S\d{3,}$/.test(String(song.songId || "")) && (song.disc == null || Number.isInteger(Number(song.disc))) && (song.track == null || Number.isInteger(Number(song.track))) && (song.variant == null || typeof song.variant === "string"));
+  if (!valid) {
+    inclusionError();
+    return;
+  }
+  const status = String(meta.status);
+  const note = meta.publicNote == null ? "" : String(meta.publicNote).trim();
+  if (status === "not_applicable" && songs.length === 0 && !note) {
+    elements.includedSongsSection.hidden = true;
+    return;
+  }
+  elements.includedSongsCount.textContent = status === "special_hold" && songs.length === 0 ? "" : `${songs.length}件`;
+  const progress = status === "partial" && Number.isFinite(Number(meta.confirmedCount)) && Number.isFinite(Number(meta.pendingCount))
+    ? `<span class="release-coverage-progress">確認済み${Number(meta.confirmedCount)}件 / 確認中${Number(meta.pendingCount)}件</span>` : "";
+  const noteHtml = note || progress ? `<p class="release-coverage-note">${note ? escapeHtml(note) : ""}${progress}</p>` : "";
+  if (songs.length === 0) {
+    const empty = status === "complete" ? '<div class="release-songs-empty">収録楽曲の登録はありません。</div>' : "";
+    elements.includedSongsContent.innerHTML = noteHtml + empty;
+    elements.includedSongsSection.hidden = false;
+    return;
+  }
+  const groups = [];
+  const byDisc = new Map();
+  songs.forEach(song => {
+    const key = song.disc == null ? "__NO_DISC__" : String(song.disc);
+    if (!byDisc.has(key)) {
+      const group = { key, disc: song.disc == null ? null : song.disc, songs: [] };
+      byDisc.set(key, group);
+      groups.push(group);
+    }
+    byDisc.get(key).songs.push(song);
+  });
+  const noDiscIndex = groups.findIndex(group => group.disc == null);
+  if (noDiscIndex >= 0 && noDiscIndex !== groups.length - 1) groups.push(groups.splice(noDiscIndex, 1)[0]);
+  let listHtml;
+  if (groups.length <= 1) {
+    listHtml = `<div class="release-included-list">${songs.map(song => includedSongRow(song, false)).join("")}</div>`;
+  } else if (groups.length === 2) {
+    listHtml = groups.map(group => `<section class="release-disc-group"><h3 class="release-disc-heading">${group.disc == null ? "Disc情報なし" : `Disc ${escapeHtml(group.disc)}`}</h3><div class="release-included-list">${group.songs.map(song => includedSongRow(song, true)).join("")}</div></section>`).join("");
+  } else {
+    listHtml = groups.map((group, index) => `<details class="release-disc-details"${index === 0 ? " open" : ""}><summary>${group.disc == null ? "Disc情報なし" : `Disc ${escapeHtml(group.disc)}`}（${group.songs.length}件）</summary><div class="release-included-list">${group.songs.map(song => includedSongRow(song, true)).join("")}</div></details>`).join("");
+  }
+  elements.includedSongsContent.innerHTML = noteHtml + listHtml;
+  elements.includedSongsSection.hidden = false;
 }
 
 function renderRelease(release) {
@@ -64,6 +136,7 @@ function renderRelease(release) {
     const displayName = String(song.displayName || "").trim();
     return `<a class="release-song-row" href="song.html?id=${encodeURIComponent(song.songId)}"><span class="release-song-copy"><span class="release-song-title">${escapeHtml(songName)}</span>${displayName && displayName !== songName ? `<span class="release-song-display">${escapeHtml(displayName)}</span>` : ""}</span><span class="release-song-arrow" aria-hidden="true">›</span></a>`;
   }).join("")}</div>` : `<div class="release-songs-empty">このリリースを初出・由来とする登録曲はありません</div>`;
+  renderIncludedSongs(release);
   elements.status.hidden = true;
   elements.mainContent.hidden = false;
 }

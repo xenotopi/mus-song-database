@@ -1458,7 +1458,7 @@ async function loadSong() {
   setLoading();
 
   try {
-    const response = await apiGet(
+    let response = await apiGet(
       "song",
       { id: songId },
       {
@@ -1466,6 +1466,22 @@ async function loadSong() {
         retryCount: 1
       }
     );
+
+    if (!Array.isArray(response.data?.includedReleases)) {
+      try {
+        response = await apiGet(
+          "song",
+          { id: songId },
+          {
+            timeoutMs: 20000,
+            retryCount: 1,
+            forceRefresh: true
+          }
+        );
+      } catch {
+        // Keep the usable Song response; the section renders its local schema error.
+      }
+    }
 
     renderSong(response.data);
 

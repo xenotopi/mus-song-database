@@ -1733,6 +1733,7 @@
 (() => {
   const main = document.querySelector("main");
   const mainContent = document.getElementById("mainContent");
+  const includedReleases = document.getElementById("includedReleasesSection");
   const records = document.getElementById("songRecordsSection");
   const history = document.getElementById("historySection");
   const analysis = document.getElementById("songAnalysisSection");
@@ -1742,7 +1743,7 @@
   if (!main || !mainContent) return;
 
   let cursor = mainContent;
-  [records, history, discovery, analysis, insights].forEach(node => {
+  [includedReleases, records, history, discovery, analysis, insights].forEach(node => {
     if (!node) return;
     cursor.insertAdjacentElement("afterend", node);
     cursor = node;

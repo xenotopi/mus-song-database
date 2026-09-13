@@ -207,7 +207,9 @@ test("Release詳細", async t => {
     for (const id of ["R0001", "R0007", "R0077", "R0088", "R0091", "R0097", "R0106", "R0114"]) {
       const { page, issues } = await openDetail(id);
       await waitForDetail(page);
-      const release = releaseDetailFixtures.get(id);
+      const detail = releaseDetailFixtures.get(id);
+      const listed = releaseListFixture.find(item => item.releaseId === id) || {};
+      const release = { ...detail, releaseSeries: detail.releaseSeries ?? listed.releaseSeries, editionType: detail.editionType ?? listed.editionType, parentReleaseId: detail.parentReleaseId ?? listed.parentReleaseId, featuredSinger: detail.featuredSinger ?? listed.featuredSinger };
       const info = await page.locator("#releaseInfo").innerText();
       if (release.releaseSeries) assert.match(info, new RegExp(String(release.releaseSeries.shortName || release.releaseSeries.name).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
       if (release.editionType === "individual") {

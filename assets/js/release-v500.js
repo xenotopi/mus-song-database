@@ -186,11 +186,22 @@ async function loadRelease() {
   try {
     const response = await apiGet("release", { id: releaseId }, { timeoutMs: 20000, retryCount: 1, cache: true });
     const release = response.data || {};
-    const needsReleaseList = Boolean(release.releaseSeries || release.parentReleaseId || release.editionType === "memorial_box");
+    const needsReleaseList = Boolean(release.releaseSeries || release.parentReleaseId || release.editionType === "memorial_box" || release.releaseType === "Solo Live!");
     const releaseList = needsReleaseList
       ? (await apiGet("releaseList", {}, { timeoutMs: 30000, retryCount: 1, cache: true })).data || []
       : [];
-    renderRelease(release, Array.isArray(releaseList) ? releaseList : []);
+    const safeReleaseList = Array.isArray(releaseList) ? releaseList : [];
+    const listRelease = safeReleaseList.find(item => String(item.releaseId || "") === String(release.releaseId || ""));
+    const resolvedRelease = listRelease ? {
+      ...release,
+      releaseSeries: release.releaseSeries ?? listRelease.releaseSeries,
+      editionType: release.editionType ?? listRelease.editionType,
+      parentReleaseId: release.parentReleaseId ?? listRelease.parentReleaseId,
+      featuredSinger: release.featuredSinger ?? listRelease.featuredSinger,
+      catalogNumber: release.catalogNumber ?? listRelease.catalogNumber,
+      officialName: release.officialName ?? listRelease.officialName
+    } : release;
+    renderRelease(resolvedRelease, safeReleaseList);
   } catch (error) {
     if (errorKind(error) === "not-found") { setError("該当するリリースが見つかりません", error?.message || "指定されたリリースは存在しません。", false); return; }
     console.error(error);

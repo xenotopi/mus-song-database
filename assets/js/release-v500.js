@@ -1,4 +1,4 @@
-import { apiGet, escapeHtml, formatDate } from "./api.js?v=4.9.6&cache=revision-nonblocking";
+import { apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema";
 import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
 
 renderCommon("release");

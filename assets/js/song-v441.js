@@ -2,7 +2,7 @@ import {
   apiGet,
   escapeHtml,
   formatDate
-} from "./api.js?v=4.9.6&cache=revision-nonblocking";
+} from "./api.js?v=5.3.0&cache=solo-live-schema";
 
 import {
   renderCommon

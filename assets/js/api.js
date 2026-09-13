@@ -2,7 +2,7 @@
  * μ's Song Database Web
  * assets/js/api.js
  *
- * v4.9.6 Cache-first Revision Validation
+ * v5.3.0 Solo Live Release Schema Cache
  *
  * - sessionStorage: 同一タブ内の高速再表示
  * - localStorage: 再訪時の即時表示
@@ -16,7 +16,7 @@ export const API_URL =
 
 const DEFAULT_TIMEOUT_MS = 15000;
 const JSONP_LATE_CALLBACK_TTL_MS = 60000;
-const CACHE_VERSION = "v4.9.5";
+const CACHE_VERSION = "v5.3.0";
 const SESSION_PREFIX = `mus-db-session-${CACHE_VERSION}:`;
 const LOCAL_PREFIX = `mus-db-local-${CACHE_VERSION}:`;
 const LEGACY_SESSION_PREFIXES = [

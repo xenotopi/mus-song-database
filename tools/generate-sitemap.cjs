@@ -67,7 +67,7 @@ async function main() {
   ]);
   const releaseIds = uniqueSortedIds(releases.map(item => item.releaseId), /^R\d{4}$/, "Release");
   const songIds = uniqueSortedIds((rankings.songs || []).map(item => item.songId), /^S\d+$/, "Song");
-  if (releaseIds.length !== 90) throw new Error(`Release件数: expected 90, actual ${releaseIds.length}`);
+  if (releaseIds.length !== 114) throw new Error(`Release件数: expected 114, actual ${releaseIds.length}`);
   if (songIds.length !== 117) throw new Error(`Song件数: expected 117, actual ${songIds.length}`);
 
   const urls = [

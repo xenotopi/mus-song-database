@@ -52,7 +52,7 @@ async function installApiFixtures(page) {
 
 test.before(async () => {
   releaseListFixture = await fetchApi("releaseList");
-  const ids = ["R0015", "R0041", "R0054", "R0058", "R0060", "R0068", "R0069", "R0070", "R0071", "R0072", "R0074", "R0077", "R0087", "R0088", "R0090"];
+  const ids = ["R0001", "R0007", "R0015", "R0041", "R0054", "R0058", "R0060", "R0068", "R0069", "R0070", "R0071", "R0072", "R0074", "R0077", "R0087", "R0088", "R0090", "R0091", "R0097", "R0106", "R0114"];
   const details = await Promise.all(ids.map(id => fetchApi("release", { id })));
   ids.forEach((id, index) => releaseDetailFixtures.set(id, details[index]));
   server = http.createServer((request, response) => {
@@ -201,6 +201,30 @@ test("Release詳細", async t => {
     }
     assert.deepEqual(issues, []);
     await page.close();
+  });
+
+  await t.test("Solo Liveメタデータ・個別盤からBOX・BOXから9個別盤", async () => {
+    for (const id of ["R0001", "R0007", "R0077", "R0088", "R0091", "R0097", "R0106", "R0114"]) {
+      const { page, issues } = await openDetail(id);
+      await waitForDetail(page);
+      const release = releaseDetailFixtures.get(id);
+      const info = await page.locator("#releaseInfo").innerText();
+      if (release.releaseSeries) assert.match(info, new RegExp(String(release.releaseSeries.shortName || release.releaseSeries.name).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+      if (release.editionType === "individual") {
+        assert.match(info, /エディション\s*個別盤/);
+        assert.match(info, /対象キャラクター／歌唱名義/);
+        assert.equal(await page.locator('#releaseInfo a[href^="release.html?id="]').count(), release.parentReleaseId ? 1 : 0);
+      }
+      if (release.editionType === "memorial_box") {
+        assert.match(info, /エディション\s*Memorial BOX/);
+        assert.equal(await page.locator(".release-child-row").count(), 9);
+      }
+      assert.doesNotMatch(await page.locator("body").innerText(), /parentReleaseId|editionType|officialName|catalogNumber/);
+      await page.setViewportSize({ width: 390, height: 900 });
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
+      assert.deepEqual(issues, []);
+      await page.close();
+    }
   });
 
   await t.test("R0068のdebutSongs 0件はsectionごと非表示", async () => {

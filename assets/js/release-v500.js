@@ -3,7 +3,7 @@ import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
-const elements = { breadcrumbName: $("breadcrumbName"), releaseName: $("releaseName"), heroMeta: $("heroMeta"), status: $("status"), mainContent: $("mainContent"), releaseInfo: $("releaseInfo"), officialRelease: $("officialRelease"), relatedEventsHost: $("relatedEventsHost"), debutSongsSection: $("debutSongsSection"), debutSongs: $("debutSongs"), includedSongsSection: $("includedSongsSection"), includedSongsCount: $("includedSongsCount"), includedSongsContent: $("includedSongsContent") };
+const elements = { breadcrumbName: $("breadcrumbName"), releaseName: $("releaseName"), heroMeta: $("heroMeta"), status: $("status"), mainContent: $("mainContent"), releaseInfo: $("releaseInfo"), officialRelease: $("officialRelease"), relatedEventsHost: $("relatedEventsHost"), childReleasesHost: $("childReleasesHost"), debutSongsSection: $("debutSongsSection"), debutSongs: $("debutSongs"), includedSongsSection: $("includedSongsSection"), includedSongsCount: $("includedSongsCount"), includedSongsContent: $("includedSongsContent") };
 const releaseId = String(new URLSearchParams(location.search).get("id") || "").trim();
 
 function setLoading() {
@@ -112,7 +112,17 @@ function renderIncludedSongs(release) {
   elements.includedSongsSection.hidden = false;
 }
 
-function renderRelease(release) {
+function normalizedLabel(value) {
+  return String(value || "").normalize("NFKC").replace(/\s+/g, "").toLocaleLowerCase("ja");
+}
+
+function editionLabel(value) {
+  if (value === "individual") return "個別盤";
+  if (value === "memorial_box") return "Memorial BOX";
+  return "";
+}
+
+function renderRelease(release, releaseList = []) {
   const name = String(release.releaseName || "リリース名未設定");
   const date = release.releaseDate ? formatDate(release.releaseDate) : "発売日未登録";
   const classification = String(release.classification || "分類未設定");
@@ -123,8 +133,21 @@ function renderRelease(release) {
   document.title = `${name}｜μ's Song Database`;
   const info = [["発売日", date], ["大分類", classification]];
   if (releaseType) info.push(["リリース種別", releaseType]);
+  const officialName = String(release.officialName || "").trim();
+  if (officialName && normalizedLabel(officialName) !== normalizedLabel(name)) info.push(["正式商品名", officialName]);
+  const seriesName = String(release.releaseSeries?.shortName || release.releaseSeries?.name || "").trim();
+  if (seriesName) info.push(["シリーズ", seriesName]);
+  const edition = editionLabel(String(release.editionType || "").trim());
+  if (edition) info.push(["エディション", edition]);
+  const singerName = String(release.featuredSinger?.name || "").trim();
+  if (singerName) info.push(["対象キャラクター／歌唱名義", singerName]);
+  const catalogNumber = String(release.catalogNumber || "").trim();
+  if (catalogNumber) info.push(["品番", catalogNumber]);
   if (String(release.sourceMedia || "").trim()) info.push(["曲マスター由来メディア", release.sourceMedia]);
   elements.releaseInfo.innerHTML = info.map(([label, value]) => `<div class="release-info-row"><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("");
+  const parentReleaseId = String(release.parentReleaseId || "").trim();
+  const parentRelease = parentReleaseId ? releaseList.find(item => String(item.releaseId) === parentReleaseId) : null;
+  if (parentRelease) elements.releaseInfo.insertAdjacentHTML("beforeend", `<div class="release-info-row"><dt>BOX</dt><dd><a href="release.html?id=${encodeURIComponent(parentReleaseId)}">${escapeHtml(parentRelease.releaseName || "BOX詳細を見る")}</a></dd></div>`);
   const officialUrl = String(release.officialReleaseUrl || "").trim();
   elements.officialRelease.innerHTML = officialUrl ? `<a class="release-official-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">公式作品ページを見る ↗</a>` : `<p class="release-official-empty">公式作品ページは未登録です</p>`;
   const relatedEvents = (Array.isArray(release.relatedEvents) ? release.relatedEvents : [])
@@ -136,6 +159,13 @@ function renderRelease(release) {
     const eventDate = String(event.date || "").trim();
     const relation = String(event.relation || "").trim();
     return `<a class="release-event-row" href="event.html?id=${encodeURIComponent(event.eventId)}"><span class="release-event-copy"><span class="release-event-title">${escapeHtml(event.eventName)}</span>${eventDate || relation ? `<span class="release-event-meta">${eventDate ? `<span>${escapeHtml(formatDate(eventDate))}</span>` : ""}${relation ? `<span>${escapeHtml(relation)}</span>` : ""}</span>` : ""}</span><span class="release-event-arrow" aria-hidden="true">›</span></a>`;
+  }).join("")}</div></section>` : "";
+  const children = String(release.editionType || "") === "memorial_box"
+    ? releaseList.filter(item => String(item.parentReleaseId || "") === String(release.releaseId || ""))
+    : [];
+  elements.childReleasesHost.innerHTML = children.length ? `<section class="release-related" aria-labelledby="childReleasesHeading"><p class="release-section-kicker">INDIVIDUAL EDITIONS</p><h2 id="childReleasesHeading">個別盤</h2><div class="release-child-list">${children.map(child => {
+    const childSinger = String(child.featuredSinger?.name || "").trim();
+    return `<a class="release-child-row" href="release.html?id=${encodeURIComponent(child.releaseId)}"><span class="release-child-copy"><span class="release-child-title">${escapeHtml(child.releaseName || "リリース名未設定")}</span>${childSinger ? `<span class="release-child-meta"><span>${escapeHtml(childSinger)}</span></span>` : ""}</span><span class="release-child-arrow" aria-hidden="true">›</span></a>`;
   }).join("")}</div></section>` : "";
   const songs = Array.isArray(release.debutSongs) ? release.debutSongs : [];
   elements.debutSongsSection.hidden = songs.length === 0;
@@ -155,7 +185,12 @@ async function loadRelease() {
   setLoading();
   try {
     const response = await apiGet("release", { id: releaseId }, { timeoutMs: 20000, retryCount: 1, cache: true });
-    renderRelease(response.data || {});
+    const release = response.data || {};
+    const needsReleaseList = Boolean(release.releaseSeries || release.parentReleaseId || release.editionType === "memorial_box");
+    const releaseList = needsReleaseList
+      ? (await apiGet("releaseList", {}, { timeoutMs: 30000, retryCount: 1, cache: true })).data || []
+      : [];
+    renderRelease(release, Array.isArray(releaseList) ? releaseList : []);
   } catch (error) {
     if (errorKind(error) === "not-found") { setError("該当するリリースが見つかりません", error?.message || "指定されたリリースは存在しません。", false); return; }
     console.error(error);

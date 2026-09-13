@@ -63,16 +63,21 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
     }
   });
 
-  await t.test("S100は4作品・13件をRelease単位でgroupしR0090の2relationを保持", async () => {
+  await t.test("S100は13作品・22件をRelease単位・Solo LiveシリーズでgroupしR0090の2relationを保持", async () => {
     const { page, issues } = await openSong("S100");
     assert.equal(await page.evaluate(() => {
       const history = document.querySelector("#historySection");
       const included = document.querySelector("#includedReleasesSection");
       return Boolean(history && included && (history.compareDocumentPosition(included) & Node.DOCUMENT_POSITION_FOLLOWING));
     }), true, "収録リリースは歌唱履歴より後に配置");
-    assert.equal(await page.locator("#includedReleasesCount").innerText(), "4作品・13件");
-    assert.equal(await page.locator(".song-included-release-card").count(), 4);
-    assert.equal(await page.locator(".song-included-relation-row").count(), 13);
+    assert.equal(await page.locator("#includedReleasesCount").innerText(), "13作品・22件");
+    assert.equal(await page.locator(".song-included-release-card").count(), 13);
+    assert.equal(await page.locator(".song-included-relation-row").count(), 22);
+    assert.equal(await page.locator(".song-included-series-group").count(), 1);
+    const series = page.locator(".song-included-series-group");
+    assert.match(await series.locator(".song-included-series-heading").innerText(), /Solo Live/);
+    assert.equal(await series.locator(".song-included-release-card").count(), 10);
+    assert.match(await series.locator(".song-included-release-card").first().innerText(), /Memorial BOX/);
     const debut = page.locator('.song-included-release-card:has(.song-included-release-link[href="release.html?id=R0058"])');
     assert.equal(await debut.locator(".song-included-release-badge.debut").innerText(), "初出");
     const memorial = page.locator('.song-included-release-card:has(.song-included-release-link[href="release.html?id=R0090"])');

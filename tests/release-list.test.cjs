@@ -41,7 +41,7 @@ async function installApiFixture(page) {
 
 test.before(async () => {
   releaseFixture = await loadReleaseFixture();
-  assert.equal(releaseFixture.length, 90);
+  assert.equal(releaseFixture.length, 114);
   server = http.createServer((request, response) => {
     const pathname = decodeURIComponent(new URL(request.url, "http://127.0.0.1").pathname);
     const file = path.resolve(ROOT, pathname === "/" ? "releases.html" : pathname.replace(/^\/+/, ""));
@@ -76,9 +76,9 @@ async function openPage(query = "") {
   return { page, issues };
 }
 
-test("releaseList 90件、初期24件、もっと見る、長い名称、escape、390px", async () => {
+test("releaseList 114件、初期24件、もっと見る、長い名称、escape、390px", async () => {
   const { page, issues } = await openPage();
-  assert.equal(await page.locator("#totalReleasesChip").innerText(), "全90件");
+  assert.equal(await page.locator("#totalReleasesChip").innerText(), "全114件");
   assert.equal(await page.locator(".release-list-card").count(), 24);
   await page.locator("#moreButton").click();
   assert.equal(await page.locator(".release-list-card").count(), 48);
@@ -129,11 +129,11 @@ test("queryを復元する", async () => {
 
 test("大分類とリリース種別を2段階で絞り込む", async () => {
   const { page, issues } = await openPage();
-  assert.equal(await page.locator("#resultText").innerText(), "24/90件表示");
+  assert.equal(await page.locator("#resultText").innerText(), "24/114件表示");
   assert.equal(await page.locator("#releaseTypeBlock").isHidden(), true);
 
   await page.locator('[data-classification="CD"]').click();
-  assert.equal(await page.locator("#resultText").innerText(), "24/62件表示");
+  assert.equal(await page.locator("#resultText").innerText(), "24/86件表示");
   assert.equal(await page.locator("#releaseTypeBlock").isVisible(), true);
   assert.deepEqual((await page.locator("[data-release-type]").allTextContents()).map(value => value.trim()), ["すべて", "シングル", "Solo Live!", "ラジオCD", "サウンドトラック", "ベストアルバム", "コンプリートBOX", "企画アルバム"]);
   await page.locator('[data-release-type="シングル"]').click();
@@ -141,8 +141,18 @@ test("大分類とリリース種別を2段階で絞り込む", async () => {
   assert.equal(new URL(page.url()).searchParams.get("type"), "シングル");
   assert.equal(await page.locator("#moreButton").isVisible(), true);
   await page.locator('[data-release-type="Solo Live!"]').click();
-  assert.equal(await page.locator("#resultText").innerText(), "6/6件表示");
-  assert.equal(await page.locator("#moreButton").isHidden(), true);
+  assert.equal(await page.locator("#resultText").innerText(), "24/30件表示");
+  assert.equal(await page.locator("#moreButton").isVisible(), true);
+  await page.locator("#moreButton").click();
+  for (const id of ["R0091", "R0097", "R0106"]) {
+    const source = releaseFixture.find(item => item.releaseId === id);
+    const card = page.locator(`.release-list-card[href="release.html?id=${id}"]`);
+    assert.equal(await card.count(), 1);
+    const text = await card.innerText();
+    assert.match(text, new RegExp(String(source.releaseSeries.shortName || source.releaseSeries.name).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.match(text, new RegExp(source.editionType === "individual" ? "個別盤" : "Memorial BOX"));
+    if (source.featuredSinger?.name) assert.match(text, new RegExp(source.featuredSinger.name));
+  }
 
   await page.locator('[data-classification="Blu-ray"]').click();
   assert.equal(await page.locator("#resultText").innerText(), "23/23件表示");
@@ -172,13 +182,13 @@ test("親変更でtype解除、query復元と不正query正規化", async () => 
   for (const query of ["?classification=Blu-ray&type=%E3%82%B7%E3%83%B3%E3%82%B0%E3%83%AB", "?classification=CD&type=INVALID"]) {
     opened = await openPage(query);
     assert.equal(new URL(opened.page.url()).searchParams.has("type"), false);
-    assert.match(await opened.page.locator("#resultText").innerText(), query.includes("Blu-ray") ? /23\/23件表示/ : /24\/62件表示/);
+    assert.match(await opened.page.locator("#resultText").innerText(), query.includes("Blu-ray") ? /23\/23件表示/ : /24\/86件表示/);
     assert.deepEqual(opened.issues, []);
     await opened.page.close();
   }
   opened = await openPage("?type=%E3%82%B7%E3%83%B3%E3%82%B0%E3%83%AB");
   assert.equal(new URL(opened.page.url()).searchParams.has("type"), false);
-  assert.equal(await opened.page.locator("#resultText").innerText(), "24/90件表示");
+  assert.equal(await opened.page.locator("#resultText").innerText(), "24/114件表示");
   assert.equal(await opened.page.locator("#releaseTypeBlock").isHidden(), true);
   await opened.page.locator('[data-classification="CD"]').click();
   await opened.page.locator('[data-release-type="シングル"]').click();
@@ -220,6 +230,6 @@ test("APIエラーを表示し、再試行で復旧する", async () => {
   await installApiFixture(page);
   await page.locator("#retryButton").click();
   await page.locator("#allReleasesSection").waitFor({ state: "visible", timeout: 45000 });
-  assert.equal(await page.locator("#totalReleasesChip").innerText(), "全90件");
+  assert.equal(await page.locator("#totalReleasesChip").innerText(), "全114件");
   await page.close();
 });

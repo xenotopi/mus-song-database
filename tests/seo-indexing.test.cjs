@@ -40,13 +40,13 @@ test("detail indexing policy and sitemap", async t => {
     assert.match(sitemap, /^<\?xml version="1\.0" encoding="UTF-8"\?>/);
     assert.match(sitemap, /<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/);
     assert.equal(new Set(locations).size, locations.length);
-    assert.equal(locations.length, 217);
-    assert.equal(releaseUrls.length, 90);
+    assert.equal(locations.length, 241);
+    assert.equal(releaseUrls.length, 114);
     assert.equal(songUrls.length, 117);
   });
 
   await t.test("Release/Song detail URLは実在ID形式で安定順", () => {
-    assert.deepEqual(releaseUrls, Array.from({ length: 90 }, (_, index) => `${SITE_ROOT}release.html?id=R${String(index + 1).padStart(4, "0")}`));
+    assert.deepEqual(releaseUrls, Array.from({ length: 114 }, (_, index) => `${SITE_ROOT}release.html?id=R${String(index + 1).padStart(4, "0")}`));
     assert.deepEqual(songUrls, Array.from({ length: 117 }, (_, index) => `${SITE_ROOT}song.html?id=S${String(index + 1).padStart(3, "0")}`));
   });
 

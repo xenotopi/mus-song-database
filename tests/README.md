@@ -73,7 +73,7 @@ npm --prefix tests run test:api-jsonp
 
 ## Release list E2E
 
-Release一覧の描画、検索・大分類→リリース種別の2段階filter・年・並び順、URL状態復元、不正query正規化、pagination、エラー再試行、390px表示を確認します。
+Release一覧114件の描画、Solo Liveシリーズ／個別盤メタデータ、検索・大分類→リリース種別の2段階filter・年・並び順、URL状態復元、不正query正規化、pagination、エラー再試行、390px表示を確認します。
 Public APIのreleaseListをNodeからread-only取得してブラウザへfixtureとして渡し、実データに対するUI挙動を安定して確認します。
 
 ```powershell
@@ -114,7 +114,7 @@ npm --prefix tests run e2e:home-today-release
 
 ## Detail SEO / sitemap
 
-Song・Release詳細のindex方針、Releaseの自己参照canonical基盤、sitemapのURL件数・重複・形式を確認します。
+Song・Release詳細のindex方針、Releaseの自己参照canonical基盤、Release 114件・Song 117件・静的10件からなるsitemap（全241 URL）の重複・形式を確認します。
 
 ```powershell
 npm --prefix tests run test:seo-indexing

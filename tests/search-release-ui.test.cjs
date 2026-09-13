@@ -25,7 +25,7 @@ function searchData(query) {
   const fixtures = {
     "SUNNY DAY SONG": { releaseId: "R0058", releaseName: "SUNNY DAY SONG／？←HEARTBEAT", releaseDate: "2015-07-08", classification: "CD", releaseType: "シングル" },
     "μ's Best Album Best Live! Collection": { releaseId: "R0060", releaseName: "μ's Best Album Best Live! Collection", releaseDate: "2013-01-09", classification: "CD", releaseType: "ベストアルバム" },
-    "Solo Live!": { releaseId: "R0061", releaseName: "ラブライブ！Solo Live! from μ's 南ことり", releaseDate: "2011-12-14", classification: "CD", releaseType: "Solo Live!" },
+    "Solo Live!": { releaseId: "R0097", releaseName: "Solo Live! collection Memorial BOX Ⅲ 南ことり", releaseDate: "2020-09-09", classification: "CD", releaseType: "Solo Live!", releaseSeries: { id: "RS0003", name: "Solo Live! collection Memorial BOX Ⅲ", shortName: "Solo Live! Ⅲ" }, editionType: "individual", featuredSinger: { singerId: "SN0013", name: "南ことり" }, catalogNumber: "LACA-9781" },
     "ラジオCD": { releaseId: "R0088", releaseName: "ラブライブ！μ's広報部～にこりんぱな～ vol.7", releaseDate: "2016-01-27", classification: "CD", releaseType: "ラジオCD" },
     "ライブBlu-ray": { releaseId: "R0072", releaseName: "ラブライブ！μ's 3rd Anniversary LoveLive! Blu-ray", releaseDate: "2013-12-25", classification: "Blu-ray", releaseType: "ライブBlu-ray" }
   };
@@ -112,7 +112,7 @@ test("同名・Release固有名・releaseTypeをAPI結果どおり表示する",
   const cases = [
     ["SUNNY DAY SONG", "S100", "R0058"],
     ["μ's Best Album Best Live! Collection", "", "R0060"],
-    ["Solo Live!", "", "R0061"],
+    ["Solo Live!", "", "R0097"],
     ["ラジオCD", "", "R0088"],
     ["ライブBlu-ray", "", "R0072"]
   ];
@@ -121,6 +121,7 @@ test("同名・Release固有名・releaseTypeをAPI結果どおり表示する",
     await page.locator(".result-type.release").waitFor();
     assert.equal(await page.locator(`.result-row[href="release.html?id=${releaseId}"]`).count(), 1);
     if (songId) assert.equal(await page.locator(`.result-row[href="song.html?id=${songId}"]`).count(), 1);
+    if (query === "Solo Live!") assert.match(await page.locator(`.result-row[href="release.html?id=${releaseId}"] .result-meta`).innerText(), /Solo Live! Ⅲ[\s\S]*個別盤[\s\S]*南ことり[\s\S]*LACA-9781/);
     assert.deepEqual(issues, []);
     await page.close();
   }

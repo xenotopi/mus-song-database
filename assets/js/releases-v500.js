@@ -53,7 +53,8 @@ function filteredReleases() {
   const undated = [];
 
   allReleases.filter(item => {
-    const queryOK = !query || normalizeText(item.releaseName).includes(query);
+    const queryValues = [item.releaseName, item.officialName, item.catalogNumber, item.releaseSeries?.name, item.releaseSeries?.shortName, item.featuredSinger?.name];
+    const queryOK = !query || queryValues.some(value => normalizeText(value).includes(query));
     const classificationOK = !selectedClassification || item.classification === selectedClassification;
     const releaseTypeOK = !selectedReleaseType || item.releaseType === selectedReleaseType;
     const yearOK = !year || releaseYear(item.releaseDate) === year;
@@ -137,9 +138,12 @@ function renderReleases() {
   el.resultText.textContent = `${visible.length.toLocaleString("ja-JP")}/${items.length.toLocaleString("ja-JP")}件表示`;
   el.releasesList.innerHTML = visible.length ? visible.map(item => {
     const supplement = sourceMediaSupplement(item);
+    const edition = item.editionType === "individual" ? "個別盤" : item.editionType === "memorial_box" ? "Memorial BOX" : "";
+    const soloMeta = [item.releaseSeries?.shortName || item.releaseSeries?.name, edition, item.featuredSinger?.name, item.catalogNumber].map(value => String(value || "").trim()).filter(Boolean);
+    const meta = [...soloMeta, supplement].filter(Boolean);
     return `<a class="release-list-card" href="release.html?id=${encodeURIComponent(item.releaseId)}">
       <span class="release-list-date">${validDate(item.releaseDate) ? escapeHtml(formatDate(item.releaseDate)) : "発売日未登録"}</span>
-      <span class="release-list-main"><span class="release-list-title">${escapeHtml(item.releaseName || "リリース名未設定")}</span>${supplement ? `<span class="release-list-meta"><span>${escapeHtml(supplement)}</span></span>` : ""}</span>
+      <span class="release-list-main"><span class="release-list-title">${escapeHtml(item.releaseName || "リリース名未設定")}</span>${meta.length ? `<span class="release-list-meta">${meta.map(value => `<span class="release-list-meta-tag">${escapeHtml(value)}</span>`).join("")}</span>` : ""}</span>
       <span class="release-list-category">${escapeHtml(item.classification || "分類未設定")}</span><span class="release-list-arrow" aria-hidden="true">›</span>
     </a>`;
   }).join("") : `<div class="releases-empty">条件に一致するリリースはありません</div>`;

@@ -1089,17 +1089,42 @@ function renderIncludedReleases_(song) {
 
   const debutReleaseId = String(song.debutRelease?.releaseId || "").trim();
   elements.includedReleasesCount.textContent = `${groups.length}作品・${relations.length}件`;
-  elements.includedReleasesContent.innerHTML = `<div class="song-included-release-list">${groups.map(group => {
+  const renderCard = group => {
     const item = group.release;
-    const type = String(item.releaseType || item.classification || "").trim();
+    const edition = item.editionType === "individual" ? "個別盤" : item.editionType === "memorial_box" ? "Memorial BOX" : "";
+    const type = edition || String(item.releaseType || item.classification || "").trim();
+    const singerName = String(item.featuredSinger?.name || "").trim();
     const isDebut = group.releaseId === debutReleaseId;
     const relationRows = group.relations.map(relation => {
       const position = [relation.disc == null ? "" : `Disc ${relation.disc}`, relation.track == null ? "" : `Track ${relation.track}`].filter(Boolean).join(" / ");
       const variant = relation.variant == null ? "" : String(relation.variant);
       return `<div class="song-included-relation-row">${position ? `<span>${escapeHtml(position)}</span>` : `<span class="song-included-relation-empty">位置情報なし</span>`}${variant ? `<span class="song-included-variant">${escapeHtml(variant)}</span>` : ""}</div>`;
     }).join("");
-    return `<article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=${encodeURIComponent(group.releaseId)}">${escapeHtml(item.releaseName)} <span class="song-included-release-arrow" aria-hidden="true">›</span></a><div class="song-included-release-badges">${isDebut ? '<span class="song-included-release-badge debut">初出</span>' : ""}${type ? `<span class="song-included-release-badge">${escapeHtml(type)}</span>` : ""}</div></div><p class="song-included-release-date">${item.releaseDate ? escapeHtml(formatDate(item.releaseDate)) : "発売日未登録"}</p><div class="song-included-relation-list">${relationRows}</div></article>`;
-  }).join("")}</div>`;
+    return `<article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=${encodeURIComponent(group.releaseId)}">${escapeHtml(item.releaseName)} <span class="song-included-release-arrow" aria-hidden="true">›</span></a><div class="song-included-release-badges">${isDebut ? '<span class="song-included-release-badge debut">初出</span>' : ""}${type ? `<span class="song-included-release-badge">${escapeHtml(type)}</span>` : ""}</div></div><p class="song-included-release-date">${item.releaseDate ? escapeHtml(formatDate(item.releaseDate)) : "発売日未登録"}</p>${singerName ? `<p class="song-included-release-singer">${escapeHtml(singerName)}</p>` : ""}<div class="song-included-relation-list">${relationRows}</div></article>`;
+  };
+  const seriesGroups = new Map();
+  const blocks = [];
+  groups.forEach((group, index) => {
+    const seriesId = String(group.release.releaseSeries?.id || "").trim();
+    if (!seriesId) {
+      blocks.push({ kind: "release", index, group });
+      return;
+    }
+    if (!seriesGroups.has(seriesId)) {
+      const block = { kind: "series", index, seriesId, name: String(group.release.releaseSeries?.shortName || group.release.releaseSeries?.name || "シリーズ").trim(), groups: [] };
+      seriesGroups.set(seriesId, block);
+      blocks.push(block);
+    }
+    seriesGroups.get(seriesId).groups.push({ group, index });
+  });
+  blocks.sort((a, b) => a.index - b.index);
+  const editionOrder = { memorial_box: 0, individual: 1 };
+  const content = blocks.map(block => {
+    if (block.kind === "release") return renderCard(block.group);
+    block.groups.sort((a, b) => (editionOrder[a.group.release.editionType] ?? 2) - (editionOrder[b.group.release.editionType] ?? 2) || a.index - b.index);
+    return `<section class="song-included-series-group" data-series-id="${escapeHtml(block.seriesId)}"><h3 class="song-included-series-heading">${escapeHtml(block.name)}</h3><div class="song-included-series-items">${block.groups.map(item => renderCard(item.group)).join("")}</div></section>`;
+  }).join("");
+  elements.includedReleasesContent.innerHTML = `<div class="song-included-release-list">${content}</div>`;
   elements.includedReleasesSection.hidden = false;
 }
 

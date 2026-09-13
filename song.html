@@ -1349,6 +1349,11 @@
   <meta name="theme-color" content="#4f46e5">
 
   <script src="assets/js/seo-v351.js?v=5.2.0&amp;cache=detail-indexing" defer></script>
+  <style>
+    .song-hero-v46{min-height:248px}.song-hero-v46 #songName{min-height:1.35em}.song-hero-v46 #heroMeta{min-height:1.5em}.song-hero-v46 .muse-line{min-height:9px}
+    .song-detail-skeleton{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:18px}.song-detail-skeleton[hidden]{display:none}.song-detail-skeleton-card{min-height:150px;padding:22px;border:1px solid var(--line);border-radius:18px;background:#fff}.song-detail-skeleton-card.wide{grid-column:1/-1}.song-detail-skeleton-line{display:block;height:12px;margin-bottom:14px;border-radius:999px;background:#ececf5}.song-detail-skeleton-line.short{width:30%}.song-detail-skeleton-line.medium{width:64%}.song-detail-skeleton-line:last-child{margin-bottom:0}
+    @media(max-width:620px){.song-hero-v46{min-height:230px}.song-detail-skeleton{grid-template-columns:1fr}.song-detail-skeleton-card{min-height:138px;padding:19px 17px}}
+  </style>
 </head>
 
 <body>
@@ -1461,6 +1466,12 @@
       >
         再試行
       </button>
+    </div>
+
+    <div class="song-detail-skeleton" id="songDetailSkeleton" aria-hidden="true" hidden>
+      <div class="song-detail-skeleton-card"><span class="song-detail-skeleton-line short"></span><span class="song-detail-skeleton-line medium"></span><span class="song-detail-skeleton-line"></span><span class="song-detail-skeleton-line medium"></span></div>
+      <div class="song-detail-skeleton-card"><span class="song-detail-skeleton-line short"></span><span class="song-detail-skeleton-line medium"></span><span class="song-detail-skeleton-line"></span><span class="song-detail-skeleton-line"></span></div>
+      <div class="song-detail-skeleton-card wide"><span class="song-detail-skeleton-line short"></span><span class="song-detail-skeleton-line medium"></span><span class="song-detail-skeleton-line"></span></div>
     </div>
 
     <section
@@ -1753,7 +1764,7 @@
 
 <script
     type="module"
-    src="assets/js/song-v441.js?v=5.3.1&amp;cache=solo-live-series-schema"
+    src="assets/js/song-v441.js?v=5.4.0&amp;cache=detail-initial-render"
   ></script>
 
   <script>

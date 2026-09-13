@@ -3,10 +3,19 @@ import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
-const elements = { breadcrumbName: $("breadcrumbName"), releaseName: $("releaseName"), heroMeta: $("heroMeta"), status: $("status"), mainContent: $("mainContent"), releaseInfo: $("releaseInfo"), officialRelease: $("officialRelease"), relatedEventsHost: $("relatedEventsHost"), childReleasesHost: $("childReleasesHost"), debutSongsSection: $("debutSongsSection"), debutSongs: $("debutSongs"), includedSongsSection: $("includedSongsSection"), includedSongsCount: $("includedSongsCount"), includedSongsContent: $("includedSongsContent") };
+const elements = { breadcrumbName: $("breadcrumbName"), releaseName: $("releaseName"), heroMeta: $("heroMeta"), status: $("status"), skeleton: $("releaseSkeleton"), mainContent: $("mainContent"), releaseInfo: $("releaseInfo"), officialRelease: $("officialRelease"), relatedEventsHost: $("relatedEventsHost"), childReleasesHost: $("childReleasesHost"), debutSongsSection: $("debutSongsSection"), debutSongs: $("debutSongs"), includedSongsSection: $("includedSongsSection"), includedSongsCount: $("includedSongsCount"), includedSongsContent: $("includedSongsContent") };
 const releaseId = String(new URLSearchParams(location.search).get("id") || "").trim();
+let skeletonTimer = 0;
+
+function hideSkeleton() {
+  clearTimeout(skeletonTimer);
+  skeletonTimer = 0;
+  elements.skeleton.hidden = true;
+}
 
 function setLoading() {
+  hideSkeleton();
+  skeletonTimer = window.setTimeout(() => { elements.skeleton.hidden = false; }, 120);
   elements.releaseName.textContent = "読み込み中…";
   elements.heroMeta.textContent = "APIから実データを取得しています。";
   elements.status.hidden = false;
@@ -24,6 +33,7 @@ function errorKind(error) {
 }
 
 function setError(title, message, retryable) {
+  hideSkeleton();
   elements.releaseName.textContent = title;
   elements.heroMeta.textContent = message;
   elements.breadcrumbName.textContent = title;
@@ -175,6 +185,7 @@ function renderRelease(release, releaseList = []) {
     return `<a class="release-song-row" href="song.html?id=${encodeURIComponent(song.songId)}"><span class="release-song-copy"><span class="release-song-title">${escapeHtml(songName)}</span>${displayName && displayName !== songName ? `<span class="release-song-display">${escapeHtml(displayName)}</span>` : ""}</span><span class="release-song-arrow" aria-hidden="true">›</span></a>`;
   }).join("")}</div>` : "";
   renderIncludedSongs(release);
+  hideSkeleton();
   elements.status.hidden = true;
   elements.mainContent.hidden = false;
 }

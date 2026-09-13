@@ -20,6 +20,7 @@ const elements = {
   songName: document.getElementById("songName"),
   heroMeta: document.getElementById("heroMeta"),
   status: document.getElementById("status"),
+  skeleton: document.getElementById("songDetailSkeleton"),
   retryButton: document.getElementById("retryButton"),
   songSwitcher: document.getElementById("songSwitcher"),
   previousSongButton: document.getElementById("previousSongButton"),
@@ -66,6 +67,14 @@ const elements = {
   historyFilters: document.getElementById("historyFilters"),
   historyMoreButton: document.getElementById("historyMoreButton")
 };
+
+let skeletonTimer = 0;
+
+function hideSkeleton_() {
+  clearTimeout(skeletonTimer);
+  skeletonTimer = 0;
+  elements.skeleton.hidden = true;
+}
 
 
 const songId =
@@ -180,6 +189,8 @@ function setupThankYouEnding_(
 
 
 function setLoading() {
+  hideSkeleton_();
+  skeletonTimer = window.setTimeout(() => { elements.skeleton.hidden = false; }, 120);
   elements.songName.textContent = "読み込み中…";
   elements.heroMeta.textContent = "JSONPでAPIへ接続しています。";
   elements.status.hidden = false;
@@ -206,6 +217,7 @@ function setLoading() {
 
 
 function setError(error) {
+  hideSkeleton_();
   const missing = !songId;
   const notFound = /見つかりません/.test(
     String(error?.message || "")
@@ -1388,6 +1400,7 @@ function renderSong(song) {
   elements.xShareButton.href =
     `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
 
+  hideSkeleton_();
   elements.status.hidden = true;
   elements.detailLocalNav.hidden = false;
   elements.mainContent.hidden = false;
@@ -1482,6 +1495,15 @@ async function loadSong() {
 
   setLoading();
 
+  const discoverPromise = apiGet(
+    "discover",
+    { type: "song", id: songId },
+    { timeoutMs: 30000, retryCount: 1 }
+  ).then(
+    response => ({ response, error: null }),
+    error => ({ response: null, error })
+  );
+
   try {
     let response = await apiGet(
       "song",
@@ -1538,18 +1560,9 @@ async function loadSong() {
     }
 
     try {
-      const discoverResponse =
-        await apiGet(
-          "discover",
-          {
-            type: "song",
-            id: songId
-          },
-          {
-            timeoutMs: 30000,
-            retryCount: 1
-          }
-        );
+      const discoverResult = await discoverPromise;
+      if (discoverResult.error) throw discoverResult.error;
+      const discoverResponse = discoverResult.response;
 
       const discoverData =
         discoverResponse.data || {};

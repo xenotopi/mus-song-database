@@ -28,6 +28,11 @@
     .release-included{margin-top:0}.release-included.is-empty{padding-block:18px}.release-included.is-empty .release-included-head{margin-bottom:12px}.release-included-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:18px}.release-included-head h2{margin-bottom:0}.release-included-count{flex:none;color:var(--muted);font-size:13px;font-weight:900}.release-coverage-note,.release-inclusion-error{margin:0 0 16px;padding:14px 16px;border-left:3px solid var(--indigo);background:#f7f7ff;color:var(--navy);font-size:13px;line-height:1.8;overflow-wrap:anywhere}.release-included.is-empty .release-coverage-note,.release-included.is-empty .release-inclusion-error{margin-bottom:0;padding-block:10px}.release-inclusion-error{border-left-color:#b91c1c;background:#fff7f7;color:#991b1b}.release-coverage-progress{display:block;margin-top:3px;color:var(--muted);font-size:12px;font-weight:800}.release-disc-group+.release-disc-group,.release-disc-details+.release-disc-details{margin-top:14px}.release-disc-heading{margin:0 0 8px;color:var(--navy);font-size:15px;font-weight:900}.release-disc-details{border:1px solid var(--line);border-radius:16px;overflow:hidden}.release-disc-details>summary{min-height:50px;padding:14px 16px;color:var(--navy);font-weight:900;cursor:pointer;background:#fcfcff}.release-disc-details>summary:focus-visible{outline:3px solid rgba(79,70,229,.34);outline-offset:-3px}.release-disc-details .release-included-list{border:0;border-top:1px solid var(--line);border-radius:0}.release-included-list{border:1px solid var(--line);border-radius:16px;overflow:hidden}.release-included-song-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 16px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);color:inherit;text-decoration:none}.release-included-song-row:last-child{border-bottom:0}.release-included-song-row:hover{background:#fcfcff}.release-included-song-row:focus-visible{position:relative;outline:3px solid rgba(79,70,229,.34);outline-offset:-3px}.release-included-song-copy{min-width:0}.release-included-song-title{display:block;color:var(--navy);font-size:15px;font-weight:900;line-height:1.55;overflow-wrap:anywhere}.release-included-song-meta{display:flex;align-items:center;gap:6px 10px;flex-wrap:wrap;margin-top:5px;color:var(--muted);font-size:12px;font-weight:700}.release-variant{display:inline-flex;max-width:100%;padding:2px 7px;border:1px solid var(--line);border-radius:999px;background:#fafaff;color:var(--indigo);font-size:11px;font-weight:900;overflow-wrap:anywhere}.release-included-song-arrow{color:var(--indigo);font-size:22px;font-weight:900}
     @media(max-width:900px){.release-content{grid-template-columns:1fr}}@media(max-width:620px){.release-page{width:min(100% - 24px,1120px);padding:18px 0 56px}.release-hero{padding:26px 20px;border-radius:20px}.release-card{padding:20px 16px}.release-info-row{grid-template-columns:1fr;gap:5px}.release-official-link{width:100%}}
   </style>
+  <style>
+    .release-hero{min-height:174px}.release-hero h1{min-height:1.3em}.release-hero-meta{min-height:20px}
+    .detail-skeleton{display:grid;gap:18px;margin-top:24px}.detail-skeleton[hidden]{display:none}.detail-skeleton-card{min-height:154px;padding:24px;border:1px solid var(--line);border-radius:20px;background:#fff}.detail-skeleton-line{display:block;height:12px;margin-bottom:14px;border-radius:999px;background:#ececf5}.detail-skeleton-line.short{width:28%}.detail-skeleton-line.medium{width:62%}.detail-skeleton-line:last-child{margin-bottom:0}
+    @media(max-width:620px){.release-hero{min-height:160px}.detail-skeleton-card{min-height:142px;padding:20px 16px}}
+  </style>
 </head>
 <body>
   <div id="siteHeader"></div>
@@ -35,6 +40,10 @@
     <div class="release-breadcrumb"><a href="index.html">ホーム</a> › <a href="releases.html">リリース</a> › <span id="breadcrumbName">リリース詳細</span></div>
     <section class="release-hero"><p class="release-hero-kicker">RELEASE DETAIL</p><h1 id="releaseName">読み込み中…</h1><p class="release-hero-meta" id="heroMeta">APIから実データを取得しています。</p></section>
     <div class="release-status" id="status">リリースデータを読み込んでいます...</div>
+    <div class="detail-skeleton" id="releaseSkeleton" aria-hidden="true" hidden>
+      <div class="detail-skeleton-card"><span class="detail-skeleton-line short"></span><span class="detail-skeleton-line medium"></span><span class="detail-skeleton-line"></span><span class="detail-skeleton-line medium"></span></div>
+      <div class="detail-skeleton-card"><span class="detail-skeleton-line short"></span><span class="detail-skeleton-line medium"></span><span class="detail-skeleton-line"></span><span class="detail-skeleton-line"></span></div>
+    </div>
     <section class="release-content" id="mainContent" hidden>
       <article class="release-card"><p class="release-section-kicker">RELEASE INFORMATION</p><h2>基本情報</h2><dl class="release-info" id="releaseInfo"></dl><div class="release-official" id="officialRelease"></div><div id="relatedEventsHost"></div><div id="childReleasesHost"></div></article>
       <section class="release-card release-included" id="includedSongsSection" aria-labelledby="includedSongsHeading" hidden>
@@ -46,6 +55,6 @@
     <a class="release-back" href="releases.html">← リリース一覧へ戻る</a>
   </main>
   <div id="siteFooter"></div>
-  <script type="module" src="assets/js/release-v500.js?v=5.3.1&amp;cache=solo-live-metadata-cache-fallback"></script>
+  <script type="module" src="assets/js/release-v500.js?v=5.4.0&amp;cache=detail-initial-render"></script>
 </body>
 </html>

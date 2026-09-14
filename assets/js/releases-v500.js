@@ -1,5 +1,6 @@
 import { apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema";
 import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
+import { staticReleaseList } from "./static-detail.js?v=1.0.0";
 
 renderCommon("release");
 
@@ -181,7 +182,9 @@ async function loadReleases() {
   el.status.classList.remove("error");
   el.status.textContent = "リリースデータを読み込んでいます...";
   try {
-    const response = await apiGet("releaseList", {}, { timeoutMs: 30000, retryCount: 1, cache: true });
+    let response;
+    try { response = await staticReleaseList(); }
+    catch { response = await apiGet("releaseList", {}, { timeoutMs: 30000, retryCount: 1, cache: true }); }
     allReleases = Array.isArray(response.data) ? response.data : [];
     if (!allReleases.length) throw new Error("リリース一覧を取得できませんでした。");
     buildClassificationFilters();

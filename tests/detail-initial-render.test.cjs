@@ -19,7 +19,7 @@ test("Song discover starts before Song detail await and stays secondary", () => 
   const source = read("assets/js/song-v441.js");
   const loadStart = source.indexOf("async function loadSong()");
   const discoverStart = source.indexOf("const discoverPromise = apiGet(", loadStart);
-  const songAwait = source.indexOf("let response = await apiGet(", loadStart);
+  const songAwait = source.indexOf("let response = await detailWithApiFallback(", loadStart);
   const mainRender = source.indexOf("renderSong(response.data)", loadStart);
   const discoverAwait = source.indexOf("await discoverPromise", loadStart);
   assert.ok(loadStart >= 0 && discoverStart > loadStart);

@@ -4,6 +4,8 @@ import {
   formatDate
 } from "./api.js?v=5.3.0&cache=solo-live-schema";
 
+import { detailWithApiFallback } from "./static-detail.js?v=1.0.0";
+
 import {
   renderCommon
 } from "./common.js?v=4.9.1&cache=revision-nonblocking";
@@ -1505,13 +1507,17 @@ async function loadSong() {
   );
 
   try {
-    let response = await apiGet(
+    let response = await detailWithApiFallback(
       "song",
-      { id: songId },
-      {
-        timeoutMs: 20000,
-        retryCount: 1
-      }
+      songId,
+      () => apiGet(
+        "song",
+        { id: songId },
+        {
+          timeoutMs: 20000,
+          retryCount: 1
+        }
+      )
     );
 
     if (!Array.isArray(response.data?.includedReleases)) {

@@ -8,6 +8,8 @@ const test = require("node:test");
 const { chromium } = require("playwright");
 
 const ROOT = path.resolve(__dirname, "..");
+const STATIC_CURRENT = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "current.json"), "utf8"));
+const staticSong = id => JSON.parse(fs.readFileSync(path.join(ROOT, "data", "snapshots", STATIC_CURRENT.revision, "songs", `${id}.json`), "utf8")).data;
 const MIME = { ".css": "text/css", ".html": "text/html", ".js": "text/javascript", ".json": "application/json", ".png": "image/png", ".svg": "image/svg+xml", ".webmanifest": "application/manifest+json" };
 const API_PATTERN = /script\.google(?:usercontent)?\.com/i;
 let server;
@@ -106,17 +108,15 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
       { id: "S100", value: undefined, expected: "収録情報を表示できません。再読み込みしてください。", className: ".song-included-releases-error" }
     ]) {
       const page = await browser.newPage();
+      await page.route("**/data/current.json", route => route.fulfill({ status: 200, contentType: "application/json", body: "{}" }));
       await page.route(API_PATTERN, async route => {
         const url = new URL(route.request().url());
         if (url.searchParams.get("action") !== "song") { await route.continue(); return; }
-        const response = await route.fetch();
-        const body = await response.text();
-        const match = body.match(/^([^()]+)\((.*)\);?\s*$/s);
-        assert.ok(match, "Song API JSONP response");
-        const payload = JSON.parse(match[2]);
+        const callback = url.searchParams.get("callback");
+        const payload = { success: true, data: structuredClone(staticSong(testCase.id)) };
         if (testCase.value === undefined) delete payload.data.includedReleases;
         else payload.data.includedReleases = testCase.value;
-        await route.fulfill({ status: 200, contentType: "text/javascript", body: `${match[1]}(${JSON.stringify(payload)});` });
+        await route.fulfill({ status: 200, contentType: "text/javascript", body: `${callback}(${JSON.stringify(payload)});` });
       });
       await page.goto(`${baseUrl}/song.html?id=${testCase.id}`, { waitUntil: "domcontentloaded" });
       await page.locator("#mainContent").waitFor({ state: "visible", timeout: 45000 });
@@ -128,17 +128,15 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
 
   await t.test("欠損位置・日付・classification fallbackとXSSを安全に表示", async () => {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    await page.route("**/data/current.json", route => route.fulfill({ status: 200, contentType: "application/json", body: "{}" }));
     await page.route(API_PATTERN, async route => {
       const url = new URL(route.request().url());
       if (url.searchParams.get("action") !== "song") { await route.continue(); return; }
-      const response = await route.fetch();
-      const body = await response.text();
-      const match = body.match(/^([^()]+)\((.*)\);?\s*$/s);
-      assert.ok(match, "Song API JSONP response");
-      const payload = JSON.parse(match[2]);
+      const callback = url.searchParams.get("callback");
+      const payload = { success: true, data: structuredClone(staticSong("S100")) };
       payload.data.debutRelease = null;
       payload.data.includedReleases = [{ relationId: "RT9000", releaseId: "R9000", releaseName: "<img src=x onerror=alert(1)>", releaseDate: null, classification: "<script>alert(1)</script>", releaseType: "", disc: null, track: null, displayOrder: 1, variant: "<b>Movie Edit</b>" }];
-      await route.fulfill({ status: 200, contentType: "text/javascript", body: `${match[1]}(${JSON.stringify(payload)});` });
+      await route.fulfill({ status: 200, contentType: "text/javascript", body: `${callback}(${JSON.stringify(payload)});` });
     });
     await page.goto(`${baseUrl}/song.html?id=S100`, { waitUntil: "domcontentloaded" });
     await page.locator("#mainContent").waitFor({ state: "visible", timeout: 45000 });
@@ -179,16 +177,14 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
     const issues = [];
     page.on("console", message => { if (["error", "warning"].includes(message.type())) issues.push(`${message.type()}: ${message.text()}`); });
     page.on("pageerror", error => issues.push(`pageerror: ${error.message}`));
+    await page.route("**/data/current.json", route => route.fulfill({ status: 200, contentType: "application/json", body: "{}" }));
     await page.route(API_PATTERN, async route => {
       const url = new URL(route.request().url());
       if (url.searchParams.get("action") !== "song") { await route.continue(); return; }
-      const response = await route.fetch();
-      const body = await response.text();
-      const match = body.match(/^([^()]+)\((.*)\);?\s*$/s);
-      assert.ok(match, "Song API JSONP response");
-      const payload = JSON.parse(match[2]);
+      const callback = url.searchParams.get("callback");
+      const payload = { success: true, data: structuredClone(staticSong("S100")) };
       payload.data.debutRelease = null;
-      await route.fulfill({ status: 200, contentType: "text/javascript", body: `${match[1]}(${JSON.stringify(payload)});` });
+      await route.fulfill({ status: 200, contentType: "text/javascript", body: `${callback}(${JSON.stringify(payload)});` });
     });
     await page.goto(`${baseUrl}/song.html?id=S100`, { waitUntil: "domcontentloaded" });
     await page.locator("#mainContent").waitFor({ state: "visible", timeout: 45000 });

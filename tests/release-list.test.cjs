@@ -222,6 +222,7 @@ test("AND条件、pagination reset、全幅responsive", async () => {
 
 test("APIエラーを表示し、再試行で復旧する", async () => {
   const page = await browser.newPage();
+  await page.route("**/data/current.json", route => route.fulfill({ status: 200, contentType: "application/json", body: "{}" }));
   await page.route(/script\.google(?:usercontent)?\.com\/.*[?&]action=releaseList/, route => route.fulfill({ status: 503, body: "unavailable" }));
   await page.goto(`${baseUrl}/releases.html`, { waitUntil: "domcontentloaded" });
   await page.locator("#retryButton").waitFor({ state: "visible", timeout: 45000 });

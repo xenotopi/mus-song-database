@@ -79,3 +79,49 @@ test("valid static Release survives complete API outage", async () => {
   assert.equal(await page.locator("#includedSongsCount").innerText(), "31件");
   await page.close();
 });
+
+test("Song detail uses static data while Discover remains independent", async () => {
+  const page = await browser.newPage();
+  const apiActions = [];
+  await page.route(/script\.google(?:usercontent)?\.com/, route => {
+    const action = new URL(route.request().url()).searchParams.get("action");
+    apiActions.push(action);
+    if (action === "discover") return jsonp(route, {});
+    return route.abort();
+  });
+  await page.goto(`${baseUrl}/song.html?id=S100`, { waitUntil: "domcontentloaded" });
+  await page.locator("#mainContent").waitFor({ state: "visible" });
+  assert.equal(await page.locator("#includedReleasesCount").innerText(), "13作品・22件");
+  assert.equal(apiActions.filter(action => action === "song").length, 0);
+  assert.equal(apiActions.filter(action => action === "discover").length, 1);
+  await page.close();
+});
+
+test("Song static 404 falls back to Song API", async () => {
+  const page = await browser.newPage();
+  let songCalls = 0;
+  await page.route(`**/data/snapshots/**/songs/S046.json`, route => route.fulfill({ status: 404, body: "missing" }));
+  await page.route(/script\.google(?:usercontent)?\.com/, route => {
+    const action = new URL(route.request().url()).searchParams.get("action");
+    if (action === "revision") return jsonp(route, { dataRevision: current.revision });
+    if (action === "discover") return jsonp(route, {});
+    if (action === "song") { songCalls += 1; return jsonp(route, snapshot("song", "S046").data); }
+    return route.abort();
+  });
+  await page.goto(`${baseUrl}/song.html?id=S046`, { waitUntil: "domcontentloaded" });
+  await page.locator("#mainContent").waitFor({ state: "visible" });
+  assert.equal(songCalls, 1);
+  assert.equal(await page.locator("#includedReleasesCount").innerText(), "4作品・5件");
+  await page.close();
+});
+
+test("Release list uses static list without releaseList API", async () => {
+  const page = await browser.newPage();
+  const apiActions = [];
+  await page.route(/script\.google(?:usercontent)?\.com/, route => { apiActions.push(new URL(route.request().url()).searchParams.get("action")); return route.abort(); });
+  await page.goto(`${baseUrl}/releases.html`, { waitUntil: "domcontentloaded" });
+  await page.locator(".release-list-card").first().waitFor({ state: "visible" });
+  assert.equal(await page.locator(".release-list-card").count(), 24);
+  assert.deepEqual(apiActions.filter(action => action === "releaseList"), []);
+  await page.close();
+});

@@ -44,7 +44,7 @@ async function main() {
     const response = await api(type, { id });
     if (response.data?._cache?.revision !== revision) throw new Error(`${type}/${id}: API revision mismatch`);
     const data = { ...response.data };
-    delete data._cache;
+    data._cache = { source: "static", hit: true, mode: "snapshot", revision };
     validateDetail(type, id, data);
     assertNoInternalLeak(data);
     const count = type === "release" ? data.includedSongs.length : data.includedReleases.length;

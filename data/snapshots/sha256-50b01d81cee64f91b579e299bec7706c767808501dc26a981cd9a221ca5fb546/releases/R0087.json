@@ -1,0 +1,54 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0087",
+    "releaseDate": "2016-09-28",
+    "releaseName": "ラブライブ！μ's Final LoveLive! ～μ'sic Forever♪♪♪♪♪♪♪♪♪～ Blu-ray Memorial BOX",
+    "classification": "Blu-ray",
+    "sourceMedia": "",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd72",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "ライブBlu-ray",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [],
+    "relatedEvents": [
+      {
+        "eventId": "EV0108",
+        "eventName": "μ's Final LoveLive! 〜μ'sic Forever♪♪♪♪♪♪♪♪♪〜 Day1",
+        "date": "2016-03-31",
+        "relation": "収録公演",
+        "order": 1
+      },
+      {
+        "eventId": "EV0109",
+        "eventName": "μ's Final LoveLive! 〜μ'sic Forever♪♪♪♪♪♪♪♪♪〜 Day2",
+        "date": "2016-04-01",
+        "relation": "収録公演",
+        "order": 2
+      }
+    ],
+    "includedSongs": [],
+    "includedSongsMeta": {
+      "status": "not_applicable",
+      "confirmedCount": 0,
+      "pendingCount": null,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

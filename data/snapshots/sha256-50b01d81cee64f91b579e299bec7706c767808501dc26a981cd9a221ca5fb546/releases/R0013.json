@@ -1,0 +1,86 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0013",
+    "releaseDate": "2012-06-27",
+    "releaseName": "告白日和、です！",
+    "classification": "CD",
+    "sourceMedia": "デュオCD",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd13",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "シングル",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S025",
+        "songName": "告白日和、です！",
+        "displayName": "告白日和、です！"
+      },
+      {
+        "songId": "S026",
+        "songName": "ぶる～べりぃ♡とれいん",
+        "displayName": "ぶる～べりぃ♡とれいん"
+      },
+      {
+        "songId": "S027",
+        "songName": "孤独なHeaven",
+        "displayName": "孤独なHeaven"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0025",
+        "songId": "S025",
+        "songName": "告白日和、です！",
+        "displayName": "告白日和、です！",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null
+      },
+      {
+        "relationId": "RT0026",
+        "songId": "S026",
+        "songName": "ぶる～べりぃ♡とれいん",
+        "displayName": "ぶる～べりぃ♡とれいん",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null
+      },
+      {
+        "relationId": "RT0027",
+        "songId": "S027",
+        "songName": "孤独なHeaven",
+        "displayName": "孤独なHeaven",
+        "disc": null,
+        "track": null,
+        "displayOrder": 3,
+        "variant": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 3,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

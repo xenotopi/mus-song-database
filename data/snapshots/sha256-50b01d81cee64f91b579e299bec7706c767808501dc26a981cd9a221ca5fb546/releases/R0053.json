@@ -1,0 +1,71 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0053",
+    "releaseDate": "2015-04-22",
+    "releaseName": "ミはμ'sicのミ",
+    "classification": "CD",
+    "sourceMedia": "誌面企画",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd52",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "シングル",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S093",
+        "songName": "ミはμ'sicのミ",
+        "displayName": "ミはμ'sicのミ"
+      },
+      {
+        "songId": "S094",
+        "songName": "Super LOVE=Super LIVE!",
+        "displayName": "Super LOVE=Super LIVE!"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0093",
+        "songId": "S093",
+        "songName": "ミはμ'sicのミ",
+        "displayName": "ミはμ'sicのミ",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null
+      },
+      {
+        "relationId": "RT0094",
+        "songId": "S094",
+        "songName": "Super LOVE=Super LIVE!",
+        "displayName": "Super LOVE=Super LIVE!",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 2,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

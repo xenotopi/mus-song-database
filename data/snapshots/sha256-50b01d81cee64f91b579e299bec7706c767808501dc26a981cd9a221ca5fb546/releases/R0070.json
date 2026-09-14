@@ -1,0 +1,350 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0070",
+    "releaseDate": "2013-01-09",
+    "releaseName": "μ's Best Album Best Live! collection",
+    "classification": "CD",
+    "sourceMedia": "",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd18",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "ベストアルバム",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0142",
+        "songId": "S001",
+        "songName": "僕らのLIVE 君とのLIFE",
+        "displayName": "僕らのLIVE 君とのLIFE",
+        "disc": 1,
+        "track": 1,
+        "displayOrder": 1,
+        "variant": null
+      },
+      {
+        "relationId": "RT0143",
+        "songId": "S002",
+        "songName": "友情ノーチェンジ",
+        "displayName": "友情ノーチェンジ",
+        "disc": 1,
+        "track": 2,
+        "displayOrder": 2,
+        "variant": null
+      },
+      {
+        "relationId": "RT0144",
+        "songId": "S003",
+        "songName": "Snow halation",
+        "displayName": "Snow halation",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": null
+      },
+      {
+        "relationId": "RT0145",
+        "songId": "S004",
+        "songName": "baby maybe 恋のボタン",
+        "displayName": "baby maybe 恋のボタン",
+        "disc": 1,
+        "track": 4,
+        "displayOrder": 4,
+        "variant": null
+      },
+      {
+        "relationId": "RT0146",
+        "songId": "S005",
+        "songName": "Love marginal",
+        "displayName": "Love marginal",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": null
+      },
+      {
+        "relationId": "RT0147",
+        "songId": "S006",
+        "songName": "sweet&sweet holiday",
+        "displayName": "sweet&sweet holiday",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": null
+      },
+      {
+        "relationId": "RT0148",
+        "songId": "S007",
+        "songName": "ダイヤモンドプリンセスの憂鬱",
+        "displayName": "ダイヤモンドプリンセスの憂鬱",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": null
+      },
+      {
+        "relationId": "RT0149",
+        "songId": "S008",
+        "songName": "ラブノベルス",
+        "displayName": "ラブノベルス",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": null
+      },
+      {
+        "relationId": "RT0150",
+        "songId": "S009",
+        "songName": "知らないLove*教えてLove",
+        "displayName": "知らないLove*教えてLove",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": null
+      },
+      {
+        "relationId": "RT0151",
+        "songId": "S010",
+        "songName": "あ・の・ね・が・ん・ば・れ！",
+        "displayName": "あ・の・ね・が・ん・ば・れ！",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": null
+      },
+      {
+        "relationId": "RT0152",
+        "songId": "S011",
+        "songName": "夏色えがおで1,2,Jump!",
+        "displayName": "夏色えがおで1,2,Jump!",
+        "disc": 1,
+        "track": 11,
+        "displayOrder": 11,
+        "variant": null
+      },
+      {
+        "relationId": "RT0153",
+        "songId": "S012",
+        "songName": "Mermaid festa vol.1",
+        "displayName": "Mermaid festa vol.1",
+        "disc": 1,
+        "track": 12,
+        "displayOrder": 12,
+        "variant": null
+      },
+      {
+        "relationId": "RT0154",
+        "songId": "S017",
+        "songName": "もぎゅっと“love”で接近中！",
+        "displayName": "もぎゅっと“love”で接近中！",
+        "disc": 1,
+        "track": 13,
+        "displayOrder": 13,
+        "variant": null
+      },
+      {
+        "relationId": "RT0155",
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!",
+        "disc": 1,
+        "track": 14,
+        "displayOrder": 14,
+        "variant": null
+      },
+      {
+        "relationId": "RT0156",
+        "songId": "S032",
+        "songName": "Wonderful Rush",
+        "displayName": "Wonderful Rush",
+        "disc": 2,
+        "track": 1,
+        "displayOrder": 15,
+        "variant": null
+      },
+      {
+        "relationId": "RT0157",
+        "songId": "S033",
+        "songName": "Oh, Love & Peace!",
+        "displayName": "Oh, Love & Peace!",
+        "disc": 2,
+        "track": 2,
+        "displayOrder": 16,
+        "variant": null
+      },
+      {
+        "relationId": "RT0158",
+        "songId": "S019",
+        "songName": "Mermaid festa vol.2 ～Passionate～",
+        "displayName": "Mermaid festa vol.2 ～Passionate～",
+        "disc": 2,
+        "track": 3,
+        "displayOrder": 17,
+        "variant": null
+      },
+      {
+        "relationId": "RT0159",
+        "songId": "S020",
+        "songName": "Someday of my life",
+        "displayName": "Someday of my life",
+        "disc": 2,
+        "track": 4,
+        "displayOrder": 18,
+        "variant": null
+      },
+      {
+        "relationId": "RT0160",
+        "songId": "S021",
+        "songName": "恋のシグナル Rin rin rin!",
+        "displayName": "恋のシグナル Rin rin rin!",
+        "disc": 2,
+        "track": 5,
+        "displayOrder": 19,
+        "variant": null
+      },
+      {
+        "relationId": "RT0161",
+        "songId": "S022",
+        "songName": "乙女式れんあい塾",
+        "displayName": "乙女式れんあい塾",
+        "disc": 2,
+        "track": 6,
+        "displayOrder": 20,
+        "variant": null
+      },
+      {
+        "relationId": "RT0162",
+        "songId": "S023",
+        "songName": "まほうつかいはじめました！",
+        "displayName": "まほうつかいはじめました！",
+        "disc": 2,
+        "track": 7,
+        "displayOrder": 21,
+        "variant": null
+      },
+      {
+        "relationId": "RT0163",
+        "songId": "S024",
+        "songName": "純愛レンズ",
+        "displayName": "純愛レンズ",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 22,
+        "variant": null
+      },
+      {
+        "relationId": "RT0164",
+        "songId": "S025",
+        "songName": "告白日和、です！",
+        "displayName": "告白日和、です！",
+        "disc": 2,
+        "track": 9,
+        "displayOrder": 23,
+        "variant": null
+      },
+      {
+        "relationId": "RT0165",
+        "songId": "S026",
+        "songName": "ぶる～べりぃ♡とれいん",
+        "displayName": "ぶる～べりぃ♡とれいん",
+        "disc": 2,
+        "track": 10,
+        "displayOrder": 24,
+        "variant": null
+      },
+      {
+        "relationId": "RT0166",
+        "songId": "S027",
+        "songName": "孤独なHeaven",
+        "displayName": "孤独なHeaven",
+        "disc": 2,
+        "track": 11,
+        "displayOrder": 25,
+        "variant": null
+      },
+      {
+        "relationId": "RT0167",
+        "songId": "S028",
+        "songName": "soldier game",
+        "displayName": "soldier game",
+        "disc": 2,
+        "track": 12,
+        "displayOrder": 26,
+        "variant": null
+      },
+      {
+        "relationId": "RT0168",
+        "songId": "S029",
+        "songName": "Daring!!",
+        "displayName": "Daring!!",
+        "disc": 2,
+        "track": 13,
+        "displayOrder": 27,
+        "variant": null
+      },
+      {
+        "relationId": "RT0169",
+        "songId": "S030",
+        "songName": "勇気のReason",
+        "displayName": "勇気のReason",
+        "disc": 2,
+        "track": 14,
+        "displayOrder": 28,
+        "variant": null
+      },
+      {
+        "relationId": "RT0170",
+        "songId": "S031",
+        "songName": "ありふれた悲しみの果て",
+        "displayName": "ありふれた悲しみの果て",
+        "disc": 2,
+        "track": 15,
+        "displayOrder": 29,
+        "variant": null
+      },
+      {
+        "relationId": "RT0171",
+        "songId": "S034",
+        "songName": "Listen to my heart!!",
+        "displayName": "Listen to my heart!!",
+        "disc": 2,
+        "track": 16,
+        "displayOrder": 30,
+        "variant": null
+      },
+      {
+        "relationId": "RT0172",
+        "songId": "S035",
+        "songName": "after school NAVIGATORS",
+        "displayName": "after school NAVIGATORS",
+        "disc": 2,
+        "track": 17,
+        "displayOrder": 31,
+        "variant": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 31,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0101",
+    "releaseDate": "2014-04-02",
+    "releaseName": "ラブライブ！ Solo Live! from μ's 星空凛 Ring a yellow bell",
+    "classification": "CD",
+    "sourceMedia": "",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd35",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "Solo Live!",
+    "releaseSeries": {
+      "id": "RS0002",
+      "name": "ラブライブ！ μ's Solo Live! collection",
+      "shortName": "Solo Live! II"
+    },
+    "editionType": "individual",
+    "parentReleaseId": "R0077",
+    "featuredSinger": {
+      "id": "SN0012",
+      "name": "星空凛"
+    },
+    "catalogNumber": "LACA-15385",
+    "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 星空凛 Ring a yellow bell",
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0875",
+        "songId": "S017",
+        "songName": "もぎゅっと“love”で接近中！",
+        "displayName": "もぎゅっと“love”で接近中！",
+        "disc": 1,
+        "track": 1,
+        "displayOrder": 1,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0876",
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!",
+        "disc": 1,
+        "track": 2,
+        "displayOrder": 2,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0877",
+        "songId": "S019",
+        "songName": "Mermaid festa vol.2 ～Passionate～",
+        "displayName": "Mermaid festa vol.2 ～Passionate～",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0878",
+        "songId": "S032",
+        "songName": "Wonderful Rush",
+        "displayName": "Wonderful Rush",
+        "disc": 1,
+        "track": 4,
+        "displayOrder": 4,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0879",
+        "songId": "S033",
+        "songName": "Oh, Love & Peace!",
+        "displayName": "Oh, Love & Peace!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0880",
+        "songId": "S034",
+        "songName": "Listen to my heart!!",
+        "displayName": "Listen to my heart!!",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0881",
+        "songId": "S035",
+        "songName": "after school NAVIGATORS",
+        "displayName": "after school NAVIGATORS",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0882",
+        "songId": "S036",
+        "songName": "僕らは今のなかで",
+        "displayName": "僕らは今のなかで",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0883",
+        "songId": "S037",
+        "songName": "WILD STARS",
+        "displayName": "WILD STARS",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0884",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0885",
+        "songId": "S039",
+        "songName": "輝夜の城で踊りたい",
+        "displayName": "輝夜の城で踊りたい",
+        "disc": 1,
+        "track": 11,
+        "displayOrder": 11,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0886",
+        "songId": "S042",
+        "songName": "これからのSomeday",
+        "displayName": "これからのSomeday",
+        "disc": 1,
+        "track": 12,
+        "displayOrder": 12,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0887",
+        "songId": "S043",
+        "songName": "Wonder zone",
+        "displayName": "Wonder zone",
+        "disc": 1,
+        "track": 13,
+        "displayOrder": 13,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0888",
+        "songId": "S045",
+        "songName": "No brand girls",
+        "displayName": "No brand girls",
+        "disc": 1,
+        "track": 14,
+        "displayOrder": 14,
+        "variant": "RIN Mix"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "partial",
+      "confirmedCount": 14,
+      "pendingCount": 1,
+      "publicNote": "一部の収録情報を確認中です。"
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

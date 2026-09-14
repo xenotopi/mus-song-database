@@ -1,0 +1,71 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0001",
+    "releaseDate": "2010-08-25",
+    "releaseName": "僕らのLIVE 君とのLIFE",
+    "classification": "CD",
+    "sourceMedia": "CD",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd01",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "シングル",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S001",
+        "songName": "僕らのLIVE 君とのLIFE",
+        "displayName": "僕らのLIVE 君とのLIFE"
+      },
+      {
+        "songId": "S002",
+        "songName": "友情ノーチェンジ",
+        "displayName": "友情ノーチェンジ"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0001",
+        "songId": "S001",
+        "songName": "僕らのLIVE 君とのLIFE",
+        "displayName": "僕らのLIVE 君とのLIFE",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null
+      },
+      {
+        "relationId": "RT0002",
+        "songId": "S002",
+        "songName": "友情ノーチェンジ",
+        "displayName": "友情ノーチェンジ",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 2,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

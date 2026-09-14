@@ -1,0 +1,417 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S026",
+    "songName": "ぶる～べりぃ♡とれいん",
+    "displayName": "ぶる～べりぃ♡とれいん",
+    "version": "通常",
+    "recordingCd": "告白日和、です！",
+    "releaseDate": "2012-06-27",
+    "media": "デュオCD",
+    "category": "シングル",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd13",
+    "debutRelease": {
+      "releaseId": "R0013",
+      "releaseDate": "2012-06-27",
+      "releaseName": "告白日和、です！",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd13"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0026",
+        "releaseId": "R0013",
+        "releaseName": "告白日和、です！",
+        "releaseDate": "2012-06-27",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0165",
+        "releaseId": "R0070",
+        "releaseName": "μ's Best Album Best Live! collection",
+        "releaseDate": "2013-01-09",
+        "classification": "CD",
+        "releaseType": "ベストアルバム",
+        "disc": 2,
+        "track": 10,
+        "displayOrder": 24,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0748",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 10,
+        "track": 8,
+        "displayOrder": 95,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "内田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 28,
+      "completePerformanceCount": 28,
+      "irregularPerformanceCount": 0,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 0,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 100,
+      "eventCount": 28,
+      "officialEventCount": 5,
+      "soloEventCount": 23,
+      "firstPerformanceDate": "2013-01-03",
+      "lastPerformanceDate": "2025-11-24"
+    },
+    "performances": [
+      {
+        "date": "2013-01-03",
+        "eventId": "EV0007",
+        "eventName": "ラブライブ！ μ's New Year LoveLive! 2013",
+        "singer": "内田",
+        "singerId": "SN0028",
+        "singerDisplayName": "南ことり",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2013-06-16",
+        "eventId": "EV0013",
+        "eventName": "μ’s 3rd Anniversary LoveLive!",
+        "singer": "内田",
+        "singerId": "SN0028",
+        "singerDisplayName": "南ことり",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "ショートVer."
+      },
+      {
+        "date": "2014-03-15",
+        "eventId": "EV0031",
+        "eventName": "香港C3 μ's 1st Live in Hong Kong",
+        "singer": "内田",
+        "singerId": "SN0028",
+        "singerDisplayName": "南ことり",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2015-08-01",
+        "eventId": "EV0087",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 北海道公演　夜の部",
+        "singer": "内田",
+        "singerId": "SN0028",
+        "singerDisplayName": "南ことり",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2015-08-01",
+        "eventId": "EV0086",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 北海道公演　昼の部",
+        "singer": "内田",
+        "singerId": "SN0028",
+        "singerDisplayName": "南ことり",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2015-10-11",
+        "eventId": "EV0095",
+        "eventName": "秋の収穫祭 October Festival 大阪夜",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2015-10-11",
+        "eventId": "EV0094",
+        "eventName": "秋の収穫祭 October Festival 大阪昼",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2015-10-18",
+        "eventId": "EV0097",
+        "eventName": "秋の収穫祭 October Festival 東京夜",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2015-10-18",
+        "eventId": "EV0096",
+        "eventName": "秋の収穫祭 October Festival 東京昼",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2018-11-03",
+        "eventId": "EV0186",
+        "eventName": "内田彩キャラソンライブ〜chara・melt・ room〜 101",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2018-11-03",
+        "eventId": "EV0187",
+        "eventName": "内田彩キャラソンライブ〜chara・melt・ room〜 102",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2018-11-17",
+        "eventId": "EV0189",
+        "eventName": "内田彩キャラソンライブ〜chara・melt・ room〜 103",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2018-11-17",
+        "eventId": "EV0190",
+        "eventName": "内田彩キャラソンライブ〜chara・melt・ room〜 104",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2019-11-02",
+        "eventId": "EV0210",
+        "eventName": "内田彩キャラソンライブ～chara・melt・room～ No.2 201",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2019-11-02",
+        "eventId": "EV0211",
+        "eventName": "内田彩キャラソンライブ～chara・melt・room～ No.2 202",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2019-11-16",
+        "eventId": "EV0212",
+        "eventName": "内田彩キャラソンライブ～chara・melt・room～ No.2 203",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2019-11-16",
+        "eventId": "EV0213",
+        "eventName": "内田彩キャラソンライブ～chara・melt・room～ No.2 204",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2021-09-11",
+        "eventId": "EV0234",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.3 room301",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2021-09-12",
+        "eventId": "EV0235",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.3 room302",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2021-09-12",
+        "eventId": "EV0236",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.3 room303",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2024-07-13",
+        "eventId": "EV0283",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.4 room401",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2024-07-13",
+        "eventId": "EV0284",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.4 room402",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2024-07-20",
+        "eventId": "EV0286",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.4 room403",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2024-07-20",
+        "eventId": "EV0287",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.4 room404",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2025-11-15",
+        "eventId": "EV0318",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.5 room501",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2025-11-15",
+        "eventId": "EV0319",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.5 room502",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2025-11-24",
+        "eventId": "EV0328",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.5 room503",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2025-11-24",
+        "eventId": "EV0329",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.5 room504",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

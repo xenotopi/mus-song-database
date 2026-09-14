@@ -1,0 +1,406 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S021",
+    "songName": "恋のシグナル Rin rin rin!",
+    "displayName": "恋のシグナル Rin rin rin!",
+    "version": "通常",
+    "recordingCd": "Mermaid festa vol.2 ～Passionate～",
+    "releaseDate": "2012-04-25",
+    "media": "デュオCD",
+    "category": "シングル",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd11",
+    "debutRelease": {
+      "releaseId": "R0011",
+      "releaseDate": "2012-04-25",
+      "releaseName": "Mermaid festa vol.2 ～Passionate～",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd11"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0021",
+        "releaseId": "R0011",
+        "releaseName": "Mermaid festa vol.2 ～Passionate～",
+        "releaseDate": "2012-04-25",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 3,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0160",
+        "releaseId": "R0070",
+        "releaseName": "μ's Best Album Best Live! collection",
+        "releaseDate": "2013-01-09",
+        "classification": "CD",
+        "releaseType": "ベストアルバム",
+        "disc": 2,
+        "track": 5,
+        "displayOrder": 19,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0743",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 10,
+        "track": 3,
+        "displayOrder": 90,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "飯田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 27,
+      "completePerformanceCount": 27,
+      "irregularPerformanceCount": 0,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 0,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 100,
+      "eventCount": 27,
+      "officialEventCount": 5,
+      "soloEventCount": 22,
+      "firstPerformanceDate": "2013-01-03",
+      "lastPerformanceDate": "2025-11-23"
+    },
+    "performances": [
+      {
+        "date": "2013-01-03",
+        "eventId": "EV0007",
+        "eventName": "ラブライブ！ μ's New Year LoveLive! 2013",
+        "singer": "飯田",
+        "singerId": "SN0012",
+        "singerDisplayName": "星空凛",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2013-06-16",
+        "eventId": "EV0013",
+        "eventName": "μ’s 3rd Anniversary LoveLive!",
+        "singer": "飯田",
+        "singerId": "SN0012",
+        "singerDisplayName": "星空凛",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "ショートVer."
+      },
+      {
+        "date": "2013-10-05",
+        "eventId": "EV0018",
+        "eventName": "Pile＆飯田里穂ライブ＆トークショー1日目1部",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2013-10-05",
+        "eventId": "EV0019",
+        "eventName": "Pile＆飯田里穂ライブ＆トークショー1日目2部",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2013-10-06",
+        "eventId": "EV0020",
+        "eventName": "Pile＆飯田里穂ライブ＆トークショー2日目1部",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2013-10-06",
+        "eventId": "EV0021",
+        "eventName": "Pile＆飯田里穂ライブ＆トークショー2日目2部",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-07-23",
+        "eventId": "EV0142",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 埼玉夜",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-07-23",
+        "eventId": "EV0141",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 埼玉昼",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-08-05",
+        "eventId": "EV0144",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 北海道夜",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-08-05",
+        "eventId": "EV0143",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 北海道昼",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-08-11",
+        "eventId": "EV0147",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 大阪夜",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-08-11",
+        "eventId": "EV0146",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 大阪昼",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-08-12",
+        "eventId": "EV0150",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 福岡夜",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-08-12",
+        "eventId": "EV0149",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 福岡昼",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-08-19",
+        "eventId": "EV0153",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 広島夜",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-08-19",
+        "eventId": "EV0152",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 広島昼",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-08-20",
+        "eventId": "EV0155",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 名古屋夜",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-08-20",
+        "eventId": "EV0154",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 名古屋昼",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-08-27",
+        "eventId": "EV0157",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 東京夜",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-08-27",
+        "eventId": "EV0156",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 東京昼",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-09-03",
+        "eventId": "EV0159",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 沖縄",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-09-07",
+        "eventId": "EV0160",
+        "eventName": "LIVEHOUSE TOUR Re:rippi 宮城(振替)",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2018-05-27",
+        "eventId": "EV0179",
+        "eventName": "IBERANIME Lx2018 Day2 (Demo Concert) ",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2023-11-26",
+        "eventId": "EV0266",
+        "eventName": "ゆのまえ漫画フェスタ",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2025-11-15",
+        "eventId": "EV0320",
+        "eventName": "Lovelive Overseas events Seoul公演 1日目 第一部",
+        "singer": "飯田",
+        "singerId": "SN0012",
+        "singerDisplayName": "星空凛",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2025-11-22",
+        "eventId": "EV0324",
+        "eventName": "Lovelive Overseas events 広州公演 1日目 第一部",
+        "singer": "飯田",
+        "singerId": "SN0012",
+        "singerDisplayName": "星空凛",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2025-11-23",
+        "eventId": "EV0327",
+        "eventName": "Lovelive Overseas events 広州公演 2日目 第二部",
+        "singer": "飯田",
+        "singerId": "SN0012",
+        "singerDisplayName": "星空凛",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

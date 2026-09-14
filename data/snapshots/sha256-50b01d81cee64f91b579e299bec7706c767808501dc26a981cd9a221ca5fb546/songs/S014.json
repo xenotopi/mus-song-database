@@ -1,0 +1,120 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S014",
+    "songName": "スピカテリブル",
+    "displayName": "スピカテリブル",
+    "version": "通常",
+    "recordingCd": "ことりLovin' you",
+    "releaseDate": "2011-12-14",
+    "media": "CD",
+    "category": "シングル",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd08",
+    "debutRelease": {
+      "releaseId": "R0008",
+      "releaseDate": "2011-12-14",
+      "releaseName": "μ's ソロCDリリース第2弾 南ことり ことりLovin' you",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd08"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0014",
+        "releaseId": "R0008",
+        "releaseName": "μ's ソロCDリリース第2弾 南ことり ことりLovin' you",
+        "releaseDate": "2011-12-14",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0028",
+          "name": "南ことり"
+        },
+        "catalogNumber": "LACA-15169",
+        "officialName": "ラブライブ！ Solo Live! from μ's 南ことり ことりLovin' you"
+      },
+      {
+        "relationId": "RT0756",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 11,
+        "track": 7,
+        "displayOrder": 103,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "内田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 2,
+      "completePerformanceCount": 2,
+      "irregularPerformanceCount": 0,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 0,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 100,
+      "eventCount": 2,
+      "officialEventCount": 1,
+      "soloEventCount": 1,
+      "firstPerformanceDate": "2012-02-19",
+      "lastPerformanceDate": "2021-09-12"
+    },
+    "performances": [
+      {
+        "date": "2012-02-19",
+        "eventId": "EV0001",
+        "eventName": "ラブライブ！ μ’s First LoveLive！",
+        "singer": "内田",
+        "singerId": "SN0028",
+        "singerDisplayName": "南ことり",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2021-09-12",
+        "eventId": "EV0236",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.3 room303",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

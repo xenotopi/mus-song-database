@@ -1,0 +1,367 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0111",
+    "releaseDate": "2018-03-28",
+    "releaseName": "ラブライブ！Solo Live! from μ’s 西木野真姫 Memories with Maki",
+    "classification": "CD",
+    "sourceMedia": "",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd76",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "Solo Live!",
+    "releaseSeries": {
+      "id": "RS0003",
+      "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+      "shortName": "Solo Live! III"
+    },
+    "editionType": "individual",
+    "parentReleaseId": "R0088",
+    "featuredSinger": {
+      "id": "SN0006",
+      "name": "西木野真姫"
+    },
+    "catalogNumber": "LACA-9615～LACA-9617",
+    "officialName": "ラブライブ！Solo Live! Ⅲ from μ's 西木野真姫 Memories with Maki",
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT1097",
+        "songId": "S060",
+        "songName": "Music S.T.A.R.T!!",
+        "displayName": "Music S.T.A.R.T!!",
+        "disc": 1,
+        "track": 1,
+        "displayOrder": 1,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1098",
+        "songId": "S061",
+        "songName": "LOVELESS WORLD",
+        "displayName": "LOVELESS WORLD",
+        "disc": 1,
+        "track": 2,
+        "displayOrder": 2,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1099",
+        "songId": "S062",
+        "songName": "タカラモノズ",
+        "displayName": "タカラモノズ",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1100",
+        "songId": "S063",
+        "songName": "Paradise Live",
+        "displayName": "Paradise Live",
+        "disc": 1,
+        "track": 4,
+        "displayOrder": 4,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1101",
+        "songId": "S064",
+        "songName": "それは僕たちの奇跡",
+        "displayName": "それは僕たちの奇跡",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1102",
+        "songId": "S065",
+        "songName": "だってだって噫無情",
+        "displayName": "だってだって噫無情",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1103",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1104",
+        "songId": "S067",
+        "songName": "COLORFUL VOICE",
+        "displayName": "COLORFUL VOICE",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1105",
+        "songId": "S068",
+        "songName": "ユメノトビラ",
+        "displayName": "ユメノトビラ",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1106",
+        "songId": "S069",
+        "songName": "SENTIMENTAL StepS",
+        "displayName": "SENTIMENTAL StepS",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1107",
+        "songId": "S070",
+        "songName": "Love wing bell",
+        "displayName": "Love wing bell",
+        "disc": 1,
+        "track": 11,
+        "displayOrder": 11,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1108",
+        "songId": "S071",
+        "songName": "Dancing stars on me!",
+        "displayName": "Dancing stars on me!",
+        "disc": 1,
+        "track": 12,
+        "displayOrder": 12,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1109",
+        "songId": "S073",
+        "songName": "KiRa-KiRa Sensation!",
+        "displayName": "KiRa-KiRa Sensation!",
+        "disc": 1,
+        "track": 13,
+        "displayOrder": 13,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1110",
+        "songId": "S074",
+        "songName": "Happy maker!",
+        "displayName": "Happy maker!",
+        "disc": 1,
+        "track": 14,
+        "displayOrder": 14,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1111",
+        "songId": "S079",
+        "songName": "Shangri-La Shower",
+        "displayName": "Shangri-La Shower",
+        "disc": 2,
+        "track": 1,
+        "displayOrder": 15,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1112",
+        "songId": "S080",
+        "songName": "るてしキスキしてる",
+        "displayName": "るてしキスキしてる",
+        "disc": 2,
+        "track": 2,
+        "displayOrder": 16,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1113",
+        "songId": "S093",
+        "songName": "ミはμ'sicのミ",
+        "displayName": "ミはμ'sicのミ",
+        "disc": 2,
+        "track": 3,
+        "displayOrder": 17,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1114",
+        "songId": "S094",
+        "songName": "Super LOVE=Super LIVE!",
+        "displayName": "Super LOVE=Super LIVE!",
+        "disc": 2,
+        "track": 4,
+        "displayOrder": 18,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1115",
+        "songId": "S098",
+        "songName": "Angelic Angel",
+        "displayName": "Angelic Angel",
+        "disc": 2,
+        "track": 5,
+        "displayOrder": 19,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1116",
+        "songId": "S100",
+        "songName": "SUNNY DAY SONG",
+        "displayName": "SUNNY DAY SONG",
+        "disc": 2,
+        "track": 6,
+        "displayOrder": 20,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1117",
+        "songId": "S102",
+        "songName": "僕たちはひとつの光",
+        "displayName": "僕たちはひとつの光",
+        "disc": 2,
+        "track": 7,
+        "displayOrder": 21,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1118",
+        "songId": "S099",
+        "songName": "Hello,星を数えて",
+        "displayName": "Hello,星を数えて",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 22,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1119",
+        "songId": "S052",
+        "songName": "Cutie Panther",
+        "displayName": "Cutie Panther",
+        "disc": 3,
+        "track": 1,
+        "displayOrder": 23,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1120",
+        "songId": "S053",
+        "songName": "夏、終わらないで。",
+        "displayName": "夏、終わらないで。",
+        "disc": 3,
+        "track": 2,
+        "displayOrder": 24,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1121",
+        "songId": "S087",
+        "songName": "冬がくれた予感",
+        "displayName": "冬がくれた予感",
+        "disc": 3,
+        "track": 3,
+        "displayOrder": 25,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1122",
+        "songId": "S088",
+        "songName": "Trouble Busters",
+        "displayName": "Trouble Busters",
+        "disc": 3,
+        "track": 4,
+        "displayOrder": 26,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1123",
+        "songId": "S112",
+        "songName": "錯覚CROSSROADS",
+        "displayName": "錯覚CROSSROADS",
+        "disc": 3,
+        "track": 5,
+        "displayOrder": 27,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1124",
+        "songId": "S113",
+        "songName": "PSYCHIC FIRE",
+        "displayName": "PSYCHIC FIRE",
+        "disc": 3,
+        "track": 6,
+        "displayOrder": 28,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1125",
+        "songId": "S105",
+        "songName": "HEART to HEART!",
+        "displayName": "HEART to HEART!",
+        "disc": 3,
+        "track": 7,
+        "displayOrder": 29,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1126",
+        "songId": "S106",
+        "songName": "嵐のなかの恋だから",
+        "displayName": "嵐のなかの恋だから",
+        "disc": 3,
+        "track": 8,
+        "displayOrder": 30,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1127",
+        "songId": "S114",
+        "songName": "MOMENT RING",
+        "displayName": "MOMENT RING",
+        "disc": 3,
+        "track": 9,
+        "displayOrder": 31,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1128",
+        "songId": "S115",
+        "songName": "さようならへさよなら！",
+        "displayName": "さようならへさよなら！",
+        "disc": 3,
+        "track": 10,
+        "displayOrder": 32,
+        "variant": "MAKI Mix"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 32,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

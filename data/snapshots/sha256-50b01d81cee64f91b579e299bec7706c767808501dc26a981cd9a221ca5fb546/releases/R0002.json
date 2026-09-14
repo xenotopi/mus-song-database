@@ -1,0 +1,71 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0002",
+    "releaseDate": "2010-12-22",
+    "releaseName": "Snow halation",
+    "classification": "CD",
+    "sourceMedia": "CD",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd02",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "シングル",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S003",
+        "songName": "Snow halation",
+        "displayName": "Snow halation"
+      },
+      {
+        "songId": "S004",
+        "songName": "baby maybe 恋のボタン",
+        "displayName": "baby maybe 恋のボタン"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0003",
+        "songId": "S003",
+        "songName": "Snow halation",
+        "displayName": "Snow halation",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null
+      },
+      {
+        "relationId": "RT0004",
+        "songId": "S004",
+        "songName": "baby maybe 恋のボタン",
+        "displayName": "baby maybe 恋のボタン",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 2,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

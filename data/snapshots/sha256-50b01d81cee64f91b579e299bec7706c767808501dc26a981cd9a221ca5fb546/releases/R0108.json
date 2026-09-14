@@ -1,0 +1,357 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0108",
+    "releaseDate": "2018-03-28",
+    "releaseName": "ラブライブ！Solo Live! from μ’s 南ことり Memories with Kotori",
+    "classification": "CD",
+    "sourceMedia": "",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd79",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "Solo Live!",
+    "releaseSeries": {
+      "id": "RS0003",
+      "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+      "shortName": "Solo Live! III"
+    },
+    "editionType": "individual",
+    "parentReleaseId": "R0088",
+    "featuredSinger": {
+      "id": "SN0028",
+      "name": "南ことり"
+    },
+    "catalogNumber": "LACA-9606～LACA-9608",
+    "officialName": "ラブライブ！Solo Live! Ⅲ from μ's 南ことり Memories with Kotori",
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT1003",
+        "songId": "S060",
+        "songName": "Music S.T.A.R.T!!",
+        "displayName": "Music S.T.A.R.T!!",
+        "disc": 1,
+        "track": 1,
+        "displayOrder": 1,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1004",
+        "songId": "S061",
+        "songName": "LOVELESS WORLD",
+        "displayName": "LOVELESS WORLD",
+        "disc": 1,
+        "track": 2,
+        "displayOrder": 2,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1005",
+        "songId": "S062",
+        "songName": "タカラモノズ",
+        "displayName": "タカラモノズ",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1006",
+        "songId": "S063",
+        "songName": "Paradise Live",
+        "displayName": "Paradise Live",
+        "disc": 1,
+        "track": 4,
+        "displayOrder": 4,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1007",
+        "songId": "S064",
+        "songName": "それは僕たちの奇跡",
+        "displayName": "それは僕たちの奇跡",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1008",
+        "songId": "S065",
+        "songName": "だってだって噫無情",
+        "displayName": "だってだって噫無情",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1009",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1010",
+        "songId": "S067",
+        "songName": "COLORFUL VOICE",
+        "displayName": "COLORFUL VOICE",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1011",
+        "songId": "S068",
+        "songName": "ユメノトビラ",
+        "displayName": "ユメノトビラ",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1012",
+        "songId": "S069",
+        "songName": "SENTIMENTAL StepS",
+        "displayName": "SENTIMENTAL StepS",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1013",
+        "songId": "S071",
+        "songName": "Dancing stars on me!",
+        "displayName": "Dancing stars on me!",
+        "disc": 1,
+        "track": 11,
+        "displayOrder": 11,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1014",
+        "songId": "S073",
+        "songName": "KiRa-KiRa Sensation!",
+        "displayName": "KiRa-KiRa Sensation!",
+        "disc": 1,
+        "track": 12,
+        "displayOrder": 12,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1015",
+        "songId": "S074",
+        "songName": "Happy maker!",
+        "displayName": "Happy maker!",
+        "disc": 1,
+        "track": 13,
+        "displayOrder": 13,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1016",
+        "songId": "S079",
+        "songName": "Shangri-La Shower",
+        "displayName": "Shangri-La Shower",
+        "disc": 2,
+        "track": 1,
+        "displayOrder": 14,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1017",
+        "songId": "S080",
+        "songName": "るてしキスキしてる",
+        "displayName": "るてしキスキしてる",
+        "disc": 2,
+        "track": 2,
+        "displayOrder": 15,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1018",
+        "songId": "S093",
+        "songName": "ミはμ'sicのミ",
+        "displayName": "ミはμ'sicのミ",
+        "disc": 2,
+        "track": 3,
+        "displayOrder": 16,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1019",
+        "songId": "S094",
+        "songName": "Super LOVE=Super LIVE!",
+        "displayName": "Super LOVE=Super LIVE!",
+        "disc": 2,
+        "track": 4,
+        "displayOrder": 17,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1020",
+        "songId": "S098",
+        "songName": "Angelic Angel",
+        "displayName": "Angelic Angel",
+        "disc": 2,
+        "track": 5,
+        "displayOrder": 18,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1021",
+        "songId": "S100",
+        "songName": "SUNNY DAY SONG",
+        "displayName": "SUNNY DAY SONG",
+        "disc": 2,
+        "track": 6,
+        "displayOrder": 19,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1022",
+        "songId": "S102",
+        "songName": "僕たちはひとつの光",
+        "displayName": "僕たちはひとつの光",
+        "disc": 2,
+        "track": 7,
+        "displayOrder": 20,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1023",
+        "songId": "S103",
+        "songName": "Future style",
+        "displayName": "Future style",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 21,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1024",
+        "songId": "S055",
+        "songName": "Pure girls project",
+        "displayName": "Pure girls project",
+        "disc": 3,
+        "track": 1,
+        "displayOrder": 22,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1025",
+        "songId": "S056",
+        "songName": "UNBALANCED LOVE",
+        "displayName": "UNBALANCED LOVE",
+        "disc": 3,
+        "track": 2,
+        "displayOrder": 23,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1026",
+        "songId": "S082",
+        "songName": "永遠フレンズ",
+        "displayName": "永遠フレンズ",
+        "disc": 3,
+        "track": 3,
+        "displayOrder": 24,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1027",
+        "songId": "S083",
+        "songName": "小夜啼鳥恋詩",
+        "displayName": "小夜啼鳥恋詩",
+        "disc": 3,
+        "track": 4,
+        "displayOrder": 25,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1028",
+        "songId": "S107",
+        "songName": "WAO-WAO Powerful day!",
+        "displayName": "WAO-WAO Powerful day!",
+        "disc": 3,
+        "track": 5,
+        "displayOrder": 26,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1029",
+        "songId": "S108",
+        "songName": "NO EXIT ORION",
+        "displayName": "NO EXIT ORION",
+        "disc": 3,
+        "track": 6,
+        "displayOrder": 27,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1030",
+        "songId": "S105",
+        "songName": "HEART to HEART!",
+        "displayName": "HEART to HEART!",
+        "disc": 3,
+        "track": 7,
+        "displayOrder": 28,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1031",
+        "songId": "S106",
+        "songName": "嵐のなかの恋だから",
+        "displayName": "嵐のなかの恋だから",
+        "disc": 3,
+        "track": 8,
+        "displayOrder": 29,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1032",
+        "songId": "S114",
+        "songName": "MOMENT RING",
+        "displayName": "MOMENT RING",
+        "disc": 3,
+        "track": 9,
+        "displayOrder": 30,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1033",
+        "songId": "S115",
+        "songName": "さようならへさよなら！",
+        "displayName": "さようならへさよなら！",
+        "disc": 3,
+        "track": 10,
+        "displayOrder": 31,
+        "variant": "KOTORI Mix"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 31,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

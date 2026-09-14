@@ -1,0 +1,102 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S081",
+    "songName": "もしもからきっと",
+    "displayName": "もしもからきっと",
+    "version": "通常",
+    "recordingCd": "「ラブライブ！」2期Blu-ray 第5巻",
+    "releaseDate": "2014-10-29",
+    "media": "Blu-ray",
+    "category": "特典曲",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv2nd/#bd05",
+    "debutRelease": {
+      "releaseId": "R0046",
+      "releaseDate": "2014-10-29",
+      "releaseName": "「ラブライブ！」2期Blu-ray 第5巻",
+      "classification": "Blu-ray",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv2nd/#bd05"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0081",
+        "releaseId": "R0046",
+        "releaseName": "「ラブライブ！」2期Blu-ray 第5巻",
+        "releaseDate": "2014-10-29",
+        "classification": "Blu-ray",
+        "releaseType": "アニメBlu-ray",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0697",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 5,
+        "track": 5,
+        "displayOrder": 44,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "楠田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 1,
+      "completePerformanceCount": 1,
+      "irregularPerformanceCount": 0,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 0,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 100,
+      "eventCount": 1,
+      "officialEventCount": 1,
+      "soloEventCount": 0,
+      "firstPerformanceDate": "2015-02-01",
+      "lastPerformanceDate": "2015-02-01"
+    },
+    "performances": [
+      {
+        "date": "2015-02-01",
+        "eventId": "EV0052",
+        "eventName": "μ's Go→Go! LoveLive! 2015 ～Dream Sensation!～ 2日目",
+        "singer": "楠田",
+        "singerId": "SN0027",
+        "singerDisplayName": "東條希",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

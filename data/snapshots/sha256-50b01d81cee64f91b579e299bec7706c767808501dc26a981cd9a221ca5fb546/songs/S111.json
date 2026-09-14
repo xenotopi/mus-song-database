@@ -1,0 +1,289 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S111",
+    "songName": "春情ロマンティック",
+    "displayName": "春情ロマンティック",
+    "version": "通常",
+    "recordingCd": "思い出以上になりたくて",
+    "releaseDate": "2015-12-23",
+    "media": "スクフェス",
+    "category": "カップリング",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd65",
+    "debutRelease": {
+      "releaseId": "R0064",
+      "releaseDate": "2015-12-23",
+      "releaseName": "思い出以上になりたくて",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd65"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0111",
+        "releaseId": "R0064",
+        "releaseName": "思い出以上になりたくて",
+        "releaseDate": "2015-12-23",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0491",
+        "releaseId": "R0088",
+        "releaseName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 12,
+        "track": 6,
+        "displayOrder": 121,
+        "variant": "UMI Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39600～LACA-39626",
+        "officialName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ"
+      },
+      {
+        "relationId": "RT0523",
+        "releaseId": "R0088",
+        "releaseName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 15,
+        "track": 6,
+        "displayOrder": 153,
+        "variant": "RIN Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39600～LACA-39626",
+        "officialName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ"
+      },
+      {
+        "relationId": "RT0587",
+        "releaseId": "R0088",
+        "releaseName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 21,
+        "track": 6,
+        "displayOrder": 217,
+        "variant": "NOZOMI Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39600～LACA-39626",
+        "officialName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ"
+      },
+      {
+        "relationId": "RT1060",
+        "releaseId": "R0109",
+        "releaseName": "ラブライブ！Solo Live! from μ’s 園田海未 Memories with Umi",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 3,
+        "track": 6,
+        "displayOrder": 27,
+        "variant": "UMI Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0088",
+        "featuredSinger": {
+          "id": "SN0026",
+          "name": "園田海未"
+        },
+        "catalogNumber": "LACA-9609～LACA-9611",
+        "officialName": "ラブライブ！Solo Live! Ⅲ from μ's 園田海未 Memories with Umi"
+      },
+      {
+        "relationId": "RT1092",
+        "releaseId": "R0110",
+        "releaseName": "ラブライブ！Solo Live! from μ’s 星空凛 Memories with Rin",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 3,
+        "track": 6,
+        "displayOrder": 28,
+        "variant": "RIN Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0088",
+        "featuredSinger": {
+          "id": "SN0012",
+          "name": "星空凛"
+        },
+        "catalogNumber": "LACA-9612～LACA-9614",
+        "officialName": "ラブライブ！Solo Live! Ⅲ from μ's 星空凛 Memories with Rin"
+      },
+      {
+        "relationId": "RT1156",
+        "releaseId": "R0112",
+        "releaseName": "ラブライブ！Solo Live! from μ’s 東條希 Memories with Nozomi",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 3,
+        "track": 6,
+        "displayOrder": 28,
+        "variant": "NOZOMI Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0088",
+        "featuredSinger": {
+          "id": "SN0027",
+          "name": "東條希"
+        },
+        "catalogNumber": "LACA-9618～LACA-9620",
+        "officialName": "ラブライブ！Solo Live! Ⅲ from μ's 東條希 Memories with Nozomi"
+      },
+      {
+        "relationId": "RT0738",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 9,
+        "track": 8,
+        "displayOrder": 85,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "三森",
+        "楠田",
+        "飯田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 5,
+      "completePerformanceCount": 2,
+      "irregularPerformanceCount": 3,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 2,
+      "excessCount": 0,
+      "mismatchCount": 1,
+      "completeRate": 40,
+      "eventCount": 5,
+      "officialEventCount": 2,
+      "soloEventCount": 3,
+      "firstPerformanceDate": "2016-03-31",
+      "lastPerformanceDate": "2026-05-01"
+    },
+    "performances": [
+      {
+        "date": "2016-03-31",
+        "eventId": "EV0108",
+        "eventName": "μ's Final LoveLive! 〜μ'sic Forever♪♪♪♪♪♪♪♪♪〜 Day1",
+        "singer": "三森＆飯田＆楠田",
+        "singerId": "SN0011",
+        "singerDisplayName": "園田海未＆星空凛＆東條希",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2016-04-01",
+        "eventId": "EV0109",
+        "eventName": "μ's Final LoveLive! 〜μ'sic Forever♪♪♪♪♪♪♪♪♪〜 Day2",
+        "singer": "三森＆飯田＆楠田",
+        "singerId": "SN0011",
+        "singerDisplayName": "園田海未＆星空凛＆東條希",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2023-10-14",
+        "eventId": "EV0261",
+        "eventName": "さんくっすん祭り2023夜の部",
+        "singer": "楠田",
+        "singerId": "SN0055",
+        "singerDisplayName": "楠田亜衣奈",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2023-10-14",
+        "eventId": "EV0260",
+        "eventName": "さんくっすん祭り2023昼の部",
+        "singer": "楠田",
+        "singerId": "SN0055",
+        "singerDisplayName": "楠田亜衣奈",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2026-05-01",
+        "eventId": "EV0336",
+        "eventName": "つんぱい Party!! 2026 Day1:つんぱいカバーLive 2部",
+        "singer": "新田＆Pile",
+        "singerId": "SN0056",
+        "singerDisplayName": "新田恵海＆Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

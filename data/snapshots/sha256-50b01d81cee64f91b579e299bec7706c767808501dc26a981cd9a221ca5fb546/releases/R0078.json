@@ -1,0 +1,230 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0078",
+    "releaseDate": "2014-08-27",
+    "releaseName": "TVアニメ2期 オリジナルサウンドトラック Notes of School idol days ～Glory～",
+    "classification": "CD",
+    "sourceMedia": "",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd48",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "サウンドトラック",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0303",
+        "songId": "S064",
+        "songName": "それは僕たちの奇跡",
+        "displayName": "それは僕たちの奇跡",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 1,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0304",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 1,
+        "track": 12,
+        "displayOrder": 2,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0305",
+        "songId": "S068",
+        "songName": "ユメノトビラ",
+        "displayName": "ユメノトビラ",
+        "disc": 1,
+        "track": 16,
+        "displayOrder": 3,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0306",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 1,
+        "track": 17,
+        "displayOrder": 4,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0307",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 1,
+        "track": 22,
+        "displayOrder": 5,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0308",
+        "songId": "S070",
+        "songName": "Love wing bell",
+        "displayName": "Love wing bell",
+        "disc": 1,
+        "track": 25,
+        "displayOrder": 6,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0309",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 1,
+        "track": 26,
+        "displayOrder": 7,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0310",
+        "songId": "S071",
+        "songName": "Dancing stars on me!",
+        "displayName": "Dancing stars on me!",
+        "disc": 1,
+        "track": 32,
+        "displayOrder": 8,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0311",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 1,
+        "track": 33,
+        "displayOrder": 9,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0312",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 2,
+        "track": 2,
+        "displayOrder": 10,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0313",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 2,
+        "track": 5,
+        "displayOrder": 11,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0314",
+        "songId": "S003",
+        "songName": "Snow halation",
+        "displayName": "Snow halation",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 12,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0315",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 2,
+        "track": 12,
+        "displayOrder": 13,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0316",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 2,
+        "track": 17,
+        "displayOrder": 14,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0317",
+        "songId": "S073",
+        "songName": "KiRa-KiRa Sensation!",
+        "displayName": "KiRa-KiRa Sensation!",
+        "disc": 2,
+        "track": 19,
+        "displayOrder": 15,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0318",
+        "songId": "S036",
+        "songName": "僕らは今のなかで",
+        "displayName": "僕らは今のなかで",
+        "disc": 2,
+        "track": 21,
+        "displayOrder": 16,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0319",
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!",
+        "disc": 2,
+        "track": 22,
+        "displayOrder": 17,
+        "variant": "Piano Mix"
+      },
+      {
+        "relationId": "RT0320",
+        "songId": "S033",
+        "songName": "Oh, Love & Peace!",
+        "displayName": "Oh, Love & Peace!",
+        "disc": 2,
+        "track": 23,
+        "displayOrder": 18,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0321",
+        "songId": "S074",
+        "songName": "Happy maker!",
+        "displayName": "Happy maker!",
+        "disc": 2,
+        "track": 24,
+        "displayOrder": 19,
+        "variant": "TVサイズ"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 19,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

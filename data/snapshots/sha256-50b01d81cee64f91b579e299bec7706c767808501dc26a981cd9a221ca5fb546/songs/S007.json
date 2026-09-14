@@ -1,0 +1,274 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S007",
+    "songName": "ダイヤモンドプリンセスの憂鬱",
+    "displayName": "ダイヤモンドプリンセスの憂鬱",
+    "version": "通常",
+    "recordingCd": "ダイヤモンドプリンセスの憂鬱",
+    "releaseDate": "2011-06-22",
+    "media": "ユニット",
+    "category": "デビューシングル",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd04",
+    "debutRelease": {
+      "releaseId": "R0004",
+      "releaseDate": "2011-06-22",
+      "releaseName": "ダイヤモンドプリンセスの憂鬱",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd04"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0007",
+        "releaseId": "R0004",
+        "releaseName": "ダイヤモンドプリンセスの憂鬱",
+        "releaseDate": "2011-06-22",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0148",
+        "releaseId": "R0070",
+        "releaseName": "μ's Best Album Best Live! collection",
+        "releaseDate": "2013-01-09",
+        "classification": "CD",
+        "releaseType": "ベストアルバム",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0789",
+        "releaseId": "R0092",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 矢澤にこ スマイル・フォー・ユー",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "NICO Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0022",
+          "name": "矢澤にこ"
+        },
+        "catalogNumber": "LACA-15408",
+        "officialName": "ラブライブ！ Solo Live! from μ's 矢澤にこ スマイル・フォー・ユー"
+      },
+      {
+        "relationId": "RT0797",
+        "releaseId": "R0093",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 西木野真姫 TRUE DIVA",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "MAKI Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0006",
+          "name": "西木野真姫"
+        },
+        "catalogNumber": "LACA-15409",
+        "officialName": "ラブライブ！ Solo Live! from μ's 西木野真姫 TRUE DIVA"
+      },
+      {
+        "relationId": "RT0805",
+        "releaseId": "R0094",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 絢瀬絵里 Beloved Ellie",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "ELI Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0034",
+          "name": "絢瀬絵里"
+        },
+        "catalogNumber": "LACA-15410",
+        "officialName": "ラブライブ！ Solo Live! from μ's 絢瀬絵里 Beloved Ellie"
+      },
+      {
+        "relationId": "RT0721",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 8,
+        "track": 1,
+        "displayOrder": 68,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "Pile",
+        "徳井",
+        "南條"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 8,
+      "completePerformanceCount": 1,
+      "irregularPerformanceCount": 7,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 2,
+      "excessCount": 0,
+      "mismatchCount": 5,
+      "completeRate": 12.5,
+      "eventCount": 8,
+      "officialEventCount": 4,
+      "soloEventCount": 4,
+      "firstPerformanceDate": "2012-02-19",
+      "lastPerformanceDate": "2026-05-01"
+    },
+    "performances": [
+      {
+        "date": "2012-02-19",
+        "eventId": "EV0001",
+        "eventName": "ラブライブ！ μ’s First LoveLive！",
+        "singer": "南條＆Pile＆徳井",
+        "singerId": "SN0013",
+        "singerDisplayName": "絢瀬絵里＆西木野真姫＆矢澤にこ",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2013-01-03",
+        "eventId": "EV0007",
+        "eventName": "ラブライブ！ μ's New Year LoveLive! 2013",
+        "singer": "飯田＆Pile＆徳井",
+        "singerId": "SN0045",
+        "singerDisplayName": "星空凛＆西木野真姫＆矢澤にこ",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "南條愛乃さん（絢瀬絵里役）の代役で飯田里穂さん（星空 凛役）が歌唱"
+      },
+      {
+        "date": "2013-09-01",
+        "eventId": "EV0017",
+        "eventName": "みもパ！vol.1 第2回",
+        "singer": "三森",
+        "singerId": "SN0059",
+        "singerDisplayName": "三森すずこ",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": "ショートVer."
+      },
+      {
+        "date": "2022-05-21",
+        "eventId": "EV0243",
+        "eventName": "SPACEY MUSIC 2マン SPECIAL LIVE 2022 3日目夜の部",
+        "singer": "新田＆Pile",
+        "singerId": "SN0056",
+        "singerDisplayName": "新田恵海＆Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2022-11-06",
+        "eventId": "EV0351",
+        "eventName": "内田彩 ANIME THEME SONG LIVE『〜chara・OK?・room〜』vol.2 1号室",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2025-04-05",
+        "eventId": "EV0303",
+        "eventName": "Lovelive Overseas events 上海公演 1日目 第一部",
+        "singer": "Pile",
+        "singerId": "SN0006",
+        "singerDisplayName": "西木野真姫",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2025-04-06",
+        "eventId": "EV0306",
+        "eventName": "Lovelive Overseas events 上海公演 2日目 第二部",
+        "singer": "Pile",
+        "singerId": "SN0006",
+        "singerDisplayName": "西木野真姫",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2026-05-01",
+        "eventId": "EV0335",
+        "eventName": "つんぱい Party!! 2026 Day1:つんぱいカバーLive 1部",
+        "singer": "新田",
+        "singerId": "SN0054",
+        "singerDisplayName": "新田恵海",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

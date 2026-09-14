@@ -1,0 +1,64 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0041",
+    "releaseDate": "2014-07-23",
+    "releaseName": "ラブライブ！μ's →NEXT LoveLive! 2014～ENDLESS PARADE～",
+    "classification": "Blu-ray",
+    "sourceMedia": "ライブBlu-ray",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd45",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "ライブBlu-ray",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S075",
+        "songName": "ENDLESS PARADE",
+        "displayName": "ENDLESS PARADE"
+      }
+    ],
+    "relatedEvents": [
+      {
+        "eventId": "EV0029",
+        "eventName": "μ's→NEXT LoveLive! 2014～ENDLESS PARADE～ 2日目",
+        "date": "2014-02-09",
+        "relation": "収録公演",
+        "order": 1
+      }
+    ],
+    "includedSongs": [
+      {
+        "relationId": "RT0075",
+        "songId": "S075",
+        "songName": "ENDLESS PARADE",
+        "displayName": "ENDLESS PARADE",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "not_applicable",
+      "confirmedCount": 1,
+      "pendingCount": null,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

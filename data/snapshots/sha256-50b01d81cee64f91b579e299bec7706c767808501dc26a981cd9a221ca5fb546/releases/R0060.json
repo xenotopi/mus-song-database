@@ -1,0 +1,71 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0060",
+    "releaseDate": "2015-09-30",
+    "releaseName": "ラブライブ！ μ's Go→Go! LoveLive! 2015 ～Dream Sensation!～",
+    "classification": "Blu-ray",
+    "sourceMedia": "ライブBlu-ray",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd59",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "ライブBlu-ray",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S104",
+        "songName": "Dreamin' Go! Go!!",
+        "displayName": "Dreamin' Go! Go!!"
+      }
+    ],
+    "relatedEvents": [
+      {
+        "eventId": "EV0051",
+        "eventName": "μ's Go→Go! LoveLive! 2015 ～Dream Sensation!～ 1日目",
+        "date": "2015-01-31",
+        "relation": "収録公演",
+        "order": 1
+      },
+      {
+        "eventId": "EV0052",
+        "eventName": "μ's Go→Go! LoveLive! 2015 ～Dream Sensation!～ 2日目",
+        "date": "2015-02-01",
+        "relation": "収録公演",
+        "order": 2
+      }
+    ],
+    "includedSongs": [
+      {
+        "relationId": "RT0104",
+        "songId": "S104",
+        "songName": "Dreamin' Go! Go!!",
+        "displayName": "Dreamin' Go! Go!!",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "not_applicable",
+      "confirmedCount": 1,
+      "pendingCount": null,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

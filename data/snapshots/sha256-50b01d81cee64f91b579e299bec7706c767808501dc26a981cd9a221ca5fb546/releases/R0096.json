@@ -1,0 +1,127 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0096",
+    "releaseDate": "2014-04-02",
+    "releaseName": "ラブライブ！ Solo Live! from μ's 小泉花陽 あなただけの太陽になりたい",
+    "classification": "CD",
+    "sourceMedia": "",
+    "officialReleaseUrl": "https://www.sunrise-inc.co.jp/work/news.php?id=4777",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "Solo Live!",
+    "releaseSeries": {
+      "id": "RS0001",
+      "name": "ラブライブ！ Solo Live! from μ's",
+      "shortName": "Solo Live! I"
+    },
+    "editionType": "individual",
+    "parentReleaseId": null,
+    "featuredSinger": {
+      "id": "SN0021",
+      "name": "小泉花陽"
+    },
+    "catalogNumber": "LACA-15412",
+    "officialName": "ラブライブ！ Solo Live! from μ's 小泉花陽 あなただけの太陽になりたい",
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0817",
+        "songId": "S001",
+        "songName": "僕らのLIVE 君とのLIFE",
+        "displayName": "僕らのLIVE 君とのLIFE",
+        "disc": 1,
+        "track": 1,
+        "displayOrder": 1,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0818",
+        "songId": "S002",
+        "songName": "友情ノーチェンジ",
+        "displayName": "友情ノーチェンジ",
+        "disc": 1,
+        "track": 2,
+        "displayOrder": 2,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0819",
+        "songId": "S003",
+        "songName": "Snow halation",
+        "displayName": "Snow halation",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0820",
+        "songId": "S004",
+        "songName": "baby maybe 恋のボタン",
+        "displayName": "baby maybe 恋のボタン",
+        "disc": 1,
+        "track": 4,
+        "displayOrder": 4,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0821",
+        "songId": "S005",
+        "songName": "Love marginal",
+        "displayName": "Love marginal",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0822",
+        "songId": "S006",
+        "songName": "sweet&sweet holiday",
+        "displayName": "sweet&sweet holiday",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0823",
+        "songId": "S011",
+        "songName": "夏色えがおで1,2,Jump!",
+        "displayName": "夏色えがおで1,2,Jump!",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0824",
+        "songId": "S012",
+        "songName": "Mermaid festa vol.1",
+        "displayName": "Mermaid festa vol.1",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "HANAYO Mix"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 8,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

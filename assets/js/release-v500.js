@@ -1,5 +1,6 @@
 import { apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema";
 import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
+import { detailWithApiFallback, staticReleaseList } from "./static-detail.js?v=1.0.0";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
@@ -195,12 +196,14 @@ async function loadRelease() {
   if (!/^R\d{4}$/.test(releaseId)) { setError("Release IDの形式が正しくありません", "リリース一覧から見たい作品を選択してください。", false); return; }
   setLoading();
   try {
-    const response = await apiGet("release", { id: releaseId }, { timeoutMs: 20000, retryCount: 1, cache: true });
+    const response = await detailWithApiFallback("release", releaseId, () => apiGet("release", { id: releaseId }, { timeoutMs: 20000, retryCount: 1, cache: true }));
     const release = response.data || {};
     const needsReleaseList = Boolean(release.releaseSeries || release.parentReleaseId || release.editionType === "memorial_box" || release.releaseType === "Solo Live!");
-    const releaseList = needsReleaseList
-      ? (await apiGet("releaseList", {}, { timeoutMs: 30000, retryCount: 1, cache: true })).data || []
-      : [];
+    let releaseList = [];
+    if (needsReleaseList) {
+      try { releaseList = (await staticReleaseList()).data || []; }
+      catch { releaseList = (await apiGet("releaseList", {}, { timeoutMs: 30000, retryCount: 1, cache: true })).data || []; }
+    }
     const safeReleaseList = Array.isArray(releaseList) ? releaseList : [];
     const listRelease = safeReleaseList.find(item => String(item.releaseId || "") === String(release.releaseId || ""));
     const resolvedRelease = listRelease ? {

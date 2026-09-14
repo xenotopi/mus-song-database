@@ -1,0 +1,351 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S005",
+    "songName": "Love marginal",
+    "displayName": "Love marginal",
+    "version": "通常",
+    "recordingCd": "Love marginal",
+    "releaseDate": "2011-05-25",
+    "media": "ユニット",
+    "category": "デビューシングル",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd03",
+    "debutRelease": {
+      "releaseId": "R0003",
+      "releaseDate": "2011-05-25",
+      "releaseName": "Love marginal",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd03"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0005",
+        "releaseId": "R0003",
+        "releaseName": "Love marginal",
+        "releaseDate": "2011-05-25",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0130",
+        "releaseId": "R0008",
+        "releaseName": "μ's ソロCDリリース第2弾 南ことり ことりLovin' you",
+        "releaseDate": "2011-12-14",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": "KOTORI Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0028",
+          "name": "南ことり"
+        },
+        "catalogNumber": "LACA-15169",
+        "officialName": "ラブライブ！ Solo Live! from μ's 南ことり ことりLovin' you"
+      },
+      {
+        "relationId": "RT0138",
+        "releaseId": "R0009",
+        "releaseName": "μ's ソロCDリリース第3弾 高坂穂乃果 ほんのり穂乃果色！",
+        "releaseDate": "2012-01-25",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "HONOKA Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0004",
+          "name": "高坂穂乃果"
+        },
+        "catalogNumber": "LACA-15170",
+        "officialName": "ラブライブ！ Solo Live! from μ's 高坂穂乃果 ほんのり穂乃果色！"
+      },
+      {
+        "relationId": "RT0146",
+        "releaseId": "R0070",
+        "releaseName": "μ's Best Album Best Live! collection",
+        "releaseDate": "2013-01-09",
+        "classification": "CD",
+        "releaseType": "ベストアルバム",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0821",
+        "releaseId": "R0096",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 小泉花陽 あなただけの太陽になりたい",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "HANAYO Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0021",
+          "name": "小泉花陽"
+        },
+        "catalogNumber": "LACA-15412",
+        "officialName": "ラブライブ！ Solo Live! from μ's 小泉花陽 あなただけの太陽になりたい"
+      },
+      {
+        "relationId": "RT0710",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 7,
+        "track": 1,
+        "displayOrder": 57,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "久保",
+        "新田",
+        "内田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 15,
+      "completePerformanceCount": 4,
+      "irregularPerformanceCount": 11,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 3,
+      "excessCount": 0,
+      "mismatchCount": 8,
+      "completeRate": 26.7,
+      "eventCount": 15,
+      "officialEventCount": 6,
+      "soloEventCount": 9,
+      "firstPerformanceDate": "2012-02-19",
+      "lastPerformanceDate": "2026-05-01"
+    },
+    "performances": [
+      {
+        "date": "2012-02-19",
+        "eventId": "EV0001",
+        "eventName": "ラブライブ！ μ’s First LoveLive！",
+        "singer": "新田＆内田＆久保",
+        "singerId": "SN0007",
+        "singerDisplayName": "高坂穂乃果＆南ことり＆小泉花陽",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2013-01-03",
+        "eventId": "EV0007",
+        "eventName": "ラブライブ！ μ's New Year LoveLive! 2013",
+        "singer": "新田＆内田＆久保",
+        "singerId": "SN0007",
+        "singerDisplayName": "高坂穂乃果＆南ことり＆小泉花陽",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2013-01-31",
+        "eventId": "EV0008",
+        "eventName": "Neo generation Lives Vol.01 presented by S&Peak A Soul＋",
+        "singer": "新田＆楠田",
+        "singerId": "SN0068",
+        "singerDisplayName": "新田恵海＆楠田亜衣奈",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2014-01-18",
+        "eventId": "EV0026",
+        "eventName": "ANIMAX Taiwan",
+        "singer": "南條＆三森",
+        "singerId": "SN0071",
+        "singerDisplayName": "南條愛乃＆三森すずこ",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2014-06-22",
+        "eventId": "EV0034",
+        "eventName": "Pile ファンミーティング2014昼の部",
+        "singer": "Pile",
+        "singerId": "SN0052",
+        "singerDisplayName": "Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2014-07-11",
+        "eventId": "EV0036",
+        "eventName": "南條愛乃 Birthday Eve acoustic live event",
+        "singer": "南條",
+        "singerId": "SN0060",
+        "singerDisplayName": "南條愛乃",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": "アコステカバー"
+      },
+      {
+        "date": "2015-07-12",
+        "eventId": "EV0082",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 広島公演　夜の部",
+        "singer": "新田＆内田＆久保",
+        "singerId": "SN0007",
+        "singerDisplayName": "高坂穂乃果＆南ことり＆小泉花陽",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2015-07-12",
+        "eventId": "EV0081",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 広島公演　昼の部",
+        "singer": "新田＆内田＆久保",
+        "singerId": "SN0007",
+        "singerDisplayName": "高坂穂乃果＆南ことり＆小泉花陽",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2018-11-03",
+        "eventId": "EV0186",
+        "eventName": "内田彩キャラソンライブ〜chara・melt・ room〜 101",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2018-11-17",
+        "eventId": "EV0189",
+        "eventName": "内田彩キャラソンライブ〜chara・melt・ room〜 103",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2019-05-11",
+        "eventId": "EV0204",
+        "eventName": "KUBO YURIKA VIVID VIVID LIVE",
+        "singer": "久保",
+        "singerId": "SN0058",
+        "singerDisplayName": "久保ユリカ",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2022-05-22",
+        "eventId": "EV0244",
+        "eventName": "SPACEY MUSIC 2マン SPECIAL LIVE 2022 4日目夜の部",
+        "singer": "新田＆Pile",
+        "singerId": "SN0056",
+        "singerDisplayName": "新田恵海＆Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2025-11-22",
+        "eventId": "EV0324",
+        "eventName": "Lovelive Overseas events 広州公演 1日目 第一部",
+        "singer": "新田＆Pile",
+        "singerId": "SN0003",
+        "singerDisplayName": "高坂穂乃果＆西木野真姫",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2025-11-23",
+        "eventId": "EV0327",
+        "eventName": "Lovelive Overseas events 広州公演 2日目 第二部",
+        "singer": "新田＆Pile",
+        "singerId": "SN0003",
+        "singerDisplayName": "高坂穂乃果＆西木野真姫",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2026-05-01",
+        "eventId": "EV0336",
+        "eventName": "つんぱい Party!! 2026 Day1:つんぱいカバーLive 2部",
+        "singer": "Pile",
+        "singerId": "SN0052",
+        "singerDisplayName": "Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

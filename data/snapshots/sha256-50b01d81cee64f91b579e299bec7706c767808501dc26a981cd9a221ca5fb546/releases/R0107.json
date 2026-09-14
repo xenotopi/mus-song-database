@@ -1,0 +1,367 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0107",
+    "releaseDate": "2018-03-28",
+    "releaseName": "ラブライブ！Solo Live! from μ’s 絢瀬絵里 Memories with Eli",
+    "classification": "CD",
+    "sourceMedia": "",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd80",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "Solo Live!",
+    "releaseSeries": {
+      "id": "RS0003",
+      "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+      "shortName": "Solo Live! III"
+    },
+    "editionType": "individual",
+    "parentReleaseId": "R0088",
+    "featuredSinger": {
+      "id": "SN0034",
+      "name": "絢瀬絵里"
+    },
+    "catalogNumber": "LACA-9603～LACA-9605",
+    "officialName": "ラブライブ！Solo Live! Ⅲ from μ's 絢瀬絵里 Memories with Eli",
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0971",
+        "songId": "S060",
+        "songName": "Music S.T.A.R.T!!",
+        "displayName": "Music S.T.A.R.T!!",
+        "disc": 1,
+        "track": 1,
+        "displayOrder": 1,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0972",
+        "songId": "S061",
+        "songName": "LOVELESS WORLD",
+        "displayName": "LOVELESS WORLD",
+        "disc": 1,
+        "track": 2,
+        "displayOrder": 2,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0973",
+        "songId": "S062",
+        "songName": "タカラモノズ",
+        "displayName": "タカラモノズ",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0974",
+        "songId": "S063",
+        "songName": "Paradise Live",
+        "displayName": "Paradise Live",
+        "disc": 1,
+        "track": 4,
+        "displayOrder": 4,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0975",
+        "songId": "S064",
+        "songName": "それは僕たちの奇跡",
+        "displayName": "それは僕たちの奇跡",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0976",
+        "songId": "S065",
+        "songName": "だってだって噫無情",
+        "displayName": "だってだって噫無情",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0977",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0978",
+        "songId": "S067",
+        "songName": "COLORFUL VOICE",
+        "displayName": "COLORFUL VOICE",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0979",
+        "songId": "S068",
+        "songName": "ユメノトビラ",
+        "displayName": "ユメノトビラ",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0980",
+        "songId": "S069",
+        "songName": "SENTIMENTAL StepS",
+        "displayName": "SENTIMENTAL StepS",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0981",
+        "songId": "S070",
+        "songName": "Love wing bell",
+        "displayName": "Love wing bell",
+        "disc": 1,
+        "track": 11,
+        "displayOrder": 11,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0982",
+        "songId": "S071",
+        "songName": "Dancing stars on me!",
+        "displayName": "Dancing stars on me!",
+        "disc": 1,
+        "track": 12,
+        "displayOrder": 12,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0983",
+        "songId": "S073",
+        "songName": "KiRa-KiRa Sensation!",
+        "displayName": "KiRa-KiRa Sensation!",
+        "disc": 1,
+        "track": 13,
+        "displayOrder": 13,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0984",
+        "songId": "S074",
+        "songName": "Happy maker!",
+        "displayName": "Happy maker!",
+        "disc": 1,
+        "track": 14,
+        "displayOrder": 14,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0985",
+        "songId": "S079",
+        "songName": "Shangri-La Shower",
+        "displayName": "Shangri-La Shower",
+        "disc": 2,
+        "track": 1,
+        "displayOrder": 15,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0986",
+        "songId": "S080",
+        "songName": "るてしキスキしてる",
+        "displayName": "るてしキスキしてる",
+        "disc": 2,
+        "track": 2,
+        "displayOrder": 16,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0987",
+        "songId": "S093",
+        "songName": "ミはμ'sicのミ",
+        "displayName": "ミはμ'sicのミ",
+        "disc": 2,
+        "track": 3,
+        "displayOrder": 17,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0988",
+        "songId": "S094",
+        "songName": "Super LOVE=Super LIVE!",
+        "displayName": "Super LOVE=Super LIVE!",
+        "disc": 2,
+        "track": 4,
+        "displayOrder": 18,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0989",
+        "songId": "S098",
+        "songName": "Angelic Angel",
+        "displayName": "Angelic Angel",
+        "disc": 2,
+        "track": 5,
+        "displayOrder": 19,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0990",
+        "songId": "S100",
+        "songName": "SUNNY DAY SONG",
+        "displayName": "SUNNY DAY SONG",
+        "disc": 2,
+        "track": 6,
+        "displayOrder": 20,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0991",
+        "songId": "S102",
+        "songName": "僕たちはひとつの光",
+        "displayName": "僕たちはひとつの光",
+        "disc": 2,
+        "track": 7,
+        "displayOrder": 21,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0992",
+        "songId": "S101",
+        "songName": "？←HEARTBEAT",
+        "displayName": "？←HEARTBEAT",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 22,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0993",
+        "songId": "S052",
+        "songName": "Cutie Panther",
+        "displayName": "Cutie Panther",
+        "disc": 3,
+        "track": 1,
+        "displayOrder": 23,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0994",
+        "songId": "S053",
+        "songName": "夏、終わらないで。",
+        "displayName": "夏、終わらないで。",
+        "disc": 3,
+        "track": 2,
+        "displayOrder": 24,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0995",
+        "songId": "S087",
+        "songName": "冬がくれた予感",
+        "displayName": "冬がくれた予感",
+        "disc": 3,
+        "track": 3,
+        "displayOrder": 25,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0996",
+        "songId": "S088",
+        "songName": "Trouble Busters",
+        "displayName": "Trouble Busters",
+        "disc": 3,
+        "track": 4,
+        "displayOrder": 26,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0997",
+        "songId": "S112",
+        "songName": "錯覚CROSSROADS",
+        "displayName": "錯覚CROSSROADS",
+        "disc": 3,
+        "track": 5,
+        "displayOrder": 27,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0998",
+        "songId": "S113",
+        "songName": "PSYCHIC FIRE",
+        "displayName": "PSYCHIC FIRE",
+        "disc": 3,
+        "track": 6,
+        "displayOrder": 28,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0999",
+        "songId": "S105",
+        "songName": "HEART to HEART!",
+        "displayName": "HEART to HEART!",
+        "disc": 3,
+        "track": 7,
+        "displayOrder": 29,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT1000",
+        "songId": "S106",
+        "songName": "嵐のなかの恋だから",
+        "displayName": "嵐のなかの恋だから",
+        "disc": 3,
+        "track": 8,
+        "displayOrder": 30,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT1001",
+        "songId": "S114",
+        "songName": "MOMENT RING",
+        "displayName": "MOMENT RING",
+        "disc": 3,
+        "track": 9,
+        "displayOrder": 31,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT1002",
+        "songId": "S115",
+        "songName": "さようならへさよなら！",
+        "displayName": "さようならへさよなら！",
+        "disc": 3,
+        "track": 10,
+        "displayOrder": 32,
+        "variant": "ELI Mix"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 32,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

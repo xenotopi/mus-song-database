@@ -1,0 +1,151 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:52:35.122Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S041",
+    "songName": "START:DASH!!",
+    "displayName": "START:DASH!!（3人）",
+    "version": "3人版",
+    "recordingCd": "ススメ→トゥモロウ／START:DASH!!",
+    "releaseDate": "2013-02-20",
+    "media": "TVアニメ",
+    "category": "挿入歌",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd21",
+    "debutRelease": {
+      "releaseId": "R0019",
+      "releaseDate": "2013-02-20",
+      "releaseName": "ススメ→トゥモロウ／START:DASH!!",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd21"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0041",
+        "releaseId": "R0019",
+        "releaseName": "ススメ→トゥモロウ／START:DASH!!",
+        "releaseDate": "2013-02-20",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0770",
+        "releaseId": "R0071",
+        "releaseName": "TVアニメ『ラブライブ！』オリジナルサウンドトラック Notes of School idol days",
+        "releaseDate": "2013-04-10",
+        "classification": "CD",
+        "releaseType": "サウンドトラック",
+        "disc": 1,
+        "track": 29,
+        "displayOrder": 6,
+        "variant": "TVサイズ",
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0772",
+        "releaseId": "R0081",
+        "releaseName": "μ's Best Album Best Live! Collection Ⅱ",
+        "releaseDate": "2015-05-27",
+        "classification": "CD",
+        "releaseType": "ベストアルバム",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0774",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 2,
+        "track": 6,
+        "displayOrder": 18,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "三森",
+        "新田",
+        "内田"
+      ],
+      [
+        "Pile",
+        "久保",
+        "三森",
+        "新田",
+        "徳井",
+        "内田",
+        "南條",
+        "楠田",
+        "飯田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 1,
+      "completePerformanceCount": 1,
+      "irregularPerformanceCount": 0,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 0,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 100,
+      "eventCount": 1,
+      "officialEventCount": 1,
+      "soloEventCount": 0,
+      "firstPerformanceDate": "2013-06-16",
+      "lastPerformanceDate": "2013-06-16"
+    },
+    "performances": [
+      {
+        "date": "2013-06-16",
+        "eventId": "EV0013",
+        "eventName": "μ’s 3rd Anniversary LoveLive!",
+        "singer": "新田＆内田＆三森",
+        "singerId": "SN0017",
+        "singerDisplayName": "高坂穂乃果＆南ことり＆園田海未",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546"
+    }
+  }
+}

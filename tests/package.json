@@ -14,6 +14,7 @@
     "e2e:song-release": "node --test song-release-link.test.cjs",
     "e2e:event-release": "node --test event-related-releases-ui.test.cjs",
     "test:detail-initial-render": "node --test detail-initial-render.test.cjs",
+    "test:detail-snapshot": "node --test detail-snapshot.test.cjs",
     "test:seo-indexing": "node --test seo-indexing.test.cjs",
     "sitemap:check": "node ../tools/generate-sitemap.cjs --check",
     "e2e": "node --test web-e2e.test.cjs"

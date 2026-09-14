@@ -1,0 +1,351 @@
+{
+  "snapshot": {
+    "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+    "generatedAt": "2026-09-14T01:00:55.116Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0106",
+    "releaseDate": "2018-03-28",
+    "releaseName": "ラブライブ！Solo Live! from μ’s 高坂穂乃果 Memories with Honoka",
+    "classification": "CD",
+    "sourceMedia": "",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd81",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "Solo Live!",
+    "releaseSeries": {
+      "id": "RS0003",
+      "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+      "shortName": "Solo Live! III"
+    },
+    "editionType": "individual",
+    "parentReleaseId": "R0088",
+    "featuredSinger": {
+      "id": "SN0004",
+      "name": "高坂穂乃果"
+    },
+    "catalogNumber": "LACA-9600～LACA-9602",
+    "officialName": "ラブライブ！Solo Live! Ⅲ from μ's 高坂穂乃果 Memories with Honoka",
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0940",
+        "songId": "S060",
+        "songName": "Music S.T.A.R.T!!",
+        "displayName": "Music S.T.A.R.T!!",
+        "disc": 1,
+        "track": 1,
+        "displayOrder": 1,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0941",
+        "songId": "S061",
+        "songName": "LOVELESS WORLD",
+        "displayName": "LOVELESS WORLD",
+        "disc": 1,
+        "track": 2,
+        "displayOrder": 2,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0942",
+        "songId": "S062",
+        "songName": "タカラモノズ",
+        "displayName": "タカラモノズ",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0943",
+        "songId": "S063",
+        "songName": "Paradise Live",
+        "displayName": "Paradise Live",
+        "disc": 1,
+        "track": 4,
+        "displayOrder": 4,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0944",
+        "songId": "S064",
+        "songName": "それは僕たちの奇跡",
+        "displayName": "それは僕たちの奇跡",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0945",
+        "songId": "S065",
+        "songName": "だってだって噫無情",
+        "displayName": "だってだって噫無情",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0946",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0947",
+        "songId": "S067",
+        "songName": "COLORFUL VOICE",
+        "displayName": "COLORFUL VOICE",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0948",
+        "songId": "S068",
+        "songName": "ユメノトビラ",
+        "displayName": "ユメノトビラ",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0949",
+        "songId": "S069",
+        "songName": "SENTIMENTAL StepS",
+        "displayName": "SENTIMENTAL StepS",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0950",
+        "songId": "S071",
+        "songName": "Dancing stars on me!",
+        "displayName": "Dancing stars on me!",
+        "disc": 1,
+        "track": 11,
+        "displayOrder": 11,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0951",
+        "songId": "S073",
+        "songName": "KiRa-KiRa Sensation!",
+        "displayName": "KiRa-KiRa Sensation!",
+        "disc": 1,
+        "track": 12,
+        "displayOrder": 12,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0952",
+        "songId": "S074",
+        "songName": "Happy maker!",
+        "displayName": "Happy maker!",
+        "disc": 1,
+        "track": 13,
+        "displayOrder": 13,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0953",
+        "songId": "S079",
+        "songName": "Shangri-La Shower",
+        "displayName": "Shangri-La Shower",
+        "disc": 2,
+        "track": 1,
+        "displayOrder": 14,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0954",
+        "songId": "S080",
+        "songName": "るてしキスキしてる",
+        "displayName": "るてしキスキしてる",
+        "disc": 2,
+        "track": 2,
+        "displayOrder": 15,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0955",
+        "songId": "S093",
+        "songName": "ミはμ'sicのミ",
+        "displayName": "ミはμ'sicのミ",
+        "disc": 2,
+        "track": 3,
+        "displayOrder": 16,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0956",
+        "songId": "S094",
+        "songName": "Super LOVE=Super LIVE!",
+        "displayName": "Super LOVE=Super LIVE!",
+        "disc": 2,
+        "track": 4,
+        "displayOrder": 17,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0957",
+        "songId": "S098",
+        "songName": "Angelic Angel",
+        "displayName": "Angelic Angel",
+        "disc": 2,
+        "track": 5,
+        "displayOrder": 18,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0958",
+        "songId": "S100",
+        "songName": "SUNNY DAY SONG",
+        "displayName": "SUNNY DAY SONG",
+        "disc": 2,
+        "track": 6,
+        "displayOrder": 19,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0959",
+        "songId": "S102",
+        "songName": "僕たちはひとつの光",
+        "displayName": "僕たちはひとつの光",
+        "disc": 2,
+        "track": 7,
+        "displayOrder": 20,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0960",
+        "songId": "S103",
+        "songName": "Future style",
+        "displayName": "Future style",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 21,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0961",
+        "songId": "S055",
+        "songName": "Pure girls project",
+        "displayName": "Pure girls project",
+        "disc": 3,
+        "track": 1,
+        "displayOrder": 22,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0962",
+        "songId": "S056",
+        "songName": "UNBALANCED LOVE",
+        "displayName": "UNBALANCED LOVE",
+        "disc": 3,
+        "track": 2,
+        "displayOrder": 23,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0963",
+        "songId": "S082",
+        "songName": "永遠フレンズ",
+        "displayName": "永遠フレンズ",
+        "disc": 3,
+        "track": 3,
+        "displayOrder": 24,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0964",
+        "songId": "S083",
+        "songName": "小夜啼鳥恋詩",
+        "displayName": "小夜啼鳥恋詩",
+        "disc": 3,
+        "track": 4,
+        "displayOrder": 25,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0965",
+        "songId": "S107",
+        "songName": "WAO-WAO Powerful day!",
+        "displayName": "WAO-WAO Powerful day!",
+        "disc": 3,
+        "track": 5,
+        "displayOrder": 26,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0966",
+        "songId": "S108",
+        "songName": "NO EXIT ORION",
+        "displayName": "NO EXIT ORION",
+        "disc": 3,
+        "track": 6,
+        "displayOrder": 27,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0967",
+        "songId": "S105",
+        "songName": "HEART to HEART!",
+        "displayName": "HEART to HEART!",
+        "disc": 3,
+        "track": 7,
+        "displayOrder": 28,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0968",
+        "songId": "S106",
+        "songName": "嵐のなかの恋だから",
+        "displayName": "嵐のなかの恋だから",
+        "disc": 3,
+        "track": 8,
+        "displayOrder": 29,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0969",
+        "songId": "S114",
+        "songName": "MOMENT RING",
+        "displayName": "MOMENT RING",
+        "disc": 3,
+        "track": 9,
+        "displayOrder": 30,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0970",
+        "songId": "S115",
+        "songName": "さようならへさよなら！",
+        "displayName": "さようならへさよなら！",
+        "disc": 3,
+        "track": 10,
+        "displayOrder": 31,
+        "variant": "HONOKA Mix"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 31,
+      "pendingCount": 0,
+      "publicNote": null
+    }
+  }
+}

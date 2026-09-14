@@ -1,0 +1,28 @@
+{
+  "revision": "sha256-50b01d81cee64f91b579e299bec7706c767808501dc26a981cd9a221ca5fb546",
+  "generatedAt": "2026-09-14T01:00:55.116Z",
+  "releases": {
+    "R0088": {
+      "sha256": "dc107b4ff89485cfb71e0fb1b4c4556564f3bd8b878683d06a003ec1d041ceac",
+      "bytes": 76286,
+      "count": 285
+    },
+    "R0106": {
+      "sha256": "5d438cd9a7afe3e80269bd13de0e0b453ae8540c76aa4945f07b4907c0338d20",
+      "bytes": 9379,
+      "count": 31
+    }
+  },
+  "songs": {
+    "S100": {
+      "sha256": "301f302ce877413aa0d86b24f467a21be1b35d4e9e9370c79596b3ac502886c2",
+      "bytes": 21110,
+      "count": 22
+    },
+    "S003": {
+      "sha256": "888b6dd77cffcc1c6edf049f5b88f15ae79a1ff2ec0f94e87f757ff5dae2e389",
+      "bytes": 52632,
+      "count": 13
+    }
+  }
+}

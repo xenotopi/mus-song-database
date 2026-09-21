@@ -58,4 +58,11 @@ async function getDetailWithStaticFallback({ type, id, revision, staticFetch, ap
   }
 }
 
-module.exports = { canonicalJson, sha256, validateDetail, validateSnapshot, getDetailWithStaticFallback };
+function snapshotDataFingerprint(manifest) {
+  const hashes = Object.fromEntries(Object.entries(manifest.hashes).map(([type, entries]) =>
+    [type, Object.fromEntries(Object.entries(entries).map(([id, entry]) => [id, entry.sha256]))]));
+  return sha256({ revision: manifest.revision, counts: manifest.counts, hashes,
+    releaseList: { count: manifest.releaseList.count, sha256: manifest.releaseList.sha256 } });
+}
+
+module.exports = { canonicalJson, sha256, validateDetail, validateSnapshot, getDetailWithStaticFallback, snapshotDataFingerprint };

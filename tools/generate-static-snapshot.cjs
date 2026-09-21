@@ -2,7 +2,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { sha256, validateDetail, validateSnapshot } = require("./detail-snapshot-lib.cjs");
+const { sha256, validateDetail, validateSnapshot, snapshotDataFingerprint } = require("./detail-snapshot-lib.cjs");
 
 const API = "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec";
 const ROOT = path.resolve(__dirname, "..");
@@ -118,8 +118,7 @@ async function generate() {
 
   if (fs.existsSync(revisionRoot)) {
     const oldManifest = JSON.parse(fs.readFileSync(path.join(revisionRoot, "manifest.json"), "utf8"));
-    const comparable = value => ({ counts: value.counts, hashes: value.hashes, releaseList: value.releaseList });
-    if (sha256(comparable(oldManifest)) !== sha256(comparable(manifest))) throw new Error("Determinism check failed for existing revision");
+    if (snapshotDataFingerprint(oldManifest) !== snapshotDataFingerprint(manifest)) throw new Error("Determinism check failed for existing revision");
     fs.rmSync(stagingRoot, { recursive: true, force: true });
   } else {
     fs.renameSync(stagingRoot, revisionRoot);

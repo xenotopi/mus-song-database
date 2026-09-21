@@ -9,6 +9,17 @@ const releaseData = { releaseId: "R0088", releaseName: "Fixture", includedSongs:
 const valid = { snapshot: { revision, generatedAt: "2026-09-14T00:00:00.000Z", source: "public-api" }, data: releaseData };
 const apiResponse = { data: releaseData };
 
+test("regeneration compares data hashes, not timestamp-dependent file hashes", () => {
+  const { snapshotDataFingerprint } = require("../tools/detail-snapshot-lib.cjs");
+  const a = { revision, counts: { details: 1 }, hashes: { releases: { R0088: { sha256: "same", fileSha256: "old", bytes: 100 } } }, releaseList: { count: 1, sha256: "list", fileSha256: "old", bytes: 100 } };
+  const b = structuredClone(a);
+  b.hashes.releases.R0088.fileSha256 = "new";
+  b.releaseList.fileSha256 = "new";
+  assert.equal(snapshotDataFingerprint(a), snapshotDataFingerprint(b));
+  b.hashes.releases.R0088.sha256 = "changed";
+  assert.notEqual(snapshotDataFingerprint(a), snapshotDataFingerprint(b));
+});
+
 test("canonical data hash is deterministic and ignores wrapper timestamp", () => {
   assert.equal(canonicalJson({ b: 2, a: 1 }), canonicalJson({ a: 1, b: 2 }));
   assert.equal(sha256(valid.data), sha256({ ...valid, snapshot: { ...valid.snapshot, generatedAt: "later" } }.data));

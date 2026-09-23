@@ -72,20 +72,30 @@ function render(data, venues) {
   }).join("");
 
   const eventRows = [...events].sort((a, b) => String(a.date || "").localeCompare(String(b.date || "")) || String(a.eventId).localeCompare(String(b.eventId)));
+  const yearCounts = new Map();
+  for (const event of eventRows) {
+    const year = String(event.date || "").slice(0, 4);
+    const count = performances.filter(row => row.eventId === event.eventId).length;
+    yearCounts.set(year, (yearCounts.get(year) || 0) + count);
+  }
+  $("kpYearFilter").innerHTML = [["all", "全期間", performances.length], ...[...yearCounts].sort(([a], [b]) => a.localeCompare(b)).map(([year, count]) => [year, year, count])]
+    .map(([year, label, count]) => `<button type="button" data-year="${escapeHtml(year)}" aria-pressed="${year === "all"}">${escapeHtml(label)} ${count}件</button>`).join("");
   $("kpHistory").innerHTML = eventRows.map(event => {
     const rows = performances.filter(row => row.eventId === event.eventId).sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity) || String(a.performanceId).localeCompare(String(b.performanceId)));
     const venueName = venues.get(event.venueId);
-    return `<article class="kp-card kp-event"><time class="kp-event-date" datetime="${escapeHtml(event.date || "")}">${escapeHtml(formatDate(event.date))}</time><h3>${escapeHtml(event.eventName)}</h3>
-      ${venueName ? `<p class="kp-event-venue">${escapeHtml(venueName)}</p>` : ""}
-      ${rows.map(row => `<div class="kp-performance"><p class="kp-performance-title">${row.order == null ? "" : `${escapeHtml(row.order)}. `}${escapeHtml(songMap.get(row.songId).displayName || songMap.get(row.songId).songName)}</p>
-        <p class="kp-performance-meta">実歌唱者：${escapeHtml(row.actualSinger || "記載なし")}${row.performanceForm ? ` ／ ${escapeHtml(row.performanceForm)}` : ""}</p></div>`).join("")}
-    </article>`;
+    return `<details class="kp-card kp-event" data-year="${escapeHtml(String(event.date || "").slice(0, 4))}"><summary><span class="kp-event-heading"><time class="kp-event-date" datetime="${escapeHtml(event.date || "")}">${escapeHtml(formatDate(event.date))}</time><h3>${escapeHtml(event.eventName)}</h3>
+      ${venueName ? `<span class="kp-event-venue">${escapeHtml(venueName)}</span>` : ""}</span><span class="kp-event-toggle">${rows.length}曲</span></summary>
+      <div class="kp-event-performances">${rows.map(row => `<div class="kp-performance"><p class="kp-performance-title">${row.order == null ? "" : `${escapeHtml(row.order)}. `}${escapeHtml(songMap.get(row.songId).displayName || songMap.get(row.songId).songName)}</p>
+        <p class="kp-performance-meta">実歌唱：${escapeHtml(row.actualSinger || "記載なし")}${row.performanceForm ? ` ／ ${escapeHtml(row.performanceForm)}` : ""}</p></div>`).join("")}</div>
+    </details>`;
   }).join("");
-
-  $("kpPresence").innerHTML = songs.map(song => {
-    const count = counts.get(song.songId) || 0;
-    return `<div class="kp-presence-row"><span>${escapeHtml(song.displayName || song.songName)}</span><strong>${count ? `${count}件` : "歌唱記録未確認"}</strong></div>`;
-  }).join("");
+  $("kpYearFilter").addEventListener("click", event => {
+    const selected = event.target.closest("button[data-year]");
+    if (!selected || !$("kpYearFilter").contains(selected)) return;
+    const year = selected.dataset.year;
+    $("kpYearFilter").querySelectorAll("button").forEach(button => { button.setAttribute("aria-pressed", String(button === selected)); });
+    $("kpHistory").querySelectorAll(".kp-event").forEach(item => { item.hidden = year !== "all" && item.dataset.year !== year; });
+  });
   $("kpStatus").hidden = true;
   $("kpContent").hidden = false;
 }

@@ -33,6 +33,15 @@
     .detail-skeleton{display:grid;gap:18px;margin-top:24px}.detail-skeleton[hidden]{display:none}.detail-skeleton-card{min-height:154px;padding:24px;border:1px solid var(--line);border-radius:20px;background:#fff}.detail-skeleton-line{display:block;height:12px;margin-bottom:14px;border-radius:999px;background:#ececf5}.detail-skeleton-line.short{width:28%}.detail-skeleton-line.medium{width:62%}.detail-skeleton-line:last-child{margin-bottom:0}
     @media(max-width:620px){.release-hero{min-height:160px}.detail-skeleton-card{min-height:142px;padding:20px 16px}}
   </style>
+  <style>
+    .release-kp{--kp-navy:#192c4b;--kp-blue:#5b9ec2;--kp-pale:#eef8fc}.release-kp[hidden]{display:none}.release-kp .release-section-kicker{color:var(--kp-blue)}
+    .release-kp-song-list,.release-kp-history{display:grid;gap:10px}.release-kp-song,.release-kp-event{min-width:0;border:1px solid var(--line);border-left:3px solid var(--kp-blue);border-radius:14px;background:#fff;overflow-wrap:anywhere}
+    .release-kp-song{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;padding:15px}.release-kp-track{color:var(--kp-navy);font-size:18px;font-weight:900}.release-kp-song h3{margin:0;color:var(--kp-navy);font-size:16px;line-height:1.5}.release-kp-song p{margin:5px 0;color:var(--muted);font-size:12px;line-height:1.7}.release-kp-song small{display:inline-block;margin-top:4px;padding:4px 9px;border-radius:999px;background:var(--kp-pale);color:var(--kp-navy);font-size:12px;font-weight:900}
+    .release-kp-year{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:15px}.release-kp-year button{min-height:38px;padding:7px 13px;border:1px solid #a9dcf4;border-radius:999px;background:#fff;color:var(--kp-navy);font:inherit;font-size:12px;font-weight:850;cursor:pointer}.release-kp-year button[aria-pressed="true"]{background:#a9dcf4}
+    .release-kp-event[hidden]{display:none}.release-kp-event summary{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:15px 19px;cursor:pointer;list-style:none}.release-kp-event summary::-webkit-details-marker{display:none}.release-kp-event summary:focus-visible,.release-kp-year button:focus-visible{outline:3px solid #a9dcf4;outline-offset:3px}.release-kp-event-heading{min-width:0}.release-kp-event time{color:#2b65b1;font-size:12px;font-weight:900}.release-kp-event h3{margin:3px 0;color:var(--kp-navy);font-size:16px;line-height:1.4}.release-kp-event-venue{display:block;color:var(--muted);font-size:12px}.release-kp-event-count{flex:none;color:var(--kp-navy);font-size:13px;font-weight:900;white-space:nowrap}.release-kp-event-count::after{content:" ＋";color:#2b65b1;font-size:19px}.release-kp-event[open] .release-kp-event-count::after{content:" －"}
+    .release-kp-performances{padding:0 19px 8px}.release-kp-performance{padding:11px 0;border-top:1px solid var(--line)}.release-kp-performance p{margin:0;color:var(--kp-navy);font-weight:900}.release-kp-performance small{display:block;margin-top:4px;color:var(--muted);font-size:12px;line-height:1.7}.release-kp-link{display:inline-flex;min-height:44px;align-items:center;color:var(--kp-navy);font-weight:900;overflow-wrap:anywhere}
+    @media(max-width:620px){.release-kp-song{padding:13px}.release-kp-event summary{padding:13px 14px}.release-kp-performances{padding:0 14px 6px}}
+  </style>
 </head>
 <body>
   <div id="siteHeader"></div>
@@ -50,6 +59,8 @@
         <div class="release-included-head"><div><p class="release-section-kicker">INCLUDED SONGS</p><h2 id="includedSongsHeading">収録楽曲</h2></div><span class="release-included-count" id="includedSongsCount"></span></div>
         <div id="includedSongsContent"></div>
       </section>
+      <section class="release-card release-kp" id="kamiparaHistorySection" aria-labelledby="kamiparaHistoryHeading" hidden><p class="release-section-kicker">PERFORMANCE HISTORY</p><h2 id="kamiparaHistoryHeading">神パラ歌唱履歴</h2><div class="release-kp-year" id="kamiparaYearFilter" role="group" aria-label="歌唱年で絞り込む"></div><div class="release-kp-history" id="kamiparaHistory"></div></section>
+      <section class="release-card release-kp" id="kamiparaDashboardSection" hidden><a class="release-kp-link" href="kamipara.html">神パラ × μ'sの全体を見る ›</a></section>
       <article class="release-card" id="debutSongsSection" hidden><p class="release-section-kicker">DEBUT SONGS</p><h2>このリリースから登場した楽曲</h2><p class="release-songs-note">曲マスター上で、このリリースを初出・由来として登録している楽曲です</p><div id="debutSongs"></div></article>
     </section>
     <a class="release-back" href="releases.html">← リリース一覧へ戻る</a>

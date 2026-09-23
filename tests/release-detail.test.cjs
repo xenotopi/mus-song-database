@@ -13,6 +13,8 @@ let server;
 let browser;
 let baseUrl;
 let releaseListFixture = [];
+let kamiparaFixture;
+let venueFixtures = new Map();
 const releaseDetailFixtures = new Map();
 
 function activeApiUrl() {
@@ -39,6 +41,8 @@ async function installApiFixtures(page) {
     const url = new URL(route.request().url());
     const action = url.searchParams.get("action");
     if (action === "revision") return jsonpResult(route, { dataRevision: "release-detail-test" });
+    if (action === "kamiparaDashboard") return jsonpResult(route, kamiparaFixture);
+    if (action === "venue") return jsonpResult(route, venueFixtures.get(url.searchParams.get("id")) || {});
     if (action === "releaseList") return jsonpResult(route, releaseListFixture);
     if (action === "release") {
       const detail = releaseDetailFixtures.get(url.searchParams.get("id"));
@@ -52,6 +56,9 @@ async function installApiFixtures(page) {
 
 test.before(async () => {
   releaseListFixture = await fetchApi("releaseList");
+  kamiparaFixture = await fetchApi("kamiparaDashboard");
+  const venueIds = [...new Set(kamiparaFixture.events.map(event => event.venueId).filter(Boolean))];
+  venueFixtures = new Map(await Promise.all(venueIds.map(async id => [id, await fetchApi("venue", { id })])));
   const ids = ["R0001", "R0007", "R0015", "R0041", "R0054", "R0058", "R0060", "R0068", "R0069", "R0070", "R0071", "R0072", "R0074", "R0077", "R0087", "R0088", "R0090", "R0091", "R0097", "R0106", "R0114"];
   const details = await Promise.all(ids.map(id => fetchApi("release", { id })));
   ids.forEach((id, index) => releaseDetailFixtures.set(id, details[index]));
@@ -288,8 +295,7 @@ test("Release詳細", async t => {
 
   await t.test("0件coverage状態と収録schema異常をsection内で処理", async () => {
     for (const expected of [
-      { id: "R0068", section: true, progress: "確認済み0件 / 確認中48件", empty: false },
-      { id: "R0072", section: true, progress: null, empty: false }
+      { id: "R0068", section: true, progress: "確認済み0件 / 確認中48件", empty: false }
     ]) {
       const { page, issues } = await openDetail(expected.id);
       await waitForDetail(page);
@@ -298,10 +304,18 @@ test("Release詳細", async t => {
       assert.equal(await page.locator("#includedSongsCount").innerText(), "");
       assert.equal(await page.locator("#includedSongsSection .release-songs-empty").count(), expected.empty ? 1 : 0);
       if (expected.progress) assert.match(await page.locator(".release-coverage-note").innerText(), new RegExp(expected.progress));
-      if (expected.id === "R0072") assert.equal(await page.locator("#includedSongsCount").innerText(), "");
       assert.deepEqual(issues, []);
       await page.close();
     }
+
+    const { page: special, issues: specialIssues } = await openDetail("R0072");
+    await special.locator("#includedSongsContent .release-kp-song").first().waitFor();
+    assert.equal(await special.locator("#includedSongsContent .release-kp-song").count(), 10);
+    assert.equal(await special.locator("#kamiparaHistory .release-kp-event").count(), 5);
+    assert.equal(await special.locator("#kamiparaHistory .release-kp-performance").count(), 10);
+    assert.equal(await special.locator("#debutSongsSection").isVisible(), false);
+    assert.deepEqual(specialIssues, []);
+    await special.close();
 
     const page = await browser.newPage();
     await installApiFixtures(page);

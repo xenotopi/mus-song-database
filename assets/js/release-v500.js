@@ -1,6 +1,7 @@
 import { apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema";
 import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
 import { detailWithApiFallback, staticReleaseList } from "./static-detail.js?v=1.0.0";
+import { renderKamiparaRelease } from "./release-kamipara.js?v=1.0.0";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
@@ -25,6 +26,8 @@ function setLoading() {
   elements.mainContent.hidden = true;
   elements.debutSongsSection.hidden = true;
   elements.includedSongsSection.hidden = true;
+  $("kamiparaHistorySection").hidden = true;
+  $("kamiparaDashboardSection").hidden = true;
 }
 
 function errorKind(error) {
@@ -42,6 +45,8 @@ function setError(title, message, retryable) {
   elements.mainContent.hidden = true;
   elements.debutSongsSection.hidden = true;
   elements.includedSongsSection.hidden = true;
+  $("kamiparaHistorySection").hidden = true;
+  $("kamiparaDashboardSection").hidden = true;
   elements.status.hidden = false;
   elements.status.classList.add("error");
   elements.status.innerHTML = `<strong>${escapeHtml(title)}</strong><span>${escapeHtml(message)}</span><div class="release-status-actions">${retryable ? '<button id="retryButton" type="button">再試行</button>' : ""}<a href="releases.html">リリース一覧へ戻る</a></div>`;
@@ -185,7 +190,12 @@ function renderRelease(release, releaseList = []) {
     const displayName = String(song.displayName || "").trim();
     return `<a class="release-song-row" href="song.html?id=${encodeURIComponent(song.songId)}"><span class="release-song-copy"><span class="release-song-title">${escapeHtml(songName)}</span>${displayName && displayName !== songName ? `<span class="release-song-display">${escapeHtml(displayName)}</span>` : ""}</span><span class="release-song-arrow" aria-hidden="true">›</span></a>`;
   }).join("")}</div>` : "";
-  renderIncludedSongs(release);
+  if (release.releaseId === "R0072") {
+    elements.includedSongsSection.classList.remove("is-empty");
+    elements.includedSongsCount.textContent = "";
+    elements.includedSongsContent.textContent = "神パラの収録情報を読み込んでいます…";
+    elements.includedSongsSection.hidden = false;
+  } else renderIncludedSongs(release);
   hideSkeleton();
   elements.status.hidden = true;
   elements.mainContent.hidden = false;
@@ -216,6 +226,7 @@ async function loadRelease() {
       officialName: release.officialName ?? listRelease.officialName
     } : release;
     renderRelease(resolvedRelease, safeReleaseList);
+    if (resolvedRelease.releaseId === "R0072") await renderKamiparaRelease();
   } catch (error) {
     if (errorKind(error) === "not-found") { setError("該当するリリースが見つかりません", error?.message || "指定されたリリースは存在しません。", false); return; }
     console.error(error);

@@ -45,8 +45,28 @@ test("神パラDashboardは実APIデータを1280pxと390pxで表示する", asy
       assert.equal(await page.locator("#kpSongs .kp-song-card").count(), 10);
       assert.equal(await page.locator("#kpHistory .kp-event").count(), 5);
       assert.equal(await page.locator("#kpHistory .kp-performance").count(), 10);
-      assert.match(await page.locator("#kpHistory").innerText(), /アカペラ歌唱（1番のみ）/);
-      assert.match(await page.locator("#kpPresence").innerText(), /歌唱記録未確認/);
+      assert.deepEqual(await page.locator("#kpContent > section h2").allTextContents(), ["神パラとμ'sの関係", "神パラ歌唱ヒストリー", "収録楽曲", "9人のキャラクター"]);
+      assert.equal(await page.locator("#kpPresence").count(), 0);
+      assert.match(await page.locator("#kpSongs").innerText(), /歌唱記録未確認/);
+      assert.deepEqual(await page.locator("#kpYearFilter button").allTextContents(), ["全期間 10件", "2013 6件", "2015 1件", "2019 2件", "2023 1件"]);
+      assert.equal(await page.locator('#kpYearFilter button[data-year="all"]').getAttribute("aria-pressed"), "true");
+      assert.equal(await page.locator("#kpHistory .kp-event[open]").count(), 0);
+      await page.locator("#kpHistory .kp-event").nth(0).locator("summary").click();
+      await page.locator("#kpHistory .kp-event").nth(1).locator("summary").click();
+      assert.equal(await page.locator("#kpHistory .kp-event[open]").count(), 2);
+      assert.match(await page.locator("#kpHistory .kp-event").first().innerText(), /15\. 革命ですね？神様！[\s\S]*20\. 閃光Resolution/);
+      for (const [year, count] of [["2013", 1], ["2015", 1], ["2023", 1]]) {
+        await page.locator(`#kpYearFilter button[data-year="${year}"]`).click();
+        assert.equal(await page.locator("#kpHistory .kp-event:visible").count(), count);
+        assert.equal(await page.locator(`#kpYearFilter button[data-year="${year}"]`).getAttribute("aria-pressed"), "true");
+      }
+      await page.locator('#kpYearFilter button[data-year="2019"]').click();
+      assert.equal(await page.locator("#kpHistory .kp-event:visible").count(), 2);
+      assert.equal(await page.locator("#kpHistory .kp-event:visible .kp-performance").count(), 2);
+      await page.locator("#kpHistory .kp-event:visible").first().locator("summary").click();
+      assert.match(await page.locator("#kpHistory .kp-event:visible").first().innerText(), /アカペラ歌唱（1番のみ）/);
+      await page.locator('#kpYearFilter button[data-year="all"]').click();
+      assert.equal(await page.locator("#kpHistory .kp-event:visible").count(), 5);
       assert.equal(await page.locator(".kp-easter").count(), 5);
       const horizontalOverflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
       assert.equal(horizontalOverflow, false, `${width}px horizontal overflow`);

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <title>神パラ × μ's｜μ's Song Database</title>
+  <meta name="description" content="神様と運命革命のパラドクスに登場するμ'sゆかりのキャラクター、楽曲、歌唱記録をたどる専用Dashboard。">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://xenotopi.github.io/mus-song-database/kamipara.html">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.7.0">
+  <style>
+    .kp-page{--kp-navy:#192c4b;--kp-blue:#5b9ec2;--kp-pale:#eef8fc;width:min(1120px,calc(100% - 32px));margin:0 auto;padding:30px 0 80px;min-width:0;background:var(--kp-navy)}
+    .kp-page *{box-sizing:border-box}.kp-breadcrumb{margin-bottom:18px;color:#eef8fc;font-size:12px}.kp-breadcrumb a{color:inherit;text-decoration:none}
+    .kp-hero{padding:32px 30px;border:1px solid #cde5f1;border-radius:24px;background:#fff;box-shadow:inset 0 4px 0 var(--kp-blue);color:var(--kp-navy)}
+    .kp-badge,.kp-kicker{margin:0;color:var(--kp-blue);font-size:11px;font-weight:900;letter-spacing:.12em}.kp-hero .kp-badge{color:var(--kp-navy)}.kp-hero h1{margin:9px 0 4px;font-size:clamp(31px,4vw,48px);line-height:1.25}.kp-subtitle{margin:0;font-size:18px;font-weight:900}.kp-intro{max-width:66ch;margin:14px 0 0;line-height:1.8;color:var(--muted)}
+    .kp-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:22px}.kp-metric{min-width:0;padding:12px 14px;border:1px solid #d6e9f2;border-top:2px solid var(--kp-navy);border-radius:14px;background:#fff}.kp-metric strong{display:block;color:var(--kp-navy);font-size:26px;font-weight:900;line-height:1.25}.kp-metric span{font-size:12px;color:var(--muted);font-weight:800}.kp-boundary{margin:16px 0 0;color:var(--muted);font-size:12px;line-height:1.7}
+    .kp-status{margin-top:18px;padding:18px;border:1px solid var(--line);border-radius:16px;background:#fff;color:var(--muted)}.kp-status.error{color:#991b1b;border-color:#fecaca}.kp-status button{display:block;min-height:44px;margin-top:12px;padding:0 17px;border:0;border-radius:12px;background:var(--kp-navy);color:#fff;font:inherit;font-weight:800;cursor:pointer}
+    .kp-section{margin-top:34px}.kp-section h2{margin:5px 0 15px;color:#fff;font-size:clamp(23px,2.7vw,29px)}.kp-section-note{margin:-5px 0 16px;color:#d6e9f2;font-size:13px;line-height:1.7}.kp-kicker{color:#a9dcf4}.kp-panel,.kp-card{min-width:0;padding:21px;border:1px solid var(--line);border-radius:19px;background:#fff;box-shadow:var(--shadow);overflow-wrap:anywhere}.kp-panel p{margin:0;line-height:1.85}.kp-panel strong{color:var(--kp-navy)}
+    .kp-character-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.kp-character-name,.kp-song-name{margin:0;color:var(--kp-navy);font-size:18px;line-height:1.5}.kp-character-meta,.kp-song-meta{margin:7px 0 0;color:var(--muted);font-size:13px;line-height:1.6}.kp-easter{display:inline-block;margin-top:7px;color:var(--kp-blue);font-size:11px;font-weight:800}
+    .kp-release{margin-bottom:15px;color:#eef8fc;line-height:1.7}.kp-release a{color:inherit;font-weight:900}.kp-song-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.kp-song-card{border-left:3px solid var(--kp-blue)}.kp-song-card[data-song-id]{scroll-margin-top:90px}.kp-song-count{display:inline-block;margin-top:9px;padding:4px 9px;border-radius:999px;background:var(--kp-pale);color:var(--kp-navy);font-size:12px;font-weight:900}
+    .kp-history{display:grid;gap:14px}.kp-event{border-left:3px solid var(--kp-blue)}.kp-event h3{margin:3px 0 8px;color:var(--kp-navy);font-size:18px;line-height:1.5}.kp-event-date{color:var(--kp-blue);font-size:12px;font-weight:900}.kp-event-venue{margin:0 0 13px;color:var(--muted);font-size:12px}.kp-performance{padding:11px 0;border-top:1px solid var(--line)}.kp-performance-title{margin:0;color:var(--kp-navy);font-weight:900}.kp-performance-meta{margin:4px 0 0;color:var(--muted);font-size:12px;line-height:1.7}
+    .kp-presence{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.kp-presence-row{display:flex;justify-content:space-between;gap:14px;align-items:baseline;padding:11px 13px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:13px}.kp-presence-row span{min-width:0;overflow-wrap:anywhere}.kp-presence-row strong{flex:none;color:var(--kp-navy)}
+    @media(max-width:620px){.kp-page{width:calc(100% - 24px);padding:18px 0 56px}.kp-hero{padding:24px 18px}.kp-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.kp-character-grid,.kp-song-grid,.kp-presence{grid-template-columns:1fr}.kp-panel,.kp-card{padding:17px}.kp-character-grid{gap:9px}.kp-character-grid .kp-card{padding:13px 17px}.kp-event{border-left-width:2px}}
+  </style>
+</head>
+<body>
+  <div id="siteHeader"></div>
+  <main class="kp-page">
+    <div class="kp-breadcrumb"><a href="index.html">ホーム</a> › 神パラ × μ's</div>
+    <section class="kp-hero">
+      <p class="kp-badge">SPECIAL DATABASE</p>
+      <h1>神パラ × μ's</h1>
+      <p class="kp-subtitle">神様と運命革命のパラドクス</p>
+      <p class="kp-intro">作品に登場するキャラクターと、その楽曲・歌唱記録をたどります。</p>
+      <div class="kp-metrics" id="kpMetrics" aria-label="登録件数"></div>
+      <p class="kp-boundary">神パラ楽曲・歌唱記録は、通常のμ's楽曲・歌唱統計とは分けて集計しています。</p>
+    </section>
+    <div class="kp-status" id="kpStatus" role="status">神パラの記録を読み込んでいます…</div>
+    <div id="kpContent" hidden>
+      <section class="kp-section" aria-labelledby="kpRelationHeading"><p class="kp-kicker">THE CONNECTION</p><h2 id="kpRelationHeading">神パラとμ'sの関係</h2><div class="kp-panel"><p>本作ではμ'sの9人が神パラのキャラクターを担当。公式の収録表では、たとえば <strong>早乙女リリエル（CV.矢澤にこ（徳井青空））</strong> と表記されています。神パラのキャラクター名に、μ'sのキャラクター名とキャスト名を重ねた表記です。</p></div></section>
+      <section class="kp-section" aria-labelledby="kpCharactersHeading"><p class="kp-kicker">CHARACTERS</p><h2 id="kpCharactersHeading">9人のキャラクター</h2><div class="kp-character-grid" id="kpCharacters"></div></section>
+      <section class="kp-section" aria-labelledby="kpSongsHeading"><p class="kp-kicker">SONGS</p><h2 id="kpSongsHeading">そして生まれた10曲</h2><p class="kp-release"><a href="release.html?id=R0072">天使たちの福音 ～feat.μ's</a> ／ <span id="kpReleaseDate">2013.04.24</span></p><div class="kp-song-grid" id="kpSongs"></div></section>
+      <section class="kp-section" aria-labelledby="kpHistoryHeading"><p class="kp-kicker">PERFORMANCE HISTORY</p><h2 id="kpHistoryHeading">神パラ歌唱ヒストリー</h2><p class="kp-section-note">データベースに登録された歌唱記録を、日付と公演内の歌唱順で表示します。</p><div class="kp-history" id="kpHistory"></div></section>
+      <section class="kp-section" aria-labelledby="kpPresenceHeading"><p class="kp-kicker">RECORDED SONGS</p><h2 id="kpPresenceHeading">10曲の現在地</h2><p class="kp-section-note">これまでに確認できた神パラ楽曲の歌唱記録。</p><div class="kp-presence" id="kpPresence"></div></section>
+    </div>
+  </main>
+  <div id="siteFooter"></div>
+  <script type="module" src="assets/js/kamipara-v100.js?v=1.0.0"></script>
+</body>
+</html>

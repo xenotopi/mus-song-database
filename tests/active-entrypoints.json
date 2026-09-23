@@ -54,6 +54,14 @@
         "assets/css/style.css"
       ]
     },
+    "kamipara.html": {
+      "js": [
+        "assets/js/kamipara-v100.js"
+      ],
+      "css": [
+        "assets/css/style.css"
+      ]
+    },
     "rankings.html": {
       "js": [
         "assets/js/rankings-v421.js"
@@ -164,6 +172,7 @@
     "assets/js/gap-checker-v490.js",
     "assets/js/home-date-v493.js",
     "assets/js/home-v453.js",
+    "assets/js/kamipara-v100.js",
     "assets/js/rankings-v421.js",
     "assets/js/release-v500.js",
     "assets/js/releases-v500.js",

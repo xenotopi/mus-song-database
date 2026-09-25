@@ -1,0 +1,164 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S031",
+    "songName": "ありふれた悲しみの果て",
+    "displayName": "ありふれた悲しみの果て",
+    "version": "通常",
+    "recordingCd": "soldier game",
+    "releaseDate": "2012-07-25",
+    "media": "トリオCD",
+    "category": "シングル",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd14",
+    "debutRelease": {
+      "releaseId": "R0014",
+      "releaseDate": "2012-07-25",
+      "releaseName": "soldier game",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd14"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0031",
+        "releaseId": "R0014",
+        "releaseName": "soldier game",
+        "releaseDate": "2012-07-25",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 4,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0170",
+        "releaseId": "R0070",
+        "releaseName": "μ's Best Album Best Live! collection",
+        "releaseDate": "2013-01-09",
+        "classification": "CD",
+        "releaseType": "ベストアルバム",
+        "disc": 2,
+        "track": 15,
+        "displayOrder": 29,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0753",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 11,
+        "track": 4,
+        "displayOrder": 100,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "南條"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 5,
+      "completePerformanceCount": 4,
+      "irregularPerformanceCount": 1,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 0,
+      "excessCount": 0,
+      "mismatchCount": 1,
+      "completeRate": 80,
+      "eventCount": 5,
+      "officialEventCount": 3,
+      "soloEventCount": 2,
+      "firstPerformanceDate": "2013-06-16",
+      "lastPerformanceDate": "2025-07-06"
+    },
+    "performances": [
+      {
+        "date": "2013-06-16",
+        "eventId": "EV0013",
+        "eventName": "μ’s 3rd Anniversary LoveLive!",
+        "singer": "南條",
+        "singerId": "SN0034",
+        "singerDisplayName": "絢瀬絵里",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "ショートVer."
+      },
+      {
+        "date": "2014-06-22",
+        "eventId": "EV0035",
+        "eventName": "Pile ファンミーティング2014夜の部",
+        "singer": "Pile",
+        "singerId": "SN0052",
+        "singerDisplayName": "Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2015-06-27",
+        "eventId": "EV0076",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 長野公演　夜の部",
+        "singer": "南條",
+        "singerId": "SN0034",
+        "singerDisplayName": "絢瀬絵里",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2015-06-27",
+        "eventId": "EV0075",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 長野公演　昼の部",
+        "singer": "南條",
+        "singerId": "SN0034",
+        "singerDisplayName": "絢瀬絵里",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2025-07-06",
+        "eventId": "EV0315",
+        "eventName": "第8回 ごきんじょるの町内会2025 ～町をあげての町内会10周年記念ライブ！～",
+        "singer": "南條",
+        "singerId": "SN0060",
+        "singerDisplayName": "南條愛乃",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

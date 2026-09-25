@@ -1,0 +1,179 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S057",
+    "songName": "硝子の花園",
+    "displayName": "硝子の花園",
+    "version": "通常",
+    "recordingCd": "「ラブライブ！」Blu-ray 第6巻",
+    "releaseDate": "2013-08-28",
+    "media": "Blu-ray",
+    "category": "特典曲",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd06",
+    "debutRelease": {
+      "releaseId": "R0030",
+      "releaseDate": "2013-08-28",
+      "releaseName": "「ラブライブ！」Blu-ray 第6巻",
+      "classification": "Blu-ray",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd06"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0057",
+        "releaseId": "R0030",
+        "releaseName": "「ラブライブ！」Blu-ray 第6巻",
+        "releaseDate": "2013-08-28",
+        "classification": "Blu-ray",
+        "releaseType": "アニメBlu-ray",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT1230",
+        "releaseId": "R0089",
+        "releaseName": "ラブライブ！9th Anniversary Blu-ray BOX",
+        "releaseDate": "2019-10-25",
+        "classification": "Blu-ray",
+        "releaseType": "映像BOX",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT1244",
+        "releaseId": "R0089",
+        "releaseName": "ラブライブ！9th Anniversary Blu-ray BOX",
+        "releaseDate": "2019-10-25",
+        "classification": "Blu-ray",
+        "releaseType": "映像BOX",
+        "disc": 2,
+        "track": 5,
+        "displayOrder": 20,
+        "variant": "ELI Mix",
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT1245",
+        "releaseId": "R0089",
+        "releaseName": "ラブライブ！9th Anniversary Blu-ray BOX",
+        "releaseDate": "2019-10-25",
+        "classification": "Blu-ray",
+        "releaseType": "映像BOX",
+        "disc": 2,
+        "track": 6,
+        "displayOrder": 21,
+        "variant": "NOZOMI Mix",
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0681",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 3,
+        "track": 6,
+        "displayOrder": 28,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "南條",
+        "楠田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 3,
+      "completePerformanceCount": 3,
+      "irregularPerformanceCount": 0,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 0,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 100,
+      "eventCount": 3,
+      "officialEventCount": 3,
+      "soloEventCount": 0,
+      "firstPerformanceDate": "2014-02-08",
+      "lastPerformanceDate": "2015-06-27"
+    },
+    "performances": [
+      {
+        "date": "2014-02-08",
+        "eventId": "EV0028",
+        "eventName": "μ's→NEXT LoveLive! 2014～ENDLESS PARADE～ 1日目",
+        "singer": "南條＆楠田",
+        "singerId": "SN0035",
+        "singerDisplayName": "絢瀬絵里＆東條希",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2015-06-27",
+        "eventId": "EV0076",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 長野公演　夜の部",
+        "singer": "南條＆楠田",
+        "singerId": "SN0035",
+        "singerDisplayName": "絢瀬絵里＆東條希",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2015-06-27",
+        "eventId": "EV0075",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 長野公演　昼の部",
+        "singer": "南條＆楠田",
+        "singerId": "SN0035",
+        "singerDisplayName": "絢瀬絵里＆東條希",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

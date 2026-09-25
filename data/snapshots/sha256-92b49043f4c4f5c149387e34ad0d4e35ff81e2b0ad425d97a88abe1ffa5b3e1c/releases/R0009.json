@@ -1,0 +1,158 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0009",
+    "releaseDate": "2012-01-25",
+    "releaseName": "μ's ソロCDリリース第3弾 高坂穂乃果 ほんのり穂乃果色！",
+    "classification": "CD",
+    "sourceMedia": "CD",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd09",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "Solo Live!",
+    "releaseSeries": {
+      "id": "RS0001",
+      "name": "ラブライブ！ Solo Live! from μ's",
+      "shortName": "Solo Live! I"
+    },
+    "editionType": "individual",
+    "parentReleaseId": null,
+    "featuredSinger": {
+      "id": "SN0004",
+      "name": "高坂穂乃果"
+    },
+    "catalogNumber": "LACA-15170",
+    "officialName": "ラブライブ！ Solo Live! from μ's 高坂穂乃果 ほんのり穂乃果色！",
+    "debutSongs": [
+      {
+        "songId": "S015",
+        "songName": "愛は太陽じゃない？",
+        "displayName": "愛は太陽じゃない？"
+      },
+      {
+        "songId": "S016",
+        "songName": "もうひとりじゃないよ",
+        "displayName": "もうひとりじゃないよ"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0015",
+        "songId": "S015",
+        "songName": "愛は太陽じゃない？",
+        "displayName": "愛は太陽じゃない？",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null
+      },
+      {
+        "relationId": "RT0016",
+        "songId": "S016",
+        "songName": "もうひとりじゃないよ",
+        "displayName": "もうひとりじゃないよ",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null
+      },
+      {
+        "relationId": "RT0134",
+        "songId": "S001",
+        "songName": "僕らのLIVE 君とのLIFE",
+        "displayName": "僕らのLIVE 君とのLIFE",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0135",
+        "songId": "S002",
+        "songName": "友情ノーチェンジ",
+        "displayName": "友情ノーチェンジ",
+        "disc": 1,
+        "track": 4,
+        "displayOrder": 4,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0136",
+        "songId": "S003",
+        "songName": "Snow halation",
+        "displayName": "Snow halation",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0137",
+        "songId": "S004",
+        "songName": "baby maybe 恋のボタン",
+        "displayName": "baby maybe 恋のボタン",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0138",
+        "songId": "S005",
+        "songName": "Love marginal",
+        "displayName": "Love marginal",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0139",
+        "songId": "S006",
+        "songName": "sweet&sweet holiday",
+        "displayName": "sweet&sweet holiday",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0140",
+        "songId": "S011",
+        "songName": "夏色えがおで1,2,Jump!",
+        "displayName": "夏色えがおで1,2,Jump!",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0141",
+        "songId": "S012",
+        "songName": "Mermaid festa vol.1",
+        "displayName": "Mermaid festa vol.1",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": "HONOKA Mix"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 10,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

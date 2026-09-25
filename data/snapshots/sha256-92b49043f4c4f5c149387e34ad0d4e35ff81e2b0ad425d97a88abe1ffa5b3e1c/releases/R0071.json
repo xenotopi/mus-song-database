@@ -1,0 +1,210 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0071",
+    "releaseDate": "2013-04-10",
+    "releaseName": "TVアニメ『ラブライブ！』オリジナルサウンドトラック Notes of School idol days",
+    "classification": "CD",
+    "sourceMedia": "サウンドトラック",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd23",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "サウンドトラック",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0173",
+        "songId": "S036",
+        "songName": "僕らは今のなかで",
+        "displayName": "僕らは今のなかで",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 1,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0174",
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!",
+        "disc": 1,
+        "track": 11,
+        "displayOrder": 2,
+        "variant": "Prepro Piano Mix"
+      },
+      {
+        "relationId": "RT0175",
+        "songId": "S040",
+        "songName": "ススメ→トゥモロウ",
+        "displayName": "ススメ→トゥモロウ",
+        "disc": 1,
+        "track": 13,
+        "displayOrder": 3,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0176",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 1,
+        "track": 24,
+        "displayOrder": 5,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0770",
+        "songId": "S041",
+        "songName": "START:DASH!!",
+        "displayName": "START:DASH!!（3人）",
+        "disc": 1,
+        "track": 29,
+        "displayOrder": 6,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0177",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 1,
+        "track": 34,
+        "displayOrder": 7,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0178",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 2,
+        "track": 6,
+        "displayOrder": 8,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0179",
+        "songId": "S042",
+        "songName": "これからのSomeday",
+        "displayName": "これからのSomeday",
+        "disc": 2,
+        "track": 7,
+        "displayOrder": 9,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0180",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 10,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0181",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 2,
+        "track": 11,
+        "displayOrder": 11,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0182",
+        "songId": "S001",
+        "songName": "僕らのLIVE 君とのLIFE",
+        "displayName": "僕らのLIVE 君とのLIFE",
+        "disc": 2,
+        "track": 15,
+        "displayOrder": 12,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0183",
+        "songId": "S043",
+        "songName": "Wonder zone",
+        "displayName": "Wonder zone",
+        "disc": 2,
+        "track": 19,
+        "displayOrder": 13,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0184",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 2,
+        "track": 20,
+        "displayOrder": 14,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0185",
+        "songId": "S045",
+        "songName": "No brand girls",
+        "displayName": "No brand girls",
+        "disc": 2,
+        "track": 24,
+        "displayOrder": 15,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0186",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 2,
+        "track": 28,
+        "displayOrder": 16,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0771",
+        "songId": "S046",
+        "songName": "START:DASH!!",
+        "displayName": "START:DASH!!（9人）",
+        "disc": 2,
+        "track": 33,
+        "displayOrder": 17,
+        "variant": "TVサイズ"
+      },
+      {
+        "relationId": "RT0187",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 2,
+        "track": 34,
+        "displayOrder": 18,
+        "variant": "TVサイズ"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "partial",
+      "confirmedCount": 17,
+      "pendingCount": 1,
+      "publicNote": "一部の収録情報を確認中です。"
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

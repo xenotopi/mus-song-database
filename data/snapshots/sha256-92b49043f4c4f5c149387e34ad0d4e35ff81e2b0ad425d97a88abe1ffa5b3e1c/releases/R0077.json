@@ -1,0 +1,1194 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0077",
+    "releaseDate": "2014-04-02",
+    "releaseName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+    "classification": "CD",
+    "sourceMedia": "Solo Live",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd40",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "Solo Live!",
+    "releaseSeries": {
+      "id": "RS0002",
+      "name": "ラブライブ！ μ's Solo Live! collection",
+      "shortName": "Solo Live! II"
+    },
+    "editionType": "memorial_box",
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": "LACA-39331～LACA-39339",
+    "officialName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0188",
+        "songId": "S017",
+        "songName": "もぎゅっと“love”で接近中！",
+        "displayName": "もぎゅっと“love”で接近中！",
+        "disc": 1,
+        "track": 1,
+        "displayOrder": 1,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0189",
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!",
+        "disc": 1,
+        "track": 2,
+        "displayOrder": 2,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0190",
+        "songId": "S019",
+        "songName": "Mermaid festa vol.2 ～Passionate～",
+        "displayName": "Mermaid festa vol.2 ～Passionate～",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0191",
+        "songId": "S032",
+        "songName": "Wonderful Rush",
+        "displayName": "Wonderful Rush",
+        "disc": 1,
+        "track": 4,
+        "displayOrder": 4,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0192",
+        "songId": "S033",
+        "songName": "Oh, Love & Peace!",
+        "displayName": "Oh, Love & Peace!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0193",
+        "songId": "S036",
+        "songName": "僕らは今のなかで",
+        "displayName": "僕らは今のなかで",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0194",
+        "songId": "S037",
+        "songName": "WILD STARS",
+        "displayName": "WILD STARS",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0195",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0196",
+        "songId": "S039",
+        "songName": "輝夜の城で踊りたい",
+        "displayName": "輝夜の城で踊りたい",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0197",
+        "songId": "S040",
+        "songName": "ススメ→トゥモロウ",
+        "displayName": "ススメ→トゥモロウ",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0198",
+        "songId": "S042",
+        "songName": "これからのSomeday",
+        "displayName": "これからのSomeday",
+        "disc": 1,
+        "track": 11,
+        "displayOrder": 11,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0199",
+        "songId": "S043",
+        "songName": "Wonder zone",
+        "displayName": "Wonder zone",
+        "disc": 1,
+        "track": 12,
+        "displayOrder": 12,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0200",
+        "songId": "S045",
+        "songName": "No brand girls",
+        "displayName": "No brand girls",
+        "disc": 1,
+        "track": 13,
+        "displayOrder": 13,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT0201",
+        "songId": "S017",
+        "songName": "もぎゅっと“love”で接近中！",
+        "displayName": "もぎゅっと“love”で接近中！",
+        "disc": 2,
+        "track": 1,
+        "displayOrder": 15,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0202",
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!",
+        "disc": 2,
+        "track": 2,
+        "displayOrder": 16,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0203",
+        "songId": "S028",
+        "songName": "soldier game",
+        "displayName": "soldier game",
+        "disc": 2,
+        "track": 3,
+        "displayOrder": 17,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0204",
+        "songId": "S032",
+        "songName": "Wonderful Rush",
+        "displayName": "Wonderful Rush",
+        "disc": 2,
+        "track": 4,
+        "displayOrder": 18,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0205",
+        "songId": "S033",
+        "songName": "Oh, Love & Peace!",
+        "displayName": "Oh, Love & Peace!",
+        "disc": 2,
+        "track": 5,
+        "displayOrder": 19,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0206",
+        "songId": "S036",
+        "songName": "僕らは今のなかで",
+        "displayName": "僕らは今のなかで",
+        "disc": 2,
+        "track": 6,
+        "displayOrder": 20,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0207",
+        "songId": "S037",
+        "songName": "WILD STARS",
+        "displayName": "WILD STARS",
+        "disc": 2,
+        "track": 7,
+        "displayOrder": 21,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0208",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 22,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0209",
+        "songId": "S039",
+        "songName": "輝夜の城で踊りたい",
+        "displayName": "輝夜の城で踊りたい",
+        "disc": 2,
+        "track": 9,
+        "displayOrder": 23,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0210",
+        "songId": "S043",
+        "songName": "Wonder zone",
+        "displayName": "Wonder zone",
+        "disc": 2,
+        "track": 10,
+        "displayOrder": 24,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0211",
+        "songId": "S045",
+        "songName": "No brand girls",
+        "displayName": "No brand girls",
+        "disc": 2,
+        "track": 11,
+        "displayOrder": 25,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT0212",
+        "songId": "S017",
+        "songName": "もぎゅっと“love”で接近中！",
+        "displayName": "もぎゅっと“love”で接近中！",
+        "disc": 3,
+        "track": 1,
+        "displayOrder": 27,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT0213",
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!",
+        "disc": 3,
+        "track": 2,
+        "displayOrder": 28,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT0214",
+        "songId": "S025",
+        "songName": "告白日和、です！",
+        "displayName": "告白日和、です！",
+        "disc": 3,
+        "track": 3,
+        "displayOrder": 29,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT0215",
+        "songId": "S032",
+        "songName": "Wonderful Rush",
+        "displayName": "Wonderful Rush",
+        "disc": 3,
+        "track": 4,
+        "displayOrder": 30,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT0216",
+        "songId": "S033",
+        "songName": "Oh, Love & Peace!",
+        "displayName": "Oh, Love & Peace!",
+        "disc": 3,
+        "track": 5,
+        "displayOrder": 31,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT0217",
+        "songId": "S036",
+        "songName": "僕らは今のなかで",
+        "displayName": "僕らは今のなかで",
+        "disc": 3,
+        "track": 6,
+        "displayOrder": 32,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT0218",
+        "songId": "S037",
+        "songName": "WILD STARS",
+        "displayName": "WILD STARS",
+        "disc": 3,
+        "track": 7,
+        "displayOrder": 33,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT0219",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 3,
+        "track": 8,
+        "displayOrder": 34,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT0220",
+        "songId": "S039",
+        "songName": "輝夜の城で踊りたい",
+        "displayName": "輝夜の城で踊りたい",
+        "disc": 3,
+        "track": 9,
+        "displayOrder": 35,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT0221",
+        "songId": "S040",
+        "songName": "ススメ→トゥモロウ",
+        "displayName": "ススメ→トゥモロウ",
+        "disc": 3,
+        "track": 10,
+        "displayOrder": 36,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT0222",
+        "songId": "S042",
+        "songName": "これからのSomeday",
+        "displayName": "これからのSomeday",
+        "disc": 3,
+        "track": 11,
+        "displayOrder": 37,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT0223",
+        "songId": "S043",
+        "songName": "Wonder zone",
+        "displayName": "Wonder zone",
+        "disc": 3,
+        "track": 12,
+        "displayOrder": 38,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT0224",
+        "songId": "S045",
+        "songName": "No brand girls",
+        "displayName": "No brand girls",
+        "disc": 3,
+        "track": 13,
+        "displayOrder": 39,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT0225",
+        "songId": "S017",
+        "songName": "もぎゅっと“love”で接近中！",
+        "displayName": "もぎゅっと“love”で接近中！",
+        "disc": 4,
+        "track": 1,
+        "displayOrder": 41,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0226",
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!",
+        "disc": 4,
+        "track": 2,
+        "displayOrder": 42,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0227",
+        "songId": "S028",
+        "songName": "soldier game",
+        "displayName": "soldier game",
+        "disc": 4,
+        "track": 3,
+        "displayOrder": 43,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0228",
+        "songId": "S032",
+        "songName": "Wonderful Rush",
+        "displayName": "Wonderful Rush",
+        "disc": 4,
+        "track": 4,
+        "displayOrder": 44,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0229",
+        "songId": "S033",
+        "songName": "Oh, Love & Peace!",
+        "displayName": "Oh, Love & Peace!",
+        "disc": 4,
+        "track": 5,
+        "displayOrder": 45,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0230",
+        "songId": "S036",
+        "songName": "僕らは今のなかで",
+        "displayName": "僕らは今のなかで",
+        "disc": 4,
+        "track": 6,
+        "displayOrder": 46,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0231",
+        "songId": "S037",
+        "songName": "WILD STARS",
+        "displayName": "WILD STARS",
+        "disc": 4,
+        "track": 7,
+        "displayOrder": 47,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0232",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 4,
+        "track": 8,
+        "displayOrder": 48,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0233",
+        "songId": "S039",
+        "songName": "輝夜の城で踊りたい",
+        "displayName": "輝夜の城で踊りたい",
+        "disc": 4,
+        "track": 9,
+        "displayOrder": 49,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0234",
+        "songId": "S040",
+        "songName": "ススメ→トゥモロウ",
+        "displayName": "ススメ→トゥモロウ",
+        "disc": 4,
+        "track": 10,
+        "displayOrder": 50,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0235",
+        "songId": "S042",
+        "songName": "これからのSomeday",
+        "displayName": "これからのSomeday",
+        "disc": 4,
+        "track": 11,
+        "displayOrder": 51,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0236",
+        "songId": "S043",
+        "songName": "Wonder zone",
+        "displayName": "Wonder zone",
+        "disc": 4,
+        "track": 12,
+        "displayOrder": 52,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0237",
+        "songId": "S045",
+        "songName": "No brand girls",
+        "displayName": "No brand girls",
+        "disc": 4,
+        "track": 13,
+        "displayOrder": 53,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0238",
+        "songId": "S017",
+        "songName": "もぎゅっと“love”で接近中！",
+        "displayName": "もぎゅっと“love”で接近中！",
+        "disc": 5,
+        "track": 1,
+        "displayOrder": 55,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0239",
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!",
+        "disc": 5,
+        "track": 2,
+        "displayOrder": 56,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0240",
+        "songId": "S019",
+        "songName": "Mermaid festa vol.2 ～Passionate～",
+        "displayName": "Mermaid festa vol.2 ～Passionate～",
+        "disc": 5,
+        "track": 3,
+        "displayOrder": 57,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0241",
+        "songId": "S032",
+        "songName": "Wonderful Rush",
+        "displayName": "Wonderful Rush",
+        "disc": 5,
+        "track": 4,
+        "displayOrder": 58,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0242",
+        "songId": "S033",
+        "songName": "Oh, Love & Peace!",
+        "displayName": "Oh, Love & Peace!",
+        "disc": 5,
+        "track": 5,
+        "displayOrder": 59,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0243",
+        "songId": "S034",
+        "songName": "Listen to my heart!!",
+        "displayName": "Listen to my heart!!",
+        "disc": 5,
+        "track": 6,
+        "displayOrder": 60,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0244",
+        "songId": "S035",
+        "songName": "after school NAVIGATORS",
+        "displayName": "after school NAVIGATORS",
+        "disc": 5,
+        "track": 7,
+        "displayOrder": 61,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0245",
+        "songId": "S036",
+        "songName": "僕らは今のなかで",
+        "displayName": "僕らは今のなかで",
+        "disc": 5,
+        "track": 8,
+        "displayOrder": 62,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0246",
+        "songId": "S037",
+        "songName": "WILD STARS",
+        "displayName": "WILD STARS",
+        "disc": 5,
+        "track": 9,
+        "displayOrder": 63,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0247",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 5,
+        "track": 10,
+        "displayOrder": 64,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0248",
+        "songId": "S039",
+        "songName": "輝夜の城で踊りたい",
+        "displayName": "輝夜の城で踊りたい",
+        "disc": 5,
+        "track": 11,
+        "displayOrder": 65,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0249",
+        "songId": "S042",
+        "songName": "これからのSomeday",
+        "displayName": "これからのSomeday",
+        "disc": 5,
+        "track": 12,
+        "displayOrder": 66,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0250",
+        "songId": "S043",
+        "songName": "Wonder zone",
+        "displayName": "Wonder zone",
+        "disc": 5,
+        "track": 13,
+        "displayOrder": 67,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0251",
+        "songId": "S045",
+        "songName": "No brand girls",
+        "displayName": "No brand girls",
+        "disc": 5,
+        "track": 14,
+        "displayOrder": 68,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT0252",
+        "songId": "S017",
+        "songName": "もぎゅっと“love”で接近中！",
+        "displayName": "もぎゅっと“love”で接近中！",
+        "disc": 6,
+        "track": 1,
+        "displayOrder": 70,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT0253",
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!",
+        "disc": 6,
+        "track": 2,
+        "displayOrder": 71,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT0254",
+        "songId": "S028",
+        "songName": "soldier game",
+        "displayName": "soldier game",
+        "disc": 6,
+        "track": 3,
+        "displayOrder": 72,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT0255",
+        "songId": "S032",
+        "songName": "Wonderful Rush",
+        "displayName": "Wonderful Rush",
+        "disc": 6,
+        "track": 4,
+        "displayOrder": 73,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT0256",
+        "songId": "S033",
+        "songName": "Oh, Love & Peace!",
+        "displayName": "Oh, Love & Peace!",
+        "disc": 6,
+        "track": 5,
+        "displayOrder": 74,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT0257",
+        "songId": "S036",
+        "songName": "僕らは今のなかで",
+        "displayName": "僕らは今のなかで",
+        "disc": 6,
+        "track": 6,
+        "displayOrder": 75,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT0258",
+        "songId": "S037",
+        "songName": "WILD STARS",
+        "displayName": "WILD STARS",
+        "disc": 6,
+        "track": 7,
+        "displayOrder": 76,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT0259",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 6,
+        "track": 8,
+        "displayOrder": 77,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT0260",
+        "songId": "S039",
+        "songName": "輝夜の城で踊りたい",
+        "displayName": "輝夜の城で踊りたい",
+        "disc": 6,
+        "track": 9,
+        "displayOrder": 78,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT0261",
+        "songId": "S042",
+        "songName": "これからのSomeday",
+        "displayName": "これからのSomeday",
+        "disc": 6,
+        "track": 10,
+        "displayOrder": 79,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT0262",
+        "songId": "S043",
+        "songName": "Wonder zone",
+        "displayName": "Wonder zone",
+        "disc": 6,
+        "track": 11,
+        "displayOrder": 80,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT0263",
+        "songId": "S045",
+        "songName": "No brand girls",
+        "displayName": "No brand girls",
+        "disc": 6,
+        "track": 12,
+        "displayOrder": 81,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT0264",
+        "songId": "S017",
+        "songName": "もぎゅっと“love”で接近中！",
+        "displayName": "もぎゅっと“love”で接近中！",
+        "disc": 7,
+        "track": 1,
+        "displayOrder": 83,
+        "variant": "NOZOMI Mix"
+      },
+      {
+        "relationId": "RT0265",
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!",
+        "disc": 7,
+        "track": 2,
+        "displayOrder": 84,
+        "variant": "NOZOMI Mix"
+      },
+      {
+        "relationId": "RT0266",
+        "songId": "S022",
+        "songName": "乙女式れんあい塾",
+        "displayName": "乙女式れんあい塾",
+        "disc": 7,
+        "track": 3,
+        "displayOrder": 85,
+        "variant": "NOZOMI Mix"
+      },
+      {
+        "relationId": "RT0267",
+        "songId": "S032",
+        "songName": "Wonderful Rush",
+        "displayName": "Wonderful Rush",
+        "disc": 7,
+        "track": 4,
+        "displayOrder": 86,
+        "variant": "NOZOMI Mix"
+      },
+      {
+        "relationId": "RT0268",
+        "songId": "S033",
+        "songName": "Oh, Love & Peace!",
+        "displayName": "Oh, Love & Peace!",
+        "disc": 7,
+        "track": 5,
+        "displayOrder": 87,
+        "variant": "NOZOMI Mix"
+      },
+      {
+        "relationId": "RT0269",
+        "songId": "S036",
+        "songName": "僕らは今のなかで",
+        "displayName": "僕らは今のなかで",
+        "disc": 7,
+        "track": 6,
+        "displayOrder": 88,
+        "variant": "NOZOMI Mix"
+      },
+      {
+        "relationId": "RT0270",
+        "songId": "S037",
+        "songName": "WILD STARS",
+        "displayName": "WILD STARS",
+        "disc": 7,
+        "track": 7,
+        "displayOrder": 89,
+        "variant": "NOZOMI Mix"
+      },
+      {
+        "relationId": "RT0271",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 7,
+        "track": 8,
+        "displayOrder": 90,
+        "variant": "NOZOMI Mix"
+      },
+      {
+        "relationId": "RT0272",
+        "songId": "S039",
+        "songName": "輝夜の城で踊りたい",
+        "displayName": "輝夜の城で踊りたい",
+        "disc": 7,
+        "track": 9,
+        "displayOrder": 91,
+        "variant": "NOZOMI Mix"
+      },
+      {
+        "relationId": "RT0273",
+        "songId": "S043",
+        "songName": "Wonder zone",
+        "displayName": "Wonder zone",
+        "disc": 7,
+        "track": 10,
+        "displayOrder": 92,
+        "variant": "NOZOMI Mix"
+      },
+      {
+        "relationId": "RT0274",
+        "songId": "S045",
+        "songName": "No brand girls",
+        "displayName": "No brand girls",
+        "disc": 7,
+        "track": 11,
+        "displayOrder": 93,
+        "variant": "NOZOMI Mix"
+      },
+      {
+        "relationId": "RT0275",
+        "songId": "S017",
+        "songName": "もぎゅっと“love”で接近中！",
+        "displayName": "もぎゅっと“love”で接近中！",
+        "disc": 8,
+        "track": 1,
+        "displayOrder": 95,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0276",
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!",
+        "disc": 8,
+        "track": 2,
+        "displayOrder": 96,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0277",
+        "songId": "S025",
+        "songName": "告白日和、です！",
+        "displayName": "告白日和、です！",
+        "disc": 8,
+        "track": 3,
+        "displayOrder": 97,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0278",
+        "songId": "S032",
+        "songName": "Wonderful Rush",
+        "displayName": "Wonderful Rush",
+        "disc": 8,
+        "track": 4,
+        "displayOrder": 98,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0279",
+        "songId": "S033",
+        "songName": "Oh, Love & Peace!",
+        "displayName": "Oh, Love & Peace!",
+        "disc": 8,
+        "track": 5,
+        "displayOrder": 99,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0280",
+        "songId": "S034",
+        "songName": "Listen to my heart!!",
+        "displayName": "Listen to my heart!!",
+        "disc": 8,
+        "track": 6,
+        "displayOrder": 100,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0281",
+        "songId": "S035",
+        "songName": "after school NAVIGATORS",
+        "displayName": "after school NAVIGATORS",
+        "disc": 8,
+        "track": 7,
+        "displayOrder": 101,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0282",
+        "songId": "S036",
+        "songName": "僕らは今のなかで",
+        "displayName": "僕らは今のなかで",
+        "disc": 8,
+        "track": 8,
+        "displayOrder": 102,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0283",
+        "songId": "S037",
+        "songName": "WILD STARS",
+        "displayName": "WILD STARS",
+        "disc": 8,
+        "track": 9,
+        "displayOrder": 103,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0284",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 8,
+        "track": 10,
+        "displayOrder": 104,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0285",
+        "songId": "S039",
+        "songName": "輝夜の城で踊りたい",
+        "displayName": "輝夜の城で踊りたい",
+        "disc": 8,
+        "track": 11,
+        "displayOrder": 105,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0286",
+        "songId": "S042",
+        "songName": "これからのSomeday",
+        "displayName": "これからのSomeday",
+        "disc": 8,
+        "track": 12,
+        "displayOrder": 106,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0287",
+        "songId": "S043",
+        "songName": "Wonder zone",
+        "displayName": "Wonder zone",
+        "disc": 8,
+        "track": 13,
+        "displayOrder": 107,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0288",
+        "songId": "S045",
+        "songName": "No brand girls",
+        "displayName": "No brand girls",
+        "disc": 8,
+        "track": 14,
+        "displayOrder": 108,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT0289",
+        "songId": "S017",
+        "songName": "もぎゅっと“love”で接近中！",
+        "displayName": "もぎゅっと“love”で接近中！",
+        "disc": 9,
+        "track": 1,
+        "displayOrder": 110,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT0290",
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!",
+        "disc": 9,
+        "track": 2,
+        "displayOrder": 111,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT0291",
+        "songId": "S022",
+        "songName": "乙女式れんあい塾",
+        "displayName": "乙女式れんあい塾",
+        "disc": 9,
+        "track": 3,
+        "displayOrder": 112,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT0292",
+        "songId": "S032",
+        "songName": "Wonderful Rush",
+        "displayName": "Wonderful Rush",
+        "disc": 9,
+        "track": 4,
+        "displayOrder": 113,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT0293",
+        "songId": "S033",
+        "songName": "Oh, Love & Peace!",
+        "displayName": "Oh, Love & Peace!",
+        "disc": 9,
+        "track": 5,
+        "displayOrder": 114,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT0294",
+        "songId": "S034",
+        "songName": "Listen to my heart!!",
+        "displayName": "Listen to my heart!!",
+        "disc": 9,
+        "track": 6,
+        "displayOrder": 115,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT0295",
+        "songId": "S035",
+        "songName": "after school NAVIGATORS",
+        "displayName": "after school NAVIGATORS",
+        "disc": 9,
+        "track": 7,
+        "displayOrder": 116,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT0296",
+        "songId": "S036",
+        "songName": "僕らは今のなかで",
+        "displayName": "僕らは今のなかで",
+        "disc": 9,
+        "track": 8,
+        "displayOrder": 117,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT0297",
+        "songId": "S037",
+        "songName": "WILD STARS",
+        "displayName": "WILD STARS",
+        "disc": 9,
+        "track": 9,
+        "displayOrder": 118,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT0298",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 9,
+        "track": 10,
+        "displayOrder": 119,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT0299",
+        "songId": "S039",
+        "songName": "輝夜の城で踊りたい",
+        "displayName": "輝夜の城で踊りたい",
+        "disc": 9,
+        "track": 11,
+        "displayOrder": 120,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT0300",
+        "songId": "S042",
+        "songName": "これからのSomeday",
+        "displayName": "これからのSomeday",
+        "disc": 9,
+        "track": 12,
+        "displayOrder": 121,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT0301",
+        "songId": "S043",
+        "songName": "Wonder zone",
+        "displayName": "Wonder zone",
+        "disc": 9,
+        "track": 13,
+        "displayOrder": 122,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT0302",
+        "songId": "S045",
+        "songName": "No brand girls",
+        "displayName": "No brand girls",
+        "disc": 9,
+        "track": 14,
+        "displayOrder": 123,
+        "variant": "NICO Mix"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "partial",
+      "confirmedCount": 115,
+      "pendingCount": 9,
+      "publicNote": "一部の収録情報を確認中です。"
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

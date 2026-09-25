@@ -1,0 +1,441 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S012",
+    "songName": "Mermaid festa vol.1",
+    "displayName": "Mermaid festa vol.1",
+    "version": "通常",
+    "recordingCd": "夏色えがおで1,2,Jump!",
+    "releaseDate": "2011-08-24",
+    "media": "CD",
+    "category": "カップリング",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd06",
+    "debutRelease": {
+      "releaseId": "R0006",
+      "releaseDate": "2011-08-24",
+      "releaseName": "夏色えがおで1,2,Jump!",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd06"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0012",
+        "releaseId": "R0006",
+        "releaseName": "夏色えがおで1,2,Jump!",
+        "releaseDate": "2011-08-24",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0125",
+        "releaseId": "R0007",
+        "releaseName": "μ's ソロCDリリース第1弾 園田海未 海色少女に魅せられて",
+        "releaseDate": "2011-11-23",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": "UMI Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0026",
+          "name": "園田海未"
+        },
+        "catalogNumber": "LACA-15168",
+        "officialName": "ラブライブ！ Solo Live! from μ's 園田海未 海色少女に魅せられて"
+      },
+      {
+        "relationId": "RT0133",
+        "releaseId": "R0008",
+        "releaseName": "μ's ソロCDリリース第2弾 南ことり ことりLovin' you",
+        "releaseDate": "2011-12-14",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": "KOTORI Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0028",
+          "name": "南ことり"
+        },
+        "catalogNumber": "LACA-15169",
+        "officialName": "ラブライブ！ Solo Live! from μ's 南ことり ことりLovin' you"
+      },
+      {
+        "relationId": "RT0141",
+        "releaseId": "R0009",
+        "releaseName": "μ's ソロCDリリース第3弾 高坂穂乃果 ほんのり穂乃果色！",
+        "releaseDate": "2012-01-25",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": "HONOKA Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0004",
+          "name": "高坂穂乃果"
+        },
+        "catalogNumber": "LACA-15170",
+        "officialName": "ラブライブ！ Solo Live! from μ's 高坂穂乃果 ほんのり穂乃果色！"
+      },
+      {
+        "relationId": "RT0153",
+        "releaseId": "R0070",
+        "releaseName": "μ's Best Album Best Live! collection",
+        "releaseDate": "2013-01-09",
+        "classification": "CD",
+        "releaseType": "ベストアルバム",
+        "disc": 1,
+        "track": 12,
+        "displayOrder": 12,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0784",
+        "releaseId": "R0091",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 東條希 ノゾミ♪カナエテ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "NOZOMI Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0027",
+          "name": "東條希"
+        },
+        "catalogNumber": "LACA-15407",
+        "officialName": "ラブライブ！ Solo Live! from μ's 東條希 ノゾミ♪カナエテ"
+      },
+      {
+        "relationId": "RT0792",
+        "releaseId": "R0092",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 矢澤にこ スマイル・フォー・ユー",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "NICO Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0022",
+          "name": "矢澤にこ"
+        },
+        "catalogNumber": "LACA-15408",
+        "officialName": "ラブライブ！ Solo Live! from μ's 矢澤にこ スマイル・フォー・ユー"
+      },
+      {
+        "relationId": "RT0800",
+        "releaseId": "R0093",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 西木野真姫 TRUE DIVA",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "MAKI Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0006",
+          "name": "西木野真姫"
+        },
+        "catalogNumber": "LACA-15409",
+        "officialName": "ラブライブ！ Solo Live! from μ's 西木野真姫 TRUE DIVA"
+      },
+      {
+        "relationId": "RT0808",
+        "releaseId": "R0094",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 絢瀬絵里 Beloved Ellie",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "ELI Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0034",
+          "name": "絢瀬絵里"
+        },
+        "catalogNumber": "LACA-15410",
+        "officialName": "ラブライブ！ Solo Live! from μ's 絢瀬絵里 Beloved Ellie"
+      },
+      {
+        "relationId": "RT0816",
+        "releaseId": "R0095",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 星空凛 THE BRILLIANT STAR☆",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "RIN Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0012",
+          "name": "星空凛"
+        },
+        "catalogNumber": "LACA-15411",
+        "officialName": "ラブライブ！ Solo Live! from μ's 星空凛 THE BRILLIANT STAR☆"
+      },
+      {
+        "relationId": "RT0824",
+        "releaseId": "R0096",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 小泉花陽 あなただけの太陽になりたい",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "HANAYO Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0021",
+          "name": "小泉花陽"
+        },
+        "catalogNumber": "LACA-15412",
+        "officialName": "ラブライブ！ Solo Live! from μ's 小泉花陽 あなただけの太陽になりたい"
+      },
+      {
+        "relationId": "RT0661",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "Pile",
+        "久保",
+        "三森",
+        "新田",
+        "徳井",
+        "内田",
+        "南條",
+        "楠田",
+        "飯田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 9,
+      "completePerformanceCount": 2,
+      "irregularPerformanceCount": 7,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 7,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 22.2,
+      "eventCount": 9,
+      "officialEventCount": 3,
+      "soloEventCount": 6,
+      "firstPerformanceDate": "2012-02-19",
+      "lastPerformanceDate": "2026-07-26"
+    },
+    "performances": [
+      {
+        "date": "2012-02-19",
+        "eventId": "EV0001",
+        "eventName": "ラブライブ！ μ’s First LoveLive！",
+        "singer": "μ's",
+        "singerId": "SN0001",
+        "singerDisplayName": "μ's",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2013-01-03",
+        "eventId": "EV0007",
+        "eventName": "ラブライブ！ μ's New Year LoveLive! 2013",
+        "singer": "新田＆内田＆三森＆飯田＆久保＆Pile＆楠田＆徳井",
+        "singerId": "SN0002",
+        "singerDisplayName": "高坂穂乃果＆南ことり＆園田海未＆星空凛＆小泉花陽＆西木野真姫＆東條希＆矢澤にこ",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2014-02-09",
+        "eventId": "EV0029",
+        "eventName": "μ's→NEXT LoveLive! 2014～ENDLESS PARADE～ 2日目",
+        "singer": "μ's",
+        "singerId": "SN0001",
+        "singerDisplayName": "μ's",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2018-08-27",
+        "eventId": "EV0181",
+        "eventName": "そらまる納涼祭 ～終わらないで、夏2018〜1部",
+        "singer": "徳井",
+        "singerId": "SN0053",
+        "singerDisplayName": "徳井青空",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2022-06-18",
+        "eventId": "EV0245",
+        "eventName": "SPACEY MUSIC 2マン SPECIAL LIVE 2022 5日目夜の部",
+        "singer": "新田＆Pile",
+        "singerId": "SN0056",
+        "singerDisplayName": "新田恵海＆Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2024-07-13",
+        "eventId": "EV0284",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.4 room402",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2024-07-20",
+        "eventId": "EV0287",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.4 room404",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2025-05-11",
+        "eventId": "EV0312",
+        "eventName": "俊龍F～死ぬほどあのコールさせてやるよ!～",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2026-07-26",
+        "eventId": "EV0346",
+        "eventName": "ぐーもる荘 夏のカラオケ祭 2部",
+        "singer": "徳井",
+        "singerId": "SN0053",
+        "singerDisplayName": "徳井青空",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

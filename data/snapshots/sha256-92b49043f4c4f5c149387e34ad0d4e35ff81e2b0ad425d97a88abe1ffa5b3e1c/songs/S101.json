@@ -1,0 +1,274 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S101",
+    "songName": "？←HEARTBEAT",
+    "displayName": "？←HEARTBEAT",
+    "version": "通常",
+    "recordingCd": "SUNNY DAY SONG／？←HEARTBEAT",
+    "releaseDate": "2015-07-08",
+    "media": "映画",
+    "category": "挿入歌",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd55",
+    "debutRelease": {
+      "releaseId": "R0058",
+      "releaseDate": "2015-07-08",
+      "releaseName": "SUNNY DAY SONG／？←HEARTBEAT",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd55"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0101",
+        "releaseId": "R0058",
+        "releaseName": "SUNNY DAY SONG／？←HEARTBEAT",
+        "releaseDate": "2015-07-08",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0367",
+        "releaseId": "R0082",
+        "releaseName": "劇場版『ラブライブ！The School Idol Movie』オリジナルサウンドトラック Notes of School Idol Days ～Curtain Call～",
+        "releaseDate": "2015-08-05",
+        "classification": "CD",
+        "releaseType": "サウンドトラック",
+        "disc": 1,
+        "track": 18,
+        "displayOrder": 3,
+        "variant": "Movie Edit",
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0423",
+        "releaseId": "R0088",
+        "releaseName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 5,
+        "track": 8,
+        "displayOrder": 53,
+        "variant": "ELI Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39600～LACA-39626",
+        "officialName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ"
+      },
+      {
+        "relationId": "RT0581",
+        "releaseId": "R0088",
+        "releaseName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 20,
+        "track": 8,
+        "displayOrder": 211,
+        "variant": "NOZOMI Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39600～LACA-39626",
+        "officialName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ"
+      },
+      {
+        "relationId": "RT0645",
+        "releaseId": "R0088",
+        "releaseName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 26,
+        "track": 8,
+        "displayOrder": 275,
+        "variant": "NICO Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39600～LACA-39626",
+        "officialName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ"
+      },
+      {
+        "relationId": "RT0992",
+        "releaseId": "R0107",
+        "releaseName": "ラブライブ！Solo Live! from μ’s 絢瀬絵里 Memories with Eli",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 22,
+        "variant": "ELI Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0088",
+        "featuredSinger": {
+          "id": "SN0034",
+          "name": "絢瀬絵里"
+        },
+        "catalogNumber": "LACA-9603～LACA-9605",
+        "officialName": "ラブライブ！Solo Live! Ⅲ from μ's 絢瀬絵里 Memories with Eli"
+      },
+      {
+        "relationId": "RT1150",
+        "releaseId": "R0112",
+        "releaseName": "ラブライブ！Solo Live! from μ’s 東條希 Memories with Nozomi",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 22,
+        "variant": "NOZOMI Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0088",
+        "featuredSinger": {
+          "id": "SN0027",
+          "name": "東條希"
+        },
+        "catalogNumber": "LACA-9618～LACA-9620",
+        "officialName": "ラブライブ！Solo Live! Ⅲ from μ's 東條希 Memories with Nozomi"
+      },
+      {
+        "relationId": "RT1214",
+        "releaseId": "R0114",
+        "releaseName": "ラブライブ！Solo Live! from μ’s 矢澤にこ Memories with Nico",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 22,
+        "variant": "NICO Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0088",
+        "featuredSinger": {
+          "id": "SN0022",
+          "name": "矢澤にこ"
+        },
+        "catalogNumber": "LACA-9624～LACA-9626",
+        "officialName": "ラブライブ！Solo Live! Ⅲ from μ's 矢澤にこ Memories with Nico"
+      },
+      {
+        "relationId": "RT0764",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 12,
+        "track": 5,
+        "displayOrder": 111,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "徳井",
+        "南條",
+        "楠田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 2,
+      "completePerformanceCount": 2,
+      "irregularPerformanceCount": 0,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 0,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 100,
+      "eventCount": 2,
+      "officialEventCount": 2,
+      "soloEventCount": 0,
+      "firstPerformanceDate": "2016-03-31",
+      "lastPerformanceDate": "2016-04-01"
+    },
+    "performances": [
+      {
+        "date": "2016-03-31",
+        "eventId": "EV0108",
+        "eventName": "μ's Final LoveLive! 〜μ'sic Forever♪♪♪♪♪♪♪♪♪〜 Day1",
+        "singer": "南條＆楠田＆徳井",
+        "singerId": "SN0039",
+        "singerDisplayName": "絢瀬絵里＆東條希＆矢澤にこ",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2016-04-01",
+        "eventId": "EV0109",
+        "eventName": "μ's Final LoveLive! 〜μ'sic Forever♪♪♪♪♪♪♪♪♪〜 Day2",
+        "singer": "南條＆楠田＆徳井",
+        "singerId": "SN0039",
+        "singerDisplayName": "絢瀬絵里＆東條希＆矢澤にこ",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

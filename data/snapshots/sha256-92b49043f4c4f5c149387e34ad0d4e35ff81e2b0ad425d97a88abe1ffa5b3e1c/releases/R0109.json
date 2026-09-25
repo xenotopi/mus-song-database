@@ -1,0 +1,357 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0109",
+    "releaseDate": "2018-03-28",
+    "releaseName": "ラブライブ！Solo Live! from μ’s 園田海未 Memories with Umi",
+    "classification": "CD",
+    "sourceMedia": "Solo Live",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd78",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "Solo Live!",
+    "releaseSeries": {
+      "id": "RS0003",
+      "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+      "shortName": "Solo Live! III"
+    },
+    "editionType": "individual",
+    "parentReleaseId": "R0088",
+    "featuredSinger": {
+      "id": "SN0026",
+      "name": "園田海未"
+    },
+    "catalogNumber": "LACA-9609～LACA-9611",
+    "officialName": "ラブライブ！Solo Live! Ⅲ from μ's 園田海未 Memories with Umi",
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT1034",
+        "songId": "S060",
+        "songName": "Music S.T.A.R.T!!",
+        "displayName": "Music S.T.A.R.T!!",
+        "disc": 1,
+        "track": 1,
+        "displayOrder": 1,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1035",
+        "songId": "S061",
+        "songName": "LOVELESS WORLD",
+        "displayName": "LOVELESS WORLD",
+        "disc": 1,
+        "track": 2,
+        "displayOrder": 2,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1036",
+        "songId": "S062",
+        "songName": "タカラモノズ",
+        "displayName": "タカラモノズ",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1037",
+        "songId": "S063",
+        "songName": "Paradise Live",
+        "displayName": "Paradise Live",
+        "disc": 1,
+        "track": 4,
+        "displayOrder": 4,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1038",
+        "songId": "S064",
+        "songName": "それは僕たちの奇跡",
+        "displayName": "それは僕たちの奇跡",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1039",
+        "songId": "S065",
+        "songName": "だってだって噫無情",
+        "displayName": "だってだって噫無情",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1040",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1041",
+        "songId": "S067",
+        "songName": "COLORFUL VOICE",
+        "displayName": "COLORFUL VOICE",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1042",
+        "songId": "S068",
+        "songName": "ユメノトビラ",
+        "displayName": "ユメノトビラ",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1043",
+        "songId": "S069",
+        "songName": "SENTIMENTAL StepS",
+        "displayName": "SENTIMENTAL StepS",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1044",
+        "songId": "S071",
+        "songName": "Dancing stars on me!",
+        "displayName": "Dancing stars on me!",
+        "disc": 1,
+        "track": 11,
+        "displayOrder": 11,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1045",
+        "songId": "S073",
+        "songName": "KiRa-KiRa Sensation!",
+        "displayName": "KiRa-KiRa Sensation!",
+        "disc": 1,
+        "track": 12,
+        "displayOrder": 12,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1046",
+        "songId": "S074",
+        "songName": "Happy maker!",
+        "displayName": "Happy maker!",
+        "disc": 1,
+        "track": 13,
+        "displayOrder": 13,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1047",
+        "songId": "S079",
+        "songName": "Shangri-La Shower",
+        "displayName": "Shangri-La Shower",
+        "disc": 2,
+        "track": 1,
+        "displayOrder": 14,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1048",
+        "songId": "S080",
+        "songName": "るてしキスキしてる",
+        "displayName": "るてしキスキしてる",
+        "disc": 2,
+        "track": 2,
+        "displayOrder": 15,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1049",
+        "songId": "S093",
+        "songName": "ミはμ'sicのミ",
+        "displayName": "ミはμ'sicのミ",
+        "disc": 2,
+        "track": 3,
+        "displayOrder": 16,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1050",
+        "songId": "S094",
+        "songName": "Super LOVE=Super LIVE!",
+        "displayName": "Super LOVE=Super LIVE!",
+        "disc": 2,
+        "track": 4,
+        "displayOrder": 17,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1051",
+        "songId": "S098",
+        "songName": "Angelic Angel",
+        "displayName": "Angelic Angel",
+        "disc": 2,
+        "track": 5,
+        "displayOrder": 18,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1052",
+        "songId": "S100",
+        "songName": "SUNNY DAY SONG",
+        "displayName": "SUNNY DAY SONG",
+        "disc": 2,
+        "track": 6,
+        "displayOrder": 19,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1053",
+        "songId": "S102",
+        "songName": "僕たちはひとつの光",
+        "displayName": "僕たちはひとつの光",
+        "disc": 2,
+        "track": 7,
+        "displayOrder": 20,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1054",
+        "songId": "S103",
+        "songName": "Future style",
+        "displayName": "Future style",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 21,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1055",
+        "songId": "S050",
+        "songName": "微熱からMystery",
+        "displayName": "微熱からMystery",
+        "disc": 3,
+        "track": 1,
+        "displayOrder": 22,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1056",
+        "songId": "S051",
+        "songName": "キミのくせに！",
+        "displayName": "キミのくせに！",
+        "disc": 3,
+        "track": 2,
+        "displayOrder": 23,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1057",
+        "songId": "S085",
+        "songName": "秋のあなたの空遠く",
+        "displayName": "秋のあなたの空遠く",
+        "disc": 3,
+        "track": 3,
+        "displayOrder": 24,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1058",
+        "songId": "S086",
+        "songName": "ふたりハピネス",
+        "displayName": "ふたりハピネス",
+        "disc": 3,
+        "track": 4,
+        "displayOrder": 25,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1059",
+        "songId": "S110",
+        "songName": "思い出以上になりたくて",
+        "displayName": "思い出以上になりたくて",
+        "disc": 3,
+        "track": 5,
+        "displayOrder": 26,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1060",
+        "songId": "S111",
+        "songName": "春情ロマンティック",
+        "displayName": "春情ロマンティック",
+        "disc": 3,
+        "track": 6,
+        "displayOrder": 27,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1061",
+        "songId": "S105",
+        "songName": "HEART to HEART!",
+        "displayName": "HEART to HEART!",
+        "disc": 3,
+        "track": 7,
+        "displayOrder": 28,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1062",
+        "songId": "S106",
+        "songName": "嵐のなかの恋だから",
+        "displayName": "嵐のなかの恋だから",
+        "disc": 3,
+        "track": 8,
+        "displayOrder": 29,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1063",
+        "songId": "S114",
+        "songName": "MOMENT RING",
+        "displayName": "MOMENT RING",
+        "disc": 3,
+        "track": 9,
+        "displayOrder": 30,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1064",
+        "songId": "S115",
+        "songName": "さようならへさよなら！",
+        "displayName": "さようならへさよなら！",
+        "disc": 3,
+        "track": 10,
+        "displayOrder": 31,
+        "variant": "UMI Mix"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 31,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

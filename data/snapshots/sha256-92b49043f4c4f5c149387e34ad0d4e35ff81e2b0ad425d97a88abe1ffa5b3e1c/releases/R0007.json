@@ -1,0 +1,143 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0007",
+    "releaseDate": "2011-11-23",
+    "releaseName": "μ's ソロCDリリース第1弾 園田海未 海色少女に魅せられて",
+    "classification": "CD",
+    "sourceMedia": "CD",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd07",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "Solo Live!",
+    "releaseSeries": {
+      "id": "RS0001",
+      "name": "ラブライブ！ Solo Live! from μ's",
+      "shortName": "Solo Live! I"
+    },
+    "editionType": "individual",
+    "parentReleaseId": null,
+    "featuredSinger": {
+      "id": "SN0026",
+      "name": "園田海未"
+    },
+    "catalogNumber": "LACA-15168",
+    "officialName": "ラブライブ！ Solo Live! from μ's 園田海未 海色少女に魅せられて",
+    "debutSongs": [
+      {
+        "songId": "S013",
+        "songName": "私たちは未来の花",
+        "displayName": "私たちは未来の花"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0013",
+        "songId": "S013",
+        "songName": "私たちは未来の花",
+        "displayName": "私たちは未来の花",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null
+      },
+      {
+        "relationId": "RT0118",
+        "songId": "S001",
+        "songName": "僕らのLIVE 君とのLIFE",
+        "displayName": "僕らのLIVE 君とのLIFE",
+        "disc": 1,
+        "track": 2,
+        "displayOrder": 2,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0119",
+        "songId": "S002",
+        "songName": "友情ノーチェンジ",
+        "displayName": "友情ノーチェンジ",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0120",
+        "songId": "S003",
+        "songName": "Snow halation",
+        "displayName": "Snow halation",
+        "disc": 1,
+        "track": 4,
+        "displayOrder": 4,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0121",
+        "songId": "S004",
+        "songName": "baby maybe 恋のボタン",
+        "displayName": "baby maybe 恋のボタン",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0122",
+        "songId": "S009",
+        "songName": "知らないLove*教えてLove",
+        "displayName": "知らないLove*教えてLove",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0123",
+        "songId": "S010",
+        "songName": "あ・の・ね・が・ん・ば・れ！",
+        "displayName": "あ・の・ね・が・ん・ば・れ！",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0124",
+        "songId": "S011",
+        "songName": "夏色えがおで1,2,Jump!",
+        "displayName": "夏色えがおで1,2,Jump!",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT0125",
+        "songId": "S012",
+        "songName": "Mermaid festa vol.1",
+        "displayName": "Mermaid festa vol.1",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": "UMI Mix"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 9,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S027",
+    "songName": "孤独なHeaven",
+    "displayName": "孤独なHeaven",
+    "version": "通常",
+    "recordingCd": "告白日和、です！",
+    "releaseDate": "2012-06-27",
+    "media": "デュオCD",
+    "category": "シングル",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd13",
+    "debutRelease": {
+      "releaseId": "R0013",
+      "releaseDate": "2012-06-27",
+      "releaseName": "告白日和、です！",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd13"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0027",
+        "releaseId": "R0013",
+        "releaseName": "告白日和、です！",
+        "releaseDate": "2012-06-27",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 3,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0166",
+        "releaseId": "R0070",
+        "releaseName": "μ's Best Album Best Live! collection",
+        "releaseDate": "2013-01-09",
+        "classification": "CD",
+        "releaseType": "ベストアルバム",
+        "disc": 2,
+        "track": 11,
+        "displayOrder": 25,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0749",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 10,
+        "track": 9,
+        "displayOrder": 96,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "久保"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 3,
+      "completePerformanceCount": 3,
+      "irregularPerformanceCount": 0,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 0,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 100,
+      "eventCount": 3,
+      "officialEventCount": 1,
+      "soloEventCount": 2,
+      "firstPerformanceDate": "2013-01-03",
+      "lastPerformanceDate": "2017-12-24"
+    },
+    "performances": [
+      {
+        "date": "2013-01-03",
+        "eventId": "EV0007",
+        "eventName": "ラブライブ！ μ's New Year LoveLive! 2013",
+        "singer": "久保",
+        "singerId": "SN0021",
+        "singerDisplayName": "小泉花陽",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2016-12-25",
+        "eventId": "EV0132",
+        "eventName": "久保ユリカ クリスマスイベント2016 夜の部",
+        "singer": "久保",
+        "singerId": "SN0058",
+        "singerDisplayName": "久保ユリカ",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-12-24",
+        "eventId": "EV0171",
+        "eventName": "SHiKACO PARKクリスマスイベント2部",
+        "singer": "久保",
+        "singerId": "SN0058",
+        "singerDisplayName": "久保ユリカ",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

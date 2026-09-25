@@ -1,0 +1,740 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0089",
+    "releaseDate": "2019-10-25",
+    "releaseName": "ラブライブ！9th Anniversary Blu-ray BOX",
+    "classification": "Blu-ray",
+    "sourceMedia": "TVアニメ",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/bdbox/#bd01",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "映像BOX",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT1225",
+        "songId": "S044",
+        "songName": "夢なき夢は夢じゃない",
+        "displayName": "夢なき夢は夢じゃない",
+        "disc": 1,
+        "track": 1,
+        "displayOrder": 1,
+        "variant": null
+      },
+      {
+        "relationId": "RT1226",
+        "songId": "S047",
+        "songName": "Anemone heart",
+        "displayName": "Anemone heart",
+        "disc": 1,
+        "track": 2,
+        "displayOrder": 2,
+        "variant": null
+      },
+      {
+        "relationId": "RT1227",
+        "songId": "S048",
+        "songName": "なわとび",
+        "displayName": "なわとび",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": null
+      },
+      {
+        "relationId": "RT1228",
+        "songId": "S049",
+        "songName": "Beat in Angel",
+        "displayName": "Beat in Angel",
+        "disc": 1,
+        "track": 4,
+        "displayOrder": 4,
+        "variant": null
+      },
+      {
+        "relationId": "RT1229",
+        "songId": "S054",
+        "songName": "にこぷり♡女子道",
+        "displayName": "にこぷり♡女子道",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": null
+      },
+      {
+        "relationId": "RT1230",
+        "songId": "S057",
+        "songName": "硝子の花園",
+        "displayName": "硝子の花園",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": null
+      },
+      {
+        "relationId": "RT1231",
+        "songId": "S058",
+        "songName": "LONELIEST BABY",
+        "displayName": "LONELIEST BABY",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": null
+      },
+      {
+        "relationId": "RT1232",
+        "songId": "S072",
+        "songName": "シアワセ行きのSMILING!",
+        "displayName": "シアワセ行きのSMILING!",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": null
+      },
+      {
+        "relationId": "RT1233",
+        "songId": "S076",
+        "songName": "ずるいよMagnetic today",
+        "displayName": "ずるいよMagnetic today",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": null
+      },
+      {
+        "relationId": "RT1234",
+        "songId": "S077",
+        "songName": "くるりんMIRACLE",
+        "displayName": "くるりんMIRACLE",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": null
+      },
+      {
+        "relationId": "RT1235",
+        "songId": "S078",
+        "songName": "Storm in Lover",
+        "displayName": "Storm in Lover",
+        "disc": 1,
+        "track": 11,
+        "displayOrder": 11,
+        "variant": null
+      },
+      {
+        "relationId": "RT1236",
+        "songId": "S081",
+        "songName": "もしもからきっと",
+        "displayName": "もしもからきっと",
+        "disc": 1,
+        "track": 12,
+        "displayOrder": 12,
+        "variant": null
+      },
+      {
+        "relationId": "RT1237",
+        "songId": "S084",
+        "songName": "好きですが好きですか？",
+        "displayName": "好きですが好きですか？",
+        "disc": 1,
+        "track": 13,
+        "displayOrder": 13,
+        "variant": null
+      },
+      {
+        "relationId": "RT1238",
+        "songId": "S089",
+        "songName": "そして最後のページには",
+        "displayName": "そして最後のページには",
+        "disc": 1,
+        "track": 14,
+        "displayOrder": 14,
+        "variant": null
+      },
+      {
+        "relationId": "RT1239",
+        "songId": "S109",
+        "songName": "これから",
+        "displayName": "これから",
+        "disc": 1,
+        "track": 15,
+        "displayOrder": 15,
+        "variant": null
+      },
+      {
+        "relationId": "RT1240",
+        "songId": "S047",
+        "songName": "Anemone heart",
+        "displayName": "Anemone heart",
+        "disc": 2,
+        "track": 1,
+        "displayOrder": 16,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1241",
+        "songId": "S047",
+        "songName": "Anemone heart",
+        "displayName": "Anemone heart",
+        "disc": 2,
+        "track": 2,
+        "displayOrder": 17,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1242",
+        "songId": "S049",
+        "songName": "Beat in Angel",
+        "displayName": "Beat in Angel",
+        "disc": 2,
+        "track": 3,
+        "displayOrder": 18,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT1243",
+        "songId": "S049",
+        "songName": "Beat in Angel",
+        "displayName": "Beat in Angel",
+        "disc": 2,
+        "track": 4,
+        "displayOrder": 19,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1244",
+        "songId": "S057",
+        "songName": "硝子の花園",
+        "displayName": "硝子の花園",
+        "disc": 2,
+        "track": 5,
+        "displayOrder": 20,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT1245",
+        "songId": "S057",
+        "songName": "硝子の花園",
+        "displayName": "硝子の花園",
+        "disc": 2,
+        "track": 6,
+        "displayOrder": 21,
+        "variant": "NOZOMI Mix"
+      },
+      {
+        "relationId": "RT1246",
+        "songId": "S058",
+        "songName": "LONELIEST BABY",
+        "displayName": "LONELIEST BABY",
+        "disc": 2,
+        "track": 7,
+        "displayOrder": 22,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT1247",
+        "songId": "S058",
+        "songName": "LONELIEST BABY",
+        "displayName": "LONELIEST BABY",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 23,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT1248",
+        "songId": "S058",
+        "songName": "LONELIEST BABY",
+        "displayName": "LONELIEST BABY",
+        "disc": 2,
+        "track": 9,
+        "displayOrder": 24,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1249",
+        "songId": "S058",
+        "songName": "LONELIEST BABY",
+        "displayName": "LONELIEST BABY",
+        "disc": 2,
+        "track": 10,
+        "displayOrder": 25,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1250",
+        "songId": "S058",
+        "songName": "LONELIEST BABY",
+        "displayName": "LONELIEST BABY",
+        "disc": 2,
+        "track": 11,
+        "displayOrder": 26,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT1251",
+        "songId": "S058",
+        "songName": "LONELIEST BABY",
+        "displayName": "LONELIEST BABY",
+        "disc": 2,
+        "track": 12,
+        "displayOrder": 27,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1252",
+        "songId": "S058",
+        "songName": "LONELIEST BABY",
+        "displayName": "LONELIEST BABY",
+        "disc": 2,
+        "track": 13,
+        "displayOrder": 28,
+        "variant": "NOZOMI Mix"
+      },
+      {
+        "relationId": "RT1253",
+        "songId": "S058",
+        "songName": "LONELIEST BABY",
+        "displayName": "LONELIEST BABY",
+        "disc": 2,
+        "track": 14,
+        "displayOrder": 29,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT1254",
+        "songId": "S058",
+        "songName": "LONELIEST BABY",
+        "displayName": "LONELIEST BABY",
+        "disc": 2,
+        "track": 15,
+        "displayOrder": 30,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1255",
+        "songId": "S076",
+        "songName": "ずるいよMagnetic today",
+        "displayName": "ずるいよMagnetic today",
+        "disc": 3,
+        "track": 1,
+        "displayOrder": 31,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1256",
+        "songId": "S076",
+        "songName": "ずるいよMagnetic today",
+        "displayName": "ずるいよMagnetic today",
+        "disc": 3,
+        "track": 2,
+        "displayOrder": 32,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1257",
+        "songId": "S078",
+        "songName": "Storm in Lover",
+        "displayName": "Storm in Lover",
+        "disc": 3,
+        "track": 3,
+        "displayOrder": 33,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1258",
+        "songId": "S078",
+        "songName": "Storm in Lover",
+        "displayName": "Storm in Lover",
+        "disc": 3,
+        "track": 4,
+        "displayOrder": 34,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT1259",
+        "songId": "S084",
+        "songName": "好きですが好きですか？",
+        "displayName": "好きですが好きですか？",
+        "disc": 3,
+        "track": 5,
+        "displayOrder": 35,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1260",
+        "songId": "S084",
+        "songName": "好きですが好きですか？",
+        "displayName": "好きですが好きですか？",
+        "disc": 3,
+        "track": 6,
+        "displayOrder": 36,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT1261",
+        "songId": "S089",
+        "songName": "そして最後のページには",
+        "displayName": "そして最後のページには",
+        "disc": 3,
+        "track": 7,
+        "displayOrder": 37,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT1262",
+        "songId": "S089",
+        "songName": "そして最後のページには",
+        "displayName": "そして最後のページには",
+        "disc": 3,
+        "track": 8,
+        "displayOrder": 38,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT1263",
+        "songId": "S089",
+        "songName": "そして最後のページには",
+        "displayName": "そして最後のページには",
+        "disc": 3,
+        "track": 9,
+        "displayOrder": 39,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1264",
+        "songId": "S089",
+        "songName": "そして最後のページには",
+        "displayName": "そして最後のページには",
+        "disc": 3,
+        "track": 10,
+        "displayOrder": 40,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1265",
+        "songId": "S089",
+        "songName": "そして最後のページには",
+        "displayName": "そして最後のページには",
+        "disc": 3,
+        "track": 11,
+        "displayOrder": 41,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT1266",
+        "songId": "S089",
+        "songName": "そして最後のページには",
+        "displayName": "そして最後のページには",
+        "disc": 3,
+        "track": 12,
+        "displayOrder": 42,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1267",
+        "songId": "S089",
+        "songName": "そして最後のページには",
+        "displayName": "そして最後のページには",
+        "disc": 3,
+        "track": 13,
+        "displayOrder": 43,
+        "variant": "NOZOMI Mix"
+      },
+      {
+        "relationId": "RT1268",
+        "songId": "S089",
+        "songName": "そして最後のページには",
+        "displayName": "そして最後のページには",
+        "disc": 3,
+        "track": 14,
+        "displayOrder": 44,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT1269",
+        "songId": "S089",
+        "songName": "そして最後のページには",
+        "displayName": "そして最後のページには",
+        "disc": 3,
+        "track": 15,
+        "displayOrder": 45,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1270",
+        "songId": "S109",
+        "songName": "これから",
+        "displayName": "これから",
+        "disc": 4,
+        "track": 1,
+        "displayOrder": 46,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT1271",
+        "songId": "S109",
+        "songName": "これから",
+        "displayName": "これから",
+        "disc": 4,
+        "track": 2,
+        "displayOrder": 47,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT1272",
+        "songId": "S109",
+        "songName": "これから",
+        "displayName": "これから",
+        "disc": 4,
+        "track": 3,
+        "displayOrder": 48,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1273",
+        "songId": "S109",
+        "songName": "これから",
+        "displayName": "これから",
+        "disc": 4,
+        "track": 4,
+        "displayOrder": 49,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1274",
+        "songId": "S109",
+        "songName": "これから",
+        "displayName": "これから",
+        "disc": 4,
+        "track": 5,
+        "displayOrder": 50,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT1275",
+        "songId": "S109",
+        "songName": "これから",
+        "displayName": "これから",
+        "disc": 4,
+        "track": 6,
+        "displayOrder": 51,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1276",
+        "songId": "S109",
+        "songName": "これから",
+        "displayName": "これから",
+        "disc": 4,
+        "track": 7,
+        "displayOrder": 52,
+        "variant": "NOZOMI Mix"
+      },
+      {
+        "relationId": "RT1277",
+        "songId": "S109",
+        "songName": "これから",
+        "displayName": "これから",
+        "disc": 4,
+        "track": 8,
+        "displayOrder": 53,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT1278",
+        "songId": "S109",
+        "songName": "これから",
+        "displayName": "これから",
+        "disc": 4,
+        "track": 9,
+        "displayOrder": 54,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1279",
+        "songId": "S059",
+        "songName": "ぷわぷわーお！",
+        "displayName": "ぷわぷわーお！",
+        "disc": 5,
+        "track": 1,
+        "displayOrder": 55,
+        "variant": null
+      },
+      {
+        "relationId": "RT1280",
+        "songId": "S059",
+        "songName": "ぷわぷわーお！",
+        "displayName": "ぷわぷわーお！",
+        "disc": 5,
+        "track": 2,
+        "displayOrder": 56,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT1281",
+        "songId": "S059",
+        "songName": "ぷわぷわーお！",
+        "displayName": "ぷわぷわーお！",
+        "disc": 5,
+        "track": 3,
+        "displayOrder": 57,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1282",
+        "songId": "S059",
+        "songName": "ぷわぷわーお！",
+        "displayName": "ぷわぷわーお！",
+        "disc": 5,
+        "track": 4,
+        "displayOrder": 58,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT1283",
+        "songId": "S090",
+        "songName": "CheerDay CheerGirl!",
+        "displayName": "CheerDay CheerGirl!",
+        "disc": 5,
+        "track": 5,
+        "displayOrder": 59,
+        "variant": null
+      },
+      {
+        "relationId": "RT1284",
+        "songId": "S090",
+        "songName": "CheerDay CheerGirl!",
+        "displayName": "CheerDay CheerGirl!",
+        "disc": 5,
+        "track": 6,
+        "displayOrder": 60,
+        "variant": "HONOKA Mix"
+      },
+      {
+        "relationId": "RT1285",
+        "songId": "S090",
+        "songName": "CheerDay CheerGirl!",
+        "displayName": "CheerDay CheerGirl!",
+        "disc": 5,
+        "track": 7,
+        "displayOrder": 61,
+        "variant": "KOTORI Mix"
+      },
+      {
+        "relationId": "RT1286",
+        "songId": "S090",
+        "songName": "CheerDay CheerGirl!",
+        "displayName": "CheerDay CheerGirl!",
+        "disc": 5,
+        "track": 8,
+        "displayOrder": 62,
+        "variant": "HANAYO Mix"
+      },
+      {
+        "relationId": "RT1287",
+        "songId": "S092",
+        "songName": "Silent tonight",
+        "displayName": "Silent tonight",
+        "disc": 5,
+        "track": 9,
+        "displayOrder": 63,
+        "variant": null
+      },
+      {
+        "relationId": "RT1288",
+        "songId": "S092",
+        "songName": "Silent tonight",
+        "displayName": "Silent tonight",
+        "disc": 5,
+        "track": 10,
+        "displayOrder": 64,
+        "variant": "ELI Mix"
+      },
+      {
+        "relationId": "RT1289",
+        "songId": "S092",
+        "songName": "Silent tonight",
+        "displayName": "Silent tonight",
+        "disc": 5,
+        "track": 11,
+        "displayOrder": 65,
+        "variant": "MAKI Mix"
+      },
+      {
+        "relationId": "RT1290",
+        "songId": "S092",
+        "songName": "Silent tonight",
+        "displayName": "Silent tonight",
+        "disc": 5,
+        "track": 12,
+        "displayOrder": 66,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1291",
+        "songId": "S091",
+        "songName": "同じ星が見たい",
+        "displayName": "同じ星が見たい",
+        "disc": 5,
+        "track": 13,
+        "displayOrder": 67,
+        "variant": null
+      },
+      {
+        "relationId": "RT1292",
+        "songId": "S091",
+        "songName": "同じ星が見たい",
+        "displayName": "同じ星が見たい",
+        "disc": 5,
+        "track": 14,
+        "displayOrder": 68,
+        "variant": "UMI Mix"
+      },
+      {
+        "relationId": "RT1293",
+        "songId": "S091",
+        "songName": "同じ星が見たい",
+        "displayName": "同じ星が見たい",
+        "disc": 5,
+        "track": 15,
+        "displayOrder": 69,
+        "variant": "RIN Mix"
+      },
+      {
+        "relationId": "RT1294",
+        "songId": "S091",
+        "songName": "同じ星が見たい",
+        "displayName": "同じ星が見たい",
+        "disc": 5,
+        "track": 16,
+        "displayOrder": 70,
+        "variant": "NOZOMI Mix"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 70,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

@@ -1,0 +1,231 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S059",
+    "songName": "ぷわぷわーお！",
+    "displayName": "ぷわぷわーお！",
+    "version": "通常",
+    "recordingCd": "1期Blu-ray全巻購入特典",
+    "releaseDate": "2013-09-25",
+    "media": "Blu-ray",
+    "category": "特典曲",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd00",
+    "debutRelease": {
+      "releaseId": "R0032",
+      "releaseDate": "2013-09-25",
+      "releaseName": "1期Blu-ray全巻購入特典",
+      "classification": "特典",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd00"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0059",
+        "releaseId": "R0032",
+        "releaseName": "1期Blu-ray全巻購入特典",
+        "releaseDate": "2013-09-25",
+        "classification": "特典",
+        "releaseType": "全巻購入特典",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT1279",
+        "releaseId": "R0089",
+        "releaseName": "ラブライブ！9th Anniversary Blu-ray BOX",
+        "releaseDate": "2019-10-25",
+        "classification": "Blu-ray",
+        "releaseType": "映像BOX",
+        "disc": 5,
+        "track": 1,
+        "displayOrder": 55,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT1280",
+        "releaseId": "R0089",
+        "releaseName": "ラブライブ！9th Anniversary Blu-ray BOX",
+        "releaseDate": "2019-10-25",
+        "classification": "Blu-ray",
+        "releaseType": "映像BOX",
+        "disc": 5,
+        "track": 2,
+        "displayOrder": 56,
+        "variant": "HONOKA Mix",
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT1281",
+        "releaseId": "R0089",
+        "releaseName": "ラブライブ！9th Anniversary Blu-ray BOX",
+        "releaseDate": "2019-10-25",
+        "classification": "Blu-ray",
+        "releaseType": "映像BOX",
+        "disc": 5,
+        "track": 3,
+        "displayOrder": 57,
+        "variant": "KOTORI Mix",
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT1282",
+        "releaseId": "R0089",
+        "releaseName": "ラブライブ！9th Anniversary Blu-ray BOX",
+        "releaseDate": "2019-10-25",
+        "classification": "Blu-ray",
+        "releaseType": "映像BOX",
+        "disc": 5,
+        "track": 4,
+        "displayOrder": 58,
+        "variant": "HANAYO Mix",
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0718",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 7,
+        "track": 9,
+        "displayOrder": 65,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "久保",
+        "新田",
+        "内田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 6,
+      "completePerformanceCount": 2,
+      "irregularPerformanceCount": 4,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 4,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 33.3,
+      "eventCount": 6,
+      "officialEventCount": 2,
+      "soloEventCount": 4,
+      "firstPerformanceDate": "2015-07-12",
+      "lastPerformanceDate": "2025-11-24"
+    },
+    "performances": [
+      {
+        "date": "2015-07-12",
+        "eventId": "EV0082",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 広島公演　夜の部",
+        "singer": "新田＆内田＆久保",
+        "singerId": "SN0007",
+        "singerDisplayName": "高坂穂乃果＆南ことり＆小泉花陽",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2015-07-12",
+        "eventId": "EV0081",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 広島公演　昼の部",
+        "singer": "新田＆内田＆久保",
+        "singerId": "SN0007",
+        "singerDisplayName": "高坂穂乃果＆南ことり＆小泉花陽",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2018-11-17",
+        "eventId": "EV0190",
+        "eventName": "内田彩キャラソンライブ〜chara・melt・ room〜 104",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2019-11-16",
+        "eventId": "EV0213",
+        "eventName": "内田彩キャラソンライブ～chara・melt・room～ No.2 204",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2024-07-20",
+        "eventId": "EV0287",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.4 room404",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2025-11-24",
+        "eventId": "EV0329",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.5 room504",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

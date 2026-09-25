@@ -1,0 +1,86 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0052",
+    "releaseDate": "2014-12-25",
+    "releaseName": "2期Blu-ray全巻購入特典",
+    "classification": "特典",
+    "sourceMedia": "Blu-ray",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv2nd/#bd00",
+    "todayEligible": false,
+    "note": "要確認：発売日・正式名称",
+    "releaseType": "全巻購入特典",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S090",
+        "songName": "CheerDay CheerGirl!",
+        "displayName": "CheerDay CheerGirl!"
+      },
+      {
+        "songId": "S091",
+        "songName": "同じ星が見たい",
+        "displayName": "同じ星が見たい"
+      },
+      {
+        "songId": "S092",
+        "songName": "Silent tonight",
+        "displayName": "Silent tonight"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0090",
+        "songId": "S090",
+        "songName": "CheerDay CheerGirl!",
+        "displayName": "CheerDay CheerGirl!",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null
+      },
+      {
+        "relationId": "RT0091",
+        "songId": "S091",
+        "songName": "同じ星が見たい",
+        "displayName": "同じ星が見たい",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null
+      },
+      {
+        "relationId": "RT0092",
+        "songId": "S092",
+        "songName": "Silent tonight",
+        "displayName": "Silent tonight",
+        "disc": null,
+        "track": null,
+        "displayOrder": 3,
+        "variant": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 3,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

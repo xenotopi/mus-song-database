@@ -1,0 +1,219 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S016",
+    "songName": "もうひとりじゃないよ",
+    "displayName": "もうひとりじゃないよ",
+    "version": "通常",
+    "recordingCd": "ほんのり穂乃果色！",
+    "releaseDate": "2012-01-25",
+    "media": "CD",
+    "category": "シングル",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd09",
+    "debutRelease": {
+      "releaseId": "R0009",
+      "releaseDate": "2012-01-25",
+      "releaseName": "μ's ソロCDリリース第3弾 高坂穂乃果 ほんのり穂乃果色！",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd09"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0016",
+        "releaseId": "R0009",
+        "releaseName": "μ's ソロCDリリース第3弾 高坂穂乃果 ほんのり穂乃果色！",
+        "releaseDate": "2012-01-25",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null,
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0004",
+          "name": "高坂穂乃果"
+        },
+        "catalogNumber": "LACA-15170",
+        "officialName": "ラブライブ！ Solo Live! from μ's 高坂穂乃果 ほんのり穂乃果色！"
+      },
+      {
+        "relationId": "RT0755",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 11,
+        "track": 6,
+        "displayOrder": 102,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "新田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 11,
+      "completePerformanceCount": 11,
+      "irregularPerformanceCount": 0,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 0,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 100,
+      "eventCount": 11,
+      "officialEventCount": 10,
+      "soloEventCount": 1,
+      "firstPerformanceDate": "2012-02-19",
+      "lastPerformanceDate": "2024-08-25"
+    },
+    "performances": [
+      {
+        "date": "2012-02-19",
+        "eventId": "EV0001",
+        "eventName": "ラブライブ！ μ’s First LoveLive！",
+        "singer": "新田",
+        "singerId": "SN0004",
+        "singerDisplayName": "高坂穂乃果",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2015-08-09",
+        "eventId": "EV0089",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 宮城公演　夜の部",
+        "singer": "新田",
+        "singerId": "SN0004",
+        "singerDisplayName": "高坂穂乃果",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2015-08-09",
+        "eventId": "EV0088",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 宮城公演　昼の部",
+        "singer": "新田",
+        "singerId": "SN0004",
+        "singerDisplayName": "高坂穂乃果",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2020-11-03",
+        "eventId": "EV0230",
+        "eventName": "新田恵海 ON-LINE LIVE 2020 〜Go the Distance!〜2回目",
+        "singer": "新田",
+        "singerId": "SN0054",
+        "singerDisplayName": "新田恵海",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2024-02-25",
+        "eventId": "EV0272",
+        "eventName": "LoveLive! Overseas Events キックオフミーティング 2部",
+        "singer": "新田",
+        "singerId": "SN0004",
+        "singerDisplayName": "高坂穂乃果",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2024-06-29",
+        "eventId": "EV0280",
+        "eventName": "Love Live! TV Animation 10th Anniversary Overseas Events in Taipei 1日目 夜の部",
+        "singer": "新田",
+        "singerId": "SN0004",
+        "singerDisplayName": "高坂穂乃果",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2024-06-30",
+        "eventId": "EV0282",
+        "eventName": "Love Live! TV Animation 10th Anniversary Overseas Events in Taipei 2日目 夜の部",
+        "singer": "新田",
+        "singerId": "SN0004",
+        "singerDisplayName": "高坂穂乃果",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2024-07-19",
+        "eventId": "EV0285",
+        "eventName": "Love Live! TV Animation 10th Anniversary Overseas Events in Seoul 1日目",
+        "singer": "新田",
+        "singerId": "SN0004",
+        "singerDisplayName": "高坂穂乃果",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2024-07-20",
+        "eventId": "EV0289",
+        "eventName": "Love Live! TV Animation 10th Anniversary Overseas Events in Seoul 2日目 2部",
+        "singer": "新田",
+        "singerId": "SN0004",
+        "singerDisplayName": "高坂穂乃果",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2024-08-24",
+        "eventId": "EV0291",
+        "eventName": "Love Live! TV Animation 10th Anniversary Overseas Events  広州公演 1日目 第二部",
+        "singer": "新田",
+        "singerId": "SN0004",
+        "singerDisplayName": "高坂穂乃果",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2024-08-25",
+        "eventId": "EV0293",
+        "eventName": "Love Live! TV Animation 10th Anniversary Overseas Events  広州公演 2日目 第二部",
+        "singer": "新田",
+        "singerId": "SN0004",
+        "singerDisplayName": "高坂穂乃果",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

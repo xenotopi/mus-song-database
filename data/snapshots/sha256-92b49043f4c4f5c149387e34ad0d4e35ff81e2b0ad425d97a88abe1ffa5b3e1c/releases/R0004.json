@@ -1,0 +1,71 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0004",
+    "releaseDate": "2011-06-22",
+    "releaseName": "ダイヤモンドプリンセスの憂鬱",
+    "classification": "CD",
+    "sourceMedia": "ユニット",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd04",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "シングル",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S007",
+        "songName": "ダイヤモンドプリンセスの憂鬱",
+        "displayName": "ダイヤモンドプリンセスの憂鬱"
+      },
+      {
+        "songId": "S008",
+        "songName": "ラブノベルス",
+        "displayName": "ラブノベルス"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0007",
+        "songId": "S007",
+        "songName": "ダイヤモンドプリンセスの憂鬱",
+        "displayName": "ダイヤモンドプリンセスの憂鬱",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null
+      },
+      {
+        "relationId": "RT0008",
+        "songId": "S008",
+        "songName": "ラブノベルス",
+        "displayName": "ラブノベルス",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 2,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

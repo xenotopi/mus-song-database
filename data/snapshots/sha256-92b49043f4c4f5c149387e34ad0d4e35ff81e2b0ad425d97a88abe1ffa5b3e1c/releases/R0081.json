@@ -1,0 +1,500 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0081",
+    "releaseDate": "2015-05-27",
+    "releaseName": "μ's Best Album Best Live! Collection Ⅱ",
+    "classification": "CD",
+    "sourceMedia": "ベストアルバム",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd53",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "ベストアルバム",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0322",
+        "songId": "S036",
+        "songName": "僕らは今のなかで",
+        "displayName": "僕らは今のなかで",
+        "disc": 1,
+        "track": 1,
+        "displayOrder": 1,
+        "variant": null
+      },
+      {
+        "relationId": "RT0323",
+        "songId": "S037",
+        "songName": "WILD STARS",
+        "displayName": "WILD STARS",
+        "disc": 1,
+        "track": 2,
+        "displayOrder": 2,
+        "variant": null
+      },
+      {
+        "relationId": "RT0324",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": null
+      },
+      {
+        "relationId": "RT0325",
+        "songId": "S039",
+        "songName": "輝夜の城で踊りたい",
+        "displayName": "輝夜の城で踊りたい",
+        "disc": 1,
+        "track": 4,
+        "displayOrder": 4,
+        "variant": null
+      },
+      {
+        "relationId": "RT0326",
+        "songId": "S040",
+        "songName": "ススメ→トゥモロウ",
+        "displayName": "ススメ→トゥモロウ",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": null
+      },
+      {
+        "relationId": "RT0772",
+        "songId": "S041",
+        "songName": "START:DASH!!",
+        "displayName": "START:DASH!!（3人）",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": null
+      },
+      {
+        "relationId": "RT0327",
+        "songId": "S042",
+        "songName": "これからのSomeday",
+        "displayName": "これからのSomeday",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": null
+      },
+      {
+        "relationId": "RT0328",
+        "songId": "S043",
+        "songName": "Wonder zone",
+        "displayName": "Wonder zone",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": null
+      },
+      {
+        "relationId": "RT0329",
+        "songId": "S045",
+        "songName": "No brand girls",
+        "displayName": "No brand girls",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": null
+      },
+      {
+        "relationId": "RT0773",
+        "songId": "S046",
+        "songName": "START:DASH!!",
+        "displayName": "START:DASH!!（9人）",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": null
+      },
+      {
+        "relationId": "RT0330",
+        "songId": "S050",
+        "songName": "微熱からMystery",
+        "displayName": "微熱からMystery",
+        "disc": 1,
+        "track": 11,
+        "displayOrder": 11,
+        "variant": null
+      },
+      {
+        "relationId": "RT0331",
+        "songId": "S051",
+        "songName": "キミのくせに！",
+        "displayName": "キミのくせに！",
+        "disc": 1,
+        "track": 12,
+        "displayOrder": 12,
+        "variant": null
+      },
+      {
+        "relationId": "RT0332",
+        "songId": "S052",
+        "songName": "Cutie Panther",
+        "displayName": "Cutie Panther",
+        "disc": 1,
+        "track": 13,
+        "displayOrder": 13,
+        "variant": null
+      },
+      {
+        "relationId": "RT0333",
+        "songId": "S053",
+        "songName": "夏、終わらないで。",
+        "displayName": "夏、終わらないで。",
+        "disc": 1,
+        "track": 14,
+        "displayOrder": 14,
+        "variant": null
+      },
+      {
+        "relationId": "RT0334",
+        "songId": "S055",
+        "songName": "Pure girls project",
+        "displayName": "Pure girls project",
+        "disc": 1,
+        "track": 15,
+        "displayOrder": 15,
+        "variant": null
+      },
+      {
+        "relationId": "RT0335",
+        "songId": "S056",
+        "songName": "UNBALANCED LOVE",
+        "displayName": "UNBALANCED LOVE",
+        "disc": 1,
+        "track": 16,
+        "displayOrder": 16,
+        "variant": null
+      },
+      {
+        "relationId": "RT0336",
+        "songId": "S060",
+        "songName": "Music S.T.A.R.T!!",
+        "displayName": "Music S.T.A.R.T!!",
+        "disc": 2,
+        "track": 1,
+        "displayOrder": 17,
+        "variant": null
+      },
+      {
+        "relationId": "RT0337",
+        "songId": "S061",
+        "songName": "LOVELESS WORLD",
+        "displayName": "LOVELESS WORLD",
+        "disc": 2,
+        "track": 2,
+        "displayOrder": 18,
+        "variant": null
+      },
+      {
+        "relationId": "RT0338",
+        "songId": "S062",
+        "songName": "タカラモノズ",
+        "displayName": "タカラモノズ",
+        "disc": 2,
+        "track": 3,
+        "displayOrder": 19,
+        "variant": null
+      },
+      {
+        "relationId": "RT0339",
+        "songId": "S063",
+        "songName": "Paradise Live",
+        "displayName": "Paradise Live",
+        "disc": 2,
+        "track": 4,
+        "displayOrder": 20,
+        "variant": null
+      },
+      {
+        "relationId": "RT0340",
+        "songId": "S064",
+        "songName": "それは僕たちの奇跡",
+        "displayName": "それは僕たちの奇跡",
+        "disc": 2,
+        "track": 5,
+        "displayOrder": 21,
+        "variant": null
+      },
+      {
+        "relationId": "RT0341",
+        "songId": "S065",
+        "songName": "だってだって噫無情",
+        "displayName": "だってだって噫無情",
+        "disc": 2,
+        "track": 6,
+        "displayOrder": 22,
+        "variant": null
+      },
+      {
+        "relationId": "RT0342",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 2,
+        "track": 7,
+        "displayOrder": 23,
+        "variant": null
+      },
+      {
+        "relationId": "RT0343",
+        "songId": "S067",
+        "songName": "COLORFUL VOICE",
+        "displayName": "COLORFUL VOICE",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 24,
+        "variant": null
+      },
+      {
+        "relationId": "RT0344",
+        "songId": "S068",
+        "songName": "ユメノトビラ",
+        "displayName": "ユメノトビラ",
+        "disc": 2,
+        "track": 9,
+        "displayOrder": 25,
+        "variant": null
+      },
+      {
+        "relationId": "RT0345",
+        "songId": "S069",
+        "songName": "SENTIMENTAL StepS",
+        "displayName": "SENTIMENTAL StepS",
+        "disc": 2,
+        "track": 10,
+        "displayOrder": 26,
+        "variant": null
+      },
+      {
+        "relationId": "RT0346",
+        "songId": "S070",
+        "songName": "Love wing bell",
+        "displayName": "Love wing bell",
+        "disc": 2,
+        "track": 11,
+        "displayOrder": 27,
+        "variant": null
+      },
+      {
+        "relationId": "RT0347",
+        "songId": "S071",
+        "songName": "Dancing stars on me!",
+        "displayName": "Dancing stars on me!",
+        "disc": 2,
+        "track": 12,
+        "displayOrder": 28,
+        "variant": null
+      },
+      {
+        "relationId": "RT0348",
+        "songId": "S073",
+        "songName": "KiRa-KiRa Sensation!",
+        "displayName": "KiRa-KiRa Sensation!",
+        "disc": 2,
+        "track": 13,
+        "displayOrder": 29,
+        "variant": null
+      },
+      {
+        "relationId": "RT0349",
+        "songId": "S074",
+        "songName": "Happy maker!",
+        "displayName": "Happy maker!",
+        "disc": 2,
+        "track": 14,
+        "displayOrder": 30,
+        "variant": null
+      },
+      {
+        "relationId": "RT0350",
+        "songId": "S079",
+        "songName": "Shangri-La Shower",
+        "displayName": "Shangri-La Shower",
+        "disc": 2,
+        "track": 15,
+        "displayOrder": 31,
+        "variant": null
+      },
+      {
+        "relationId": "RT0351",
+        "songId": "S080",
+        "songName": "るてしキスキしてる",
+        "displayName": "るてしキスキしてる",
+        "disc": 2,
+        "track": 16,
+        "displayOrder": 32,
+        "variant": null
+      },
+      {
+        "relationId": "RT0352",
+        "songId": "S082",
+        "songName": "永遠フレンズ",
+        "displayName": "永遠フレンズ",
+        "disc": 3,
+        "track": 1,
+        "displayOrder": 33,
+        "variant": null
+      },
+      {
+        "relationId": "RT0353",
+        "songId": "S083",
+        "songName": "小夜啼鳥恋詩",
+        "displayName": "小夜啼鳥恋詩",
+        "disc": 3,
+        "track": 2,
+        "displayOrder": 34,
+        "variant": null
+      },
+      {
+        "relationId": "RT0354",
+        "songId": "S085",
+        "songName": "秋のあなたの空遠く",
+        "displayName": "秋のあなたの空遠く",
+        "disc": 3,
+        "track": 3,
+        "displayOrder": 35,
+        "variant": null
+      },
+      {
+        "relationId": "RT0355",
+        "songId": "S086",
+        "songName": "ふたりハピネス",
+        "displayName": "ふたりハピネス",
+        "disc": 3,
+        "track": 4,
+        "displayOrder": 36,
+        "variant": null
+      },
+      {
+        "relationId": "RT0356",
+        "songId": "S087",
+        "songName": "冬がくれた予感",
+        "displayName": "冬がくれた予感",
+        "disc": 3,
+        "track": 5,
+        "displayOrder": 37,
+        "variant": null
+      },
+      {
+        "relationId": "RT0357",
+        "songId": "S088",
+        "songName": "Trouble Busters",
+        "displayName": "Trouble Busters",
+        "disc": 3,
+        "track": 6,
+        "displayOrder": 38,
+        "variant": null
+      },
+      {
+        "relationId": "RT0358",
+        "songId": "S036",
+        "songName": "僕らは今のなかで",
+        "displayName": "僕らは今のなかで",
+        "disc": 3,
+        "track": 7,
+        "displayOrder": 39,
+        "variant": "LittleMore-Rock Mix"
+      },
+      {
+        "relationId": "RT0359",
+        "songId": "S045",
+        "songName": "No brand girls",
+        "displayName": "No brand girls",
+        "disc": 3,
+        "track": 8,
+        "displayOrder": 40,
+        "variant": "GRP-Explosion Mix"
+      },
+      {
+        "relationId": "RT0776",
+        "songId": "S046",
+        "songName": "START:DASH!!",
+        "displayName": "START:DASH!!（9人）",
+        "disc": 3,
+        "track": 9,
+        "displayOrder": 41,
+        "variant": "Bitter-Sweet Mix"
+      },
+      {
+        "relationId": "RT0360",
+        "songId": "S032",
+        "songName": "Wonderful Rush",
+        "displayName": "Wonderful Rush",
+        "disc": 3,
+        "track": 10,
+        "displayOrder": 42,
+        "variant": "Heavy-Rush Mix"
+      },
+      {
+        "relationId": "RT0361",
+        "songId": "S060",
+        "songName": "Music S.T.A.R.T!!",
+        "displayName": "Music S.T.A.R.T!!",
+        "disc": 3,
+        "track": 11,
+        "displayOrder": 43,
+        "variant": "SKA-Feel Mix"
+      },
+      {
+        "relationId": "RT0362",
+        "songId": "S055",
+        "songName": "Pure girls project",
+        "displayName": "Pure girls project",
+        "disc": 3,
+        "track": 12,
+        "displayOrder": 44,
+        "variant": "Super-Mondo Mix"
+      },
+      {
+        "relationId": "RT0363",
+        "songId": "S052",
+        "songName": "Cutie Panther",
+        "displayName": "Cutie Panther",
+        "disc": 3,
+        "track": 13,
+        "displayOrder": 45,
+        "variant": "Metal-Panther Mix"
+      },
+      {
+        "relationId": "RT0364",
+        "songId": "S050",
+        "songName": "微熱からMystery",
+        "displayName": "微熱からMystery",
+        "disc": 3,
+        "track": 14,
+        "displayOrder": 46,
+        "variant": "TeKe-TeKe ELEKI Mix"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 46,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

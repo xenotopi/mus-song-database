@@ -1,0 +1,100 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0082",
+    "releaseDate": "2015-08-05",
+    "releaseName": "劇場版『ラブライブ！The School Idol Movie』オリジナルサウンドトラック Notes of School Idol Days ～Curtain Call～",
+    "classification": "CD",
+    "sourceMedia": "サウンドトラック",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd57",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "サウンドトラック",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0365",
+        "songId": "S099",
+        "songName": "Hello,星を数えて",
+        "displayName": "Hello,星を数えて",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 1,
+        "variant": "Movie Edit"
+      },
+      {
+        "relationId": "RT0366",
+        "songId": "S098",
+        "songName": "Angelic Angel",
+        "displayName": "Angelic Angel",
+        "disc": 1,
+        "track": 15,
+        "displayOrder": 2,
+        "variant": "Movie Edit"
+      },
+      {
+        "relationId": "RT0367",
+        "songId": "S101",
+        "songName": "？←HEARTBEAT",
+        "displayName": "？←HEARTBEAT",
+        "disc": 1,
+        "track": 18,
+        "displayOrder": 3,
+        "variant": "Movie Edit"
+      },
+      {
+        "relationId": "RT0368",
+        "songId": "S103",
+        "songName": "Future style",
+        "displayName": "Future style",
+        "disc": 1,
+        "track": 27,
+        "displayOrder": 4,
+        "variant": "Movie Edit"
+      },
+      {
+        "relationId": "RT0369",
+        "songId": "S100",
+        "songName": "SUNNY DAY SONG",
+        "displayName": "SUNNY DAY SONG",
+        "disc": 1,
+        "track": 32,
+        "displayOrder": 5,
+        "variant": "Movie Edit"
+      },
+      {
+        "relationId": "RT0370",
+        "songId": "S102",
+        "songName": "僕たちはひとつの光",
+        "displayName": "僕たちはひとつの光",
+        "disc": 1,
+        "track": 34,
+        "displayOrder": 6,
+        "variant": "Movie Edit"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 6,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

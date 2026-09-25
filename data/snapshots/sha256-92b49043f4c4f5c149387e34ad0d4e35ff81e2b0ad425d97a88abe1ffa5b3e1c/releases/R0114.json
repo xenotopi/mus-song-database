@@ -1,0 +1,367 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0114",
+    "releaseDate": "2018-03-28",
+    "releaseName": "ラブライブ！Solo Live! from μ’s 矢澤にこ Memories with Nico",
+    "classification": "CD",
+    "sourceMedia": "Solo Live",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd73",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "Solo Live!",
+    "releaseSeries": {
+      "id": "RS0003",
+      "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+      "shortName": "Solo Live! III"
+    },
+    "editionType": "individual",
+    "parentReleaseId": "R0088",
+    "featuredSinger": {
+      "id": "SN0022",
+      "name": "矢澤にこ"
+    },
+    "catalogNumber": "LACA-9624～LACA-9626",
+    "officialName": "ラブライブ！Solo Live! Ⅲ from μ's 矢澤にこ Memories with Nico",
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT1193",
+        "songId": "S060",
+        "songName": "Music S.T.A.R.T!!",
+        "displayName": "Music S.T.A.R.T!!",
+        "disc": 1,
+        "track": 1,
+        "displayOrder": 1,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1194",
+        "songId": "S061",
+        "songName": "LOVELESS WORLD",
+        "displayName": "LOVELESS WORLD",
+        "disc": 1,
+        "track": 2,
+        "displayOrder": 2,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1195",
+        "songId": "S062",
+        "songName": "タカラモノズ",
+        "displayName": "タカラモノズ",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1196",
+        "songId": "S063",
+        "songName": "Paradise Live",
+        "displayName": "Paradise Live",
+        "disc": 1,
+        "track": 4,
+        "displayOrder": 4,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1197",
+        "songId": "S064",
+        "songName": "それは僕たちの奇跡",
+        "displayName": "それは僕たちの奇跡",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1198",
+        "songId": "S065",
+        "songName": "だってだって噫無情",
+        "displayName": "だってだって噫無情",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1199",
+        "songId": "S066",
+        "songName": "どんなときもずっと",
+        "displayName": "どんなときもずっと",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1200",
+        "songId": "S067",
+        "songName": "COLORFUL VOICE",
+        "displayName": "COLORFUL VOICE",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1201",
+        "songId": "S068",
+        "songName": "ユメノトビラ",
+        "displayName": "ユメノトビラ",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1202",
+        "songId": "S069",
+        "songName": "SENTIMENTAL StepS",
+        "displayName": "SENTIMENTAL StepS",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1203",
+        "songId": "S070",
+        "songName": "Love wing bell",
+        "displayName": "Love wing bell",
+        "disc": 1,
+        "track": 11,
+        "displayOrder": 11,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1204",
+        "songId": "S071",
+        "songName": "Dancing stars on me!",
+        "displayName": "Dancing stars on me!",
+        "disc": 1,
+        "track": 12,
+        "displayOrder": 12,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1205",
+        "songId": "S073",
+        "songName": "KiRa-KiRa Sensation!",
+        "displayName": "KiRa-KiRa Sensation!",
+        "disc": 1,
+        "track": 13,
+        "displayOrder": 13,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1206",
+        "songId": "S074",
+        "songName": "Happy maker!",
+        "displayName": "Happy maker!",
+        "disc": 1,
+        "track": 14,
+        "displayOrder": 14,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1207",
+        "songId": "S079",
+        "songName": "Shangri-La Shower",
+        "displayName": "Shangri-La Shower",
+        "disc": 2,
+        "track": 1,
+        "displayOrder": 15,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1208",
+        "songId": "S080",
+        "songName": "るてしキスキしてる",
+        "displayName": "るてしキスキしてる",
+        "disc": 2,
+        "track": 2,
+        "displayOrder": 16,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1209",
+        "songId": "S093",
+        "songName": "ミはμ'sicのミ",
+        "displayName": "ミはμ'sicのミ",
+        "disc": 2,
+        "track": 3,
+        "displayOrder": 17,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1210",
+        "songId": "S094",
+        "songName": "Super LOVE=Super LIVE!",
+        "displayName": "Super LOVE=Super LIVE!",
+        "disc": 2,
+        "track": 4,
+        "displayOrder": 18,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1211",
+        "songId": "S098",
+        "songName": "Angelic Angel",
+        "displayName": "Angelic Angel",
+        "disc": 2,
+        "track": 5,
+        "displayOrder": 19,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1212",
+        "songId": "S100",
+        "songName": "SUNNY DAY SONG",
+        "displayName": "SUNNY DAY SONG",
+        "disc": 2,
+        "track": 6,
+        "displayOrder": 20,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1213",
+        "songId": "S102",
+        "songName": "僕たちはひとつの光",
+        "displayName": "僕たちはひとつの光",
+        "disc": 2,
+        "track": 7,
+        "displayOrder": 21,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1214",
+        "songId": "S101",
+        "songName": "？←HEARTBEAT",
+        "displayName": "？←HEARTBEAT",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 22,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1215",
+        "songId": "S052",
+        "songName": "Cutie Panther",
+        "displayName": "Cutie Panther",
+        "disc": 3,
+        "track": 1,
+        "displayOrder": 23,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1216",
+        "songId": "S053",
+        "songName": "夏、終わらないで。",
+        "displayName": "夏、終わらないで。",
+        "disc": 3,
+        "track": 2,
+        "displayOrder": 24,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1217",
+        "songId": "S087",
+        "songName": "冬がくれた予感",
+        "displayName": "冬がくれた予感",
+        "disc": 3,
+        "track": 3,
+        "displayOrder": 25,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1218",
+        "songId": "S088",
+        "songName": "Trouble Busters",
+        "displayName": "Trouble Busters",
+        "disc": 3,
+        "track": 4,
+        "displayOrder": 26,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1219",
+        "songId": "S112",
+        "songName": "錯覚CROSSROADS",
+        "displayName": "錯覚CROSSROADS",
+        "disc": 3,
+        "track": 5,
+        "displayOrder": 27,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1220",
+        "songId": "S113",
+        "songName": "PSYCHIC FIRE",
+        "displayName": "PSYCHIC FIRE",
+        "disc": 3,
+        "track": 6,
+        "displayOrder": 28,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1221",
+        "songId": "S105",
+        "songName": "HEART to HEART!",
+        "displayName": "HEART to HEART!",
+        "disc": 3,
+        "track": 7,
+        "displayOrder": 29,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1222",
+        "songId": "S106",
+        "songName": "嵐のなかの恋だから",
+        "displayName": "嵐のなかの恋だから",
+        "disc": 3,
+        "track": 8,
+        "displayOrder": 30,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1223",
+        "songId": "S114",
+        "songName": "MOMENT RING",
+        "displayName": "MOMENT RING",
+        "disc": 3,
+        "track": 9,
+        "displayOrder": 31,
+        "variant": "NICO Mix"
+      },
+      {
+        "relationId": "RT1224",
+        "songId": "S115",
+        "songName": "さようならへさよなら！",
+        "displayName": "さようならへさよなら！",
+        "disc": 3,
+        "track": 10,
+        "displayOrder": 32,
+        "variant": "NICO Mix"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 32,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

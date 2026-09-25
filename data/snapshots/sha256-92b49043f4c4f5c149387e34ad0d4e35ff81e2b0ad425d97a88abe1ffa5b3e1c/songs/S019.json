@@ -1,0 +1,336 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S019",
+    "songName": "Mermaid festa vol.2 ～Passionate～",
+    "displayName": "Mermaid festa vol.2 ～Passionate～",
+    "version": "通常",
+    "recordingCd": "Mermaid festa vol.2 ～Passionate～",
+    "releaseDate": "2012-04-25",
+    "media": "デュオCD",
+    "category": "デュオシングル",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd11",
+    "debutRelease": {
+      "releaseId": "R0011",
+      "releaseDate": "2012-04-25",
+      "releaseName": "Mermaid festa vol.2 ～Passionate～",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd11"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0019",
+        "releaseId": "R0011",
+        "releaseName": "Mermaid festa vol.2 ～Passionate～",
+        "releaseDate": "2012-04-25",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0158",
+        "releaseId": "R0070",
+        "releaseName": "μ's Best Album Best Live! collection",
+        "releaseDate": "2013-01-09",
+        "classification": "CD",
+        "releaseType": "ベストアルバム",
+        "disc": 2,
+        "track": 3,
+        "displayOrder": 17,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0190",
+        "releaseId": "R0077",
+        "releaseName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": "HONOKA Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39331～LACA-39339",
+        "officialName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ"
+      },
+      {
+        "relationId": "RT0240",
+        "releaseId": "R0077",
+        "releaseName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 5,
+        "track": 3,
+        "displayOrder": 57,
+        "variant": "RIN Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39331～LACA-39339",
+        "officialName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ"
+      },
+      {
+        "relationId": "RT0827",
+        "releaseId": "R0097",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 高坂穂乃果 orange cheers!",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": "HONOKA Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0077",
+        "featuredSinger": {
+          "id": "SN0004",
+          "name": "高坂穂乃果"
+        },
+        "catalogNumber": "LACA-15381",
+        "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 高坂穂乃果 orange cheers!"
+      },
+      {
+        "relationId": "RT0877",
+        "releaseId": "R0101",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 星空凛 Ring a yellow bell",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": "RIN Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0077",
+        "featuredSinger": {
+          "id": "SN0012",
+          "name": "星空凛"
+        },
+        "catalogNumber": "LACA-15385",
+        "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 星空凛 Ring a yellow bell"
+      },
+      {
+        "relationId": "RT0741",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 10,
+        "track": 1,
+        "displayOrder": 88,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "新田",
+        "飯田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 12,
+      "completePerformanceCount": 10,
+      "irregularPerformanceCount": 2,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 1,
+      "excessCount": 0,
+      "mismatchCount": 1,
+      "completeRate": 83.3,
+      "eventCount": 12,
+      "officialEventCount": 9,
+      "soloEventCount": 3,
+      "firstPerformanceDate": "2012-09-23",
+      "lastPerformanceDate": "2025-11-23"
+    },
+    "performances": [
+      {
+        "date": "2012-09-23",
+        "eventId": "EV0005",
+        "eventName": "東京ゲームショウ2012 ラブライブ！ スペシャルイベント",
+        "singer": "新田＆飯田",
+        "singerId": "SN0018",
+        "singerDisplayName": "高坂穂乃果＆星空凛",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2013-01-03",
+        "eventId": "EV0007",
+        "eventName": "ラブライブ！ μ's New Year LoveLive! 2013",
+        "singer": "新田＆飯田",
+        "singerId": "SN0018",
+        "singerDisplayName": "高坂穂乃果＆星空凛",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2013-07-27",
+        "eventId": "EV0015",
+        "eventName": "Neo generation Lives Vol.04",
+        "singer": "新田＆飯田",
+        "singerId": "SN0064",
+        "singerDisplayName": "新田恵海＆飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2015-08-09",
+        "eventId": "EV0089",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 宮城公演　夜の部",
+        "singer": "新田＆飯田",
+        "singerId": "SN0018",
+        "singerDisplayName": "高坂穂乃果＆星空凛",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2015-08-09",
+        "eventId": "EV0088",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 宮城公演　昼の部",
+        "singer": "新田＆飯田",
+        "singerId": "SN0018",
+        "singerDisplayName": "高坂穂乃果＆星空凛",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2016-07-17",
+        "eventId": "EV0111",
+        "eventName": "音霊 OTODAMA SEA STUDIO 2016",
+        "singer": "飯田",
+        "singerId": "SN0051",
+        "singerDisplayName": "飯田里穂",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2022-06-19",
+        "eventId": "EV0246",
+        "eventName": "SPACEY MUSIC 2マン SPECIAL LIVE 2022 6日目夜の部",
+        "singer": "新田＆Pile",
+        "singerId": "SN0056",
+        "singerDisplayName": "新田恵海＆Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2025-11-15",
+        "eventId": "EV0321",
+        "eventName": "Lovelive Overseas events Seoul公演 1日目 第二部",
+        "singer": "新田＆飯田",
+        "singerId": "SN0018",
+        "singerDisplayName": "高坂穂乃果＆星空凛",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2025-11-22",
+        "eventId": "EV0324",
+        "eventName": "Lovelive Overseas events 広州公演 1日目 第一部",
+        "singer": "新田＆飯田",
+        "singerId": "SN0018",
+        "singerDisplayName": "高坂穂乃果＆星空凛",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2025-11-22",
+        "eventId": "EV0325",
+        "eventName": "Lovelive Overseas events 広州公演 1日目 第二部",
+        "singer": "新田＆飯田",
+        "singerId": "SN0018",
+        "singerDisplayName": "高坂穂乃果＆星空凛",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2025-11-23",
+        "eventId": "EV0326",
+        "eventName": "Lovelive Overseas events 広州公演 2日目 第一部",
+        "singer": "新田＆飯田",
+        "singerId": "SN0018",
+        "singerDisplayName": "高坂穂乃果＆星空凛",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2025-11-23",
+        "eventId": "EV0327",
+        "eventName": "Lovelive Overseas events 広州公演 2日目 第二部",
+        "singer": "新田＆飯田",
+        "singerId": "SN0018",
+        "singerDisplayName": "高坂穂乃果＆星空凛",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

@@ -1,0 +1,252 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S024",
+    "songName": "純愛レンズ",
+    "displayName": "純愛レンズ",
+    "version": "通常",
+    "recordingCd": "乙女式れんあい塾",
+    "releaseDate": "2012-05-23",
+    "media": "デュオCD",
+    "category": "シングル",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd12",
+    "debutRelease": {
+      "releaseId": "R0012",
+      "releaseDate": "2012-05-23",
+      "releaseName": "乙女式れんあい塾",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd12"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0024",
+        "releaseId": "R0012",
+        "releaseName": "乙女式れんあい塾",
+        "releaseDate": "2012-05-23",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 3,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0163",
+        "releaseId": "R0070",
+        "releaseName": "μ's Best Album Best Live! collection",
+        "releaseDate": "2013-01-09",
+        "classification": "CD",
+        "releaseType": "ベストアルバム",
+        "disc": 2,
+        "track": 8,
+        "displayOrder": 22,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0746",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 10,
+        "track": 6,
+        "displayOrder": 93,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "楠田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 13,
+      "completePerformanceCount": 13,
+      "irregularPerformanceCount": 0,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 0,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 100,
+      "eventCount": 13,
+      "officialEventCount": 5,
+      "soloEventCount": 8,
+      "firstPerformanceDate": "2013-01-03",
+      "lastPerformanceDate": "2023-10-14"
+    },
+    "performances": [
+      {
+        "date": "2013-01-03",
+        "eventId": "EV0007",
+        "eventName": "ラブライブ！ μ's New Year LoveLive! 2013",
+        "singer": "楠田",
+        "singerId": "SN0027",
+        "singerDisplayName": "東條希",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2013-06-16",
+        "eventId": "EV0013",
+        "eventName": "μ’s 3rd Anniversary LoveLive!",
+        "singer": "楠田",
+        "singerId": "SN0027",
+        "singerDisplayName": "東條希",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "ショートVer."
+      },
+      {
+        "date": "2013-12-22",
+        "eventId": "EV0024",
+        "eventName": "楠田亜衣奈クリスマスイベント 〜くっすんサンタがやって来た！〜 1部",
+        "singer": "楠田",
+        "singerId": "SN0055",
+        "singerDisplayName": "楠田亜衣奈",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2013-12-22",
+        "eventId": "EV0025",
+        "eventName": "楠田亜衣奈クリスマスイベント 〜くっすんサンタがやって来た！〜 2部",
+        "singer": "楠田",
+        "singerId": "SN0055",
+        "singerDisplayName": "楠田亜衣奈",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2014-03-15",
+        "eventId": "EV0031",
+        "eventName": "香港C3 μ's 1st Live in Hong Kong",
+        "singer": "楠田",
+        "singerId": "SN0027",
+        "singerDisplayName": "東條希",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2015-05-02",
+        "eventId": "EV0059",
+        "eventName": "さんくっすん祭り大阪夜",
+        "singer": "楠田",
+        "singerId": "SN0055",
+        "singerDisplayName": "楠田亜衣奈",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2015-05-02",
+        "eventId": "EV0058",
+        "eventName": "さんくっすん祭り大阪昼",
+        "singer": "楠田",
+        "singerId": "SN0055",
+        "singerDisplayName": "楠田亜衣奈",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2015-05-16",
+        "eventId": "EV0063",
+        "eventName": "「くすくすくっすん台湾がやって来た！☀台湾と言えば～小籠包だよ！！」夜の部",
+        "singer": "楠田",
+        "singerId": "SN0055",
+        "singerDisplayName": "楠田亜衣奈",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2015-05-16",
+        "eventId": "EV0062",
+        "eventName": "「くすくすくっすん台湾がやって来た！☀台湾と言えば～小籠包だよ！！」昼の部",
+        "singer": "楠田",
+        "singerId": "SN0055",
+        "singerDisplayName": "楠田亜衣奈",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2015-06-27",
+        "eventId": "EV0076",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 長野公演　夜の部",
+        "singer": "楠田",
+        "singerId": "SN0027",
+        "singerDisplayName": "東條希",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2015-06-27",
+        "eventId": "EV0075",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 長野公演　昼の部",
+        "singer": "楠田",
+        "singerId": "SN0027",
+        "singerDisplayName": "東條希",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2023-10-14",
+        "eventId": "EV0261",
+        "eventName": "さんくっすん祭り2023夜の部",
+        "singer": "楠田",
+        "singerId": "SN0055",
+        "singerDisplayName": "楠田亜衣奈",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2023-10-14",
+        "eventId": "EV0260",
+        "eventName": "さんくっすん祭り2023昼の部",
+        "singer": "楠田",
+        "singerId": "SN0055",
+        "singerDisplayName": "楠田亜衣奈",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

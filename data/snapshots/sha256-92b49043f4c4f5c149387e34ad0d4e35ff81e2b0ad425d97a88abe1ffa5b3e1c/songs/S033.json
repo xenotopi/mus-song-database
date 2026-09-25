@@ -1,0 +1,613 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S033",
+    "songName": "Oh, Love & Peace!",
+    "displayName": "Oh, Love & Peace!",
+    "version": "通常",
+    "recordingCd": "Wonderful Rush",
+    "releaseDate": "2012-09-05",
+    "media": "CD",
+    "category": "カップリング",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd15",
+    "debutRelease": {
+      "releaseId": "R0015",
+      "releaseDate": "2012-09-05",
+      "releaseName": "Wonderful Rush",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd15"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0033",
+        "releaseId": "R0015",
+        "releaseName": "Wonderful Rush",
+        "releaseDate": "2012-09-05",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0157",
+        "releaseId": "R0070",
+        "releaseName": "μ's Best Album Best Live! collection",
+        "releaseDate": "2013-01-09",
+        "classification": "CD",
+        "releaseType": "ベストアルバム",
+        "disc": 2,
+        "track": 2,
+        "displayOrder": 16,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0192",
+        "releaseId": "R0077",
+        "releaseName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "HONOKA Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39331～LACA-39339",
+        "officialName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ"
+      },
+      {
+        "relationId": "RT0205",
+        "releaseId": "R0077",
+        "releaseName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 2,
+        "track": 5,
+        "displayOrder": 19,
+        "variant": "ELI Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39331～LACA-39339",
+        "officialName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ"
+      },
+      {
+        "relationId": "RT0216",
+        "releaseId": "R0077",
+        "releaseName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 3,
+        "track": 5,
+        "displayOrder": 31,
+        "variant": "KOTORI Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39331～LACA-39339",
+        "officialName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ"
+      },
+      {
+        "relationId": "RT0229",
+        "releaseId": "R0077",
+        "releaseName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 4,
+        "track": 5,
+        "displayOrder": 45,
+        "variant": "UMI Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39331～LACA-39339",
+        "officialName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ"
+      },
+      {
+        "relationId": "RT0242",
+        "releaseId": "R0077",
+        "releaseName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 5,
+        "track": 5,
+        "displayOrder": 59,
+        "variant": "RIN Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39331～LACA-39339",
+        "officialName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ"
+      },
+      {
+        "relationId": "RT0256",
+        "releaseId": "R0077",
+        "releaseName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 6,
+        "track": 5,
+        "displayOrder": 74,
+        "variant": "MAKI Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39331～LACA-39339",
+        "officialName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ"
+      },
+      {
+        "relationId": "RT0268",
+        "releaseId": "R0077",
+        "releaseName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 7,
+        "track": 5,
+        "displayOrder": 87,
+        "variant": "NOZOMI Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39331～LACA-39339",
+        "officialName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ"
+      },
+      {
+        "relationId": "RT0279",
+        "releaseId": "R0077",
+        "releaseName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 8,
+        "track": 5,
+        "displayOrder": 99,
+        "variant": "HANAYO Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39331～LACA-39339",
+        "officialName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ"
+      },
+      {
+        "relationId": "RT0293",
+        "releaseId": "R0077",
+        "releaseName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 9,
+        "track": 5,
+        "displayOrder": 114,
+        "variant": "NICO Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39331～LACA-39339",
+        "officialName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ"
+      },
+      {
+        "relationId": "RT0829",
+        "releaseId": "R0097",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 高坂穂乃果 orange cheers!",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "HONOKA Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0077",
+        "featuredSinger": {
+          "id": "SN0004",
+          "name": "高坂穂乃果"
+        },
+        "catalogNumber": "LACA-15381",
+        "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 高坂穂乃果 orange cheers!"
+      },
+      {
+        "relationId": "RT0842",
+        "releaseId": "R0098",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 絢瀬絵里 アイス・ブルーの瞬間",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "ELI Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0077",
+        "featuredSinger": {
+          "id": "SN0034",
+          "name": "絢瀬絵里"
+        },
+        "catalogNumber": "LACA-15382",
+        "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 絢瀬絵里 アイス・ブルーの瞬間"
+      },
+      {
+        "relationId": "RT0853",
+        "releaseId": "R0099",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 南ことり 純白ロマンス",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "KOTORI Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0077",
+        "featuredSinger": {
+          "id": "SN0028",
+          "name": "南ことり"
+        },
+        "catalogNumber": "LACA-15383",
+        "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 南ことり 純白ロマンス"
+      },
+      {
+        "relationId": "RT0866",
+        "releaseId": "R0100",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 園田海未 蒼の神話",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "UMI Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0077",
+        "featuredSinger": {
+          "id": "SN0026",
+          "name": "園田海未"
+        },
+        "catalogNumber": "LACA-15384",
+        "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 園田海未 蒼の神話"
+      },
+      {
+        "relationId": "RT0879",
+        "releaseId": "R0101",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 星空凛 Ring a yellow bell",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "RIN Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0077",
+        "featuredSinger": {
+          "id": "SN0012",
+          "name": "星空凛"
+        },
+        "catalogNumber": "LACA-15385",
+        "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 星空凛 Ring a yellow bell"
+      },
+      {
+        "relationId": "RT0893",
+        "releaseId": "R0102",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 西木野真姫 SCARLET PRINCESS",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "MAKI Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0077",
+        "featuredSinger": {
+          "id": "SN0006",
+          "name": "西木野真姫"
+        },
+        "catalogNumber": "LACA-15386",
+        "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 西木野真姫 SCARLET PRINCESS"
+      },
+      {
+        "relationId": "RT0905",
+        "releaseId": "R0103",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 東條希 バイオレットムーン",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "NOZOMI Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0077",
+        "featuredSinger": {
+          "id": "SN0027",
+          "name": "東條希"
+        },
+        "catalogNumber": "LACA-15387",
+        "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 東條希 バイオレットムーン"
+      },
+      {
+        "relationId": "RT0916",
+        "releaseId": "R0104",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 小泉花陽 若草のSeason",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "HANAYO Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0077",
+        "featuredSinger": {
+          "id": "SN0021",
+          "name": "小泉花陽"
+        },
+        "catalogNumber": "LACA-15388",
+        "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 小泉花陽 若草のSeason"
+      },
+      {
+        "relationId": "RT0930",
+        "releaseId": "R0105",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 矢澤にこ ももいろ♡えがお",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "NICO Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0077",
+        "featuredSinger": {
+          "id": "SN0022",
+          "name": "矢澤にこ"
+        },
+        "catalogNumber": "LACA-15389",
+        "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 矢澤にこ ももいろ♡えがお"
+      },
+      {
+        "relationId": "RT0320",
+        "releaseId": "R0078",
+        "releaseName": "TVアニメ2期 オリジナルサウンドトラック Notes of School idol days ～Glory～",
+        "releaseDate": "2014-08-27",
+        "classification": "CD",
+        "releaseType": "サウンドトラック",
+        "disc": 2,
+        "track": 23,
+        "displayOrder": 18,
+        "variant": "TVサイズ",
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0665",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "Pile",
+        "久保",
+        "三森",
+        "新田",
+        "徳井",
+        "内田",
+        "南條",
+        "楠田",
+        "飯田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 5,
+      "completePerformanceCount": 4,
+      "irregularPerformanceCount": 1,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 1,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 80,
+      "eventCount": 5,
+      "officialEventCount": 5,
+      "soloEventCount": 0,
+      "firstPerformanceDate": "2013-01-03",
+      "lastPerformanceDate": "2016-04-01"
+    },
+    "performances": [
+      {
+        "date": "2013-01-03",
+        "eventId": "EV0007",
+        "eventName": "ラブライブ！ μ's New Year LoveLive! 2013",
+        "singer": "新田＆内田＆三森＆飯田＆久保＆Pile＆楠田＆徳井",
+        "singerId": "SN0002",
+        "singerDisplayName": "高坂穂乃果＆南ことり＆園田海未＆星空凛＆小泉花陽＆西木野真姫＆東條希＆矢澤にこ",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2015-01-31",
+        "eventId": "EV0051",
+        "eventName": "μ's Go→Go! LoveLive! 2015 ～Dream Sensation!～ 1日目",
+        "singer": "μ's",
+        "singerId": "SN0001",
+        "singerDisplayName": "μ's",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2015-02-01",
+        "eventId": "EV0052",
+        "eventName": "μ's Go→Go! LoveLive! 2015 ～Dream Sensation!～ 2日目",
+        "singer": "μ's",
+        "singerId": "SN0001",
+        "singerDisplayName": "μ's",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2016-03-31",
+        "eventId": "EV0108",
+        "eventName": "μ's Final LoveLive! 〜μ'sic Forever♪♪♪♪♪♪♪♪♪〜 Day1",
+        "singer": "μ's",
+        "singerId": "SN0001",
+        "singerDisplayName": "μ's",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2016-04-01",
+        "eventId": "EV0109",
+        "eventName": "μ's Final LoveLive! 〜μ'sic Forever♪♪♪♪♪♪♪♪♪〜 Day2",
+        "singer": "μ's",
+        "singerId": "SN0001",
+        "singerDisplayName": "μ's",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

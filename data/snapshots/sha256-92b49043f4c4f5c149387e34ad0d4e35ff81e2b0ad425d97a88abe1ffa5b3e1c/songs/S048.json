@@ -1,0 +1,230 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S048",
+    "songName": "なわとび",
+    "displayName": "なわとび",
+    "version": "通常",
+    "recordingCd": "「ラブライブ！」Blu-ray 第3巻",
+    "releaseDate": "2013-05-28",
+    "media": "Blu-ray",
+    "category": "特典曲",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd03",
+    "debutRelease": {
+      "releaseId": "R0024",
+      "releaseDate": "2013-05-28",
+      "releaseName": "「ラブライブ！」Blu-ray 第3巻",
+      "classification": "Blu-ray",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd03"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0048",
+        "releaseId": "R0024",
+        "releaseName": "「ラブライブ！」Blu-ray 第3巻",
+        "releaseDate": "2013-05-28",
+        "classification": "Blu-ray",
+        "releaseType": "アニメBlu-ray",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT1227",
+        "releaseId": "R0089",
+        "releaseName": "ラブライブ！9th Anniversary Blu-ray BOX",
+        "releaseDate": "2019-10-25",
+        "classification": "Blu-ray",
+        "releaseType": "映像BOX",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0678",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 3,
+        "track": 3,
+        "displayOrder": 25,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "久保"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 11,
+      "completePerformanceCount": 11,
+      "irregularPerformanceCount": 0,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 0,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 100,
+      "eventCount": 11,
+      "officialEventCount": 7,
+      "soloEventCount": 4,
+      "firstPerformanceDate": "2013-06-16",
+      "lastPerformanceDate": "2018-05-19"
+    },
+    "performances": [
+      {
+        "date": "2013-06-16",
+        "eventId": "EV0013",
+        "eventName": "μ’s 3rd Anniversary LoveLive!",
+        "singer": "久保",
+        "singerId": "SN0021",
+        "singerDisplayName": "小泉花陽",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "ショートVer."
+      },
+      {
+        "date": "2014-02-08",
+        "eventId": "EV0028",
+        "eventName": "μ's→NEXT LoveLive! 2014～ENDLESS PARADE～ 1日目",
+        "singer": "久保",
+        "singerId": "SN0021",
+        "singerDisplayName": "小泉花陽",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2014-03-15",
+        "eventId": "EV0031",
+        "eventName": "香港C3 μ's 1st Live in Hong Kong",
+        "singer": "久保",
+        "singerId": "SN0021",
+        "singerDisplayName": "小泉花陽",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2015-06-20",
+        "eventId": "EV0074",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 福岡公演　夜の部",
+        "singer": "久保",
+        "singerId": "SN0021",
+        "singerDisplayName": "小泉花陽",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2015-06-20",
+        "eventId": "EV0073",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 福岡公演　昼の部",
+        "singer": "久保",
+        "singerId": "SN0021",
+        "singerDisplayName": "小泉花陽",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2015-08-09",
+        "eventId": "EV0089",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 宮城公演　夜の部",
+        "singer": "久保",
+        "singerId": "SN0021",
+        "singerDisplayName": "小泉花陽",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2015-08-09",
+        "eventId": "EV0088",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 宮城公演　昼の部",
+        "singer": "久保",
+        "singerId": "SN0021",
+        "singerDisplayName": "小泉花陽",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2015-09-12",
+        "eventId": "EV0349",
+        "eventName": "久保百合花 In Taiwan 海外首次見面會「Doki！ Doki！小鹿亂撞！～我們相遇是縁分～」『午場』",
+        "singer": "久保",
+        "singerId": "SN0058",
+        "singerDisplayName": "久保ユリカ",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2015-09-12",
+        "eventId": "EV0350",
+        "eventName": "久保百合花 In Taiwan 海外首次見面會「Doki！ Doki！小鹿亂撞！～我們相遇是縁分～」『晚場』",
+        "singer": "久保",
+        "singerId": "SN0058",
+        "singerDisplayName": "久保ユリカ",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2017-12-24",
+        "eventId": "EV0170",
+        "eventName": "SHiKACO PARKクリスマスイベント1部",
+        "singer": "久保",
+        "singerId": "SN0058",
+        "singerDisplayName": "久保ユリカ",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2018-05-19",
+        "eventId": "EV0177",
+        "eventName": "SHiKACO PARK 5月度ファンミーティング",
+        "singer": "久保",
+        "singerId": "SN0058",
+        "singerDisplayName": "久保ユリカ",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

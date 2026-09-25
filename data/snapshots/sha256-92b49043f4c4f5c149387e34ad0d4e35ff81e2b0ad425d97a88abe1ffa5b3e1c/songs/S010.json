@@ -1,0 +1,219 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S010",
+    "songName": "あ・の・ね・が・ん・ば・れ！",
+    "displayName": "あ・の・ね・が・ん・ば・れ！",
+    "version": "通常",
+    "recordingCd": "知らないLove*教えてLove",
+    "releaseDate": "2011-07-27",
+    "media": "ユニット",
+    "category": "カップリング",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd05",
+    "debutRelease": {
+      "releaseId": "R0005",
+      "releaseDate": "2011-07-27",
+      "releaseName": "知らないLove*教えてLove",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd05"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0010",
+        "releaseId": "R0005",
+        "releaseName": "知らないLove*教えてLove",
+        "releaseDate": "2011-07-27",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0123",
+        "releaseId": "R0007",
+        "releaseName": "μ's ソロCDリリース第1弾 園田海未 海色少女に魅せられて",
+        "releaseDate": "2011-11-23",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "UMI Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0026",
+          "name": "園田海未"
+        },
+        "catalogNumber": "LACA-15168",
+        "officialName": "ラブライブ！ Solo Live! from μ's 園田海未 海色少女に魅せられて"
+      },
+      {
+        "relationId": "RT0151",
+        "releaseId": "R0070",
+        "releaseName": "μ's Best Album Best Live! collection",
+        "releaseDate": "2013-01-09",
+        "classification": "CD",
+        "releaseType": "ベストアルバム",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0782",
+        "releaseId": "R0091",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 東條希 ノゾミ♪カナエテ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": "NOZOMI Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0027",
+          "name": "東條希"
+        },
+        "catalogNumber": "LACA-15407",
+        "officialName": "ラブライブ！ Solo Live! from μ's 東條希 ノゾミ♪カナエテ"
+      },
+      {
+        "relationId": "RT0814",
+        "releaseId": "R0095",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 星空凛 THE BRILLIANT STAR☆",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": "RIN Mix",
+        "releaseSeries": {
+          "id": "RS0001",
+          "name": "ラブライブ！ Solo Live! from μ's",
+          "shortName": "Solo Live! I"
+        },
+        "editionType": "individual",
+        "parentReleaseId": null,
+        "featuredSinger": {
+          "id": "SN0012",
+          "name": "星空凛"
+        },
+        "catalogNumber": "LACA-15411",
+        "officialName": "ラブライブ！ Solo Live! from μ's 星空凛 THE BRILLIANT STAR☆"
+      },
+      {
+        "relationId": "RT0732",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 9,
+        "track": 2,
+        "displayOrder": 79,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "三森",
+        "楠田",
+        "飯田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 3,
+      "completePerformanceCount": 2,
+      "irregularPerformanceCount": 1,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 0,
+      "excessCount": 0,
+      "mismatchCount": 1,
+      "completeRate": 66.7,
+      "eventCount": 3,
+      "officialEventCount": 2,
+      "soloEventCount": 1,
+      "firstPerformanceDate": "2012-02-19",
+      "lastPerformanceDate": "2023-10-22"
+    },
+    "performances": [
+      {
+        "date": "2012-02-19",
+        "eventId": "EV0001",
+        "eventName": "ラブライブ！ μ’s First LoveLive！",
+        "singer": "三森＆飯田＆楠田",
+        "singerId": "SN0011",
+        "singerDisplayName": "園田海未＆星空凛＆東條希",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2013-01-03",
+        "eventId": "EV0007",
+        "eventName": "ラブライブ！ μ's New Year LoveLive! 2013",
+        "singer": "三森＆飯田＆楠田",
+        "singerId": "SN0011",
+        "singerDisplayName": "園田海未＆星空凛＆東條希",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2023-10-22",
+        "eventId": "EV0263",
+        "eventName": "MIX SONG LIVE『〜Kara・ful・ à lamode〜』夜の部",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

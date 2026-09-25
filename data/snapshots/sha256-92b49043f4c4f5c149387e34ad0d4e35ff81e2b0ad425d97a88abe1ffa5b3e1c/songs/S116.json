@@ -1,0 +1,80 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S116",
+    "songName": "A song for You! You? You!!",
+    "displayName": "A song for You! You? You!!",
+    "version": "通常",
+    "recordingCd": "A song for You! You? You!!",
+    "releaseDate": "2020-03-25",
+    "media": "CD",
+    "category": "シングル",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd84",
+    "debutRelease": {
+      "releaseId": "R0067",
+      "releaseDate": "2020-03-25",
+      "releaseName": "A song for You! You? You!!",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd84"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0116",
+        "releaseId": "R0067",
+        "releaseName": "A song for You! You? You!!",
+        "releaseDate": "2020-03-25",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "Pile",
+        "久保",
+        "三森",
+        "新田",
+        "徳井",
+        "内田",
+        "南條",
+        "楠田",
+        "飯田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 0,
+      "completePerformanceCount": 0,
+      "irregularPerformanceCount": 0,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 0,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 0,
+      "eventCount": 0,
+      "officialEventCount": 0,
+      "soloEventCount": 0,
+      "firstPerformanceDate": null,
+      "lastPerformanceDate": null
+    },
+    "performances": [],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

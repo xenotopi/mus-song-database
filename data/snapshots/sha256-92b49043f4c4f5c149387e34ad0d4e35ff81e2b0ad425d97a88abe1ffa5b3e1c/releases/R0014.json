@@ -1,0 +1,101 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0014",
+    "releaseDate": "2012-07-25",
+    "releaseName": "soldier game",
+    "classification": "CD",
+    "sourceMedia": "トリオCD",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd14",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "シングル",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S028",
+        "songName": "soldier game",
+        "displayName": "soldier game"
+      },
+      {
+        "songId": "S029",
+        "songName": "Daring!!",
+        "displayName": "Daring!!"
+      },
+      {
+        "songId": "S030",
+        "songName": "勇気のReason",
+        "displayName": "勇気のReason"
+      },
+      {
+        "songId": "S031",
+        "songName": "ありふれた悲しみの果て",
+        "displayName": "ありふれた悲しみの果て"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0028",
+        "songId": "S028",
+        "songName": "soldier game",
+        "displayName": "soldier game",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null
+      },
+      {
+        "relationId": "RT0029",
+        "songId": "S029",
+        "songName": "Daring!!",
+        "displayName": "Daring!!",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null
+      },
+      {
+        "relationId": "RT0030",
+        "songId": "S030",
+        "songName": "勇気のReason",
+        "displayName": "勇気のReason",
+        "disc": null,
+        "track": null,
+        "displayOrder": 3,
+        "variant": null
+      },
+      {
+        "relationId": "RT0031",
+        "songId": "S031",
+        "songName": "ありふれた悲しみの果て",
+        "displayName": "ありふれた悲しみの果て",
+        "disc": null,
+        "track": null,
+        "displayOrder": 4,
+        "variant": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 4,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

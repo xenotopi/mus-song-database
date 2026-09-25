@@ -1,0 +1,373 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S083",
+    "songName": "小夜啼鳥恋詩",
+    "displayName": "小夜啼鳥恋詩",
+    "version": "通常",
+    "recordingCd": "永遠フレンズ",
+    "releaseDate": "2014-11-12",
+    "media": "スクフェス",
+    "category": "カップリング",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd49",
+    "debutRelease": {
+      "releaseId": "R0047",
+      "releaseDate": "2014-11-12",
+      "releaseName": "永遠フレンズ",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd49"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0083",
+        "releaseId": "R0047",
+        "releaseName": "永遠フレンズ",
+        "releaseDate": "2014-11-12",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0353",
+        "releaseId": "R0081",
+        "releaseName": "μ's Best Album Best Live! Collection Ⅱ",
+        "releaseDate": "2015-05-27",
+        "classification": "CD",
+        "releaseType": "ベストアルバム",
+        "disc": 3,
+        "track": 2,
+        "displayOrder": 34,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0395",
+        "releaseId": "R0088",
+        "releaseName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 3,
+        "track": 4,
+        "displayOrder": 25,
+        "variant": "HONOKA Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39600～LACA-39626",
+        "officialName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ"
+      },
+      {
+        "relationId": "RT0458",
+        "releaseId": "R0088",
+        "releaseName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 9,
+        "track": 4,
+        "displayOrder": 88,
+        "variant": "KOTORI Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39600～LACA-39626",
+        "officialName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ"
+      },
+      {
+        "relationId": "RT0617",
+        "releaseId": "R0088",
+        "releaseName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 24,
+        "track": 4,
+        "displayOrder": 247,
+        "variant": "HANAYO Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39600～LACA-39626",
+        "officialName": "ラブライブ！ Solo Live! collection Memorial BOX Ⅲ"
+      },
+      {
+        "relationId": "RT0964",
+        "releaseId": "R0106",
+        "releaseName": "ラブライブ！Solo Live! from μ’s 高坂穂乃果 Memories with Honoka",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 3,
+        "track": 4,
+        "displayOrder": 25,
+        "variant": "HONOKA Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0088",
+        "featuredSinger": {
+          "id": "SN0004",
+          "name": "高坂穂乃果"
+        },
+        "catalogNumber": "LACA-9600～LACA-9602",
+        "officialName": "ラブライブ！Solo Live! Ⅲ from μ's 高坂穂乃果 Memories with Honoka"
+      },
+      {
+        "relationId": "RT1027",
+        "releaseId": "R0108",
+        "releaseName": "ラブライブ！Solo Live! from μ’s 南ことり Memories with Kotori",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 3,
+        "track": 4,
+        "displayOrder": 25,
+        "variant": "KOTORI Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0088",
+        "featuredSinger": {
+          "id": "SN0028",
+          "name": "南ことり"
+        },
+        "catalogNumber": "LACA-9606～LACA-9608",
+        "officialName": "ラブライブ！Solo Live! Ⅲ from μ's 南ことり Memories with Kotori"
+      },
+      {
+        "relationId": "RT1186",
+        "releaseId": "R0113",
+        "releaseName": "ラブライブ！Solo Live! from μ’s 小泉花陽 Memories with Hanayo",
+        "releaseDate": "2018-03-28",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 3,
+        "track": 4,
+        "displayOrder": 26,
+        "variant": "HANAYO Mix",
+        "releaseSeries": {
+          "id": "RS0003",
+          "name": "ラブライブ！Solo Live! Ⅲ from μ's",
+          "shortName": "Solo Live! III"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0088",
+        "featuredSinger": {
+          "id": "SN0021",
+          "name": "小泉花陽"
+        },
+        "catalogNumber": "LACA-9621～LACA-9623",
+        "officialName": "ラブライブ！Solo Live! Ⅲ from μ's 小泉花陽 Memories with Hanayo"
+      },
+      {
+        "relationId": "RT0715",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 7,
+        "track": 6,
+        "displayOrder": 62,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "久保",
+        "新田",
+        "内田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 11,
+      "completePerformanceCount": 1,
+      "irregularPerformanceCount": 10,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 7,
+      "excessCount": 0,
+      "mismatchCount": 3,
+      "completeRate": 9.1,
+      "eventCount": 11,
+      "officialEventCount": 2,
+      "soloEventCount": 9,
+      "firstPerformanceDate": "2015-01-31",
+      "lastPerformanceDate": "2026-05-15"
+    },
+    "performances": [
+      {
+        "date": "2015-01-31",
+        "eventId": "EV0051",
+        "eventName": "μ's Go→Go! LoveLive! 2015 ～Dream Sensation!～ 1日目",
+        "singer": "新田＆内田＆久保",
+        "singerId": "SN0007",
+        "singerDisplayName": "高坂穂乃果＆南ことり＆小泉花陽",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2018-11-03",
+        "eventId": "EV0187",
+        "eventName": "内田彩キャラソンライブ〜chara・melt・ room〜 102",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2018-11-17",
+        "eventId": "EV0190",
+        "eventName": "内田彩キャラソンライブ〜chara・melt・ room〜 104",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2018-12-23",
+        "eventId": "EV0193",
+        "eventName": "EmiRing FM2018町田",
+        "singer": "新田",
+        "singerId": "SN0054",
+        "singerDisplayName": "新田恵海",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2020-05-09",
+        "eventId": "EV0222",
+        "eventName": "SPACEY MUSIC 2マン SPECIAL LIVE 土曜日1部",
+        "singer": "新田＆Pile",
+        "singerId": "SN0056",
+        "singerDisplayName": "新田恵海＆Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2020-05-10",
+        "eventId": "EV0225",
+        "eventName": "SPACEY MUSIC 2マン SPECIAL LIVE 日曜日2部",
+        "singer": "新田＆Pile",
+        "singerId": "SN0056",
+        "singerDisplayName": "新田恵海＆Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2021-09-11",
+        "eventId": "EV0234",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.3 room301",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2021-09-12",
+        "eventId": "EV0236",
+        "eventName": "AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.3 room303",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2025-04-06",
+        "eventId": "EV0305",
+        "eventName": "Lovelive Overseas events 上海公演 2日目 第一部",
+        "singer": "新田",
+        "singerId": "SN0004",
+        "singerDisplayName": "高坂穂乃果",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2025-05-10",
+        "eventId": "EV0310",
+        "eventName": "Pile Birthday Events 2025 in Seoul 5/10公演 昼",
+        "singer": "Pile",
+        "singerId": "SN0052",
+        "singerDisplayName": "Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2026-05-15",
+        "eventId": "EV0341",
+        "eventName": "EMI NITTA acoustic concert 2026 〜 Komorebi 〜",
+        "singer": "新田",
+        "singerId": "SN0054",
+        "singerDisplayName": "新田恵海",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": "アコステVer."
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

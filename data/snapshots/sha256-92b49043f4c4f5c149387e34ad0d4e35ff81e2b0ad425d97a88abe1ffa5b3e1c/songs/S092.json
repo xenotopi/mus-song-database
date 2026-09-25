@@ -1,0 +1,242 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S092",
+    "songName": "Silent tonight",
+    "displayName": "Silent tonight",
+    "version": "通常",
+    "recordingCd": "2期Blu-ray全巻購入特典",
+    "releaseDate": "2014-12-25",
+    "media": "Blu-ray",
+    "category": "特典曲",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv2nd/#bd00",
+    "debutRelease": {
+      "releaseId": "R0052",
+      "releaseDate": "2014-12-25",
+      "releaseName": "2期Blu-ray全巻購入特典",
+      "classification": "特典",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv2nd/#bd00"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0092",
+        "releaseId": "R0052",
+        "releaseName": "2期Blu-ray全巻購入特典",
+        "releaseDate": "2014-12-25",
+        "classification": "特典",
+        "releaseType": "全巻購入特典",
+        "disc": null,
+        "track": null,
+        "displayOrder": 3,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT1287",
+        "releaseId": "R0089",
+        "releaseName": "ラブライブ！9th Anniversary Blu-ray BOX",
+        "releaseDate": "2019-10-25",
+        "classification": "Blu-ray",
+        "releaseType": "映像BOX",
+        "disc": 5,
+        "track": 9,
+        "displayOrder": 63,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT1288",
+        "releaseId": "R0089",
+        "releaseName": "ラブライブ！9th Anniversary Blu-ray BOX",
+        "releaseDate": "2019-10-25",
+        "classification": "Blu-ray",
+        "releaseType": "映像BOX",
+        "disc": 5,
+        "track": 10,
+        "displayOrder": 64,
+        "variant": "ELI Mix",
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT1289",
+        "releaseId": "R0089",
+        "releaseName": "ラブライブ！9th Anniversary Blu-ray BOX",
+        "releaseDate": "2019-10-25",
+        "classification": "Blu-ray",
+        "releaseType": "映像BOX",
+        "disc": 5,
+        "track": 11,
+        "displayOrder": 65,
+        "variant": "MAKI Mix",
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT1290",
+        "releaseId": "R0089",
+        "releaseName": "ラブライブ！9th Anniversary Blu-ray BOX",
+        "releaseDate": "2019-10-25",
+        "classification": "Blu-ray",
+        "releaseType": "映像BOX",
+        "disc": 5,
+        "track": 12,
+        "displayOrder": 66,
+        "variant": "NICO Mix",
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0729",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 8,
+        "track": 9,
+        "displayOrder": 76,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "Pile",
+        "徳井",
+        "南條"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 7,
+      "completePerformanceCount": 0,
+      "irregularPerformanceCount": 7,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 6,
+      "excessCount": 0,
+      "mismatchCount": 1,
+      "completeRate": 0,
+      "eventCount": 7,
+      "officialEventCount": 2,
+      "soloEventCount": 5,
+      "firstPerformanceDate": "2015-08-01",
+      "lastPerformanceDate": "2022-12-25"
+    },
+    "performances": [
+      {
+        "date": "2015-08-01",
+        "eventId": "EV0087",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 北海道公演　夜の部",
+        "singer": "Pile",
+        "singerId": "SN0006",
+        "singerDisplayName": "西木野真姫",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2015-08-01",
+        "eventId": "EV0086",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 北海道公演　昼の部",
+        "singer": "Pile",
+        "singerId": "SN0006",
+        "singerDisplayName": "西木野真姫",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      {
+        "date": "2017-12-02",
+        "eventId": "EV0168",
+        "eventName": "Pile Live at BudokanPile Live at Budokan 〜Pile feat. ラブライブ！〜",
+        "singer": "新田＆Pile",
+        "singerId": "SN0056",
+        "singerDisplayName": "新田恵海＆Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2018-11-10",
+        "eventId": "EV0188",
+        "eventName": "Pile Last Asia Tour 台湾",
+        "singer": "Pile",
+        "singerId": "SN0052",
+        "singerDisplayName": "Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2018-11-18",
+        "eventId": "EV0191",
+        "eventName": "Pile Last Asia Tour 上海",
+        "singer": "Pile",
+        "singerId": "SN0052",
+        "singerDisplayName": "Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2018-12-01",
+        "eventId": "EV0192",
+        "eventName": "Pile Last Asia Tour 韓国",
+        "singer": "Pile",
+        "singerId": "SN0052",
+        "singerDisplayName": "Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2022-12-25",
+        "eventId": "EV0250",
+        "eventName": "Pile Christmas Special LIVE 2022",
+        "singer": "Pile",
+        "singerId": "SN0052",
+        "singerDisplayName": "Pile",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

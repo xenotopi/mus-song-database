@@ -1,0 +1,329 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S035",
+    "songName": "after school NAVIGATORS",
+    "displayName": "after school NAVIGATORS",
+    "version": "通常",
+    "recordingCd": "にこりんぱな テーマソングDJCD",
+    "releaseDate": "2012-10-17",
+    "media": "ラジオ",
+    "category": "ED",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd16",
+    "debutRelease": {
+      "releaseId": "R0016",
+      "releaseDate": "2012-10-17",
+      "releaseName": "にこりんぱな テーマソングDJCD",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd16"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0035",
+        "releaseId": "R0016",
+        "releaseName": "にこりんぱな テーマソングDJCD",
+        "releaseDate": "2012-10-17",
+        "classification": "CD",
+        "releaseType": "ラジオCD",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0172",
+        "releaseId": "R0070",
+        "releaseName": "μ's Best Album Best Live! collection",
+        "releaseDate": "2013-01-09",
+        "classification": "CD",
+        "releaseType": "ベストアルバム",
+        "disc": 2,
+        "track": 17,
+        "displayOrder": 31,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0244",
+        "releaseId": "R0077",
+        "releaseName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 5,
+        "track": 7,
+        "displayOrder": 61,
+        "variant": "RIN Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39331～LACA-39339",
+        "officialName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ"
+      },
+      {
+        "relationId": "RT0281",
+        "releaseId": "R0077",
+        "releaseName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 8,
+        "track": 7,
+        "displayOrder": 101,
+        "variant": "HANAYO Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39331～LACA-39339",
+        "officialName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ"
+      },
+      {
+        "relationId": "RT0295",
+        "releaseId": "R0077",
+        "releaseName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 9,
+        "track": 7,
+        "displayOrder": 116,
+        "variant": "NICO Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "memorial_box",
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": "LACA-39331～LACA-39339",
+        "officialName": "ラブライブ！Solo Live! collection Memorial BOX Ⅱ"
+      },
+      {
+        "relationId": "RT0881",
+        "releaseId": "R0101",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 星空凛 Ring a yellow bell",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "RIN Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0077",
+        "featuredSinger": {
+          "id": "SN0012",
+          "name": "星空凛"
+        },
+        "catalogNumber": "LACA-15385",
+        "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 星空凛 Ring a yellow bell"
+      },
+      {
+        "relationId": "RT0918",
+        "releaseId": "R0104",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 小泉花陽 若草のSeason",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "HANAYO Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0077",
+        "featuredSinger": {
+          "id": "SN0021",
+          "name": "小泉花陽"
+        },
+        "catalogNumber": "LACA-15388",
+        "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 小泉花陽 若草のSeason"
+      },
+      {
+        "relationId": "RT0932",
+        "releaseId": "R0105",
+        "releaseName": "ラブライブ！ Solo Live! from μ's 矢澤にこ ももいろ♡えがお",
+        "releaseDate": "2014-04-02",
+        "classification": "CD",
+        "releaseType": "Solo Live!",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "NICO Mix",
+        "releaseSeries": {
+          "id": "RS0002",
+          "name": "ラブライブ！ μ's Solo Live! collection",
+          "shortName": "Solo Live! II"
+        },
+        "editionType": "individual",
+        "parentReleaseId": "R0077",
+        "featuredSinger": {
+          "id": "SN0022",
+          "name": "矢澤にこ"
+        },
+        "catalogNumber": "LACA-15389",
+        "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 矢澤にこ ももいろ♡えがお"
+      },
+      {
+        "relationId": "RT0759",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 11,
+        "track": 10,
+        "displayOrder": 106,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "久保",
+        "徳井",
+        "飯田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 7,
+      "completePerformanceCount": 3,
+      "irregularPerformanceCount": 4,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 2,
+      "excessCount": 2,
+      "mismatchCount": 0,
+      "completeRate": 42.9,
+      "eventCount": 7,
+      "officialEventCount": 5,
+      "soloEventCount": 2,
+      "firstPerformanceDate": "2013-01-03",
+      "lastPerformanceDate": "2023-02-25"
+    },
+    "performances": [
+      {
+        "date": "2013-01-03",
+        "eventId": "EV0007",
+        "eventName": "ラブライブ！ μ's New Year LoveLive! 2013",
+        "singer": "飯田＆久保＆徳井",
+        "singerId": "SN0014",
+        "singerDisplayName": "星空凛＆小泉花陽＆矢澤にこ",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2015-06-20",
+        "eventId": "EV0074",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 福岡公演　夜の部",
+        "singer": "飯田＆久保＆徳井",
+        "singerId": "SN0014",
+        "singerDisplayName": "星空凛＆小泉花陽＆矢澤にこ",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2015-06-20",
+        "eventId": "EV0073",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 福岡公演　昼の部",
+        "singer": "飯田＆久保＆徳井",
+        "singerId": "SN0014",
+        "singerDisplayName": "星空凛＆小泉花陽＆矢澤にこ",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": ""
+      },
+      {
+        "date": "2015-08-09",
+        "eventId": "EV0089",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 宮城公演　夜の部",
+        "singer": "新田＆飯田＆久保＆徳井",
+        "singerId": "SN0025",
+        "singerDisplayName": "高坂穂乃果＆星空凛＆小泉花陽＆矢澤にこ",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "新田恵海さん（高坂穂乃果役）が途中から参加"
+      },
+      {
+        "date": "2015-08-09",
+        "eventId": "EV0088",
+        "eventName": "μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 宮城公演　昼の部",
+        "singer": "新田＆飯田＆久保＆徳井",
+        "singerId": "SN0025",
+        "singerDisplayName": "高坂穂乃果＆星空凛＆小泉花陽＆矢澤にこ",
+        "singerCategory": "公式",
+        "type": "公式",
+        "note": "新田恵海さん（高坂穂乃果役）が途中から参加"
+      },
+      {
+        "date": "2023-02-25",
+        "eventId": "EV0253",
+        "eventName": "そらまると流田のアニソン喫茶〜夜の部～",
+        "singer": "徳井",
+        "singerId": "SN0053",
+        "singerDisplayName": "徳井青空",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      },
+      {
+        "date": "2023-02-25",
+        "eventId": "EV0252",
+        "eventName": "そらまると流田のアニソン喫茶〜昼の部～",
+        "singer": "徳井",
+        "singerId": "SN0053",
+        "singerDisplayName": "徳井青空",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

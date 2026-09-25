@@ -1,0 +1,104 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S095",
+    "songName": "MUSEUMでどうしたい？",
+    "displayName": "MUSEUMでどうしたい？",
+    "version": "通常",
+    "recordingCd": "「ラブライブ！The School Idol Movie」特典付前売券第3弾 ユニットシングル Printemps「MUSEUMでどうしたい？」",
+    "releaseDate": "2015-05-23",
+    "media": "映画",
+    "category": "特典曲",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/sp_movie_ticket05.html",
+    "debutRelease": {
+      "releaseId": "R0054",
+      "releaseDate": "2015-05-23",
+      "releaseName": "「ラブライブ！The School Idol Movie」特典付前売券第3弾 ユニットシングル Printemps「MUSEUMでどうしたい？」",
+      "classification": "特典",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/sp_movie_ticket05.html"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0095",
+        "releaseId": "R0054",
+        "releaseName": "「ラブライブ！The School Idol Movie」特典付前売券第3弾 ユニットシングル Printemps「MUSEUMでどうしたい？」",
+        "releaseDate": "2015-05-23",
+        "classification": "特典",
+        "releaseType": "前売券特典",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      },
+      {
+        "relationId": "RT0720",
+        "releaseId": "R0090",
+        "releaseName": "μ's Memorial CD-BOX「Complete BEST BOX」",
+        "releaseDate": "2019-12-25",
+        "classification": "CD",
+        "releaseType": "コンプリートBOX",
+        "disc": 7,
+        "track": 11,
+        "displayOrder": 67,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "久保",
+        "新田",
+        "内田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 1,
+      "completePerformanceCount": 0,
+      "irregularPerformanceCount": 1,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 1,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 0,
+      "eventCount": 1,
+      "officialEventCount": 0,
+      "soloEventCount": 1,
+      "firstPerformanceDate": "2023-10-22",
+      "lastPerformanceDate": "2023-10-22"
+    },
+    "performances": [
+      {
+        "date": "2023-10-22",
+        "eventId": "EV0263",
+        "eventName": "MIX SONG LIVE『〜Kara・ful・ à lamode〜』夜の部",
+        "singer": "内田",
+        "singerId": "SN0050",
+        "singerDisplayName": "内田彩",
+        "singerCategory": "ソロ",
+        "type": "ソロ",
+        "note": ""
+      }
+    ],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

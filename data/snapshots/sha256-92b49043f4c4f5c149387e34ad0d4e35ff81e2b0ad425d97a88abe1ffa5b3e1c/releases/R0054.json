@@ -1,0 +1,56 @@
+{
+  "snapshot": {
+    "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c",
+    "generatedAt": "2026-09-25T11:48:49.356Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0054",
+    "releaseDate": "2015-05-23",
+    "releaseName": "「ラブライブ！The School Idol Movie」特典付前売券第3弾 ユニットシングル Printemps「MUSEUMでどうしたい？」",
+    "classification": "特典",
+    "sourceMedia": "映画",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/sp_movie_ticket05.html",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "前売券特典",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S095",
+        "songName": "MUSEUMでどうしたい？",
+        "displayName": "MUSEUMでどうしたい？"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0095",
+        "songId": "S095",
+        "songName": "MUSEUMでどうしたい？",
+        "displayName": "MUSEUMでどうしたい？",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 1,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-92b49043f4c4f5c149387e34ad0d4e35ff81e2b0ad425d97a88abe1ffa5b3e1c"
+    }
+  }
+}

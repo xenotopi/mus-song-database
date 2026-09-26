@@ -1,0 +1,71 @@
+{
+  "snapshot": {
+    "revision": "sha256-da598abe491b017761e8f97706da6c1bd4d05fc46fbd9a6d4a6bcee86dbbef54",
+    "generatedAt": "2026-09-26T21:30:09.341Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0065",
+    "releaseDate": "2016-01-20",
+    "releaseName": "錯覚CROSSROADS",
+    "classification": "CD",
+    "sourceMedia": "スクフェス",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd66",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "シングル",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S112",
+        "songName": "錯覚CROSSROADS",
+        "displayName": "錯覚CROSSROADS"
+      },
+      {
+        "songId": "S113",
+        "songName": "PSYCHIC FIRE",
+        "displayName": "PSYCHIC FIRE"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0112",
+        "songId": "S112",
+        "songName": "錯覚CROSSROADS",
+        "displayName": "錯覚CROSSROADS",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null
+      },
+      {
+        "relationId": "RT0113",
+        "songId": "S113",
+        "songName": "PSYCHIC FIRE",
+        "displayName": "PSYCHIC FIRE",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 2,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-da598abe491b017761e8f97706da6c1bd4d05fc46fbd9a6d4a6bcee86dbbef54"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "snapshot": {
+    "revision": "sha256-da598abe491b017761e8f97706da6c1bd4d05fc46fbd9a6d4a6bcee86dbbef54",
+    "generatedAt": "2026-09-26T21:30:09.341Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0086",
+    "releaseDate": "2016-08-26",
+    "releaseName": "ラブライブ！μ's Live Collection",
+    "classification": "Blu-ray",
+    "sourceMedia": "映像集",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/live_collection/",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "映像集",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [],
+    "includedSongsMeta": {
+      "status": "not_applicable",
+      "confirmedCount": 0,
+      "pendingCount": null,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-da598abe491b017761e8f97706da6c1bd4d05fc46fbd9a6d4a6bcee86dbbef54"
+    }
+  }
+}

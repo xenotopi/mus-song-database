@@ -1,0 +1,71 @@
+{
+  "snapshot": {
+    "revision": "sha256-da598abe491b017761e8f97706da6c1bd4d05fc46fbd9a6d4a6bcee86dbbef54",
+    "generatedAt": "2026-09-26T21:30:09.341Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0027",
+    "releaseDate": "2013-07-24",
+    "releaseName": "Cutie Panther",
+    "classification": "CD",
+    "sourceMedia": "ユニット",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd26",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "シングル",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S052",
+        "songName": "Cutie Panther",
+        "displayName": "Cutie Panther"
+      },
+      {
+        "songId": "S053",
+        "songName": "夏、終わらないで。",
+        "displayName": "夏、終わらないで。"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0052",
+        "songId": "S052",
+        "songName": "Cutie Panther",
+        "displayName": "Cutie Panther",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null
+      },
+      {
+        "relationId": "RT0053",
+        "songId": "S053",
+        "songName": "夏、終わらないで。",
+        "displayName": "夏、終わらないで。",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 2,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-da598abe491b017761e8f97706da6c1bd4d05fc46fbd9a6d4a6bcee86dbbef54"
+    }
+  }
+}

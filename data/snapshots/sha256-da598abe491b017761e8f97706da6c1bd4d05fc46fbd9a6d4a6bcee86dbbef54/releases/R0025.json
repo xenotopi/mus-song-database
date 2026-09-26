@@ -1,0 +1,56 @@
+{
+  "snapshot": {
+    "revision": "sha256-da598abe491b017761e8f97706da6c1bd4d05fc46fbd9a6d4a6bcee86dbbef54",
+    "generatedAt": "2026-09-26T21:30:09.341Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0025",
+    "releaseDate": "2013-06-21",
+    "releaseName": "「ラブライブ！」Blu-ray 第4巻",
+    "classification": "Blu-ray",
+    "sourceMedia": "Blu-ray",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd04",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "アニメBlu-ray",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S049",
+        "songName": "Beat in Angel",
+        "displayName": "Beat in Angel"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0049",
+        "songId": "S049",
+        "songName": "Beat in Angel",
+        "displayName": "Beat in Angel",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 1,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-da598abe491b017761e8f97706da6c1bd4d05fc46fbd9a6d4a6bcee86dbbef54"
+    }
+  }
+}

@@ -316,7 +316,7 @@ function injectDetailContextStyles_() {
       }
 
       .detail-context-title {
-        font-size: 12px;
+        font-size: 14px;
       }
 
       .detail-context-top-button {

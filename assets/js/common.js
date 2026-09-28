@@ -1033,7 +1033,7 @@ function injectCommonSearchStyles_() {
     .global-suggest-copy small {
       margin-top: 2px;
       color: var(--muted);
-      font-size: 10px;
+      font-size: 14px;font-weight:500;
     }
 
     .global-suggest-copy mark {

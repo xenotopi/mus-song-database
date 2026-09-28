@@ -279,7 +279,7 @@ main{
 .quickbtn.disabled{opacity:.45;pointer-events:none}
 .quicklabel{color:var(--muted);font-size:11px;font-weight:800}
 .quicktitle{margin-top:3px;font-weight:900;line-height:1.35}
-.quickdate{margin-top:3px;color:var(--indigo);font-size:11px}
+.quickdate{margin-top:3px;color:var(--indigo);font-size: 14px}
 
 .quickpicker{
   padding:10px 12px;
@@ -517,3 +517,29 @@ h2{margin:2px 0 14px}
   .brand-copy .brand-rest{font-size:14px!important;}
   .brand-copy small{font-size:11px!important;}
 }
+
+/* Keep Home unchanged while making shared text readable on other pages. */
+body:not(:has(.home-main)) :is(
+  .brand small,
+  .brand-copy small,
+  .nav a,
+  .crumb,
+  .badge,
+  .diagnostic,
+  .quicklabel,
+  .quickpicker label,
+  .kicker,
+  .label,
+  .venue-summary p,
+  .song-meta,
+  .detail-note,
+  .site-footer,
+  .global-suggest-type,
+  .global-suggest-copy strong,
+  .global-suggest-state,
+  .back-to-top small,
+  .mus-mobile-drawer-head small,
+  .detail-context-type,
+  .detail-context-top-button,
+  .detail-context-title
+){font-size:14px!important;}

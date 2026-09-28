@@ -385,7 +385,7 @@
 
     .recent-card-head {
       padding: 17px 18px 15px;
-      background: linear-gradient(90deg,#fbf8ff,#f4f2ff);
+      background: #fff;
     }
 
     .recent-date {
@@ -413,8 +413,8 @@
     }
 
     .recent-meta-link {
-      color: var(--muted);
-      font-size: 12px;
+      color: var(--navy);
+      font-size: 14px;
       font-weight: 700;
       text-decoration: none;
     }
@@ -429,15 +429,11 @@
     .recent-song {
       min-width: 0;
       padding: 12px 14px;
-      border: 1px solid #e2e5ec;
+      border: 1px solid #d6dae3;
       border-radius: 14px;
       background: #fff;
+      box-shadow: 0 2px 7px rgba(23,32,51,.05);
       text-decoration: none;
-    }
-
-    .recent-song:hover {
-      border-color: #aaa5f3;
-      background: #fafaff;
     }
 
     .recent-song-name {
@@ -453,14 +449,14 @@
       margin-top: 8px;
       padding-top: 7px;
       border-top: 1px solid #eef0f4;
-      color: #59637a;
+      color: var(--navy);
       font-size: 13px;
       font-weight: 700;
     }
 
     .recent-song-singer::before {
       content: "歌唱：";
-      color: #8b93a7;
+      color: var(--navy);
       font-weight: 600;
     }
 
@@ -597,7 +593,7 @@
     .secret-memory-text{margin:14px 0 0;max-width:820px;color:#4f596f;font-size:14px;font-weight:700;line-height:1.9;white-space:pre-line}
     .secret-memory-link{display:inline-flex;min-height:40px;margin-top:18px;padding:0 16px;align-items:center;border:1px solid var(--indigo);border-radius:999px;background:#fff;color:var(--indigo);font-size:12px;font-weight:900;text-decoration:none;transition:transform .12s ease,background .12s ease}
     .secret-memory-link:hover{background:var(--light);transform:translateY(-1px)}
-    .secret-memory-caption{margin-top:18px;color:var(--muted);font-size:10px;font-weight:700}
+    .secret-memory-caption{margin-top:18px;color:var(--muted);font-size:12px;font-weight:700}
     @media(max-width:560px){.secret-memory-card{padding:20px 18px}.secret-memory-head{align-items:center}}
 
   
@@ -763,13 +759,13 @@
       border-radius:999px;
       background:#fff;
       color:var(--muted);
-      font-size:10px;
+      font-size:12px;
       font-weight:800;
     }
 
     .today-summary b{
       color:var(--indigo);
-      font-size:11px;
+      font-size:12px;
     }
 
     .today-summary-total{
@@ -894,7 +890,7 @@
     .home-v45-section-head > p:last-child {
       margin: 10px 0 0;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       line-height: 1.8;
     }
@@ -1014,7 +1010,7 @@
       margin: 14px auto 0;
       padding: 0 24px;
       color: var(--muted);
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 700;
     }
 
@@ -1023,94 +1019,40 @@
       max-width: none;
       padding-left: max(24px, calc((100vw - 1160px) / 2));
       padding-right: max(24px, calc((100vw - 1160px) / 2));
-      background:
-        radial-gradient(circle at 8% 20%, rgba(92,72,207,.07), transparent 24%),
-        linear-gradient(180deg,#faf9ff,#f7f6fc);
+      background:#edf0fb;
     }
 
     .home-explore-grid {
       display: grid;
-      grid-template-columns: repeat(2,minmax(0,1fr));
-      gap: 16px;
     }
 
     .home-explore-card {
       position: relative;
-      min-height: 190px;
-      padding: 26px 28px;
-      display: grid;
-      grid-template-columns: 48px minmax(0,1fr) auto;
-      grid-template-rows: auto auto 1fr;
-      column-gap: 16px;
       border: 1px solid #e0deed;
-      border-radius: 22px;
-      background: #fff;
       color: inherit;
       text-decoration: none;
       box-shadow: 0 10px 30px rgba(37,38,73,.06);
       overflow: hidden;
-      transition: .18s ease;
-    }
-
-    .home-explore-card-accent {
-      border-color: #d2cdfc;
-      background:
-        radial-gradient(circle at 100% 0, rgba(92,72,207,.12), transparent 38%),
-        linear-gradient(135deg,#fff,#faf9ff);
-    }
-
-    .home-explore-card:hover {
-      transform: translateY(-3px);
-      border-color: #bdb6f3;
-      box-shadow: 0 18px 40px rgba(58,48,130,.11);
     }
 
     .home-explore-icon {
-      grid-row: 1 / 4;
-      width: 48px;
-      height: 48px;
       display: grid;
       place-items: center;
-      border-radius: 15px;
       background: var(--indigo-soft);
       color: var(--indigo);
-      font-size: 24px;
-      font-weight: 900;
-    }
-
-    .home-explore-action {
-      color: var(--indigo);
-      font-size: 11px;
       font-weight: 900;
     }
 
     .home-explore-card strong {
-      margin-top: 3px;
       color: var(--navy);
-      font-size: 21px;
       line-height: 1.35;
     }
 
-    .home-explore-copy {
-      margin-top: 9px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-      line-height: 1.75;
-    }
-
     .home-explore-arrow {
-      grid-column: 3;
-      grid-row: 1 / 4;
       align-self: center;
       color: var(--indigo);
-      font-size: 24px;
       font-weight: 900;
-      transition: .15s ease;
-    }
-
-    .home-explore-card:hover .home-explore-arrow {
-      transform: translateX(4px);
+      transition: transform .25s ease;
     }
 
     /* TODAY */
@@ -1162,7 +1104,7 @@
     .home-today-intro {
       margin: 9px 0 0;
       color: rgba(255,255,255,.72);
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 700;
       line-height: 1.8;
     }
@@ -1274,7 +1216,7 @@
     .home-summary-v45 .home-summary-card p {
       margin: 4px 0 0;
       color: var(--navy);
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 800;
     }
 
@@ -1317,66 +1259,79 @@
       font-weight: 900;
     }
 
+    .home-top-songs-card .home-ranking-row {
+      grid-template-columns: 36px minmax(0,1fr) minmax(130px,1fr) auto;
+      column-gap: 12px;
+    }
+    .home-top-songs-card .home-ranking-row > span:nth-child(2) { display: contents; }
+    .home-top-songs-card .home-ranking-name { min-width: 0; color: #172033; }
+    .home-top-songs-card .home-ranking-meta {
+      margin-top: 0;
+      color: #172033;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .home-top-songs-card .home-ranking-count { white-space: nowrap; }
+    .home-top-songs-card .home-ranking-count::after {
+      content: "→";
+      display: inline-block;
+      margin-left: 6px;
+      transition: transform .18s ease;
+    }
+    @media (max-width: 680px) {
+      .home-top-songs-card .home-ranking-row {
+        grid-template-columns: 36px minmax(0,1fr) auto;
+        column-gap: 10px;
+        row-gap: 4px;
+      }
+      .home-top-songs-card .home-ranking-row > .home-rank { grid-column: 1; grid-row: 1; }
+      .home-top-songs-card .home-ranking-name { grid-column: 2; grid-row: 1; overflow-wrap: anywhere; }
+      .home-top-songs-card .home-ranking-count { grid-column: 3; grid-row: 1; }
+      .home-top-songs-card .home-ranking-meta { grid-column: 2 / 4; grid-row: 2; }
+    }
+
     .home-more-link {
       text-decoration: none;
     }
 
-    /* RECENT AS TIMELINE */
+    /* RECENT EVENT GROUPS */
     .home-recent-section {
       padding-top: 88px;
     }
 
     .recent-list-v45 {
-      position: relative;
       display: grid;
-      gap: 0;
-      padding-left: 22px;
-    }
-
-    .recent-list-v45::before {
-      content: "";
-      position: absolute;
-      left: 6px;
-      top: 22px;
-      bottom: 22px;
-      width: 2px;
-      background: #ddd9f5;
+      gap: 16px;
     }
 
     .recent-list-v45 .recent-card {
-      position: relative;
       margin: 0;
       padding: 20px 22px 22px;
-      border: 0;
-      border-bottom: 1px solid #eceaf4;
-      border-radius: 0;
-      background: transparent;
+      border: 1px solid #d6dae3;
+      border-radius: 10px;
+      background: #fff;
       box-shadow: none;
     }
 
-    .recent-list-v45 .recent-card::before {
-      content: "";
-      position: absolute;
-      left: -21px;
-      top: 25px;
-      width: 11px;
-      height: 11px;
-      border: 3px solid #fff;
-      border-radius: 50%;
-      background: var(--indigo);
-      box-shadow: 0 0 0 1px #cfc9f3;
-    }
-
     .recent-list-v45 .recent-date {
-      color: var(--indigo);
-      font-size: 12px;
-      font-weight: 900;
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 600;
     }
 
     .recent-list-v45 .recent-event {
       margin-top: 4px;
-      font-size: 15px;
-      font-weight: 900;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+    .home-recent-section .recent-event::after{
+      content:"→";
+      display:inline-block;
+      margin-left:6px;
+      color:var(--indigo);
+      transition:transform .18s ease;
     }
 
     /* FOOTER PANEL */
@@ -1445,7 +1400,8 @@
       display: block;
       margin-top: 8px;
       color: rgba(255,255,255,.62);
-      font-size: 9px;
+      font-size: 12px;
+      font-weight: 500;
       line-height: 1.6;
     }
 
@@ -1580,16 +1536,8 @@
         padding: 8px 15px 18px;
       }
 
-      .recent-list-v45 {
-        padding-left: 17px;
-      }
-
       .recent-list-v45 .recent-card {
-        padding: 17px 12px 19px;
-      }
-
-      .recent-list-v45 .recent-card::before {
-        left: -16px;
+        padding: 17px 16px 19px;
       }
     }
 
@@ -1678,19 +1626,11 @@
         max-width: 1160px !important;
         margin: 0 auto !important;
         display: grid !important;
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-        gap: 18px !important;
       }
 
       .home-explore-card {
         width: auto !important;
         min-width: 0 !important;
-        min-height: 180px !important;
-        padding: 26px 28px !important;
-        display: grid !important;
-        grid-template-columns: 48px minmax(0,1fr) 28px !important;
-        grid-template-rows: auto auto 1fr !important;
-        align-items: start !important;
         writing-mode: horizontal-tb !important;
         white-space: normal !important;
         word-break: normal !important;
@@ -1703,20 +1643,8 @@
         white-space: normal !important;
       }
 
-      .home-explore-action,
-      .home-explore-card strong,
-      .home-explore-copy {
-        min-width: 0 !important;
-      }
-
       .home-explore-card strong {
-        font-size: 21px !important;
-        line-height: 1.35 !important;
-      }
-
-      .home-explore-copy {
-        font-size: 12px !important;
-        line-height: 1.75 !important;
+        min-width: 0 !important;
       }
 
       .home-today-card {
@@ -1756,8 +1684,8 @@
       }
 
       .home-top-songs-card {
-        width: min(920px, 100%) !important;
-        max-width: 920px !important;
+        width: min(85%, 900px) !important;
+        max-width: 900px !important;
         margin: 0 auto !important;
       }
 
@@ -1963,7 +1891,7 @@
     @media (min-width: 901px) {
       .home-today-intro {
         max-width: 100% !important;
-        font-size: 10.25px !important;
+        font-size: 13px !important;
         line-height: 1.72 !important;
         letter-spacing: -.015em !important;
       }
@@ -1993,24 +1921,19 @@
       padding-right:max(24px, calc((100vw - 1160px) / 2));
       padding-top:58px;
       padding-bottom:68px;
-      background:#fff;
+      background:#edf3f9;
       border-top:1px solid var(--line);
     }
 
     .home-tools-grid{
-      width:min(1160px,100%);
       margin:0 auto;
       display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
       gap:14px;
     }
 
     .home-tool-card{
       min-width:0;
-      min-height:108px;
-      padding:20px 22px;
       display:grid;
-      grid-template-columns:44px minmax(0,1fr) 22px;
       gap:14px;
       align-items:center;
       border:1px solid #e0deed;
@@ -2019,14 +1942,7 @@
       color:inherit;
       text-decoration:none;
       box-shadow:0 8px 24px rgba(37,38,73,.045);
-      transition:.18s ease;
       writing-mode:horizontal-tb;
-    }
-
-    .home-tool-card:hover{
-      transform:translateY(-2px);
-      border-color:#c7c1f4;
-      box-shadow:0 14px 30px rgba(58,48,130,.09);
     }
 
     .home-tool-icon{
@@ -2051,7 +1967,6 @@
 
     .home-tool-body strong{
       color:var(--navy);
-      font-size:16px;
       line-height:1.35;
       white-space:normal;
       word-break:keep-all;
@@ -2060,25 +1975,12 @@
 
     .home-tool-body span{
       color:var(--muted);
-      font-size:11px;
       font-weight:700;
       line-height:1.65;
       white-space:normal;
       word-break:normal;
       overflow-wrap:break-word;
     }
-
-    .home-tool-arrow{
-      color:var(--indigo);
-      font-size:20px;
-      font-weight:900;
-      transition:.15s ease;
-    }
-
-    .home-tool-card:hover .home-tool-arrow{
-      transform:translateX(3px);
-    }
-
 
     @media (min-width:901px){
       .home-v45-section.home-tools{
@@ -2090,7 +1992,6 @@
       .home-tools-grid{
         width:min(1160px,100%) !important;
         max-width:1160px !important;
-        grid-template-columns:repeat(3,minmax(0,1fr)) !important;
       }
       .home-tool-card{
         width:auto !important;
@@ -2110,10 +2011,6 @@
         padding-bottom:54px;
       }
 
-      .home-tools-grid{
-        grid-template-columns:1fr;
-      }
-
       .home-tool-card{
         min-height:96px;
         padding:18px;
@@ -2130,30 +2027,99 @@
     }
 
     .home-kamipara{padding-top:0;padding-bottom:68px}
-    .home-kamipara-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:center;width:min(1160px,100%);margin:0 auto;padding:30px 36px;border-radius:22px;background:#192c4b;color:#fff;text-decoration:none}
-    .home-kamipara-card:focus-visible{outline:3px solid #5b9ec2;outline-offset:3px}
+    .home-kamipara-card{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:center;width:min(85%,900px);max-width:900px;margin:0 auto;padding:30px 36px;border-radius:22px;background:#192c4b;color:#fff;text-decoration:none;overflow:hidden;box-shadow:inset 0 0 0 1px #365a80}
+    .home-kamipara-card::before{content:"";position:absolute;inset:0;z-index:0;border-radius:inherit;background:#253f64;transform:scaleX(0);transform-origin:left;transition:transform .25s ease;pointer-events:none}
     .home-kamipara-copy,.home-kamipara-stats{min-width:0}
-    .home-kamipara-label{display:block;color:#a9dcf4;font-size:11px;font-weight:900;letter-spacing:.12em}
+    .home-kamipara-card > *{position:relative;z-index:1}
     .home-kamipara-card h2{margin:8px 0;color:#fff;font-size:clamp(23px,2.5vw,30px)}
     .home-kamipara-card p{margin:0;color:#e4f3fa;font-size:13px;line-height:1.8;overflow-wrap:anywhere}
-    .home-kamipara-cta{display:inline-block;margin-top:16px;color:#a9dcf4;font-size:13px;font-weight:900}
+    .home-kamipara-cta{display:inline-block;margin-top:16px;color:#a9dcf4;font-size:13px;font-weight:900;transition:transform .25s ease}
     .home-kamipara-stats{display:grid;grid-template-columns:repeat(2,minmax(90px,1fr));gap:10px}
-    .home-kamipara-stat{padding:10px 14px;border:1px solid #5b9ec2;border-radius:12px;text-align:center}
+    .home-kamipara-stat{padding:10px 14px;border:1px solid #5b9ec2;border-radius:12px;text-align:center;transition:border-color .25s ease,background-color .25s ease}
     .home-kamipara-stat strong{display:block;color:#fff;font-size:24px;line-height:1.2}
     .home-kamipara-stat span{color:#d6e9f2;font-size:11px;font-weight:800}
+    @media (max-width:900px){.home-kamipara-card{width:100%;max-width:none}}
     @media (max-width:680px){.home-kamipara{padding:0 16px 54px}.home-kamipara-card{grid-template-columns:1fr;gap:20px;padding:24px 20px}.home-kamipara-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    .home-explore .home-explore-grid{grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:12px !important}
-    .home-explore .home-explore-card{min-height:76px !important;padding:16px 18px !important;display:flex !important;align-items:center !important;gap:12px;border-radius:16px;background:#fff;overflow-wrap:anywhere}
-    .home-explore .home-explore-card strong{margin:0;font-size:16px !important}
+    .home-explore .home-explore-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .home-explore .home-explore-card{min-height:76px;padding:16px 18px;display:flex;align-items:center;gap:12px;border-radius:16px;background:#fff;overflow-wrap:anywhere}
+    .home-explore .home-explore-card strong{margin:0;font-size:16px}
     .home-explore .home-explore-icon{flex:none;width:36px;height:36px;border-radius:11px;font-size:19px}
     .home-explore .home-explore-arrow{margin-left:auto;font-size:18px}
-    .home-tools .home-tools-grid{grid-template-columns:1fr !important}
+    .home-tools .home-tools-grid{width:min(80%,920px) !important;max-width:920px !important;margin-inline:auto;transform:none;grid-template-columns:1fr !important}
     .home-tools .home-tool-card{min-height:124px !important;grid-template-columns:50px minmax(0,1fr) auto !important;padding:24px 28px !important}
     .home-tools .home-tool-body strong{font-size:20px}
     .home-tools .home-tool-body span{font-size:13px}
-    .home-tool-cta{color:var(--indigo);font-size:13px;font-weight:900;white-space:nowrap}
+    .home-tool-cta{display:inline-flex;align-items:center;justify-self:end;padding:9px 14px;border:1px solid #d6dbe3;border-radius:999px;background:#f0f3f6;color:var(--indigo);font-size:13px;font-weight:900;white-space:nowrap}
     .home-kamipara .home-v45-section-head{margin-bottom:22px}
-    @media (max-width:680px){.home-explore .home-explore-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.home-explore .home-explore-card{min-height:68px !important;padding:12px !important;gap:8px}.home-explore .home-explore-card strong{font-size:14px !important}.home-explore .home-explore-icon{width:30px;height:30px;font-size:16px}.home-explore .home-explore-arrow{font-size:15px}.home-tools .home-tool-card{grid-template-columns:40px minmax(0,1fr) !important;gap:12px;padding:18px !important}.home-tool-cta{grid-column:2;white-space:normal}.home-kamipara .home-v45-section-head{margin-bottom:18px}}
+    @media (max-width:680px){.home-explore .home-explore-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-explore .home-explore-card{min-height:68px;padding:12px;gap:8px}.home-explore .home-explore-card strong{font-size:14px}.home-explore .home-explore-icon{width:30px;height:30px;font-size:16px}.home-explore .home-explore-arrow{font-size:15px}.home-tools .home-tool-card{grid-template-columns:40px minmax(0,1fr) !important;gap:12px;padding:18px !important}.home-tool-cta{grid-column:2;white-space:normal}.home-kamipara .home-v45-section-head{margin-bottom:18px}}
+    @media (max-width:900px){.home-tools .home-tools-grid{width:100% !important;max-width:none !important}}
+    @media (max-width:680px){.home-tools .home-tool-card{row-gap:4px}.home-tool-cta{justify-self:start;padding:4px 12px}}
+
+    /* Home links respond only within their actual clickable area. */
+    .recent-event{color:var(--navy)}
+    a.recent-meta-link,.recent-song-name{color:var(--indigo)}
+    .home-recent-section .recent-tags .type-badge,.home-recent-section .recent-tags span.recent-meta-link{color:var(--navy)}
+    .home-about-link{color:#a9dcf4}
+    .home-explore-card,.home-tool-card,.home-kamipara-card{cursor:pointer;transform-origin:center}
+    .home-explore-card{transition:transform .25s ease}
+    .home-tool-card,.home-kamipara-card{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background-color .18s ease}
+    .home-explore-grid > .home-explore-card{isolation:isolate}
+    .home-explore-grid > .home-explore-card::before{content:"";position:absolute;inset:0;z-index:0;background:#e7e7e8;transform:scaleX(0);transform-origin:left;transition:transform .25s ease;pointer-events:none}
+    .home-explore-grid > .home-explore-card > *{position:relative;z-index:1}
+    .home-explore-grid > .home-explore-card .home-explore-icon{transition:transform .25s ease}
+    .home-tool-card{position:relative;isolation:isolate}
+    .home-tool-card::before{content:"";position:absolute;inset:0;z-index:0;border-radius:inherit;background:#e7e7e8;transform:scaleX(0);transform-origin:left;transition:transform .25s ease;pointer-events:none}
+    .home-tool-card > *{position:relative;z-index:1}
+    .home-tool-icon{transition:transform .25s ease}
+    .home-explore .home-explore-arrow{text-shadow:0 0 1px currentColor,0 1px 2px rgba(79,70,229,.25)}
+    .home-kamipara-cta{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+    .home-tool-cta{transition:transform .25s ease}
+    .home-more-link{display:inline-flex;align-items:center;justify-content:center}
+    .home-more-button{transition:background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+    .recent-song:hover{border-color:#aaa5f3;background:#fafaff}
+    @media (hover:hover) and (pointer:fine){
+      .home-explore-grid > .home-explore-card:hover{transform:translateY(-4px);border-color:#7770df;background-color:#fdfcff;box-shadow:0 22px 42px rgba(58,48,130,.22)}
+      .home-explore-grid > .home-explore-card:hover::before{transform:scaleX(1)}
+      .home-explore-grid > .home-explore-card:hover .home-explore-icon{transform:translateX(2px) scale(1.10)}
+      .home-explore-grid > .home-explore-card:hover .home-explore-arrow{transform:translateX(8px)}
+      .home-tool-card:hover{transform:translateY(-4px);border-color:#7770df;background-color:#fdfcff;box-shadow:0 22px 42px rgba(58,48,130,.22)}
+      .home-tool-card:hover::before{transform:scaleX(1)}
+      .home-tool-card:hover .home-tool-icon{transform:translateX(2px) scale(1.10)}
+      .home-kamipara-card:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 2px #8bcef0,0 24px 48px rgba(25,44,75,.38)}
+      .home-kamipara-card:hover::before{transform:scaleX(1)}
+      .home-kamipara-card:hover .home-kamipara-stat{border-color:#a9dcf4;background:rgba(169,220,244,.09)}
+      .home-tool-card:hover .home-tool-cta{transform:translateX(8px)}
+      .home-kamipara-card:hover .home-kamipara-cta{transform:translateX(8px);text-decoration:underline;text-underline-offset:4px}
+      .home-tool-card:hover .home-tool-cta,.home-ranking-row:hover .home-ranking-name{text-decoration:underline;text-underline-offset:3px}
+      .home-top-songs-card .home-ranking-row:hover .home-ranking-name{color:var(--indigo)}
+      .home-top-songs-card .home-ranking-row:hover .home-ranking-count::after{transform:translateX(6px)}
+      .today-item:hover,.home-ranking-row:hover{background:#e9e6ff}
+      .home-recent-section .recent-event:hover{color:var(--indigo)}
+      .home-recent-section .recent-event:hover::after{transform:translateX(6px)}
+      .home-recent-section a.recent-meta-link:hover{color:var(--indigo);background:#eef2ff;text-decoration:underline;text-underline-offset:3px}
+      .home-recent-section .recent-song:hover{background:#eef2ff}
+      .home-recent-section .recent-song:hover .recent-song-name{ text-decoration:underline;text-underline-offset:3px }
+      .home-about-link:hover{text-decoration:underline;text-underline-offset:3px}
+      .home-more-button:hover{background:var(--indigo);color:#fff;border-color:var(--indigo);transform:translateY(-2px);box-shadow:0 10px 22px rgba(58,48,130,.24)}
+    }
+    .home-explore-card:focus-visible,.home-tool-card:focus-visible,.home-kamipara-card:focus-visible{outline:3px solid var(--indigo);outline-offset:3px}
+    .home-tool-card:focus-visible .home-tool-cta,.home-ranking-row:focus-visible .home-ranking-name{text-decoration:underline;text-underline-offset:3px}
+    .home-kamipara-card:focus-visible{outline-color:#a9dcf4}
+    .today-item:focus-visible,.home-ranking-row:focus-visible,.recent-event:focus-visible,a.recent-meta-link:focus-visible,.recent-song:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+    .home-about-link:focus-visible{outline:3px solid #a9dcf4;outline-offset:3px}
+    a.recent-meta-link:focus-visible,.recent-song:focus-visible .recent-song-name,.home-about-link:focus-visible{text-decoration:underline;text-underline-offset:3px}
+    .today-item:focus-visible,.home-ranking-row:focus-visible,.recent-song:focus-visible{background:#e9e6ff}
+    .home-more-button:focus-visible{outline:3px solid var(--indigo);outline-offset:3px;background:var(--indigo);color:#fff}
+    .home-explore-card:active,.home-tool-card:active,.home-kamipara-card:active{transform:translateY(-1px)}
+    .home-more-button:active{transform:translateY(0);background:#332a9e;color:#fff}
+    @media (hover:none){
+      .home-explore-card:hover,.home-tool-card:hover,.home-kamipara-card:hover{transform:none}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .home-top-songs-card .home-ranking-count::after{transition:none}
+      .home-explore-card,.home-tool-card,.home-kamipara-card,.home-kamipara-card::before,.home-kamipara-stat,.home-kamipara-cta,.home-explore-arrow,.home-explore-icon,.home-explore-card::before,.home-recent-section .recent-event::after,.home-tool-icon,.home-tool-card::before,.home-tool-cta,.home-more-button{transition:none}
+      .home-explore-card:hover,.home-tool-card:hover,.home-kamipara-card:hover,.home-explore-card:active,.home-tool-card:active,.home-kamipara-card:active,.home-tool-card:hover .home-tool-cta{transform:none}
+    }
   </style>
 
   <script src="assets/js/seo-v351.js?v=4.6.2&amp;cache=step18a" defer></script>
@@ -2252,11 +2218,11 @@
         <p>μ'sから広がる、もうひとつの歌唱記録。</p>
       </div>
       <a class="home-kamipara-card" href="kamipara.html">
-        <span class="home-kamipara-copy">
+        <div class="home-kamipara-copy">
           <h2 id="homeKamiparaHeading">神パラ × μ's ダッシュボード</h2>
           <p>『神様と運命革命のパラドクス』に登場するキャラクターと、<br>その楽曲・歌唱記録をまとめた特別データベース。</p>
           <span class="home-kamipara-cta">ダッシュボードを見る →</span>
-        </span>
+        </div>
         <span class="home-kamipara-stats" aria-label="10楽曲、9キャラクター、5イベント、10歌唱記録">
           <span class="home-kamipara-stat"><strong>10</strong><span>楽曲</span></span>
           <span class="home-kamipara-stat"><strong>9</strong><span>キャラクター</span></span>

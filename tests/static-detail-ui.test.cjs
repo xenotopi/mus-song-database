@@ -111,7 +111,7 @@ test("Song static 404 falls back to Song API", async () => {
   await page.goto(`${baseUrl}/song.html?id=S046`, { waitUntil: "domcontentloaded" });
   await page.locator("#mainContent").waitFor({ state: "visible" });
   assert.equal(songCalls, 1);
-  assert.equal(await page.locator("#includedReleasesCount").innerText(), "4作品・5件");
+  assert.equal(await page.locator("#includedReleasesCount").innerText(), "14作品・23件");
   await page.close();
 });
 

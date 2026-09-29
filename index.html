@@ -270,6 +270,48 @@
       border-bottom: 0;
     }
 
+    .today-release-entry {
+      border-bottom: 1px solid rgba(79,70,229,.12);
+    }
+
+    .today-release-entry:last-child {
+      border-bottom: 0;
+    }
+
+    .today-release-main {
+      border-bottom: 0;
+      padding-bottom: 6px;
+    }
+
+    .today-release-songs {
+      display: grid;
+      gap: 5px;
+      padding: 0 0 13px;
+    }
+
+    .today-release-song {
+      color: #172033;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .today-release-song a {
+      color: var(--indigo);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .today-release-song a:hover {
+      text-decoration: underline;
+    }
+
+    .today-release-song a:focus-visible {
+      outline: 3px solid var(--indigo);
+      outline-offset: 2px;
+    }
+
     .today-empty {
       color: var(--muted);
       font-size: 13px;

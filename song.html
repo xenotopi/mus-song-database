@@ -479,14 +479,7 @@
       height: 13px;
       overflow: hidden;
       border-radius: 999px;
-      background:
-        repeating-linear-gradient(
-          90deg,
-          #eceef5 0,
-          #eceef5 calc(25% - 1px),
-          #dfe2eb calc(25% - 1px),
-          #dfe2eb 25%
-        );
+      background: #eceef5;
     }
 
     .song-year-bar {
@@ -495,6 +488,18 @@
       min-width: 3px;
       border-radius: inherit;
       background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+    }
+
+    .song-year-bar.is-zero,
+    .comparison-bar.is-zero { min-width: 0; }
+
+    .song-chart-gridline {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: #dfe2eb;
+      pointer-events: none;
     }
 
     .song-year-value {
@@ -606,7 +611,8 @@
     }
 
 
-    .song-year-scale {
+    .song-year-scale,
+    .comparison-scale {
       display: grid;
       grid-template-columns:
         48px minmax(0, 1fr) 54px;
@@ -615,30 +621,32 @@
       margin-bottom: 2px;
     }
 
-    .song-year-scale-labels,
-    .stat-scale-labels {
-      display: grid;
-      grid-template-columns:
-        repeat(5, minmax(0, 1fr));
+    .comparison-scale {
+      grid-template-columns: 56px minmax(0, 1fr) 58px;
+    }
+
+    .song-chart-scale-labels {
+      position: relative;
+      display: block;
+      height: 14px;
       color: var(--muted);
       font-size:14px;
       font-weight: 800;
       line-height: 1;
     }
 
-    .song-year-scale-labels span,
-    .stat-scale-labels span {
-      text-align: center;
+    .song-chart-scale-labels span {
+      position: absolute;
+      transform: translateX(-50%);
+      white-space: nowrap;
     }
 
-    .song-year-scale-labels span:first-child,
-    .stat-scale-labels span:first-child {
-      text-align: left;
+    .song-chart-scale-labels span:first-child {
+      transform: none;
     }
 
-    .song-year-scale-labels span:last-child,
-    .stat-scale-labels span:last-child {
-      text-align: right;
+    .song-chart-scale-labels span:last-child {
+      transform: translateX(-100%);
     }
 
 
@@ -761,6 +769,7 @@
     }
     .comparison-value{text-align:right;color:var(--indigo)}
     .comparison-track{
+      position:relative;
       height:15px;
       overflow:hidden;
       border-radius:999px;

@@ -456,6 +456,24 @@ function getReleaseYearLabel(value) {
     : "";
 }
 
+function renderTodayReleaseSongs(item) {
+  const songs = Array.isArray(item.includedSongs)
+    ? item.includedSongs.filter(song => String(song?.songName || "").trim())
+    : [];
+
+  if (!songs.length) return "";
+
+  return `<div class="today-release-songs">${songs.map(song => {
+    const store = String(song.benefitStore || "").trim();
+    const songName = `「${escapeHtml(String(song.songName).trim())}」`;
+    const songId = String(song.songId || "").trim();
+    const name = /^S\d{3}$/.test(songId)
+      ? `<a href="song.html?id=${encodeURIComponent(songId)}">${songName}</a>`
+      : `<span>${songName}</span>`;
+    return `<div class="today-release-song"><span>${escapeHtml(store || "収録特典曲")}</span>${name}</div>`;
+  }).join("")}</div>`;
+}
+
 
 function renderTodaySummary(today) {
   const releaseCount =
@@ -545,13 +563,16 @@ function renderToday(today) {
               .filter(Boolean)
               .join("｜");
 
-          return `
-            <a class="today-item" href="release.html?id=${encodeURIComponent(item.releaseId)}">
+          const content = `
               ${anniversary ? `<span class="today-anniversary-badge">${escapeHtml(anniversary)}</span>` : ""}
               <b>${escapeHtml(item.releaseName || "リリース名未設定")}</b>
               ${meta ? `<div class="home-ranking-meta">${escapeHtml(meta)}</div>` : ""}
-            </a>
           `;
+          const songs = renderTodayReleaseSongs(item);
+          const releaseLink = `<a class="today-item${songs ? " today-release-main" : ""}" href="release.html?id=${encodeURIComponent(item.releaseId)}">${content}</a>`;
+          return songs
+            ? `<div class="today-release-entry">${releaseLink}${songs}</div>`
+            : releaseLink;
         }
     },
     {

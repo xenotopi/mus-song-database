@@ -283,7 +283,11 @@ function render(data) {
     Number(summary.soloEventCount || 0).toLocaleString("ja-JP");
 
   const songs = Array.isArray(data.songs) ? data.songs : [];
-  allHistory = Array.isArray(data.history) ? data.history : [];
+  allHistory = Array.isArray(data.history)
+    ? data.history.slice().sort((a, b) =>
+        String(a.date || "").slice(0, 10).localeCompare(String(b.date || "").slice(0, 10))
+      )
+    : [];
 
   renderAnalysis(allHistory);
   renderSongs(songs);

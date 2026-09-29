@@ -659,41 +659,32 @@ function buildSongMetrics_() {
 
 
 
-function buildGraphScaleLabels_(
-  maximum,
-  suffix
-) {
-  const safeMaximum =
-    Math.max(
-      1,
-      Number(maximum || 0)
-    );
-
-  const values =
-    [0, .25, .5, .75, 1]
-      .map(rate =>
-        Math.round(
-          safeMaximum * rate
-        )
-      );
-
-  return values.map(
-    (value, index) => {
-      if (
-        index > 0 &&
-        value === values[index - 1]
-      ) {
-        return "";
-      }
-
-      return (
-        value.toLocaleString(
-          "ja-JP"
-        ) +
-        suffix
-      );
-    }
+function buildGraphScale_(maximum) {
+  const max = Math.max(1, Number(maximum || 0));
+  const divisions = max <= 4 ? max : max % 3 === 0 ? 3 : 4;
+  const values = Array.from(
+    { length: divisions + 1 },
+    (_, index) => Math.round(max * index / divisions)
   );
+  return {
+    max,
+    ticks: values.map(value => ({
+      value,
+      position: value / max * 100
+    }))
+  };
+}
+
+function renderGraphScaleLabels_(scale) {
+  return scale.ticks.map(tick => `
+    <span style="left:${tick.position}%">${tick.value.toLocaleString("ja-JP")}件</span>
+  `).join("");
+}
+
+function renderGraphGridlines_(scale) {
+  return scale.ticks.slice(1, -1).map(tick => `
+    <span class="song-chart-gridline" style="left:${tick.position}%"></span>
+  `).join("");
 }
 
 
@@ -795,11 +786,7 @@ function renderSongRecords_() {
       )
     );
 
-  const scaleLabels =
-    buildGraphScaleLabels_(
-      maxCount,
-      "件"
-    );
+  const scale = buildGraphScale_(maxCount);
 
   elements.songYearChart.innerHTML =
     metrics.yearly.length
@@ -807,25 +794,15 @@ function renderSongRecords_() {
           <div class="song-year-scale">
             <span></span>
 
-            <span class="song-year-scale-labels">
-              ${scaleLabels.map(label =>
-                `<span>${escapeHtml(label)}</span>`
-              ).join("")}
+            <span class="song-chart-scale-labels">
+              ${renderGraphScaleLabels_(scale)}
             </span>
 
             <span></span>
           </div>
 
           ${metrics.yearly.map(item => {
-            const width =
-              Math.max(
-                3,
-                Math.round(
-                  item.count /
-                  maxCount *
-                  100
-                )
-              );
+            const width = item.count / scale.max * 100;
 
             return `
               <div class="song-year-row">
@@ -835,9 +812,10 @@ function renderSongRecords_() {
 
                 <span class="song-year-track">
                   <span
-                    class="song-year-bar"
+                    class="song-year-bar${item.count === 0 ? " is-zero" : ""}"
                     style="width:${width}%"
                   ></span>
+                  ${renderGraphGridlines_(scale)}
                 </span>
 
                 <span class="song-year-value">
@@ -1146,6 +1124,7 @@ function renderIncludedReleases_(song) {
 function renderOfficialSoloChart_() {
   const metrics = buildSongMetrics_();
   const max = Math.max(1, metrics.officialCount, metrics.soloCount);
+  const scale = buildGraphScale_(max);
 
   const rows = [
     {
@@ -1161,12 +1140,17 @@ function renderOfficialSoloChart_() {
   ];
 
   elements.officialSoloChart.innerHTML =
-    rows.map(item => `
+    `<div class="comparison-scale">
+      <span></span>
+      <span class="song-chart-scale-labels">${renderGraphScaleLabels_(scale)}</span>
+      <span></span>
+    </div>` + rows.map(item => `
       <div class="comparison-row">
         <span class="comparison-label">${item.label}</span>
         <span class="comparison-track">
-          <span class="comparison-bar ${item.className}"
-                style="display:block;width:${Math.max(3, Math.round(item.count / max * 100))}%"></span>
+          <span class="comparison-bar ${item.className}${item.count === 0 ? " is-zero" : ""}"
+                style="display:block;width:${item.count / scale.max * 100}%"></span>
+          ${renderGraphGridlines_(scale)}
         </span>
         <span class="comparison-value">${item.count}件</span>
       </div>

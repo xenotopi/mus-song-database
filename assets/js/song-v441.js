@@ -99,38 +99,10 @@ const THANK_YOU_SONG_ID =
 function setupThankYouHero_(
   renderedSongId
 ) {
-  if (
-    renderedSongId !==
-    THANK_YOU_SONG_ID
-  ) {
-    return;
+  const message = document.getElementById("songThankYou");
+  if (message) {
+    message.hidden = renderedSongId !== THANK_YOU_SONG_ID;
   }
-
-  const hero =
-    document.querySelector(".song-hero-v46");
-  const colorLine =
-    hero?.querySelector(".muse-line");
-
-  if (
-    !colorLine ||
-    document.getElementById(
-      "songThankYou"
-    )
-  ) {
-    return;
-  }
-
-  const message =
-    document.createElement("p");
-
-  message.id =
-    "songThankYou";
-  message.className =
-    "song-thank-you";
-  message.textContent =
-    "ありがとう";
-
-  hero.insertBefore(message, colorLine);
 }
 
 

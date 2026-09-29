@@ -25,7 +25,6 @@ const el = {
   soloChip: $("soloChip"),
   scopeSection: $("scopeSection"),
   scopeButtons: $("scopeButtons"),
-  scopeNote: $("scopeNote"),
   pickupSection: $("pickupSection"),
   pickupGrid: $("pickupGrid"),
   listSection: $("listSection"),
@@ -534,11 +533,6 @@ function updateScopeUI() {
         button.dataset.scope === scope
       );
     });
-
-  el.scopeNote.textContent =
-    scope === "official"
-      ? "公式：キャラクター名義として表示します。ソロイベントのキャスト名義は含みません。"
-      : "ソロ：キャスト名義として表示します。公式イベントのキャラクター名義は含みません。";
 
   memberCount = "";
   selectedMember = "";

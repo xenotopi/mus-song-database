@@ -143,9 +143,6 @@
       display:flex;
       gap:8px;
       padding:6px;
-      border:1px solid #dedaf5;
-      border-radius:16px;
-      background:#fbfaff;
       width:max-content;
       max-width:100%;
     }
@@ -157,6 +154,7 @@
       border-radius:12px;
       background:transparent;
       color:var(--navy);
+      font-size:14px;
       font-weight:900;
       cursor:pointer;
     }
@@ -165,13 +163,6 @@
       background:var(--indigo);
       color:#fff;
       box-shadow:0 5px 14px rgba(79,70,229,.18);
-    }
-
-    .singer-scope-note{
-      margin:10px 0 0;
-      color:#626b7c;
-      font-size: 14px;
-      font-weight:700;
     }
 
     .singer-pickup-grid{
@@ -277,8 +268,8 @@
 
     .singers-pills{
       display:flex;
+      flex-wrap:wrap;
       gap:7px;
-      overflow-x:auto;
       padding-bottom:4px;
     }
 
@@ -316,13 +307,12 @@
 
     .singers-toolbar-bottom{
       margin-top:16px;
-      display:grid;
-      grid-template-columns:minmax(0,1fr) minmax(220px,320px);
-      gap:12px;
-      align-items:end;
+      display:flex;
+      justify-content:flex-end;
     }
 
     .singers-result{
+      margin:16px 0 12px;
       color:var(--muted);
       font-size: 14px;
       font-weight:800;
@@ -331,6 +321,7 @@
     .singers-sort{
       display:grid;
       gap:6px;
+      width:min(100%,320px);
     }
 
     .singers-sort label{
@@ -550,7 +541,11 @@
       }
 
       .singers-toolbar-bottom{
-        grid-template-columns:1fr;
+        justify-content:stretch;
+      }
+
+      .singers-sort{
+        width:100%;
       }
 
       .singer-list-card{
@@ -646,26 +641,6 @@
       歌唱名義データを読み込んでいます...
     </div>
 
-    <section class="singers-section" id="scopeSection" hidden>
-      <div class="singers-section-head">
-        <div>
-          <p class="singers-section-kicker">CATEGORY</p>
-          <h2>公式とソロを分けて見る</h2>
-        </div>
-      </div>
-
-      <div class="singer-scope" id="scopeButtons">
-        <button class="singer-scope-button active" type="button" data-scope="official">
-          公式
-        </button>
-        <button class="singer-scope-button" type="button" data-scope="solo">
-          ソロ
-        </button>
-      </div>
-
-      <p class="singer-scope-note" id="scopeNote"></p>
-    </section>
-
     <section class="singers-section" id="pickupSection" hidden>
       <div class="singers-section-head">
         <div>
@@ -685,11 +660,12 @@
         </div>
 
         <p class="singers-section-note">
-          人数・メンバー・記録から絞り込めます。
+          区分・人数・メンバー・記録から絞り込めます。
         </p>
       </div>
 
       <div class="singers-toolbar">
+        <label class="singers-filter-label" for="nameSearch">名義検索</label>
         <div class="singers-search">
           <span class="singers-search-mark">⌕</span>
           <input
@@ -698,6 +674,14 @@
             placeholder="歌唱名義から探す"
             autocomplete="off"
           >
+        </div>
+
+        <div class="singers-filter-block" id="scopeSection" hidden>
+          <p class="singers-filter-label">区分</p>
+          <div class="singer-scope" id="scopeButtons">
+            <button class="singer-scope-button active" type="button" data-scope="official">公式</button>
+            <button class="singer-scope-button" type="button" data-scope="solo">ソロ</button>
+          </div>
         </div>
 
         <div class="singers-filter-block">
@@ -711,8 +695,6 @@
         </div>
 
         <div class="singers-toolbar-bottom">
-          <div class="singers-result" id="resultText"></div>
-
           <div class="singers-sort">
             <label for="singerSort">並び替え</label>
             <select id="singerSort">
@@ -726,6 +708,7 @@
         </div>
       </div>
 
+      <div class="singers-result" id="resultText"></div>
       <div class="singers-list" id="singersList"></div>
 
       <div class="singers-more-wrap">

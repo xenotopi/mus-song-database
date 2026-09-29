@@ -721,6 +721,15 @@
       border: 1px solid #e5e6fb;
     }
 
+    #eventInfo dd { min-width: 0; overflow-wrap: anywhere; line-height: 1.55; }
+    #eventInfo dd a { color: var(--indigo); text-decoration: none; }
+    #eventInfo dd a:hover { text-decoration: underline; }
+    #eventInfo dd a:focus-visible { outline: 3px solid var(--indigo); outline-offset: 2px; }
+    .event-info-sub { display: block; color: var(--muted); font-size: 14px; font-weight: 500; }
+    .event-info-links, .event-info-singers { display: flex; flex-wrap: wrap; gap: 5px 12px; }
+    .event-insight-count { color: var(--indigo); font-size: 18px; white-space: nowrap; }
+    #eventInsightsSection .event-insight-card { min-height: 0; }
+
     .event-stat-help-v46 {
       margin-top: 14px;
       padding: 0;
@@ -1104,8 +1113,7 @@
       <a href="#mainContent">基本情報</a>
       <a href="#songsSection">披露曲</a>
       <a href="#eventPerformersSection">歌唱名義</a>
-      <a href="#eventInsightsSection">発見</a>
-      <a href="#venueSection">会場</a>
+      <a href="#eventInsightsSection">記録</a>
     </nav>
 
     <section class="quicknav" id="quickNav" hidden>
@@ -1161,42 +1169,6 @@
       </article>
     </section>
 
-    <section
-      class="section"
-      id="relatedReleasesSection"
-      aria-labelledby="relatedReleasesHeading"
-      hidden
-    >
-      <div class="section-head">
-        <div>
-          <p class="kicker">RELATED RELEASES</p>
-          <h2 id="relatedReleasesHeading">関連リリース</h2>
-        </div>
-      </div>
-
-      <div
-        class="event-release-list"
-        id="relatedReleaseList"
-      ></div>
-    </section>
-
-    <section
-      class="section"
-      id="eventRecordsSection"
-      hidden
-    >
-      <div class="section-head">
-        <div>
-          <p class="kicker">EVENT RECORDS</p>
-          <h2>このイベントの記録</h2>
-        </div>
-      </div>
-
-      <div
-        class="event-record-grid"
-        id="eventRecordGrid"
-      ></div>
-    </section>
     <section class="section" id="songsSection" hidden>
       <div class="section-head">
         <div>
@@ -1289,24 +1261,15 @@
     >
       <div class="section-head">
         <div>
-          <p class="kicker">EVENT DISCOVERY</p>
-          <h2>このイベントの発見</h2>
+          <p class="kicker">EVENT RECORDS</p>
+          <h2>このイベントの記録</h2>
         </div>
       </div>
 
       <div class="event-insight-grid">
         <article class="event-insight-card">
-          <p class="kicker">ONLY HERE</p>
-          <h2>このイベントだけの曲</h2>
-          <div
-            class="insight-list"
-            id="uniqueEventSongs"
-          ></div>
-        </article>
-
-        <article class="event-insight-card">
           <p class="kicker">FIRST PERFORMANCE</p>
-          <h2>初披露された曲</h2>
+          <h2>初披露された曲 <span class="event-insight-count" id="firstEventCount"></span></h2>
           <div
             class="insight-list"
             id="firstEventSongs"
@@ -1315,42 +1278,22 @@
 
         <article class="event-insight-card">
           <p class="kicker">LATEST PERFORMANCE</p>
-          <h2>最終披露となった曲</h2>
+          <h2>最終披露となった曲 <span class="event-insight-count" id="lastEventCount"></span></h2>
           <div
             class="insight-list"
             id="lastEventSongs"
           ></div>
         </article>
-      </div>
-    </section>
-    <section class="section" id="venueSection" hidden>
-      <article class="card">
-        <p class="kicker">VENUE INFORMATION</p>
-        <h2>開催・会場情報</h2>
 
-        <a class="venue-summary" id="venueLink">
-          <h3 id="venueName"></h3>
-          <p id="venueMeta"></p>
-          <p id="venueNote"></p>
-        </a>
-      </article>
-    </section>
-    <section
-      class="section"
-      id="discoverySection"
-      hidden
-    >
-      <div class="section-head">
-        <div>
-          <p class="kicker">NEXT DISCOVERY</p>
-          <h2>このイベントから巡る</h2>
-        </div>
+        <article class="event-insight-card">
+          <p class="kicker">ONLY HERE</p>
+          <h2>このイベントだけの曲 <span class="event-insight-count" id="uniqueEventCount"></span></h2>
+          <div
+            class="insight-list"
+            id="uniqueEventSongs"
+          ></div>
+        </article>
       </div>
-
-      <div
-        class="discovery-grid"
-        id="eventDiscovery"
-      ></div>
     </section>
 
 

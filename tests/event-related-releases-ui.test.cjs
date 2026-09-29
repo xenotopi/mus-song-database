@@ -44,7 +44,7 @@ async function launchBrowser() {
   return chromium.launch(options);
 }
 
-function eventFixture(relatedReleases) {
+function eventFixture(relatedReleases, overrides = {}) {
   return {
     eventId: "EV0029",
     eventName: "Fixture Event",
@@ -74,7 +74,8 @@ function eventFixture(relatedReleases) {
     }],
     relatedReleases,
     navigation: { previous: null, next: null, events: [], totalCount: 1 },
-    _cache: { revision: "event-release-test" }
+    _cache: { revision: "event-release-test" },
+    ...overrides
   };
 }
 
@@ -87,7 +88,7 @@ function jsonp(route, data) {
   });
 }
 
-async function openEvent(relatedReleases, viewport = { width: 1280, height: 900 }) {
+async function openEvent(relatedReleases, viewport = { width: 1280, height: 900 }, eventOverrides = {}, discoverOverrides = {}) {
   const page = await browser.newPage({ viewport });
   const issues = [];
   const actions = [];
@@ -101,8 +102,8 @@ async function openEvent(relatedReleases, viewport = { width: 1280, height: 900 
     const action = url.searchParams.get("action");
     actions.push(action);
     if (action === "revision") return jsonp(route, { dataRevision: "event-release-test" });
-    if (action === "event") return jsonp(route, eventFixture(relatedReleases));
-    if (action === "discover") return jsonp(route, { uniqueSongs: [], firstPerformedSongs: [], lastPerformedSongs: [], _cache: { revision: "event-release-test" } });
+    if (action === "event") return jsonp(route, eventFixture(relatedReleases, eventOverrides));
+    if (action === "discover") return jsonp(route, { uniqueSongs: [], firstPerformedSongs: [], lastPerformedSongs: [], _cache: { revision: "event-release-test" }, ...discoverOverrides });
     return jsonp(route, []);
   });
   await page.goto(`${baseUrl}/event.html?id=EV0029`, { waitUntil: "domcontentloaded" });
@@ -135,17 +136,18 @@ test.after(async () => {
   await new Promise(resolve => server?.close(resolve));
 });
 
-test("0件・非Arrayでは関連リリースsectionを表示しない", async () => {
+test("0件・非Arrayでは基本情報に関連リリース行を作らない", async () => {
   for (const value of [[], null, {}]) {
     const { page, issues } = await openEvent(value);
-    assert.equal(await page.locator("#relatedReleasesSection").isHidden(), true);
+    assert.equal(await page.locator("#eventInfo dt").filter({ hasText: "関連リリース" }).count(), 0);
+    assert.equal(await page.locator("#relatedReleasesSection").count(), 0);
     assert.match(await page.locator("#songList").innerText(), /Wonderful Rush/);
     assert.deepEqual(issues, []);
     await page.close();
   }
 });
 
-test("1件を正式項目とReleaseリンクで表示する", async () => {
+test("1件を基本情報内のReleaseリンクで表示する", async () => {
   const release = {
     releaseId: "R0041",
     releaseDate: "2014-07-23",
@@ -155,13 +157,12 @@ test("1件を正式項目とReleaseリンクで表示する", async () => {
     relation: "収録公演"
   };
   const { page, issues, actions } = await openEvent([release]);
-  const section = page.locator("#relatedReleasesSection");
-  assert.equal(await section.isVisible(), true);
-  assert.equal(await section.locator("h2").innerText(), "関連リリース");
+  const section = page.locator("#eventInfo");
   const text = await section.innerText();
-  for (const expected of [release.releaseName, "2014/07/23", "Blu-ray", "ライブBlu-ray", "収録公演"]) assert.match(text, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  assert.match(text, /関連リリース/);
+  assert.match(text, new RegExp(release.releaseName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   assert.equal(text.includes("R0041"), false);
-  assert.equal(new URL(await section.locator("a").getAttribute("href"), baseUrl).searchParams.get("id"), "R0041");
+  assert.equal(new URL(await section.locator('a[href^="release.html"]').getAttribute("href"), baseUrl).searchParams.get("id"), "R0041");
   assert.equal(actions.filter(action => action === "release" || action === "releaseList").length, 0);
   assert.deepEqual(issues, []);
   await page.close();
@@ -175,7 +176,7 @@ test("複数件はAPI順のまま全件表示し、欠損メタだけ省略す�
   ];
   const { page, issues } = await openEvent(releases, { width: 390, height: 900 });
   assert.deepEqual(
-    await page.locator(".event-release-row").evaluateAll(nodes => nodes.map(node => new URL(node.href).searchParams.get("id"))),
+    await page.locator('#eventInfo a[href^="release.html"]').evaluateAll(nodes => nodes.map(node => new URL(node.href).searchParams.get("id"))),
     ["R0003", "R0001", "R0002"]
   );
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
@@ -188,10 +189,10 @@ test("不正IDを除外し、外部文字列をescapeする", async () => {
     { releaseId: "INVALID", releaseName: "不正", relation: "" },
     { releaseId: "R0041", releaseName: "<script>window.__xss=1</script>", relation: "<img src=x onerror=window.__xss=2>", classification: "CD", releaseType: "シングル" }
   ]);
-  assert.equal(await page.locator(".event-release-row").count(), 1);
-  assert.equal(await page.locator("#relatedReleasesSection script, #relatedReleasesSection img").count(), 0);
+  assert.equal(await page.locator('#eventInfo a[href^="release.html"]').count(), 1);
+  assert.equal(await page.locator("#eventInfo script, #eventInfo img").count(), 0);
   assert.equal(await page.evaluate(() => window.__xss), undefined);
-  assert.match(await page.locator("#relatedReleasesSection").innerText(), /<script>/);
+  assert.match(await page.locator("#eventInfo").innerText(), /<script>/);
   assert.deepEqual(issues, []);
   await page.close();
 });
@@ -203,10 +204,56 @@ test("主要viewportで横overflowがなく通常a要素で遷移できる", asy
     await page.setViewportSize({ width, height: 900 });
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true, `${width}px overflow`);
   }
-  const link = page.locator(".event-release-row");
+  const link = page.locator('#eventInfo a[href^="release.html"]');
   assert.equal(await link.evaluate(node => node.tagName), "A");
   await link.focus();
-  assert.equal(await page.evaluate(() => document.activeElement?.classList.contains("event-release-row")), true);
+  assert.equal(await page.evaluate(() => document.activeElement?.getAttribute("href")?.startsWith("release.html")), true);
+  assert.deepEqual(issues, []);
+  await page.close();
+});
+
+test("情報量の多い公式ライブは基本情報→披露曲→歌唱名義→記録の順で表示する", async () => {
+  const songs = [
+    { songId: "S001", songName: "曲A", singerId: "SN0001", singer: "μ's", singerDisplayName: "μ's", type: "公式" },
+    { songId: "S002", songName: "曲B", singerId: "SN0002", singer: "新田恵海", singerDisplayName: "新田恵海", type: "公式" }
+  ];
+  const { page, issues } = await openEvent(
+    [{ releaseId: "R0041", releaseName: "関連Blu-ray" }],
+    { width: 1280, height: 900 },
+    { eventId: "EV0001", eventName: "First LoveLive! 型fixture", venue: { venueId: "VE0001", venueName: "会場A", prefectureCity: "横浜市" }, songs },
+    { firstPerformedSongs: [{ songId: "S001", songName: "曲A" }], lastPerformedSongs: [{ songId: "S002", songName: "曲B" }], uniqueSongs: [] }
+  );
+  await page.locator("#eventInsightsSection").waitFor({ state: "visible" });
+  assert.deepEqual(await page.locator("#mainContent, #songsSection, #eventPerformersSection, #eventInsightsSection").evaluateAll(nodes => nodes.map(node => node.id)), ["mainContent", "songsSection", "eventPerformersSection", "eventInsightsSection"]);
+  assert.equal(await page.locator('#eventInfo a[href="venue.html?id=VE0001"]').count(), 1);
+  assert.equal(await page.locator('#eventInfo a[href="release.html?id=R0041"]').count(), 1);
+  assert.equal(await page.locator('#eventInfo a[href="singer.html?id=SN0001"]').count(), 1);
+  assert.equal(await page.locator('#eventInfo a[href="singer.html?id=SN0002"]').count(), 1);
+  assert.equal(await page.locator("#songList .event-song-row").count(), 2);
+  await page.locator('[data-filter="first"]').click();
+  assert.equal(await page.locator("#songList .event-song-row").count(), 1);
+  assert.deepEqual(await page.locator("#performerList .performer-row").evaluateAll(nodes => nodes.map(node => [node.querySelector(".performer-name").textContent.trim(), node.querySelector(".performer-count").textContent.trim()]).sort((a, b) => a[0].localeCompare(b[0], "ja"))), [["新田恵海", "1曲"], ["μ's", "1曲"]].sort((a, b) => a[0].localeCompare(b[0], "ja")));
+  assert.equal(await page.locator("#firstEventCount").innerText(), "1曲");
+  assert.equal(await page.locator("#lastEventCount").innerText(), "1曲");
+  assert.equal(await page.locator("#uniqueEventCount").innerText(), "0曲");
+  assert.equal(await page.locator("#relatedReleasesSection, #venueSection, #discoverySection, #eventRecordsSection").count(), 0);
+  for (const width of [1280, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true, `${width}px overflow`);
+  }
+  assert.deepEqual(issues, []);
+  await page.close();
+});
+
+test("少数曲のイベントは欠損項目を増やさず、記録0件を簡潔に表示する", async () => {
+  const { page, issues } = await openEvent([], { width: 390, height: 900 });
+  await page.locator("#eventInsightsSection").waitFor({ state: "visible" });
+  assert.equal(await page.locator("#eventInfo dt").filter({ hasText: "会場" }).count(), 0);
+  assert.equal(await page.locator("#eventInfo dt").filter({ hasText: "関連リリース" }).count(), 0);
+  assert.equal(await page.locator('#eventInfo a[href^="singer.html"]').count(), 1);
+  assert.equal(await page.locator("#eventInsightsSection .event-insight-card").count(), 3);
+  assert.equal(await page.locator("#eventInsightsSection .empty").count(), 3);
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
   assert.deepEqual(issues, []);
   await page.close();
 });

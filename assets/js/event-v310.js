@@ -83,29 +83,9 @@ const elements = {
       "eventPicker"
     ),
 
-  discoverySection:
-    document.getElementById(
-      "discoverySection"
-    ),
-
-  eventDiscovery:
-    document.getElementById(
-      "eventDiscovery"
-    ),
-
   mainContent:
     document.getElementById(
       "mainContent"
-    ),
-
-  relatedReleasesSection:
-    document.getElementById(
-      "relatedReleasesSection"
-    ),
-
-  relatedReleaseList:
-    document.getElementById(
-      "relatedReleaseList"
     ),
 
   eventInfo:
@@ -116,16 +96,6 @@ const elements = {
   eventStats:
     document.getElementById(
       "eventStats"
-    ),
-
-  eventRecordsSection:
-    document.getElementById(
-      "eventRecordsSection"
-    ),
-
-  eventRecordGrid:
-    document.getElementById(
-      "eventRecordGrid"
     ),
 
   eventPerformersSection:
@@ -158,30 +128,9 @@ const elements = {
       "lastEventSongs"
     ),
 
-  venueSection:
-    document.getElementById(
-      "venueSection"
-    ),
-
-  venueLink:
-    document.getElementById(
-      "venueLink"
-    ),
-
-  venueName:
-    document.getElementById(
-      "venueName"
-    ),
-
-  venueMeta:
-    document.getElementById(
-      "venueMeta"
-    ),
-
-  venueNote:
-    document.getElementById(
-      "venueNote"
-    ),
+  firstEventCount: document.getElementById("firstEventCount"),
+  lastEventCount: document.getElementById("lastEventCount"),
+  uniqueEventCount: document.getElementById("uniqueEventCount"),
 
   songsSection:
     document.getElementById(
@@ -317,74 +266,6 @@ function setError(error) {
 
 
 
-function renderEventDiscovery_(
-  event,
-  venue,
-  songs,
-  navigation
-) {
-  const cards = [];
-
-  if (venue && venue.venueId) {
-    cards.push({
-      label: "開催会場",
-      title: venue.venueName || "会場詳細",
-      meta: [
-        venue.prefectureCity,
-        venue.country
-      ].filter(Boolean).join("｜"),
-      href:
-        `venue.html?id=${encodeURIComponent(
-          venue.venueId
-        )}`
-    });
-  }
-
-  if (songs.length && songs[0].songId) {
-    cards.push({
-      label: "披露曲",
-      title:
-        songs.length === 1
-          ? songs[0].songName
-          : `${songs[0].songName} ほか${songs.length - 1}曲`,
-      meta: "披露曲一覧を見る",
-      href: "#songsSection"
-    });
-  }
-
-  if (event.eventType) {
-    cards.push({
-      label: "同じ種別のイベント",
-      title: event.eventType,
-      meta: "同じイベント種別を検索",
-      href:
-        `search.html?q=${encodeURIComponent(
-          event.eventType
-        )}`
-    });
-  }
-
-  elements.eventDiscovery.innerHTML =
-    cards.map(card => `
-      <a class="discovery-card" href="${card.href}">
-        <span class="discovery-label">
-          ${escapeHtml(card.label)}
-        </span>
-
-        <span class="discovery-title">
-          ${escapeHtml(card.title || "—")}
-        </span>
-
-        <span class="discovery-meta">
-          ${escapeHtml(card.meta || "")}
-        </span>
-      </a>`
-    ).join("");
-}
-
-
-
-
 function createSongIdSet_(
   items
 ) {
@@ -404,92 +285,7 @@ function createSongIdSet_(
 }
 
 
-function renderEventRecords_(
-  event,
-  discover
-) {
-  const statistics =
-    event.statistics || {};
-
-  const uniqueSongs =
-    Array.isArray(
-      discover.uniqueSongs
-    )
-      ? discover.uniqueSongs
-      : [];
-
-  const firstSongs =
-    Array.isArray(
-      discover.firstPerformedSongs
-    )
-      ? discover.firstPerformedSongs
-      : [];
-
-  const lastSongs =
-    Array.isArray(
-      discover.lastPerformedSongs
-    )
-      ? discover.lastPerformedSongs
-      : [];
-
-  const records = [
-    {
-      label: "登録曲数",
-      value:
-        Number(
-          statistics.songCount || 0
-        ).toLocaleString("ja-JP"),
-      note: "重複を含む登録行数"
-    },
-    {
-      label: "初披露曲",
-      value:
-        `${firstSongs.length}曲`,
-      note:
-        firstSongs.length
-          ? "この開催日が初歌唱"
-          : "該当なし"
-    },
-    {
-      label: "現時点で最終披露の曲",
-      value:
-        `${lastSongs.length}曲`,
-      note:
-        lastSongs.length
-          ? "この開催日が最新歌唱"
-          : "該当なし"
-    },
-    {
-      label: "このイベントだけの曲",
-      value:
-        `${uniqueSongs.length}曲`,
-      note:
-        uniqueSongs.length
-          ? "他イベントでの記録なし"
-          : "該当なし"
-    }
-  ];
-
-  elements.eventRecordGrid.innerHTML =
-    records.map(record => `
-      <article class="event-record-card">
-        <div class="event-record-label">
-          ${escapeHtml(record.label)}
-        </div>
-
-        <div class="event-record-value">
-          ${escapeHtml(record.value)}
-        </div>
-
-        <div class="event-record-note">
-          ${escapeHtml(record.note)}
-        </div>
-      </article>`
-    ).join("");
-}
-
-
-function renderPerformerSummary_(
+function getEventPerformerRows_(
   songs
 ) {
   const countMap =
@@ -518,8 +314,7 @@ function renderPerformerSummary_(
     countMap.set(key, current);
   });
 
-  const rows =
-    Array.from(
+  return Array.from(
       countMap.values()
     )
       .sort((a, b) =>
@@ -529,6 +324,9 @@ function renderPerformerSummary_(
           "ja"
         )
       );
+}
+
+function renderPerformerSummary_(rows) {
 
   elements.performerList.innerHTML =
     rows.length
@@ -727,6 +525,9 @@ function updateSongFilterButtons_() {
 function renderEventInsights_(
   discover
 ) {
+  const firstSongs = Array.isArray(discover.firstPerformedSongs) ? discover.firstPerformedSongs : [];
+  const lastSongs = Array.isArray(discover.lastPerformedSongs) ? discover.lastPerformedSongs : [];
+  const uniqueSongs = Array.isArray(discover.uniqueSongs) ? discover.uniqueSongs : [];
   const renderSongs =
     items =>
       items.length
@@ -752,108 +553,18 @@ function renderEventInsights_(
         : `<div class="empty">該当する曲はありません。</div>`;
 
   elements.uniqueEventSongs.innerHTML =
-    renderSongs(
-      discover.uniqueSongs || []
-    );
+    renderSongs(uniqueSongs);
 
   elements.firstEventSongs.innerHTML =
-    renderSongs(
-      discover.firstPerformedSongs || []
-    );
+    renderSongs(firstSongs);
 
   elements.lastEventSongs.innerHTML =
-    renderSongs(
-      discover.lastPerformedSongs || []
-    );
+    renderSongs(lastSongs);
+  elements.firstEventCount.textContent = `${firstSongs.length}曲`;
+  elements.lastEventCount.textContent = `${lastSongs.length}曲`;
+  elements.uniqueEventCount.textContent = `${uniqueSongs.length}曲`;
 }
 
-
-function renderRelatedReleases_(
-  relatedReleases
-) {
-  const releases =
-    Array.isArray(
-      relatedReleases
-    )
-      ? relatedReleases.filter(release =>
-          release &&
-          /^R\d{4}$/.test(
-            String(
-              release.releaseId || ""
-            ).trim()
-          )
-        )
-      : [];
-
-  if (!releases.length) {
-    elements.relatedReleaseList.innerHTML =
-      "";
-
-    elements.relatedReleasesSection.hidden =
-      true;
-
-    return;
-  }
-
-  elements.relatedReleaseList.innerHTML =
-    releases.map(release => {
-      const releaseId =
-        String(
-          release.releaseId
-        ).trim();
-
-      const releaseDate =
-        release.releaseDate
-          ? formatDate(
-              release.releaseDate
-            )
-          : "";
-
-      const metadata = [
-        releaseDate,
-        release.classification,
-        release.releaseType,
-        release.relation
-      ]
-        .map(value =>
-          String(
-            value || ""
-          ).trim()
-        )
-        .filter(Boolean);
-
-      return `
-        <a
-          class="event-release-row"
-          href="release.html?id=${encodeURIComponent(
-            releaseId
-          )}"
-        >
-          <span class="event-release-copy">
-            <span class="event-release-title">
-              ${escapeHtml(
-                release.releaseName ||
-                "リリース名未設定"
-              )}
-            </span>
-
-            ${
-              metadata.length
-                ? `<span class="event-release-meta">${metadata.map(value => `<span>${escapeHtml(value)}</span>`).join("")}</span>`
-                : ""
-            }
-          </span>
-
-          <span
-            class="event-release-arrow"
-            aria-hidden="true"
-          >›</span>
-        </a>`;
-    }).join("");
-
-  elements.relatedReleasesSection.hidden =
-    false;
-}
 
 function renderEvent(event) {
   const statistics =
@@ -871,6 +582,12 @@ function renderEvent(event) {
 
   const navigation =
     event.navigation || {};
+  const performerRows = getEventPerformerRows_(songs);
+  const infoRow = (label, value) => `<dt>${escapeHtml(label)}</dt><dd>${value}</dd>`;
+  const plainRow = (label, value) => infoRow(label, escapeHtml(value || "—"));
+  const relatedReleases = Array.isArray(event.relatedReleases)
+    ? event.relatedReleases.filter(release => /^R\d{4}$/.test(String(release?.releaseId || "").trim()))
+    : [];
 
   document.title =
     `${event.eventName || "イベント詳細"}｜μ's Song Database`;
@@ -890,48 +607,38 @@ function renderEvent(event) {
       .filter(Boolean)
       .join("｜");
 
-  elements.eventInfo.innerHTML =
-    [
-      [
-        "開催日",
-        formatDate(
-          event.date
-        )
-      ],
-      [
-        "区分",
-        event.category
-      ],
-      [
-        "イベント種別",
-        event.eventType
-      ],
-      [
-        "Day",
-        event.day || "—"
-      ],
-      [
-        "公演",
-        event.performance || "—"
-      ],
-      [
-        "備考",
-        event.note || "—"
-      ]
-    ]
-      .map(
-        ([label, value]) => `
-          <dt>
-            ${escapeHtml(label)}
-          </dt>
-
-          <dd>
-            ${escapeHtml(
-              value || "—"
-            )}
-          </dd>`
-      )
-      .join("");
+  const infoRows = [
+    plainRow("開催日", formatDate(event.date)),
+    plainRow("区分", event.category),
+    plainRow("イベント種別", event.eventType),
+    plainRow("Day", event.day),
+    plainRow("公演", event.performance)
+  ];
+  if (venue?.venueName) {
+    const venueName = escapeHtml(venue.venueName);
+    const venueLink = /^VE\d{4}$/.test(String(venue.venueId || ""))
+      ? `<a href="venue.html?id=${encodeURIComponent(venue.venueId)}">${venueName}</a>`
+      : venueName;
+    const location = [venue.prefectureCity, venue.region, venue.country]
+      .filter(Boolean).map(escapeHtml).join("｜");
+    infoRows.push(infoRow("会場", `${venueLink}${location ? `<span class="event-info-sub">${location}</span>` : ""}`));
+  }
+  if (relatedReleases.length) {
+    infoRows.push(infoRow("関連リリース", `<span class="event-info-links">${relatedReleases.map(release =>
+      `<a href="release.html?id=${encodeURIComponent(release.releaseId)}">${escapeHtml(release.releaseName || "リリース名未設定")}</a>`
+    ).join("")}</span>`));
+  }
+  const namedPerformers = performerRows.filter(item => item.name !== "—");
+  if (namedPerformers.length) {
+    infoRows.push(infoRow("歌唱者", `<span class="event-info-singers">${namedPerformers.map(item => {
+      const href = item.singerId
+        ? `singer.html?id=${encodeURIComponent(item.singerId)}`
+        : `singer.html?name=${encodeURIComponent(item.name)}`;
+      return `<a href="${href}">${escapeHtml(item.name)}</a>`;
+    }).join("")}</span>`));
+  }
+  infoRows.push(plainRow("備考", event.note));
+  elements.eventInfo.innerHTML = infoRows.join("");
 
   elements.eventStats.innerHTML =
     [
@@ -970,50 +677,11 @@ function renderEvent(event) {
       )
       .join("");
 
-  if (venue) {
-    elements.venueName.textContent =
-      venue.venueName ||
-      "会場名未設定";
-
-    elements.venueMeta.textContent =
-      [
-        venue.prefectureCity,
-        venue.region,
-        venue.country,
-        venue.capacity
-          ? `キャパ ${Number(
-              venue.capacity
-            ).toLocaleString(
-              "ja-JP"
-            )}人`
-          : ""
-      ]
-        .filter(Boolean)
-        .join("｜");
-
-    elements.venueNote.textContent =
-      venue.note || "";
-
-    if (venue.venueId) {
-      elements.venueLink.href =
-        `venue.html?id=${encodeURIComponent(
-          venue.venueId
-        )}`;
-    }
-
-    elements.venueSection.hidden =
-      false;
-  }
-
   currentEvent =
     event;
 
   currentSongs =
     songs;
-
-  renderRelatedReleases_(
-    event.relatedReleases
-  );
 
   elements.songCount.textContent =
     `${songs.length}曲`;
@@ -1032,21 +700,12 @@ function renderEvent(event) {
           "掲載順は実際の歌唱順とは限りません。番号はデータベース上の登録順です。"
         );
 
-  renderPerformerSummary_(
-    songs
-  );
+  renderPerformerSummary_(performerRows);
 
   renderEventSongs_();
 
   renderNavigation(
     event,
-    navigation
-  );
-
-  renderEventDiscovery_(
-    event,
-    venue,
-    songs,
     navigation
   );
 
@@ -1059,16 +718,7 @@ function renderEvent(event) {
   elements.quickNav.hidden =
     false;
 
-  elements.discoverySection.hidden =
-    false;
-
-  elements.eventRecordsSection.hidden =
-    false;
-
   elements.eventPerformersSection.hidden =
-    false;
-
-  elements.eventInsightsSection.hidden =
     false;
 
   elements.mainContent.hidden =
@@ -1240,19 +890,11 @@ async function renderEventDiscoverWhenReady_(
     currentDiscover =
       discoverData;
 
-    renderEventRecords_(
-      eventData,
-      discoverData
-    );
-
     renderEventInsights_(
       discoverData
     );
 
     renderEventSongs_();
-
-    elements.eventRecordsSection.hidden =
-      false;
 
     elements.eventInsightsSection.hidden =
       false;
@@ -1280,28 +922,16 @@ async function loadEvent() {
   elements.mainContent.hidden =
     true;
 
-  elements.relatedReleasesSection.hidden =
-    true;
-
   elements.detailLocalNav.hidden =
     true;
 
   elements.quickNav.hidden =
     true;
 
-  elements.discoverySection.hidden =
-    true;
-
-  elements.eventRecordsSection.hidden =
-    true;
-
   elements.eventPerformersSection.hidden =
     true;
 
   elements.eventInsightsSection.hidden =
-    true;
-
-  elements.venueSection.hidden =
     true;
 
   elements.songsSection.hidden =
@@ -1359,9 +989,6 @@ async function loadEvent() {
     renderEvent(
       eventData
     );
-
-    elements.eventRecordsSection.hidden =
-      true;
 
     elements.eventInsightsSection.hidden =
       true;

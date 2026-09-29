@@ -96,7 +96,7 @@ const THANK_YOU_SONG_ID =
   "S089";
 
 
-function setupThankYouEnding_(
+function setupThankYouHero_(
   renderedSongId
 ) {
   if (
@@ -106,11 +106,13 @@ function setupThankYouEnding_(
     return;
   }
 
-  const main =
-    document.querySelector("main");
+  const hero =
+    document.querySelector(".song-hero-v46");
+  const colorLine =
+    hero?.querySelector(".muse-line");
 
   if (
-    !main ||
+    !colorLine ||
     document.getElementById(
       "songThankYou"
     )
@@ -128,65 +130,7 @@ function setupThankYouEnding_(
   message.textContent =
     "ありがとう";
 
-  main.appendChild(message);
-
-  const reducedMotion =
-    typeof window.matchMedia ===
-      "function" &&
-    window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-  if (reducedMotion) {
-    message.classList.add(
-      "is-visible"
-    );
-    return;
-  }
-
-  const revealAtPageBottom =
-    () => {
-      const pageBottom =
-        window.innerHeight +
-        window.scrollY;
-
-      const documentBottom =
-        document.documentElement
-          .scrollHeight;
-
-      if (
-        pageBottom <
-        documentBottom - 80
-      ) {
-        return;
-      }
-
-      message.classList.add(
-        "is-visible"
-      );
-
-      window.removeEventListener(
-        "scroll",
-        revealAtPageBottom
-      );
-      window.removeEventListener(
-        "resize",
-        revealAtPageBottom
-      );
-    };
-
-  window.addEventListener(
-    "scroll",
-    revealAtPageBottom,
-    { passive: true }
-  );
-  window.addEventListener(
-    "resize",
-    revealAtPageBottom,
-    { passive: true }
-  );
-
-  revealAtPageBottom();
+  hero.insertBefore(message, colorLine);
 }
 
 
@@ -1526,7 +1470,7 @@ async function loadSong() {
       response.data?.songId || songId
     );
 
-    setupThankYouEnding_(
+    setupThankYouHero_(
       renderedSongId
     );
 

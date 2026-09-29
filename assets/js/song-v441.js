@@ -14,6 +14,8 @@ import {
   buildSingerUrl
 } from "./singer-links.js?v=4.8.0";
 
+import { SONG_HERO_DECORATIONS } from "./song-hero-decorations.js";
+
 
 renderCommon("song");
 
@@ -92,16 +94,21 @@ let selectedYear = "all";
 let currentSong = null;
 
 
-const THANK_YOU_SONG_ID =
-  "S089";
-
-
-function setupThankYouHero_(
-  renderedSongId
-) {
-  const message = document.getElementById("songThankYou");
-  if (message) {
-    message.hidden = renderedSongId !== THANK_YOU_SONG_ID;
+function renderSongHeroDecorations_(renderedSongId) {
+  const slots = {
+    "before-title": document.getElementById("songIntroDecoration"),
+    "hero-right-lower": document.getElementById("songDialogueDecoration"),
+    "hero-bottom-right": document.getElementById("songCatchcopyDecoration"),
+    "before-stripe": document.getElementById("songThankYou")
+  };
+  Object.values(slots).forEach((element) => {
+    if (element) element.hidden = true;
+  });
+  for (const decoration of SONG_HERO_DECORATIONS[renderedSongId] || []) {
+    const element = slots[decoration.placement];
+    if (!element) continue;
+    element.textContent = decoration.text;
+    element.hidden = false;
   }
 }
 
@@ -1442,9 +1449,7 @@ async function loadSong() {
       response.data?.songId || songId
     );
 
-    setupThankYouHero_(
-      renderedSongId
-    );
+    renderSongHeroDecorations_(renderedSongId);
 
     if (/^S\d+$/.test(renderedSongId)) {
       window.MusDbAnalytics?.trackOnce(

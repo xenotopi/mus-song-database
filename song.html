@@ -1313,6 +1313,61 @@
       text-align:right;
     }
 
+    .song-hero-v46 .song-hero-decoration[hidden]{display:none}
+    .song-hero-v46 .song-intro-decoration{
+      margin:14px 0 2px;
+      color:rgba(255,255,255,.88);
+      font-family:"Yu Gothic",sans-serif;
+      font-size:15px;
+      font-weight:500;
+      letter-spacing:.04em;
+      line-height:1.5;
+    }
+    .song-hero-v46 .song-dialogue-decoration{
+      position:absolute;
+      top:137px;
+      right:52px;
+      width:max-content;
+      max-width:37%;
+      margin:0;
+      color:rgba(255,255,255,.88);
+      font-family:"BIZ UDGothic","Yu Gothic",sans-serif;
+      font-size:13.5px;
+      font-weight:400;
+      line-height:1.8;
+      text-align:left;
+      white-space:pre-line;
+    }
+    .song-hero-v46 .song-dialogue-decoration::before{content:"“";font-size:22px;line-height:0}
+    .song-hero-v46 .song-dialogue-decoration::after{content:"”";font-size:22px;line-height:0}
+    .song-hero-v46:has(.song-dialogue-decoration:not([hidden])) #songName,
+    .song-hero-v46:has(.song-dialogue-decoration:not([hidden])) #heroMeta{max-width:58%}
+    .song-hero-v46 .song-catchcopy-decoration{
+      width:fit-content;
+      max-width:100%;
+      margin:17px 0 0 auto;
+      color:rgba(255,255,255,.86);
+      font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+      font-size:16px;
+      font-style:italic;
+      font-weight:500;
+      letter-spacing:.04em;
+      line-height:1.6;
+      text-align:right;
+    }
+    @media(max-width:620px){
+      .song-hero-v46 .song-dialogue-decoration{
+        position:static;
+        width:auto;
+        max-width:100%;
+        margin:18px 0 0;
+        font-size:13.5px;
+      }
+      .song-hero-v46:has(.song-dialogue-decoration:not([hidden])) #songName,
+      .song-hero-v46:has(.song-dialogue-decoration:not([hidden])) #heroMeta{max-width:100%}
+      .song-hero-v46 .song-catchcopy-decoration{font-size:14px}
+    }
+
 </style>
 
 
@@ -1371,6 +1426,8 @@
         曲
       </span>
 
+      <p class="song-hero-decoration song-intro-decoration" id="songIntroDecoration" hidden></p>
+
       <h1 id="songName">
         読み込み中…
       </h1>
@@ -1386,7 +1443,9 @@
         <span class="song-share-message" id="shareMessage" aria-live="polite"></span>
       </div>
 
-      <p class="song-thank-you" id="songThankYou" hidden>ありがとう</p>
+      <blockquote class="song-hero-decoration song-dialogue-decoration" id="songDialogueDecoration" hidden></blockquote>
+      <p class="song-hero-decoration song-catchcopy-decoration" id="songCatchcopyDecoration" hidden></p>
+      <p class="song-hero-decoration song-thank-you" id="songThankYou" hidden></p>
 
       <div class="muse-line">
         <i></i><i></i><i></i>

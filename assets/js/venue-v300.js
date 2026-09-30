@@ -690,7 +690,7 @@ function renderVenueAnalysisV30_(
     singers.length
       ? singers.map(
           (item, index) => `
-            <div class="venue-singer-row" data-singer-id="${escapeHtml(item.singerId || "")}">
+            <a class="venue-singer-row" href="${item.singerId ? `singer.html?id=${encodeURIComponent(item.singerId)}` : `singer.html?name=${encodeURIComponent(item.displayName || item.name || "—")}`}" aria-label="${escapeHtml(item.displayName || item.name || "—")}の歌唱名義詳細を見る">
               <span class="venue-singer-rank">
                 ${index + 1}
               </span>
@@ -708,7 +708,7 @@ function renderVenueAnalysisV30_(
                   item.count || 0
                 ).toLocaleString("ja-JP")}曲
               </span>
-            </div>`
+            </a>`
         ).join("")
       : `<div class="empty">歌唱名義データはありません。</div>`;
 }

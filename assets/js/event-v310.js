@@ -332,7 +332,7 @@ function renderPerformerSummary_(rows) {
     rows.length
       ? rows.map(
           (item, index) => `
-            <div class="performer-row" data-singer-id="${escapeHtml(item.singerId || "")}">
+            <a class="performer-row" href="${item.singerId ? `singer.html?id=${encodeURIComponent(item.singerId)}` : `singer.html?name=${encodeURIComponent(item.name)}`}" aria-label="${escapeHtml(item.name)}の歌唱名義詳細を見る">
               <span class="performer-rank">
                 ${index + 1}
               </span>
@@ -344,7 +344,7 @@ function renderPerformerSummary_(rows) {
               <span class="performer-count">
                 ${item.count}曲
               </span>
-            </div>`
+            </a>`
         ).join("")
       : `<div class="empty">歌唱名義情報はありません。</div>`;
 }
@@ -446,23 +446,19 @@ function renderEventSongs_() {
               .join("");
 
             return `
-              <a
-                class="event-song-row"
-                href="song.html?id=${encodeURIComponent(
-                  songId
-                )}"
-              >
+              <div class="event-song-row">
                 <span class="event-song-order">
                   ${originalIndex + 1}
                 </span>
 
                 <span class="event-song-body">
-                  <span class="event-song-title">
+                  <a class="event-song-title" href="song.html?id=${encodeURIComponent(songId)}">
                     ${escapeHtml(
                       song.songName ||
                       "曲名未設定"
                     )}
-                  </span>
+                    <span class="event-song-arrow" aria-hidden="true">›</span>
+                  </a>
 
                   <span class="event-song-meta">
                     <span class="type-badge">
@@ -472,13 +468,9 @@ function renderEventSongs_() {
                       )}
                     </span>
 
-                    <span>
-                      歌唱名義：
-                      ${escapeHtml(
-                        song.singer ||
-                        "—"
-                      )}
-                    </span>
+                    <span>歌唱名義：${song.singerId
+                      ? `<a class="event-song-singer-link" href="singer.html?id=${encodeURIComponent(song.singerId)}">${escapeHtml(song.singer || "—")}</a>`
+                      : escapeHtml(song.singer || "—")}</span>
 
                     ${
                       song.note
@@ -494,10 +486,7 @@ function renderEventSongs_() {
                   }
                 </span>
 
-                <span class="event-song-arrow">
-                  ›
-                </span>
-              </a>`;
+              </div>`;
           }
         ).join("")
       : `

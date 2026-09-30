@@ -374,6 +374,8 @@
       border: 1px solid var(--line);
       border-radius: 13px;
       background: #fff;
+      color:inherit;
+      text-decoration:none;
     }
 
     .performer-rank {
@@ -464,21 +466,16 @@
 
     .event-song-row {
       display: grid;
-      grid-template-columns: 42px minmax(0, 1fr) auto;
+      grid-template-columns: 42px minmax(0, 1fr);
       gap: 12px;
       align-items: center;
       padding: 14px 16px;
       border-bottom: 1px solid var(--line);
       color: inherit;
-      text-decoration: none;
     }
 
     .event-song-row:last-child {
       border-bottom: 0;
-    }
-
-    .event-song-row:hover {
-      background: #fcfbff;
     }
 
     .event-song-order {
@@ -501,7 +498,11 @@
       color: var(--navy);
       font-weight: 900;
       line-height: 1.45;
+      text-decoration: none;
     }
+    .event-song-title:hover,.event-song-singer-link:hover{color:var(--indigo);text-decoration:underline;text-underline-offset:3px}
+    .event-song-title:focus-visible,.event-song-singer-link:focus-visible{outline:3px solid var(--indigo);outline-offset:2px;border-radius:3px}
+    .event-song-singer-link{color:var(--indigo);text-decoration:none}
 
     .event-song-meta {
       margin-top: 6px;
@@ -547,6 +548,7 @@
       color: var(--indigo);
       font-size: 20px;
       font-weight: 900;
+      margin-left:5px;
     }
 
     .event-song-order-note {
@@ -643,7 +645,7 @@
       }
 
       .event-song-row {
-        grid-template-columns: 36px minmax(0, 1fr) auto;
+        grid-template-columns: 36px minmax(0, 1fr);
         gap: 9px;
         padding: 13px 11px;
       }
@@ -956,16 +958,16 @@
       text-decoration:underline;
     }
 
-    .performer-row[data-singer-link="1"]{
+    .performer-row{
       cursor:pointer;
       transition:border-color .15s ease,background .15s ease,transform .15s ease;
     }
-    .performer-row[data-singer-link="1"]:hover{
+    .performer-row:hover{
       border-color:#bbb6f5;
       background:#fcfbff;
       transform:translateY(-1px);
     }
-    .performer-row[data-singer-link="1"]:focus-visible{
+    .performer-row:focus-visible{
       outline:3px solid rgba(79,70,229,.22);
       outline-offset:2px;
     }
@@ -1329,46 +1331,6 @@
       });
 
       normalizeEventLabels();
-    })();
-  </script>
-
-  <script>
-    (() => {
-      function makeEventPerformerRowsClickable() {
-        document.querySelectorAll("#performerList .performer-row").forEach(row => {
-          if (row.dataset.singerLink === "1") return;
-
-          const nameEl = row.querySelector(".performer-name");
-          const name = String(nameEl?.textContent || "").trim();
-          const singerId = String(row.dataset.singerId || "").trim();
-          if (!name) return;
-
-          const go = () => {
-            location.href = singerId
-              ? `singer.html?id=${encodeURIComponent(singerId)}`
-              : `singer.html?name=${encodeURIComponent(name)}`;
-          };
-
-          row.dataset.singerLink = "1";
-          row.setAttribute("role", "link");
-          row.setAttribute("tabindex", "0");
-          row.setAttribute("aria-label", `${name}の歌唱名義詳細を見る`);
-
-          row.addEventListener("click", go);
-          row.addEventListener("keydown", event => {
-            if (event.key === "Enter" || event.key === " ") {
-              event.preventDefault();
-              go();
-            }
-          });
-        });
-      }
-
-      const observer = new MutationObserver(makeEventPerformerRowsClickable);
-      observer.observe(document.body, { childList:true, subtree:true });
-
-      makeEventPerformerRowsClickable();
-      window.addEventListener("load", makeEventPerformerRowsClickable);
     })();
   </script>
 

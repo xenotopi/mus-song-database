@@ -408,6 +408,14 @@ h2{margin:2px 0 14px}
 
 .song-row:last-child{border-bottom:0}
 .song-row:hover{background:#FCFCFF}
+.nav a:focus-visible,
+.mus-mobile-drawer-nav a:focus-visible,
+.global-suggest-item:focus-visible,
+:is(.song-list-card,.release-list-card,.history-event-card,.venue-list-card,.singer-list-card,.songs-pickup-card,.history-pickup-card,.venue-pickup-card,.singer-pickup-card,.result-row,.ranking-row,.stats-rank-row,.stats-discovery-card,.about-explore-card,.release-event-row,.release-child-row,.release-song-row,.insight-row,.discovery-card):focus-visible{
+  position:relative;
+  outline:3px solid var(--indigo);
+  outline-offset:-3px;
+}
 .song-title{display:block;font-weight:900}
 .song-meta{display:flex;flex-wrap:wrap;gap:5px 12px;margin-top:4px;color:var(--muted);font-size:12px}
 .type-badge{padding:2px 8px;border-radius:999px;background:var(--indigo-soft);color:var(--indigo);font-weight:900}

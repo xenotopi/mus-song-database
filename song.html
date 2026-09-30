@@ -1293,6 +1293,13 @@
       line-height:1.7;
     }
     #relatedSongArea{margin-top:34px}
+    #historyList .song-row{grid-template-columns:minmax(0,1fr)}
+    #historyList .song-row:hover{background:transparent}
+    #historyList .song-history-event-link{display:inline-block;width:fit-content;color:var(--navy);text-decoration:none}
+    #historyList .song-history-singer-link{color:var(--indigo);text-decoration:none}
+    #historyList .song-history-event-link:hover,#historyList .song-history-singer-link:hover{color:var(--indigo);text-decoration:underline;text-underline-offset:3px}
+    #historyList .song-history-event-link:focus-visible,#historyList .song-history-singer-link:focus-visible{outline:3px solid var(--indigo);outline-offset:2px;border-radius:3px}
+    #historyList .song-history-event-link .arrow{margin-left:5px}
     @media(max-width:620px){
       #historySection{padding:17px 14px;border-radius:17px}
       .history-purpose{font-size:14px}

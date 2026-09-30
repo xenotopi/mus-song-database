@@ -205,19 +205,15 @@ function renderHistory_() {
     visible.length
       ? visible.map(
           performance => `
-            <a
-              class="song-row"
-              href="event.html?id=${encodeURIComponent(
-                performance.eventId
-              )}"
-            >
+            <article class="song-row">
               <span>
-                <span class="song-title">
+                <a class="song-title song-history-event-link" href="event.html?id=${encodeURIComponent(performance.eventId)}">
                   ${escapeHtml(
                     performance.eventName ||
                     "イベント名未設定"
                   )}
-                </span>
+                  <span class="arrow" aria-hidden="true">›</span>
+                </a>
 
                 <span class="song-meta">
                   <span>
@@ -233,19 +229,12 @@ function renderHistory_() {
                     )}
                   </span>
 
-                  <span>
-                    歌唱者：
-                    ${escapeHtml(
-                      performance.singerDisplayName ||
-                      performance.singer ||
-                      "—"
-                    )}
-                  </span>
+                  <span>歌唱者：${performance.singerId
+                    ? `<a class="song-history-singer-link" href="singer.html?id=${encodeURIComponent(performance.singerId)}">${escapeHtml(performance.singerDisplayName || performance.singer || "—")}</a>`
+                    : escapeHtml(performance.singerDisplayName || performance.singer || "—")}</span>
                 </span>
               </span>
-
-              <span class="arrow">›</span>
-            </a>`
+            </article>`
         ).join("")
       : `<div class="empty">該当する歌唱履歴はありません。</div>`;
 

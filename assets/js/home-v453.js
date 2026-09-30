@@ -945,10 +945,10 @@ function renderRecent() {
                 ${
                   songs.length
                     ? songs.map(song => `
-                        <a class="recent-song" href="song.html?id=${encodeURIComponent(song.songId)}">
-                          <span class="recent-song-name">${escapeHtml(song.songName || "曲名未設定")}</span>
+                        <article class="recent-song">
+                          <a class="recent-song-name" href="song.html?id=${encodeURIComponent(song.songId)}">${escapeHtml(song.songName || "曲名未設定")}</a>
                           ${song.singer ? `<span class="recent-song-singer">${escapeHtml(song.singer)}</span>` : ""}
-                        </a>
+                        </article>
                       `).join("")
                     : '<div class="empty">歌唱曲情報はありません。</div>'
                 }

@@ -479,11 +479,12 @@
     }
 
     .recent-song-name {
-      display: block;
-      color: var(--navy);
+      display: inline;
+      color: var(--indigo);
       font-size: 15px;
       font-weight: 900;
       line-height: 1.45;
+      text-decoration: none;
     }
 
     .recent-song-singer {
@@ -2118,7 +2119,6 @@
     .home-tool-cta{transition:transform .25s ease}
     .home-more-link{display:inline-flex;align-items:center;justify-content:center}
     .home-more-button{transition:background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease}
-    .recent-song:hover{border-color:#aaa5f3;background:#fafaff}
     @media (hover:hover) and (pointer:fine){
       .home-explore-grid > .home-explore-card:hover{transform:translateY(-4px);border-color:#7770df;background-color:#fdfcff;box-shadow:0 22px 42px rgba(58,48,130,.22)}
       .home-explore-grid > .home-explore-card:hover::before{transform:scaleX(1)}
@@ -2139,18 +2139,17 @@
       .home-recent-section .recent-event:hover{color:var(--indigo)}
       .home-recent-section .recent-event:hover::after{transform:translateX(6px)}
       .home-recent-section a.recent-meta-link:hover{color:var(--indigo);background:#eef2ff;text-decoration:underline;text-underline-offset:3px}
-      .home-recent-section .recent-song:hover{background:#eef2ff}
-      .home-recent-section .recent-song:hover .recent-song-name{ text-decoration:underline;text-underline-offset:3px }
+      .home-recent-section .recent-song-name:hover{background:#eef2ff;text-decoration:underline;text-underline-offset:3px}
       .home-about-link:hover{text-decoration:underline;text-underline-offset:3px}
       .home-more-button:hover{background:var(--indigo);color:#fff;border-color:var(--indigo);transform:translateY(-2px);box-shadow:0 10px 22px rgba(58,48,130,.24)}
     }
     .home-explore-card:focus-visible,.home-tool-card:focus-visible,.home-kamipara-card:focus-visible{outline:3px solid var(--indigo);outline-offset:3px}
     .home-tool-card:focus-visible .home-tool-cta,.home-ranking-row:focus-visible .home-ranking-name{text-decoration:underline;text-underline-offset:3px}
     .home-kamipara-card:focus-visible{outline-color:#a9dcf4}
-    .today-item:focus-visible,.home-ranking-row:focus-visible,.recent-event:focus-visible,a.recent-meta-link:focus-visible,.recent-song:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+    .today-item:focus-visible,.home-ranking-row:focus-visible,.recent-event:focus-visible,a.recent-meta-link:focus-visible,.recent-song-name:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
     .home-about-link:focus-visible{outline:3px solid #a9dcf4;outline-offset:3px}
-    a.recent-meta-link:focus-visible,.recent-song:focus-visible .recent-song-name,.home-about-link:focus-visible{text-decoration:underline;text-underline-offset:3px}
-    .today-item:focus-visible,.home-ranking-row:focus-visible,.recent-song:focus-visible{background:#e9e6ff}
+    a.recent-meta-link:focus-visible,.recent-song-name:focus-visible,.home-about-link:focus-visible{text-decoration:underline;text-underline-offset:3px}
+    .today-item:focus-visible,.home-ranking-row:focus-visible,.recent-song-name:focus-visible{background:#e9e6ff}
     .home-more-button:focus-visible{outline:3px solid var(--indigo);outline-offset:3px;background:var(--indigo);color:#fff}
     .home-explore-card:active,.home-tool-card:active,.home-kamipara-card:active{transform:translateY(-1px)}
     .home-more-button:active{transform:translateY(0);background:#332a9e;color:#fff}

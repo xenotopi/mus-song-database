@@ -4,6 +4,7 @@ import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
 renderCommon();
 
 const $ = id => document.getElementById(id);
+let loadGeneration = 0;
 // Official album track credits: https://catalog.bandainamcomusiclive.co.jp/release/63074/
 const songCredits = Object.freeze({
   S118: ["KPS001", "KPS002", "KPS003", "KPS004", "KPS005"],
@@ -46,7 +47,7 @@ function validate(data) {
   if (performances.some(row => !songs.some(song => song.songId === row.songId) || !events.some(event => event.eventId === row.eventId) || !Array.isArray(row.performers))) throw new Error("歌唱記録の参照を確認できません。");
 }
 
-function render(data, venues) {
+function render(data) {
   const { summary, songs, performers, events, performances } = data;
   const people = new Map(performers.map(person => [person.performerId, person]));
   const songMap = new Map(songs.map(song => [song.songId, song]));
@@ -82,9 +83,8 @@ function render(data, venues) {
     .map(([year, label, count]) => `<button type="button" data-year="${escapeHtml(year)}" aria-pressed="${year === "all"}">${escapeHtml(label)} ${count}件</button>`).join("");
   $("kpHistory").innerHTML = eventRows.map(event => {
     const rows = performances.filter(row => row.eventId === event.eventId).sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity) || String(a.performanceId).localeCompare(String(b.performanceId)));
-    const venueName = venues.get(event.venueId);
-    return `<details class="kp-card kp-event" data-year="${escapeHtml(String(event.date || "").slice(0, 4))}"><summary><span class="kp-event-heading"><time class="kp-event-date" datetime="${escapeHtml(event.date || "")}">${escapeHtml(formatDate(event.date))}</time><h3>${escapeHtml(event.eventName)}</h3>
-      ${venueName ? `<span class="kp-event-venue">${escapeHtml(venueName)}</span>` : ""}</span><span class="kp-event-toggle">${rows.length}曲</span></summary>
+    return `<details class="kp-card kp-event" data-year="${escapeHtml(String(event.date || "").slice(0, 4))}" data-venue-id="${escapeHtml(event.venueId || "")}"><summary><span class="kp-event-heading"><time class="kp-event-date" datetime="${escapeHtml(event.date || "")}">${escapeHtml(formatDate(event.date))}</time><h3>${escapeHtml(event.eventName)}</h3>
+      ${event.venueId ? `<span class="kp-event-venue">会場名を確認中…</span>` : ""}</span><span class="kp-event-toggle">${rows.length}曲</span></summary>
       <div class="kp-event-performances">${rows.map(row => `<div class="kp-performance"><p class="kp-performance-title">${row.order == null ? "" : `${escapeHtml(row.order)}. `}${escapeHtml(songMap.get(row.songId).displayName || songMap.get(row.songId).songName)}</p>
         <p class="kp-performance-meta">実歌唱：${escapeHtml(row.actualSinger || "記載なし")}${row.performanceForm ? ` ／ ${escapeHtml(row.performanceForm)}` : ""}</p></div>`).join("")}</div>
     </details>`;
@@ -101,19 +101,40 @@ function render(data, venues) {
 }
 
 async function load() {
+  const generation = ++loadGeneration;
   $("kpStatus").hidden = false;
   $("kpStatus").classList.remove("error");
   $("kpStatus").textContent = "神パラの記録を読み込んでいます…";
   $("kpContent").hidden = true;
   try {
     const response = await apiGet("kamiparaDashboard", {}, { timeoutMs: 25000, retryCount: 1 });
+    if (generation !== loadGeneration) return;
     const data = response.data;
     validate(data);
+    render(data);
     const venueIds = [...new Set(data.events.map(event => event.venueId).filter(Boolean))];
-    const venueResults = await Promise.allSettled(venueIds.map(id => apiGet("venue", { id }, { timeoutMs: 15000, retryCount: 0 })));
-    const venues = new Map(venueResults.map((result, index) => [venueIds[index], result.status === "fulfilled" ? result.value.data?.venueName : ""]).filter(([, name]) => name));
-    render(data, venues);
+    for (const id of venueIds) {
+      apiGet("venue", { id }, { timeoutMs: 15000, retryCount: 0 })
+        .then(result => {
+          if (generation !== loadGeneration) return;
+          const name = result.data?.venueName || "";
+          $("kpHistory").querySelectorAll(".kp-event").forEach(event => {
+            if (event.dataset.venueId !== id) return;
+            const label = event.querySelector(".kp-event-venue");
+            if (label) label.textContent = name || "会場情報なし";
+          });
+        })
+        .catch(() => {
+          if (generation !== loadGeneration) return;
+          $("kpHistory").querySelectorAll(".kp-event").forEach(event => {
+            if (event.dataset.venueId !== id) return;
+            const label = event.querySelector(".kp-event-venue");
+            if (label) label.textContent = "会場情報なし";
+          });
+        });
+    }
   } catch (error) {
+    if (generation !== loadGeneration) return;
     $("kpStatus").classList.add("error");
     $("kpStatus").innerHTML = `<strong>神パラの記録を表示できませんでした。</strong><p>${escapeHtml(error.message || "通信状態を確認してください。")}</p><button id="kpRetry" type="button">再試行</button>`;
     $("kpRetry").addEventListener("click", load, { once: true });

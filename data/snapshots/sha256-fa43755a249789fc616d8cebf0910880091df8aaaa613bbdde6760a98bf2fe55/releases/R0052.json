@@ -1,0 +1,89 @@
+{
+  "snapshot": {
+    "revision": "sha256-fa43755a249789fc616d8cebf0910880091df8aaaa613bbdde6760a98bf2fe55",
+    "generatedAt": "2026-09-30T05:53:03.260Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0052",
+    "releaseDate": "2014-12-25",
+    "releaseName": "2期Blu-ray全巻購入特典",
+    "classification": "特典",
+    "sourceMedia": "Blu-ray",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv2nd/#bd00",
+    "todayEligible": true,
+    "note": "店舗別全巻購入特典を統合管理。発売日は最終巻発売日基準。",
+    "releaseType": "全巻購入特典",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S090",
+        "songName": "CheerDay CheerGirl!",
+        "displayName": "CheerDay CheerGirl!"
+      },
+      {
+        "songId": "S091",
+        "songName": "同じ星が見たい",
+        "displayName": "同じ星が見たい"
+      },
+      {
+        "songId": "S092",
+        "songName": "Silent tonight",
+        "displayName": "Silent tonight"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0090",
+        "songId": "S090",
+        "songName": "CheerDay CheerGirl!",
+        "displayName": "CheerDay CheerGirl!",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "benefitStore": "ゲーマーズ"
+      },
+      {
+        "relationId": "RT0091",
+        "songId": "S091",
+        "songName": "同じ星が見たい",
+        "displayName": "同じ星が見たい",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null,
+        "benefitStore": "ソフマップ"
+      },
+      {
+        "relationId": "RT0092",
+        "songId": "S092",
+        "songName": "Silent tonight",
+        "displayName": "Silent tonight",
+        "disc": null,
+        "track": null,
+        "displayOrder": 3,
+        "variant": null,
+        "benefitStore": "アニメイト"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 3,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-fa43755a249789fc616d8cebf0910880091df8aaaa613bbdde6760a98bf2fe55"
+    }
+  }
+}

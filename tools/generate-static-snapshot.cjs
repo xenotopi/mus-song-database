@@ -2,7 +2,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { sha256, validateDetail, validateSnapshot, snapshotDataFingerprint } = require("./detail-snapshot-lib.cjs");
+const { sha256, validateDetail, validateSnapshot, validateKamiparaDashboard, snapshotDataFingerprint } = require("./detail-snapshot-lib.cjs");
 
 const API = "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec";
 const ROOT = path.resolve(__dirname, "..");
@@ -58,6 +58,7 @@ function switchCurrent(revision) {
   if (!fs.existsSync(manifestPath)) throw new Error(`Snapshot does not exist: ${revision}`);
   const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
   if (manifest.revision !== revision || manifest.counts?.releases !== 114 || manifest.counts?.songs !== 117) throw new Error("Snapshot manifest is not publishable");
+  if (manifest.counts?.kamiparaDashboard && (!manifest.kamiparaDashboard || !fs.existsSync(path.join(revisionRoot, "kamipara-dashboard.json")))) throw new Error("Kamipara snapshot is not publishable");
   fs.mkdirSync(SNAPSHOT_ROOT, { recursive: true });
   const temp = path.join(SNAPSHOT_ROOT, ".current.tmp.json");
   fs.writeFileSync(temp, jsonText({ revision, basePath: `./${revision}/`, manifest: `./${revision}/manifest.json` }), "utf8");
@@ -69,9 +70,10 @@ async function generate() {
   const revisionPayload = await api("revision");
   const revision = String(revisionPayload.data?.dataRevision || "");
   if (!/^sha256-[a-f0-9]{64}$/.test(revision)) throw new Error("Invalid revision");
-  const [releaseListPayload, rankingsPayload] = await Promise.all([
+  const [releaseListPayload, rankingsPayload, kamiparaPayload] = await Promise.all([
     api("releaseList"),
-    api("rankings", { limit: 1000, year: "", category: "", schema: "4.2.1" })
+    api("rankings", { limit: 1000, year: "", category: "", schema: "4.2.1" }),
+    api("kamiparaDashboard")
   ]);
   const releases = releaseListPayload.data;
   const songs = rankingsPayload.data?.songs;
@@ -80,6 +82,11 @@ async function generate() {
   const releaseIds = releases.map(item => item.releaseId).sort();
   const songIds = songs.map(item => item.songId).sort();
   if (new Set(releaseIds).size !== 114 || new Set(songIds).size !== 117) throw new Error("Duplicate IDs in source lists");
+  const kamipara = structuredClone(kamiparaPayload.data);
+  if (kamipara._cache?.revision !== revision || kamipara.revision !== revision) throw new Error("Kamipara revision mismatch");
+  kamipara._cache = { source: "static", hit: true, mode: "snapshot", revision };
+  validateKamiparaDashboard(kamipara, revision);
+  assertNoInternalLeak(kamipara);
 
   const targets = [...releaseIds.map(id => ({ type: "release", id })), ...songIds.map(id => ({ type: "song", id }))];
   const generatedAt = new Date().toISOString();
@@ -98,7 +105,7 @@ async function generate() {
   const stagingRoot = path.join(SNAPSHOT_ROOT, `.staging-${process.pid}`);
   fs.rmSync(stagingRoot, { recursive: true, force: true });
   fs.mkdirSync(stagingRoot, { recursive: true });
-  const manifest = { revision, generatedAt, counts: { releases: 114, songs: 117, details: 231 }, hashes: { releases: {}, songs: {} } };
+  const manifest = { revision, generatedAt, counts: { releases: 114, songs: 117, details: 231, kamiparaDashboard: 1 }, hashes: { releases: {}, songs: {} } };
   for (const { type, id, data } of details) {
     const wrapper = { snapshot: { revision, generatedAt, source: "public-api" }, data };
     validateSnapshot(type, id, wrapper, revision);
@@ -113,6 +120,9 @@ async function generate() {
   const releaseListBody = jsonText(releaseListWrapper);
   fs.writeFileSync(path.join(stagingRoot, "release-list.json"), releaseListBody, "utf8");
   manifest.releaseList = { count: releases.length, sha256: sha256(releases), fileSha256: sha256(releaseListBody), bytes: Buffer.byteLength(releaseListBody) };
+  const kamiparaBody = jsonText({ snapshot: { revision, generatedAt, source: "public-api" }, data: kamipara });
+  fs.writeFileSync(path.join(stagingRoot, "kamipara-dashboard.json"), kamiparaBody, "utf8");
+  manifest.kamiparaDashboard = { sha256: sha256(kamipara), fileSha256: sha256(kamiparaBody), bytes: Buffer.byteLength(kamiparaBody) };
   fs.writeFileSync(path.join(stagingRoot, "revision.json"), jsonText({ revision, generatedAt }), "utf8");
   fs.writeFileSync(path.join(stagingRoot, "manifest.json"), jsonText(manifest), "utf8");
 
@@ -123,7 +133,7 @@ async function generate() {
   } else {
     fs.renameSync(stagingRoot, revisionRoot);
   }
-  process.stdout.write(`${JSON.stringify({ revision, releases: 114, songs: 117, details: 231, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
+  process.stdout.write(`${JSON.stringify({ revision, releases: 114, songs: 117, details: 231, kamiparaDashboard: 1, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
 }
 
 const switchIndex = process.argv.indexOf("--switch-current");

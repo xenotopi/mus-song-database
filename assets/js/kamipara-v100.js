@@ -1,10 +1,13 @@
 import { apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema";
 import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
+import { staticKamiparaDashboard } from "./static-detail.js?v=1.1.0";
 
 renderCommon();
 
 const $ = id => document.getElementById(id);
 let loadGeneration = 0;
+let venueNames = new Map();
+let venueRequests = new Set();
 // Official album track credits: https://catalog.bandainamcomusiclive.co.jp/release/63074/
 const songCredits = Object.freeze({
   S118: ["KPS001", "KPS002", "KPS003", "KPS004", "KPS005"],
@@ -83,55 +86,99 @@ function render(data) {
     .map(([year, label, count]) => `<button type="button" data-year="${escapeHtml(year)}" aria-pressed="${year === "all"}">${escapeHtml(label)} ${count}件</button>`).join("");
   $("kpHistory").innerHTML = eventRows.map(event => {
     const rows = performances.filter(row => row.eventId === event.eventId).sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity) || String(a.performanceId).localeCompare(String(b.performanceId)));
-    return `<details class="kp-card kp-event" data-year="${escapeHtml(String(event.date || "").slice(0, 4))}" data-venue-id="${escapeHtml(event.venueId || "")}"><summary><span class="kp-event-heading"><time class="kp-event-date" datetime="${escapeHtml(event.date || "")}">${escapeHtml(formatDate(event.date))}</time><h3>${escapeHtml(event.eventName)}</h3>
+    return `<details class="kp-card kp-event" data-event-id="${escapeHtml(event.eventId)}" data-year="${escapeHtml(String(event.date || "").slice(0, 4))}" data-venue-id="${escapeHtml(event.venueId || "")}"><summary><span class="kp-event-heading"><time class="kp-event-date" datetime="${escapeHtml(event.date || "")}">${escapeHtml(formatDate(event.date))}</time><h3>${escapeHtml(event.eventName)}</h3>
       ${event.venueId ? `<span class="kp-event-venue">会場名を確認中…</span>` : ""}</span><span class="kp-event-toggle">${rows.length}曲</span></summary>
       <div class="kp-event-performances">${rows.map(row => `<div class="kp-performance"><p class="kp-performance-title">${row.order == null ? "" : `${escapeHtml(row.order)}. `}${escapeHtml(songMap.get(row.songId).displayName || songMap.get(row.songId).songName)}</p>
         <p class="kp-performance-meta">実歌唱：${escapeHtml(row.actualSinger || "記載なし")}${row.performanceForm ? ` ／ ${escapeHtml(row.performanceForm)}` : ""}</p></div>`).join("")}</div>
     </details>`;
   }).join("");
-  $("kpYearFilter").addEventListener("click", event => {
+  $("kpYearFilter").onclick = event => {
     const selected = event.target.closest("button[data-year]");
     if (!selected || !$("kpYearFilter").contains(selected)) return;
     const year = selected.dataset.year;
     $("kpYearFilter").querySelectorAll("button").forEach(button => { button.setAttribute("aria-pressed", String(button === selected)); });
     $("kpHistory").querySelectorAll(".kp-event").forEach(item => { item.hidden = year !== "all" && item.dataset.year !== year; });
-  });
+  };
   $("kpStatus").hidden = true;
   $("kpContent").hidden = false;
 }
 
+function showDashboard(data, generation) {
+  const names = venueNames;
+  const requests = venueRequests;
+  const year = $("kpYearFilter").querySelector('button[aria-pressed="true"]')?.dataset.year;
+  const openEvents = new Set([...$("kpHistory").querySelectorAll(".kp-event[open]")].map(event => event.dataset.eventId));
+  render(data);
+  if (year) $("kpYearFilter").querySelectorAll("button[data-year]").forEach(button => {
+    button.setAttribute("aria-pressed", String(button.dataset.year === year));
+    $("kpHistory").querySelectorAll(".kp-event").forEach(event => { event.hidden = year !== "all" && event.dataset.year !== year; });
+  });
+  $("kpHistory").querySelectorAll(".kp-event").forEach(event => { event.open = openEvents.has(event.dataset.eventId); });
+
+  const venueIds = [...new Set(data.events.map(event => event.venueId).filter(Boolean))];
+  for (const id of venueIds) {
+    if (names.has(id)) { updateVenue(id, names.get(id), generation); continue; }
+    if (requests.has(id)) continue;
+    requests.add(id);
+    apiGet("venue", { id }, { timeoutMs: 15000, retryCount: 0 })
+      .then(result => { names.set(id, result.data?.venueName || ""); updateVenue(id, names.get(id), generation); })
+      .catch(() => { names.set(id, ""); updateVenue(id, "", generation); })
+      .finally(() => requests.delete(id));
+  }
+}
+
+function updateVenue(id, name, generation) {
+  if (generation !== loadGeneration) return;
+  $("kpHistory").querySelectorAll(".kp-event").forEach(event => {
+    if (event.dataset.venueId !== id) return;
+    const label = event.querySelector(".kp-event-venue");
+    if (label) label.textContent = name || "会場情報なし";
+  });
+}
+
+function sameDashboard(a, b) {
+  return ["summary", "songs", "performers", "events", "performances"]
+    .every(key => JSON.stringify(a[key]) === JSON.stringify(b[key]));
+}
+
 async function load() {
   const generation = ++loadGeneration;
+  venueNames = new Map();
+  venueRequests = new Set();
   $("kpStatus").hidden = false;
   $("kpStatus").classList.remove("error");
   $("kpStatus").textContent = "神パラの記録を読み込んでいます…";
   $("kpContent").hidden = true;
+  const revisionPromise = apiGet("revision", {}, { timeoutMs: 15000, retryCount: 0 }).catch(() => null);
   try {
-    const response = await apiGet("kamiparaDashboard", {}, { timeoutMs: 25000, retryCount: 1 });
+    let snapshot = null;
+    try {
+      snapshot = await staticKamiparaDashboard();
+      validate(snapshot.data);
+    } catch {
+      snapshot = null;
+    }
     if (generation !== loadGeneration) return;
-    const data = response.data;
-    validate(data);
-    render(data);
-    const venueIds = [...new Set(data.events.map(event => event.venueId).filter(Boolean))];
-    for (const id of venueIds) {
-      apiGet("venue", { id }, { timeoutMs: 15000, retryCount: 0 })
-        .then(result => {
+    if (snapshot) {
+      showDashboard(snapshot.data, generation);
+      void revisionPromise.then(async response => {
+        const revision = response?.data?.dataRevision;
+        if (generation !== loadGeneration || !revision || revision === snapshot.revision) return;
+        try {
+          const fresh = await apiGet("kamiparaDashboard", {}, { timeoutMs: 25000, retryCount: 1, forceRefresh: true });
           if (generation !== loadGeneration) return;
-          const name = result.data?.venueName || "";
-          $("kpHistory").querySelectorAll(".kp-event").forEach(event => {
-            if (event.dataset.venueId !== id) return;
-            const label = event.querySelector(".kp-event-venue");
-            if (label) label.textContent = name || "会場情報なし";
-          });
-        })
-        .catch(() => {
-          if (generation !== loadGeneration) return;
-          $("kpHistory").querySelectorAll(".kp-event").forEach(event => {
-            if (event.dataset.venueId !== id) return;
-            const label = event.querySelector(".kp-event-venue");
-            if (label) label.textContent = "会場情報なし";
-          });
-        });
+          validate(fresh.data);
+          if (fresh.data.revision !== revision) return;
+          if (!sameDashboard(snapshot.data, fresh.data)) showDashboard(fresh.data, generation);
+        } catch {
+          // Keep the valid static dashboard visible if the background refresh fails.
+        }
+      });
+    } else {
+      const response = await apiGet("kamiparaDashboard", {}, { timeoutMs: 25000, retryCount: 1, forceRefresh: true });
+      if (generation !== loadGeneration) return;
+      validate(response.data);
+      showDashboard(response.data, generation);
     }
   } catch (error) {
     if (generation !== loadGeneration) return;

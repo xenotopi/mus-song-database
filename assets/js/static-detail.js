@@ -60,3 +60,14 @@ export async function staticReleaseList(options = {}) {
   if (wrapper?.snapshot?.revision !== current.revision || !Array.isArray(wrapper?.data) || wrapper.data.length !== 114) throw new Error("Static Release list schema invalid");
   return { data: wrapper.data, source: "static", stale, revision: current.revision };
 }
+
+export async function staticKamiparaDashboard(options = {}) {
+  const { current, stale } = await currentPointer(options);
+  const wrapper = await fetchJson(`data/snapshots/${current.revision}/kamipara-dashboard.json`);
+  const data = wrapper?.data;
+  if (wrapper?.snapshot?.revision !== current.revision || data?.revision !== current.revision || data?._cache?.revision !== current.revision || !data.summary) throw new Error("Static Kamipara revision mismatch");
+  for (const [key, count] of [["songs", "songCount"], ["performers", "performerCount"], ["events", "eventCount"], ["performances", "performanceCount"]]) {
+    if (!Array.isArray(data[key]) || data[key].length !== data.summary[count]) throw new Error(`Static Kamipara ${key} schema invalid`);
+  }
+  return { data, source: "static", stale, revision: current.revision };
+}

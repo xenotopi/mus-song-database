@@ -2,7 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
-const { canonicalJson, sha256, validateSnapshot, getDetailWithStaticFallback } = require("../tools/detail-snapshot-lib.cjs");
+const { canonicalJson, sha256, validateSnapshot, validateKamiparaDashboard, getDetailWithStaticFallback } = require("../tools/detail-snapshot-lib.cjs");
 
 const revision = `sha256-${"a".repeat(64)}`;
 const releaseData = { releaseId: "R0088", releaseName: "Fixture", includedSongs: [], includedSongsMeta: { status: "complete" } };
@@ -23,6 +23,13 @@ test("regeneration compares data hashes, not timestamp-dependent file hashes", (
 test("canonical data hash is deterministic and ignores wrapper timestamp", () => {
   assert.equal(canonicalJson({ b: 2, a: 1 }), canonicalJson({ a: 1, b: 2 }));
   assert.equal(sha256(valid.data), sha256({ ...valid, snapshot: { ...valid.snapshot, generatedAt: "later" } }.data));
+});
+
+test("Kamipara snapshot checks revision and collection counts", () => {
+  const data = { revision, _cache: { revision }, summary: { songCount: 1, performerCount: 0, eventCount: 0, performanceCount: 0 }, songs: [{}], performers: [], events: [], performances: [] };
+  assert.equal(validateKamiparaDashboard(data, revision), data);
+  assert.throws(() => validateKamiparaDashboard({ ...data, songs: [] }, revision), /songs count mismatch/);
+  assert.throws(() => validateKamiparaDashboard(data, `sha256-${"b".repeat(64)}`), /revision/);
 });
 
 test("valid static wins without API request", async () => {

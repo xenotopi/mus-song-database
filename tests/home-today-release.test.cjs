@@ -151,22 +151,29 @@ test("API順の先頭6件、長文・escape・全viewportを維持する", async
 
 test("通常Blu-ray・店舗特典・収録曲なしを同じTodayで表示する", async () => {
   const releases = [
-    release("R0021", { includedSongs: [{ songId: "S044", songName: "夢なき夢は夢じゃない" }] }),
+    release("R0021", { classification: "Blu-ray", includedSongs: [{ songId: "S044", songName: "夢なき夢は夢じゃない" }] }),
     release("R0032", { includedSongs: [{ songId: "S059", songName: "ぷわぷわーお！", benefitStore: "ゲーマーズ" }] }),
     release("R0052", { includedSongs: [
       { songId: "S090", songName: "CheerDay CheerGirl!", benefitStore: "ゲーマーズ" },
       { songId: "S091", songName: "同じ星が見たい", benefitStore: "ソフマップ" },
       { songId: "S092", songName: "Silent tonight", benefitStore: "アニメイト" }
     ] }),
+    release("R0045", { classification: "CD", includedSongs: [
+      { songId: "S079", songName: "Shangri-La Shower", benefitStore: null },
+      { songId: "S080", songName: "るてしキスキしてる", benefitStore: null }
+    ] }),
     release("R0015")
   ];
   const { page, issues } = await openHome({ releases });
   const entries = page.locator("#todayContent .today-release-entry");
-  assert.equal(await entries.count(), 3);
+  assert.equal(await entries.count(), 4);
   assert.deepEqual(await entries.nth(0).locator(".today-release-song").allTextContents(), ["収録特典曲「夢なき夢は夢じゃない」"]);
   assert.deepEqual(await entries.nth(1).locator(".today-release-song").allTextContents(), ["ゲーマーズ「ぷわぷわーお！」"]);
   assert.deepEqual(await entries.nth(2).locator(".today-release-song").allTextContents(), [
     "ゲーマーズ「CheerDay CheerGirl!」", "ソフマップ「同じ星が見たい」", "アニメイト「Silent tonight」"
+  ]);
+  assert.deepEqual(await entries.nth(3).locator(".today-release-song").allTextContents(), [
+    "収録曲「Shangri-La Shower」", "収録曲「るてしキスキしてる」"
   ]);
   assert.deepEqual(await entries.nth(2).locator(".today-release-song a").evaluateAll(nodes => nodes.map(node => new URL(node.href).searchParams.get("id"))), ["S090", "S091", "S092"]);
   assert.equal(await page.locator('#todayContent a[href="release.html?id=R0015"] + .today-release-songs').count(), 0);

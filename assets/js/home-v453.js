@@ -470,7 +470,8 @@ function renderTodayReleaseSongs(item) {
     const name = /^S\d{3}$/.test(songId)
       ? `<a href="song.html?id=${encodeURIComponent(songId)}">${songName}</a>`
       : `<span>${songName}</span>`;
-    return `<div class="today-release-song"><span>${escapeHtml(store || "収録特典曲")}</span>${name}</div>`;
+    const label = store || (item.classification === "Blu-ray" ? "収録特典曲" : "収録曲");
+    return `<div class="today-release-song"><span>${escapeHtml(label)}</span>${name}</div>`;
   }).join("")}</div>`;
 }
 

@@ -4,7 +4,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const ROOT = path.resolve(__dirname, "..");
-const SITE_ROOT = "https://xenotopi.github.io/mus-song-database/";
+const SITE_ROOT = "https://mus-song-db.com/";
 const STATIC_PATHS = [
   "",
   "songs.html",

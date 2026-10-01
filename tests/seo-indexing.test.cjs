@@ -6,7 +6,7 @@ const path = require("node:path");
 const test = require("node:test");
 
 const ROOT = path.resolve(__dirname, "..");
-const SITE_ROOT = "https://xenotopi.github.io/mus-song-database/";
+const SITE_ROOT = "https://mus-song-db.com/";
 
 function read(relativePath) {
   return fs.readFileSync(path.join(ROOT, relativePath), "utf8");

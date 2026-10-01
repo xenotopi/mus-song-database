@@ -4,7 +4,7 @@
 
 ## Webサイト
 
-https://xenotopi.github.io/mus-song-database/
+https://mus-song-db.com/
 
 ## 主な機能
 

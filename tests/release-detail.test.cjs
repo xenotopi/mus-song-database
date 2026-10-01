@@ -106,7 +106,7 @@ test("Release詳細", async t => {
     for (const id of ["R0070", "R0088", "R0090"]) {
       const { page, issues } = await openDetail(id);
       await waitForDetail(page);
-      assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), `https://xenotopi.github.io/mus-song-database/release.html?id=${id}`);
+      assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), `https://mus-song-db.com/release.html?id=${id}`);
       assert.equal(await page.locator('meta[name="robots"]').getAttribute("content"), "index,follow,max-image-preview:large");
       assert.match(await page.title(), /｜μ's Song Database$/);
       assert.deepEqual(issues, []);
@@ -118,7 +118,7 @@ test("Release詳細", async t => {
     const { page, issues } = await openDetail("R0090%26utm_source%3Dx");
     await page.goto(`${baseUrl}/release.html?id=R0090&utm_source=x&foo=bar`, { waitUntil: "domcontentloaded" });
     await waitForDetail(page);
-    assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), "https://xenotopi.github.io/mus-song-database/release.html?id=R0090");
+    assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), "https://mus-song-db.com/release.html?id=R0090");
     assert.deepEqual(issues, []);
     await page.close();
   });

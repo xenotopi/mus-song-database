@@ -1,6 +1,6 @@
 const { chromium } = require("playwright");
 
-const baseUrl = process.env.MUSDB_PERF_BASE_URL || "https://xenotopi.github.io/mus-song-database";
+const baseUrl = process.env.MUSDB_PERF_BASE_URL || "https://mus-song-db.com";
 const iterations = Math.max(1, Number(process.env.MUSDB_PERF_ITERATIONS || 5));
 const executablePath = process.env.MUSDB_E2E_BROWSER_PATH || "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 const cases = [

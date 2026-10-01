@@ -11,7 +11,7 @@
   "use strict";
 
   const SITE_NAME = "μ's Song Database";
-  const SITE_ROOT = "https://xenotopi.github.io/mus-song-database/";
+  const SITE_ROOT = "https://mus-song-db.com/";
   const DETAIL_PAGES = {
     "song.html": {
       idPattern: /^S\d+$/,

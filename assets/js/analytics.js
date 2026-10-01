@@ -170,11 +170,8 @@ function openConsentSettings(trigger = document.activeElement) {
 
 function deleteSiteAnalyticsCookies() {
   const cookieNames = ["_ga", `_ga_${MEASUREMENT_ID.replace(/^G-/, "")}`];
-  const basePath = "/mus-song-database";
-
   cookieNames.forEach(name => {
-    document.cookie = `${name}=; Max-Age=0; Path=${basePath}; SameSite=Lax`;
-    document.cookie = `${name}=; Max-Age=0; Path=${basePath}/; SameSite=Lax`;
+    document.cookie = `${name}=; Max-Age=0; Path=/; SameSite=Lax`;
   });
 }
 
@@ -200,7 +197,7 @@ function initializeGa4() {
   window.gtag("config", MEASUREMENT_ID, {
     allow_google_signals: false,
     allow_ad_personalization_signals: false,
-    cookie_path: "/mus-song-database",
+    cookie_path: "/",
     send_page_view: true
   });
 

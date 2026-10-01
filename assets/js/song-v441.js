@@ -1155,12 +1155,19 @@ function showShareMessage_(message) {
   }, 2200);
 }
 
+const prototypeShareSongIds_ = new Set(["S003", "S089"]);
+
+function currentSongShareUrl_() {
+  if (!prototypeShareSongIds_.has(songId)) return location.href;
+  return new URL(`share/song/${encodeURIComponent(songId)}.html`, location.href).href;
+}
+
 
 async function shareCurrentSong_() {
   if (!currentSong) return;
   const title = `${currentSong.displayName || currentSong.songName} | μ's Song Database`;
   const text = `${currentSong.displayName || currentSong.songName}の歌唱履歴をチェック`;
-  const url = location.href;
+  const url = currentSongShareUrl_();
 
   if (navigator.share) {
     try {
@@ -1178,11 +1185,11 @@ async function shareCurrentSong_() {
 
 async function copyCurrentUrl_() {
   try {
-    await navigator.clipboard.writeText(location.href);
+    await navigator.clipboard.writeText(currentSongShareUrl_());
     showShareMessage_("URLをコピーしました");
   } catch {
     const textArea = document.createElement("textarea");
-    textArea.value = location.href;
+    textArea.value = currentSongShareUrl_();
     document.body.appendChild(textArea);
     textArea.select();
     document.execCommand("copy");
@@ -1294,7 +1301,7 @@ function renderSong(song) {
   const shareText = encodeURIComponent(
     `${displayName} | μ's Song Database`
   );
-  const shareUrl = encodeURIComponent(location.href);
+  const shareUrl = encodeURIComponent(currentSongShareUrl_());
   elements.xShareButton.href =
     `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
 

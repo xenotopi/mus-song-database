@@ -24,6 +24,12 @@ const elements = {
       "heroMeta"
     ),
 
+  shareActions: document.getElementById("eventShareActions"),
+  shareButton: document.getElementById("eventShareButton"),
+  copyUrlButton: document.getElementById("eventCopyUrlButton"),
+  xShareButton: document.getElementById("eventXShareButton"),
+  shareMessage: document.getElementById("eventShareMessage"),
+
   status:
     document.getElementById(
       "status"
@@ -182,6 +188,7 @@ let loadGeneration = 0;
 
 
 function setLoading() {
+  elements.shareActions.hidden = true;
   elements.eventName.textContent =
     "読み込み中…";
 
@@ -212,6 +219,7 @@ function setLoading() {
 
 
 function setError(error) {
+  elements.shareActions.hidden = true;
   const missing = !eventId;
   const notFound = /見つかりません/.test(
     String(error?.message || "")
@@ -598,6 +606,9 @@ function renderEvent(event) {
       .filter(Boolean)
       .join("｜");
 
+  elements.shareActions.hidden = false;
+  elements.xShareButton.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${event.eventName || "イベント詳細"} | μ's Song Database`)}&url=${encodeURIComponent(currentEventShareUrl_())}`;
+
   const infoRows = [
     plainRow("開催日", formatDate(event.date)),
     plainRow("区分", event.category),
@@ -886,6 +897,49 @@ function renderEventPair_(eventData, discoverData) {
   }
 }
 
+function currentEventShareUrl_() {
+  return new URL(`share/event/${encodeURIComponent(eventId)}.html`, location.href).href;
+}
+
+function showEventShareMessage_(message) {
+  elements.shareMessage.textContent = message;
+  clearTimeout(showEventShareMessage_.timer);
+  showEventShareMessage_.timer = setTimeout(() => { elements.shareMessage.textContent = ""; }, 2200);
+}
+
+async function copyCurrentEventUrl_() {
+  const url = currentEventShareUrl_();
+  try {
+    await navigator.clipboard.writeText(url);
+  } catch {
+    const textArea = document.createElement("textarea");
+    textArea.value = url;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand("copy");
+    textArea.remove();
+  }
+  showEventShareMessage_("URLをコピーしました");
+}
+
+async function shareCurrentEvent_() {
+  if (!currentEvent) return;
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: `${currentEvent.eventName || "イベント詳細"} | μ's Song Database`,
+        text: `${currentEvent.eventName || "イベント詳細"}の歌唱記録をチェック`,
+        url: currentEventShareUrl_()
+      });
+      showEventShareMessage_("共有しました");
+      return;
+    } catch (error) {
+      if (error?.name === "AbortError") return;
+    }
+  }
+  await copyCurrentEventUrl_();
+}
+
 function requestEventApi_(options = {}) {
   return apiGet("event", { id: eventId }, { timeoutMs: 25000, retryCount: 1, ...options });
 }
@@ -1016,6 +1070,9 @@ elements.retryButton.addEventListener(
   "click",
   loadEvent
 );
+
+elements.shareButton.addEventListener("click", shareCurrentEvent_);
+elements.copyUrlButton.addEventListener("click", copyCurrentEventUrl_);
 
 
 elements.eventPicker.addEventListener(

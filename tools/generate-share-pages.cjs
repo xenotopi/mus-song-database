@@ -2,25 +2,45 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const { sha256 } = require("./detail-snapshot-lib.cjs");
 
 const ROOT = path.resolve(__dirname, "..");
 const SITE = "https://mus-song-db.com/";
 const IMAGE = new URL("assets/images/og-default-v2.png", SITE).href;
 const revision = JSON.parse(fs.readFileSync(path.join(ROOT, "data/current.json"), "utf8")).revision;
 const args = process.argv.slice(2);
+const all = args.includes("--all");
+const check = args.includes("--check");
+const selection = args.filter(arg => arg !== "--check");
+const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, "data/snapshots", revision, "manifest.json"), "utf8"));
+if (manifest.revision !== revision) throw new Error("Snapshot manifest revision mismatch");
 const targets = [];
 
-for (let i = 0; i < args.length; i += 2) {
-  const type = args[i];
-  const id = args[i + 1];
-  if (!(["--song", "--event"].includes(type) && id && !id.startsWith("--"))) {
-    throw new Error("Usage: node tools/generate-share-pages.cjs --song S003 --event EV0001 ...");
+if (all) {
+  if (selection.length !== 1 || manifest.counts?.songs !== 117 || manifest.counts?.events !== 353) {
+    throw new Error("--all requires the complete current Song 117 / Event 353 snapshot");
   }
-  if (!(type === "--song" ? /^S\d+$/.test(id) : /^EV\d+$/.test(id))) throw new Error(`Invalid ID: ${id}`);
-  targets.push({ type: type.slice(2), id });
+  for (const [type, count, pattern] of [["song", 117, /^S\d+$/], ["event", 353, /^EV\d+$/]]) {
+    const ids = Object.keys(manifest.hashes?.[`${type}s`] || {}).sort();
+    const files = fs.readdirSync(path.join(ROOT, "data/snapshots", revision, `${type}s`)).filter(name => name.endsWith(".json"));
+    if (ids.length !== count || files.length !== count || ids.some(id => !pattern.test(id) || !files.includes(`${id}.json`))) {
+      throw new Error(`${type}: incomplete snapshot set`);
+    }
+    targets.push(...ids.map(id => ({ type, id })));
+  }
+} else {
+  for (let i = 0; i < selection.length; i += 2) {
+    const type = selection[i];
+    const id = selection[i + 1];
+    if (!(type === "--song" || type === "--event") || !id || id.startsWith("--")) {
+      throw new Error("Usage: --all [--check] or --song S003 --event EV0001 ...");
+    }
+    if (!(type === "--song" ? /^S\d+$/.test(id) : /^EV\d+$/.test(id))) throw new Error(`Invalid ID: ${id}`);
+    targets.push({ type: type.slice(2), id });
+  }
 }
-if (!targets.length || targets.length > 4 || new Set(targets.map(item => `${item.type}/${item.id}`)).size !== targets.length) {
-  throw new Error("Prototype requires 1–4 distinct Song/Event IDs");
+if (!targets.length || new Set(targets.map(item => `${item.type}/${item.id}`)).size !== targets.length) {
+  throw new Error("Song/Event IDs must be distinct");
 }
 
 function escapeHtml(value) {
@@ -31,6 +51,7 @@ function pageFor(type, id) {
   const source = path.join(ROOT, "data/snapshots", revision, `${type}s`, `${id}.json`);
   const wrapper = JSON.parse(fs.readFileSync(source, "utf8"));
   if (wrapper.snapshot?.revision !== revision) throw new Error(`${id}: snapshot revision mismatch`);
+  if (sha256(wrapper.data) !== manifest.hashes?.[`${type}s`]?.[id]?.sha256) throw new Error(`${id}: snapshot hash mismatch`);
   const data = type === "song" ? wrapper.data : wrapper.data?.event;
   if (data?.[type === "song" ? "songId" : "eventId"] !== id) throw new Error(`${id}: snapshot ID mismatch`);
 
@@ -75,10 +96,14 @@ function pageFor(type, id) {
 `;
 }
 
-for (const { type, id } of targets) {
+const pages = targets.map(({ type, id }) => ({ type, id, html: pageFor(type, id) }));
+for (const { type, id, html } of pages) {
   const output = path.join(ROOT, "share", type, `${id}.html`);
-  const html = pageFor(type, id);
-  fs.mkdirSync(path.dirname(output), { recursive: true });
-  fs.writeFileSync(output, html, "utf8");
-  process.stdout.write(`${path.relative(ROOT, output).replace(/\\/g, "/")}\n`);
+  if (check) {
+    if (!fs.existsSync(output) || fs.readFileSync(output, "utf8") !== html) throw new Error(`${type}/${id}: generated HTML mismatch`);
+  } else {
+    fs.mkdirSync(path.dirname(output), { recursive: true });
+    fs.writeFileSync(output, html, "utf8");
+  }
 }
+process.stdout.write(`share pages ${check ? "checked" : "generated"}: Song ${pages.filter(item => item.type === "song").length}, Event ${pages.filter(item => item.type === "event").length}\n`);

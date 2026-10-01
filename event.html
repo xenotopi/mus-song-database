@@ -694,6 +694,32 @@
       margin-top: 24px;
     }
 
+    .event-share-actions {
+      margin-top: 18px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .event-share-button {
+      min-height: 38px;
+      padding: 0 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .event-share-button.primary { background: #fff; color: #293263; }
+    .event-share-button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+    .event-share-message { color: rgba(255,255,255,.85); font-size: 14px; font-weight: 800; }
+
     .quicknav {
       margin-top: 18px;
       gap: 12px !important;
@@ -1101,6 +1127,12 @@
       <span class="badge">イベント</span>
       <h1 id="eventName">読み込み中…</h1>
       <p id="heroMeta">APIから実データを取得しています。</p>
+      <div class="event-share-actions" id="eventShareActions" hidden>
+        <button type="button" class="event-share-button primary" id="eventShareButton">共有</button>
+        <button type="button" class="event-share-button" id="eventCopyUrlButton">URLをコピー</button>
+        <a class="event-share-button" id="eventXShareButton" href="#" target="_blank" rel="noopener noreferrer">Xで共有</a>
+        <span class="event-share-message" id="eventShareMessage" aria-live="polite"></span>
+      </div>
       <div class="muse-line">
         <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
       </div>
@@ -1306,7 +1338,7 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/event-v310.js?v=4.9.11&amp;cache=event-static-preview"></script>
+  <script type="module" src="assets/js/event-v310.js?v=4.9.11&amp;cache=ogp-share-all"></script>
 
   <script>
     (() => {

@@ -1155,10 +1155,7 @@ function showShareMessage_(message) {
   }, 2200);
 }
 
-const prototypeShareSongIds_ = new Set(["S003", "S089"]);
-
 function currentSongShareUrl_() {
-  if (!prototypeShareSongIds_.has(songId)) return location.href;
   return new URL(`share/song/${encodeURIComponent(songId)}.html`, location.href).href;
 }
 

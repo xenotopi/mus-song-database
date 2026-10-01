@@ -89,6 +89,10 @@
     const url = new URL(pageName, SITE_ROOT);
     url.searchParams.set("id", id);
     canonical.href = url.toString();
+    if (pageName === "song.html" || pageName === "event.html") {
+      const ogUrl = document.head.querySelector('meta[property="og:url"]');
+      if (ogUrl) ogUrl.content = canonical.href;
+    }
   }
 
   function updateDetailMetadata() {

@@ -25,6 +25,9 @@ const el = {
   soloChip: $("soloChip"),
   scopeSection: $("scopeSection"),
   scopeButtons: $("scopeButtons"),
+  membersSection: $("membersSection"),
+  memberTabs: $("memberTabs"),
+  majorMembers: $("majorMembers"),
   pickupSection: $("pickupSection"),
   pickupGrid: $("pickupGrid"),
   listSection: $("listSection"),
@@ -48,6 +51,7 @@ let data = {
 };
 
 let scope = "official";
+let memberMode = "official";
 let memberCount = "";
 let selectedMember = "";
 let visibleLimit = 24;
@@ -143,8 +147,8 @@ function buildMemberFilters() {
 
   el.memberFilterLabel.textContent =
     scope === "official"
-      ? "キャラクターから探す"
-      : "キャストから探す";
+      ? "含まれるキャラクターで絞る"
+      : "含まれるキャストで絞る";
 
   el.memberFilters.innerHTML = [
     `<button
@@ -233,6 +237,15 @@ function filteredItems() {
     items.slice();
 
   switch (el.singerSort.value) {
+    case "composition":
+      sorted.sort((a,b) =>
+        Number(a.memberCount || 0) -
+        Number(b.memberCount || 0) ||
+        String(a.displayName || "")
+          .localeCompare(String(b.displayName || ""), "ja")
+      );
+      break;
+
     case "songs":
       sorted.sort((a,b) =>
         Number(b.songCount || 0) -
@@ -276,6 +289,43 @@ function filteredItems() {
   }
 
   return sorted;
+}
+
+
+function renderMajorMembers() {
+  const filters = data.memberFilters?.[memberMode] || [];
+  const items = memberMode === "solo" ? data.solo : data.official;
+  const matches = filters.map(filter => {
+    const found = items.filter(item =>
+      Number(item.memberCount) === 1 &&
+      item.singerId &&
+      item.members?.length === 1 &&
+      item.members[0].key === filter.key &&
+      item.members[0].label === filter.label
+    );
+    return found.length === 1 ? { filter, item: found[0] } : null;
+  });
+
+  if (filters.length !== 9 || matches.some(match => !match)) {
+    el.membersSection.hidden = true;
+    console.warn("主要メンバーの単体歌唱名義を一意に特定できませんでした。");
+    return;
+  }
+
+  el.memberTabs.querySelectorAll("[data-member-mode]").forEach(button => {
+    const active = button.dataset.memberMode === memberMode;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+
+  el.majorMembers.innerHTML = matches.map(({ filter, item }) => `
+    <a class="singers-member-card" href="${buildSingerUrl(item)}"
+      style="--member-color:${escapeHtml(filter.color || "#dfdced")}">
+      <span class="singers-member-kind">${memberMode === "solo" ? "キャスト" : "キャラクター"}</span>
+      ${escapeHtml(filter.label)}
+    </a>
+  `).join("");
+  el.membersSection.hidden = false;
 }
 
 
@@ -524,7 +574,7 @@ function renderList() {
 }
 
 
-function updateScopeUI() {
+function updateScopeUI(resetFilters = true) {
   el.scopeButtons
     .querySelectorAll("[data-scope]")
     .forEach(button => {
@@ -534,9 +584,11 @@ function updateScopeUI() {
       );
     });
 
-  memberCount = "";
-  selectedMember = "";
-  visibleLimit = 24;
+  if (resetFilters) {
+    memberCount = "";
+    selectedMember = "";
+    visibleLimit = 24;
+  }
 
   buildCountFilters();
   buildMemberFilters();
@@ -583,7 +635,7 @@ function syncUrl() {
 
   if (
     el.singerSort.value !==
-    "performance"
+    "composition"
   ) {
     url.searchParams.set(
       "sort",
@@ -638,6 +690,13 @@ function applyInitialState() {
 
 
 function setupControls() {
+  el.memberTabs.querySelectorAll("[data-member-mode]").forEach(button => {
+    button.addEventListener("click", () => {
+      memberMode = button.dataset.memberMode;
+      renderMajorMembers();
+    });
+  });
+
   el.scopeButtons
     .querySelectorAll("[data-scope]")
     .forEach(button => {
@@ -646,8 +705,8 @@ function setupControls() {
           button.dataset.scope ||
           "official";
 
-        syncUrl();
         updateScopeUI();
+        syncUrl();
       });
     });
 
@@ -726,7 +785,8 @@ async function loadSingers() {
     el.pickupSection.hidden = false;
     el.listSection.hidden = false;
 
-    updateScopeUI();
+    renderMajorMembers();
+    updateScopeUI(false);
 
   } catch (error) {
     console.error(error);

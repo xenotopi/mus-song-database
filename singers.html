@@ -165,6 +165,56 @@
       box-shadow:0 5px 14px rgba(79,70,229,.18);
     }
 
+    .singers-member-tabs{
+      display:flex;
+      gap:8px;
+      margin-bottom:16px;
+    }
+
+    .singers-member-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:12px;
+    }
+
+    .singers-member-card{
+      display:block;
+      min-width:0;
+      padding:16px;
+      border:1px solid #dfdced;
+      border-radius:16px;
+      background:#fff;
+      color:var(--navy);
+      text-decoration:none;
+      font-size:16px;
+      font-weight:800;
+      overflow-wrap:anywhere;
+    }
+
+    .singers-member-card{
+      border-top:4px solid var(--member-color,#dfdced);
+    }
+
+    .singers-member-kind{
+      display:block;
+      margin-bottom:5px;
+      color:var(--muted);
+      font-size:14px;
+      font-weight:500;
+    }
+
+    .singers-member-card:hover{
+      border-color:var(--indigo);
+      background:#fbfaff;
+    }
+
+    .singers-member-card:focus-visible,
+    .singers-member-tabs button:focus-visible{
+      outline:3px solid var(--indigo);
+      outline-offset:3px;
+    }
+
+
     .singer-pickup-grid{
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
@@ -540,6 +590,16 @@
         padding:14px;
       }
 
+      .singers-member-grid{
+        grid-template-columns:repeat(3,minmax(0,1fr));
+        gap:8px;
+      }
+
+      .singers-member-card{
+        padding:12px 8px;
+        font-size:14px;
+      }
+
       .singers-toolbar-bottom{
         justify-content:stretch;
       }
@@ -623,11 +683,11 @@
 
     <section class="singers-hero">
       <p class="singers-kicker">SINGING NAMES</p>
-      <h1>歌唱名義から探す</h1>
+      <h1>メンバーから歌唱記録を見る</h1>
 
       <p class="singers-copy">
-        ソロから9人まで。<br>
-        μ's楽曲が歌われたメンバーの組み合わせから記録を巡ります。
+        キャラクターやキャスト、ユニットから<br>
+        これまでの歌唱記録をたどれます。
       </p>
 
       <div class="singers-summary" id="heroSummary" hidden>
@@ -641,22 +701,25 @@
       歌唱名義データを読み込んでいます...
     </div>
 
-    <section class="singers-section" id="pickupSection" hidden>
+    <section class="singers-section" id="membersSection" hidden>
       <div class="singers-section-head">
         <div>
-          <p class="singers-section-kicker">PICK UP SINGING NAMES</p>
-          <h2>記録から歌唱名義を見つける</h2>
+          <p class="singers-section-kicker">MEMBERS</p>
+          <h2>主要メンバーから見る</h2>
         </div>
       </div>
-
-      <div class="singer-pickup-grid" id="pickupGrid"></div>
+      <div class="singers-member-tabs" id="memberTabs">
+        <button class="singer-scope-button active" type="button" data-member-mode="official">キャラクター</button>
+        <button class="singer-scope-button" type="button" data-member-mode="solo">キャスト</button>
+      </div>
+      <div class="singers-member-grid" id="majorMembers"></div>
     </section>
 
     <section class="singers-section" id="listSection" hidden>
       <div class="singers-section-head">
         <div>
           <p class="singers-section-kicker">ALL SINGING NAMES</p>
-          <h2>歌唱名義を巡る</h2>
+          <h2>その他の歌唱名義を探す</h2>
         </div>
 
         <p class="singers-section-note">
@@ -698,6 +761,7 @@
           <div class="singers-sort">
             <label for="singerSort">並び替え</label>
             <select id="singerSort">
+              <option value="composition">構成順</option>
               <option value="performance">歌唱回数が多い順</option>
               <option value="songs">歌唱曲数が多い順</option>
               <option value="recent">最近登場した順</option>
@@ -717,11 +781,21 @@
         </button>
       </div>
     </section>
+
+    <section class="singers-section" id="pickupSection" hidden>
+      <div class="singers-section-head">
+        <div>
+          <p class="singers-section-kicker">PICK UP SINGING NAMES</p>
+          <h2>記録から歌唱名義を見つける</h2>
+        </div>
+      </div>
+      <div class="singer-pickup-grid" id="pickupGrid"></div>
+    </section>
   </main>
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/singers-v470.js?v=4.9.1&amp;cache=revision-nonblocking"></script>
+  <script type="module" src="assets/js/singers-v470.js?v=4.9.12&amp;cache=member-entry"></script>
 
 <style>
 /* STEP14-B FINAL: singing-name color lines */

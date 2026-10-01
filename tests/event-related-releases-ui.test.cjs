@@ -97,6 +97,8 @@ async function openEvent(relatedReleases, viewport = { width: 1280, height: 900 
   });
   page.on("pageerror", error => issues.push(`pageerror: ${error.message}`));
   page.on("requestfailed", request => issues.push(`requestfailed: ${request.url()} ${request.failure()?.errorText || ""}`));
+  await page.route("**/data/snapshots/**/events/EV0029.json", route =>
+    route.fulfill({ status: 200, contentType: "application/json", body: "{}" }));
   await page.route(/script\.google(?:usercontent)?\.com\//, route => {
     const url = new URL(route.request().url());
     const action = url.searchParams.get("action");

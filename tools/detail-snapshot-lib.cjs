@@ -38,6 +38,24 @@ function validateSnapshot(type, id, snapshot, expectedRevision) {
   return snapshot;
 }
 
+function validateEventSnapshot(id, snapshot, expectedRevision) {
+  if (!/^EV\d+$/.test(id)) throw new Error(`Unsupported Event snapshot target: ${id}`);
+  if (!snapshot || snapshot.snapshot?.revision !== expectedRevision) throw new Error("Event snapshot revision mismatch");
+  const { event, discover } = snapshot.data || {};
+  if (event?.eventId !== id || discover?.eventId !== id) throw new Error("Event snapshot ID mismatch");
+  if (typeof event.eventName !== "string" || !Array.isArray(event.songs) ||
+      !event.statistics || typeof event.statistics !== "object" ||
+      !event.navigation || typeof event.navigation !== "object" ||
+      !Array.isArray(event.relatedReleases)) throw new Error("Event snapshot schema invalid");
+  for (const key of ["firstPerformedSongs", "lastPerformedSongs", "uniqueSongs"]) {
+    if (!Array.isArray(discover[key])) throw new Error(`Event discover ${key} missing`);
+  }
+  if (event._cache?.revision !== expectedRevision || discover._cache?.revision !== expectedRevision) {
+    throw new Error("Event data revision mismatch");
+  }
+  return snapshot.data;
+}
+
 function validateKamiparaDashboard(data, revision) {
   if (!data || data.revision !== revision || data._cache?.revision !== revision || !data.summary) throw new Error("Kamipara revision or summary mismatch");
   for (const [key, count] of [["songs", "songCount"], ["performers", "performerCount"], ["events", "eventCount"], ["performances", "performanceCount"]]) {
@@ -74,4 +92,4 @@ function snapshotDataFingerprint(manifest) {
     ...(manifest.kamiparaDashboard ? { kamiparaDashboard: { sha256: manifest.kamiparaDashboard.sha256 } } : {}) });
 }
 
-module.exports = { canonicalJson, sha256, validateDetail, validateSnapshot, validateKamiparaDashboard, getDetailWithStaticFallback, snapshotDataFingerprint };
+module.exports = { canonicalJson, sha256, validateDetail, validateSnapshot, validateEventSnapshot, validateKamiparaDashboard, getDetailWithStaticFallback, snapshotDataFingerprint };

@@ -7,6 +7,7 @@ import {
 import {
   renderCommon
 } from "./common.js?v=4.9.1&cache=revision-nonblocking";
+import { staticEventDetail } from "./static-detail.js?v=1.2.0";
 
 
 renderCommon("event");
@@ -177,6 +178,7 @@ let currentEvent = null;
 let currentSongs = [];
 let currentDiscover = {};
 let activeSongFilter = "all";
+let loadGeneration = 0;
 
 
 function setLoading() {
@@ -864,40 +866,56 @@ function renderNavigation(
 }
 
 
-async function renderEventDiscoverWhenReady_(
-  eventData,
-  discoverRequest
-) {
+function renderEventPair_(eventData, discoverData) {
+  currentDiscover = discoverData || {};
+  renderEvent(eventData);
+  if (discoverData) renderEventInsights_(discoverData);
+  elements.eventInsightsSection.hidden = !discoverData;
+  const renderedEventId = String(eventData.eventId || eventId);
+  if (/^EV\d+$/.test(renderedEventId)) {
+    window.MusDbAnalytics?.trackOnce(
+      `view_detail:event:${renderedEventId}`,
+      "view_detail",
+      {
+        content_type: "event",
+        item_id: renderedEventId,
+        item_name: eventData.eventName || "",
+        content_category: eventData.category || eventData.eventType || ""
+      }
+    );
+  }
+}
+
+function requestEventApi_(options = {}) {
+  return apiGet("event", { id: eventId }, { timeoutMs: 25000, retryCount: 1, ...options });
+}
+
+function requestDiscoverApi_(options = {}) {
+  return apiGet("discover", { type: "event", id: eventId }, { timeoutMs: 30000, retryCount: 1, ...options });
+}
+
+async function checkEventRevision_(snapshot, generation) {
   try {
-    const discoverData =
-      await discoverRequest;
-
-    if (!discoverData) {
-      return;
-    }
-
-    currentDiscover =
-      discoverData;
-
-    renderEventInsights_(
-      discoverData
-    );
-
-    renderEventSongs_();
-
-    elements.eventInsightsSection.hidden =
-      false;
-
-  } catch (error) {
-    console.error(
-      "Event discover render error:",
-      error
-    );
+    const revisionResponse = await apiGet("revision", {}, { timeoutMs: 15000, retryCount: 0 });
+    const revision = revisionResponse?.data?.dataRevision;
+    if (generation !== loadGeneration || !revision || revision === snapshot.revision) return;
+    const [eventResponse, discoverResponse] = await Promise.all([
+      requestEventApi_({ forceRefresh: true }),
+      requestDiscoverApi_({ forceRefresh: true })
+    ]);
+    if (generation !== loadGeneration || eventResponse?.data?.eventId !== eventId ||
+        discoverResponse?.data?.eventId !== eventId ||
+        eventResponse.data._cache?.revision !== revision ||
+        discoverResponse.data._cache?.revision !== revision) return;
+    renderEventPair_(eventResponse.data, discoverResponse.data);
+  } catch {
+    // A valid Static Event remains visible when background JSONP is blocked.
   }
 }
 
 
 async function loadEvent() {
+  const generation = ++loadGeneration;
   if (!eventId) {
     setError({
       message:
@@ -927,86 +945,34 @@ async function loadEvent() {
     true;
 
   try {
-    const eventRequest =
-      apiGet(
-        "event",
-        {
-          id: eventId
-        },
-        {
-          timeoutMs: 25000,
-          retryCount: 1
-        }
-      );
-
-    const discoverRequest =
-      apiGet(
-        "discover",
-        {
-          type: "event",
-          id: eventId
-        },
-        {
-          timeoutMs: 30000,
-          retryCount: 1
-        }
-      )
-        .then(result =>
-          result &&
-          result.data &&
-          typeof result.data === "object"
-            ? result.data
-            : {}
-        )
-        .catch(error => {
-          console.warn(
-            "Event discover API warning:",
-            error
-          );
-
-          return null;
-        });
-
-    const response =
-      await eventRequest;
-
-    const eventData =
-      response.data || {};
-
-    currentDiscover = {};
-
-    renderEvent(
-      eventData
-    );
-
-    elements.eventInsightsSection.hidden =
-      true;
-
-    const renderedEventId = String(
-      eventData.eventId || eventId
-    );
-    if (/^EV\d+$/.test(renderedEventId)) {
-      window.MusDbAnalytics?.trackOnce(
-        `view_detail:event:${renderedEventId}`,
-        "view_detail",
-        {
-          content_type: "event",
-          item_id: renderedEventId,
-          item_name: eventData.eventName || "",
-          content_category:
-            eventData.category ||
-            eventData.eventType ||
-            ""
-        }
-      );
+    let snapshot = null;
+    try {
+      snapshot = await staticEventDetail(eventId);
+    } catch {
+      // The current Event API remains the fallback for missing snapshots.
+    }
+    if (generation !== loadGeneration) return;
+    if (snapshot) {
+      renderEventPair_(snapshot.data.event, snapshot.data.discover);
+      requestAnimationFrame(() => {
+        if (generation === loadGeneration) void checkEventRevision_(snapshot, generation);
+      });
+      return;
     }
 
-    void renderEventDiscoverWhenReady_(
-      eventData,
-      discoverRequest
-    );
-
+    const discoverRequest = requestDiscoverApi_().then(result => result?.data || null).catch(() => null);
+    const eventResponse = await requestEventApi_();
+    if (generation !== loadGeneration) return;
+    renderEventPair_(eventResponse.data || {}, null);
+    void discoverRequest.then(discoverData => {
+      if (generation !== loadGeneration || !discoverData) return;
+      currentDiscover = discoverData;
+      renderEventInsights_(discoverData);
+      renderEventSongs_();
+      elements.eventInsightsSection.hidden = false;
+    });
   } catch (error) {
+    if (generation !== loadGeneration) return;
     const isExpectedNotFound =
       /見つかりません|該当(?:する)?データ(?:が)?ありません/.test(
         String(error?.message || "")

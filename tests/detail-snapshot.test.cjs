@@ -2,7 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
-const { canonicalJson, sha256, validateSnapshot, validateKamiparaDashboard, getDetailWithStaticFallback } = require("../tools/detail-snapshot-lib.cjs");
+const { canonicalJson, sha256, validateSnapshot, validateEventSnapshot, validateKamiparaDashboard, getDetailWithStaticFallback } = require("../tools/detail-snapshot-lib.cjs");
 
 const revision = `sha256-${"a".repeat(64)}`;
 const releaseData = { releaseId: "R0088", releaseName: "Fixture", includedSongs: [], includedSongsMeta: { status: "complete" } };
@@ -30,6 +30,15 @@ test("Kamipara snapshot checks revision and collection counts", () => {
   assert.equal(validateKamiparaDashboard(data, revision), data);
   assert.throws(() => validateKamiparaDashboard({ ...data, songs: [] }, revision), /songs count mismatch/);
   assert.throws(() => validateKamiparaDashboard(data, `sha256-${"b".repeat(64)}`), /revision/);
+});
+
+test("Event snapshot requires both Event and discover at the same revision", () => {
+  const event = { eventId: "EV0001", eventName: "First LoveLive!", songs: [], statistics: {}, navigation: {}, relatedReleases: [], _cache: { revision } };
+  const discover = { eventId: "EV0001", firstPerformedSongs: [], lastPerformedSongs: [], uniqueSongs: [], _cache: { revision } };
+  const wrapper = { snapshot: { revision }, data: { event, discover } };
+  assert.equal(validateEventSnapshot("EV0001", wrapper, revision), wrapper.data);
+  assert.throws(() => validateEventSnapshot("EV0001", { ...wrapper, data: { event, discover: { ...discover, uniqueSongs: null } } }, revision), /uniqueSongs/);
+  assert.throws(() => validateEventSnapshot("EV0001", { ...wrapper, data: { event, discover: { ...discover, _cache: { revision: "stale" } } } }, revision), /revision/);
 });
 
 test("valid static wins without API request", async () => {

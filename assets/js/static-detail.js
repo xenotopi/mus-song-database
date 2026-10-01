@@ -45,6 +45,20 @@ export async function staticDetail(type, id, options = {}) {
   return { data: validDetail(type, id, wrapper, current.revision), source: "static", stale, revision: current.revision };
 }
 
+export async function staticEventDetail(id, options = {}) {
+  if (!/^EV\d+$/.test(id)) throw new Error("Static Event ID invalid");
+  const { current, stale } = await currentPointer(options);
+  const wrapper = await fetchJson(`data/snapshots/${current.revision}/events/${encodeURIComponent(id)}.json`);
+  const { event, discover } = wrapper?.data || {};
+  if (wrapper?.snapshot?.revision !== current.revision || event?.eventId !== id || discover?.eventId !== id ||
+      event?._cache?.revision !== current.revision || discover?._cache?.revision !== current.revision ||
+      typeof event.eventName !== "string" || !Array.isArray(event.songs) ||
+      !event.statistics || !event.navigation || !Array.isArray(event.relatedReleases) ||
+      !Array.isArray(discover.firstPerformedSongs) || !Array.isArray(discover.lastPerformedSongs) ||
+      !Array.isArray(discover.uniqueSongs)) throw new Error("Static Event snapshot invalid");
+  return { data: wrapper.data, source: "static", stale, revision: current.revision };
+}
+
 export async function detailWithApiFallback(type, id, apiFetch, options = {}) {
   try {
     return await staticDetail(type, id, options);

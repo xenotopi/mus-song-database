@@ -26,10 +26,9 @@ const el = {
   scopeSection: $("scopeSection"),
   scopeButtons: $("scopeButtons"),
   membersSection: $("membersSection"),
-  memberTabs: $("memberTabs"),
-  majorMembers: $("majorMembers"),
-  pickupSection: $("pickupSection"),
-  pickupGrid: $("pickupGrid"),
+  musLink: $("musLink"),
+  characterMembers: $("characterMembers"),
+  castMembers: $("castMembers"),
   listSection: $("listSection"),
   nameSearch: $("nameSearch"),
   countFilters: $("countFilters"),
@@ -51,7 +50,6 @@ let data = {
 };
 
 let scope = "official";
-let memberMode = "official";
 let memberCount = "";
 let selectedMember = "";
 let visibleLimit = 24;
@@ -238,12 +236,30 @@ function filteredItems() {
 
   switch (el.singerSort.value) {
     case "composition":
-      sorted.sort((a,b) =>
-        Number(a.memberCount || 0) -
-        Number(b.memberCount || 0) ||
-        String(a.displayName || "")
-          .localeCompare(String(b.displayName || ""), "ja")
-      );
+      {
+        const order = new Map(
+          (data.memberFilters?.official || [])
+            .map((member, index) => [member.key, index])
+        );
+        const memberOrder = item =>
+          (item.memberShorts || item.members?.map(member => member.key) || [])
+            .map(key => order.get(key) ?? Number.MAX_SAFE_INTEGER)
+            .sort((a,b) => a - b);
+        sorted.sort((a,b) => {
+          const countDifference =
+            Number(a.memberCount || 0) - Number(b.memberCount || 0);
+          if (countDifference) return countDifference;
+          const left = memberOrder(a);
+          const right = memberOrder(b);
+          for (let index = 0; index < Math.max(left.length, right.length); index += 1) {
+            const difference = (left[index] ?? Number.MAX_SAFE_INTEGER) -
+              (right[index] ?? Number.MAX_SAFE_INTEGER);
+            if (difference) return difference;
+          }
+          return String(a.displayName || "")
+            .localeCompare(String(b.displayName || ""), "ja");
+        });
+      }
       break;
 
     case "songs":
@@ -293,132 +309,52 @@ function filteredItems() {
 
 
 function renderMajorMembers() {
-  const filters = data.memberFilters?.[memberMode] || [];
-  const items = memberMode === "solo" ? data.solo : data.official;
-  const matches = filters.map(filter => {
-    const found = items.filter(item =>
-      Number(item.memberCount) === 1 &&
-      item.singerId &&
-      item.members?.length === 1 &&
-      item.members[0].key === filter.key &&
-      item.members[0].label === filter.label
-    );
-    return found.length === 1 ? { filter, item: found[0] } : null;
-  });
-
-  if (filters.length !== 9 || matches.some(match => !match)) {
+  const matchMembers = mode => {
+    const filters = data.memberFilters?.[mode] || [];
+    const items = mode === "solo" ? data.solo : data.official;
+    if (filters.length !== 9) return null;
+    const matches = filters.map(filter => {
+      const found = items.filter(item =>
+        Number(item.memberCount) === 1 &&
+        item.singerId &&
+        item.members?.length === 1 &&
+        item.members[0].key === filter.key &&
+        item.members[0].label === filter.label
+      );
+      return found.length === 1 ? { filter, item: found[0] } : null;
+    });
+    return matches.every(Boolean) ? matches : null;
+  };
+  const characters = matchMembers("official");
+  const casts = matchMembers("solo");
+  if (!characters || !casts) {
     el.membersSection.hidden = true;
     console.warn("主要メンバーの単体歌唱名義を一意に特定できませんでした。");
     return;
   }
-
-  el.memberTabs.querySelectorAll("[data-member-mode]").forEach(button => {
-    const active = button.dataset.memberMode === memberMode;
-    button.classList.toggle("active", active);
-    button.setAttribute("aria-pressed", String(active));
-  });
-
-  el.majorMembers.innerHTML = matches.map(({ filter, item }) => `
+  const memberCards = matches => matches.map(({ filter, item }) => `
     <a class="singers-member-card" href="${buildSingerUrl(item)}"
       style="--member-color:${escapeHtml(filter.color || "#dfdced")}">
-      <span class="singers-member-kind">${memberMode === "solo" ? "キャスト" : "キャラクター"}</span>
       ${escapeHtml(filter.label)}
     </a>
   `).join("");
-  el.membersSection.hidden = false;
-}
+  el.characterMembers.innerHTML = memberCards(characters);
+  el.castMembers.innerHTML = memberCards(casts);
 
-
-function pickupForCount(items, count) {
-  return items
-    .filter(item =>
-      Number(item.memberCount || 0) === count
-    )
-    .slice()
-    .sort((a,b) =>
-      Number(b.performanceCount || 0) -
-      Number(a.performanceCount || 0) ||
-      Number(b.songCount || 0) -
-      Number(a.songCount || 0)
-    )[0] || null;
-}
-
-
-function renderPickupCard(label, item, meta) {
-  if (!item) {
-    return `
-      <article class="singer-pickup-card">
-        <div class="singer-pickup-label">${escapeHtml(label)}</div>
-        <div class="singer-pickup-title">該当する名義はありません</div>
-        <div class="singer-pickup-meta">${escapeHtml(meta)}</div>
-      </article>
-    `;
+  const keys = new Set(characters.map(({ filter }) => filter.key));
+  const mus = data.official.filter(item =>
+    item.singerId && item.displayName === "μ's" &&
+    Number(item.memberCount) === 9 &&
+    item.members?.length === 9 &&
+    item.members.every(member => keys.has(member.key))
+  );
+  if (mus.length === 1) {
+    el.musLink.href = buildSingerUrl(mus[0]);
+    el.musLink.hidden = false;
+  } else {
+    el.musLink.hidden = true;
   }
-
-  const href =
-    buildSingerUrl(item);
-
-  return `
-    <a class="singer-pickup-card" href="${href}">
-      ${colorLine(item.members, "singer-color-line")}
-
-      <div class="singer-pickup-label">${escapeHtml(label)}</div>
-
-      <div class="singer-pickup-title">
-        ${escapeHtml(item.displayName)}
-      </div>
-
-      <div class="singer-pickup-value">
-        ${Number(item.performanceCount || 0).toLocaleString("ja-JP")}回
-      </div>
-
-      <div class="singer-pickup-meta">
-        ${escapeHtml(meta)}
-      </div>
-    </a>
-  `;
-}
-
-
-function renderPickup() {
-  const items =
-    scopeItems()
-      .slice()
-      .sort((a,b) =>
-        Number(b.performanceCount || 0) -
-        Number(a.performanceCount || 0)
-      );
-
-  const top =
-    items[0] || null;
-
-  const duo =
-    pickupForCount(items, 2);
-
-  const trio =
-    pickupForCount(items, 3);
-
-  el.pickupGrid.innerHTML = [
-    renderPickupCard(
-      "MOST PERFORMED",
-      top,
-      scope === "official"
-        ? "公式歌唱だけで集計"
-        : "ソロイベントだけで集計"
-    ),
-
-    renderPickupCard(
-      "TOP DUO",
-      duo,
-      "最も多く登場した2人名義"
-    ),
-
-    renderPickupCard(
-      "TOP TRIO",
-      trio,
-      "最も多く登場した3人名義"
-    )
-  ].join("");
+  el.membersSection.hidden = false;
 }
 
 
@@ -578,10 +514,9 @@ function updateScopeUI(resetFilters = true) {
   el.scopeButtons
     .querySelectorAll("[data-scope]")
     .forEach(button => {
-      button.classList.toggle(
-        "active",
-        button.dataset.scope === scope
-      );
+      const active = button.dataset.scope === scope;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
     });
 
   if (resetFilters) {
@@ -592,7 +527,6 @@ function updateScopeUI(resetFilters = true) {
 
   buildCountFilters();
   buildMemberFilters();
-  renderPickup();
   renderList();
 }
 
@@ -690,13 +624,6 @@ function applyInitialState() {
 
 
 function setupControls() {
-  el.memberTabs.querySelectorAll("[data-member-mode]").forEach(button => {
-    button.addEventListener("click", () => {
-      memberMode = button.dataset.memberMode;
-      renderMajorMembers();
-    });
-  });
-
   el.scopeButtons
     .querySelectorAll("[data-scope]")
     .forEach(button => {
@@ -782,7 +709,6 @@ async function loadSingers() {
     el.status.hidden = true;
     el.heroSummary.hidden = false;
     el.scopeSection.hidden = false;
-    el.pickupSection.hidden = false;
     el.listSection.hidden = false;
 
     renderMajorMembers();

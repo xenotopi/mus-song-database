@@ -1,6 +1,6 @@
 import { apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema";
 import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
-import { staticKamiparaDashboard } from "./static-detail.js?v=1.1.0";
+import { staticKamiparaDashboard } from "./static-detail.js?v=1.3.0";
 
 renderCommon();
 
@@ -162,13 +162,14 @@ async function load() {
     if (snapshot) {
       showDashboard(snapshot.data, generation);
       void revisionPromise.then(async response => {
-        const revision = response?.data?.dataRevision;
-        if (generation !== loadGeneration || !revision || revision === snapshot.revision) return;
+        const dataRevision = response?.data?.dataRevision;
+        const outputRevision = response?.data?.outputRevision || dataRevision;
+        if (generation !== loadGeneration || !dataRevision || !outputRevision || outputRevision === snapshot.revision) return;
         try {
           const fresh = await apiGet("kamiparaDashboard", {}, { timeoutMs: 25000, retryCount: 1, forceRefresh: true });
           if (generation !== loadGeneration) return;
           validate(fresh.data);
-          if (fresh.data.revision !== revision) return;
+          if (fresh.data.revision !== dataRevision) return;
           if (!sameDashboard(snapshot.data, fresh.data)) showDashboard(fresh.data, generation);
         } catch {
           // Keep the valid static dashboard visible if the background refresh fails.

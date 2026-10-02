@@ -41,6 +41,18 @@ test("Event snapshot requires both Event and discover at the same revision", () 
   assert.throws(() => validateEventSnapshot("EV0001", { ...wrapper, data: { event, discover: { ...discover, _cache: { revision: "stale" } } } }, revision), /revision/);
 });
 
+test("new output generation keeps API data revision distinct and legacy snapshots valid", () => {
+  const outputRevision = `sha256-${"b".repeat(64)}`;
+  const event = { eventId: "EV0348", eventName: "ライブ2011Natural Party", songs: [{ songId: "S003", singerId: "SN0072" }], statistics: {}, navigation: {}, relatedReleases: [], _cache: { revision } };
+  const discover = { eventId: "EV0348", firstPerformedSongs: [], lastPerformedSongs: [], uniqueSongs: [], _cache: { revision } };
+  const wrapper = { snapshot: { revision: outputRevision, outputRevision, dataRevision: revision }, data: { event, discover } };
+  assert.equal(validateEventSnapshot("EV0348", wrapper, outputRevision, revision), wrapper.data);
+  assert.throws(() => validateEventSnapshot("EV0348", wrapper, outputRevision, outputRevision), /data revision/);
+  const song = { ...releaseData, _cache: { revision } };
+  assert.equal(validateSnapshot("release", "R0088", { snapshot: wrapper.snapshot, data: song }, outputRevision, revision).data, song);
+  assert.equal(validateSnapshot("release", "R0088", valid, revision).data, valid.data);
+});
+
 test("valid static wins without API request", async () => {
   let apiCalls = 0;
   const result = await getDetailWithStaticFallback({ type: "release", id: "R0088", revision, staticFetch: async () => valid, apiFetch: async () => { apiCalls += 1; return apiResponse; } });

@@ -4,7 +4,7 @@ import {
   formatDate
 } from "./api.js?v=5.3.0&cache=solo-live-schema";
 
-import { detailWithApiFallback } from "./static-detail.js?v=1.0.0";
+import { detailWithApiFallback } from "./static-detail.js?v=1.3.0";
 
 import {
   renderCommon

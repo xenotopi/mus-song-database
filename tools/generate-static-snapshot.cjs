@@ -52,8 +52,28 @@ async function mapLimit(items, limit, task) {
 
 function jsonText(value) { return `${JSON.stringify(value, null, 2)}\n`; }
 
-function assertRevision(payload, revision, label) {
-  if (payload?.data?._cache?.revision !== revision) throw new Error(`${label}: revision mismatch`);
+function assertRevision(payload, dataRevision, label) {
+  if (payload?.data?._cache?.revision !== dataRevision) throw new Error(`${label}: data revision mismatch`);
+}
+
+function snapshotMetadata(revision, dataRevision, generatedAt) {
+  return { revision, outputRevision: revision, dataRevision, generatedAt, source: "public-api" };
+}
+
+function apiRevisions(payload) {
+  const dataRevision = String(payload?.data?.dataRevision || "");
+  const outputRevision = String(payload?.data?.outputRevision || "");
+  if (![dataRevision, outputRevision].every(value => /^sha256-[a-f0-9]{64}$/.test(value))) {
+    throw new Error("API data/output revision missing or invalid");
+  }
+  return { dataRevision, outputRevision };
+}
+
+async function assertCurrentApiRevisions(revision, dataRevision) {
+  const current = apiRevisions(await api("revision"));
+  if (current.outputRevision !== revision || current.dataRevision !== dataRevision) {
+    throw new Error("API revisions changed during snapshot generation");
+  }
 }
 
 function validateEventReferences(id, data, references) {
@@ -75,7 +95,7 @@ function validateEventReferences(id, data, references) {
   }
 }
 
-function validateEventFiles(root, manifest, revision) {
+function validateEventFiles(root, manifest, revision, dataRevision = manifest.dataRevision || revision) {
   const hashes = manifest.hashes?.events || {};
   const ids = Object.keys(hashes);
   if (manifest.counts?.events !== 353 || ids.length !== 353 || new Set(ids).size !== 353) {
@@ -86,14 +106,16 @@ function validateEventFiles(root, manifest, revision) {
   for (const id of ids) {
     const body = fs.readFileSync(path.join(root, "events", `${id}.json`), "utf8");
     const wrapper = JSON.parse(body);
-    const data = validateEventSnapshot(id, wrapper, revision);
+    const data = validateEventSnapshot(id, wrapper, revision, dataRevision);
     if (hashes[id].sha256 !== sha256(data) || hashes[id].fileSha256 !== sha256(body) ||
         hashes[id].bytes !== Buffer.byteLength(body)) throw new Error(`${id}: Event hash mismatch`);
   }
   return ids;
 }
 
-function validateBaseFiles(root, manifest, revision) {
+function validateBaseFiles(root, manifest, revision, dataRevision = manifest.dataRevision || revision) {
+  if (manifest.revision !== revision || (manifest.outputRevision && manifest.outputRevision !== revision) ||
+      (manifest.dataRevision || revision) !== dataRevision) throw new Error("Base manifest revisions mismatch");
   for (const [type, count] of [["release", 114], ["song", 117]]) {
     const group = `${type}s`;
     const entries = manifest.hashes?.[group] || {};
@@ -101,32 +123,35 @@ function validateBaseFiles(root, manifest, revision) {
     for (const [id, hash] of Object.entries(entries)) {
       const body = fs.readFileSync(path.join(root, group, `${id}.json`), "utf8");
       const wrapper = JSON.parse(body);
-      validateSnapshot(type, id, wrapper, revision);
+      validateSnapshot(type, id, wrapper, revision, dataRevision);
       if (hash.sha256 !== sha256(wrapper.data) || hash.fileSha256 !== sha256(body) ||
           hash.bytes !== Buffer.byteLength(body)) throw new Error(`${group}/${id}: hash mismatch`);
     }
   }
   const releaseListBody = fs.readFileSync(path.join(root, "release-list.json"), "utf8");
   const releaseList = JSON.parse(releaseListBody);
-  if (releaseList.snapshot?.revision !== revision || releaseList.data?.length !== 114 ||
+  if (releaseList.snapshot?.revision !== revision || (releaseList.snapshot.outputRevision && releaseList.snapshot.outputRevision !== revision) ||
+      (releaseList.snapshot.dataRevision || revision) !== dataRevision || releaseList.data?.length !== 114 ||
       manifest.releaseList?.sha256 !== sha256(releaseList.data) ||
       manifest.releaseList?.fileSha256 !== sha256(releaseListBody)) throw new Error("Release list mismatch");
   const kamiparaBody = fs.readFileSync(path.join(root, "kamipara-dashboard.json"), "utf8");
   const kamipara = JSON.parse(kamiparaBody);
-  validateKamiparaDashboard(kamipara.data, revision);
-  if (kamipara.snapshot?.revision !== revision || manifest.kamiparaDashboard?.sha256 !== sha256(kamipara.data) ||
+  validateKamiparaDashboard(kamipara.data, dataRevision);
+  if (kamipara.snapshot?.revision !== revision || (kamipara.snapshot.outputRevision && kamipara.snapshot.outputRevision !== revision) ||
+      (kamipara.snapshot.dataRevision || revision) !== dataRevision || manifest.kamiparaDashboard?.sha256 !== sha256(kamipara.data) ||
       manifest.kamiparaDashboard?.fileSha256 !== sha256(kamiparaBody)) throw new Error("Kamipara hash mismatch");
 }
 
-async function generateAllEvents(revision, revisionRoot) {
+async function generateAllEvents(revision, dataRevision, revisionRoot) {
   const baseManifest = JSON.parse(fs.readFileSync(path.join(revisionRoot, "manifest.json"), "utf8"));
   if (baseManifest.revision !== revision || baseManifest.counts?.releases !== 114 ||
       baseManifest.counts?.songs !== 117 || baseManifest.counts?.kamiparaDashboard !== 1) {
     throw new Error("Existing base snapshot is incomplete");
   }
-  validateBaseFiles(revisionRoot, baseManifest, revision);
+  if ((baseManifest.dataRevision || revision) !== dataRevision) throw new Error("Base snapshot data revision mismatch");
+  validateBaseFiles(revisionRoot, baseManifest, revision, dataRevision);
   if (baseManifest.counts?.events === 353) {
-    validateEventFiles(revisionRoot, baseManifest, revision);
+    validateEventFiles(revisionRoot, baseManifest, revision, dataRevision);
     process.stdout.write(`${JSON.stringify({ revision, events: 353, reused: true }, null, 2)}\n`);
     return;
   }
@@ -137,7 +162,7 @@ async function generateAllEvents(revision, revisionRoot) {
     api("eventHistory"), api("venueHistory"), api("singerList")
   ]);
   for (const [payload, label] of [[historyPayload, "eventHistory"], [venuesPayload, "venueHistory"], [singersPayload, "singerList"]]) {
-    assertRevision(payload, revision, label);
+    assertRevision(payload, dataRevision, label);
   }
   const history = historyPayload.data.events;
   const eventIds = history?.map(item => item.eventId);
@@ -154,12 +179,13 @@ async function generateAllEvents(revision, revisionRoot) {
   let completed = 0;
   const generatedAt = new Date().toISOString();
   const wrappers = await mapLimit(eventIds, 2, async id => {
-    const wrapper = await eventSnapshot(id, revision, generatedAt);
+    const wrapper = await eventSnapshot(id, revision, dataRevision, generatedAt);
     validateEventReferences(id, wrapper.data, references);
     completed += 1;
     if (completed % 25 === 0 || completed === 353) process.stdout.write(`Event ${completed}/353 validated\n`);
     return wrapper;
   }).catch(error => { throw new Error(`Event generation stopped after ${completed}/353 complete pairs: ${error.message}`); });
+  await assertCurrentApiRevisions(revision, dataRevision);
   const stagingRoot = path.join(SNAPSHOT_ROOT, `.staging-events-${process.pid}`);
   if (fs.existsSync(stagingRoot)) throw new Error(`Staging path already exists: ${stagingRoot}`);
   fs.mkdirSync(path.join(stagingRoot, "events"), { recursive: true });
@@ -173,7 +199,7 @@ async function generateAllEvents(revision, revisionRoot) {
     fs.writeFileSync(path.join(stagingRoot, "events", `${id}.json`), body, "utf8");
     manifest.hashes.events[id] = { sha256: sha256(wrapper.data), fileSha256: sha256(body), bytes: Buffer.byteLength(body) };
   });
-  validateEventFiles(stagingRoot, manifest, revision);
+  validateEventFiles(stagingRoot, manifest, revision, dataRevision);
   fs.writeFileSync(path.join(stagingRoot, "manifest.json"), jsonText(manifest), "utf8");
   fs.renameSync(path.join(stagingRoot, "events"), path.join(revisionRoot, "events"));
   fs.renameSync(path.join(stagingRoot, "manifest.json"), path.join(revisionRoot, "manifest.json"));
@@ -181,14 +207,16 @@ async function generateAllEvents(revision, revisionRoot) {
   process.stdout.write(`${JSON.stringify({ revision, events: 353, eventApi: 353, discoverApi: 353, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
 }
 
-async function eventSnapshot(id, revision, generatedAt) {
+async function eventSnapshot(id, revision, dataRevision, generatedAt) {
   const [eventPayload, discoverPayload] = await Promise.all([
     api("event", { id }),
     api("discover", { type: "event", id })
   ]);
   const data = { event: eventPayload.data, discover: discoverPayload.data };
-  const wrapper = { snapshot: { revision, generatedAt, source: "public-api" }, data };
-  validateEventSnapshot(id, wrapper, revision);
+  assertRevision(eventPayload, dataRevision, `event/${id}`);
+  assertRevision(discoverPayload, dataRevision, `discover/${id}`);
+  const wrapper = { snapshot: snapshotMetadata(revision, dataRevision, generatedAt), data };
+  validateEventSnapshot(id, wrapper, revision, dataRevision);
   assertNoInternalLeak(data);
   return wrapper;
 }
@@ -198,10 +226,10 @@ async function generateEventPreview(ids) {
     throw new Error("--event-ids requires distinct Event IDs");
   }
   const current = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "current.json"), "utf8"));
-  const revision = String((await api("revision")).data?.dataRevision || "");
+  const { dataRevision, outputRevision: revision } = apiRevisions(await api("revision"));
   if (revision !== current.revision) throw new Error("Preview source and current.json revisions differ");
   const generatedAt = new Date().toISOString();
-  const wrappers = await mapLimit(ids, 2, id => eventSnapshot(id, revision, generatedAt));
+  const wrappers = await mapLimit(ids, 2, id => eventSnapshot(id, revision, dataRevision, generatedAt));
   const previewRoot = path.join(ROOT, "data", "event-static-preview", revision);
   const eventsRoot = path.join(previewRoot, "events");
   fs.mkdirSync(eventsRoot, { recursive: true });
@@ -212,7 +240,7 @@ async function generateEventPreview(ids) {
     fs.writeFileSync(path.join(eventsRoot, `${id}.json`), body, "utf8");
     hashes[id] = { sha256: sha256(wrapper.data), fileSha256: sha256(body), bytes: Buffer.byteLength(body) };
   });
-  fs.writeFileSync(path.join(previewRoot, "manifest.json"), jsonText({ revision, generatedAt, previewOnly: true, counts: { events: ids.length }, hashes: { events: hashes } }), "utf8");
+  fs.writeFileSync(path.join(previewRoot, "manifest.json"), jsonText({ revision, outputRevision: revision, dataRevision, generatedAt, previewOnly: true, counts: { events: ids.length }, hashes: { events: hashes } }), "utf8");
   process.stdout.write(`${JSON.stringify({ revision, previewOnly: true, eventIds: ids, directory: path.relative(ROOT, previewRoot) }, null, 2)}\n`);
 }
 
@@ -222,23 +250,23 @@ function switchCurrent(revision) {
   if (!fs.existsSync(manifestPath)) throw new Error(`Snapshot does not exist: ${revision}`);
   const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
   if (manifest.revision !== revision || manifest.counts?.releases !== 114 || manifest.counts?.songs !== 117) throw new Error("Snapshot manifest is not publishable");
+  if (manifest.outputRevision && manifest.outputRevision !== revision) throw new Error("Snapshot output revision mismatch");
   if (manifest.counts?.kamiparaDashboard && (!manifest.kamiparaDashboard || !fs.existsSync(path.join(revisionRoot, "kamipara-dashboard.json")))) throw new Error("Kamipara snapshot is not publishable");
   validateBaseFiles(revisionRoot, manifest, revision);
   if (manifest.counts?.events) validateEventFiles(revisionRoot, manifest, revision);
   fs.mkdirSync(SNAPSHOT_ROOT, { recursive: true });
   const temp = path.join(SNAPSHOT_ROOT, ".current.tmp.json");
-  fs.writeFileSync(temp, jsonText({ revision, basePath: `./${revision}/`, manifest: `./${revision}/manifest.json` }), "utf8");
+  fs.writeFileSync(temp, jsonText({ revision, outputRevision: manifest.outputRevision || revision, dataRevision: manifest.dataRevision || revision, basePath: `./${revision}/`, manifest: `./${revision}/manifest.json` }), "utf8");
   fs.renameSync(temp, path.join(ROOT, "data", "current.json"));
   process.stdout.write(`${revision}\n`);
 }
 
 async function generate() {
   const revisionPayload = await api("revision");
-  const revision = String(revisionPayload.data?.dataRevision || "");
-  if (!/^sha256-[a-f0-9]{64}$/.test(revision)) throw new Error("Invalid revision");
+  const { dataRevision, outputRevision: revision } = apiRevisions(revisionPayload);
   const revisionRoot = path.join(SNAPSHOT_ROOT, revision);
   if (fs.existsSync(revisionRoot)) {
-    await generateAllEvents(revision, revisionRoot);
+    await generateAllEvents(revision, dataRevision, revisionRoot);
     return;
   }
   const [releaseListPayload, rankingsPayload, kamiparaPayload] = await Promise.all([
@@ -254,9 +282,9 @@ async function generate() {
   const songIds = songs.map(item => item.songId).sort();
   if (new Set(releaseIds).size !== 114 || new Set(songIds).size !== 117) throw new Error("Duplicate IDs in source lists");
   const kamipara = structuredClone(kamiparaPayload.data);
-  if (kamipara._cache?.revision !== revision || kamipara.revision !== revision) throw new Error("Kamipara revision mismatch");
-  kamipara._cache = { source: "static", hit: true, mode: "snapshot", revision };
-  validateKamiparaDashboard(kamipara, revision);
+  if (kamipara._cache?.revision !== dataRevision || kamipara.revision !== dataRevision) throw new Error("Kamipara data revision mismatch");
+  kamipara._cache = { source: "static", hit: true, mode: "snapshot", revision: dataRevision };
+  validateKamiparaDashboard(kamipara, dataRevision);
   assertNoInternalLeak(kamipara);
 
   const targets = [...releaseIds.map(id => ({ type: "release", id })), ...songIds.map(id => ({ type: "song", id }))];
@@ -264,21 +292,22 @@ async function generate() {
   const details = await mapLimit(targets, 2, async ({ type, id }) => {
     const payload = await api(type, { id });
     const sourceRevision = String(payload.data?._cache?.revision || "");
-    if (sourceRevision !== revision) throw new Error(`${type}/${id}: revision mismatch (${sourceRevision})`);
+    if (sourceRevision !== dataRevision) throw new Error(`${type}/${id}: data revision mismatch (${sourceRevision})`);
     const data = structuredClone(payload.data);
-    data._cache = { source: "static", hit: true, mode: "snapshot", revision };
+    data._cache = { source: "static", hit: true, mode: "snapshot", revision: dataRevision };
     validateDetail(type, id, data);
     assertNoInternalLeak(data);
     return { type, id, data };
   });
+  await assertCurrentApiRevisions(revision, dataRevision);
 
   const stagingRoot = path.join(SNAPSHOT_ROOT, `.staging-${process.pid}`);
   fs.rmSync(stagingRoot, { recursive: true, force: true });
   fs.mkdirSync(stagingRoot, { recursive: true });
-  const manifest = { revision, generatedAt, counts: { releases: 114, songs: 117, details: 231, kamiparaDashboard: 1 }, hashes: { releases: {}, songs: {} } };
+  const manifest = { revision, outputRevision: revision, dataRevision, generatedAt, counts: { releases: 114, songs: 117, details: 231, kamiparaDashboard: 1 }, hashes: { releases: {}, songs: {} } };
   for (const { type, id, data } of details) {
-    const wrapper = { snapshot: { revision, generatedAt, source: "public-api" }, data };
-    validateSnapshot(type, id, wrapper, revision);
+    const wrapper = { snapshot: snapshotMetadata(revision, dataRevision, generatedAt), data };
+    validateSnapshot(type, id, wrapper, revision, dataRevision);
     const body = jsonText(wrapper);
     const relative = `${type}s/${id}.json`;
     const target = path.join(stagingRoot, relative);
@@ -286,14 +315,14 @@ async function generate() {
     fs.writeFileSync(target, body, "utf8");
     manifest.hashes[`${type}s`][id] = { sha256: sha256(data), fileSha256: sha256(body), bytes: Buffer.byteLength(body) };
   }
-  const releaseListWrapper = { snapshot: { revision, generatedAt, source: "public-api" }, data: releases };
+  const releaseListWrapper = { snapshot: snapshotMetadata(revision, dataRevision, generatedAt), data: releases };
   const releaseListBody = jsonText(releaseListWrapper);
   fs.writeFileSync(path.join(stagingRoot, "release-list.json"), releaseListBody, "utf8");
   manifest.releaseList = { count: releases.length, sha256: sha256(releases), fileSha256: sha256(releaseListBody), bytes: Buffer.byteLength(releaseListBody) };
-  const kamiparaBody = jsonText({ snapshot: { revision, generatedAt, source: "public-api" }, data: kamipara });
+  const kamiparaBody = jsonText({ snapshot: snapshotMetadata(revision, dataRevision, generatedAt), data: kamipara });
   fs.writeFileSync(path.join(stagingRoot, "kamipara-dashboard.json"), kamiparaBody, "utf8");
   manifest.kamiparaDashboard = { sha256: sha256(kamipara), fileSha256: sha256(kamiparaBody), bytes: Buffer.byteLength(kamiparaBody) };
-  fs.writeFileSync(path.join(stagingRoot, "revision.json"), jsonText({ revision, generatedAt }), "utf8");
+  fs.writeFileSync(path.join(stagingRoot, "revision.json"), jsonText({ revision, outputRevision: revision, dataRevision, generatedAt }), "utf8");
   fs.writeFileSync(path.join(stagingRoot, "manifest.json"), jsonText(manifest), "utf8");
 
   if (fs.existsSync(revisionRoot)) {
@@ -303,7 +332,7 @@ async function generate() {
   } else {
     fs.renameSync(stagingRoot, revisionRoot);
   }
-  await generateAllEvents(revision, revisionRoot);
+  await generateAllEvents(revision, dataRevision, revisionRoot);
   process.stdout.write(`${JSON.stringify({ revision, releases: 114, songs: 117, details: 231, kamiparaDashboard: 1, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
 }
 

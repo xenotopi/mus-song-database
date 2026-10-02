@@ -1,6 +1,6 @@
 import { apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema";
 import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
-import { staticReleaseList } from "./static-detail.js?v=1.0.0";
+import { staticReleaseList } from "./static-detail.js?v=1.3.0";
 
 renderCommon("release");
 

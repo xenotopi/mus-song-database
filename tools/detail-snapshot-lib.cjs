@@ -30,17 +30,21 @@ function validateDetail(type, id, data) {
   return data;
 }
 
-function validateSnapshot(type, id, snapshot, expectedRevision) {
+function validateSnapshot(type, id, snapshot, expectedRevision, expectedDataRevision = expectedRevision) {
   if (!snapshot || typeof snapshot !== "object" || Array.isArray(snapshot)) throw new Error("Snapshot must be an object");
   if (!snapshot.snapshot || typeof snapshot.snapshot.revision !== "string") throw new Error("Snapshot revision missing");
   if (expectedRevision && snapshot.snapshot.revision !== expectedRevision) throw new Error("Snapshot revision mismatch");
+  if (expectedRevision && snapshot.snapshot.outputRevision && snapshot.snapshot.outputRevision !== expectedRevision) throw new Error("Snapshot output revision mismatch");
+  if (expectedDataRevision && (snapshot.snapshot.dataRevision || snapshot.snapshot.revision) !== expectedDataRevision) throw new Error("Snapshot data revision mismatch");
   validateDetail(type, id, snapshot.data);
   return snapshot;
 }
 
-function validateEventSnapshot(id, snapshot, expectedRevision) {
+function validateEventSnapshot(id, snapshot, expectedRevision, expectedDataRevision = expectedRevision) {
   if (!/^EV\d+$/.test(id)) throw new Error(`Unsupported Event snapshot target: ${id}`);
   if (!snapshot || snapshot.snapshot?.revision !== expectedRevision) throw new Error("Event snapshot revision mismatch");
+  if (snapshot.snapshot.outputRevision && snapshot.snapshot.outputRevision !== expectedRevision) throw new Error("Event output revision mismatch");
+  if ((snapshot.snapshot.dataRevision || snapshot.snapshot.revision) !== expectedDataRevision) throw new Error("Event snapshot data revision mismatch");
   const { event, discover } = snapshot.data || {};
   if (event?.eventId !== id || discover?.eventId !== id) throw new Error("Event snapshot ID mismatch");
   if (typeof event.eventName !== "string" || !Array.isArray(event.songs) ||
@@ -50,7 +54,7 @@ function validateEventSnapshot(id, snapshot, expectedRevision) {
   for (const key of ["firstPerformedSongs", "lastPerformedSongs", "uniqueSongs"]) {
     if (!Array.isArray(discover[key])) throw new Error(`Event discover ${key} missing`);
   }
-  if (event._cache?.revision !== expectedRevision || discover._cache?.revision !== expectedRevision) {
+  if (event._cache?.revision !== expectedDataRevision || discover._cache?.revision !== expectedDataRevision) {
     throw new Error("Event data revision mismatch");
   }
   return snapshot.data;
@@ -87,7 +91,7 @@ async function getDetailWithStaticFallback({ type, id, revision, staticFetch, ap
 function snapshotDataFingerprint(manifest) {
   const hashes = Object.fromEntries(Object.entries(manifest.hashes).map(([type, entries]) =>
     [type, Object.fromEntries(Object.entries(entries).map(([id, entry]) => [id, entry.sha256]))]));
-  return sha256({ revision: manifest.revision, counts: manifest.counts, hashes,
+  return sha256({ revision: manifest.revision, ...(manifest.dataRevision ? { dataRevision: manifest.dataRevision } : {}), counts: manifest.counts, hashes,
     releaseList: { count: manifest.releaseList.count, sha256: manifest.releaseList.sha256 },
     ...(manifest.kamiparaDashboard ? { kamiparaDashboard: { sha256: manifest.kamiparaDashboard.sha256 } } : {}) });
 }

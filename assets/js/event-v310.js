@@ -7,7 +7,7 @@ import {
 import {
   renderCommon
 } from "./common.js?v=4.9.1&cache=revision-nonblocking";
-import { staticEventDetail } from "./static-detail.js?v=1.2.0";
+import { staticEventDetail } from "./static-detail.js?v=1.3.0";
 
 
 renderCommon("event");
@@ -951,16 +951,17 @@ function requestDiscoverApi_(options = {}) {
 async function checkEventRevision_(snapshot, generation) {
   try {
     const revisionResponse = await apiGet("revision", {}, { timeoutMs: 15000, retryCount: 0 });
-    const revision = revisionResponse?.data?.dataRevision;
-    if (generation !== loadGeneration || !revision || revision === snapshot.revision) return;
+    const dataRevision = revisionResponse?.data?.dataRevision;
+    const outputRevision = revisionResponse?.data?.outputRevision || dataRevision;
+    if (generation !== loadGeneration || !dataRevision || !outputRevision || outputRevision === snapshot.revision) return;
     const [eventResponse, discoverResponse] = await Promise.all([
       requestEventApi_({ forceRefresh: true }),
       requestDiscoverApi_({ forceRefresh: true })
     ]);
     if (generation !== loadGeneration || eventResponse?.data?.eventId !== eventId ||
         discoverResponse?.data?.eventId !== eventId ||
-        eventResponse.data._cache?.revision !== revision ||
-        discoverResponse.data._cache?.revision !== revision) return;
+        eventResponse.data._cache?.revision !== dataRevision ||
+        discoverResponse.data._cache?.revision !== dataRevision) return;
     renderEventPair_(eventResponse.data, discoverResponse.data);
   } catch {
     // A valid Static Event remains visible when background JSONP is blocked.

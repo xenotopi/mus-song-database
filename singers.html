@@ -197,48 +197,51 @@
 
     .singers-mus-link[hidden]{ display:none; }
 
-    .singers-member-block + .singers-member-block{
-      margin-top:24px;
-    }
-
-    .singers-member-heading{
-      margin:0 0 10px;
-      color:var(--navy);
-      font-size:18px;
-      font-weight:800;
-    }
-
     .singers-member-grid{
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:12px;
+      gap:10px;
     }
 
     .singers-member-card{
-      display:block;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+      align-items:center;
+      gap:5px;
       min-width:0;
-      padding:16px;
+      padding:12px;
       border:1px solid #dfdced;
+      border-top:4px solid var(--member-color,#dfdced);
       border-radius:16px;
       background:#fff;
       color:var(--navy);
-      text-decoration:none;
       font-size:16px;
       font-weight:800;
+    }
+
+    .singers-member-link{
+      min-width:0;
+      color:inherit;
+      text-decoration:none;
       overflow-wrap:anywhere;
     }
 
-    .singers-member-card{
-      border-top:4px solid var(--member-color,#dfdced);
+    .singers-member-divider{
+      color:var(--muted);
+      font-weight:400;
     }
 
-    .singers-member-card:hover,
+    .singers-member-link:hover{
+      color:var(--indigo);
+      text-decoration:underline;
+    }
+
     .singers-mus-link:hover{
       border-color:var(--indigo);
       background:#fbfaff;
     }
 
-    .singers-member-card:focus-visible,
+    .singers-member-link:focus-visible,
     .singers-mus-link:focus-visible{
       outline:3px solid var(--indigo);
       outline-offset:3px;
@@ -566,12 +569,12 @@
       }
 
       .singers-member-grid{
-        grid-template-columns:repeat(2,minmax(0,1fr));
+        grid-template-columns:1fr;
         gap:8px;
       }
 
       .singers-member-card{
-        padding:12px 8px;
+        padding:10px 12px;
         font-size:14px;
       }
 
@@ -682,14 +685,7 @@
         </div>
       </div>
       <a class="singers-mus-link" id="musLink" hidden>μ's の歌唱記録を見る →</a>
-      <div class="singers-member-block">
-        <h3 class="singers-member-heading">キャラクター</h3>
-        <div class="singers-member-grid" id="characterMembers"></div>
-      </div>
-      <div class="singers-member-block">
-        <h3 class="singers-member-heading">キャスト</h3>
-        <div class="singers-member-grid" id="castMembers"></div>
-      </div>
+      <div class="singers-member-grid" id="majorMembers"></div>
     </section>
 
     <section class="singers-section" id="listSection" hidden>
@@ -763,7 +759,7 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/singers-v470.js?v=4.9.13&amp;cache=member-entry-final"></script>
+  <script type="module" src="assets/js/singers-v470.js?v=4.9.14&amp;cache=member-pairs"></script>
 
 <style>
 /* STEP14-B FINAL: singing-name color lines */

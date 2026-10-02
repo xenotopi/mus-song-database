@@ -27,8 +27,7 @@ const el = {
   scopeButtons: $("scopeButtons"),
   membersSection: $("membersSection"),
   musLink: $("musLink"),
-  characterMembers: $("characterMembers"),
-  castMembers: $("castMembers"),
+  majorMembers: $("majorMembers"),
   listSection: $("listSection"),
   nameSearch: $("nameSearch"),
   countFilters: $("countFilters"),
@@ -332,14 +331,23 @@ function renderMajorMembers() {
     console.warn("主要メンバーの単体歌唱名義を一意に特定できませんでした。");
     return;
   }
-  const memberCards = matches => matches.map(({ filter, item }) => `
-    <a class="singers-member-card" href="${buildSingerUrl(item)}"
-      style="--member-color:${escapeHtml(filter.color || "#dfdced")}">
-      ${escapeHtml(filter.label)}
-    </a>
-  `).join("");
-  el.characterMembers.innerHTML = memberCards(characters);
-  el.castMembers.innerHTML = memberCards(casts);
+  const castByKey = new Map(casts.map(match => [match.filter.key, match]));
+  if (castByKey.size !== 9 || characters.some(({ filter }) => !castByKey.has(filter.key))) {
+    el.membersSection.hidden = true;
+    console.warn("キャラクターとキャストの対応を一意に特定できませんでした。");
+    return;
+  }
+  el.majorMembers.innerHTML = characters.map(({ filter, item }) => {
+    const cast = castByKey.get(filter.key);
+    return `
+      <div class="singers-member-card"
+        style="--member-color:${escapeHtml(filter.color || "#dfdced")}">
+        <a class="singers-member-link" href="${buildSingerUrl(item)}">${escapeHtml(filter.label)}</a>
+        <span class="singers-member-divider" aria-hidden="true">｜</span>
+        <a class="singers-member-link" href="${buildSingerUrl(cast.item)}">${escapeHtml(cast.filter.label)}</a>
+      </div>
+    `;
+  }).join("");
 
   const keys = new Set(characters.map(({ filter }) => filter.key));
   const mus = data.official.filter(item =>

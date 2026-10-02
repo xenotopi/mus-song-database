@@ -21,11 +21,8 @@ const el = {
   performanceCount: $("performanceCount"),
   songCount: $("songCount"),
   eventCount: $("eventCount"),
-  officialCount: $("officialCount"),
-  soloCount: $("soloCount"),
   analysisSection: $("analysisSection"),
   yearChart: $("yearChart"),
-  typeChart: $("typeChart"),
   songsSection: $("songsSection"),
   songsCount: $("songsCount"),
   songsList: $("songsList"),
@@ -33,7 +30,6 @@ const el = {
   historyCount: $("historyCount"),
   historyList: $("historyList"),
   yearFilters: $("yearFilters"),
-  typeFilters: $("typeFilters"),
   visibleHistoryCount: $("visibleHistoryCount"),
   historyMoreButton: $("historyMoreButton")
 };
@@ -57,8 +53,9 @@ const MEMBER_COLORS = [
 const ALL_COLORS = MEMBER_COLORS.map(x => x.color);
 
 let allHistory = [];
+let eventHistory = [];
+const expandedEventIds = new Set();
 let selectedYear = "all";
-let selectedType = "all";
 let visibleLimit = 20;
 
 function colorsForSinger(text) {
@@ -79,10 +76,6 @@ function renderSingerColors(name) {
     (colors.length ? colors : ALL_COLORS)
       .map(color => `<span style="background:${color}"></span>`)
       .join("");
-}
-
-function getCategory(item) {
-  return String(item.category || item.type || "").trim();
 }
 
 function buildYearly(items) {
@@ -112,22 +105,6 @@ function renderAnalysis(items) {
         </div>`).join("")
     : `<div class="empty">年別データはありません。</div>`;
 
-  const official = items.filter(x => getCategory(x) === "公式").length;
-  const solo = items.filter(x => getCategory(x) === "ソロ").length;
-  const typeMax = Math.max(1, official, solo);
-
-  el.typeChart.innerHTML = [
-    ["公式", official, "official"],
-    ["ソロ", solo, "solo"]
-  ].map(([label,count,cls]) => `
-    <div class="singer-type-row">
-      <span class="singer-type-label">${label}</span>
-      <span class="singer-type-track">
-        <span class="singer-type-bar ${cls}" style="width:${count ? Math.max(3, Math.round(count/typeMax*100)) : 0}%"></span>
-      </span>
-      <span class="singer-type-value">${Number(count).toLocaleString("ja-JP")}件</span>
-    </div>`).join("");
-
   el.analysisSection.hidden = false;
 }
 
@@ -141,8 +118,6 @@ function renderSongs(items) {
           <div>
             <strong>${escapeHtml(item.songName || "曲名未設定")}</strong>
             <div class="singer-song-meta">
-              <span>公式 ${Number(item.officialCount || 0)}回</span>
-              <span>ソロ ${Number(item.soloCount || 0)}回</span>
               ${item.firstDate ? `<span>初回 ${escapeHtml(formatDate(item.firstDate))}</span>` : ""}
               ${item.lastDate ? `<span>最終 ${escapeHtml(formatDate(item.lastDate))}</span>` : ""}
             </div>
@@ -152,17 +127,34 @@ function renderSongs(items) {
     : `<div class="singer-song-row">歌唱曲データがありません。</div>`;
 }
 
+function groupHistoryByEvent(items) {
+  const groups = new Map();
+  items.forEach((item, index) => {
+    const eventId = String(item.eventId || "").trim();
+    const key = eventId || `missing-${index}`;
+    if (!groups.has(key)) {
+      groups.set(key, {
+        eventId,
+        eventName: item.eventName,
+        date: item.date,
+        eventType: item.eventType,
+        day: item.day,
+        performance: item.performance,
+        songs: []
+      });
+    }
+    groups.get(key).songs.push(item);
+  });
+  return [...groups.values()];
+}
+
 function filteredHistory() {
-  return allHistory.filter(item => {
+  return eventHistory.filter(item => {
     const yearOK =
       selectedYear === "all" ||
       String(item.date || "").slice(0,4) === selectedYear;
 
-    const typeOK =
-      selectedType === "all" ||
-      getCategory(item) === selectedType;
-
-    return yearOK && typeOK;
+    return yearOK;
   });
 }
 
@@ -171,44 +163,55 @@ function renderHistory() {
   const visible = filtered.slice(0, visibleLimit);
 
   el.historyCount.textContent =
-    `${allHistory.length.toLocaleString("ja-JP")}件`;
+    `${eventHistory.length.toLocaleString("ja-JP")}イベント`;
 
   el.visibleHistoryCount.textContent =
-    `${visible.length}/${filtered.length}件表示`;
+    `${visible.length}/${filtered.length}イベント表示`;
 
   el.historyList.innerHTML = visible.length
-    ? visible.map(item => `
-        <article class="singer-history-row">
-          <div class="singer-history-date">${escapeHtml(formatDate(item.date) || "日付不明")}</div>
-          <div>
-            <div class="singer-history-title">
-              ${item.songId
-                ? `<a href="song.html?id=${encodeURIComponent(item.songId)}"><strong>${escapeHtml(item.songName || "曲名未設定")}</strong></a>`
-                : `<strong>${escapeHtml(item.songName || "曲名未設定")}</strong>`}
-              ${getCategory(item) ? `<span class="singer-category">${escapeHtml(getCategory(item))}</span>` : ""}
+    ? visible.map((item, index) => {
+        const key = item.eventId || `missing-${index}`;
+        const expanded = expandedEventIds.has(key);
+        const bodyId = `singer-event-songs-${index}`;
+        return `
+        <article class="singer-event-card">
+          <div class="singer-event-head">
+            <div>
+              <div class="singer-event-date">${escapeHtml(formatDate(item.date) || "日付不明")}</div>
+              <div class="singer-event-title">${item.eventId
+                ? `<a href="event.html?id=${encodeURIComponent(item.eventId)}">${escapeHtml(item.eventName || "イベント名未設定")}</a>`
+                : escapeHtml(item.eventName || "イベント名未設定")}</div>
+              <div class="singer-event-meta">
+                ${item.eventType ? `<span>${escapeHtml(item.eventType)}</span>` : ""}
+                ${item.day ? `<span>${escapeHtml(item.day)}</span>` : ""}
+                ${item.performance ? `<span>${escapeHtml(item.performance)}</span>` : ""}
+                <span>歌唱記録 ${item.songs.length}件</span>
+              </div>
             </div>
-            <div class="singer-history-meta">
-              ${item.eventId
-                ? `<a class="singer-history-event-link" href="event.html?id=${encodeURIComponent(item.eventId)}">${escapeHtml(item.eventName || "イベント名未設定")}</a>`
-                : `<span>${escapeHtml(item.eventName || "イベント名未設定")}</span>`}
-              ${item.eventType ? `<span>${escapeHtml(item.eventType)}</span>` : ""}
-              ${item.day ? `<span>${escapeHtml(item.day)}</span>` : ""}
-              ${item.performance ? `<span>${escapeHtml(item.performance)}</span>` : ""}
-            </div>
+            <button type="button" class="singer-event-toggle" data-event-id="${escapeHtml(key)}" aria-expanded="${expanded}" aria-controls="${bodyId}">
+              <span class="singer-event-toggle-label">${expanded ? "閉じる" : "曲を見る"}</span>
+              <span class="singer-event-chevron" aria-hidden="true">⌄</span>
+            </button>
           </div>
-        </article>`).join("")
-    : `<div class="singer-history-row">条件に該当する歌唱履歴がありません。</div>`;
+          <div class="singer-event-songs" id="${bodyId}" ${expanded ? "" : "hidden"}>
+            ${item.songs.map(song => `<div class="singer-event-song-row">${song.songId
+              ? `<a href="song.html?id=${encodeURIComponent(song.songId)}">${escapeHtml(song.songName || "曲名未設定")}</a>`
+              : escapeHtml(song.songName || "曲名未設定")}</div>`).join("")}
+          </div>
+        </article>`;
+      }).join("")
+    : `<div class="singer-history-empty">条件に該当するイベントはありません。</div>`;
 
   el.historyMoreButton.hidden = visible.length >= filtered.length;
   if (!el.historyMoreButton.hidden) {
     el.historyMoreButton.textContent =
-      `もっと見る（残り${filtered.length - visible.length}件）`;
+      `もっと見る（残り${filtered.length - visible.length}イベント）`;
   }
 }
 
 function setupFilters() {
   const years = [...new Set(
-    allHistory
+    eventHistory
       .map(item => String(item.date || "").slice(0,4))
       .filter(Boolean)
   )].sort();
@@ -230,20 +233,23 @@ function setupFilters() {
     });
   });
 
-  el.typeFilters.querySelectorAll("[data-type]").forEach(button => {
-    button.addEventListener("click", () => {
-      selectedType = button.dataset.type || "all";
-      visibleLimit = 20;
-      el.typeFilters.querySelectorAll("[data-type]").forEach(x =>
-        x.classList.toggle("active", x === button)
-      );
-      renderHistory();
-    });
-  });
-
   el.historyMoreButton.addEventListener("click", () => {
     visibleLimit += 20;
     renderHistory();
+  });
+
+  el.historyList.addEventListener("click", event => {
+    const button = event.target.closest(".singer-event-toggle");
+    if (!button) return;
+    const key = button.dataset.eventId;
+    const body = document.getElementById(button.getAttribute("aria-controls"));
+    if (!body) return;
+    const expanded = button.getAttribute("aria-expanded") !== "true";
+    button.setAttribute("aria-expanded", String(expanded));
+    button.querySelector(".singer-event-toggle-label").textContent = expanded ? "閉じる" : "曲を見る";
+    body.hidden = !expanded;
+    if (expanded) expandedEventIds.add(key);
+    else expandedEventIds.delete(key);
   });
 }
 
@@ -277,17 +283,14 @@ function render(data) {
     Number(summary.uniqueSongCount || 0).toLocaleString("ja-JP");
   el.eventCount.textContent =
     Number(summary.eventCount || 0).toLocaleString("ja-JP");
-  el.officialCount.textContent =
-    Number(summary.officialEventCount || 0).toLocaleString("ja-JP");
-  el.soloCount.textContent =
-    Number(summary.soloEventCount || 0).toLocaleString("ja-JP");
-
   const songs = Array.isArray(data.songs) ? data.songs : [];
   allHistory = Array.isArray(data.history)
     ? data.history.slice().sort((a, b) =>
         String(a.date || "").slice(0, 10).localeCompare(String(b.date || "").slice(0, 10))
       )
     : [];
+  eventHistory = groupHistoryByEvent(allHistory);
+  expandedEventIds.clear();
 
   renderAnalysis(allHistory);
   renderSongs(songs);

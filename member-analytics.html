@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <title>メンバー別歌唱記録｜μ's Song Database</title>
+  <meta name="description" content="μ'sの117曲について、キャラクター9人・キャスト9人それぞれの歌唱記録を比較します。">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://mus-song-db.com/member-analytics.html">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.3.2">
+  <link rel="stylesheet" href="assets/css/member-analytics.css?v=2">
+</head>
+<body>
+  <div id="siteHeader"></div>
+  <main class="member-analytics-page">
+    <nav class="member-analytics-breadcrumb" aria-label="パンくず"><a href="index.html">ホーム</a> › メンバー別歌唱記録</nav>
+    <section class="member-analytics-hero">
+      <p class="member-analytics-kicker">MEMBER ANALYTICS</p>
+      <h1>メンバー別歌唱記録</h1>
+      <p>μ's楽曲117曲の歌唱記録を、キャラクター・キャストごとに比較します。</p>
+    </section>
+    <div class="member-analytics-switch" role="group" aria-label="比較する区分">
+      <button type="button" data-mode="character" aria-pressed="true">キャラクター</button>
+      <button type="button" data-mode="cast" aria-pressed="false">キャスト</button>
+    </div>
+    <p id="memberAnalyticsStatus" class="member-analytics-status" role="status">集計データを読み込んでいます…</p>
+    <section id="memberAnalyticsContent" hidden>
+      <section class="member-analytics-section" aria-labelledby="summaryHeading">
+        <h2 id="summaryHeading">9人の歌唱実績</h2>
+        <div class="member-analytics-summary-wrap">
+          <table id="memberAnalyticsSummary" class="member-analytics-summary-table"></table>
+        </div>
+        <div id="memberAnalyticsMobileSummary" class="member-analytics-mobile-summary"></div>
+      </section>
+      <section class="member-analytics-section" aria-labelledby="tableHeading">
+        <div class="member-analytics-section-head"><h2 id="tableHeading">曲別比較</h2><p><strong id="memberAnalyticsVisibleCount">117 / 117曲</strong><span aria-hidden="true"> ｜ </span>曲ID順</p></div>
+        <div class="member-analytics-filters">
+          <span class="member-analytics-filter-label">曲グループで絞る</span>
+          <button id="memberAnalyticsFilterToggle" class="member-analytics-filter-toggle" type="button" aria-expanded="false" aria-controls="memberAnalyticsFilterPanel"><span id="memberAnalyticsFilterText">すべての曲グループ</span><span aria-hidden="true">▾</span></button>
+          <div id="memberAnalyticsFilterPanel" class="member-analytics-filter-panel" hidden>
+            <div id="memberAnalyticsFilters" class="member-analytics-filter-list" role="group" aria-label="曲グループ"></div>
+            <div class="member-analytics-filter-actions"><button type="button" data-action="all">すべて選択</button><button type="button" data-action="clear">クリア</button></div>
+          </div>
+        </div>
+        <div class="member-analytics-table-wrap">
+          <table id="memberAnalyticsTable" class="member-analytics-table"></table>
+        </div>
+        <div id="memberAnalyticsMobileSongs" class="member-analytics-mobile-songs"></div>
+      </section>
+    </section>
+  </main>
+  <div id="siteFooter"></div>
+  <script type="module" src="assets/js/member-analytics.js?v=2"></script>
+</body>
+</html>

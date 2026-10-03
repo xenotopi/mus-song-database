@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "scope": "S001–S117; explicit Song ID assignment for browsing, independent of Song media/category",
+  "groups": [
+    { "id": "general", "order": 1, "label": "TVアニメ・CD・誌面企画・ラジオ系", "subgroups": [] },
+    { "id": "solo", "order": 2, "label": "ソロ曲", "subgroups": [] },
+    { "id": "duo-trio", "order": 3, "label": "デュオ・トリオ", "subgroups": [
+      { "id": "duo", "order": 1, "label": "デュオ" },
+      { "id": "trio", "order": 2, "label": "トリオ" }
+    ] },
+    { "id": "unit", "order": 4, "label": "ユニット曲", "subgroups": [
+      { "id": "printemps", "order": 1, "label": "Printemps" },
+      { "id": "lily-white", "order": 2, "label": "lily white" },
+      { "id": "bibi", "order": 3, "label": "BiBi" }
+    ] },
+    { "id": "blu-ray", "order": 5, "label": "Blu-ray系", "subgroups": [
+      { "id": "blu-ray", "order": 1, "label": "Blu-ray" },
+      { "id": "movie-blu-ray", "order": 2, "label": "映画Blu-ray" }
+    ] },
+    { "id": "game", "order": 6, "label": "ゲーム系", "subgroups": [
+      { "id": "sif", "order": 1, "label": "スクフェス" },
+      { "id": "school-idol-paradise", "order": 2, "label": "スクパラ" }
+    ] }
+  ],
+  "assignments": [
+    { "group": "general", "subgroup": null, "songIds": ["S001", "S002", "S003", "S004", "S011", "S012", "S017", "S018", "S032", "S033", "S034", "S035", "S036", "S037", "S038", "S039", "S040", "S041", "S042", "S043", "S045", "S046", "S060", "S061", "S064", "S065", "S066", "S067", "S068", "S069", "S070", "S071", "S073", "S074", "S093", "S094", "S098", "S099", "S100", "S101", "S102", "S103", "S114", "S115", "S116", "S117"] },
+    { "group": "solo", "subgroup": null, "songIds": ["S013", "S014", "S015", "S016", "S020", "S021", "S023", "S024", "S026", "S027", "S029", "S030", "S031"] },
+    { "group": "duo-trio", "subgroup": "duo", "songIds": ["S019", "S022", "S025"] },
+    { "group": "duo-trio", "subgroup": "trio", "songIds": ["S028"] },
+    { "group": "unit", "subgroup": "printemps", "songIds": ["S005", "S006", "S055", "S056", "S082", "S083", "S095", "S107", "S108"] },
+    { "group": "unit", "subgroup": "lily-white", "songIds": ["S009", "S010", "S050", "S051", "S085", "S086", "S097", "S110", "S111"] },
+    { "group": "unit", "subgroup": "bibi", "songIds": ["S007", "S008", "S052", "S053", "S087", "S088", "S096", "S112", "S113"] },
+    { "group": "blu-ray", "subgroup": "blu-ray", "songIds": ["S044", "S047", "S048", "S049", "S054", "S057", "S058", "S059", "S072", "S075", "S076", "S077", "S078", "S081", "S084", "S089", "S090", "S091", "S092", "S104"] },
+    { "group": "blu-ray", "subgroup": "movie-blu-ray", "songIds": ["S109"] },
+    { "group": "game", "subgroup": "sif", "songIds": ["S062", "S063", "S105", "S106"] },
+    { "group": "game", "subgroup": "school-idol-paradise", "songIds": ["S079", "S080"] }
+  ]
+}

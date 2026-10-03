@@ -96,3 +96,25 @@ export async function staticKamiparaDashboard(options = {}) {
   }
   return { data, source: "static", stale, revision: current.revision, dataRevision: dataRevisionOf(current) };
 }
+
+export async function staticMemberAnalytics(options = {}) {
+  const { current, stale } = await currentPointer(options);
+  const revision = current.outputRevision || current.revision;
+  const wrapper = await fetchJson(`data/snapshots/${revision}/member-analytics.json`);
+  const data = wrapper?.data;
+  if (wrapper?.snapshot?.revision !== revision || wrapper.snapshot.outputRevision !== revision ||
+      wrapper.snapshot.dataRevision !== dataRevisionOf(current) ||
+      !Array.isArray(data?.characterMembers) || data.characterMembers.length !== 9 ||
+      !Array.isArray(data?.castMembers) || data.castMembers.length !== 9 ||
+      !Array.isArray(data?.characterSummary) || data.characterSummary.length !== 9 ||
+      !Array.isArray(data?.castSummary) || data.castSummary.length !== 9 ||
+      !Array.isArray(data?.songs) || data.songs.length !== 117 ||
+      new Set(data.songs.map(song => song.songId)).size !== 117 ||
+      data.songs.some(song => !/^S\d{3}$/.test(song.songId) ||
+        ![song.characterCounts, song.castCounts].every(counts => Array.isArray(counts) && counts.length === 9 && counts.every(value => Number.isInteger(value) && value >= 0)) ||
+        song.characterCounts.reduce((sum, count) => sum + count, 0) !== song.characterTotal ||
+        song.castCounts.reduce((sum, count) => sum + count, 0) !== song.castTotal)) {
+    throw new Error("Static Member Analytics snapshot invalid");
+  }
+  return { data, source: "static", stale, revision, dataRevision: dataRevisionOf(current) };
+}

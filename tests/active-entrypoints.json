@@ -62,6 +62,15 @@
         "assets/css/style.css"
       ]
     },
+    "member-analytics.html": {
+      "js": [
+        "assets/js/member-analytics.js"
+      ],
+      "css": [
+        "assets/css/style.css",
+        "assets/css/member-analytics.css"
+      ]
+    },
     "rankings.html": {
       "js": [
         "assets/js/rankings-v421.js"
@@ -173,6 +182,7 @@
     "assets/js/home-date-v493.js",
     "assets/js/home-v453.js",
     "assets/js/kamipara-v100.js",
+    "assets/js/member-analytics.js",
     "assets/js/rankings-v421.js",
     "assets/js/release-kamipara.js",
     "assets/js/release-v500.js",
@@ -192,6 +202,7 @@
   ],
   "activeCss": [
     "assets/css/analytics-consent.css",
+    "assets/css/member-analytics.css",
     "assets/css/style.css"
   ]
 }

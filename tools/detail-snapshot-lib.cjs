@@ -93,7 +93,8 @@ function snapshotDataFingerprint(manifest) {
     [type, Object.fromEntries(Object.entries(entries).map(([id, entry]) => [id, entry.sha256]))]));
   return sha256({ revision: manifest.revision, ...(manifest.dataRevision ? { dataRevision: manifest.dataRevision } : {}), counts: manifest.counts, hashes,
     releaseList: { count: manifest.releaseList.count, sha256: manifest.releaseList.sha256 },
-    ...(manifest.kamiparaDashboard ? { kamiparaDashboard: { sha256: manifest.kamiparaDashboard.sha256 } } : {}) });
+    ...(manifest.kamiparaDashboard ? { kamiparaDashboard: { sha256: manifest.kamiparaDashboard.sha256 } } : {}),
+    ...(manifest.memberAnalytics ? { memberAnalytics: { sha256: manifest.memberAnalytics.sha256 } } : {}) });
 }
 
 module.exports = { canonicalJson, sha256, validateDetail, validateSnapshot, validateEventSnapshot, validateKamiparaDashboard, getDetailWithStaticFallback, snapshotDataFingerprint };

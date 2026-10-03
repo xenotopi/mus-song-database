@@ -8,7 +8,8 @@
     "songs": 117,
     "details": 231,
     "kamiparaDashboard": 1,
-    "events": 353
+    "events": 353,
+    "memberAnalytics": 1
   },
   "hashes": {
     "releases": {
@@ -2949,5 +2950,10 @@
     "fileSha256": "d8b40b14c38b7591a766f0f796278d1a707317f1afd795371f1d77308edee025",
     "bytes": 12218
   },
-  "eventsGeneratedAt": "2026-10-02T17:06:11.510Z"
+  "eventsGeneratedAt": "2026-10-02T17:06:11.510Z",
+  "memberAnalytics": {
+    "sha256": "ee9be9edb539bdae096f9f78c52b10c78afe23b1d0d90c3e9830a4456aaf493e",
+    "fileSha256": "82144b305a34e6a7e32314ee8881382a3ff2a9e0e5b560971ee04bbf8cdf8d66",
+    "bytes": 72280
+  }
 }

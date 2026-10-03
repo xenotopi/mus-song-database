@@ -3,6 +3,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { sha256, validateDetail, validateSnapshot, validateEventSnapshot, validateKamiparaDashboard, snapshotDataFingerprint } = require("./detail-snapshot-lib.cjs");
+const { buildMemberAnalytics, validateMemberAnalytics } = require("./member-analytics-lib.cjs");
 
 const API = "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec";
 const ROOT = path.resolve(__dirname, "..");
@@ -140,6 +141,50 @@ function validateBaseFiles(root, manifest, revision, dataRevision = manifest.dat
   if (kamipara.snapshot?.revision !== revision || (kamipara.snapshot.outputRevision && kamipara.snapshot.outputRevision !== revision) ||
       (kamipara.snapshot.dataRevision || revision) !== dataRevision || manifest.kamiparaDashboard?.sha256 !== sha256(kamipara.data) ||
       manifest.kamiparaDashboard?.fileSha256 !== sha256(kamiparaBody)) throw new Error("Kamipara hash mismatch");
+  if (manifest.counts?.memberAnalytics) {
+    if (manifest.counts.memberAnalytics !== 1) throw new Error("Member Analytics count mismatch");
+    const body = fs.readFileSync(path.join(root, "member-analytics.json"), "utf8");
+    const wrapper = JSON.parse(body);
+    if (wrapper.snapshot?.revision !== revision || wrapper.snapshot?.outputRevision !== revision ||
+        wrapper.snapshot?.dataRevision !== dataRevision) throw new Error("Member Analytics revision mismatch");
+    validateMemberAnalytics(wrapper.data);
+    if (manifest.memberAnalytics?.sha256 !== sha256(wrapper.data) ||
+        manifest.memberAnalytics?.fileSha256 !== sha256(body) ||
+        manifest.memberAnalytics?.bytes !== Buffer.byteLength(body)) throw new Error("Member Analytics hash mismatch");
+  }
+}
+
+async function generateMemberAnalytics(revision, dataRevision, revisionRoot) {
+  const manifestPath = path.join(revisionRoot, "manifest.json");
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  validateBaseFiles(revisionRoot, manifest, revision, dataRevision);
+  const outputPath = path.join(revisionRoot, "member-analytics.json");
+  if (manifest.counts?.memberAnalytics || fs.existsSync(outputPath)) {
+    if (manifest.counts?.memberAnalytics !== 1 || !fs.existsSync(outputPath)) throw new Error("Partial Member Analytics snapshot exists; refusing overwrite");
+    process.stdout.write(`${JSON.stringify({ revision, memberAnalytics: 1, reused: true }, null, 2)}\n`);
+    return;
+  }
+  const payload = await api("singerList", {}, 1);
+  assertRevision(payload, dataRevision, "singerList");
+  const songDetails = Object.keys(manifest.hashes.songs).sort().map(id =>
+    JSON.parse(fs.readFileSync(path.join(revisionRoot, "songs", `${id}.json`), "utf8")).data
+  );
+  const data = buildMemberAnalytics(songDetails, payload.data);
+  assertNoInternalLeak(data);
+  await assertCurrentApiRevisions(revision, dataRevision);
+  const body = jsonText({ snapshot: snapshotMetadata(revision, dataRevision, new Date().toISOString()), data });
+  const nextManifest = structuredClone(manifest);
+  nextManifest.counts.memberAnalytics = 1;
+  nextManifest.memberAnalytics = { sha256: sha256(data), fileSha256: sha256(body), bytes: Buffer.byteLength(body) };
+  const stagingFile = path.join(revisionRoot, ".member-analytics.tmp.json");
+  const stagingManifest = path.join(revisionRoot, ".member-analytics-manifest.tmp.json");
+  if (fs.existsSync(stagingFile) || fs.existsSync(stagingManifest)) throw new Error("Member Analytics staging files already exist");
+  fs.writeFileSync(stagingFile, body, "utf8");
+  fs.writeFileSync(stagingManifest, jsonText(nextManifest), "utf8");
+  fs.renameSync(stagingFile, outputPath);
+  fs.renameSync(stagingManifest, manifestPath);
+  validateBaseFiles(revisionRoot, nextManifest, revision, dataRevision);
+  process.stdout.write(`${JSON.stringify({ revision, memberAnalytics: 1, songs: data.songs.length, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
 }
 
 async function generateAllEvents(revision, dataRevision, revisionRoot) {
@@ -267,6 +312,7 @@ async function generate() {
   const revisionRoot = path.join(SNAPSHOT_ROOT, revision);
   if (fs.existsSync(revisionRoot)) {
     await generateAllEvents(revision, dataRevision, revisionRoot);
+    await generateMemberAnalytics(revision, dataRevision, revisionRoot);
     return;
   }
   const [releaseListPayload, rankingsPayload, kamiparaPayload] = await Promise.all([
@@ -333,15 +379,24 @@ async function generate() {
     fs.renameSync(stagingRoot, revisionRoot);
   }
   await generateAllEvents(revision, dataRevision, revisionRoot);
+  await generateMemberAnalytics(revision, dataRevision, revisionRoot);
   process.stdout.write(`${JSON.stringify({ revision, releases: 114, songs: 117, details: 231, kamiparaDashboard: 1, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
 }
 
 const switchIndex = process.argv.indexOf("--switch-current");
 const eventIdsIndex = process.argv.indexOf("--event-ids");
+const memberIndex = process.argv.indexOf("--member-analytics");
 if (switchIndex >= 0 && eventIdsIndex >= 0) throw new Error("Preview generation cannot switch current.json");
 const operation = switchIndex >= 0
   ? Promise.resolve().then(() => switchCurrent(process.argv[switchIndex + 1]))
   : eventIdsIndex >= 0
     ? generateEventPreview(process.argv.slice(eventIdsIndex + 1))
+    : memberIndex >= 0
+      ? Promise.resolve().then(async () => {
+          const { dataRevision, outputRevision: revision } = apiRevisions(await api("revision", {}, 1));
+          const revisionRoot = path.join(SNAPSHOT_ROOT, revision);
+          if (!fs.existsSync(revisionRoot)) throw new Error(`Snapshot does not exist: ${revision}`);
+          await generateMemberAnalytics(revision, dataRevision, revisionRoot);
+        })
     : generate();
 operation.catch(error => { console.error(error); process.exitCode = 1; });

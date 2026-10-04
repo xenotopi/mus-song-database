@@ -1,0 +1,26 @@
+/* Shared decorative Lucide sizing; host layout, colour and interaction stay intact. */
+.site-icon {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  vertical-align: middle;
+  pointer-events: none;
+}
+/* Text-adjacent controls keep their existing line boxes and hit areas. */
+.site-icon-inline .site-icon { width: 1em; height: 1em; }
+.site-breadcrumb-icon .site-icon { width: .8em; height: .8em; }
+.site-disclosure-icon { display: inline-block; margin-left: .35em; transition: transform .18s ease; }
+details[open] > summary .site-disclosure-icon,
+.member-analytics-filter-toggle[aria-expanded="true"] .site-disclosure-icon { transform: rotate(180deg); }
+[data-site-icon="search"] .site-icon { width: 20px; height: 20px; }
+body summary:has(.site-disclosure-icon) { list-style: none; }
+body summary:has(.site-disclosure-icon)::-webkit-details-marker { display: none; }
+body .secret-rate-details summary::after,
+body .secret-rate-details[open] summary::after,
+body .event-stat-help-v46 summary::after,
+body .event-stat-help-v46[open] summary::after,
+body .kp-event .kp-event-toggle::after,
+body .kp-event[open] .kp-event-toggle::after,
+body .release-kp-event .release-kp-event-count::after,
+body .release-kp-event[open] .release-kp-event-count::after { content: none; }
+@media (prefers-reduced-motion: reduce) { .site-disclosure-icon { transition: none; } }

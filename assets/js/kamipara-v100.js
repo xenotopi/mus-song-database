@@ -87,7 +87,7 @@ function render(data) {
   $("kpHistory").innerHTML = eventRows.map(event => {
     const rows = performances.filter(row => row.eventId === event.eventId).sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity) || String(a.performanceId).localeCompare(String(b.performanceId)));
     return `<details class="kp-card kp-event" data-event-id="${escapeHtml(event.eventId)}" data-year="${escapeHtml(String(event.date || "").slice(0, 4))}" data-venue-id="${escapeHtml(event.venueId || "")}"><summary><span class="kp-event-heading"><time class="kp-event-date" datetime="${escapeHtml(event.date || "")}">${escapeHtml(formatDate(event.date))}</time><h3>${escapeHtml(event.eventName)}</h3>
-      ${event.venueId ? `<span class="kp-event-venue">会場名を確認中…</span>` : ""}</span><span class="kp-event-toggle">${rows.length}曲</span></summary>
+      ${event.venueId ? `<span class="kp-event-venue">会場名を確認中…</span>` : ""}</span><span class="kp-event-toggle">${rows.length}曲<span class="site-icon-inline site-disclosure-icon" data-site-icon="chevron-down" aria-hidden="true"></span></span></summary>
       <div class="kp-event-performances">${rows.map(row => `<div class="kp-performance"><p class="kp-performance-title">${row.order == null ? "" : `${escapeHtml(row.order)}. `}${escapeHtml(songMap.get(row.songId).displayName || songMap.get(row.songId).songName)}</p>
         <p class="kp-performance-meta">実歌唱：${escapeHtml(row.actualSinger || "記載なし")}${row.performanceForm ? ` ／ ${escapeHtml(row.performanceForm)}` : ""}</p></div>`).join("")}</div>
     </details>`;

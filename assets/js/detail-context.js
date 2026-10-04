@@ -56,7 +56,7 @@ export function setupDetailContext(options = {}) {
         type="button"
         aria-label="ページ上部へ戻る"
       >
-        ↑ 上へ
+        <span class="site-icon-inline " data-site-icon="arrow-up" aria-hidden="true"></span> 上へ
       </button>
     </div>
   `;

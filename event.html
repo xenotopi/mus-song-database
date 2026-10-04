@@ -1120,7 +1120,7 @@
   <div id="siteHeader"></div>
 
   <main>
-    <div class="crumb"><a href="index.html">ホーム</a> › イベント詳細</div>
+    <div class="crumb"><a href="index.html">ホーム</a> <span class="site-icon-inline site-breadcrumb-icon" data-site-icon="chevron-right" aria-hidden="true"></span> イベント詳細</div>
 
     <section class="hero event-hero-v46">
       <p class="event-hero-kicker">EVENT DETAIL</p>
@@ -1152,7 +1152,7 @@
 
     <section class="quicknav" id="quickNav" hidden>
       <a class="quickbtn disabled" id="previousButton">
-        <span class="quicklabel">← 前のイベント</span>
+        <span class="quicklabel"><span class="site-icon-inline " data-site-icon="arrow-left" aria-hidden="true"></span> 前のイベント</span>
         <span class="quicktitle" id="previousTitle">前のイベントはありません</span>
         <span class="quickdate" id="previousDate"></span>
       </a>
@@ -1163,7 +1163,7 @@
       </div>
 
       <a class="quickbtn next disabled" id="nextButton">
-        <span class="quicklabel">次のイベント →</span>
+        <span class="quicklabel">次のイベント <span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></span>
         <span class="quicktitle" id="nextTitle">次のイベントはありません</span>
         <span class="quickdate" id="nextDate"></span>
       </a>
@@ -1192,7 +1192,7 @@
         <div class="stats" id="eventStats"></div>
 
         <details class="event-stat-help event-stat-help-v46">
-          <summary>ⓘ 集計方法について</summary>
+          <summary>ⓘ 集計方法について<span class="site-icon-inline site-disclosure-icon" data-site-icon="chevron-down" aria-hidden="true"></span></summary>
           <div class="event-stat-help-body">
             <p><strong>登録曲数</strong><br>同じ曲の重複を含む登録行数です。</p>
             <p><strong>楽曲数</strong><br>同じ曲を1曲として集計します。</p>
@@ -1388,7 +1388,7 @@
           <div class="v46-detail-context-inner">
             <span class="v46-detail-context-type">${TYPE_LABEL}</span>
             <strong class="v46-detail-context-title"></strong>
-            <button class="v46-detail-context-top" type="button" aria-label="ページ上部へ戻る">↑ 上へ</button>
+            <button class="v46-detail-context-top" type="button" aria-label="ページ上部へ戻る"><span class="site-icon-inline " data-site-icon="arrow-up" aria-hidden="true"></span> 上へ</button>
           </div>
         `;
         document.body.appendChild(bar);

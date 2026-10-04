@@ -1324,8 +1324,7 @@
       white-space: nowrap;
     }
     .home-top-songs-card .home-ranking-count { white-space: nowrap; }
-    .home-top-songs-card .home-ranking-count::after {
-      content: "→";
+    .home-top-songs-card .home-ranking-count > .site-row-chevron {
       display: inline-block;
       margin-left: 6px;
       transition: transform .18s ease;
@@ -1377,8 +1376,7 @@
       font-weight: 700;
       line-height: 1.4;
     }
-    .home-recent-section .recent-event::after{
-      content:"→";
+    .home-recent-section .recent-event > .site-row-chevron{
       display:inline-block;
       margin-left:6px;
       color:var(--indigo);
@@ -2142,7 +2140,7 @@
       .home-kamipara-card:hover .home-kamipara-cta{transform:translateX(8px);text-decoration:underline;text-underline-offset:4px}
       .home-tool-card:hover .home-tool-cta,.home-ranking-row:hover .home-ranking-name{text-decoration:underline;text-underline-offset:3px}
       .home-top-songs-card .home-ranking-row:hover .home-ranking-name{color:var(--indigo)}
-      .home-top-songs-card .home-ranking-row:hover .home-ranking-count::after{transform:translateX(6px)}
+      .home-top-songs-card .home-ranking-row:hover .home-ranking-count > .site-row-chevron{transform:translateX(6px)}
       .today-item:hover,.home-ranking-row:hover{background:#e9e6ff}
       .home-recent-section .recent-event:hover{color:var(--indigo)}
       .home-recent-section .recent-event:hover::after{transform:translateX(6px)}
@@ -2165,13 +2163,15 @@
       .home-explore-card:hover,.home-tool-card:hover,.home-kamipara-card:hover{transform:none}
     }
     @media (prefers-reduced-motion:reduce){
-      .home-top-songs-card .home-ranking-count::after{transition:none}
-      .home-explore-card,.home-tool-card,.home-kamipara-card,.home-kamipara-card::before,.home-kamipara-stat,.home-kamipara-cta,.home-explore-arrow,.home-explore-icon,.home-explore-card::before,.home-recent-section .recent-event::after,.home-tool-icon,.home-tool-card::before,.home-tool-cta,.home-more-button{transition:none}
+      .home-top-songs-card .home-ranking-count > .site-row-chevron{transition:none}
+      .home-explore-card,.home-tool-card,.home-kamipara-card,.home-kamipara-card::before,.home-kamipara-stat,.home-kamipara-cta,.home-explore-arrow,.home-explore-icon,.home-explore-card::before,.home-recent-section .recent-event > .site-row-chevron,.home-tool-icon,.home-tool-card::before,.home-tool-cta,.home-more-button{transition:none}
       .home-explore-card:hover,.home-tool-card:hover,.home-kamipara-card:hover,.home-explore-card:active,.home-tool-card:active,.home-kamipara-card:active,.home-tool-card:hover .home-tool-cta{transform:none}
     }
   </style>
 
   <script src="assets/js/seo-v351.js?v=4.6.2&amp;cache=domain-c" defer></script>
+  <link rel="stylesheet" href="assets/css/icons.css?v=2">
+  <script src="assets/js/icons.js?v=2" defer></script>
 </head>
 
 <body>
@@ -2196,7 +2196,7 @@
 
         <form class="home-search-form home-search-form-v45" id="homeSearchForm">
           <label class="home-search home-search-v45">
-            <span aria-hidden="true">⌕</span>
+            <span aria-hidden="true"><span class="site-icon-inline " data-site-icon="search" aria-hidden="true"></span></span>
             <input
               autocomplete="off"
               id="homeSearchInput"
@@ -2230,12 +2230,12 @@
       </div>
 
       <div class="home-explore-grid">
-        <a class="home-explore-card" href="songs.html"><span class="home-explore-icon" aria-hidden="true">♫</span><strong>曲</strong><span class="home-explore-arrow" aria-hidden="true">→</span></a>
-        <a class="home-explore-card" href="events.html"><span class="home-explore-icon" aria-hidden="true">◷</span><strong>イベント</strong><span class="home-explore-arrow" aria-hidden="true">→</span></a>
-        <a class="home-explore-card" href="venues.html"><span class="home-explore-icon" aria-hidden="true">⌖</span><strong>会場</strong><span class="home-explore-arrow" aria-hidden="true">→</span></a>
-        <a class="home-explore-card" href="singers.html"><span class="home-explore-icon" aria-hidden="true">👥</span><strong>歌唱名義</strong><span class="home-explore-arrow" aria-hidden="true">→</span></a>
-        <a class="home-explore-card" href="rankings.html"><span class="home-explore-icon" aria-hidden="true">↗</span><strong>ランキング</strong><span class="home-explore-arrow" aria-hidden="true">→</span></a>
-        <a class="home-explore-card" href="statistics.html"><span class="home-explore-icon" aria-hidden="true">▥</span><strong>年別統計</strong><span class="home-explore-arrow" aria-hidden="true">→</span></a>
+        <a class="home-explore-card" href="songs.html"><span class="home-explore-icon" aria-hidden="true" data-site-icon="music-2"></span><strong>曲</strong><span class="home-explore-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></span></a>
+        <a class="home-explore-card" href="events.html"><span class="home-explore-icon" aria-hidden="true" data-site-icon="calendar-days"></span><strong>イベント</strong><span class="home-explore-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></span></a>
+        <a class="home-explore-card" href="venues.html"><span class="home-explore-icon" aria-hidden="true" data-site-icon="map-pin"></span><strong>会場</strong><span class="home-explore-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></span></a>
+        <a class="home-explore-card" href="singers.html"><span class="home-explore-icon" aria-hidden="true" data-site-icon="mic-vocal"></span><strong>歌唱名義</strong><span class="home-explore-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></span></a>
+        <a class="home-explore-card" href="rankings.html"><span class="home-explore-icon" aria-hidden="true" data-site-icon="trophy"></span><strong>ランキング</strong><span class="home-explore-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></span></a>
+        <a class="home-explore-card" href="statistics.html"><span class="home-explore-icon" aria-hidden="true" data-site-icon="chart-no-axes-column-increasing"></span><strong>年別統計</strong><span class="home-explore-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></span></a>
       </div>
     </section>
 
@@ -2248,13 +2248,21 @@
       </div>
 
       <div class="home-tools-grid">
+        <a class="home-tool-card" href="member-analytics.html">
+          <span class="home-tool-icon" aria-hidden="true" data-site-icon="users-round"></span>
+          <span class="home-tool-body">
+            <strong>メンバー別歌唱記録</strong>
+            <span>キャラクター／キャスト別に、9人の歌唱記録・歌唱曲・出演イベントと117曲の歌唱実績を比較できます。</span>
+          </span>
+          <span class="home-tool-cta">メンバー別歌唱記録を見る <span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></span>
+        </a>
         <a class="home-tool-card" href="gap-checker.html">
-          <span class="home-tool-icon" aria-hidden="true">↺</span>
+          <span class="home-tool-icon" aria-hidden="true" data-site-icon="history"></span>
           <span class="home-tool-body">
             <strong>いつ振り歌唱チェッカー</strong>
             <span>あの曲が歌われたのはいつ以来？<br>最後の歌唱からの期間をすぐに確認できます。</span>
           </span>
-          <span class="home-tool-cta">チェックする →</span>
+          <span class="home-tool-cta">チェックする <span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></span>
         </a>
       </div>
     </section>
@@ -2270,7 +2278,7 @@
         <div class="home-kamipara-copy">
           <h2 id="homeKamiparaHeading">神パラ × μ's ダッシュボード</h2>
           <p>『神様と運命革命のパラドクス』に登場するキャラクターと、<br>その楽曲・歌唱記録をまとめた特別データベース。</p>
-          <span class="home-kamipara-cta">ダッシュボードを見る →</span>
+          <span class="home-kamipara-cta">ダッシュボードを見る <span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></span>
         </div>
         <span class="home-kamipara-stats" aria-label="10楽曲、9キャラクター、5イベント、10歌唱記録">
           <span class="home-kamipara-stat"><strong>10</strong><span>楽曲</span></span>
@@ -2332,7 +2340,7 @@
         <div class="secret-memory-footer">
           <div class="secret-memory-caption">μ'sにまつわる小ネタをランダムで表示しています。</div>
           <details class="secret-rate-details">
-            <summary>排出率を見る</summary>
+            <summary>排出率を見る<span class="site-icon-inline site-disclosure-icon" data-site-icon="chevron-down" aria-hidden="true"></span></summary>
             <div class="secret-rate-list" id="secretMemoryRates"></div>
           </details>
         </div>
@@ -2388,7 +2396,7 @@
       <div class="home-top-songs-card">
         <div class="home-ranking-list home-ranking-list-v45" id="topSongs"></div>
         <div class="home-more-wrap">
-          <a class="home-more-button home-more-link" href="rankings.html">ランキングをもっと見る →</a>
+          <a class="home-more-button home-more-link" href="rankings.html">ランキングをもっと見る <span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></a>
         </div>
       </div>
     </section>
@@ -2417,7 +2425,7 @@
           μ's名義の公式イベントと、キャスト個人名義のソロイベントを分けて管理しています。
           データの定義や集計方針はAboutで確認できます。
         </p>
-        <a class="home-about-link" href="about.html">Aboutを見る →</a>
+        <a class="home-about-link" href="about.html">Aboutを見る <span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></a>
       </div>
 
       <div class="home-version-box">

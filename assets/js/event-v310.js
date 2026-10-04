@@ -467,7 +467,7 @@ function renderEventSongs_() {
                       song.songName ||
                       "曲名未設定"
                     )}
-                    <span class="event-song-arrow" aria-hidden="true">›</span>
+                    <span class="event-song-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span>
                   </a>
 
                   <span class="event-song-meta">
@@ -545,7 +545,7 @@ function renderEventInsights_(
               </span>
 
               <span class="insight-value">
-                ›
+                <span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span>
               </span>
             </a>`
           ).join("")

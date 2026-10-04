@@ -393,7 +393,7 @@ function renderVenueEvents_() {
                 </span>
               </span>
 
-              <span class="arrow">›</span>
+              <span class="arrow"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span>
             </a>`
         ).join("")
       : `<div class="empty">条件に該当する開催イベントはありません。</div>`;
@@ -790,7 +790,7 @@ function renderVenueInsights_(
               </span>
             </span>
 
-            <span class="insight-value">›</span>
+            <span class="insight-value"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span>
           </a>`
         ).join("")
       : `<div class="empty">イベントデータはありません。</div>`;
@@ -824,7 +824,7 @@ function renderVenueInsights_(
               </span>
             </span>
 
-            <span class="insight-value">›</span>
+            <span class="insight-value"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span>
           </a>`
         ).join("")
       : `<div class="empty">初披露曲はありません。</div>`;
@@ -1023,7 +1023,7 @@ function renderVenue(venue) {
               </span>
 
               <span class="arrow">
-                ›
+                <span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span>
               </span>
             </a>`
         ).join("")

@@ -190,7 +190,7 @@ function renderHistory() {
             </div>
             <button type="button" class="singer-event-toggle" data-event-id="${escapeHtml(key)}" aria-expanded="${expanded}" aria-controls="${bodyId}">
               <span class="singer-event-toggle-label">${expanded ? "閉じる" : "曲を見る"}</span>
-              <span class="singer-event-chevron" aria-hidden="true">⌄</span>
+              <span class="singer-event-chevron" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-down" aria-hidden="true"></span></span>
             </button>
           </div>
           <div class="singer-event-songs" id="${bodyId}" ${expanded ? "" : "hidden"}>

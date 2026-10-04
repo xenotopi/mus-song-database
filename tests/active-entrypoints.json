@@ -13,10 +13,12 @@
     "about.html": {
       "js": [
         "assets/js/seo-v351.js",
+        "assets/js/icons.js",
         "assets/js/about.js"
       ],
       "css": [
-        "assets/css/style.css"
+        "assets/css/style.css",
+        "assets/css/icons.css"
       ]
     },
     "event.html": {
@@ -48,10 +50,12 @@
     "index.html": {
       "js": [
         "assets/js/seo-v351.js",
+        "assets/js/icons.js",
         "assets/js/home-v453.js"
       ],
       "css": [
-        "assets/css/style.css"
+        "assets/css/style.css",
+        "assets/css/icons.css"
       ]
     },
     "kamipara.html": {
@@ -181,6 +185,7 @@
     "assets/js/gap-checker-v490.js",
     "assets/js/home-date-v493.js",
     "assets/js/home-v453.js",
+    "assets/js/icons.js",
     "assets/js/kamipara-v100.js",
     "assets/js/member-analytics.js",
     "assets/js/rankings-v421.js",
@@ -202,6 +207,7 @@
   ],
   "activeCss": [
     "assets/css/analytics-consent.css",
+    "assets/css/icons.css",
     "assets/css/member-analytics.css",
     "assets/css/style.css"
   ]

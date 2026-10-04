@@ -145,7 +145,7 @@ function renderReleases() {
     return `<a class="release-list-card" href="release.html?id=${encodeURIComponent(item.releaseId)}">
       <span class="release-list-date">${validDate(item.releaseDate) ? escapeHtml(formatDate(item.releaseDate)) : "発売日未登録"}</span>
       <span class="release-list-main"><span class="release-list-title">${escapeHtml(item.releaseName || "リリース名未設定")}</span>${meta.length ? `<span class="release-list-meta">${meta.map(value => `<span class="release-list-meta-tag">${escapeHtml(value)}</span>`).join("")}</span>` : ""}</span>
-      <span class="release-list-category">${escapeHtml(item.classification || "分類未設定")}</span><span class="release-list-arrow" aria-hidden="true">›</span>
+      <span class="release-list-category">${escapeHtml(item.classification || "分類未設定")}</span><span class="release-list-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span>
     </a>`;
   }).join("") : `<div class="releases-empty">条件に一致するリリースはありません</div>`;
   el.moreButton.hidden = visible.length >= items.length;

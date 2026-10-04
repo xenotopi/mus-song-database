@@ -67,7 +67,7 @@ function includedSongRow(song, grouped) {
     ? (song.track == null ? "" : `Track ${song.track}`)
     : [song.disc == null ? "" : `Disc ${song.disc}`, song.track == null ? "" : `Track ${song.track}`].filter(Boolean).join(" / ");
   const variant = song.variant == null ? "" : String(song.variant);
-  return `<a class="release-included-song-row" href="song.html?id=${encodeURIComponent(song.songId)}"><span class="release-included-song-copy"><span class="release-included-song-title">${escapeHtml(title)}</span>${position || variant ? `<span class="release-included-song-meta">${position ? `<span>${escapeHtml(position)}</span>` : ""}${variant ? `<span class="release-variant">${escapeHtml(variant)}</span>` : ""}</span>` : ""}</span><span class="release-included-song-arrow" aria-hidden="true">›</span></a>`;
+  return `<a class="release-included-song-row" href="song.html?id=${encodeURIComponent(song.songId)}"><span class="release-included-song-copy"><span class="release-included-song-title">${escapeHtml(title)}</span>${position || variant ? `<span class="release-included-song-meta">${position ? `<span>${escapeHtml(position)}</span>` : ""}${variant ? `<span class="release-variant">${escapeHtml(variant)}</span>` : ""}</span>` : ""}</span><span class="release-included-song-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a>`;
 }
 
 function renderIncludedSongs(release) {
@@ -122,7 +122,7 @@ function renderIncludedSongs(release) {
   } else if (groups.length === 2) {
     listHtml = groups.map(group => `<section class="release-disc-group"><h3 class="release-disc-heading">${group.disc == null ? "Disc情報なし" : `Disc ${escapeHtml(group.disc)}`}</h3><div class="release-included-list">${group.songs.map(song => includedSongRow(song, true)).join("")}</div></section>`).join("");
   } else {
-    listHtml = groups.map((group, index) => `<details class="release-disc-details"${index === 0 ? " open" : ""}><summary>${group.disc == null ? "Disc情報なし" : `Disc ${escapeHtml(group.disc)}`}（${group.songs.length}件）</summary><div class="release-included-list">${group.songs.map(song => includedSongRow(song, true)).join("")}</div></details>`).join("");
+    listHtml = groups.map((group, index) => `<details class="release-disc-details"${index === 0 ? " open" : ""}><summary>${group.disc == null ? "Disc情報なし" : `Disc ${escapeHtml(group.disc)}`}（${group.songs.length}件）<span class="site-icon-inline site-disclosure-icon" data-site-icon="chevron-down" aria-hidden="true"></span></summary><div class="release-included-list">${group.songs.map(song => includedSongRow(song, true)).join("")}</div></details>`).join("");
   }
   elements.includedSongsContent.innerHTML = noteHtml + listHtml;
   elements.includedSongsSection.hidden = false;
@@ -165,7 +165,7 @@ function renderRelease(release, releaseList = []) {
   const parentRelease = parentReleaseId ? releaseList.find(item => String(item.releaseId) === parentReleaseId) : null;
   if (parentRelease) elements.releaseInfo.insertAdjacentHTML("beforeend", `<div class="release-info-row"><dt>BOX</dt><dd><a href="release.html?id=${encodeURIComponent(parentReleaseId)}">${escapeHtml(parentRelease.releaseName || "BOX詳細を見る")}</a></dd></div>`);
   const officialUrl = String(release.officialReleaseUrl || "").trim();
-  elements.officialRelease.innerHTML = officialUrl ? `<a class="release-official-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">公式作品ページを見る ↗</a>` : `<p class="release-official-empty">公式作品ページは未登録です</p>`;
+  elements.officialRelease.innerHTML = officialUrl ? `<a class="release-official-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">公式作品ページを見る <span class="site-icon-inline " data-site-icon="external-link" aria-hidden="true"></span></a>` : `<p class="release-official-empty">公式作品ページは未登録です</p>`;
   const relatedEvents = (Array.isArray(release.relatedEvents) ? release.relatedEvents : [])
     .map((event, index) => ({ event, index, order: Number(event?.order) }))
     .filter(({ event }) => event && typeof event === "object" && /^EV\d+$/.test(String(event.eventId || "")) && String(event.eventName || "").trim())
@@ -174,21 +174,21 @@ function renderRelease(release, releaseList = []) {
   elements.relatedEventsHost.innerHTML = relatedEvents.length ? `<section class="release-related" aria-labelledby="relatedEventsHeading"><p class="release-section-kicker">RELATED EVENTS</p><h2 id="relatedEventsHeading">関連イベント</h2><div class="release-event-list">${relatedEvents.map(event => {
     const eventDate = String(event.date || "").trim();
     const relation = String(event.relation || "").trim();
-    return `<a class="release-event-row" href="event.html?id=${encodeURIComponent(event.eventId)}"><span class="release-event-copy"><span class="release-event-title">${escapeHtml(event.eventName)}</span>${eventDate || relation ? `<span class="release-event-meta">${eventDate ? `<span>${escapeHtml(formatDate(eventDate))}</span>` : ""}${relation ? `<span>${escapeHtml(relation)}</span>` : ""}</span>` : ""}</span><span class="release-event-arrow" aria-hidden="true">›</span></a>`;
+    return `<a class="release-event-row" href="event.html?id=${encodeURIComponent(event.eventId)}"><span class="release-event-copy"><span class="release-event-title">${escapeHtml(event.eventName)}</span>${eventDate || relation ? `<span class="release-event-meta">${eventDate ? `<span>${escapeHtml(formatDate(eventDate))}</span>` : ""}${relation ? `<span>${escapeHtml(relation)}</span>` : ""}</span>` : ""}</span><span class="release-event-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a>`;
   }).join("")}</div></section>` : "";
   const children = String(release.editionType || "") === "memorial_box"
     ? releaseList.filter(item => String(item.parentReleaseId || "") === String(release.releaseId || ""))
     : [];
   elements.childReleasesHost.innerHTML = children.length ? `<section class="release-related" aria-labelledby="childReleasesHeading"><p class="release-section-kicker">INDIVIDUAL EDITIONS</p><h2 id="childReleasesHeading">個別盤</h2><div class="release-child-list">${children.map(child => {
     const childSinger = String(child.featuredSinger?.name || "").trim();
-    return `<a class="release-child-row" href="release.html?id=${encodeURIComponent(child.releaseId)}"><span class="release-child-copy"><span class="release-child-title">${escapeHtml(child.releaseName || "リリース名未設定")}</span>${childSinger ? `<span class="release-child-meta"><span>${escapeHtml(childSinger)}</span></span>` : ""}</span><span class="release-child-arrow" aria-hidden="true">›</span></a>`;
+    return `<a class="release-child-row" href="release.html?id=${encodeURIComponent(child.releaseId)}"><span class="release-child-copy"><span class="release-child-title">${escapeHtml(child.releaseName || "リリース名未設定")}</span>${childSinger ? `<span class="release-child-meta"><span>${escapeHtml(childSinger)}</span></span>` : ""}</span><span class="release-child-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a>`;
   }).join("")}</div></section>` : "";
   const songs = Array.isArray(release.debutSongs) ? release.debutSongs : [];
   elements.debutSongsSection.hidden = songs.length === 0;
   elements.debutSongs.innerHTML = songs.length ? `<div class="release-song-list">${songs.map(song => {
     const songName = String(song.songName || song.displayName || "曲名未設定");
     const displayName = String(song.displayName || "").trim();
-    return `<a class="release-song-row" href="song.html?id=${encodeURIComponent(song.songId)}"><span class="release-song-copy"><span class="release-song-title">${escapeHtml(songName)}</span>${displayName && displayName !== songName ? `<span class="release-song-display">${escapeHtml(displayName)}</span>` : ""}</span><span class="release-song-arrow" aria-hidden="true">›</span></a>`;
+    return `<a class="release-song-row" href="song.html?id=${encodeURIComponent(song.songId)}"><span class="release-song-copy"><span class="release-song-title">${escapeHtml(songName)}</span>${displayName && displayName !== songName ? `<span class="release-song-display">${escapeHtml(displayName)}</span>` : ""}</span><span class="release-song-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a>`;
   }).join("")}</div>` : "";
   if (release.releaseId === "R0072") {
     elements.includedSongsSection.classList.remove("is-empty");

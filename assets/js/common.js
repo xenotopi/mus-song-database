@@ -1,3 +1,4 @@
+import './icons.js?v=2';
 import {
   apiGet,
   escapeHtml,
@@ -65,7 +66,7 @@ export function renderCommon(active = "") {
             id="globalSearchWrap"
           >
             <div class="global-search">
-              <span>⌕</span>
+              <span><span class="site-icon-inline " data-site-icon="search" aria-hidden="true"></span></span>
 
               <input
                 id="globalSearchInput"
@@ -615,7 +616,7 @@ function setupGlobalSearch_() {
             </span>
 
             <span class="global-suggest-arrow">
-              ›
+              <span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span>
             </span>
           </a>`
       )
@@ -1644,7 +1645,7 @@ function setupBackToTop_() {
   button.type = "button";
   button.setAttribute("aria-label", "ページ上部へ戻る");
   button.innerHTML = `
-    <span aria-hidden="true">↑</span>
+    <span aria-hidden="true"><span class="site-icon-inline " data-site-icon="arrow-up" aria-hidden="true"></span></span>
     <small>TOP</small>`;
 
   document.body.appendChild(button);

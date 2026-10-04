@@ -461,7 +461,7 @@ function renderEvents(events) {
         ? (
             '<a href="event.html?id=' +
             encodeURIComponent(event.eventId) +
-            '">' + name + " →</a>"
+            '">' + name + ' <span class="site-icon-inline" data-site-icon="chevron-right" aria-hidden="true"></span></a>'
           )
         : name;
       const meta = eventMeta(event);

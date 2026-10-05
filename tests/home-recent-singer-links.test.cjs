@@ -48,6 +48,27 @@ for (const width of [1280, 390]) test(`Home recent ID-only links ${width}px`, as
   assert(await page.evaluate(() => getComputedStyle(document.querySelector('.recent-event')).color === getComputedStyle(document.querySelector('.recent-singer-link')).color));
   assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   await page.locator('#recentList').scrollIntoViewIfNeeded();
+  const styles = locator => locator.evaluate(node => {
+    const style = getComputedStyle(node);
+    return [style.backgroundColor, style.textDecorationLine, style.textUnderlineOffset, style.transition];
+  });
+  const song = page.locator('.recent-song-name').first();
+  await song.hover();
+  const hoverStyle = await styles(song);
+  for (const selector of ['.recent-event', '.recent-singer-link']) {
+    const link = page.locator(selector).first();
+    const before = await link.boundingBox();
+    await link.hover();
+    assert.deepEqual(await styles(selector === '.recent-event' ? link.locator('.recent-event-label') : link), hoverStyle);
+    const after = await link.boundingBox();
+    assert.equal(after.width, before.width);
+    assert.equal(after.height, before.height);
+    await page.keyboard.press('Tab');
+    await link.focus();
+    const focused = await styles(selector === '.recent-event' ? link.locator('.recent-event-label') : link);
+    await song.focus();
+    assert.deepEqual(focused, await styles(song));
+  }
   await page.screenshot({ path: path.join(root, `outputs/home-recent-singer-${width}.png`) });
   await page.keyboard.press('Tab');
   await page.locator('.recent-singer-link').first().focus();

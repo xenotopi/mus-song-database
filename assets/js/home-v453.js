@@ -932,7 +932,7 @@ function renderRecent() {
             <article class="recent-card">
               <div class="recent-card-head">
                 <div class="recent-date">${escapeHtml(formatDate(item.date))}</div>
-                <a class="recent-event" href="event.html?id=${encodeURIComponent(item.eventId)}">${escapeHtml(item.eventName || "イベント名未設定")}<span class="site-icon-inline site-row-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></a>
+                <a class="recent-event" href="event.html?id=${encodeURIComponent(item.eventId)}"><span class="recent-event-label">${escapeHtml(item.eventName || "イベント名未設定")}</span><span class="site-icon-inline site-row-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></a>
 
                 <div class="recent-tags">
                   <span class="type-badge">${escapeHtml(item.category || "未分類")}</span>

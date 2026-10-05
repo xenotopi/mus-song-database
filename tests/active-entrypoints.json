@@ -142,7 +142,8 @@
         "assets/js/songs-v470.js"
       ],
       "css": [
-        "assets/css/style.css"
+        "assets/css/style.css",
+        "assets/css/song-view-group-filter.css"
       ]
     },
     "statistics.html": {
@@ -199,6 +200,7 @@
     "assets/js/singers-v470.js",
     "assets/js/song-hero-decorations.js",
     "assets/js/song-v441.js",
+    "assets/js/song-view-group-filter.js",
     "assets/js/songs-v470.js",
     "assets/js/static-detail.js",
     "assets/js/statistics-v470.js",
@@ -209,6 +211,7 @@
     "assets/css/analytics-consent.css",
     "assets/css/icons.css",
     "assets/css/member-analytics.css",
+    "assets/css/song-view-group-filter.css",
     "assets/css/style.css"
   ]
 }

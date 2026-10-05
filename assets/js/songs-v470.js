@@ -8,6 +8,8 @@ import {
   renderCommon
 } from "./common.js?v=4.9.1&cache=revision-nonblocking";
 
+import { prepareSongViewGroups, createSongViewGroupFilter } from "./song-view-group-filter.js";
+
 renderCommon("song");
 
 const $ = id => document.getElementById(id);
@@ -23,8 +25,6 @@ const el = {
   allSongsSection: $("allSongsSection"),
   allSongSelect: $("allSongSelect"),
   songSearch: $("songSearch"),
-  mediaFilters: $("mediaFilters"),
-  categoryFilters: $("categoryFilters"),
   performanceFilters: $("performanceFilters"),
   resultText: $("resultText"),
   songSort: $("songSort"),
@@ -33,8 +33,7 @@ const el = {
 };
 
 let allSongs = [];
-let selectedMedia = "";
-let selectedCategory = "";
+let groupFilter;
 let selectedPerformance = "";
 let visibleLimit = 24;
 
@@ -58,41 +57,6 @@ function normalizeText(value) {
 function formatShortDate(value) {
   const formatted = formatDate(value);
   return formatted || "—";
-}
-
-function buildFilterButtons(container, values, kind) {
-  const allLabel = "すべて";
-
-  container.innerHTML = [
-    `<button type="button" class="songs-filter-pill active" data-${kind}="">${allLabel}</button>`,
-    ...values.map(value => `
-      <button
-        type="button"
-        class="songs-filter-pill"
-        data-${kind}="${escapeHtml(value)}"
-      >${escapeHtml(value)}</button>
-    `)
-  ].join("");
-
-  container.querySelectorAll(`[data-${kind}]`).forEach(button => {
-    button.addEventListener("click", () => {
-      const value = button.dataset[kind] || "";
-
-      if (kind === "media") {
-        selectedMedia = value;
-      } else {
-        selectedCategory = value;
-      }
-
-      container.querySelectorAll(`[data-${kind}]`).forEach(item => {
-        item.classList.toggle("active", item === button);
-      });
-
-      visibleLimit = 24;
-      syncUrl();
-      renderSongs();
-    });
-  });
 }
 
 function setupPerformanceFilter() {
@@ -127,6 +91,7 @@ function sortByDateAsc(a,b,key) {
 
 function getFilteredSongs() {
   const query = normalizeText(el.songSearch.value);
+  const groupIds = new Set(groupFilter?.ids || allSongs.map(song => song.songId));
 
   const filtered = allSongs.filter(item => {
     const title = normalizeText(
@@ -134,20 +99,23 @@ function getFilteredSongs() {
     );
 
     const queryOK = !query || title.includes(query);
-    const mediaOK = !selectedMedia || item.media === selectedMedia;
-    const categoryOK =
-      !selectedCategory ||
-      item.songCategory === selectedCategory;
     const performanceOK =
       selectedPerformance !== "unperformed" ||
       Number(item.performanceCount || 0) === 0;
 
-    return queryOK && mediaOK && categoryOK && performanceOK;
+    return queryOK && groupIds.has(item.songId) && performanceOK;
   });
 
   const sorted = filtered.slice();
 
   switch (el.songSort.value) {
+    case "id": {
+      const positions = new Map(groupFilter?.ids.map((id, index) => [id, index]));
+      sorted.sort((a, b) => groupFilter?.active
+        ? positions.get(a.songId) - positions.get(b.songId)
+        : a.songId.localeCompare(b.songId));
+      break;
+    }
     case "recent":
       sorted.sort((a,b) =>
         sortByDateDesc(a,b,"lastPerformanceDate") ||
@@ -331,7 +299,7 @@ function renderSongs() {
   const maps = buildRecordMaps();
 
   el.resultText.textContent =
-    `${visible.length.toLocaleString("ja-JP")}/${items.length.toLocaleString("ja-JP")}曲表示`;
+    `${items.length.toLocaleString("ja-JP")} / ${allSongs.length.toLocaleString("ja-JP")}曲（${visible.length.toLocaleString("ja-JP")}曲表示）`;
 
   el.songsList.innerHTML = visible.length
     ? visible.map((item,index) => {
@@ -395,17 +363,8 @@ function syncUrl() {
     next.searchParams.delete("q");
   }
 
-  if (selectedMedia) {
-    next.searchParams.set("media", selectedMedia);
-  } else {
-    next.searchParams.delete("media");
-  }
-
-  if (selectedCategory) {
-    next.searchParams.set("category", selectedCategory);
-  } else {
-    next.searchParams.delete("category");
-  }
+  next.searchParams.delete("media");
+  next.searchParams.delete("category");
 
   if (selectedPerformance === "unperformed") {
     next.searchParams.set("filter", selectedPerformance);
@@ -413,7 +372,7 @@ function syncUrl() {
     next.searchParams.delete("filter");
   }
 
-  if (el.songSort.value !== "performance") {
+  if (el.songSort.value !== "id") {
     next.searchParams.set("sort", el.songSort.value);
   } else {
     next.searchParams.delete("sort");
@@ -425,46 +384,10 @@ function syncUrl() {
 function applyInitialUrlState() {
   el.songSearch.value = initialQuery;
 
-  const requestedMedia =
-    String(params.get("media") || "").trim();
-  const requestedCategory =
-    String(params.get("category") || "").trim();
   const requestedFilter =
     String(params.get("filter") || "").trim();
   const requestedSort =
     String(params.get("sort") || "").trim();
-
-  if (requestedMedia) {
-    const button =
-      el.mediaFilters.querySelector(
-        `[data-media="${CSS.escape(requestedMedia)}"]`
-      );
-
-    if (button) {
-      selectedMedia = requestedMedia;
-      el.mediaFilters
-        .querySelectorAll("[data-media]")
-        .forEach(item =>
-          item.classList.toggle("active", item === button)
-        );
-    }
-  }
-
-  if (requestedCategory) {
-    const button =
-      el.categoryFilters.querySelector(
-        `[data-category="${CSS.escape(requestedCategory)}"]`
-      );
-
-    if (button) {
-      selectedCategory = requestedCategory;
-      el.categoryFilters
-        .querySelectorAll("[data-category]")
-        .forEach(item =>
-          item.classList.toggle("active", item === button)
-        );
-    }
-  }
 
   if (requestedFilter === "unperformed") {
     const button =
@@ -495,7 +418,7 @@ async function loadSongs() {
   el.status.textContent = "曲データを読み込んでいます...";
 
   try {
-    const response = await apiGet(
+    const [response, groupMaster] = await Promise.all([apiGet(
       "rankings",
       {
         limit: 1000,
@@ -509,7 +432,10 @@ async function loadSongs() {
         cache: true,
         cacheTtlMs: 300000
       }
-    );
+    ), fetch("data/song-view-groups.json").then(response => {
+      if (!response.ok) throw new Error("曲グループを取得できませんでした。");
+      return response.json();
+    })]);
 
     const data = response.data || {};
     allSongs = Array.isArray(data.songs) ? data.songs : [];
@@ -521,8 +447,10 @@ async function loadSongs() {
     const mediaValues = uniqueValues(allSongs,"media");
     const categoryValues = uniqueValues(allSongs,"songCategory");
 
-    buildFilterButtons(el.mediaFilters, mediaValues, "media");
-    buildFilterButtons(el.categoryFilters, categoryValues, "category");
+    groupFilter = createSongViewGroupFilter($("songGroupFilter"), prepareSongViewGroups(groupMaster, allSongs), () => {
+      visibleLimit = 24;
+      renderSongs();
+    });
     setupPerformanceFilter();
     populateAllSongSelect();
     applyInitialUrlState();

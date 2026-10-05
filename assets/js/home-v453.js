@@ -948,7 +948,7 @@ function renderRecent() {
                     ? songs.map(song => `
                         <article class="recent-song">
                           <a class="recent-song-name" href="song.html?id=${encodeURIComponent(song.songId)}">${escapeHtml(song.songName || "曲名未設定")}</a>
-                          ${song.singer ? `<span class="recent-song-singer">${escapeHtml(song.singer)}</span>` : ""}
+                          ${song.singer ? `<span class="recent-song-singer">${song.singerId ? `<a class="recent-singer-link" href="singer.html?id=${encodeURIComponent(song.singerId)}">${escapeHtml(song.singer)}</a>` : escapeHtml(song.singer)}</span>` : ""}
                         </article>
                       `).join("")
                     : '<div class="empty">歌唱曲情報はありません。</div>'

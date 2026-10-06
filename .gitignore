@@ -1,6 +1,9 @@
 # Generated post-card images
 /outputs/
 
+# Temporary Event snapshot previews
+data/event-static-preview/
+
 # Local dependencies
 /tools/**/node_modules/
 /tests/node_modules/

@@ -1,0 +1,423 @@
+{
+  "snapshot": {
+    "revision": "sha256-caf2d998618089b07d155f23f8879331c405369a0c5a19c9dc150f676043389f",
+    "outputRevision": "sha256-caf2d998618089b07d155f23f8879331c405369a0c5a19c9dc150f676043389f",
+    "dataRevision": "sha256-fa43755a249789fc616d8cebf0910880091df8aaaa613bbdde6760a98bf2fe55",
+    "generatedAt": "2026-10-05T13:37:13.307Z",
+    "source": "public-api"
+  },
+  "data": {
+    "summary": {
+      "songCount": 10,
+      "performerCount": 9,
+      "eventCount": 5,
+      "performanceCount": 10
+    },
+    "songs": [
+      {
+        "songId": "S118",
+        "songName": "革命ですね？神様！",
+        "displayName": "革命ですね？神様！",
+        "releaseId": "R0072",
+        "releaseDate": "2013-04-24",
+        "trackNumber": 1
+      },
+      {
+        "songId": "S119",
+        "songName": "羽は知ってしまったの？",
+        "displayName": "羽は知ってしまったの？",
+        "releaseId": "R0072",
+        "releaseDate": "2013-04-24",
+        "trackNumber": 2
+      },
+      {
+        "songId": "S120",
+        "songName": "閃光Resolution",
+        "displayName": "閃光Resolution",
+        "releaseId": "R0072",
+        "releaseDate": "2013-04-24",
+        "trackNumber": 3
+      },
+      {
+        "songId": "S121",
+        "songName": "斯くも憂美な日となりて",
+        "displayName": "斯くも憂美な日となりて",
+        "releaseId": "R0072",
+        "releaseDate": "2013-04-24",
+        "trackNumber": 4
+      },
+      {
+        "songId": "S122",
+        "songName": "I'll smile for yours",
+        "displayName": "I'll smile for yours",
+        "releaseId": "R0072",
+        "releaseDate": "2013-04-24",
+        "trackNumber": 5
+      },
+      {
+        "songId": "S123",
+        "songName": "コドクの回廊",
+        "displayName": "コドクの回廊",
+        "releaseId": "R0072",
+        "releaseDate": "2013-04-24",
+        "trackNumber": 6
+      },
+      {
+        "songId": "S124",
+        "songName": "秘密と花園",
+        "displayName": "秘密と花園",
+        "releaseId": "R0072",
+        "releaseDate": "2013-04-24",
+        "trackNumber": 7
+      },
+      {
+        "songId": "S125",
+        "songName": "ここで待ってるよ",
+        "displayName": "ここで待ってるよ",
+        "releaseId": "R0072",
+        "releaseDate": "2013-04-24",
+        "trackNumber": 8
+      },
+      {
+        "songId": "S126",
+        "songName": "夢☆ONCE AGAIN",
+        "displayName": "夢☆ONCE AGAIN",
+        "releaseId": "R0072",
+        "releaseDate": "2013-04-24",
+        "trackNumber": 9
+      },
+      {
+        "songId": "S127",
+        "songName": "NEURON,NEURON!!",
+        "displayName": "NEURON,NEURON!!",
+        "releaseId": "R0072",
+        "releaseDate": "2013-04-24",
+        "trackNumber": 10
+      }
+    ],
+    "performers": [
+      {
+        "performerId": "KPS001",
+        "characterName": "早乙女リリエル",
+        "castName": "徳井",
+        "museCharacterName": "矢澤にこ",
+        "birthday": "03/17"
+      },
+      {
+        "performerId": "KPS002",
+        "characterName": "竜崎クロウエル",
+        "castName": "新田",
+        "museCharacterName": "高坂穂乃果",
+        "birthday": "01/23"
+      },
+      {
+        "performerId": "KPS003",
+        "characterName": "白鳥ラナエル",
+        "castName": "南條",
+        "museCharacterName": "絢瀬絵里",
+        "birthday": "10/05"
+      },
+      {
+        "performerId": "KPS004",
+        "characterName": "綾小路シェリエル",
+        "castName": "楠田",
+        "museCharacterName": "東條希",
+        "birthday": "06/22"
+      },
+      {
+        "performerId": "KPS005",
+        "characterName": "東條ネルエル",
+        "castName": "久保",
+        "museCharacterName": "小泉花陽",
+        "birthday": "04/29"
+      },
+      {
+        "performerId": "KPS006",
+        "characterName": "恋塚フルーネティ",
+        "castName": "Pile",
+        "museCharacterName": "西木野真姫",
+        "birthday": "12/21"
+      },
+      {
+        "performerId": "KPS007",
+        "characterName": "神楽坂ミナモ",
+        "castName": "飯田",
+        "museCharacterName": "星空凛",
+        "birthday": "09/10"
+      },
+      {
+        "performerId": "KPS008",
+        "characterName": "ミザリィ",
+        "castName": "三森",
+        "museCharacterName": "園田海未",
+        "birthday": null
+      },
+      {
+        "performerId": "KPS009",
+        "characterName": "アサギ",
+        "castName": "内田",
+        "museCharacterName": "南ことり",
+        "birthday": "08/08"
+      }
+    ],
+    "events": [
+      {
+        "eventId": "KPE001",
+        "source": "KPE",
+        "eventName": "魔界ウォーズ Live episode1 アサギの逆襲",
+        "date": "2013-07-13",
+        "day": null,
+        "session": null,
+        "venueId": "VE0001",
+        "eventType": "合同ライブ・フェス"
+      },
+      {
+        "eventId": "KPE002",
+        "source": "KPE",
+        "eventName": "Pile ファンミーティング2015 1日目",
+        "date": "2015-08-15",
+        "day": "Day1",
+        "session": "1部",
+        "venueId": "VE0047",
+        "eventType": "ファンミーティング"
+      },
+      {
+        "eventId": "KPE003",
+        "source": "KPE",
+        "eventName": "Pile Circuit Tour 2019 愛知",
+        "date": "2019-06-23",
+        "day": null,
+        "session": null,
+        "venueId": "VE0155",
+        "eventType": "ソロライブ"
+      },
+      {
+        "eventId": "EV0216",
+        "source": "EV",
+        "eventName": "徳井青空 Birthday LIVE “10&30”",
+        "date": "2019-12-30",
+        "day": null,
+        "session": null,
+        "venueId": "VE0110",
+        "eventType": "ソロライブ"
+      },
+      {
+        "eventId": "EV0262",
+        "source": "EV",
+        "eventName": "MIX SONG LIVE『〜Kara・ful・ à lamode〜』昼の部",
+        "date": "2023-10-22",
+        "day": null,
+        "session": "昼",
+        "venueId": "VE0047",
+        "eventType": "ソロライブ"
+      }
+    ],
+    "performances": [
+      {
+        "performanceId": "KPR0001",
+        "eventId": "KPE001",
+        "songId": "S118",
+        "order": 15,
+        "performers": [
+          {
+            "performerId": "KPS001",
+            "characterName": "早乙女リリエル",
+            "castName": "徳井",
+            "museCharacterName": "矢澤にこ",
+            "birthday": "03/17"
+          },
+          {
+            "performerId": "KPS002",
+            "characterName": "竜崎クロウエル",
+            "castName": "新田",
+            "museCharacterName": "高坂穂乃果",
+            "birthday": "01/23"
+          },
+          {
+            "performerId": "KPS003",
+            "characterName": "白鳥ラナエル",
+            "castName": "南條",
+            "museCharacterName": "絢瀬絵里",
+            "birthday": "10/05"
+          },
+          {
+            "performerId": "KPS004",
+            "characterName": "綾小路シェリエル",
+            "castName": "楠田",
+            "museCharacterName": "東條希",
+            "birthday": "06/22"
+          },
+          {
+            "performerId": "KPS005",
+            "characterName": "東條ネルエル",
+            "castName": "久保",
+            "museCharacterName": "小泉花陽",
+            "birthday": "04/29"
+          }
+        ],
+        "actualSinger": "高坂穂乃果＆絢瀬絵里＆小泉花陽＆東條希＆矢澤にこ",
+        "performanceForm": null
+      },
+      {
+        "performanceId": "KPR0002",
+        "eventId": "KPE001",
+        "songId": "S119",
+        "order": 16,
+        "performers": [
+          {
+            "performerId": "KPS001",
+            "characterName": "早乙女リリエル",
+            "castName": "徳井",
+            "museCharacterName": "矢澤にこ",
+            "birthday": "03/17"
+          }
+        ],
+        "actualSinger": "矢澤にこ",
+        "performanceForm": "メドレー・ショートVer."
+      },
+      {
+        "performanceId": "KPR0003",
+        "eventId": "KPE001",
+        "songId": "S121",
+        "order": 17,
+        "performers": [
+          {
+            "performerId": "KPS003",
+            "characterName": "白鳥ラナエル",
+            "castName": "南條",
+            "museCharacterName": "絢瀬絵里",
+            "birthday": "10/05"
+          }
+        ],
+        "actualSinger": "絢瀬絵里",
+        "performanceForm": "メドレー・ショートVer."
+      },
+      {
+        "performanceId": "KPR0004",
+        "eventId": "KPE001",
+        "songId": "S122",
+        "order": 18,
+        "performers": [
+          {
+            "performerId": "KPS004",
+            "characterName": "綾小路シェリエル",
+            "castName": "楠田",
+            "museCharacterName": "東條希",
+            "birthday": "06/22"
+          }
+        ],
+        "actualSinger": "東條希",
+        "performanceForm": "メドレー・ショートVer."
+      },
+      {
+        "performanceId": "KPR0005",
+        "eventId": "KPE001",
+        "songId": "S123",
+        "order": 19,
+        "performers": [
+          {
+            "performerId": "KPS005",
+            "characterName": "東條ネルエル",
+            "castName": "久保",
+            "museCharacterName": "小泉花陽",
+            "birthday": "04/29"
+          }
+        ],
+        "actualSinger": "小泉花陽",
+        "performanceForm": "メドレー・ショートVer."
+      },
+      {
+        "performanceId": "KPR0006",
+        "eventId": "KPE001",
+        "songId": "S120",
+        "order": 20,
+        "performers": [
+          {
+            "performerId": "KPS002",
+            "characterName": "竜崎クロウエル",
+            "castName": "新田",
+            "museCharacterName": "高坂穂乃果",
+            "birthday": "01/23"
+          }
+        ],
+        "actualSinger": "高坂穂乃果",
+        "performanceForm": "メドレー・ショートVer."
+      },
+      {
+        "performanceId": "KPR0007",
+        "eventId": "KPE002",
+        "songId": "S124",
+        "order": 2,
+        "performers": [
+          {
+            "performerId": "KPS006",
+            "characterName": "恋塚フルーネティ",
+            "castName": "Pile",
+            "museCharacterName": "西木野真姫",
+            "birthday": "12/21"
+          }
+        ],
+        "actualSinger": "Pile",
+        "performanceForm": null
+      },
+      {
+        "performanceId": "KPR0008",
+        "eventId": "KPE003",
+        "songId": "S124",
+        "order": 16,
+        "performers": [
+          {
+            "performerId": "KPS006",
+            "characterName": "恋塚フルーネティ",
+            "castName": "Pile",
+            "museCharacterName": "西木野真姫",
+            "birthday": "12/21"
+          }
+        ],
+        "actualSinger": "Pile",
+        "performanceForm": "アカペラ歌唱（1番のみ）"
+      },
+      {
+        "performanceId": "KPR0009",
+        "eventId": "EV0216",
+        "songId": "S119",
+        "order": 22,
+        "performers": [
+          {
+            "performerId": "KPS001",
+            "characterName": "早乙女リリエル",
+            "castName": "徳井",
+            "museCharacterName": "矢澤にこ",
+            "birthday": "03/17"
+          }
+        ],
+        "actualSinger": "徳井",
+        "performanceForm": null
+      },
+      {
+        "performanceId": "KPR0010",
+        "eventId": "EV0262",
+        "songId": "S126",
+        "order": 10,
+        "performers": [
+          {
+            "performerId": "KPS009",
+            "characterName": "アサギ",
+            "castName": "内田",
+            "museCharacterName": "南ことり",
+            "birthday": "08/08"
+          }
+        ],
+        "actualSinger": "内田",
+        "performanceForm": null
+      }
+    ],
+    "revision": "sha256-fa43755a249789fc616d8cebf0910880091df8aaaa613bbdde6760a98bf2fe55",
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-fa43755a249789fc616d8cebf0910880091df8aaaa613bbdde6760a98bf2fe55"
+    }
+  }
+}

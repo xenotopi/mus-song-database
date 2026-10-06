@@ -60,8 +60,8 @@ for (const width of [1280, 390]) {
     assert.equal(await page.locator(".member-analytics-total, .member-analytics-mobile-total").count(), 0);
     assert.equal(await page.locator(".member-analytics-section-head p").innerText(), "117 / 117曲 ｜ 曲ID順");
     assert.equal(await page.locator('#memberAnalyticsTable [data-song-id="S003"] td:nth-child(2)').innerText(), "49");
-    assert.equal(await page.locator('#memberAnalyticsTable [data-song-id="S041"] a').getAttribute("href"), "song.html?id=S041");
-    assert.equal(await page.locator('#memberAnalyticsTable [data-song-id="S046"] a').getAttribute("href"), "song.html?id=S046");
+    assert.equal(await page.locator('#memberAnalyticsTable [data-song-id="S041"] a').getAttribute("href"), "song/S041.html");
+    assert.equal(await page.locator('#memberAnalyticsTable [data-song-id="S046"] a').getAttribute("href"), "song/S046.html");
     if (width === 1280) {
       const songCell = page.locator('#memberAnalyticsTable tbody tr').filter({ hasText: 'Mermaid festa vol.2 ～Passionate～' }).locator('.member-analytics-song').first();
       const lineCount = await songCell.evaluate(node => {

@@ -61,7 +61,7 @@ function pageFor(type, id) {
   const description = type === "song"
     ? `${name}の歌唱記録をμ's Song Databaseで見る。`
     : [data.date && `${data.date}開催`, data.venue?.venueName && `会場：${data.venue.venueName}`, `${name}の歌唱記録をμ's Song Databaseで見る。`].filter(Boolean).join("。").replace(/。。/g, "。");
-  const detail = new URL(`${type}.html?id=${id}`, SITE).href;
+  const detail = new URL(type === "song" ? `song/${id}.html` : `${type}.html?id=${id}`, SITE).href;
   const share = new URL(`share/${type}/${id}.html`, SITE).href;
   const safeDetail = escapeHtml(detail);
   const safeShare = escapeHtml(share);

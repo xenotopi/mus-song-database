@@ -88,6 +88,10 @@
 
     const url = new URL(pageName, SITE_ROOT);
     url.searchParams.set("id", id);
+    if (pageName === "song.html") {
+      url.pathname = `/song/${encodeURIComponent(id)}.html`;
+      url.search = "";
+    }
     canonical.href = url.toString();
     if (pageName === "song.html" || pageName === "event.html") {
       const ogUrl = document.head.querySelector('meta[property="og:url"]');

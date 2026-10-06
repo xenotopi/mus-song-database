@@ -16,7 +16,7 @@ test("detail indexing policy and sitemap", async t => {
   const sitemap = read("sitemap.xml");
   const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1].replace(/&amp;/g, "&"));
   const releaseUrls = locations.filter(url => url.startsWith(`${SITE_ROOT}release.html?id=`));
-  const songUrls = locations.filter(url => url.startsWith(`${SITE_ROOT}song.html?id=`));
+  const songUrls = locations.filter(url => url.startsWith(`${SITE_ROOT}song/`));
 
   await t.test("SongとReleaseの初期robotsをindexへ統一", () => {
     for (const file of ["song.html", "release.html"]) {
@@ -47,7 +47,7 @@ test("detail indexing policy and sitemap", async t => {
 
   await t.test("Release/Song detail URLは実在ID形式で安定順", () => {
     assert.deepEqual(releaseUrls, Array.from({ length: 114 }, (_, index) => `${SITE_ROOT}release.html?id=R${String(index + 1).padStart(4, "0")}`));
-    assert.deepEqual(songUrls, Array.from({ length: 117 }, (_, index) => `${SITE_ROOT}song.html?id=S${String(index + 1).padStart(3, "0")}`));
+    assert.deepEqual(songUrls, Array.from({ length: 117 }, (_, index) => `${SITE_ROOT}song/S${String(index + 1).padStart(3, "0")}.html`));
   });
 
   await t.test("robots.txtは公開sitemapを参照", () => {

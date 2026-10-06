@@ -58,7 +58,7 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
     for (const songId of ["S003", "S046", "S100"]) {
       const { page, issues } = await openSong(songId);
       assert.equal(await page.locator('meta[name="robots"]').getAttribute("content"), "index,follow,max-image-preview:large");
-      assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), `https://mus-song-db.com/song.html?id=${songId}`);
+      assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), `https://mus-song-db.com/song/${songId}.html`);
       assert.match(await page.title(), /｜μ's Song Database$/);
       assert.deepEqual(issues, []);
       await page.close();

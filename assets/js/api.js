@@ -1930,3 +1930,7 @@ export function formatDate(value) {
         )
     : "—";
 }
+// Relative to the site root (prerendered Song pages use <base href="../">).
+export function buildSongUrl(id) {
+  return `song/${encodeURIComponent(String(id || "").trim())}.html`;
+}

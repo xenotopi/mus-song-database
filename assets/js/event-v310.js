@@ -1,12 +1,12 @@
-import {
+import { buildSongUrl,
   apiGet,
   escapeHtml,
   formatDate
-} from "./api.js?v=4.9.6&cache=revision-nonblocking";
+} from "./api.js?v=4.9.6&cache=revision-nonblocking&songUrls=1";
 
 import {
   renderCommon
-} from "./common.js?v=4.9.1&cache=revision-nonblocking";
+} from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
 import { staticEventDetail } from "./static-detail.js?v=1.3.0";
 
 
@@ -462,7 +462,7 @@ function renderEventSongs_() {
                 </span>
 
                 <span class="event-song-body">
-                  <a class="event-song-title" href="song.html?id=${encodeURIComponent(songId)}">
+                  <a class="event-song-title" href="${buildSongUrl(songId)}">
                     ${escapeHtml(
                       song.songName ||
                       "曲名未設定"
@@ -533,7 +533,7 @@ function renderEventInsights_(
         ? items.map(item => `
             <a
               class="insight-row"
-              href="song.html?id=${encodeURIComponent(
+              href="${buildSongUrl(
                 item.songId
               )}"
             >

@@ -1,12 +1,12 @@
-import {
+import { buildSongUrl,
   apiGet,
   escapeHtml,
   formatDate
-} from "./api.js?v=4.9.6&cache=revision-nonblocking";
+} from "./api.js?v=4.9.6&cache=revision-nonblocking&songUrls=1";
 
 import {
   renderCommon
-} from "./common.js?v=4.9.1&cache=revision-nonblocking";
+} from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
 
 import {
   buildSingerUrl
@@ -437,7 +437,7 @@ function rankRow({href, rank, title, meta, count, countLabel}) {
 function renderSongs(items) {
   el.songsList.innerHTML = items.length
     ? items.map((item, index) => rankRow({
-        href: `song.html?id=${encodeURIComponent(item.songId)}`,
+        href: buildSongUrl(item.songId),
         rank: index + 1,
         title: item.songName || "曲名未設定",
         meta: [
@@ -544,7 +544,7 @@ function renderPodium(items) {
 
       const href =
         activeTab === "songs"
-          ? `song.html?id=${encodeURIComponent(item.songId)}`
+          ? buildSongUrl(item.songId)
           : activeTab === "events"
             ? `event.html?id=${encodeURIComponent(item.eventId)}`
             : activeTab === "venues"

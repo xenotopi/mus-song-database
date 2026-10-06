@@ -61,7 +61,9 @@ function buildXml(urls) {
 }
 
 async function main() {
-  const [releases, rankings] = await Promise.all([
+  const current = process.argv.includes("--snapshot") ? JSON.parse(fs.readFileSync(path.join(ROOT, "data/current.json"), "utf8")) : null;
+  const manifest = current ? JSON.parse(fs.readFileSync(path.join(ROOT, "data/snapshots", current.revision, "manifest.json"), "utf8")) : null;
+  const [releases, rankings] = manifest ? [Object.keys(manifest.hashes.releases).map(releaseId => ({ releaseId })), { songs: Object.keys(manifest.hashes.songs).map(songId => ({ songId })) }] : await Promise.all([
     fetchApi("releaseList"),
     fetchApi("rankings", { limit: 1000, schema: "4.2.1" })
   ]);
@@ -73,7 +75,7 @@ async function main() {
   const urls = [
     ...STATIC_PATHS.map(value => new URL(value, SITE_ROOT).toString()),
     ...releaseIds.map(id => `${SITE_ROOT}release.html?id=${id}`),
-    ...songIds.map(id => `${SITE_ROOT}song.html?id=${id}`)
+    ...songIds.map(id => `${SITE_ROOT}song/${id}.html`)
   ];
   if (new Set(urls).size !== urls.length) throw new Error("sitemap URL重複があります。");
 

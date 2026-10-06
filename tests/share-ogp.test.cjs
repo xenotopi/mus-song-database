@@ -25,7 +25,8 @@ test("four prototype pages contain individual raw metadata without meta refresh"
     assert.match(html, /<meta property="og:title" content="[^"]+">/);
     assert.match(html, /<meta property="og:description" content="[^"]+">/);
     assert.match(html, new RegExp(`<meta property="og:url" content="${SITE}share/${type}/${id}\\.html">`));
-    assert.match(html, new RegExp(`<link rel="canonical" href="${SITE}${type}\\.html\\?id=${id}">`));
+    const detail = type === "song" ? `${SITE}song/${id}.html` : `${SITE}${type}.html?id=${id}`;
+    assert.ok(html.includes(`<link rel="canonical" href="${detail}">`));
     assert.match(html, /<meta name="robots" content="noindex,follow">/);
     assert.match(html, /<meta property="og:type" content="website">/);
     assert.match(html, /<meta property="og:image" content="https:\/\/mus-song-db\.com\/assets\/images\/og-default-v2\.png">/);
@@ -52,16 +53,16 @@ test("share pages redirect humans and retain a link when JavaScript is off", asy
   const browser = await chromium.launch({ headless: true, channel: process.env.MUSDB_E2E_BROWSER_CHANNEL || undefined });
   try {
     for (const [type, id] of [["song", "S003"], ["event", "EV0001"]]) {
-      const detail = `${SITE}${type}.html?id=${id}`;
+      const detail = (type === "song" ? `${SITE}song/${id}.html` : `${SITE}${type}.html?id=${id}`);
       const page = await browser.newPage();
-      await page.route(`${SITE}${type}.html*`, route => route.fulfill({ contentType: "text/html", body: "<title>detail reached</title>" }));
+      await page.route(detail, route => route.fulfill({ contentType: "text/html", body: "<title>detail reached</title>" }));
       await page.goto(`${base}/share/${type}/${id}.html`);
       await page.waitForURL(detail);
       assert.equal(page.url(), detail);
       await page.close();
 
       const noJs = await browser.newPage({ javaScriptEnabled: false });
-      await noJs.route(`${SITE}${type}.html*`, route => route.fulfill({ contentType: "text/html", body: "<title>detail reached</title>" }));
+      await noJs.route(detail, route => route.fulfill({ contentType: "text/html", body: "<title>detail reached</title>" }));
       await noJs.goto(`${base}/share/${type}/${id}.html`);
       assert.equal(await noJs.locator("main a").getAttribute("href"), detail);
       await noJs.locator("main a").click();

@@ -4,6 +4,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { sha256, validateDetail, validateSnapshot, validateEventSnapshot, validateKamiparaDashboard, snapshotDataFingerprint } = require("./detail-snapshot-lib.cjs");
 const { buildMemberAnalytics, validateMemberAnalytics } = require("./member-analytics-lib.cjs");
+const { generateSongPages } = require("./generate-song-pages.cjs");
 
 const API = "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec";
 const ROOT = path.resolve(__dirname, "..");
@@ -289,7 +290,7 @@ async function generateEventPreview(ids) {
   process.stdout.write(`${JSON.stringify({ revision, previewOnly: true, eventIds: ids, directory: path.relative(ROOT, previewRoot) }, null, 2)}\n`);
 }
 
-function switchCurrent(revision) {
+async function switchCurrent(revision) {
   const revisionRoot = path.join(SNAPSHOT_ROOT, revision);
   const manifestPath = path.join(revisionRoot, "manifest.json");
   if (!fs.existsSync(manifestPath)) throw new Error(`Snapshot does not exist: ${revision}`);
@@ -299,6 +300,7 @@ function switchCurrent(revision) {
   if (manifest.counts?.kamiparaDashboard && (!manifest.kamiparaDashboard || !fs.existsSync(path.join(revisionRoot, "kamipara-dashboard.json")))) throw new Error("Kamipara snapshot is not publishable");
   validateBaseFiles(revisionRoot, manifest, revision);
   if (manifest.counts?.events) validateEventFiles(revisionRoot, manifest, revision);
+  await generateSongPages({ revision });
   fs.mkdirSync(SNAPSHOT_ROOT, { recursive: true });
   const temp = path.join(SNAPSHOT_ROOT, ".current.tmp.json");
   fs.writeFileSync(temp, jsonText({ revision, outputRevision: manifest.outputRevision || revision, dataRevision: manifest.dataRevision || revision, basePath: `./${revision}/`, manifest: `./${revision}/manifest.json` }), "utf8");
@@ -313,6 +315,7 @@ async function generate() {
   if (fs.existsSync(revisionRoot)) {
     await generateAllEvents(revision, dataRevision, revisionRoot);
     await generateMemberAnalytics(revision, dataRevision, revisionRoot);
+    await generateSongPages({ revision });
     return;
   }
   const [releaseListPayload, rankingsPayload, kamiparaPayload] = await Promise.all([
@@ -380,6 +383,7 @@ async function generate() {
   }
   await generateAllEvents(revision, dataRevision, revisionRoot);
   await generateMemberAnalytics(revision, dataRevision, revisionRoot);
+  await generateSongPages({ revision });
   process.stdout.write(`${JSON.stringify({ revision, releases: 114, songs: 117, details: 231, kamiparaDashboard: 1, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
 }
 

@@ -1,4 +1,5 @@
-import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
+import { buildSongUrl } from "./api.js?v=5.3.0&cache=song-static-urls&songUrls=1";
+import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
 import { staticMemberAnalytics } from "./static-detail.js";
 
 renderCommon();
@@ -85,7 +86,7 @@ function renderTable(fullNames, names, songs, countKey) {
     row.dataset.songId = song.songId;
     const title = element("td", "member-analytics-song");
     const link = element("a", "", song.songName);
-    link.href = `song.html?id=${encodeURIComponent(song.songId)}`;
+    link.href = buildSongUrl(song.songId);
     title.append(link);
     row.append(title);
     for (const count of song[countKey]) row.append(element("td", count === 0 ? "member-analytics-zero" : count === maximum ? "member-analytics-maximum" : "", count));
@@ -100,7 +101,7 @@ function renderTable(fullNames, names, songs, countKey) {
     article.dataset.songId = song.songId;
     const header = element("div", "member-analytics-mobile-song-head");
     const link = element("a", "", song.songName);
-    link.href = `song.html?id=${encodeURIComponent(song.songId)}`;
+    link.href = buildSongUrl(song.songId);
     header.append(link);
     const grid = element("div", "member-analytics-mobile-counts");
     song[countKey].forEach((count, index) => {

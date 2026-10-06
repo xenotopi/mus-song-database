@@ -1,14 +1,14 @@
-import {
+import { buildSongUrl,
   apiGet,
   escapeHtml,
   formatDate
-} from "./api.js?v=5.3.0&cache=solo-live-schema";
+} from "./api.js?v=5.3.0&cache=solo-live-schema&songUrls=1";
 
 import { detailWithApiFallback } from "./static-detail.js?v=1.3.0";
 
 import {
   renderCommon
-} from "./common.js?v=4.9.1&cache=revision-nonblocking";
+} from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
 
 import {
   buildSingerUrl
@@ -84,6 +84,7 @@ function hideSkeleton_() {
 const songId =
   String(
     new URLSearchParams(location.search).get("id") ||
+    document.documentElement.dataset.songId ||
     ""
   ).trim();
 
@@ -114,6 +115,8 @@ function renderSongHeroDecorations_(renderedSongId) {
 
 
 function setLoading() {
+  // Prerendered pages remain readable while the existing Static-first loader refreshes them.
+  if (document.documentElement.dataset.songId && !elements.mainContent.hidden) return;
   hideSkeleton_();
   skeletonTimer = window.setTimeout(() => { elements.skeleton.hidden = false; }, 120);
   elements.songName.textContent = "読み込み中…";
@@ -361,9 +364,9 @@ function renderSongNavigation_(
     );
 
     elements.previousSongButton.href =
-      `song.html?id=${encodeURIComponent(
+      buildSongUrl(
         previous.songId
-      )}`;
+      );
 
     elements.previousSongTitle.textContent =
       previous.songName;
@@ -386,9 +389,9 @@ function renderSongNavigation_(
     );
 
     elements.nextSongButton.href =
-      `song.html?id=${encodeURIComponent(
+      buildSongUrl(
         next.songId
-      )}`;
+      );
 
     elements.nextSongTitle.textContent =
       next.songName;
@@ -794,7 +797,7 @@ function renderSingerRanking_(
       ? relatedSongs.map(item => `
           <a
             class="related-master-row"
-            href="song.html?id=${encodeURIComponent(
+            href="${buildSongUrl(
               item.songId
             )}"
           >
@@ -845,7 +848,7 @@ function renderSongInsights_(
       ? coSongs.map(item => `
           <a
             class="insight-row"
-            href="song.html?id=${encodeURIComponent(
+            href="${buildSongUrl(
               item.songId
             )}"
           >
@@ -1156,7 +1159,7 @@ function showShareMessage_(message) {
 }
 
 function currentSongShareUrl_() {
-  return new URL(`share/song/${encodeURIComponent(songId)}.html`, location.href).href;
+  return new URL(`share/song/${encodeURIComponent(songId)}.html`, document.baseURI).href;
 }
 
 
@@ -1540,9 +1543,9 @@ elements.songPicker.addEventListener(
 
     if (selectedSongId) {
       location.href =
-        `song.html?id=${encodeURIComponent(
+        buildSongUrl(
           selectedSongId
-        )}`;
+        );
     }
   }
 );

@@ -1,12 +1,12 @@
-import {
+import { buildSongUrl,
   apiGet,
   escapeHtml,
   formatDate
-} from "./api.js?v=4.9.6&cache=revision-nonblocking";
+} from "./api.js?v=4.9.6&cache=revision-nonblocking&songUrls=1";
 
 import {
   renderCommon
-} from "./common.js?v=4.9.1&cache=revision-nonblocking";
+} from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
 
 import {
   getBirthdaysForMonthDay
@@ -191,8 +191,8 @@ function buildSecretMemoryRelatedUrl(item = {}) {
     });
   }
 
+  if (relatedType === "song") return buildSongUrl(relatedId);
   const detailPage = {
-    song: "song.html",
     event: "event.html",
     venue: "venue.html"
   }[relatedType];
@@ -349,7 +349,7 @@ function renderFeatured(featured) {
 
   elements.featuredSong.href =
     song.songId
-      ? `song.html?id=${encodeURIComponent(song.songId)}`
+      ? buildSongUrl(song.songId)
       : "#";
 
   elements.featuredSong.innerHTML = `
@@ -468,7 +468,7 @@ function renderTodayReleaseSongs(item) {
     const songName = `「${escapeHtml(String(song.songName).trim())}」`;
     const songId = String(song.songId || "").trim();
     const name = /^S\d{3}$/.test(songId)
-      ? `<a href="song.html?id=${encodeURIComponent(songId)}">${songName}</a>`
+      ? `<a href="${buildSongUrl(songId)}">${songName}</a>`
       : `<span>${songName}</span>`;
     const label = store || (item.classification === "Blu-ray" ? "収録特典曲" : "収録曲");
     return `<div class="today-release-song"><span>${escapeHtml(label)}</span>${name}</div>`;
@@ -611,7 +611,7 @@ function renderToday(today) {
 
       render:
         item => `
-          <a class="today-item" href="song.html?id=${encodeURIComponent(item.songId)}">
+          <a class="today-item" href="${buildSongUrl(item.songId)}">
             <span class="today-anniversary-badge first">${escapeHtml(renderAnniversaryLabel(item.date))}</span>
             <b>${escapeHtml(item.songName || "曲名未設定")}</b>
             <div class="home-ranking-meta">${escapeHtml(item.date ? item.date.slice(0,4) + "年に初披露" : "")}</div>
@@ -627,7 +627,7 @@ function renderToday(today) {
 
       render:
         item => `
-          <a class="today-item" href="song.html?id=${encodeURIComponent(item.songId)}">
+          <a class="today-item" href="${buildSongUrl(item.songId)}">
             <span class="today-anniversary-badge last">${escapeHtml(renderAnniversaryLabel(item.date))}</span>
             <b>${escapeHtml(item.songName || "曲名未設定")}</b>
             <div class="home-ranking-meta">${escapeHtml(item.date ? item.date.slice(0,4) + "年に最終披露" : "")}</div>
@@ -845,7 +845,7 @@ function renderTopSongs(items) {
   elements.topSongs.innerHTML =
     items.length
       ? items.map(item => `
-          <a class="home-ranking-row" href="song.html?id=${encodeURIComponent(item.songId)}">
+          <a class="home-ranking-row" href="${buildSongUrl(item.songId)}">
             <span class="home-rank">${escapeHtml(item.rank)}</span>
             <span>
               <span class="home-ranking-name">${escapeHtml(item.songName || "曲名未設定")}</span>
@@ -947,7 +947,7 @@ function renderRecent() {
                   songs.length
                     ? songs.map(song => `
                         <article class="recent-song">
-                          <a class="recent-song-name" href="song.html?id=${encodeURIComponent(song.songId)}">${escapeHtml(song.songName || "曲名未設定")}</a>
+                          <a class="recent-song-name" href="${buildSongUrl(song.songId)}">${escapeHtml(song.songName || "曲名未設定")}</a>
                           ${song.singer ? `<span class="recent-song-singer">${song.singerId ? `<a class="recent-singer-link" href="singer.html?id=${encodeURIComponent(song.singerId)}">${escapeHtml(song.singer)}</a>` : escapeHtml(song.singer)}</span>` : ""}
                         </article>
                       `).join("")

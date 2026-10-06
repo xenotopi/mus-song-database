@@ -1,12 +1,12 @@
-import {
+import { buildSongUrl,
   apiGet,
   escapeHtml,
   formatDate
-} from "./api.js?v=4.9.6&cache=revision-nonblocking";
+} from "./api.js?v=4.9.6&cache=revision-nonblocking&songUrls=1";
 
 import {
   renderCommon
-} from "./common.js?v=4.9.1&cache=revision-nonblocking";
+} from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
 
 
 renderCommon("venue");
@@ -452,9 +452,9 @@ function renderVenueDiscovery_(
           topSong.performanceCount || 0
         ).toLocaleString("ja-JP")}回歌唱`,
       href:
-        `song.html?id=${encodeURIComponent(
+        buildSongUrl(
           topSong.songId
-        )}`
+        )
     });
   }
 
@@ -803,7 +803,7 @@ function renderVenueInsights_(
       ? songs.map(item => `
           <a
             class="insight-row"
-            href="song.html?id=${encodeURIComponent(
+            href="${buildSongUrl(
               item.songId
             )}"
           >
@@ -989,7 +989,7 @@ function renderVenue(venue) {
           (song, index) => `
             <a
               class="venue-song-row"
-              href="song.html?id=${encodeURIComponent(
+              href="${buildSongUrl(
                 song.songId
               )}"
             >

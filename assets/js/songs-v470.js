@@ -1,12 +1,12 @@
-import {
+import { buildSongUrl,
   apiGet,
   escapeHtml,
   formatDate
-} from "./api.js?v=4.9.6&cache=revision-nonblocking";
+} from "./api.js?v=4.9.6&cache=revision-nonblocking&songUrls=1";
 
 import {
   renderCommon
-} from "./common.js?v=4.9.1&cache=revision-nonblocking";
+} from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
 
 import { prepareSongViewGroups, createSongViewGroupFilter } from "./song-view-group-filter.js";
 
@@ -282,7 +282,7 @@ function renderPickup() {
   ].filter(card => card.id);
 
   el.pickupGrid.innerHTML = cards.map(card => `
-    <a class="songs-pickup-card" href="song.html?id=${encodeURIComponent(card.id)}">
+    <a class="songs-pickup-card" href="${buildSongUrl(card.id)}">
       <div class="songs-pickup-label">${escapeHtml(card.label)}</div>
       <div class="songs-pickup-title">${escapeHtml(card.title)}</div>
       <div class="songs-pickup-value">${escapeHtml(card.value)}</div>
@@ -310,7 +310,7 @@ function renderSongs() {
           "曲名未設定";
 
         return `
-          <a class="song-list-card" href="song.html?id=${encodeURIComponent(item.songId)}">
+          <a class="song-list-card" href="${buildSongUrl(item.songId)}">
             <span class="song-list-rank">${index + 1}</span>
 
             <div>
@@ -480,7 +480,7 @@ if (el.allSongSelect) {
   el.allSongSelect.addEventListener("change", () => {
     const songId = String(el.allSongSelect.value || "").trim();
     if (!songId) return;
-    location.href = `song.html?id=${encodeURIComponent(songId)}`;
+    location.href = buildSongUrl(songId);
   });
 }
 

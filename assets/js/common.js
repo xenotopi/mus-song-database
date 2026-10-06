@@ -1,9 +1,9 @@
 import './icons.js?v=2';
-import {
+import { buildSongUrl,
   apiGet,
   escapeHtml,
   formatDate
-} from "./api.js?v=4.9.6&cache=revision-nonblocking";
+} from "./api.js?v=4.9.6&cache=revision-nonblocking&songUrls=1";
 
 import {
   buildSingerUrl
@@ -502,9 +502,9 @@ function setupGlobalSearch_() {
               item.recordingCd,
             ].filter(Boolean).join("｜"),
             href:
-              `song.html?id=${encodeURIComponent(
+              buildSongUrl(
                 item.songId
-              )}`,
+              ),
           });
         }
       );

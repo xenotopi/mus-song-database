@@ -48,7 +48,7 @@ async function open(width, query = "") {
   return { page, errors };
 }
 async function ids(page) {
-  return page.locator("#songsList .song-list-card").evaluateAll(nodes => nodes.map(node => new URL(node.href).searchParams.get("id")));
+  return page.locator("#songsList .song-list-card").evaluateAll(nodes => nodes.map(node => new URL(node.href).pathname.match(/\/song\/(S\d+)\.html$/)?.[1]));
 }
 async function more(page) { while (await page.locator("#moreButton").isVisible()) await page.locator("#moreButton").click(); }
 async function count(page, expected) { assert.match(await page.locator("#resultText").textContent(), new RegExp(`^${expected} / 117曲`)); }
@@ -109,7 +109,7 @@ for (const width of [1280, 390]) test(`Song group filter ${width}px`, async () =
     await page.keyboard.press("Escape");
     assert.equal(await page.locator("#allSongSelect option").count(), 118);
     await page.locator("#songsList .song-list-card").first().click();
-    await page.waitForURL("**/song.html?id=S001");
+    await page.waitForURL("**/song/S001.html");
     assert.deepEqual(errors, []);
   } finally { await page.close(); }
 });

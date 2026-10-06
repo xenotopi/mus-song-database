@@ -1,5 +1,5 @@
-import { apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema";
-import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
+import { buildSongUrl, apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema&songUrls=1";
+import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
 import { detailWithApiFallback, staticReleaseList } from "./static-detail.js?v=1.3.0";
 import { renderKamiparaRelease } from "./release-kamipara.js?v=1.0.0";
 
@@ -67,7 +67,7 @@ function includedSongRow(song, grouped) {
     ? (song.track == null ? "" : `Track ${song.track}`)
     : [song.disc == null ? "" : `Disc ${song.disc}`, song.track == null ? "" : `Track ${song.track}`].filter(Boolean).join(" / ");
   const variant = song.variant == null ? "" : String(song.variant);
-  return `<a class="release-included-song-row" href="song.html?id=${encodeURIComponent(song.songId)}"><span class="release-included-song-copy"><span class="release-included-song-title">${escapeHtml(title)}</span>${position || variant ? `<span class="release-included-song-meta">${position ? `<span>${escapeHtml(position)}</span>` : ""}${variant ? `<span class="release-variant">${escapeHtml(variant)}</span>` : ""}</span>` : ""}</span><span class="release-included-song-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a>`;
+  return `<a class="release-included-song-row" href="${buildSongUrl(song.songId)}"><span class="release-included-song-copy"><span class="release-included-song-title">${escapeHtml(title)}</span>${position || variant ? `<span class="release-included-song-meta">${position ? `<span>${escapeHtml(position)}</span>` : ""}${variant ? `<span class="release-variant">${escapeHtml(variant)}</span>` : ""}</span>` : ""}</span><span class="release-included-song-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a>`;
 }
 
 function renderIncludedSongs(release) {
@@ -188,7 +188,7 @@ function renderRelease(release, releaseList = []) {
   elements.debutSongs.innerHTML = songs.length ? `<div class="release-song-list">${songs.map(song => {
     const songName = String(song.songName || song.displayName || "曲名未設定");
     const displayName = String(song.displayName || "").trim();
-    return `<a class="release-song-row" href="song.html?id=${encodeURIComponent(song.songId)}"><span class="release-song-copy"><span class="release-song-title">${escapeHtml(songName)}</span>${displayName && displayName !== songName ? `<span class="release-song-display">${escapeHtml(displayName)}</span>` : ""}</span><span class="release-song-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a>`;
+    return `<a class="release-song-row" href="${buildSongUrl(song.songId)}"><span class="release-song-copy"><span class="release-song-title">${escapeHtml(songName)}</span>${displayName && displayName !== songName ? `<span class="release-song-display">${escapeHtml(displayName)}</span>` : ""}</span><span class="release-song-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a>`;
   }).join("")}</div>` : "";
   if (release.releaseId === "R0072") {
     elements.includedSongsSection.classList.remove("is-empty");

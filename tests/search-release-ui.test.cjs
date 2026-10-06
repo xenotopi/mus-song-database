@@ -120,7 +120,7 @@ test("同名・Release固有名・releaseTypeをAPI結果どおり表示する",
     const { page, issues } = await openPage(`/search.html?q=${encodeURIComponent(query)}`);
     await page.locator(".result-type.release").waitFor();
     assert.equal(await page.locator(`.result-row[href="release.html?id=${releaseId}"]`).count(), 1);
-    if (songId) assert.equal(await page.locator(`.result-row[href="song.html?id=${songId}"]`).count(), 1);
+    if (songId) assert.equal(await page.locator(`.result-row[href="song/${songId}.html"]`).count(), 1);
     if (query === "Solo Live!") assert.match(await page.locator(`.result-row[href="release.html?id=${releaseId}"] .result-meta`).innerText(), /Solo Live! Ⅲ[\s\S]*個別盤[\s\S]*南ことり[\s\S]*LACA-9781/);
     assert.deepEqual(issues, []);
     await page.close();
@@ -145,7 +145,7 @@ test("共通ヘッダー候補はRelease最大1件、全体最大6件、キー�
   await page.locator(".global-suggest-item").first().waitFor();
   assert.ok(await page.locator(".global-suggest-item").count() <= 6);
   assert.equal(await page.locator(".global-suggest-type.release").count(), 1);
-  assert.equal(await page.locator('.global-suggest-item[href="song.html?id=S032"]').count(), 1);
+  assert.equal(await page.locator('.global-suggest-item[href="song/S032.html"]').count(), 1);
   assert.equal(await page.locator('.global-suggest-item[href="release.html?id=R0015"]').count(), 1);
   assert.equal(await input.getAttribute("aria-expanded"), "true");
   await input.press("ArrowDown");

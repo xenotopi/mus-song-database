@@ -1,0 +1,3389 @@
+<!DOCTYPE html><html lang="ja" data-song-id="S045" data-prerender-revision="sha256-caf2d998618089b07d155f23f8879331c405369a0c5a19c9dc150f676043389f"><head><base href="../">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>No brand girls｜μ's Song Database</title>
+
+  <link rel="stylesheet" href="assets/css/style.css?v=4.4.1">
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 92px;
+    }
+
+    .detail-local-nav {
+      position: sticky;
+      z-index: 50;
+      top: 68px;
+      margin-top: 16px;
+      padding: 9px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,.94);
+      box-shadow: 0 10px 28px rgba(23,32,51,.08);
+      backdrop-filter: blur(10px);
+    }
+
+    .detail-local-nav a {
+      flex: 0 0 auto;
+      padding: 8px 13px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size:14px;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .detail-local-nav a:hover {
+      background: var(--indigo-soft);
+      color: var(--indigo);
+    }
+
+    .discovery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .discovery-card {
+      min-height: 132px;
+      padding: 17px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      transition: transform .15s ease, border-color .15s ease;
+    }
+
+    .discovery-card:hover {
+      border-color: #bbb6f5;
+      transform: translateY(-2px);
+    }
+
+    .discovery-label {
+      color: var(--indigo);
+      font-size:14px;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    .discovery-title {
+      margin-top: 12px;
+      color: var(--navy);
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 1.45;
+    }
+
+    .discovery-meta {
+      margin-top: auto;
+      padding-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .list-controls {
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .filter-pill {
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--navy);
+      font-size:14px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .filter-pill.active {
+      border-color: var(--indigo);
+      background: var(--indigo);
+      color: #fff;
+    }
+
+    .show-more-wrap {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .show-more-button {
+      min-width: 220px;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 1px solid var(--indigo);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--indigo);
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .show-more-button:hover {
+      background: var(--indigo);
+      color: #fff;
+    }
+
+    @media (max-width: 760px) {
+      .detail-local-nav {
+        top: 60px;
+      }
+
+      .discovery-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+.discover-panel {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff,
+      #f7f5ff
+    );
+  box-shadow: var(--shadow);
+}
+
+.discover-cards {
+  display: grid;
+  grid-template-columns:
+    repeat(3, 1fr);
+  gap: 12px;
+}
+
+.discover-item {
+  min-height: 136px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  text-decoration: none;
+}
+
+.discover-item:hover {
+  border-color: #bdb7f5;
+  transform: translateY(-1px);
+}
+
+.discover-item-label {
+  color: var(--indigo);
+  font-size:14px;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+.discover-item-title {
+  margin-top: 11px;
+  color: var(--navy);
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.45;
+}
+
+.discover-item-meta {
+  margin-top: auto;
+  padding-top: 10px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.insight-list {
+  display: grid;
+  gap: 9px;
+}
+
+.insight-row {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  text-decoration: none;
+}
+
+.insight-row:hover {
+  border-color: #bdb7f5;
+  background: #fcfbff;
+}
+
+.insight-title {
+  color: var(--navy);
+  font-weight: 900;
+}
+
+.insight-meta {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.insight-value {
+  color: var(--indigo);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.trend-chart {
+  display: grid;
+  gap: 9px;
+}
+
+.trend-row {
+  display: grid;
+  grid-template-columns:
+    52px minmax(0, 1fr) 62px;
+  gap: 10px;
+  align-items: center;
+}
+
+.trend-year {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.trend-track {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #eceef5;
+}
+
+.trend-bar {
+  height: 100%;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      90deg,
+      #4f46e5,
+      #8b5cf6
+    );
+}
+
+.trend-value {
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 900;
+  text-align: right;
+}
+
+@media (max-width: 760px) {
+  .discover-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+    .song-switcher {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) 280px minmax(0,1fr);
+      gap: 12px;
+    }
+
+    .song-switch-link,
+    .song-switch-select-wrap {
+      min-height: 82px;
+      padding: 13px 15px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .song-switch-link {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .song-switch-link.next {
+      text-align: right;
+      align-items: flex-end;
+    }
+
+    .song-switch-link.disabled {
+      opacity: .48;
+      pointer-events: none;
+    }
+
+    .song-switch-label {
+      color: var(--muted);
+      font-size:14px;
+      font-weight: 800;
+    }
+
+    .song-switch-title {
+      margin-top: 5px;
+      color: var(--navy);
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.4;
+    }
+
+    .song-switch-select-wrap {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .song-switch-select-wrap label {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .song-switch-select {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: #fff;
+      color: var(--navy);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    @media (max-width: 760px) {
+      .song-switcher {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .song-switch-select-wrap {
+        grid-column: 1 / -1;
+        grid-row: 1;
+      }
+
+      .song-switch-link {
+        min-height: 72px;
+      }
+    }
+
+
+    .song-record-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .song-record-card {
+      min-height: 118px;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .song-record-label {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .song-record-value {
+      margin-top: 10px;
+      color: var(--indigo);
+      font-size: 25px;
+      font-weight: 900;
+      line-height: 1.15;
+    }
+
+    .song-record-note {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .song-analysis-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr);
+      gap: 14px;
+    }
+
+    .song-analysis-card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .song-year-chart {
+      margin-top: 17px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .song-year-row {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) 54px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .song-year-label {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .song-year-track {
+      position: relative;
+      height: 13px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #eceef5;
+    }
+
+    .song-year-bar {
+      display: block;
+      height: 100%;
+      min-width: 3px;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+    }
+
+    .song-year-bar.is-zero,
+    .comparison-bar.is-zero { min-width: 0; }
+
+    .song-chart-gridline {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: #dfe2eb;
+      pointer-events: none;
+    }
+
+    .song-year-value {
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .singer-rank-list,
+    .related-master-list {
+      margin-top: 15px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .singer-rank-row {
+      display: grid;
+      grid-template-columns: 32px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #fff;
+    }
+
+    .singer-rank-number {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--indigo-soft);
+      color: var(--indigo);
+      font-weight: 900;
+    }
+
+    .singer-rank-name {
+      color: var(--navy);
+      font-weight: 900;
+    }
+
+    .singer-rank-count {
+      color: var(--indigo);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .related-master-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      text-decoration: none;
+    }
+
+    .related-master-row:hover {
+      border-color: #bdb7f5;
+      background: #fcfbff;
+    }
+
+    .related-master-title {
+      color: var(--navy);
+      font-weight: 900;
+    }
+
+    .related-master-meta {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight:500;
+    }
+
+    .related-master-reason {
+      color: var(--indigo);
+      font-size: 14px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 900px) {
+      .song-record-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .song-analysis-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .song-record-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .song-record-card {
+        min-height: 104px;
+        padding: 14px;
+      }
+
+      .song-record-value {
+        font-size: 21px;
+      }
+    }
+
+
+    .song-year-scale,
+    .comparison-scale {
+      display: grid;
+      grid-template-columns:
+        48px minmax(0, 1fr) 54px;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 2px;
+    }
+
+    .comparison-scale {
+      grid-template-columns: 56px minmax(0, 1fr) 58px;
+    }
+
+    .song-chart-scale-labels {
+      position: relative;
+      display: block;
+      height: 14px;
+      color: var(--muted);
+      font-size:14px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .song-chart-scale-labels span {
+      position: absolute;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+
+    .song-chart-scale-labels span:first-child {
+      transform: none;
+    }
+
+    .song-chart-scale-labels span:last-child {
+      transform: translateX(-100%);
+    }
+
+
+    .song-share-actions{
+      margin-top:18px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .song-share-button{
+      min-height:38px;
+      padding:0 14px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid rgba(255,255,255,.55);
+      border-radius:999px;
+      background:rgba(255,255,255,.12);
+      color:#fff;
+      font-size:14px;
+      font-weight:900;
+      text-decoration:none;
+      cursor:pointer;
+    }
+    .song-share-button.primary{
+      background:#fff;
+      color:var(--indigo);
+    }
+    .song-share-message{
+      color:rgba(255,255,255,.85);
+      font-size:14px;
+      font-weight:800;
+    }
+    .official-release-card{
+      display:grid;
+      grid-template-columns:72px minmax(0,1fr) auto;
+      gap:18px;
+      align-items:center;
+      padding:22px;
+      border:1px solid #dcd9ff;
+      border-radius:22px;
+      background:linear-gradient(135deg,#fff,#f6f4ff);
+      box-shadow:var(--shadow);
+    }
+    .official-release-icon{
+      width:58px;
+      height:58px;
+      display:grid;
+      place-items:center;
+      border-radius:18px;
+      background:linear-gradient(135deg,#172033,#4f46e5);
+      color:#fff;
+      font-size:26px;
+      font-weight:900;
+    }
+    .official-release-title{
+      margin-top:8px;
+      color:var(--navy);
+      font-size:22px;
+      font-weight:900;
+      line-height:1.45;
+    }
+    .official-release-meta{
+      margin:12px 0 0;
+      display:flex;
+      gap:8px 18px;
+      flex-wrap:wrap;
+    }
+    .official-release-meta div{
+      display:flex;
+      gap:6px;
+      align-items:baseline;
+    }
+    .official-release-meta dt{
+      color:var(--muted);
+      font-size: 14px;
+      font-weight:800;
+    }
+    .official-release-meta dd{
+      margin:0;
+      color:var(--navy);
+      font-size: 14px;
+      font-weight:900;
+    }
+    .official-release-link{
+      min-height:46px;
+      padding:0 18px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      background:var(--indigo);
+      color:#fff;
+      font-weight:900;
+      text-decoration:none;
+      white-space:nowrap;
+    }
+    .official-release-note{
+      margin-top:7px;
+      color:var(--muted);
+      font-size: 14px;
+      text-align:center;
+      font-weight:500;
+    }
+    .comparison-chart{
+      margin-top:18px;
+      display:grid;
+      gap:14px;
+    }
+    .comparison-row{
+      display:grid;
+      grid-template-columns:56px minmax(0,1fr) 58px;
+      gap:10px;
+      align-items:center;
+    }
+    .comparison-label,.comparison-value{
+      font-size: 14px;
+      font-weight:900;
+    }
+    .comparison-value{text-align:right;color:var(--indigo)}
+    .comparison-track{
+      position:relative;
+      height:15px;
+      overflow:hidden;
+      border-radius:999px;
+      background:#eceef5;
+    }
+    .comparison-bar{
+      height:100%;
+      min-width:3px;
+      border-radius:inherit;
+    }
+    .comparison-bar.official{background:linear-gradient(90deg,#4f46e5,#7c6cf2)}
+    .comparison-bar.solo{background:linear-gradient(90deg,#e96a9b,#f38bb1)}
+    .gap-chart{
+      margin-top:18px;
+      display:grid;
+      gap:9px;
+    }
+    .gap-row{
+      display:grid;
+      grid-template-columns:88px minmax(0,1fr) 72px;
+      gap:9px;
+      align-items:center;
+    }
+    .gap-label{
+      color:var(--muted);
+      font-size: 14px;
+      font-weight:800;
+    }
+    .gap-track{
+      height:12px;
+      border-radius:999px;
+      background:#eceef5;
+      overflow:hidden;
+    }
+    .gap-bar{
+      height:100%;
+      min-width:3px;
+      border-radius:inherit;
+      background:linear-gradient(90deg,#5cc8e8,#4f46e5);
+    }
+    .gap-value{
+      text-align:right;
+      color:var(--navy);
+      font-size: 14px;
+      font-weight:900;
+    }
+    .year-timeline{
+      margin-top:16px;
+      display:flex;
+      gap:8px;
+      overflow-x:auto;
+      padding-bottom:4px;
+    }
+    .year-timeline-button{
+      flex:0 0 auto;
+      min-width:78px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+      color:var(--navy);
+      font-size:14px;
+      font-weight:900;
+      cursor:pointer;
+    }
+    .year-timeline-button span{
+      display:block;
+      margin-top:3px;
+      color:var(--indigo);
+      font-size: 14px;
+    }
+    .year-timeline-button.active{
+      border-color:var(--indigo);
+      background:var(--indigo);
+      color:#fff;
+    }
+    .year-timeline-button.active span{color:#fff}
+    .milestone-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    @media(max-width:760px){
+      .official-release-card{grid-template-columns:56px minmax(0,1fr)}
+      .official-release-action{grid-column:1/-1}
+      .official-release-link{width:100%}
+      .official-release-note{text-align:center}
+      .song-share-actions{gap:6px}
+      .song-share-button{font-size:14px;padding:0 11px}
+      .gap-row{grid-template-columns:78px minmax(0,1fr) 62px}
+    }
+
+
+    .history-year-filter{
+      margin-bottom:14px;padding:16px;border:1px solid #dcd9ff;
+      border-radius:18px;background:linear-gradient(135deg,#fff,#f8f7ff)
+    }
+    .history-year-filter-head{
+      display:flex;justify-content:space-between;gap:12px;align-items:center
+    }
+    .history-year-filter h3{margin:2px 0 0;font-size:17px}
+    .history-year-reset{
+      min-height:34px;padding:0 12px;border:1px solid var(--indigo);
+      border-radius:999px;background:#fff;color:var(--indigo);
+      font-size:14px;font-weight:900;cursor:pointer
+    }
+    .history-year-filter .year-timeline{margin-top:13px}
+
+
+    .singer-rank-row {
+      color: inherit;
+      text-decoration: none;
+      transition:
+        transform .15s ease,
+        border-color .15s ease,
+        background .15s ease,
+        box-shadow .15s ease;
+    }
+
+    .singer-rank-row:hover {
+      transform: translateY(-1px);
+      border-color: #c9c3ff;
+      background: #fbfaff;
+      box-shadow: 0 7px 18px rgba(79, 70, 229, .08);
+    }
+
+    .singer-rank-row:focus-visible {
+      outline: 2px solid var(--indigo);
+      outline-offset: 2px;
+    }
+
+    .singer-rank-row:hover .singer-rank-name,
+    .singer-rank-row:hover .singer-rank-count {
+      color: var(--indigo);
+    }
+
+
+    /* v4.4 曲詳細の情報階層・説明UI */
+    .discovery-card-performance {
+      min-height: 150px;
+      border-color: #d8d4ff;
+      background:
+        linear-gradient(180deg, #ffffff, #fbfaff);
+    }
+
+    .discovery-card-performance .discovery-title {
+      margin-top: 13px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .discovery-card-performance .discovery-meta {
+      padding-top: 12px;
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .song-gap-cta {
+      margin-top: 12px;
+      min-height: 72px;
+      padding: 14px 17px;
+      display: grid;
+      grid-template-columns: 38px minmax(0,1fr) auto;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid #d5d0ff;
+      border-radius: 17px;
+      background:
+        radial-gradient(circle at 90% 0, rgba(79,70,229,.11), transparent 35%),
+        linear-gradient(135deg, #fbfaff, #ffffff);
+      color: var(--navy);
+      text-decoration: none;
+      box-shadow: var(--shadow);
+      transition: transform .15s ease, border-color .15s ease;
+    }
+
+    .song-gap-cta:hover {
+      transform: translateY(-2px);
+      border-color: #aaa2f4;
+    }
+
+    .song-gap-cta-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--indigo);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .song-gap-cta strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .song-gap-cta small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size:14px;
+      font-weight: 700;
+    }
+
+    .song-gap-cta-arrow {
+      color: var(--indigo);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .stat .label,
+    .song-record-label {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .metric-help {
+      position: relative;
+      width: 17px;
+      height: 17px;
+      padding: 0;
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 17px;
+      border: 1px solid #c9c5ea;
+      border-radius: 50%;
+      background: #fff;
+      color: var(--indigo);
+      font-size:14px;
+      font-weight: 900;
+      line-height: 1;
+      cursor: help;
+    }
+
+    .metric-help::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      z-index: 30;
+      display: none;
+      left: var(--metric-tooltip-left, 50%);
+      bottom: calc(100% + 8px);
+      width: 260px;
+      max-width: calc(100vw - 32px);
+      box-sizing: border-box;
+      padding: 9px 10px;
+      border: 1px solid #dcd8f7;
+      border-radius: 10px;
+      background: #202743;
+      color: #fff;
+      font-size:14px;
+      font-weight: 700;
+      line-height: 1.6;
+      text-align: left;
+      box-shadow: 0 8px 24px rgba(23,32,51,.18);
+      transform: translateX(-50%) translateY(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: .15s ease;
+    }
+
+    .metric-help:hover::after,
+    .metric-help:focus-visible::after,
+    .metric-help.open::after {
+      display: block;
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .analysis-help {
+      margin: 7px 0 14px;
+      color: var(--muted);
+      font-size:14px;
+      font-weight: 700;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 760px) {
+      .discovery-card-performance {
+        min-height: 128px;
+      }
+
+      .discovery-card-performance .discovery-title {
+        font-size: 16px;
+      }
+
+      .song-gap-cta {
+        grid-template-columns: 34px minmax(0,1fr) auto;
+        padding: 13px 14px;
+      }
+
+      .song-gap-cta-icon {
+        width: 34px;
+        height: 34px;
+      }
+
+      .song-record-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+    }
+
+    @media (max-width: 520px) {
+      .song-record-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .song-gap-cta small {
+        line-height: 1.5;
+      }
+    }
+
+
+    /* v4.4 追加：曲切替ナビを主要操作として強調 */
+    #songSelect {
+      min-height: 52px !important;
+      padding: 0 42px 0 15px !important;
+      border: 2px solid #bcb4ff !important;
+      border-radius: 13px !important;
+      background: #fff !important;
+      color: var(--navy) !important;
+      font-size: 16px !important;
+      font-weight: 900 !important;
+      cursor: pointer;
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+
+    #songSelect:hover,
+    #songSelect:focus {
+      outline: none;
+      border-color: var(--indigo) !important;
+      box-shadow: 0 0 0 4px rgba(79,70,229,.10);
+    }
+
+    .song-selector,
+    .song-switcher,
+    .song-nav-center {
+      border-color: #cfc8ff !important;
+      background:
+        radial-gradient(circle at 88% 0, rgba(79,70,229,.10), transparent 35%),
+        linear-gradient(180deg,#fbfaff,#fff) !important;
+      box-shadow: 0 12px 32px rgba(79,70,229,.10) !important;
+    }
+
+    .song-selector label,
+    .song-switcher label,
+    .song-nav-center label {
+      color: var(--indigo) !important;
+      font-size: 14px !important;
+      font-weight: 900 !important;
+    }
+    .song-switch-label {
+      color: var(--indigo) !important;
+      font-size:14px !important;
+      font-weight: 900 !important;
+    }
+
+    @media (max-width: 760px) {
+      .song-nav {
+        display: grid !important;
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+        gap: 10px !important;
+      }
+
+      .song-selector,
+      .song-switcher,
+      .song-nav-center {
+        grid-column: 1 / -1 !important;
+        grid-row: 1 !important;
+      }
+
+      #songSelect {
+        min-height: 50px !important;
+        font-size: 15px !important;
+      }
+    }
+
+
+    .crumb a{
+      color:inherit;
+      text-decoration:none;
+    }
+    .crumb a:hover{
+      color:var(--indigo);
+      text-decoration:underline;
+    }
+
+    .song-hero-kicker{
+      margin:0 0 8px;
+      color:rgba(255,255,255,.62);
+      font-size:14px;
+      font-weight:900;
+      letter-spacing:.12em;
+    }
+
+    .v46-detail-context{
+      position:fixed;
+      z-index:2200;
+      top:0;
+      right:0;
+      left:0;
+      padding:0 18px;
+      pointer-events:none;
+      visibility:hidden;
+      opacity:0;
+      transform:translateY(-12px);
+      transition:opacity .18s ease,transform .18s ease,visibility 0s linear .18s;
+    }
+    .v46-detail-context.is-visible{
+      visibility:visible;
+      opacity:1;
+      transform:translateY(0);
+      transition-delay:0s;
+    }
+    .v46-detail-context-inner{
+      width:min(1090px,100%);
+      min-height:50px;
+      margin:0 auto;
+      padding:8px 10px 8px 13px;
+      display:grid;
+      grid-template-columns:auto minmax(0,1fr) auto;
+      gap:10px;
+      align-items:center;
+      border:1px solid rgba(221,225,235,.96);
+      border-radius:0 0 15px 15px;
+      background:rgba(255,255,255,.96);
+      box-shadow:0 12px 28px rgba(23,32,51,.13);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      pointer-events:none;
+    }
+    .v46-detail-context.is-visible .v46-detail-context-inner{pointer-events:auto}
+    .v46-detail-context-type{
+      padding:5px 9px;
+      border-radius:999px;
+      background:#eceaff;
+      color:#4f46e5;
+      font-size:14px;
+      font-weight:900;
+      white-space:nowrap;
+    }
+    .v46-detail-context-title{
+      min-width:0;
+      overflow:hidden;
+      color:#172033;
+      font-size:14px;
+      font-weight:900;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .v46-detail-context-top{
+      min-height:34px;
+      padding:0 11px;
+      border:0;
+      border-radius:10px;
+      background:#4f46e5;
+      color:#fff;
+      font-size:14px;
+      font-weight:900;
+      cursor:pointer;
+    }
+    @media(max-width:820px){
+      .v46-detail-context{padding:0 8px}
+      .v46-detail-context-inner{
+        min-height:46px;
+        padding:7px 8px 7px 10px;
+        border-radius:0 0 13px 13px;
+      }
+      .v46-detail-context-title{font-size: 14px}
+      .v46-detail-context-top{padding:0 9px}
+    }
+
+
+    .basic-release{margin-top:18px;padding-top:16px;border-top:1px solid #e5e7f0}
+    .basic-release-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+    .basic-release-label{font-size: 14px;font-weight:800;color:#626b7d}
+    .basic-release-head strong{font-size:16px;color:#17213b}
+    .basic-release .official-release-meta{margin:0 0 10px}
+    .basic-release .official-release-action{display:block}
+    .basic-release .official-release-links{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
+    .basic-release .official-release-link{display:inline-flex;width:auto;min-height:38px;padding:0 14px;font-size: 14px}
+    .basic-release .release-detail-link{border:1px solid var(--indigo);background:#fff;color:var(--indigo)}
+    .basic-release .official-release-note{display:block;margin-top:7px;font-size: 14px;text-align:left}
+    @media (max-width:640px){.basic-release .official-release-links{align-items:stretch}.basic-release .official-release-link{width:100%;white-space:normal;text-align:center}.basic-release .official-release-note{margin:6px 0 0;text-align:center}}
+
+    .song-included-releases{margin-top:24px}.song-included-releases .section-head{align-items:flex-end}.song-included-release-count{flex:none;color:var(--muted);font-size: 14px;font-weight:900}.song-included-release-list{display:grid;gap:14px}.song-included-series-group{display:grid;gap:12px;padding:16px;border:1px solid var(--line);border-radius:18px;background:#fafaff}.song-included-series-heading{margin:0;color:var(--indigo);font-size:17px;font-weight:900;overflow-wrap:anywhere}.song-included-series-items{display:grid;gap:12px}.song-included-release-card{min-width:0;padding:18px;border:1px solid var(--line);border-radius:16px;background:#fff}.song-included-release-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.song-included-release-link{min-width:0;color:var(--navy);font-size:16px;font-weight:900;line-height:1.55;text-decoration:none;overflow-wrap:anywhere}.song-included-release-link:hover{text-decoration:underline}.song-included-release-link:focus-visible{outline:3px solid rgba(79,70,229,.34);outline-offset:3px;border-radius:4px}.song-included-release-arrow{color:var(--indigo);font-size:20px}.song-included-release-badges{display:flex;justify-content:flex-end;gap:6px;flex-wrap:wrap;flex:none}.song-included-release-badge,.song-included-variant{display:inline-flex;max-width:100%;padding:3px 8px;border:1px solid var(--line);border-radius:999px;background:#fafaff;color:var(--indigo);font-size:14px;font-weight:900;line-height:1.4;overflow-wrap:anywhere}.song-included-release-badge.debut{border-color:#c9c4ff;background:#f0efff}.song-included-release-date,.song-included-release-singer{margin:7px 0 0;color:var(--muted);font-size:14px;font-weight:700}.song-included-release-singer{color:var(--navy)}.song-included-relation-list{margin-top:14px;border-top:1px solid var(--line)}.song-included-relation-row{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;min-height:42px;padding:10px 2px;border-bottom:1px solid var(--line);color:var(--muted);font-size:14px;font-weight:800}.song-included-relation-row:last-child{border-bottom:0;padding-bottom:0}.song-included-relation-empty{color:var(--muted);font-weight:700}.song-included-releases-empty,.song-included-releases-error{padding:20px 18px;border:1px solid var(--line);border-radius:16px;color:var(--muted);line-height:1.8}.song-included-releases-error{border-color:#fecaca;background:#fff7f7;color:#991b1b}.song-included-releases-error a{color:inherit;font-weight:900}
+    .song-included-variant{font-size:14px}
+    @media(max-width:620px){.song-included-release-head{display:block}.song-included-release-badges{justify-content:flex-start;margin-top:9px}.song-included-series-group{padding:14px 10px}.song-included-release-card{padding:16px 14px}.song-included-relation-row{align-items:flex-start;flex-direction:column;gap:6px}}
+
+    /* STEP15-A: 歌唱履歴を主役にした曲詳細UX */
+    .detail-local-nav .history-nav-link{
+      background:var(--indigo);
+      color:#fff;
+      border-color:var(--indigo);
+    }
+    .detail-local-nav .history-nav-link:hover{
+      background:#4f46c8;
+      color:#fff;
+    }
+    #mainContent,
+    #songRecordsSection,
+    #historySection,
+    #songAnalysisSection,
+    #relatedSongArea{
+      scroll-margin-top:120px;
+    }
+    #historySection{
+      padding:22px;
+      border:1px solid #d8d2f3;
+      border-radius:20px;
+      background:linear-gradient(180deg,#fbfaff 0%,#fff 100%);
+    }
+    .history-purpose{
+      margin:6px 0 0;
+      color:#566074;
+      font-size:14px;
+      font-weight:700;
+      line-height:1.7;
+    }
+    #relatedSongArea{margin-top:34px}
+    #historyList .song-row{grid-template-columns:minmax(0,1fr)}
+    #historyList .song-row:hover{background:transparent}
+    #historyList .song-history-event-link{display:inline-block;width:fit-content;color:var(--navy);text-decoration:none}
+    #historyList .song-history-singer-link{color:var(--indigo);text-decoration:none}
+    #historyList .song-history-event-link:hover,#historyList .song-history-singer-link:hover{color:var(--indigo);text-decoration:underline;text-underline-offset:3px}
+    #historyList .song-history-event-link:focus-visible,#historyList .song-history-singer-link:focus-visible{outline:3px solid var(--indigo);outline-offset:2px;border-radius:3px}
+    #historyList .song-history-event-link .arrow{margin-left:5px}
+    @media(max-width:620px){
+      #historySection{padding:17px 14px;border-radius:17px}
+      .history-purpose{font-size:14px}
+    }
+
+    .song-hero-v46 .song-thank-you{
+      width:fit-content;
+      max-width:100%;
+      margin:16px 0 0 auto;
+      padding:0;
+      color:rgba(255,255,255,.82);
+      font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+      font-size:15px;
+      font-weight:500;
+      font-style:italic;
+      letter-spacing:.1em;
+      line-height:1.5;
+      text-align:right;
+    }
+
+    .song-hero-v46 .song-hero-decoration[hidden]{display:none}
+    .song-hero-v46 .song-intro-decoration{
+      margin:14px 0 2px;
+      color:rgba(255,255,255,.88);
+      font-family:"Yu Gothic",sans-serif;
+      font-size:15px;
+      font-weight:500;
+      letter-spacing:.04em;
+      line-height:1.5;
+    }
+    .song-hero-v46 .song-dialogue-decoration{
+      position:absolute;
+      top:137px;
+      right:52px;
+      width:max-content;
+      max-width:37%;
+      margin:0;
+      color:rgba(255,255,255,.88);
+      font-family:"BIZ UDGothic","Yu Gothic",sans-serif;
+      font-size:13.5px;
+      font-weight:400;
+      line-height:1.8;
+      text-align:left;
+      white-space:pre-line;
+    }
+    .song-hero-v46 .song-dialogue-decoration::before{content:"“";font-size:22px;line-height:0}
+    .song-hero-v46 .song-dialogue-decoration::after{content:"”";font-size:22px;line-height:0}
+    .song-hero-v46:has(.song-dialogue-decoration:not([hidden])) #songName,
+    .song-hero-v46:has(.song-dialogue-decoration:not([hidden])) #heroMeta{max-width:58%}
+    .song-hero-v46 .song-catchcopy-decoration{
+      width:fit-content;
+      max-width:100%;
+      margin:17px 0 0 auto;
+      color:rgba(255,255,255,.86);
+      font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+      font-size:16px;
+      font-style:italic;
+      font-weight:500;
+      letter-spacing:.04em;
+      line-height:1.6;
+      text-align:right;
+    }
+    @media(max-width:620px){
+      .song-hero-v46 .song-dialogue-decoration{
+        position:static;
+        width:auto;
+        max-width:100%;
+        margin:18px 0 0;
+        font-size:13.5px;
+      }
+      .song-hero-v46:has(.song-dialogue-decoration:not([hidden])) #songName,
+      .song-hero-v46:has(.song-dialogue-decoration:not([hidden])) #heroMeta{max-width:100%}
+      .song-hero-v46 .song-catchcopy-decoration{font-size:14px}
+    }
+
+</style>
+
+
+  <style>
+    .detail-local-nav {
+      display: none !important;
+    }
+  </style>
+
+
+  <meta name="description" content="No brand girlsの発売・収録情報と歌唱記録。発売日2013-04-03、歌唱記録50件。現行DBの初回歌唱日2013-06-16、最終歌唱日2026-05-17。">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <meta property="og:site_name" content="μ's Song Database">
+  <meta property="og:title" content="No brand girls｜μ's Song Database">
+  <meta property="og:description" content="No brand girlsの発売・収録情報と歌唱記録。発売日2013-04-03、歌唱記録50件。現行DBの初回歌唱日2013-06-16、最終歌唱日2026-05-17。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mus-song-db.com/song/S045.html">
+  <meta property="og:image" content="https://mus-song-db.com/assets/images/og-default-v2.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="μ's Song Database｜μ's歌唱履歴データベース">
+  <meta property="og:locale" content="ja_JP">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="No brand girls｜μ's Song Database">
+  <meta name="twitter:description" content="No brand girlsの発売・収録情報と歌唱記録。発売日2013-04-03、歌唱記録50件。現行DBの初回歌唱日2013-06-16、最終歌唱日2026-05-17。">
+  <meta name="twitter:image" content="https://mus-song-db.com/assets/images/og-default-v2.png">
+  <meta name="twitter:image:alt" content="μ's Song Database｜μ's歌唱履歴データベース">
+
+  <meta name="theme-color" content="#4f46e5">
+
+  <script src="assets/js/seo-v351.js?v=5.2.0&amp;cache=domain-f&amp;songUrls=1" defer=""></script>
+  <style>
+    .song-hero-v46{min-height:248px}.song-hero-v46 #songName{min-height:1.35em}.song-hero-v46 #heroMeta{min-height:1.5em}.song-hero-v46 .muse-line{min-height:9px}
+    .song-detail-skeleton{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:18px}.song-detail-skeleton[hidden]{display:none}.song-detail-skeleton-card{min-height:150px;padding:22px;border:1px solid var(--line);border-radius:18px;background:#fff}.song-detail-skeleton-card.wide{grid-column:1/-1}.song-detail-skeleton-line{display:block;height:12px;margin-bottom:14px;border-radius:999px;background:#ececf5}.song-detail-skeleton-line.short{width:30%}.song-detail-skeleton-line.medium{width:64%}.song-detail-skeleton-line:last-child{margin-bottom:0}
+    @media(max-width:620px){.song-hero-v46{min-height:230px}.song-detail-skeleton{grid-template-columns:1fr}.song-detail-skeleton-card{min-height:138px;padding:19px 17px}}
+  </style>
+<link rel="stylesheet" href="assets/css/icons.css?v=2"><link id="musdb-analytics-consent-style" rel="stylesheet" href="assets/css/analytics-consent.css?v=1.0.0"><style id="globalSearchEnhancementStyles">
+    .global-search-wrap {
+      position: relative;
+      min-width: 0;
+    }
+
+    .global-search-suggestions {
+      position: absolute;
+      z-index: 1000;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow:
+        0 18px 44px
+        rgba(23, 32, 51, .18);
+    }
+
+    .global-suggest-list {
+      max-height: 420px;
+      overflow-y: auto;
+    }
+
+    .global-suggest-item {
+      display: grid;
+      grid-template-columns:
+        76px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      color: var(--navy);
+      text-decoration: none;
+    }
+
+    .global-suggest-item:hover,
+    .global-suggest-item.active {
+      background: #f8f7ff;
+    }
+
+    .global-suggest-type {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 25px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .global-suggest-type.singer {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .global-suggest-type.song {
+      background: #ede9fe;
+      color: #5b21b6;
+    }
+
+    .global-suggest-type.release {
+      background: #eef2ff;
+      color: #4338ca;
+    }
+
+    .global-suggest-type.event {
+      background: #fce7f3;
+      color: #be185d;
+    }
+
+    .global-suggest-type.venue {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .global-suggest-copy {
+      min-width: 0;
+    }
+
+    .global-suggest-copy strong,
+    .global-suggest-copy small {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .global-suggest-copy strong {
+      font-size: 13px;
+    }
+
+    .global-suggest-copy small {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 14px;font-weight:500;
+    }
+
+    .global-suggest-copy mark {
+      border-radius: 3px;
+      background: #fff0a8;
+      color: inherit;
+    }
+
+    .global-suggest-arrow {
+      color: var(--indigo);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .global-suggest-state {
+      padding: 18px 14px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .global-suggest-all {
+      width: 100%;
+      min-height: 42px;
+      border: 0;
+      border-top: 1px solid var(--line);
+      background: #fff;
+      color: var(--indigo);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .global-suggest-all:hover {
+      background: #f8f7ff;
+    }
+
+    .global-suggest-dots {
+      display: inline-flex;
+      gap: 4px;
+      margin-left: 5px;
+    }
+
+    .global-suggest-dots i {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--indigo);
+      animation:
+        globalSuggestDot
+        .8s infinite alternate;
+    }
+
+    .global-suggest-dots i:nth-child(2) {
+      animation-delay: .12s;
+    }
+
+    .global-suggest-dots i:nth-child(3) {
+      animation-delay: .24s;
+    }
+
+    @keyframes globalSuggestDot {
+      to {
+        opacity: .25;
+        transform: translateY(-2px);
+      }
+    }
+
+
+    .mobile-nav-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      padding: 9px;
+      flex: 0 0 auto;
+      border: 1px solid #e1e4ec;
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .mobile-nav-toggle span {
+      display: block;
+      height: 2px;
+      margin: 5px 0;
+      border-radius: 999px;
+      background: var(--navy);
+      transition:
+        transform .18s ease,
+        opacity .18s ease;
+    }
+
+    .mobile-nav-toggle.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .mobile-nav-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-nav-toggle.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .back-to-top {
+      position: fixed;
+      z-index: 900;
+      right: 22px;
+      bottom: 22px;
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.4);
+      border-radius: 50%;
+      background: rgba(79,70,229,.94);
+      color: #fff;
+      box-shadow: 0 12px 30px rgba(35,31,95,.24);
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity .18s ease, transform .18s ease;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .back-to-top span {
+      display: block;
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .back-to-top small {
+      display: block;
+      margin-top: -8px;
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    @media (max-width: 760px) {
+      .global-search-suggestions {
+        position: fixed;
+        top: 72px;
+        right: 12px;
+        left: 12px;
+      }
+
+
+    .mobile-nav-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      padding: 9px;
+      flex: 0 0 auto;
+      border: 1px solid #e1e4ec;
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .mobile-nav-toggle span {
+      display: block;
+      height: 2px;
+      margin: 5px 0;
+      border-radius: 999px;
+      background: var(--navy);
+      transition:
+        transform .18s ease,
+        opacity .18s ease;
+    }
+
+    .mobile-nav-toggle.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .mobile-nav-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-nav-toggle.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .back-to-top {
+        right: 14px;
+        bottom: 14px;
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+    /* v2.6.3 スマホナビ完全修正版 */
+    .mus-mobile-menu-button,
+    .mus-mobile-drawer,
+    .mus-mobile-menu-overlay {
+      box-sizing: border-box;
+    }
+
+    .mus-mobile-menu-button {
+      display: none;
+      width: 46px;
+      height: 46px;
+      padding: 10px;
+      flex: 0 0 auto;
+      border: 1px solid #dfe3ec;
+      border-radius: 13px;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(23,32,51,.08);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mus-mobile-menu-button span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      margin: 5px 0;
+      border-radius: 999px;
+      background: #172033;
+      transition:
+        transform .2s ease,
+        opacity .2s ease;
+    }
+
+    .mus-mobile-menu-button.is-open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .mus-mobile-menu-button.is-open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mus-mobile-menu-button.is-open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .mus-mobile-menu-overlay {
+      position: fixed;
+      z-index: 1998;
+      inset: 0;
+      background: rgba(15,23,42,.42);
+      opacity: 0;
+      transition: opacity .2s ease;
+    }
+
+    .mus-mobile-menu-overlay.is-open {
+      opacity: 1;
+    }
+
+    .mus-mobile-drawer {
+      position: fixed;
+      z-index: 1999;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(84vw, 320px);
+      padding: max(18px, env(safe-area-inset-top)) 16px
+        max(18px, env(safe-area-inset-bottom));
+      overflow-y: auto;
+      background: #fff;
+      box-shadow: -16px 0 44px rgba(15,23,42,.2);
+      transform: translateX(105%);
+      transition: transform .22s ease;
+      visibility: hidden;
+    }
+
+    .mus-mobile-drawer.is-open {
+      transform: translateX(0);
+      visibility: visible;
+    }
+
+    .mus-mobile-drawer-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 3px 2px 16px;
+      border-bottom: 1px solid #e7e9ef;
+    }
+
+    .mus-mobile-drawer-head b,
+    .mus-mobile-drawer-head small {
+      display: block;
+    }
+
+    .mus-mobile-drawer-head b {
+      color: #172033;
+      font-size: 20px;
+    }
+
+    .mus-mobile-drawer-head small {
+      margin-top: 3px;
+      color: #7b8498;
+      font-size: 11px;
+    }
+
+    .mus-mobile-menu-close {
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      background: #f2f3f7;
+      color: #172033;
+      font-size: 25px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .mus-mobile-drawer-nav {
+      margin-top: 16px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .mus-mobile-drawer-nav a {
+      min-height: 50px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      border: 1px solid #e7e9ef;
+      border-radius: 14px;
+      background: #fff;
+      color: #172033;
+      font-size: 14px;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .mus-mobile-drawer-nav a.active {
+      border-color: #c8c4fb;
+      background: #f2f0ff;
+      color: #4f46e5;
+    }
+
+    html.mus-menu-lock,
+    html.mus-menu-lock body {
+      overflow: hidden !important;
+      overscroll-behavior: none;
+    }
+
+    @media (max-width: 980px) {
+      .site-header {
+        overflow: visible !important;
+      }
+
+      .site-header .header-inner {
+        position: relative !important;
+        display: grid !important;
+        grid-template-columns:
+          minmax(0, 1fr) 46px !important;
+        gap: 10px 12px !important;
+        align-items: center !important;
+      }
+
+      .site-header .brand {
+        grid-column: 1 !important;
+        grid-row: 1 !important;
+        min-width: 0 !important;
+      }
+
+      .site-header .mus-mobile-menu-button {
+        display: block !important;
+        grid-column: 2 !important;
+        grid-row: 1 !important;
+        align-self: center !important;
+        justify-self: end !important;
+      }
+
+      .site-header .global-search-wrap {
+        grid-column: 1 / -1 !important;
+        grid-row: 2 !important;
+        width: 100% !important;
+        min-width: 0 !important;
+      }
+
+      .site-header .mus-desktop-navigation {
+        display: none !important;
+      }
+
+      .global-search-suggestions {
+        position: fixed !important;
+        z-index: 2001 !important;
+        top: 134px !important;
+        right: 12px !important;
+        left: 12px !important;
+      }
+    }
+
+    @media (min-width: 981px) {
+      .mus-mobile-drawer,
+      .mus-mobile-menu-overlay {
+        display: none !important;
+      }
+    }
+
+  </style><link rel="canonical" data-seo-dynamic="true" href="https://mus-song-db.com/song/S045.html"></head>
+
+<body class="">
+  <div id="siteHeader">
+      <header class="site-header">
+        <div class="header-inner">
+          <a class="brand" href="index.html">
+            <span class="brand-lockup">
+              <span class="brand-mu">μ</span>
+              <span class="brand-copy">
+                <b class="brand-rest">'s Song Database</b>
+                <small>μ's歌唱履歴データベース</small>
+              </span>
+            </span>
+          </a>
+
+          <div class="global-search-wrap" id="globalSearchWrap">
+            <div class="global-search">
+              <span><span class="site-icon-inline " data-site-icon="search" aria-hidden="true" data-icon-rendered="search"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></span></span>
+
+              <input id="globalSearchInput" type="search" placeholder="μ'sの歴史を検索" autocomplete="off" aria-label="曲・イベント・会場・歌唱名義を検索" aria-expanded="false" aria-controls="globalSearchSuggestions">
+            </div>
+
+            <div class="global-search-suggestions" id="globalSearchSuggestions" role="listbox" hidden=""></div>
+          </div>
+
+          <button class="mus-mobile-menu-button" id="musMobileMenuButton" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="musMobileDrawer">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <nav class="nav mus-desktop-navigation" id="siteNavigation">
+            <a class="" href="index.html">
+              ホーム
+            </a>
+
+            <a class="active" href="songs.html">
+              曲
+            </a>
+
+            <a class="" href="releases.html">
+              リリース
+            </a>
+
+            <a class="" href="events.html">
+              イベント
+            </a>
+
+            <a class="" href="venues.html">
+              会場
+            </a>
+
+            <a class="" href="singers.html">
+              歌唱名義
+            </a>
+
+            <a class="" href="rankings.html">
+              ランキング
+            </a>
+
+            <a class="" href="statistics.html">
+              統計
+            </a>
+
+            <a class="" href="about.html">
+              About
+            </a>
+          </nav>
+        </div>
+      </header>
+
+      <div class="mus-mobile-menu-overlay" id="musMobileMenuOverlay" hidden=""></div>
+
+      <aside class="mus-mobile-drawer" id="musMobileDrawer" aria-hidden="true" aria-label="スマホメニュー">
+        <div class="mus-mobile-drawer-head">
+          <div>
+            <b>Menu</b>
+            <small>μ's Song Database</small>
+          </div>
+
+          <button class="mus-mobile-menu-close" id="musMobileMenuClose" type="button" aria-label="メニューを閉じる">
+            ×
+          </button>
+        </div>
+
+        <nav class="mus-mobile-drawer-nav">
+          <a class="" href="index.html">
+            <span>ホーム</span>
+          </a>
+
+          <a class="active" href="songs.html">
+            <span>曲</span>
+          </a>
+
+          <a class="" href="releases.html">
+            <span>リリース</span>
+          </a>
+
+          <a class="" href="events.html">
+            <span>イベント</span>
+          </a>
+
+          <a class="" href="venues.html">
+            <span>会場</span>
+          </a>
+
+          <a class="" href="singers.html">
+            <span>歌唱名義</span>
+          </a>
+
+          <a class="" href="rankings.html">
+            <span>ランキング</span>
+          </a>
+
+          <a class="" href="statistics.html">
+            <span>統計</span>
+          </a>
+
+          <a class="" href="about.html">
+            <span>About</span>
+          </a>
+        </nav>
+      </aside></div>
+
+  <main>
+    <div class="crumb"><a href="index.html">ホーム</a> <span class="site-icon-inline site-breadcrumb-icon" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span> 曲詳細</div>
+
+    <section class="hero song-hero-v46">
+      <p class="song-hero-kicker">SONG DETAIL</p>
+      <span class="badge">
+        曲
+      </span>
+
+      <p class="song-hero-decoration song-intro-decoration" id="songIntroDecoration" hidden=""></p>
+
+      <h1 id="songName">No brand girls</h1>
+
+      <p id="heroMeta">S045 ｜ TVアニメ｜挿入歌｜2013/04/03</p>
+
+      <div class="song-share-actions" id="songShareActions" hidden="">
+        <button type="button" class="song-share-button primary" id="shareButton">共有</button>
+        <button type="button" class="song-share-button" id="copyUrlButton">URLをコピー</button>
+        <a class="song-share-button" id="xShareButton" href="https://twitter.com/intent/tweet?text=No%20brand%20girls%20%7C%20%CE%BC's%20Song%20Database&amp;url=http%3A%2F%2F127.0.0.1%3A56772%2Fshare%2Fsong%2FS045.html" target="_blank" rel="noopener noreferrer">Xで共有</a>
+        <span class="song-share-message" id="shareMessage" aria-live="polite"></span>
+      </div>
+
+      <blockquote class="song-hero-decoration song-dialogue-decoration" id="songDialogueDecoration" hidden=""></blockquote>
+      <p class="song-hero-decoration song-catchcopy-decoration" id="songCatchcopyDecoration">私たちの夢は…まだまだ終わらない!</p>
+      <p class="song-hero-decoration song-thank-you" id="songThankYou" hidden=""></p>
+
+      <div class="muse-line">
+        <i></i><i></i><i></i>
+        <i></i><i></i><i></i>
+        <i></i><i></i><i></i>
+      </div>
+    </section>
+
+    <section class="song-switcher" id="songSwitcher" aria-label="曲の切り替え" hidden="">
+      <a class="song-switch-link disabled" id="previousSongButton">
+        <span class="song-switch-label">
+          <span class="site-icon-inline " data-site-icon="arrow-left" aria-hidden="true" data-icon-rendered="arrow-left"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg></span> 前の曲
+        </span>
+
+        <span class="song-switch-title" id="previousSongTitle">前の曲はありません</span>
+      </a>
+
+      <div class="song-switch-select-wrap">
+        <label for="songPicker">
+          曲を切り替える
+        </label>
+
+        <select class="song-switch-select" id="songPicker"></select>
+      </div>
+
+      <a class="song-switch-link next disabled" id="nextSongButton">
+        <span class="song-switch-label">
+          次の曲 <span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true" data-icon-rendered="arrow-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
+        </span>
+
+        <span class="song-switch-title" id="nextSongTitle">次の曲はありません</span>
+      </a>
+    </section>
+
+    <nav class="detail-local-nav" id="detailLocalNav" aria-label="ページ内ナビゲーション">
+      <a href="song/S045.html#mainContent">概要</a>
+      <a href="song/S045.html#historySection" class="history-nav-link">歌唱履歴</a>
+      <a href="song/S045.html#discoverySection">この曲を巡る</a>
+      <a href="song/S045.html#songAnalysisSection">分析</a>
+    </nav>
+
+    <div class="status" id="status" hidden="">
+    <span class="loading-text">
+      曲データを読み込んでいます
+      <span class="loading-dots"><i></i><i></i><i></i></span>
+    </span></div>
+
+    <div class="retry-wrap">
+      <button class="retry-button" id="retryButton" type="button" hidden="">
+        再試行
+      </button>
+    </div>
+
+    <div class="song-detail-skeleton" id="songDetailSkeleton" aria-hidden="true" hidden="">
+      <div class="song-detail-skeleton-card"><span class="song-detail-skeleton-line short"></span><span class="song-detail-skeleton-line medium"></span><span class="song-detail-skeleton-line"></span><span class="song-detail-skeleton-line medium"></span></div>
+      <div class="song-detail-skeleton-card"><span class="song-detail-skeleton-line short"></span><span class="song-detail-skeleton-line medium"></span><span class="song-detail-skeleton-line"></span><span class="song-detail-skeleton-line"></span></div>
+      <div class="song-detail-skeleton-card wide"><span class="song-detail-skeleton-line short"></span><span class="song-detail-skeleton-line medium"></span><span class="song-detail-skeleton-line"></span></div>
+    </div>
+
+    <section class="grid" id="mainContent">
+      <article class="card">
+        <p class="kicker">
+          SONG INFORMATION
+        </p>
+
+        <h2>基本情報</h2>
+
+        <dl class="info" id="songInfo">
+    <dt>表示名</dt>
+    <dd>No brand girls</dd>
+    <dt>バージョン</dt>
+    <dd>通常</dd>
+    <dt>収録CD</dt>
+    <dd>No brand girls／START:DASH!!</dd>
+    <dt>発売日</dt>
+    <dd>2013/04/03</dd>
+    <dt>メディア</dt>
+    <dd>TVアニメ</dd>
+    <dt>区分</dt>
+    <dd>挿入歌</dd></dl><p class="detail-note" data-prerender-description="">No brand girlsの発売・収録情報と歌唱記録。発売日2013-04-03、歌唱記録50件。現行DBの初回歌唱日2013-06-16、最終歌唱日2026-05-17。</p>
+
+        <div id="releaseSection" class="basic-release">
+          <div class="basic-release-head">
+            <span class="basic-release-label">収録作品</span>
+            <strong id="releaseTitle">No brand girls／START:DASH!!</strong>
+          </div>
+          <dl class="official-release-meta" id="releaseMeta">
+      <div>
+        <dt>発売日</dt>
+        <dd>2013/04/03</dd>
+      </div>
+
+      <div>
+        <dt>メディア</dt>
+        <dd>TVアニメ</dd>
+      </div>
+
+      <div>
+        <dt>区分</dt>
+        <dd>挿入歌</dd>
+      </div>
+    </dl>
+          <div class="official-release-action" id="releaseAction"><div class="official-release-links">
+
+        <a class="official-release-link" href="https://www.lovelive-anime.jp/otonokizaka/release.php#cd24" target="_blank" rel="noopener noreferrer">
+          公式作品ページを見る <span class="site-icon-inline " data-site-icon="external-link" aria-hidden="true" data-icon-rendered="external-link"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg></span>
+        </a>
+
+
+        <a class="official-release-link release-detail-link" href="release.html?id=R0022">
+          リリース詳細を見る
+        </a>
+
+    </div>
+    <div class="official-release-note">新しいタブで開きます</div></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <p class="kicker">
+          PERFORMANCE SUMMARY
+        </p>
+
+        <h2>歌唱統計</h2>
+
+        <div class="stats" id="songStats">
+      <div class="stat">
+        <div class="value">50</div>
+        <div class="label">
+          <span>歌唱イベント数</span>
+          <button class="metric-help" type="button" aria-label="歌唱イベント数の説明" data-tooltip="この曲が歌われたイベント・公演の数です。">i</button>
+        </div>
+      </div>
+      <div class="stat">
+        <div class="value">35</div>
+        <div class="label">
+          <span>公式イベント</span>
+
+        </div>
+      </div>
+      <div class="stat">
+        <div class="value">15</div>
+        <div class="label">
+          <span>ソロイベント</span>
+
+        </div>
+      </div>
+      <div class="stat">
+        <div class="value">50</div>
+        <div class="label">
+          <span>歌唱記録数</span>
+          <button class="metric-help" type="button" aria-label="歌唱記録数の説明" data-tooltip="歌唱RAWに登録された歌唱データ数です。同一公演内で複数回歌われた場合は別記録として数えます。">i</button>
+        </div>
+      </div></div>
+
+      </article>
+    </section><section class="section" id="songRecordsSection">
+      <div class="section-head">
+        <div>
+          <p class="kicker">SONG RECORDS</p>
+          <h2>この曲の記録</h2>
+        </div>
+      </div>
+
+      <div class="song-record-grid" id="songRecordGrid">
+      <article class="song-record-card">
+        <div class="song-record-label">
+          <span>最多歌唱年</span>
+
+        </div>
+
+        <div class="song-record-value">
+          2015年
+        </div>
+
+        <div class="song-record-note">
+          12件の歌唱記録
+        </div>
+      </article>
+      <article class="song-record-card">
+        <div class="song-record-label">
+          <span>最長ブランク</span>
+
+        </div>
+
+        <div class="song-record-value">
+          1,133日
+        </div>
+
+        <div class="song-record-note">
+          2020/01/19〜2023/02/25
+        </div>
+      </article>
+      <article class="song-record-card">
+        <div class="song-record-label">
+          <span>公式イベント比率</span>
+
+        </div>
+
+        <div class="song-record-value">
+          70%
+        </div>
+
+        <div class="song-record-note">
+          公式 35件
+        </div>
+      </article>
+      <article class="song-record-card">
+        <div class="song-record-label">
+          <span>ソロイベント比率</span>
+
+        </div>
+
+        <div class="song-record-value">
+          30%
+        </div>
+
+        <div class="song-record-note">
+          ソロ 15件
+        </div>
+      </article>
+      <article class="song-record-card">
+        <div class="song-record-label">
+          <span>完全体率</span>
+          <button class="metric-help" type="button" aria-label="完全体率の説明" data-tooltip="この曲の本来の歌唱メンバーが全員揃って歌った記録の割合です。">i</button>
+        </div>
+
+        <div class="song-record-value">
+          24.0%
+        </div>
+
+        <div class="song-record-note">
+          完全体 12件／全50件
+        </div>
+      </article></div>
+    </section><section class="section" id="songAnalysisSection">
+      <div class="section-head">
+        <div>
+          <p class="kicker">SONG ANALYSIS</p>
+          <h2>歌唱データ分析</h2>
+        </div>
+      </div>
+
+      <div class="song-analysis-grid">
+        <article class="song-analysis-card">
+          <p class="kicker">YEARLY PERFORMANCES</p>
+          <h2>年別歌唱推移</h2>
+
+          <div class="song-year-chart" id="songYearChart">
+          <div class="song-year-scale">
+            <span></span>
+
+            <span class="song-chart-scale-labels">
+
+    <span style="left:0%">0件</span>
+
+    <span style="left:33.33333333333333%">4件</span>
+
+    <span style="left:66.66666666666666%">8件</span>
+
+    <span style="left:100%">12件</span>
+
+            </span>
+
+            <span></span>
+          </div>
+
+
+              <div class="song-year-row">
+                <span class="song-year-label">
+                  2013
+                </span>
+
+                <span class="song-year-track">
+                  <span class="song-year-bar" style="width:16.666666666666664%"></span>
+
+    <span class="song-chart-gridline" style="left:33.33333333333333%"></span>
+
+    <span class="song-chart-gridline" style="left:66.66666666666666%"></span>
+
+                </span>
+
+                <span class="song-year-value">
+                  2件
+                </span>
+              </div>
+              <div class="song-year-row">
+                <span class="song-year-label">
+                  2014
+                </span>
+
+                <span class="song-year-track">
+                  <span class="song-year-bar" style="width:58.333333333333336%"></span>
+
+    <span class="song-chart-gridline" style="left:33.33333333333333%"></span>
+
+    <span class="song-chart-gridline" style="left:66.66666666666666%"></span>
+
+                </span>
+
+                <span class="song-year-value">
+                  7件
+                </span>
+              </div>
+              <div class="song-year-row">
+                <span class="song-year-label">
+                  2015
+                </span>
+
+                <span class="song-year-track">
+                  <span class="song-year-bar" style="width:100%"></span>
+
+    <span class="song-chart-gridline" style="left:33.33333333333333%"></span>
+
+    <span class="song-chart-gridline" style="left:66.66666666666666%"></span>
+
+                </span>
+
+                <span class="song-year-value">
+                  12件
+                </span>
+              </div>
+              <div class="song-year-row">
+                <span class="song-year-label">
+                  2016
+                </span>
+
+                <span class="song-year-track">
+                  <span class="song-year-bar" style="width:58.333333333333336%"></span>
+
+    <span class="song-chart-gridline" style="left:33.33333333333333%"></span>
+
+    <span class="song-chart-gridline" style="left:66.66666666666666%"></span>
+
+                </span>
+
+                <span class="song-year-value">
+                  7件
+                </span>
+              </div>
+              <div class="song-year-row">
+                <span class="song-year-label">
+                  2017
+                </span>
+
+                <span class="song-year-track">
+                  <span class="song-year-bar" style="width:16.666666666666664%"></span>
+
+    <span class="song-chart-gridline" style="left:33.33333333333333%"></span>
+
+    <span class="song-chart-gridline" style="left:66.66666666666666%"></span>
+
+                </span>
+
+                <span class="song-year-value">
+                  2件
+                </span>
+              </div>
+              <div class="song-year-row">
+                <span class="song-year-label">
+                  2018
+                </span>
+
+                <span class="song-year-track">
+                  <span class="song-year-bar" style="width:8.333333333333332%"></span>
+
+    <span class="song-chart-gridline" style="left:33.33333333333333%"></span>
+
+    <span class="song-chart-gridline" style="left:66.66666666666666%"></span>
+
+                </span>
+
+                <span class="song-year-value">
+                  1件
+                </span>
+              </div>
+              <div class="song-year-row">
+                <span class="song-year-label">
+                  2019
+                </span>
+
+                <span class="song-year-track">
+                  <span class="song-year-bar" style="width:16.666666666666664%"></span>
+
+    <span class="song-chart-gridline" style="left:33.33333333333333%"></span>
+
+    <span class="song-chart-gridline" style="left:66.66666666666666%"></span>
+
+                </span>
+
+                <span class="song-year-value">
+                  2件
+                </span>
+              </div>
+              <div class="song-year-row">
+                <span class="song-year-label">
+                  2020
+                </span>
+
+                <span class="song-year-track">
+                  <span class="song-year-bar" style="width:16.666666666666664%"></span>
+
+    <span class="song-chart-gridline" style="left:33.33333333333333%"></span>
+
+    <span class="song-chart-gridline" style="left:66.66666666666666%"></span>
+
+                </span>
+
+                <span class="song-year-value">
+                  2件
+                </span>
+              </div>
+              <div class="song-year-row">
+                <span class="song-year-label">
+                  2023
+                </span>
+
+                <span class="song-year-track">
+                  <span class="song-year-bar" style="width:25%"></span>
+
+    <span class="song-chart-gridline" style="left:33.33333333333333%"></span>
+
+    <span class="song-chart-gridline" style="left:66.66666666666666%"></span>
+
+                </span>
+
+                <span class="song-year-value">
+                  3件
+                </span>
+              </div>
+              <div class="song-year-row">
+                <span class="song-year-label">
+                  2024
+                </span>
+
+                <span class="song-year-track">
+                  <span class="song-year-bar" style="width:50%"></span>
+
+    <span class="song-chart-gridline" style="left:33.33333333333333%"></span>
+
+    <span class="song-chart-gridline" style="left:66.66666666666666%"></span>
+
+                </span>
+
+                <span class="song-year-value">
+                  6件
+                </span>
+              </div>
+              <div class="song-year-row">
+                <span class="song-year-label">
+                  2025
+                </span>
+
+                <span class="song-year-track">
+                  <span class="song-year-bar" style="width:41.66666666666667%"></span>
+
+    <span class="song-chart-gridline" style="left:33.33333333333333%"></span>
+
+    <span class="song-chart-gridline" style="left:66.66666666666666%"></span>
+
+                </span>
+
+                <span class="song-year-value">
+                  5件
+                </span>
+              </div>
+              <div class="song-year-row">
+                <span class="song-year-label">
+                  2026
+                </span>
+
+                <span class="song-year-track">
+                  <span class="song-year-bar" style="width:8.333333333333332%"></span>
+
+    <span class="song-chart-gridline" style="left:33.33333333333333%"></span>
+
+    <span class="song-chart-gridline" style="left:66.66666666666666%"></span>
+
+                </span>
+
+                <span class="song-year-value">
+                  1件
+                </span>
+              </div>
+        </div>
+        </article>
+
+        <article class="song-analysis-card">
+          <p class="kicker">SINGER RANKING</p>
+          <h2>歌唱名義ランキング</h2>
+
+          <div class="singer-rank-list" id="singerRanking"><div class="empty">歌唱名義データはありません。</div></div>
+        </article>
+      </div>
+
+
+      <div class="song-analysis-grid song-analysis-grid-secondary" style="margin-top:14px">
+        <article class="song-analysis-card">
+          <p class="kicker">OFFICIAL / SOLO</p>
+          <h2>公式・ソロ歌唱比較</h2>
+          <div id="officialSoloChart" class="comparison-chart"><div class="comparison-scale">
+      <span></span>
+      <span class="song-chart-scale-labels">
+    <span style="left:0%">0件</span>
+
+    <span style="left:25.71428571428571%">9件</span>
+
+    <span style="left:51.42857142857142%">18件</span>
+
+    <span style="left:74.28571428571429%">26件</span>
+
+    <span style="left:100%">35件</span>
+  </span>
+      <span></span>
+    </div>
+      <div class="comparison-row">
+        <span class="comparison-label">公式</span>
+        <span class="comparison-track">
+          <span class="comparison-bar official" style="display:block;width:100%"></span>
+
+    <span class="song-chart-gridline" style="left:25.71428571428571%"></span>
+
+    <span class="song-chart-gridline" style="left:51.42857142857142%"></span>
+
+    <span class="song-chart-gridline" style="left:74.28571428571429%"></span>
+
+        </span>
+        <span class="comparison-value">35件</span>
+      </div>
+
+      <div class="comparison-row">
+        <span class="comparison-label">ソロ</span>
+        <span class="comparison-track">
+          <span class="comparison-bar solo" style="display:block;width:42.857142857142854%"></span>
+
+    <span class="song-chart-gridline" style="left:25.71428571428571%"></span>
+
+    <span class="song-chart-gridline" style="left:51.42857142857142%"></span>
+
+    <span class="song-chart-gridline" style="left:74.28571428571429%"></span>
+
+        </span>
+        <span class="comparison-value">15件</span>
+      </div>
+    </div>
+        </article>
+
+        <article class="song-analysis-card">
+          <p class="kicker">PERFORMANCE GAPS</p>
+          <h2>歌唱間隔の推移</h2>
+          <p class="analysis-help">前回歌唱から次に歌われるまでの日数を、直近8区間で表示します。</p>
+          <div id="gapChart" class="gap-chart">
+    <div class="gap-row">
+      <span class="gap-label">2024</span>
+      <span class="gap-track">
+        <span class="gap-bar" style="display:block;width:21%"></span>
+      </span>
+      <span class="gap-value">41日</span>
+    </div>
+
+    <div class="gap-row">
+      <span class="gap-label">2024</span>
+      <span class="gap-track">
+        <span class="gap-bar" style="display:block;width:55%"></span>
+      </span>
+      <span class="gap-value">106日</span>
+    </div>
+
+    <div class="gap-row">
+      <span class="gap-label">2025</span>
+      <span class="gap-track">
+        <span class="gap-bar" style="display:block;width:61%"></span>
+      </span>
+      <span class="gap-value">118日</span>
+    </div>
+
+    <div class="gap-row">
+      <span class="gap-label">2025</span>
+      <span class="gap-track">
+        <span class="gap-bar" style="display:block;width:3%"></span>
+      </span>
+      <span class="gap-value">1日</span>
+    </div>
+
+    <div class="gap-row">
+      <span class="gap-label">2025</span>
+      <span class="gap-track">
+        <span class="gap-bar" style="display:block;width:100%"></span>
+      </span>
+      <span class="gap-value">193日</span>
+    </div>
+
+    <div class="gap-row">
+      <span class="gap-label">2025</span>
+      <span class="gap-track">
+        <span class="gap-bar" style="display:block;width:48%"></span>
+      </span>
+      <span class="gap-value">93日</span>
+    </div>
+
+    <div class="gap-row">
+      <span class="gap-label">2025</span>
+      <span class="gap-track">
+        <span class="gap-bar" style="display:block;width:5%"></span>
+      </span>
+      <span class="gap-value">9日</span>
+    </div>
+
+    <div class="gap-row">
+      <span class="gap-label">2026</span>
+      <span class="gap-track">
+        <span class="gap-bar" style="display:block;width:90%"></span>
+      </span>
+      <span class="gap-value">174日</span>
+    </div>
+  </div>
+        </article>
+      </div>
+
+      <div id="relatedMasterSongs" hidden=""><div class="empty">同じ収録CD・メディア・区分の関連曲はありません。</div></div>
+    </section><section class="section" id="historySection">
+      <div class="section-head">
+        <div>
+          <p class="kicker">
+            PERFORMANCE HISTORY
+          </p>
+
+          <h2>歌唱履歴</h2>
+            <p class="history-purpose">この曲が、いつ・どのイベントで・誰に歌われたのかを時系列で確認できます。</p>
+        </div>
+
+        <div class="detail-note" id="historyCount">50件</div>
+      </div>
+
+
+      <div class="history-year-filter">
+        <div class="history-year-filter-head">
+          <div>
+            <p class="kicker">YEAR FILTER</p>
+            <h3>開催年で絞り込む</h3>
+          </div>
+          <button class="history-year-reset" id="historyYearReset" type="button" hidden="">
+            全期間に戻す
+          </button>
+        </div>
+        <p class="detail-note">年を選ぶと、下の歌唱履歴だけが切り替わります。</p>
+        <div id="yearTimeline" class="year-timeline">
+    <button class="year-timeline-button active" type="button" data-year="all">
+      全期間
+      <span>50件</span>
+    </button>
+
+      <button class="year-timeline-button " type="button" data-year="2013">
+        2013
+        <span>2件</span>
+      </button>
+
+      <button class="year-timeline-button " type="button" data-year="2014">
+        2014
+        <span>7件</span>
+      </button>
+
+      <button class="year-timeline-button " type="button" data-year="2015">
+        2015
+        <span>12件</span>
+      </button>
+
+      <button class="year-timeline-button " type="button" data-year="2016">
+        2016
+        <span>7件</span>
+      </button>
+
+      <button class="year-timeline-button " type="button" data-year="2017">
+        2017
+        <span>2件</span>
+      </button>
+
+      <button class="year-timeline-button " type="button" data-year="2018">
+        2018
+        <span>1件</span>
+      </button>
+
+      <button class="year-timeline-button " type="button" data-year="2019">
+        2019
+        <span>2件</span>
+      </button>
+
+      <button class="year-timeline-button " type="button" data-year="2020">
+        2020
+        <span>2件</span>
+      </button>
+
+      <button class="year-timeline-button " type="button" data-year="2023">
+        2023
+        <span>3件</span>
+      </button>
+
+      <button class="year-timeline-button " type="button" data-year="2024">
+        2024
+        <span>6件</span>
+      </button>
+
+      <button class="year-timeline-button " type="button" data-year="2025">
+        2025
+        <span>5件</span>
+      </button>
+
+      <button class="year-timeline-button " type="button" data-year="2026">
+        2026
+        <span>1件</span>
+      </button>
+
+  </div>
+      </div>
+
+      <div class="list-controls">
+        <div class="filter-pills" id="historyFilters">
+          <button class="filter-pill active" type="button" data-filter="all">
+            すべて
+          </button>
+
+          <button class="filter-pill" type="button" data-filter="公式">
+            公式
+          </button>
+
+          <button class="filter-pill" type="button" data-filter="ソロ">
+            ソロ
+          </button>
+        </div>
+
+        <div class="detail-note" id="visibleHistoryCount">20/50件表示</div>
+      </div>
+
+      <article class="card song-list" id="historyList">
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0013">
+                  μ’s 3rd Anniversary LoveLive!
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2013/06/16
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0001">μ's</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0014">
+                  @JAM 2013 アニソンDay supported by リスアニ!TV
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2013/06/22
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0001">μ's</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0027">
+                  リスアニ！LIVE-4 -SUNDAY STAGE-
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2014/01/26
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0001">μ's</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0028">
+                  μ's→NEXT LoveLive! 2014～ENDLESS PARADE～ 1日目
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2014/02/08
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0001">μ's</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0029">
+                  μ's→NEXT LoveLive! 2014～ENDLESS PARADE～ 2日目
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2014/02/09
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0001">μ's</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0032">
+                  ミルキィホームズ＆ブシロード７周年記念ライブin横浜アリーナ
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2014/05/24
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0001">μ's</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0037">
+                  15th Anniversary Live ランティス祭り 2014 ～つなぐぜ！アニソンの“わ”！～ 東海公演 1日目
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2014/07/19
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0037">高坂穂乃果＆星空凛＆小泉花陽＆西木野真姫＆東條希＆矢澤にこ</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0038">
+                  15th Anniversary Live ランティス祭り 2014 ～つなぐぜ！アニソンの“わ”！～ 東海公演 2日目
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2014/07/20
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0001">μ's</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0040">
+                  Animelo Summer Live 2014 -ONENESS- 3日目
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2014/08/31
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0001">μ's</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0051">
+                  μ's Go→Go! LoveLive! 2015 ～Dream Sensation!～ 1日目
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2015/01/31
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0001">μ's</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0052">
+                  μ's Go→Go! LoveLive! 2015 ～Dream Sensation!～ 2日目
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2015/02/01
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0001">μ's</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0054">
+                  ANISONG World Tour Lantis Festival in Seoul 2日目
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2015/04/05
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0024">高坂穂乃果＆南ことり＆星空凛＆小泉花陽＆東條希</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0055">
+                  ANISONG World Tour Lantis Festival in Shanghai 1日目
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2015/04/11
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0002">高坂穂乃果＆南ことり＆園田海未＆星空凛＆小泉花陽＆西木野真姫＆東條希＆矢澤にこ</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0056">
+                  ANISONG World Tour Lantis Festival in Shanghai 2日目
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2015/04/12
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0002">高坂穂乃果＆南ことり＆園田海未＆星空凛＆小泉花陽＆西木野真姫＆東條希＆矢澤にこ</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0057">
+                  ANISONG World Tour Lantis Festival in Taipei 2日目
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2015/04/19
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0002">高坂穂乃果＆南ことり＆園田海未＆星空凛＆小泉花陽＆西木野真姫＆東條希＆矢澤にこ</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0064">
+                  μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 東京公演1日目　昼の部
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2015/05/30
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0002">高坂穂乃果＆南ことり＆園田海未＆星空凛＆小泉花陽＆西木野真姫＆東條希＆矢澤にこ</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0067">
+                  μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 東京公演2日目　夜の部
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2015/05/31
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0002">高坂穂乃果＆南ことり＆園田海未＆星空凛＆小泉花陽＆西木野真姫＆東條希＆矢澤にこ</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0069">
+                  μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 神奈川公演　夜の部
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2015/06/07
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0015">高坂穂乃果＆星空凛＆西木野真姫＆東條希＆矢澤にこ</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0070">
+                  μ's Fan Meeting Tour 2015 ～あなたの街でラブライブ！～ 千葉公演1日目　夜の部
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2015/06/13
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0002">高坂穂乃果＆南ことり＆園田海未＆星空凛＆小泉花陽＆西木野真姫＆東條希＆矢澤にこ</a></span>
+                </span>
+              </span>
+            </article>
+            <article class="song-row">
+              <span>
+                <a class="song-title song-history-event-link" href="event.html?id=EV0091">
+                  Animelo Summer Live 2015 THE GATE 1日目
+                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                </a>
+
+                <span class="song-meta">
+                  <span>
+                    2015/08/28
+                  </span>
+
+                  <span class="type-badge">
+                    公式
+                  </span>
+
+                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0002">高坂穂乃果＆南ことり＆園田海未＆星空凛＆小泉花陽＆西木野真姫＆東條希＆矢澤にこ</a></span>
+                </span>
+              </span>
+            </article></article>
+
+      <div class="show-more-wrap">
+        <button class="show-more-button" id="historyMoreButton" type="button">もっと見る（残り30件）</button>
+      </div>
+    </section><section class="section song-included-releases" id="includedReleasesSection" aria-labelledby="includedReleasesHeading">
+      <div class="section-head"><div><p class="kicker">INCLUDED RELEASES</p><h2 id="includedReleasesHeading">収録リリース</h2></div><span class="song-included-release-count" id="includedReleasesCount">14作品・23件</span></div>
+      <div id="includedReleasesContent"><div class="song-included-release-list"><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=R0022">No brand girls／START:DASH!! <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge debut">初出</span><span class="song-included-release-badge">シングル</span></div></div><p class="song-included-release-date">2013/04/03</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span class="song-included-relation-empty">位置情報なし</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=R0071">TVアニメ『ラブライブ！』オリジナルサウンドトラック Notes of School idol days <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">サウンドトラック</span></div></div><p class="song-included-release-date">2013/04/10</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 2 / Track 24</span><span class="song-included-variant">TVサイズ</span></div></div></article><section class="song-included-series-group" data-series-id="RS0002"><h3 class="song-included-series-heading">Solo Live! II</h3><div class="song-included-series-items"><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=R0077">ラブライブ！Solo Live! collection Memorial BOX Ⅱ <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">Memorial BOX</span></div></div><p class="song-included-release-date">2014/04/02</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 13</span><span class="song-included-variant">HONOKA Mix</span></div><div class="song-included-relation-row"><span>Disc 2 / Track 11</span><span class="song-included-variant">ELI Mix</span></div><div class="song-included-relation-row"><span>Disc 3 / Track 13</span><span class="song-included-variant">KOTORI Mix</span></div><div class="song-included-relation-row"><span>Disc 4 / Track 13</span><span class="song-included-variant">UMI Mix</span></div><div class="song-included-relation-row"><span>Disc 5 / Track 14</span><span class="song-included-variant">RIN Mix</span></div><div class="song-included-relation-row"><span>Disc 6 / Track 12</span><span class="song-included-variant">MAKI Mix</span></div><div class="song-included-relation-row"><span>Disc 7 / Track 11</span><span class="song-included-variant">NOZOMI Mix</span></div><div class="song-included-relation-row"><span>Disc 8 / Track 14</span><span class="song-included-variant">HANAYO Mix</span></div><div class="song-included-relation-row"><span>Disc 9 / Track 14</span><span class="song-included-variant">NICO Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=R0097">ラブライブ！ Solo Live! from μ's 高坂穂乃果 orange cheers! <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">高坂穂乃果</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 13</span><span class="song-included-variant">HONOKA Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=R0098">ラブライブ！ Solo Live! from μ's 絢瀬絵里 アイス・ブルーの瞬間 <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">絢瀬絵里</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 11</span><span class="song-included-variant">ELI Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=R0099">ラブライブ！ Solo Live! from μ's 南ことり 純白ロマンス <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">南ことり</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 13</span><span class="song-included-variant">KOTORI Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=R0100">ラブライブ！ Solo Live! from μ's 園田海未 蒼の神話 <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">園田海未</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 13</span><span class="song-included-variant">UMI Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=R0101">ラブライブ！ Solo Live! from μ's 星空凛 Ring a yellow bell <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">星空凛</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 14</span><span class="song-included-variant">RIN Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=R0102">ラブライブ！ Solo Live! from μ's 西木野真姫 SCARLET PRINCESS <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">西木野真姫</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 12</span><span class="song-included-variant">MAKI Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=R0103">ラブライブ！ Solo Live! from μ's 東條希 バイオレットムーン <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">東條希</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 11</span><span class="song-included-variant">NOZOMI Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=R0104">ラブライブ！ Solo Live! from μ's 小泉花陽 若草のSeason <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">小泉花陽</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 14</span><span class="song-included-variant">HANAYO Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=R0105">ラブライブ！ Solo Live! from μ's 矢澤にこ ももいろ♡えがお <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">矢澤にこ</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 14</span><span class="song-included-variant">NICO Mix</span></div></div></article></div></section><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=R0081">μ's Best Album Best Live! Collection Ⅱ <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">ベストアルバム</span></div></div><p class="song-included-release-date">2015/05/27</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 9</span></div><div class="song-included-relation-row"><span>Disc 3 / Track 8</span><span class="song-included-variant">GRP-Explosion Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=R0090">μ's Memorial CD-BOX「Complete BEST BOX」 <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">コンプリートBOX</span></div></div><p class="song-included-release-date">2019/12/25</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 2 / Track 9</span></div></div></article></div></div>
+    </section><section class="section" id="discoverySection" hidden="">
+      <div class="section-head">
+        <div>
+          <p class="kicker">EXPLORE THIS SONG</p>
+          <h2>この曲を巡る</h2>
+        </div>
+      </div>
+
+      <div class="discovery-grid" id="songDiscovery">
+      <a class="discovery-card discovery-card-performance" href="event.html?id=EV0013">
+        <span class="discovery-label">FIRST PERFORMANCE</span>
+        <span class="discovery-title">μ’s 3rd Anniversary LoveLive!</span>
+        <span class="discovery-meta">初披露｜2013/06/16</span>
+      </a>
+      <a class="discovery-card discovery-card-performance" href="event.html?id=EV0342">
+        <span class="discovery-label">LAST PERFORMANCE</span>
+        <span class="discovery-title">NAGANO JUNK BOX presents SPECIAL 2MAN LIVE</span>
+        <span class="discovery-meta">最終披露｜2026/05/17</span>
+      </a>
+      <a class="discovery-card " href="singer.html?id=SN0001">
+        <span class="discovery-label">主な歌唱名義</span>
+        <span class="discovery-title">μ's</span>
+        <span class="discovery-meta">この名義の歌唱履歴を見る</span>
+      </a></div>
+
+      <a class="song-gap-cta" id="songGapCheckerLink" href="gap-checker.html?song=S045">
+        <span class="song-gap-cta-icon" aria-hidden="true">↺</span>
+        <span>
+          <strong>この曲の「いつ振り」を調べる</strong>
+          <small>曲を選択した状態でチェッカーを開きます</small>
+        </span>
+        <span class="song-gap-cta-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true" data-icon-rendered="arrow-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span></span>
+      </a>
+    </section><section class="section" id="songInsightsSection" hidden="">
+      <div class="section-head">
+        <div>
+          <p class="kicker">RELATED DATA</p>
+          <h2>関連データ</h2>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <p class="kicker">CO-PERFORMED SONGS</p>
+          <h2>一緒に歌われた曲</h2>
+          <div class="insight-list" id="coPerformedSongs"><div class="empty">関連曲データはありません。</div></div>
+        </article>
+
+        <article class="card">
+          <p class="kicker">TOP VENUES</p>
+          <h2>よく歌われた会場</h2>
+          <div class="insight-list" id="songTopVenues"><div class="empty">会場データはありません。</div></div>
+        </article>
+      </div>
+    </section>
+
+
+
+    <div id="relatedSongArea"></div>
+
+
+
+
+
+
+
+
+
+  </main>
+
+  <div id="siteFooter">
+      <footer class="site-footer">
+        <div>
+          <b>μ's Song Database</b><br>
+          μ's歌唱履歴データベース
+        </div>
+
+        <div>
+          © μ's Song Database Project
+        </div>
+      </footer></div>
+
+
+<script>
+(() => {
+  const main = document.querySelector("main");
+  const mainContent = document.getElementById("mainContent");
+  const includedReleases = document.getElementById("includedReleasesSection");
+  const records = document.getElementById("songRecordsSection");
+  const history = document.getElementById("historySection");
+  const analysis = document.getElementById("songAnalysisSection");
+  const insights = document.getElementById("songInsightsSection");
+  const discovery = document.getElementById("discoverySection");
+
+  if (!main || !mainContent) return;
+
+  let cursor = mainContent;
+  [records, analysis, history, includedReleases, discovery, insights].forEach(node => {
+    if (!node) return;
+    cursor.insertAdjacentElement("afterend", node);
+    cursor = node;
+  });
+})();
+</script>
+
+<script type="module" src="assets/js/song-v441.js?v=5.5.1&amp;cache=output-revision&amp;songUrls=1"></script>
+
+  <script>
+    (() => {
+      const TYPE_LABEL = "曲";
+      const TITLE_SELECTOR = "#songName";
+      const HERO_SELECTOR = ".hero";
+      const BAR_ID = "songDetailContextV46";
+
+      function initDetailContext() {
+        if (document.getElementById(BAR_ID)) return;
+
+        const titleElement = document.querySelector(TITLE_SELECTOR);
+        const heroElement = document.querySelector(HERO_SELECTOR);
+        if (!titleElement || !heroElement) return;
+
+        const bar = document.createElement("div");
+        bar.id = BAR_ID;
+        bar.className = "v46-detail-context";
+        bar.setAttribute("aria-hidden", "true");
+        bar.innerHTML = `
+          <div class="v46-detail-context-inner">
+            <span class="v46-detail-context-type">${TYPE_LABEL}</span>
+            <strong class="v46-detail-context-title"></strong>
+            <button class="v46-detail-context-top" type="button" aria-label="ページ上部へ戻る"><span class="site-icon-inline " data-site-icon="arrow-up" aria-hidden="true"></span> 上へ</button>
+          </div>
+        `;
+        document.body.appendChild(bar);
+
+        const titleOutput = bar.querySelector(".v46-detail-context-title");
+        const topButton = bar.querySelector(".v46-detail-context-top");
+
+        const updateTitle = () => {
+          const title = String(titleElement.textContent || "")
+            .replace(/\s+/g, " ")
+            .trim();
+
+          titleOutput.textContent =
+            title && !title.includes("読み込み中")
+              ? title
+              : `${TYPE_LABEL}詳細`;
+        };
+
+        const updateVisibility = () => {
+          const rect = heroElement.getBoundingClientRect();
+          const visible = rect.bottom < 68;
+          bar.classList.toggle("is-visible", visible);
+          bar.setAttribute("aria-hidden", visible ? "false" : "true");
+        };
+
+        updateTitle();
+        updateVisibility();
+
+        new MutationObserver(updateTitle).observe(titleElement, {
+          childList: true,
+          characterData: true,
+          subtree: true
+        });
+
+        window.addEventListener("scroll", updateVisibility, { passive: true });
+        window.addEventListener("resize", updateVisibility, { passive: true });
+
+        topButton.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initDetailContext, { once: true });
+      } else {
+        initDetailContext();
+      }
+    })();
+  </script>
+
+
+
+<button id="backToTopButton" class="back-to-top" type="button" aria-label="ページ上部へ戻る">
+    <span aria-hidden="true"><span class="site-icon-inline " data-site-icon="arrow-up" aria-hidden="true" data-icon-rendered="arrow-up"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12 7-7 7 7"></path><path d="M12 19V5"></path></svg></span></span>
+    <small>TOP</small></button></body></html>

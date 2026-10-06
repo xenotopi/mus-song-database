@@ -1,11 +1,11 @@
-import {
+import { buildSongUrl,
   apiGet,
   escapeHtml
-} from "./api.js?v=4.9.6&cache=revision-nonblocking";
+} from "./api.js?v=4.9.6&cache=revision-nonblocking&songUrls=1";
 
 import {
   renderCommon
-} from "./common.js?v=4.9.1&cache=revision-nonblocking";
+} from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
 
 renderCommon("");
 
@@ -801,7 +801,7 @@ function renderResult() {
 
   el.resultContent.innerHTML = body;
   el.songDetailLink.href =
-    "song.html?id=" + encodeURIComponent(data.selectedSong.id);
+    buildSongUrl(data.selectedSong.id);
   el.resultSection.hidden = false;
   updateTabs();
   updateShareLink(scopeData, gap);

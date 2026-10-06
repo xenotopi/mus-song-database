@@ -1,12 +1,12 @@
-import {
+import { buildSongUrl,
   apiGet,
   escapeHtml,
   formatDate
-} from "./api.js?v=4.9.6&cache=revision-nonblocking";
+} from "./api.js?v=4.9.6&cache=revision-nonblocking&songUrls=1";
 
 import {
   renderCommon
-} from "./common.js?v=4.9.1&cache=revision-nonblocking";
+} from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
 
 renderCommon("singer");
 
@@ -113,7 +113,7 @@ function renderSongs(items) {
 
   el.songsList.innerHTML = items.length
     ? items.map((item,index) => `
-        <a class="singer-song-row" href="song.html?id=${encodeURIComponent(item.songId)}">
+        <a class="singer-song-row" href="${buildSongUrl(item.songId)}">
           <span class="singer-song-rank">${index + 1}</span>
           <div>
             <strong>${escapeHtml(item.songName || "曲名未設定")}</strong>
@@ -195,7 +195,7 @@ function renderHistory() {
           </div>
           <div class="singer-event-songs" id="${bodyId}" ${expanded ? "" : "hidden"}>
             ${item.songs.map(song => `<div class="singer-event-song-row">${song.songId
-              ? `<a href="song.html?id=${encodeURIComponent(song.songId)}">${escapeHtml(song.songName || "曲名未設定")}</a>`
+              ? `<a href="${buildSongUrl(song.songId)}">${escapeHtml(song.songName || "曲名未設定")}</a>`
               : escapeHtml(song.songName || "曲名未設定")}</div>`).join("")}
           </div>
         </article>`;

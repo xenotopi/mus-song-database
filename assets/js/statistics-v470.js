@@ -1,5 +1,5 @@
-import { apiGet, escapeHtml, formatDate } from "./api.js?v=4.9.6&cache=revision-nonblocking";
-import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
+import { buildSongUrl, apiGet, escapeHtml, formatDate } from "./api.js?v=4.9.6&cache=revision-nonblocking&songUrls=1";
+import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
 import { buildSingerUrl } from "./singer-links.js?v=4.8.0";
 
 renderCommon("statistics");
@@ -228,7 +228,7 @@ function renderYearlyChart(){
 function rankRow(item,index,type){
   const isSong = type === "song";
   const href = isSong
-    ? `song.html?id=${encodeURIComponent(item.songId || "")}`
+    ? buildSongUrl(item.songId || "")
     : `venue.html?id=${encodeURIComponent(item.venueId || "")}`;
 
   const name = isSong
@@ -389,14 +389,14 @@ function renderDiscovery(){
       title:longestGap.displayName || longestGap.songName,
       value:`${number(longestGap.longestGapDays).toLocaleString("ja-JP")}日`,
       meta:"記録上の最長ブランク",
-      href:`song.html?id=${encodeURIComponent(longestGap.songId || "")}`
+      href:buildSongUrl(longestGap.songId || "")
     },
     latest && {
       label:"LATEST PERFORMANCE",
       title:latest.displayName || latest.songName,
       value:formatDate(latest.lastPerformanceDate) || "—",
       meta:"最近歌唱記録が追加された曲",
-      href:`song.html?id=${encodeURIComponent(latest.songId || "")}`
+      href:buildSongUrl(latest.songId || "")
     },
     topVenue && {
       label:"MOST EVENTS VENUE",

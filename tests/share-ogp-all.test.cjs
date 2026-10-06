@@ -44,7 +44,7 @@ test("all 470 share pages match current snapshots and remain outside sitemap", (
       const wrapper = JSON.parse(fs.readFileSync(path.join(ROOT, "data/snapshots", revision, `${type}s`, `${id}.json`), "utf8"));
       const data = type === "song" ? wrapper.data : wrapper.data.event;
       const name = type === "song" ? data.displayName || data.songName : data.eventName;
-      const detail = `${SITE}${type}.html?id=${id}`;
+      const detail = (type === "song" ? `${SITE}song/${id}.html` : `${SITE}${type}.html?id=${id}`);
       const share = `${SITE}${relative}`;
       assert.equal(data[`${type}Id`], id);
       assert.ok(html.includes(escaped(name)));

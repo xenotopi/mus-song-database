@@ -34,7 +34,7 @@ test("raw pages are distinct, factual, and have unique canonical metadata", () =
     assert.match(raw, new RegExp(`data-song-id="${id}"`));
     assert.ok(raw.includes(`https://mus-song-db.com/song/${id}.html`));
     assert.ok(!raw.includes("undefined件"));
-    assert.ok(!raw.includes('type="application/ld+json"'));
+    for (const match of raw.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) assert.doesNotThrow(() => JSON.parse(match[1]));
   }
   assert.equal(hashes.size, 3);
 });
@@ -42,7 +42,7 @@ test("all 117 static pages parse, match snapshots, and pass build manifest hashe
   const manifest = JSON.parse(fs.readFileSync(path.join(root, "song/manifest.json"), "utf8"));
   assert.equal(manifest.count, 117);
   assert.equal(manifest.outputRevision, current.revision);
-  assert.equal(manifest.rendererSha256, require("../tools/generate-song-pages.cjs").rendererFingerprint());
+  assert.equal(manifest.latestRendererSha256 || manifest.rendererSha256, require("../tools/generate-song-pages.cjs").rendererFingerprint());
   const page = await browser.newPage();
   const canonicals = new Set();
   for (const id of Object.keys(manifest.pages)) {
@@ -150,6 +150,8 @@ for (const id of ids) for (const width of [1280, 390]) for (const enabled of [fa
     const song = snapshot(id);
     assert.equal(await page.locator("h1").innerText(), song.displayName || song.songName);
     assert.equal(await page.locator("h1").count(), 1);
+    assert.equal(await page.locator('head script[type="application/ld+json"]').count(), 2);
+    assert.equal(await page.locator('[data-song-breadcrumb-name]').innerText(), song.displayName || song.songName);
     assert.ok(await page.locator("#songInfo").isVisible());
     assert.ok(await page.locator("#songStats").isVisible());
     assert.ok((await page.locator("#songStats").innerText()).includes(String(song.performances.length)));

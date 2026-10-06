@@ -14,6 +14,19 @@ function rendererFingerprint() {
   return sha256(files.map(file => `${file}\n${fs.readFileSync(path.join(root, file), "utf8")}`).join("\n"));
 }
 
+function buildSongStructuredData(song, canonical, description) {
+  const recording = {
+    "@context": "https://schema.org", "@type": "MusicRecording",
+    "@id": `${canonical}#recording`, url: canonical,
+    name: song.displayName || song.songName, description,
+    identifier: { "@type": "PropertyValue", propertyID: "μ's Song Database Song ID", value: song.songId },
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonical }
+  };
+  // Song's adopted first-release date, never performance dates or other editions.
+  if (/^\d{4}-\d{2}-\d{2}$/.test(song.releaseDate || "")) recording.datePublished = song.releaseDate;
+  // No explicit recording artist/composition entity is available in the current master.
+  return recording;
+}
 async function generateSongPages({ revision, ids } = {}) {
   const pointer = JSON.parse(fs.readFileSync(path.join(root, "data/current.json"), "utf8"));
   revision ||= pointer.revision;
@@ -98,6 +111,22 @@ async function generateSongPages({ revision, ids } = {}) {
         const note = document.createElement("p"); note.className = "detail-note"; note.dataset.prerenderDescription = ""; note.textContent = description;
         document.getElementById("songInfo").after(note);
       }, { id, title, description, canonical, revision: current.revision });
+      {
+        const recording = buildSongStructuredData(song, canonical, description);
+        await page.evaluate(({ recording, canonical }) => {
+          const breadcrumb = {
+            "@context": "https://schema.org", "@type": "BreadcrumbList",
+            itemListElement: Array.from(document.querySelectorAll('.crumb a, .crumb [data-song-breadcrumb-name]'))
+              .map((n, i) => ({ "@type": "ListItem", position: i + 1,
+                name: n.textContent.trim(), item: n.matches('[data-song-breadcrumb-name]') ? canonical : new URL(n.getAttribute('href'), 'https://mus-song-db.com/').href }))
+          };
+          for (const value of [recording, breadcrumb]) {
+            const script = document.createElement('script'); script.type = 'application/ld+json';
+            script.textContent = JSON.stringify(value, null, 2).replace(/</g, '\\u003c');
+            document.head.append(script);
+          }
+        }, { recording, canonical });
+      }
       const html = (await page.content()).replace(/[\t ]+$/gm, "") + "\n";
       if (await page.locator('link[rel="canonical"]').count() !== 1 || await page.locator("h1").innerText() !== (song.displayName || song.songName)) throw new Error(`${id}: rendered HTML validation failed`);
       if (html.includes("http://127.0.0.1") || html.includes("undefined件")) throw new Error(`${id}: runtime data leak`);
@@ -106,13 +135,19 @@ async function generateSongPages({ revision, ids } = {}) {
     }
     // No output is replaced until every page has rendered and validated successfully.
     fs.mkdirSync(path.join(root, "song"), { recursive: true });
-    for (const page of pages) fs.writeFileSync(path.join(root, "song", `${page.id}.html`), page.html);
-    const outputManifest = {
+    const manifestFile = path.join(root, 'song/manifest.json');
+    const previous = ids.length < 117 && fs.existsSync(manifestFile) ? JSON.parse(fs.readFileSync(manifestFile, 'utf8')) : null;
+    if (previous && previous.outputRevision !== revision) throw new Error('Partial generation cannot mix snapshot revisions');
+    const generatedPages = Object.fromEntries(pages.map(page => [page.id, { path: `song/${page.id}.html`, sha256: page.hash, bytes: Buffer.byteLength(page.html), canonical: page.canonical, structuredData: true, rendererSha256: rendererFingerprint() }]));
+    const outputManifest = previous ? {
+      ...previous, latestRendererSha256: rendererFingerprint(), pages: { ...previous.pages, ...generatedPages }
+    } : {
       schemaVersion: 1, outputRevision: revision, dataRevision: current.dataRevision,
       source: "song-snapshot-and-existing-renderer", count: pages.length,
       rendererSha256: rendererFingerprint(),
-      pages: Object.fromEntries(pages.map(page => [page.id, { path: `song/${page.id}.html`, sha256: page.hash, bytes: Buffer.byteLength(page.html), canonical: page.canonical }]))
+      pages: generatedPages
     };
+    for (const page of pages) fs.writeFileSync(path.join(root, "song", `${page.id}.html`), page.html);
     fs.writeFileSync(path.join(root, "song/manifest.json"), JSON.stringify(outputManifest, null, 2) + "\n");
     console.log(`Generated ${ids.length} Song pages in ${Date.now() - started}ms; source ${revision}; no API requests.`);
     return outputManifest;
@@ -121,8 +156,10 @@ async function generateSongPages({ revision, ids } = {}) {
     await new Promise(resolve => server.close(resolve));
   }
 }
-module.exports = { generateSongPages, rendererFingerprint };
+module.exports = { generateSongPages, rendererFingerprint, buildSongStructuredData };
 if (require.main === module) {
   const revisionIndex = process.argv.indexOf("--revision");
-  generateSongPages({ revision: revisionIndex >= 0 ? process.argv[revisionIndex + 1] : undefined }).catch(error => { console.error(error); process.exitCode = 1; });
+  const idsIndex = process.argv.indexOf('--ids');
+  generateSongPages({ revision: revisionIndex >= 0 ? process.argv[revisionIndex + 1] : undefined,
+    ids: idsIndex >= 0 ? process.argv[idsIndex + 1].split(',') : undefined }).catch(error => { console.error(error); process.exitCode = 1; });
 }

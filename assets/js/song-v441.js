@@ -1219,6 +1219,8 @@ function renderSong(song) {
     `${displayName}｜μ's Song Database`;
 
   elements.songName.textContent = displayName;
+  const breadcrumbName = document.querySelector('[data-song-breadcrumb-name]');
+  if (breadcrumbName) breadcrumbName.textContent = displayName;
 
   if (elements.songGapCheckerLink) {
     elements.songGapCheckerLink.href =

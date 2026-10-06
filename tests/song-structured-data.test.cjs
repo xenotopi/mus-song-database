@@ -1,0 +1,46 @@
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const root = path.resolve(__dirname, '..');
+const { buildSongStructuredData } = require('../tools/generate-song-pages.cjs');
+const current = JSON.parse(fs.readFileSync(path.join(root, 'data/current.json')));
+const escapeText = text => text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const ids = Object.keys(JSON.parse(fs.readFileSync(path.join(root, 'song/manifest.json'))).pages).sort();
+for (const id of ids) test(`${id}: raw head JSON-LD matches master, metadata and visible breadcrumb`, () => {
+  const song = JSON.parse(fs.readFileSync(path.join(root, 'data/snapshots', current.revision, 'songs', id + '.json'))).data;
+  const html = fs.readFileSync(path.join(root, 'song', id + '.html'), 'utf8');
+  const head = html.slice(0, html.indexOf('</head>'));
+  const values = [...head.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m => JSON.parse(m[1]));
+  assert.equal(values.length, 2);
+  const [recording, breadcrumb] = values;
+  const canonical = `https://mus-song-db.com/song/${id}.html`;
+  assert.equal(recording['@context'], 'https://schema.org');
+  assert.equal(recording['@type'], 'MusicRecording');
+  assert.equal(recording.name, song.displayName || song.songName);
+  assert.equal(recording.url, canonical);
+  assert.equal(recording['@id'], canonical + '#recording');
+  assert.equal(recording.mainEntityOfPage['@id'], canonical);
+  assert.equal(recording.datePublished, song.releaseDate);
+  assert.match(recording.datePublished, /^\d{4}-\d{2}-\d{2}$/);
+  assert.equal(new Date(recording.datePublished).toISOString().slice(0,10),recording.datePublished);
+  assert.equal(recording.identifier.value, id);
+  assert.equal(escapeText(recording.description).replace(/"/g,'&quot;'), head.match(/<meta name="description" content="([^"]*)"/)[1]);
+  for (const field of ['byArtist','inAlbum','recordingOf','aggregateRating','duration','isrcCode']) assert.equal(recording[field], undefined);
+  assert.equal(breadcrumb['@type'], 'BreadcrumbList');
+  assert.deepEqual(breadcrumb.itemListElement.map(v => [v.position,v.name,v.item]), [[1,'ホーム','https://mus-song-db.com/index.html'],[2,'曲一覧','https://mus-song-db.com/songs.html'],[3,recording.name,canonical]]);
+  assert.ok(html.includes(`<span data-song-breadcrumb-name="">${escapeText(recording.name)}</span>`));
+});
+test('missing release date and live Singers never produce invented facts', () => {
+  const value = buildSongStructuredData({songId:'S001',songName:'A </script>',performances:[{singer:'someone'}]},'https://example.test/song','description');
+  assert.equal(value.datePublished, undefined);
+  assert.equal(value.byArtist, undefined);
+  assert.equal(value.name,'A </script>');
+});
+test('normal generation includes structured data for all 117 pages', () => {
+  const manifest = JSON.parse(fs.readFileSync(path.join(root, 'song/manifest.json')));
+  assert.equal(manifest.count,117);
+  assert.equal(Object.values(manifest.pages).filter(v=>v.structuredData).length,117);
+  const generator=fs.readFileSync(path.join(root,'tools/generate-song-pages.cjs'),'utf8');
+  assert.ok(!generator.includes("process.argv.includes('--structured-data')"));
+});

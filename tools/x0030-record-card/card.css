@@ -1,0 +1,24 @@
+.x0030-card { grid-template-rows: 60px 150px 490px 245px 60px 1fr; gap: 20px; background: #f7f8fb; }
+.x0030-card::before { border-radius: 18px; border-color: rgba(42,48,78,.12); }
+.series { color: var(--indigo); font-size: 16px; font-weight: 900; letter-spacing: .12em; }
+.intro { text-align: center; padding-top: 27px; }
+.intro h1 { margin: 0; font-size: 60px; font-weight: 900; letter-spacing: -.04em; line-height: 1.25; }
+.intro p { margin: 16px 0 0; font-size: 30px; font-weight: 700; color: #4b5265; }
+.intro p span { font-weight: 900; color: var(--navy); }
+.hero { display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #d9dce6; border-radius: 16px; background: white; }
+.hero-number { display: flex; align-items: baseline; color: var(--indigo); line-height: 1; }
+.hero-number strong { font-size: 248px; font-weight: 900; letter-spacing: -.065em; font-variant-numeric: tabular-nums; }
+.hero-number span { font-size: 48px; font-weight: 800; margin-left: 14px; }
+.hero h2 { margin: 4px 0 24px; font-size: 51px; font-weight: 900; letter-spacing: .05em; }
+.ratio { width: 600px; height: 10px; background: #e5e7eb; border-radius: 5px; overflow: hidden; }
+.ratio span { display: block; width: 86.6666667%; height: 100%; background: var(--indigo); }
+.hero p { margin: 15px 0 0; color: var(--muted); font-size: 19px; }
+.first-record { border-left: 4px solid var(--indigo); background: white; padding: 27px 38px; }
+.first-record h2 { margin: 0; font-size: 23px; font-weight: 800; color: var(--indigo-dark); }
+.date { margin: 10px 0 12px; font-size: 52px; font-weight: 900; letter-spacing: .025em; line-height: 1.15; }
+.performance { display: flex; gap: 26px; align-items: baseline; }
+.performance strong { font-size: 37px; }
+.performance span { font-size: 26px; color: #4b5265; }
+.continuation { margin: 0; align-self: center; text-align: center; font-size: 28px; font-weight: 800; color: var(--indigo-dark); }
+.post-card__footer { align-self: end; }
+.post-card__footer p { font-size: 15px; }

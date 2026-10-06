@@ -62,7 +62,7 @@
     "X0020": {
       "categoryId": "X01",
       "eventId": "EV0234",
-      "songId": "S082"
+      "songId": "S100"
     },
     "X0021": {
       "categoryId": "X08",
@@ -79,6 +79,148 @@
         "topSongCount": 45,
         "asOf": "2026-09-05"
       }
+    },
+    "X0022": {
+      "categoryId": "X02",
+      "songId": "S093"
+    },
+    "X0029": {
+      "categoryId": "X04"
+    },
+    "X0030": {
+      "categoryId": "X02",
+      "songId": "S018"
+    },
+    "X0031": {
+      "categoryId": "X02",
+      "songId": "S099"
+    },
+    "X0032": {
+      "categoryId": "X01"
+    },
+    "X0033": {
+      "categoryId": "X02",
+      "songId": "S017"
+    },
+    "X0034": {
+      "categoryId": "X02"
+    },
+    "X0035": {
+      "categoryId": "X02"
+    },
+    "X0036": {
+      "categoryId": "X04",
+      "template": "song-record-summary",
+      "title": "No brand girls",
+      "subtitle": "現行DBの歌唱記録",
+      "primary": { "label": "歌唱名義表示", "value": "17", "unit": "種類" },
+      "secondary": { "label": "全歌唱記録", "value": "50", "unit": "件" },
+      "breakdown": [
+        { "label": "公式", "value": "35", "unit": "件" },
+        { "label": "声優ソロ系", "value": "15", "unit": "件" }
+      ],
+      "footerNote": "現行DB登録分｜公式・声優ソロ系の歌唱記録"
+    },
+    "X0037": {
+      "categoryId": "X04",
+      "template": "song-record-summary",
+      "title": "μ's楽曲",
+      "subtitle": "通常117曲の歌唱記録",
+      "primary": { "label": "声優ソロ系で歌唱記録あり", "value": "90", "unit": "/ 117曲" },
+      "secondary": { "label": "声優ソロ系の歌唱記録", "value": "552", "unit": "件" },
+      "footerNote": "現行DB登録分｜件数は歌唱記録行数",
+      "additionalCards": [
+        {
+          "template": "song-list",
+          "title": "声優ソロ系で\n歌唱記録がない27曲",
+          "subtitle": "通常μ's楽曲117曲／現行DBのソロ区分",
+          "songs": [
+            "Someday of my life",
+            "乙女式れんあい塾",
+            "Oh, Love & Peace!",
+            "START:DASH!!",
+            "これからのSomeday",
+            "硝子の花園",
+            "COLORFUL VOICE",
+            "SENTIMENTAL StepS",
+            "シアワセ行きのSMILING!",
+            "KiRa-KiRa Sensation!",
+            "Happy maker!",
+            "Storm in Lover",
+            "もしもからきっと",
+            "秋のあなたの空遠く",
+            "Trouble Busters",
+            "そして最後のページには",
+            "同じ星が見たい",
+            "最低で最高のParadiso",
+            "乙姫心で恋宮殿",
+            "？←HEARTBEAT",
+            "僕たちはひとつの光",
+            "Future style",
+            "嵐のなかの恋だから",
+            "思い出以上になりたくて",
+            "錯覚CROSSROADS",
+            "さようならへさよなら！",
+            "A song for You! You? You!!"
+          ],
+          "footerNote": "現行DB登録分｜声優ソロ系の歌唱記録が0件"
+        }
+      ]
+    },
+    "X0038": {
+      "categoryId": "X05",
+      "template": "paired-record",
+      "title": "μ's Final LoveLive!",
+      "metrics": [
+        { "label": "DAY 1", "value": "42", "unit": "曲" },
+        { "label": "DAY 2", "value": "42", "unit": "曲" }
+      ],
+      "context": "1公演あたり",
+      "conclusion": "現行DB 公式記録最多",
+      "noteLabel": "Blu-ray発売から10年",
+      "noteValue": "2016.09.28 → 2026.09.28"
+    },
+    "X0040": {
+      "categoryId": "X06",
+      "template": "feature-launch",
+      "series": "SPECIAL DATABASE",
+      "title": "「神パラ × μ's」ダッシュボード",
+      "badge": "NEW",
+      "status": "公開しました",
+      "description": "神パラに登場するμ'sキャストの\nキャラクター・楽曲・イベント・歌唱記録を\n横断して見られる特設ページ",
+      "metrics": [
+        { "value": "9", "label": "キャラクター" },
+        { "value": "10", "label": "楽曲" }
+      ],
+      "scope": "イベント・歌唱記録"
+    },
+    "X0042": {
+      "categoryId": "X03",
+      "template": "song-comeback",
+      "title": "愛は太陽じゃない？",
+      "gapDays": "3,795",
+      "duration": "約10年5か月",
+      "before": {
+        "date": "2015.06.27",
+        "event": "μ's Fan Meeting Tour 2015\n長野公演 昼の部",
+        "singer": "高坂穂乃果",
+        "category": "公式",
+        "note": "メドレー・ショートVer."
+      },
+      "after": {
+        "date": "2025.11.16",
+        "event": "Lovelive Overseas events\nSeoul公演 2日目 第一部",
+        "singer": "高坂穂乃果",
+        "category": "公式"
+      }
+    },
+    "X0043": {
+      "categoryId": "X02",
+      "template": "first-official-record",
+      "songId": "S064",
+      "eventId": "EV0040",
+      "eventHighlight": "アニサマ",
+      "contrast": "μ'sの単独ライブではなく"
     }
   }
 }

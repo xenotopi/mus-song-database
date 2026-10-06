@@ -25,6 +25,161 @@ function loadFixtures(filePath) {
   return catalog;
 }
 
+function songRecordSummaryValues(id, post) {
+  const required = (value, field) => {
+    if (typeof value !== "string" || !value.trim()) throw new Error(`${id}: ${field}が必要です。`);
+    return value.trim();
+  };
+  if (post.categoryId !== "X04") throw new Error(`${id}: song-record-summaryはX04専用です。`);
+  if (post.breakdown !== undefined && (!Array.isArray(post.breakdown) || ![0, 2].includes(post.breakdown.length))) {
+    throw new Error(`${id}: song-record-summaryの内訳は0件または2件です。`);
+  }
+  const breakdown = post.breakdown || [];
+  const metrics = [post.primary, post.secondary, ...breakdown];
+  metrics.forEach((metric, index) => {
+    if (!metric || typeof metric !== "object") throw new Error(`${id}: 指標${index + 1}が不正です。`);
+    required(metric.label, `指標${index + 1}.label`);
+    required(metric.value, `指標${index + 1}.value`);
+    required(metric.unit, `指標${index + 1}.unit`);
+  });
+  return {
+    id,
+    title: required(post.title, "title"),
+    subtitle: required(post.subtitle, "subtitle"),
+    primaryLabel: post.primary.label.trim(),
+    primaryValue: post.primary.value.trim(),
+    primaryUnit: post.primary.unit.trim(),
+    secondaryLabel: post.secondary.label.trim(),
+    secondaryValue: post.secondary.value.trim(),
+    secondaryUnit: post.secondary.unit.trim(),
+    showBreakdown: String(breakdown.length === 2),
+    breakdown1Label: breakdown[0]?.label.trim() || "",
+    breakdown1Value: breakdown[0]?.value.trim() || "",
+    breakdown1Unit: breakdown[0]?.unit.trim() || "",
+    breakdown2Label: breakdown[1]?.label.trim() || "",
+    breakdown2Value: breakdown[1]?.value.trim() || "",
+    breakdown2Unit: breakdown[1]?.unit.trim() || "",
+    footerNote: required(post.footerNote, "footerNote")
+  };
+}
+
+function songListValues(id, post) {
+  if (!Array.isArray(post.songs) || post.songs.length === 0 ||
+      post.songs.some((song) => typeof song !== "string" || !song.trim()) ||
+      new Set(post.songs).size !== post.songs.length) {
+    throw new Error(`${id}: song-listには重複のない曲名配列が必要です。`);
+  }
+  for (const key of ["title", "subtitle", "footerNote"]) {
+    if (typeof post[key] !== "string" || !post[key].trim()) throw new Error(`${id}: ${key}が必要です。`);
+  }
+  return { id, title: post.title.trim(), subtitle: post.subtitle.trim(), songs: JSON.stringify(post.songs), footerNote: post.footerNote.trim() };
+}
+
+function pairedRecordValues(id, post) {
+  const required = (value, field) => {
+    if (typeof value !== "string" || !value.trim()) throw new Error(`${id}: ${field}が必要です。`);
+    return value.trim();
+  };
+  if (!Array.isArray(post.metrics) || post.metrics.length !== 2) {
+    throw new Error(`${id}: paired-recordには同格の指標2件が必要です。`);
+  }
+  const metrics = post.metrics.map((metric, index) => ({
+    label: required(metric?.label, `metrics[${index}].label`),
+    value: required(metric?.value, `metrics[${index}].value`),
+    unit: required(metric?.unit, `metrics[${index}].unit`)
+  }));
+  return {
+    id,
+    title: required(post.title, "title"),
+    metrics: JSON.stringify(metrics),
+    context: required(post.context, "context"),
+    conclusion: required(post.conclusion, "conclusion"),
+    noteLabel: post.noteLabel ? required(post.noteLabel, "noteLabel") : "",
+    noteValue: post.noteValue ? required(post.noteValue, "noteValue") : ""
+  };
+}
+
+function songComebackValues(id, post) {
+  const required = (value, field) => {
+    if (typeof value !== "string" || !value.trim()) throw new Error(`${id}: ${field}が必要です。`);
+    return value.trim();
+  };
+  const record = (value, field) => ({
+    date: required(value?.date, `${field}.date`),
+    event: required(value?.event, `${field}.event`),
+    singer: required(value?.singer, `${field}.singer`),
+    category: required(value?.category, `${field}.category`),
+    note: typeof value?.note === "string" ? value.note.trim() : ""
+  });
+  if (post.categoryId !== "X03") throw new Error(`${id}: song-comebackはX03専用です。`);
+  return {
+    id,
+    title: required(post.title, "title"),
+    gapDays: required(post.gapDays, "gapDays"),
+    duration: required(post.duration, "duration"),
+    before: JSON.stringify(record(post.before, "before")),
+    after: JSON.stringify(record(post.after, "after"))
+  };
+}
+
+function featureLaunchValues(id, post) {
+  const required = (value, field) => {
+    if (typeof value !== "string" || !value.trim()) throw new Error(`${id}: ${field}が必要です。`);
+    return value.trim();
+  };
+  if (post.categoryId !== "X06") throw new Error(`${id}: feature-launchはX06専用です。`);
+  if (!Array.isArray(post.metrics) || post.metrics.length !== 2) {
+    throw new Error(`${id}: feature-launchには主要情報2件が必要です。`);
+  }
+  const metrics = post.metrics.map((metric, index) => ({
+    value: required(metric?.value, `metrics[${index}].value`),
+    label: required(metric?.label, `metrics[${index}].label`)
+  }));
+  return {
+    id,
+    series: required(post.series, "series"),
+    title: required(post.title, "title"),
+    badge: required(post.badge, "badge"),
+    status: required(post.status, "status"),
+    description: required(post.description, "description"),
+    metrics: JSON.stringify(metrics),
+    scope: required(post.scope, "scope")
+  };
+}
+
+function firstOfficialRecordValues(id, post) {
+  const required = (value, field) => {
+    if (typeof value !== "string" || !value.trim()) throw new Error(`${id}: ${field}が必要です。`);
+    return value.trim();
+  };
+  const snapshotRoot = path.join(__dirname, "..", "data", "snapshots");
+  const current = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "current.json"), "utf8"));
+  const revision = current.outputRevision || current.revision;
+  const songId = required(post.songId, "songId");
+  const eventId = required(post.eventId, "eventId");
+  if (!/^S\d{3}$/.test(songId) || !/^EV\d{4}$/.test(eventId)) throw new Error(`${id}: Song/Event IDが不正です。`);
+  const song = JSON.parse(fs.readFileSync(path.join(snapshotRoot, revision, "songs", `${songId}.json`), "utf8")).data;
+  const event = JSON.parse(fs.readFileSync(path.join(snapshotRoot, revision, "events", `${eventId}.json`), "utf8")).data.event;
+  const official = song.performances.filter((row) => row.type === "公式").sort((a, b) => a.date.localeCompare(b.date));
+  const first = official[0];
+  const eventSong = event.songs.find((row) => row.songId === songId && row.type === "公式");
+  if (song.songId !== songId || event.eventId !== eventId || !first || first.eventId !== eventId
+    || first.date !== event.date || !eventSong || eventSong.singerId !== first.singerId) {
+    throw new Error(`${id}: 最初の公式歌唱記録とEvent snapshotが一致しません。`);
+  }
+  return {
+    id,
+    song: song.songName,
+    date: event.date.replaceAll("-", "."),
+    event: event.eventName,
+    eventHighlight: required(post.eventHighlight, "eventHighlight"),
+    contrast: required(post.contrast, "contrast"),
+    singer: eventSong.singerDisplayName || eventSong.singer,
+    venue: required(event.venue?.venueName, "会場名"),
+    eventType: required(event.eventType, "イベント種別")
+  };
+}
+
 async function fetchApi(action, params = {}) {
   const url = new URL(PUBLIC_API);
   url.searchParams.set("action", action);
@@ -153,6 +308,34 @@ async function buildRankingValues(id, scopeValue) {
       value: Number(song.performanceCount)
     })))
   };
+}
+
+async function buildX0029ComparisonValues(id) {
+  const definitions = [
+    { songId: "S038", expectedName: "きっと青春が聞こえる" },
+    { songId: "S066", expectedName: "どんなときもずっと" }
+  ];
+  const songs = await Promise.all(definitions.map(({ songId }) => fetchApi("song", { id: songId })));
+  const values = { id };
+  songs.forEach((song, index) => {
+    const definition = definitions[index];
+    if (song.songId !== definition.songId || song.songName !== definition.expectedName) {
+      throw new Error(`${id}: 比較対象${definition.songId}のAPI照合に失敗しました。`);
+    }
+    const performances = Array.isArray(song.performances) ? song.performances : [];
+    const total = performances.length;
+    const official = performances.filter((performance) => performance.type === "公式").length;
+    const solo = performances.filter((performance) => performance.type === "ソロ").length;
+    if (total !== 35 || official !== 31 || solo !== 4) {
+      throw new Error(`${id}: ${definition.songId}の比較値が想定と一致しません（${total}/${official}/${solo}）。`);
+    }
+    const number = index + 1;
+    values[`song${number}`] = song.displayName || song.songName;
+    values[`total${number}`] = String(total);
+    values[`official${number}`] = String(official);
+    values[`solo${number}`] = String(solo);
+  });
+  return values;
 }
 
 const BLANK_RANKING_SCOPES = Object.freeze({
@@ -340,6 +523,24 @@ async function buildBlankValues(id, post) {
   };
 }
 
+async function buildX0030Values(id, post) {
+  if (post.songId !== "S018") throw new Error(`${id}: S018専用カードです。`);
+  const song = await fetchApi("song", { id: post.songId });
+  const rows = Array.isArray(song.performances) ? song.performances : [];
+  const after = rows.filter((row) => row.date > "2016-04-01")
+    .sort((a, b) => a.date.localeCompare(b.date));
+  const first = after[0];
+  const recent = after.filter((row) => row.date >= "2024-01-01" && row.date < "2026-01-01");
+  if (song.songId !== "S018" || song.songName !== "愛してるばんざーい!"
+    || rows.length !== 45 || after.length !== 39
+    || first?.date !== "2016-06-26" || first?.singerDisplayName !== "飯田里穂"
+    || first?.note !== "アカペラ歌唱" || recent.length !== 21) {
+    throw new Error(`${id}: 本番履歴が承認済みの45/39件・初回履歴と一致しません。`);
+  }
+  return { id, total: String(rows.length), count: String(after.length),
+    firstDate: first.date.replaceAll("-", "."), singer: first.singerDisplayName, note: first.note };
+}
+
 async function main() {
   const args = parseArguments(process.argv.slice(2));
   const fixtureName = String(args.fixture || "").trim().toLowerCase();
@@ -360,22 +561,68 @@ async function main() {
     if (!/^X\d{4}$/.test(id)) throw new Error("投稿IDを `--id X0010` の形式で指定してください。");
     const catalogPath = path.resolve(args.catalog || DEFAULT_CATALOG);
     const catalog = loadCatalog(catalogPath);
-    post = catalog.posts[id];
-    if (!post) throw new Error(`${id}: 投稿カードカタログに登録されていません。`);
-    defaultOutputName = `post-card-${id}`;
+    const entry = catalog.posts[id];
+    if (!entry) throw new Error(`${id}: 投稿カードカタログに登録されていません。`);
+    const cardNumber = Number(args.card || 1);
+    const cards = [entry, ...(entry.additionalCards || [])];
+    if (!Number.isInteger(cardNumber) || cardNumber < 1 || cardNumber > cards.length) {
+      throw new Error(`${id}: --cardは1～${cards.length}を指定してください。`);
+    }
+    post = { categoryId: entry.categoryId, ...cards[cardNumber - 1] };
+    defaultOutputName = `post-card-${id}${cards.length > 1 ? `-${cardNumber}` : ""}`;
   }
 
   let templateDir;
   let values;
   let outputQualifier = "";
-  if (post.categoryId === "X01") {
+  if (post.template === "song-record-summary") {
+    templateDir = path.join(__dirname, "song-record-summary-card");
+    values = songRecordSummaryValues(id, post);
+  } else if (post.template === "paired-record") {
+    templateDir = path.join(__dirname, "paired-record-card");
+    values = pairedRecordValues(id, post);
+  } else if (post.template === "song-comeback") {
+    templateDir = path.join(__dirname, "song-comeback-card");
+    values = songComebackValues(id, post);
+  } else if (post.template === "song-list") {
+    templateDir = path.join(__dirname, "song-list-card");
+    values = songListValues(id, post);
+  } else if (post.template === "feature-launch") {
+    templateDir = path.join(__dirname, "feature-launch-card");
+    values = featureLaunchValues(id, post);
+  } else if (post.template === "first-official-record") {
+    templateDir = path.join(__dirname, "first-official-record-card");
+    values = firstOfficialRecordValues(id, post);
+  } else if (post.template) {
+    throw new Error(`${id}: 未対応のテンプレートです: ${post.template}`);
+  } else if (id === "X0032" && post.categoryId === "X01") {
+    templateDir = path.join(__dirname, "x0032-today-card");
+    values = { id };
+  } else if (post.categoryId === "X01") {
     templateDir = path.join(__dirname, "today-card");
     values = post.releaseId
       ? await buildReleaseTodayValues(id, post)
       : await buildTodayValues(id, post);
   } else if (post.categoryId === "X02") {
-    templateDir = path.join(__dirname, "song-record-card");
-    values = await buildSongRecordValues(id, post);
+    if (id === "X0034" || id === "X0035") {
+      if (post.songId) throw new Error(`${id}: 投稿管理シートにないSong IDは指定しないでください。`);
+      templateDir = path.join(__dirname, `${id.toLowerCase()}-record-card`);
+      values = { id };
+    } else if (id === "X0033") {
+      if (post.songId !== "S017") throw new Error("X0033: Song IDはS017を指定してください。");
+      templateDir = path.join(__dirname, "x0033-record-card");
+      values = { id };
+    } else if (id === "X0031") {
+      if (post.songId !== "S099") throw new Error("X0031: Song IDはS099を指定してください。");
+      templateDir = path.join(__dirname, "x0031-record-card");
+      values = { id };
+    } else if (id === "X0030") {
+      templateDir = path.join(__dirname, "x0030-record-card");
+      values = await buildX0030Values(id, post);
+    } else {
+      templateDir = path.join(__dirname, "song-record-card");
+      values = await buildSongRecordValues(id, post);
+    }
   } else if (post.categoryId === "X03") {
     if (post.songId) {
       templateDir = path.join(__dirname, "blank-card");
@@ -387,8 +634,13 @@ async function main() {
       outputQualifier = `-${scope}`;
     }
   } else if (post.categoryId === "X04") {
-    templateDir = path.join(__dirname, "ranking-card");
-    values = await buildRankingValues(id, post.scope);
+    if (id === "X0029") {
+      templateDir = path.join(__dirname, "x0029-comparison-card");
+      values = await buildX0029ComparisonValues(id);
+    } else {
+      templateDir = path.join(__dirname, "ranking-card");
+      values = await buildRankingValues(id, post.scope);
+    }
   } else if (post.categoryId === "X05") {
     templateDir = path.join(__dirname, "event-venue-card");
     if (post.eventId && post.venueId) {

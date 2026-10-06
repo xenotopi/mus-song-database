@@ -5,7 +5,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const { BIRTHDAY_COLUMNS, validateBirthday, birthdayRenderValues } = require("./catalog-data.cjs");
-const { parseSheetRows, comparePosts, mergeCatalog } = require("../sync-post-card-catalog.cjs");
+const { parseSheetRows, comparePosts, mergeCatalog, stablePost } = require("../sync-post-card-catalog.cjs");
 const baseHeaders = ["投稿ID", "カテゴリID", "Event ID", "Song ID", "Venue ID", "Release ID", "集計範囲"];
 const example = require("./kotori.example.json");
 const sample = {
@@ -97,8 +97,22 @@ test("existing X01-X05 catalog sync and fixture definitions are preserved", () =
   const rows = [baseHeaders, ...old.map(([id, p]) => [id, p.categoryId, p.eventId || "", p.songId || "", p.venueId || "", p.releaseId || "", p.scope || ""])];
   const parsed = parseSheetRows(rows, Object.fromEntries(old));
   assert.deepEqual(parsed.errors, []);
-  assert.deepEqual(parsed.posts, Object.fromEntries(old));
+  for (const [id, post] of Object.entries(parsed.posts)) {
+    assert.deepEqual(post, stablePost(catalog.posts[id]));
+  }
+  for (const id of ["X0032", "X0034", "X0035", "X0038", "X0042"]) {
+    assert.ok(parsed.excluded.some((row) => row.postId === id));
+    assert.equal(Object.hasOwn(parsed.posts, id), false);
+  }
   const fixtures = require("../fixtures/post-card-fixtures.json");
   const merged = mergeCatalog(catalog, parsed.posts);
+  assert.deepEqual(merged, catalog);
+  // Missing IDs must still fail for sheet-backed existing cards.
+  for (const categoryId of ["X01", "X02", "X03", "X05"]) {
+    const refs = categoryId === "X05" ? { eventId: "EV0001" } : { songId: "S003", eventId: "EV0001" };
+    assert.ok(parseSheetRows([baseHeaders, ["X0099", categoryId]], {
+      X0099: { categoryId, ...refs }
+    }).errors.length);
+  }
   for (const name of Object.keys(fixtures.fixtures)) assert.equal(Object.hasOwn(merged.posts, name), false);
 });

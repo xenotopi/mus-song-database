@@ -1,0 +1,8 @@
+.x0032-card{grid-template-rows:auto auto auto 1fr auto;gap:28px}
+.date-block{padding:28px 38px;border-radius:27px;background:#243457;color:#fff}
+.date-block p{margin:0;color:#dceafa;font-size:30px;font-weight:900}.date-block h1{margin:6px 0 0;font-size:68px;line-height:1.12;letter-spacing:.015em}
+.record-block{padding:35px 38px 29px;border-radius:27px;background:#fff;border:1px solid #d9e7f4;box-shadow:0 10px 30px rgba(23,32,51,.06)}
+.record-label{margin:0;color:#2b65b1;font-size:34px;font-weight:900}.record-main{display:flex;align-items:baseline;gap:18px;color:#1b396b}.record-main strong{font-size:150px;line-height:1;font-weight:900}.record-main span{font-size:63px;line-height:1.12;font-weight:900}
+.song-list{padding:28px 34px;border:1px solid #d9e7f4;border-radius:27px;background:#fff;min-height:0}
+.song-list h2{margin:0 0 15px;color:#2b65b1;font-size:28px}.song-list ul{list-style:none;padding:0;margin:0}.song-list li{padding:12px 0;border-top:1px solid #e5e7eb;font-size:31px;font-weight:850;line-height:1.25;overflow-wrap:anywhere}.song-list li::before{content:"・";color:#5b9ec2}.song-note{margin:13px 0 0;padding:15px 18px;border-radius:14px;background:#eef2ff;color:#33366d;font-size:22px;font-weight:750;line-height:1.4}
+.x0032-card .post-card__footer{align-self:end}

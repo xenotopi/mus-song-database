@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Paired Record｜μ's Song Database</title>
+  <link rel="stylesheet" href="../card-shared/card-brand.css">
+  <style>
+    .paired-card { grid-template-rows: 64px 245px 545px 170px 1fr; gap: 22px; background: #f7f9fd; }
+    .paired-card::before { border-color: #dbe5f1; }
+    .paired-card__intro { align-self: end; padding-bottom: 26px; border-bottom: 3px solid #2b65b1; }
+    .paired-card__eyebrow { margin: 0 0 24px; color: #2b65b1; font-size: 23px; font-weight: 900; letter-spacing: .14em; }
+    .paired-card__title { margin: 0; color: #172033; font-size: 67px; font-weight: 900; letter-spacing: -.035em; line-height: 1.2; }
+    .paired-card__metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; align-items: stretch; padding-top: 28px; }
+    .paired-card__metric { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; border: 2px solid #cddded; border-radius: 24px; background: #fff; box-shadow: 0 14px 32px rgba(23, 32, 51, .055); }
+    .paired-card__metric-label { color: #2b65b1; font-size: 34px; font-weight: 900; letter-spacing: .16em; }
+    .paired-card__metric-number { display: flex; align-items: baseline; justify-content: center; margin-top: 30px; white-space: nowrap; }
+    .paired-card__metric-value { color: #172033; font-size: 214px; font-weight: 900; letter-spacing: -.09em; line-height: 1; }
+    .paired-card__metric-unit { margin-left: 22px; color: #172033; font-size: 57px; font-weight: 900; }
+    .paired-card__finding { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .paired-card__context { margin: 0 0 9px; color: #566174; font-size: 29px; font-weight: 700; }
+    .paired-card__conclusion { margin: 0; color: #2b65b1; font-size: 39px; font-weight: 900; line-height: 1.35; }
+    .paired-card__bottom { display: flex; flex-direction: column; justify-content: flex-end; }
+    .paired-card__note { display: flex; align-items: baseline; justify-content: center; gap: 20px; margin-bottom: 42px; color: #6b7280; font-size: 22px; font-weight: 700; }
+    .paired-card__footer { display: flex; align-items: center; justify-content: space-between; padding-top: 24px; border-top: 1px solid #d6dae3; color: #6b7280; font-size: 18px; }
+    .paired-card__footer strong { color: #172033; font-size: 21px; }
+  </style>
+</head>
+<body>
+  <main class="post-card paired-card" aria-label="2指標記録カード">
+    <header class="post-card__header">
+      <div class="brand-lockup" aria-label="μ's Song Database">
+        <span class="brand-lockup__mu">μ</span>
+        <span class="brand-lockup__copy"><strong>'s Song Database</strong><small>μ's歌唱履歴データベース</small></span>
+      </div>
+      <span class="card-series">DATABASE RECORD</span>
+    </header>
+    <section class="paired-card__intro">
+      <p class="paired-card__eyebrow">DATABASE RECORD</p>
+      <h1 id="card-title" class="paired-card__title fit-text" data-min-size="42"></h1>
+    </section>
+    <section id="metrics" class="paired-card__metrics" aria-label="2つの主要指標"></section>
+    <section class="paired-card__finding">
+      <p id="context" class="paired-card__context"></p>
+      <p id="conclusion" class="paired-card__conclusion fit-text" data-min-size="26"></p>
+    </section>
+    <div class="paired-card__bottom">
+      <div id="note" class="paired-card__note"><span id="note-label"></span><span id="note-value"></span></div>
+      <footer class="paired-card__footer"><span>記録で見る、μ'sの歌唱履歴。</span><strong>μ's Song Database</strong></footer>
+    </div>
+  </main>
+  <script src="../card-shared/card-runtime.js"></script>
+  <script>
+    const card = window.MusdbPostCard.readCard({ id: "", title: "", metrics: "[]", context: "", conclusion: "", noteLabel: "", noteValue: "" });
+    document.title = `${card.id}｜μ's Song Database`;
+    window.MusdbPostCard.bindText({ "card-title": card.title, context: card.context, conclusion: card.conclusion, "note-label": card.noteLabel, "note-value": card.noteValue });
+    const metrics = JSON.parse(card.metrics);
+    const host = document.getElementById("metrics");
+    for (const metric of metrics) {
+      const item = document.createElement("article");
+      item.className = "paired-card__metric";
+      const label = document.createElement("span");
+      label.className = "paired-card__metric-label";
+      label.textContent = metric.label;
+      const number = document.createElement("div");
+      number.className = "paired-card__metric-number";
+      const value = document.createElement("strong");
+      value.className = "paired-card__metric-value";
+      value.textContent = metric.value;
+      const unit = document.createElement("span");
+      unit.className = "paired-card__metric-unit";
+      unit.textContent = metric.unit;
+      number.append(value, unit);
+      item.append(label, number);
+      host.append(item);
+    }
+    if (!card.noteLabel && !card.noteValue) document.getElementById("note").hidden = true;
+    window.MusdbPostCard.finish();
+  </script>
+</body>
+</html>

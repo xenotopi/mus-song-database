@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Song Record Summary｜μ's Song Database</title>
+  <link rel="stylesheet" href="../card-shared/card-brand.css">
+  <link rel="stylesheet" href="../x0030-record-card/card.css">
+  <style>
+    .x0030-card { grid-template-rows: 60px 190px 520px 245px 1fr; gap: 20px; }
+    .intro { padding-top: 38px; }
+    .intro h1 { font-size: 80px; letter-spacing: -.045em; }
+    .intro p { margin-top: 16px; font-size: 26px; }
+    .hero { gap: 4px; }
+    .hero-label { margin: 0; color: var(--indigo-dark); font-size: 40px; font-weight: 900; letter-spacing: .1em; }
+    .hero-number { align-items: baseline; }
+    .hero-number strong { font-size: 268px; }
+    .hero-number span { margin-left: 18px; font-size: 57px; color: var(--navy); }
+    .hero-rule { width: 660px; height: 5px; margin-top: 15px; background: var(--indigo); border-radius: 999px; }
+    .record-summary { display: grid; grid-template-rows: 80px 1fr; border-left: 4px solid var(--indigo); background: white; padding: 30px 42px; }
+    .record-total { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid #d9dce6; }
+    .record-total span { color: var(--indigo-dark); font-size: 29px; font-weight: 900; }
+    .record-total strong { font-size: 65px; font-weight: 900; line-height: 1; }
+    .record-total small { margin-left: 6px; font-size: 32px; }
+    .record-breakdown { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 34px; }
+    .record-breakdown div { display: flex; align-items: baseline; justify-content: space-between; }
+    .record-breakdown div + div { border-left: 1px solid #d9dce6; padding-left: 34px; }
+    .record-breakdown span { color: #4b5265; font-size: 26px; font-weight: 800; }
+    .record-breakdown strong { color: var(--navy); font-size: 43px; font-weight: 900; }
+    .record-breakdown small { margin-left: 3px; font-size: 22px; }
+    .record-summary--compact { display: flex; align-items: center; padding: 32px 42px; }
+    .record-summary--compact .record-total { width: 100%; min-height: 145px; align-items: center; border-bottom: 0; }
+    .record-summary--compact .record-total strong { font-size: 92px; }
+    .record-summary--compact .record-total span { max-width: 500px; font-size: 34px; }
+    .record-summary--compact .record-breakdown { display: none; }
+  </style>
+</head>
+<body>
+  <main class="post-card x0030-card">
+    <header class="post-card__header">
+      <div class="brand-lockup" aria-label="μ's Song Database">
+        <span class="brand-lockup__mu">μ</span>
+        <span class="brand-lockup__copy"><strong>'s Song Database</strong><small>μ's歌唱履歴データベース</small></span>
+      </div>
+      <span class="series">SONG RECORD</span>
+    </header>
+    <section class="intro">
+      <h1 id="card-title" class="fit-text" data-min-size="42"></h1>
+      <p id="card-subtitle"></p>
+    </section>
+    <section class="hero">
+      <h2 id="primary-label" class="hero-label fit-text" data-min-size="26"></h2>
+      <div class="hero-number"><strong id="primary-value"></strong><span id="primary-unit"></span></div>
+      <div class="hero-rule" aria-hidden="true"></div>
+    </section>
+    <section class="record-summary">
+      <div class="record-total"><span id="secondary-label"></span><div><strong id="secondary-value"></strong><small id="secondary-unit"></small></div></div>
+      <div class="record-breakdown">
+        <div><span id="breakdown-1-label"></span><div><strong id="breakdown-1-value"></strong><small id="breakdown-1-unit"></small></div></div>
+        <div><span id="breakdown-2-label"></span><div><strong id="breakdown-2-value"></strong><small id="breakdown-2-unit"></small></div></div>
+      </div>
+    </section>
+    <footer class="post-card__footer">
+      <p id="footer-note"></p>
+      <strong>μ's Song Database</strong>
+    </footer>
+  </main>
+  <script src="../card-shared/card-runtime.js"></script>
+  <script>
+    const card = window.MusdbPostCard.readCard({
+      id: "", title: "", subtitle: "", primaryLabel: "", primaryValue: "", primaryUnit: "",
+      secondaryLabel: "", secondaryValue: "", secondaryUnit: "",
+      showBreakdown: "true", breakdown1Label: "", breakdown1Value: "", breakdown1Unit: "",
+      breakdown2Label: "", breakdown2Value: "", breakdown2Unit: "", footerNote: ""
+    });
+    document.title = `${card.id}｜μ's Song Database`;
+    window.MusdbPostCard.bindText({
+      "card-title": card.title, "card-subtitle": card.subtitle,
+      "primary-label": card.primaryLabel, "primary-value": card.primaryValue, "primary-unit": card.primaryUnit,
+      "secondary-label": card.secondaryLabel, "secondary-value": card.secondaryValue, "secondary-unit": card.secondaryUnit,
+      "breakdown-1-label": card.breakdown1Label, "breakdown-1-value": card.breakdown1Value, "breakdown-1-unit": card.breakdown1Unit,
+      "breakdown-2-label": card.breakdown2Label, "breakdown-2-value": card.breakdown2Value, "breakdown-2-unit": card.breakdown2Unit,
+      "footer-note": card.footerNote
+    });
+    if (card.showBreakdown === "false") {
+      document.querySelector(".record-summary").classList.add("record-summary--compact");
+      document.querySelector(".record-breakdown").hidden = true;
+    }
+    window.MusdbPostCard.finish();
+  </script>
+</body>
+</html>

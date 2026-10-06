@@ -1,0 +1,27 @@
+.post-card { grid-template-rows: 60px 148px 424px 360px 1fr; gap: 26px; background: #f7f8fb; }
+.post-card::before { border-radius: 18px; }
+.series { color: #4f46e5; font-size: 17px; font-weight: 800; letter-spacing: .08em; }
+.heading { align-self: center; }
+.heading p { margin: 0 0 10px; color: #4f46e5; font-size: 25px; font-weight: 700; letter-spacing: .08em; }
+h1 { margin: 0; font-size: 62px; line-height: 1.3; letter-spacing: -.03em; }
+.timeline { position: relative; display: grid; grid-template-rows: 148px 138px 138px; padding-left: 34px; }
+.timeline::before { content: ""; position: absolute; left: 7px; top: 68px; bottom: -26px; width: 2px; background: #c7c9e9; }
+.step { position: relative; display: grid; grid-template-columns: 262px 1fr; align-items: center; border-bottom: 1px solid #dde1ec; }
+.step:last-child { border-bottom: 0; }
+.step::before { content: ""; position: absolute; left: -33px; top: calc(50% - 7px); width: 14px; height: 14px; border-radius: 50%; background: #4f46e5; border: 3px solid #f7f8fb; box-sizing: border-box; }
+.period { font-size: 34px; font-weight: 800; color: #33366d; }
+.period span { margin-left: 5px; font-size: 20px; }
+.period.range { font-size: 29px; }
+.performers { display: flex; align-items: center; justify-content: space-between; font-size: 38px; font-weight: 700; padding-right: 20px; }
+.performers.trio { display: block; font-size: 31px; line-height: 1.7; }
+.count { font-size: 46px; color: #33366d; font-weight: 800; }
+.count span { font-size: 22px; margin-left: 7px; }
+.duet { position: relative; padding: 27px 34px; background: #eef0ff; border-top: 4px solid #4f46e5; border-radius: 0 0 16px 16px; text-align: center; }
+.duet p { margin: 0; }
+.date { color: #4f46e5; font-size: 39px; font-weight: 800; letter-spacing: .09em; line-height: 1.4; }
+.duet .duet-label { margin-top: 14px; font-size: 31px; font-weight: 700; color: #33366d; }
+.duet h2 { margin: 18px 0 20px; font-size: 57px; line-height: 1.35; letter-spacing: -.04em; white-space: nowrap; }
+.duet h2 span { font-size: 38px; color: #4f46e5; }
+.duet .closing { font-size: 23px; color: #535d77; }
+.post-card__footer { align-self: end; }
+.post-card__footer p { font-size: 15px; }

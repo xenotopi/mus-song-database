@@ -184,6 +184,12 @@ function parseSheetRows(rows, existingPosts = {}) {
     const hasReferenceId = Boolean(refs.eventId || refs.songId || refs.venueId || refs.releaseId);
     const existsInCatalog = Boolean(postId && Object.hasOwn(existingPosts, postId));
     const isConfiguredRanking = categoryId === "X04" && Boolean(scope);
+    const existingPost = existingPosts[postId];
+    // Catalog-only cards have no sheet reference IDs. Preserve them rather than
+    // inventing IDs or relaxing the required-ID contract for sheet-backed cards.
+    const isCatalogOnly = existsInCatalog && existingPost.categoryId === categoryId
+      && !["eventId", "songId", "venueId", "releaseId"].some((key) => existingPost[key])
+      && ["X01", "X02", "X03", "X05"].includes(categoryId);
     if (!hasReferenceId && !existsInCatalog && !isConfiguredRanking && categoryId !== "X08") {
       excluded.push({ postId: postId || `行${rowNumber}`, reason: "同期対象外" });
       return;
@@ -217,6 +223,10 @@ function parseSheetRows(rows, existingPosts = {}) {
       errors.push(`行${rowNumber}: X04の集計範囲はofficial / soloのいずれかです（${scope}）。`);
     } else if (scope && categoryId !== "X03" && categoryId !== "X04") {
       errors.push(`行${rowNumber}: 集計範囲はX03またはX04でのみ指定できます。`);
+    }
+    if (!hasReferenceId && isCatalogOnly) {
+      excluded.push({ postId, reason: "参照IDなしのcatalog定義を保持" });
+      return;
     }
     validateReferences(rowNumber, categoryId, refs, errors);
     const post = { categoryId };
@@ -257,7 +267,11 @@ function stablePost(post) {
 function mergeCatalog(catalog, sheetPosts) {
   const posts = { ...catalog.posts };
   Object.entries(sheetPosts).forEach(([postId, post]) => {
-    posts[postId] = stablePost(post);
+    posts[postId] = { ...catalog.posts[postId], ...stablePost(post) };
+    // Sheet-managed optional fields may be cleared; renderer-only fields stay.
+    ["eventId", "songId", "venueId", "releaseId", "scope"].forEach((key) => {
+      if (!post[key]) delete posts[postId][key];
+    });
   });
   const orderedPosts = Object.fromEntries(Object.entries(posts).sort(([left], [right]) => left.localeCompare(right)));
   return { ...catalog, posts: orderedPosts };

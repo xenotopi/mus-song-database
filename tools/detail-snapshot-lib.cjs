@@ -51,6 +51,12 @@ function validateEventSnapshot(id, snapshot, expectedRevision, expectedDataRevis
       !event.statistics || typeof event.statistics !== "object" ||
       !event.navigation || typeof event.navigation !== "object" ||
       !Array.isArray(event.relatedReleases)) throw new Error("Event snapshot schema invalid");
+  if (event.songOrderIsSetlist !== undefined && typeof event.songOrderIsSetlist !== "boolean") throw new Error("Invalid setlist flag");
+  for (const song of event.songs) {
+    const position = song.setlistPosition;
+    if (position != null && (!Number.isSafeInteger(position) || position <= 0)) throw new Error("Invalid setlist position");
+    if (event.songOrderIsSetlist === true && position == null) throw new Error("Confirmed setlist missing position");
+  }
   for (const key of ["firstPerformedSongs", "lastPerformedSongs", "uniqueSongs"]) {
     if (!Array.isArray(discover[key])) throw new Error(`Event discover ${key} missing`);
   }

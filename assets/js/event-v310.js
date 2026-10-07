@@ -458,7 +458,7 @@ function renderEventSongs_() {
             return `
               <div class="event-song-row">
                 <span class="event-song-order">
-                  ${originalIndex + 1}
+                  ${currentEvent.songOrderIsSetlist === true ? song.setlistPosition : originalIndex + 1}
                 </span>
 
                 <span class="event-song-body">
@@ -679,26 +679,29 @@ function renderEvent(event) {
       )
       .join("");
 
-  currentEvent =
-    event;
+  const validSetlist = event.songOrderIsSetlist === true && songs.every(song =>
+    Number.isSafeInteger(song.setlistPosition) && song.setlistPosition > 0);
+  currentEvent = validSetlist || event.songOrderIsSetlist !== true
+    ? event
+    : { ...event, songOrderIsSetlist: false, songOrderNote: "曲順データが不完全なため、登録順で掲載しています。" };
 
   currentSongs =
-    songs;
+    validSetlist ? songs.slice().sort((a, b) => a.setlistPosition - b.setlistPosition) : songs;
 
   elements.songCount.textContent =
     `${songs.length}曲`;
 
   const orderIsSetList =
-    event.songOrderIsSetList === true;
+    validSetlist;
 
   elements.songOrderNote.textContent =
     orderIsSetList
       ? (
-          event.songOrderNote ||
+          currentEvent.songOrderNote ||
           "実際の歌唱順で掲載しています。"
         )
       : (
-          event.songOrderNote ||
+          currentEvent.songOrderNote ||
           "掲載順は実際の歌唱順とは限りません。番号はデータベース上の登録順です。"
         );
 

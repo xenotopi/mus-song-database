@@ -1,0 +1,49 @@
+{
+  "snapshot": {
+    "revision": "sha256-dca1b036fb6e5678fbdbc8254bb6bb5a2499f05269162d31d95c784f300636f9",
+    "outputRevision": "sha256-dca1b036fb6e5678fbdbc8254bb6bb5a2499f05269162d31d95c784f300636f9",
+    "dataRevision": "sha256-c8f0acd9849e9a88ed6a60cf3f29f70391dad05420fcce718e83e4ffca775285",
+    "generatedAt": "2026-10-07T07:14:07.483Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0074",
+    "releaseDate": "2013-12-25",
+    "releaseName": "ラブライブ！μ's 3rd Anniversary LoveLive! Blu-ray",
+    "classification": "Blu-ray",
+    "sourceMedia": "ライブBlu-ray",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd29",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "ライブBlu-ray",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [],
+    "relatedEvents": [
+      {
+        "eventId": "EV0013",
+        "eventName": "μ’s 3rd Anniversary LoveLive!",
+        "date": "2013-06-16",
+        "relation": "収録公演",
+        "order": 1
+      }
+    ],
+    "includedSongs": [],
+    "includedSongsMeta": {
+      "status": "not_applicable",
+      "confirmedCount": 0,
+      "pendingCount": null,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-c8f0acd9849e9a88ed6a60cf3f29f70391dad05420fcce718e83e4ffca775285"
+    }
+  }
+}

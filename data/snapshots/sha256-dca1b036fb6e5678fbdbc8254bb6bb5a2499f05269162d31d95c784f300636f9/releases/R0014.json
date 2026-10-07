@@ -1,0 +1,107 @@
+{
+  "snapshot": {
+    "revision": "sha256-dca1b036fb6e5678fbdbc8254bb6bb5a2499f05269162d31d95c784f300636f9",
+    "outputRevision": "sha256-dca1b036fb6e5678fbdbc8254bb6bb5a2499f05269162d31d95c784f300636f9",
+    "dataRevision": "sha256-c8f0acd9849e9a88ed6a60cf3f29f70391dad05420fcce718e83e4ffca775285",
+    "generatedAt": "2026-10-07T07:14:07.483Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0014",
+    "releaseDate": "2012-07-25",
+    "releaseName": "soldier game",
+    "classification": "CD",
+    "sourceMedia": "トリオCD",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd14",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "シングル",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S028",
+        "songName": "soldier game",
+        "displayName": "soldier game"
+      },
+      {
+        "songId": "S029",
+        "songName": "Daring!!",
+        "displayName": "Daring!!"
+      },
+      {
+        "songId": "S030",
+        "songName": "勇気のReason",
+        "displayName": "勇気のReason"
+      },
+      {
+        "songId": "S031",
+        "songName": "ありふれた悲しみの果て",
+        "displayName": "ありふれた悲しみの果て"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0028",
+        "songId": "S028",
+        "songName": "soldier game",
+        "displayName": "soldier game",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0029",
+        "songId": "S029",
+        "songName": "Daring!!",
+        "displayName": "Daring!!",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null,
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0030",
+        "songId": "S030",
+        "songName": "勇気のReason",
+        "displayName": "勇気のReason",
+        "disc": null,
+        "track": null,
+        "displayOrder": 3,
+        "variant": null,
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0031",
+        "songId": "S031",
+        "songName": "ありふれた悲しみの果て",
+        "displayName": "ありふれた悲しみの果て",
+        "disc": null,
+        "track": null,
+        "displayOrder": 4,
+        "variant": null,
+        "benefitStore": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 4,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-c8f0acd9849e9a88ed6a60cf3f29f70391dad05420fcce718e83e4ffca775285"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "snapshot": {
+    "revision": "sha256-c7349aa942952a64088e1df95e62cc81f7f42655785b9826c36badc06e89caa4",
+    "outputRevision": "sha256-c7349aa942952a64088e1df95e62cc81f7f42655785b9826c36badc06e89caa4",
+    "dataRevision": "sha256-54324050df2b0bc56d2a433d3862eec2a7def50b758b5e58a8ec4686f2d62a2f",
+    "generatedAt": "2026-10-07T17:52:50.639Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0072",
+    "releaseDate": "2013-04-24",
+    "releaseName": "天使たちの福音 ～feat.μ's",
+    "classification": "CD",
+    "sourceMedia": "神パラ",
+    "officialReleaseUrl": "https://catalog.bandainamcomusiclive.co.jp/release/63074/",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "企画アルバム",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [],
+    "includedSongsMeta": {
+      "status": "special_hold",
+      "confirmedCount": 0,
+      "pendingCount": null,
+      "publicNote": "神パラ関連作品の収録楽曲・歌唱記録は、通常の収録曲とは分けて管理しています。"
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-54324050df2b0bc56d2a433d3862eec2a7def50b758b5e58a8ec4686f2d62a2f"
+    }
+  }
+}

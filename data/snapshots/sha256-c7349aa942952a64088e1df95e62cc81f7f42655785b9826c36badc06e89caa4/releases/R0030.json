@@ -1,0 +1,59 @@
+{
+  "snapshot": {
+    "revision": "sha256-c7349aa942952a64088e1df95e62cc81f7f42655785b9826c36badc06e89caa4",
+    "outputRevision": "sha256-c7349aa942952a64088e1df95e62cc81f7f42655785b9826c36badc06e89caa4",
+    "dataRevision": "sha256-54324050df2b0bc56d2a433d3862eec2a7def50b758b5e58a8ec4686f2d62a2f",
+    "generatedAt": "2026-10-07T17:52:50.639Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0030",
+    "releaseDate": "2013-08-28",
+    "releaseName": "「ラブライブ！」Blu-ray 第6巻",
+    "classification": "Blu-ray",
+    "sourceMedia": "Blu-ray",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd06",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "アニメBlu-ray",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S057",
+        "songName": "硝子の花園",
+        "displayName": "硝子の花園"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0057",
+        "songId": "S057",
+        "songName": "硝子の花園",
+        "displayName": "硝子の花園",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "benefitStore": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 1,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-54324050df2b0bc56d2a433d3862eec2a7def50b758b5e58a8ec4686f2d62a2f"
+    }
+  }
+}

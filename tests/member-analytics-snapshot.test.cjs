@@ -31,8 +31,9 @@ test("Member Analytics snapshot schema, revision and manifest hashes", () => {
 
 test("Member Analytics representative Song counts", () => {
   const songs = new Map(wrapper.data.songs.map(song => [song.songId, song]));
-  assert.deepEqual(songs.get("S003").characterCounts, [49, 15, 33, 27, 34, 50, 30, 26, 25]);
-  assert.equal(songs.get("S003").characterTotal, 289);
+  // Batch2 EV0321 correction includes Honoka/Rin/Maki instead of Maki alone.
+  assert.deepEqual(songs.get("S003").characterCounts, [50, 15, 33, 27, 35, 50, 30, 26, 25]);
+  assert.equal(songs.get("S003").characterTotal, 291);
   assert.deepEqual(songs.get("S003").castCounts, [18, 1, 0, 3, 9, 16, 4, 7, 14]);
   assert.equal(songs.get("S003").castTotal, 72);
   assert.deepEqual(songs.get("S041").characterCounts, [1, 0, 1, 1, 0, 0, 0, 0, 0]);

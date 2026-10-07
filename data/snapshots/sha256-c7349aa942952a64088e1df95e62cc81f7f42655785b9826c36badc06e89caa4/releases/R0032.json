@@ -1,0 +1,59 @@
+{
+  "snapshot": {
+    "revision": "sha256-c7349aa942952a64088e1df95e62cc81f7f42655785b9826c36badc06e89caa4",
+    "outputRevision": "sha256-c7349aa942952a64088e1df95e62cc81f7f42655785b9826c36badc06e89caa4",
+    "dataRevision": "sha256-54324050df2b0bc56d2a433d3862eec2a7def50b758b5e58a8ec4686f2d62a2f",
+    "generatedAt": "2026-10-07T17:52:50.639Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0032",
+    "releaseDate": "2013-09-25",
+    "releaseName": "1期Blu-ray全巻購入特典",
+    "classification": "特典",
+    "sourceMedia": "Blu-ray",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd00",
+    "todayEligible": true,
+    "note": "店舗別全巻購入特典を統合管理。発売日は最終巻発売日基準。",
+    "releaseType": "全巻購入特典",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S059",
+        "songName": "ぷわぷわーお！",
+        "displayName": "ぷわぷわーお！"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0059",
+        "songId": "S059",
+        "songName": "ぷわぷわーお！",
+        "displayName": "ぷわぷわーお！",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "benefitStore": "ゲーマーズ"
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 1,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-54324050df2b0bc56d2a433d3862eec2a7def50b758b5e58a8ec4686f2d62a2f"
+    }
+  }
+}

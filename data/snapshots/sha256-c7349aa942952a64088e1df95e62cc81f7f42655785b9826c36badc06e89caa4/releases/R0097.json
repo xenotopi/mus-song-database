@@ -1,0 +1,203 @@
+{
+  "snapshot": {
+    "revision": "sha256-c7349aa942952a64088e1df95e62cc81f7f42655785b9826c36badc06e89caa4",
+    "outputRevision": "sha256-c7349aa942952a64088e1df95e62cc81f7f42655785b9826c36badc06e89caa4",
+    "dataRevision": "sha256-54324050df2b0bc56d2a433d3862eec2a7def50b758b5e58a8ec4686f2d62a2f",
+    "generatedAt": "2026-10-07T17:52:50.639Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0097",
+    "releaseDate": "2014-04-02",
+    "releaseName": "ラブライブ！ Solo Live! from μ's 高坂穂乃果 orange cheers!",
+    "classification": "CD",
+    "sourceMedia": "Solo Live",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd31",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "Solo Live!",
+    "releaseSeries": {
+      "id": "RS0002",
+      "name": "ラブライブ！ μ's Solo Live! collection",
+      "shortName": "Solo Live! II"
+    },
+    "editionType": "individual",
+    "parentReleaseId": "R0077",
+    "featuredSinger": {
+      "id": "SN0004",
+      "name": "高坂穂乃果"
+    },
+    "catalogNumber": "LACA-15381",
+    "officialName": "ラブライブ！Solo Live! Ⅱ from μ's 高坂穂乃果 orange cheers!",
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0825",
+        "songId": "S017",
+        "songName": "もぎゅっと“love”で接近中！",
+        "displayName": "もぎゅっと“love”で接近中！",
+        "disc": 1,
+        "track": 1,
+        "displayOrder": 1,
+        "variant": "HONOKA Mix",
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0826",
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!",
+        "disc": 1,
+        "track": 2,
+        "displayOrder": 2,
+        "variant": "HONOKA Mix",
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0827",
+        "songId": "S019",
+        "songName": "Mermaid festa vol.2 ～Passionate～",
+        "displayName": "Mermaid festa vol.2 ～Passionate～",
+        "disc": 1,
+        "track": 3,
+        "displayOrder": 3,
+        "variant": "HONOKA Mix",
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0828",
+        "songId": "S032",
+        "songName": "Wonderful Rush",
+        "displayName": "Wonderful Rush",
+        "disc": 1,
+        "track": 4,
+        "displayOrder": 4,
+        "variant": "HONOKA Mix",
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0829",
+        "songId": "S033",
+        "songName": "Oh, Love & Peace!",
+        "displayName": "Oh, Love & Peace!",
+        "disc": 1,
+        "track": 5,
+        "displayOrder": 5,
+        "variant": "HONOKA Mix",
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0830",
+        "songId": "S036",
+        "songName": "僕らは今のなかで",
+        "displayName": "僕らは今のなかで",
+        "disc": 1,
+        "track": 6,
+        "displayOrder": 6,
+        "variant": "HONOKA Mix",
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0831",
+        "songId": "S037",
+        "songName": "WILD STARS",
+        "displayName": "WILD STARS",
+        "disc": 1,
+        "track": 7,
+        "displayOrder": 7,
+        "variant": "HONOKA Mix",
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0832",
+        "songId": "S038",
+        "songName": "きっと青春が聞こえる",
+        "displayName": "きっと青春が聞こえる",
+        "disc": 1,
+        "track": 8,
+        "displayOrder": 8,
+        "variant": "HONOKA Mix",
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0833",
+        "songId": "S039",
+        "songName": "輝夜の城で踊りたい",
+        "displayName": "輝夜の城で踊りたい",
+        "disc": 1,
+        "track": 9,
+        "displayOrder": 9,
+        "variant": "HONOKA Mix",
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0834",
+        "songId": "S040",
+        "songName": "ススメ→トゥモロウ",
+        "displayName": "ススメ→トゥモロウ",
+        "disc": 1,
+        "track": 10,
+        "displayOrder": 10,
+        "variant": "HONOKA Mix",
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0835",
+        "songId": "S042",
+        "songName": "これからのSomeday",
+        "displayName": "これからのSomeday",
+        "disc": 1,
+        "track": 11,
+        "displayOrder": 11,
+        "variant": "HONOKA Mix",
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0836",
+        "songId": "S043",
+        "songName": "Wonder zone",
+        "displayName": "Wonder zone",
+        "disc": 1,
+        "track": 12,
+        "displayOrder": 12,
+        "variant": "HONOKA Mix",
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0837",
+        "songId": "S045",
+        "songName": "No brand girls",
+        "displayName": "No brand girls",
+        "disc": 1,
+        "track": 13,
+        "displayOrder": 13,
+        "variant": "HONOKA Mix",
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT1305",
+        "songId": "S046",
+        "songName": "START:DASH!!",
+        "displayName": "START:DASH!!（9人）",
+        "disc": 1,
+        "track": 14,
+        "displayOrder": 14,
+        "variant": "HONOKA Mix",
+        "benefitStore": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 14,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-54324050df2b0bc56d2a433d3862eec2a7def50b758b5e58a8ec4686f2d62a2f"
+    }
+  }
+}

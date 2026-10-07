@@ -1,0 +1,75 @@
+{
+  "snapshot": {
+    "revision": "sha256-c7349aa942952a64088e1df95e62cc81f7f42655785b9826c36badc06e89caa4",
+    "outputRevision": "sha256-c7349aa942952a64088e1df95e62cc81f7f42655785b9826c36badc06e89caa4",
+    "dataRevision": "sha256-54324050df2b0bc56d2a433d3862eec2a7def50b758b5e58a8ec4686f2d62a2f",
+    "generatedAt": "2026-10-07T17:52:50.639Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0010",
+    "releaseDate": "2012-02-15",
+    "releaseName": "もぎゅっと“love”で接近中！",
+    "classification": "CD",
+    "sourceMedia": "CD",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd10",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "シングル",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S017",
+        "songName": "もぎゅっと“love”で接近中！",
+        "displayName": "もぎゅっと“love”で接近中！"
+      },
+      {
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0017",
+        "songId": "S017",
+        "songName": "もぎゅっと“love”で接近中！",
+        "displayName": "もぎゅっと“love”で接近中！",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0018",
+        "songId": "S018",
+        "songName": "愛してるばんざーい!",
+        "displayName": "愛してるばんざーい!",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null,
+        "benefitStore": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 2,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-54324050df2b0bc56d2a433d3862eec2a7def50b758b5e58a8ec4686f2d62a2f"
+    }
+  }
+}

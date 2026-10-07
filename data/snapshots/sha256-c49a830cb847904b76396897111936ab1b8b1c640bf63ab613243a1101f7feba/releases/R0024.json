@@ -1,0 +1,59 @@
+{
+  "snapshot": {
+    "revision": "sha256-c49a830cb847904b76396897111936ab1b8b1c640bf63ab613243a1101f7feba",
+    "outputRevision": "sha256-c49a830cb847904b76396897111936ab1b8b1c640bf63ab613243a1101f7feba",
+    "dataRevision": "sha256-51b96a8ea846dd246d4aa66019b19cf9175158ea2eb589e5316317a41e8ee5f9",
+    "generatedAt": "2026-10-07T13:54:53.711Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0024",
+    "releaseDate": "2013-05-28",
+    "releaseName": "「ラブライブ！」Blu-ray 第3巻",
+    "classification": "Blu-ray",
+    "sourceMedia": "Blu-ray",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd03",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "アニメBlu-ray",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S048",
+        "songName": "なわとび",
+        "displayName": "なわとび"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0048",
+        "songId": "S048",
+        "songName": "なわとび",
+        "displayName": "なわとび",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "benefitStore": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 1,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-51b96a8ea846dd246d4aa66019b19cf9175158ea2eb589e5316317a41e8ee5f9"
+    }
+  }
+}

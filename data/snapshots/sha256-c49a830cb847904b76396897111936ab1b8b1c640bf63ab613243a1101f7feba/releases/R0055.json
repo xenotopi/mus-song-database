@@ -1,0 +1,59 @@
+{
+  "snapshot": {
+    "revision": "sha256-c49a830cb847904b76396897111936ab1b8b1c640bf63ab613243a1101f7feba",
+    "outputRevision": "sha256-c49a830cb847904b76396897111936ab1b8b1c640bf63ab613243a1101f7feba",
+    "dataRevision": "sha256-51b96a8ea846dd246d4aa66019b19cf9175158ea2eb589e5316317a41e8ee5f9",
+    "generatedAt": "2026-10-07T13:54:53.711Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0055",
+    "releaseDate": "2015-05-23",
+    "releaseName": "「ラブライブ！The School Idol Movie」特典付前売券第3弾 ユニットシングル BiBi「最低で最高のParadiso」",
+    "classification": "特典",
+    "sourceMedia": "映画",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/sp_movie_ticket05.html",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "前売券特典",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S096",
+        "songName": "最低で最高のParadiso",
+        "displayName": "最低で最高のParadiso"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0096",
+        "songId": "S096",
+        "songName": "最低で最高のParadiso",
+        "displayName": "最低で最高のParadiso",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "benefitStore": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 1,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-51b96a8ea846dd246d4aa66019b19cf9175158ea2eb589e5316317a41e8ee5f9"
+    }
+  }
+}

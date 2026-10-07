@@ -1,0 +1,49 @@
+{
+  "snapshot": {
+    "revision": "sha256-c49a830cb847904b76396897111936ab1b8b1c640bf63ab613243a1101f7feba",
+    "outputRevision": "sha256-c49a830cb847904b76396897111936ab1b8b1c640bf63ab613243a1101f7feba",
+    "dataRevision": "sha256-51b96a8ea846dd246d4aa66019b19cf9175158ea2eb589e5316317a41e8ee5f9",
+    "generatedAt": "2026-10-07T13:54:53.711Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0069",
+    "releaseDate": "2012-11-21",
+    "releaseName": "ラブライブ！μ's First LoveLive! Blu-ray",
+    "classification": "Blu-ray",
+    "sourceMedia": "ライブBlu-ray",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd17",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "ライブBlu-ray",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [],
+    "relatedEvents": [
+      {
+        "eventId": "EV0001",
+        "eventName": "ラブライブ！ μ’s First LoveLive！",
+        "date": "2012-02-19",
+        "relation": "収録公演",
+        "order": 1
+      }
+    ],
+    "includedSongs": [],
+    "includedSongsMeta": {
+      "status": "not_applicable",
+      "confirmedCount": 0,
+      "pendingCount": null,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-51b96a8ea846dd246d4aa66019b19cf9175158ea2eb589e5316317a41e8ee5f9"
+    }
+  }
+}

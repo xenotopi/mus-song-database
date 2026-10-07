@@ -1,0 +1,41 @@
+{
+  "snapshot": {
+    "revision": "sha256-c49a830cb847904b76396897111936ab1b8b1c640bf63ab613243a1101f7feba",
+    "outputRevision": "sha256-c49a830cb847904b76396897111936ab1b8b1c640bf63ab613243a1101f7feba",
+    "dataRevision": "sha256-51b96a8ea846dd246d4aa66019b19cf9175158ea2eb589e5316317a41e8ee5f9",
+    "generatedAt": "2026-10-07T13:54:53.711Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0075",
+    "releaseDate": "2013-12-25",
+    "releaseName": "ラブライブ！ ～国立音ノ木坂学院案内～",
+    "classification": "Blu-ray",
+    "sourceMedia": "ファンディスク",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd08",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "映像集",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [],
+    "relatedEvents": [],
+    "includedSongs": [],
+    "includedSongsMeta": {
+      "status": "not_applicable",
+      "confirmedCount": 0,
+      "pendingCount": null,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-51b96a8ea846dd246d4aa66019b19cf9175158ea2eb589e5316317a41e8ee5f9"
+    }
+  }
+}

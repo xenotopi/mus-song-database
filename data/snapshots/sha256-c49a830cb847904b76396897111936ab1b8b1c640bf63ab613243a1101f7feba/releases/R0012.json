@@ -1,0 +1,91 @@
+{
+  "snapshot": {
+    "revision": "sha256-c49a830cb847904b76396897111936ab1b8b1c640bf63ab613243a1101f7feba",
+    "outputRevision": "sha256-c49a830cb847904b76396897111936ab1b8b1c640bf63ab613243a1101f7feba",
+    "dataRevision": "sha256-51b96a8ea846dd246d4aa66019b19cf9175158ea2eb589e5316317a41e8ee5f9",
+    "generatedAt": "2026-10-07T13:54:53.711Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0012",
+    "releaseDate": "2012-05-23",
+    "releaseName": "乙女式れんあい塾",
+    "classification": "CD",
+    "sourceMedia": "デュオCD",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd12",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "シングル",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S022",
+        "songName": "乙女式れんあい塾",
+        "displayName": "乙女式れんあい塾"
+      },
+      {
+        "songId": "S023",
+        "songName": "まほうつかいはじめました！",
+        "displayName": "まほうつかいはじめました！"
+      },
+      {
+        "songId": "S024",
+        "songName": "純愛レンズ",
+        "displayName": "純愛レンズ"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0022",
+        "songId": "S022",
+        "songName": "乙女式れんあい塾",
+        "displayName": "乙女式れんあい塾",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0023",
+        "songId": "S023",
+        "songName": "まほうつかいはじめました！",
+        "displayName": "まほうつかいはじめました！",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null,
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0024",
+        "songId": "S024",
+        "songName": "純愛レンズ",
+        "displayName": "純愛レンズ",
+        "disc": null,
+        "track": null,
+        "displayOrder": 3,
+        "variant": null,
+        "benefitStore": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 3,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-51b96a8ea846dd246d4aa66019b19cf9175158ea2eb589e5316317a41e8ee5f9"
+    }
+  }
+}

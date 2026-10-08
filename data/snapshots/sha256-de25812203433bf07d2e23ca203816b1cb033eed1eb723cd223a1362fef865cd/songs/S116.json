@@ -1,0 +1,82 @@
+{
+  "snapshot": {
+    "revision": "sha256-de25812203433bf07d2e23ca203816b1cb033eed1eb723cd223a1362fef865cd",
+    "outputRevision": "sha256-de25812203433bf07d2e23ca203816b1cb033eed1eb723cd223a1362fef865cd",
+    "dataRevision": "sha256-ae60c8e521edbb636f1c3a584736413ea697f661603ebe14208acc4a4dadf968",
+    "generatedAt": "2026-10-08T17:53:45.328Z",
+    "source": "public-api"
+  },
+  "data": {
+    "songId": "S116",
+    "songName": "A song for You! You? You!!",
+    "displayName": "A song for You! You? You!!",
+    "version": "通常",
+    "recordingCd": "A song for You! You? You!!",
+    "releaseDate": "2020-03-25",
+    "media": "CD",
+    "category": "シングル",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd84",
+    "debutRelease": {
+      "releaseId": "R0067",
+      "releaseDate": "2020-03-25",
+      "releaseName": "A song for You! You? You!!",
+      "classification": "CD",
+      "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd84"
+    },
+    "includedReleases": [
+      {
+        "relationId": "RT0116",
+        "releaseId": "R0067",
+        "releaseName": "A song for You! You? You!!",
+        "releaseDate": "2020-03-25",
+        "classification": "CD",
+        "releaseType": "シングル",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "releaseSeries": null,
+        "editionType": null,
+        "parentReleaseId": null,
+        "featuredSinger": null,
+        "catalogNumber": null,
+        "officialName": null
+      }
+    ],
+    "regularSingerPatterns": [
+      [
+        "Pile",
+        "久保",
+        "三森",
+        "新田",
+        "徳井",
+        "内田",
+        "南條",
+        "楠田",
+        "飯田"
+      ]
+    ],
+    "statistics": {
+      "performanceCount": 0,
+      "completePerformanceCount": 0,
+      "irregularPerformanceCount": 0,
+      "unregisteredPerformanceCount": 0,
+      "shortageCount": 0,
+      "excessCount": 0,
+      "mismatchCount": 0,
+      "completeRate": 0,
+      "eventCount": 0,
+      "officialEventCount": 0,
+      "soloEventCount": 0,
+      "firstPerformanceDate": null,
+      "lastPerformanceDate": null
+    },
+    "performances": [],
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-ae60c8e521edbb636f1c3a584736413ea697f661603ebe14208acc4a4dadf968"
+    }
+  }
+}

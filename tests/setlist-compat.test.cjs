@@ -110,7 +110,9 @@ test('RAW legacy/new headers accepted; optional defaults do not create columns',
 
 test('API version 4 gives deterministic outputRevision without changing dataRevision', () => {
   const c = vm.createContext({ Utilities: { DigestAlgorithm:{SHA_256:1}, Charset:{UTF_8:1}, computeDigest: (_,input) => Array.from(crypto.createHash('sha256').update(input).digest()) } });
-  vm.runInContext(fs.readFileSync(path.join(apiRoot,'DatabaseRevision.js'),'utf8'), c);
+  // Keep this historical v4 contract independent of the current deployed version.
+  vm.runInContext(fs.readFileSync(path.join(apiRoot,'DatabaseRevision.js'),'utf8')
+    .replace(/MUSDB_PUBLIC_API_DATA_VERSION_ = '\d+'/, "MUSDB_PUBLIC_API_DATA_VERSION_ = '4'"), c);
   const data = 'sha256-fa43755a249789fc616d8cebf0910880091df8aaaa613bbdde6760a98bf2fe55';
   const actual = c.getOutputRevisionV490_(data);
   const expected = 'sha256-' + crypto.createHash('sha256').update(JSON.stringify({dataRevision:data,publicApiDataVersion:'4'})).digest('hex');

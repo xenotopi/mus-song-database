@@ -1,0 +1,75 @@
+{
+  "snapshot": {
+    "revision": "sha256-de25812203433bf07d2e23ca203816b1cb033eed1eb723cd223a1362fef865cd",
+    "outputRevision": "sha256-de25812203433bf07d2e23ca203816b1cb033eed1eb723cd223a1362fef865cd",
+    "dataRevision": "sha256-ae60c8e521edbb636f1c3a584736413ea697f661603ebe14208acc4a4dadf968",
+    "generatedAt": "2026-10-08T17:53:45.328Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0050",
+    "releaseDate": "2014-12-24",
+    "releaseName": "冬がくれた予感",
+    "classification": "CD",
+    "sourceMedia": "スクフェス",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd51",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "シングル",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S087",
+        "songName": "冬がくれた予感",
+        "displayName": "冬がくれた予感"
+      },
+      {
+        "songId": "S088",
+        "songName": "Trouble Busters",
+        "displayName": "Trouble Busters"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0087",
+        "songId": "S087",
+        "songName": "冬がくれた予感",
+        "displayName": "冬がくれた予感",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "benefitStore": null
+      },
+      {
+        "relationId": "RT0088",
+        "songId": "S088",
+        "songName": "Trouble Busters",
+        "displayName": "Trouble Busters",
+        "disc": null,
+        "track": null,
+        "displayOrder": 2,
+        "variant": null,
+        "benefitStore": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 2,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-ae60c8e521edbb636f1c3a584736413ea697f661603ebe14208acc4a4dadf968"
+    }
+  }
+}

@@ -54,6 +54,9 @@ function validateEventSnapshot(id, snapshot, expectedRevision, expectedDataRevis
   if (event.songOrderIsSetlist !== undefined && typeof event.songOrderIsSetlist !== "boolean") throw new Error("Invalid setlist flag");
   for (const song of event.songs) {
     const position = song.setlistPosition;
+    const relative = song.relativePosition;
+    if (relative != null && (!Number.isSafeInteger(relative) || relative <= 0)) throw new Error("Invalid relative position");
+    if (position != null && relative != null) throw new Error("Conflicting setlist / relative positions");
     if (position != null && (!Number.isSafeInteger(position) || position <= 0)) throw new Error("Invalid setlist position");
     if (event.songOrderIsSetlist === true && position == null) throw new Error("Confirmed setlist missing position");
   }

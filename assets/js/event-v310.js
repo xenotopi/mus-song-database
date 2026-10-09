@@ -182,6 +182,7 @@ const eventId =
 
 let currentEvent = null;
 let currentSongs = [];
+let currentSongOrderMode = "raw";
 let currentDiscover = {};
 let activeSongFilter = "all";
 let loadGeneration = 0;
@@ -456,9 +457,9 @@ function renderEventSongs_() {
               .join("");
 
             return `
-              <div class="event-song-row">
-                <span class="event-song-order">
-                  ${currentEvent.songOrderIsSetlist === true ? song.setlistPosition : originalIndex + 1}
+              <div class="event-song-row${currentSongOrderMode === "relative" ? " event-song-row-relative" : ""}">
+                <span class="event-song-order${currentSongOrderMode === "relative" ? " event-song-order-relative" : ""}">
+                  ${currentSongOrderMode === "relative" ? `歌唱順 ${song.relativePosition}` : currentSongOrderMode === "absolute" ? song.setlistPosition : originalIndex + 1}
                 </span>
 
                 <span class="event-song-body">
@@ -681,12 +682,20 @@ function renderEvent(event) {
 
   const validSetlist = event.songOrderIsSetlist === true && songs.every(song =>
     Number.isSafeInteger(song.setlistPosition) && song.setlistPosition > 0);
+  const hasRelative = event.songOrderIsSetlist !== true && songs.some(song =>
+    Number.isSafeInteger(song.relativePosition) && song.relativePosition > 0);
+  const validRelative = hasRelative && songs.every(song =>
+    Number.isSafeInteger(song.relativePosition) && song.relativePosition > 0 && song.setlistPosition == null);
+  currentSongOrderMode = validSetlist ? "absolute" : validRelative ? "relative" : "raw";
   currentEvent = validSetlist || event.songOrderIsSetlist !== true
     ? event
     : { ...event, songOrderIsSetlist: false, songOrderNote: "曲順データが不完全なため、登録順で掲載しています。" };
 
-  currentSongs =
-    validSetlist ? songs.slice().sort((a, b) => a.setlistPosition - b.setlistPosition) : songs;
+  currentSongs = currentSongOrderMode === "absolute"
+    ? songs.slice().sort((a, b) => a.setlistPosition - b.setlistPosition)
+    : currentSongOrderMode === "relative"
+      ? songs.slice().sort((a, b) => a.relativePosition - b.relativePosition)
+      : songs;
 
   elements.songCount.textContent =
     `${songs.length}曲`;
@@ -694,8 +703,11 @@ function renderEvent(event) {
   const orderIsSetList =
     validSetlist;
 
+  elements.songOrderNote.classList.toggle("event-song-order-note-relative", validRelative);
   elements.songOrderNote.textContent =
-    orderIsSetList
+    validRelative
+      ? "※イベント全体の曲順ではなく、μ's関連歌唱内で確認できている順番です。"
+      : orderIsSetList
       ? (
           currentEvent.songOrderNote ||
           "実際の歌唱順で掲載しています。"

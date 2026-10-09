@@ -81,6 +81,51 @@ test.after(async () => {
   await new Promise(resolve => server?.close(resolve));
 });
 
+test("relative order is distinct from absolute order and raw order", async () => {
+  for (const [eventId, expected, mode] of [
+    ["EV0002", ["1", "2"], "relative"],
+    ["EV0046", ["1"], "relative"],
+    ["EV0092", ["1", "2", "3"], "relative"],
+    ["EV0001", Array.from({ length: 18 }, (_, i) => String(i + 1)), "absolute"],
+    ["EV0054", ["16", "17", "18", "19", "20", "21"], "absolute"],
+    ["EV0103", ["11"], "absolute"],
+    ["EV0217", ["21", "22", "22", "22", "22", "22", "22", "23"], "absolute"],
+    ["EV0348", ["1"], "raw"]
+  ]) for (const width of [390, 1280]) {
+    const page = await browser.newPage({ viewport: { width, height: 844 } });
+    const errors = [];
+    page.on("pageerror", error => errors.push(error.message));
+    await page.route(/script\.google(?:usercontent)?\.com\//, route => route.abort());
+    await page.goto(`${baseUrl}/event.html?id=${eventId}`, { waitUntil: "domcontentloaded" });
+    await page.locator("#mainContent").waitFor({ state: "visible" });
+    const labels = await page.locator(".event-song-order").allInnerTexts();
+    assert.deepEqual(labels.map(value => value.trim()), expected.map(value => mode === "relative" ? `歌唱順 ${value}` : value));
+    const note = await page.locator("#songOrderNote").innerText();
+    assert.equal(note.includes("イベント全体の曲順ではなく"), mode === "relative");
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+    assert.deepEqual(errors, []);
+    await page.close();
+  }
+});
+
+test("incomplete relative order falls back to original RAW order", async () => {
+  const eventId = "EV0092";
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  await page.route(`**/data/snapshots/**/events/${eventId}.json`, async route => {
+    const response = await route.fetch();
+    const snapshot = await response.json();
+    snapshot.data.event.songs[1].relativePosition = null;
+    await route.fulfill({ response, body: JSON.stringify(snapshot) });
+  });
+  await page.route(/script\.google(?:usercontent)?\.com\//, route => route.abort());
+  await page.goto(`${baseUrl}/event.html?id=${eventId}`, { waitUntil: "domcontentloaded" });
+  await page.locator("#mainContent").waitFor({ state: "visible" });
+  assert.deepEqual((await page.locator(".event-song-order").allInnerTexts()).map(s => s.trim()), ["1", "2", "3"]);
+  assert.deepEqual((await page.locator(".event-song-title").allInnerTexts()).map(s => s.trim()), ["KiRa-KiRa Sensation!", "それは僕たちの奇跡", "僕らは今のなかで"]);
+  assert.equal((await page.locator("#songOrderNote").innerText()).includes("イベント全体の曲順ではなく"), false);
+  await page.close();
+});
+
 test("latest Static renders Event and discover before revision, with no detail JSONP", async () => {
   const { page, calls, pageErrors } = await openEvent({ width: 1280 });
   await page.locator("#mainContent").waitFor({ state: "visible" });

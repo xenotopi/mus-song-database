@@ -214,6 +214,22 @@
         "category": "公式"
       }
     },
+    "X0046": {
+      "categoryId": "X02",
+      "template": "sequence-comparison",
+      "songId": "S070",
+      "title": "Love wing bell",
+      "context": "公式歌唱記録で見る、編成の変化",
+      "records": [
+        { "year": "2015", "label": "5th Live", "value": "6", "unit": "人", "heading": "正規6人", "details": ["絵里・凛・花陽", "真姫・希・にこ"] },
+        { "year": "2016", "label": "Final Live", "value": "9", "unit": "人", "heading": "μ's 9人", "details": ["メドレー／TVサイズ"] },
+        { "year": "2025", "label": "ソウル公演", "value": "3", "unit": "人", "heading": "穂乃果・凛・真姫", "details": ["11.16｜2日目 第一部"] }
+      ],
+      "conclusion": "同じ一曲。公演によって異なる編成。",
+      "note": "※ 歌唱編成の比較です。歌唱尺が同じという意味ではありません。",
+      "todayDate": "2026.10.07",
+      "todayText": "飯田里穂さんがソロイベントで「Love wing bell」を披露"
+    },
     "X0043": {
       "categoryId": "X02",
       "template": "first-official-record",

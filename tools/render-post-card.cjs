@@ -4,6 +4,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { parseArguments, renderCard } = require("./card-shared/render-card.cjs");
 const { birthdayRenderValues } = require("./birthday-card/catalog-data.cjs");
+const { sequenceComparisonValues } = require("./sequence-comparison-card/catalog-data.cjs");
 
 const PUBLIC_API = "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec";
 const DEFAULT_CATALOG = path.join(__dirname, "post-card-catalog.json");
@@ -575,7 +576,10 @@ async function main() {
   let templateDir;
   let values;
   let outputQualifier = "";
-  if (post.template === "song-record-summary") {
+  if (post.template === "sequence-comparison") {
+    templateDir = path.join(__dirname, "sequence-comparison-card");
+    values = sequenceComparisonValues(id, post);
+  } else if (post.template === "song-record-summary") {
     templateDir = path.join(__dirname, "song-record-summary-card");
     values = songRecordSummaryValues(id, post);
   } else if (post.template === "paired-record") {

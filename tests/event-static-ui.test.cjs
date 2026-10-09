@@ -8,8 +8,11 @@ const test = require("node:test");
 const { chromium } = require("playwright");
 
 const ROOT = path.resolve(__dirname, "..");
-const revision = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "current.json"), "utf8")).revision;
-const newerRevision = `sha256-${"b".repeat(64)}`;
+const current = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "current.json"), "utf8"));
+const outputRevision = current.outputRevision || current.revision;
+const dataRevision = current.dataRevision || outputRevision;
+const newerOutputRevision = `sha256-${"b".repeat(64)}`;
+const newerDataRevision = `sha256-${"c".repeat(64)}`;
 let server;
 let browser;
 let baseUrl;
@@ -36,7 +39,7 @@ function jsonp(route, data) {
   return route.fulfill({ status: 200, contentType: "text/javascript", body: `${callback}(${JSON.stringify({ success: true, data })});` });
 }
 
-async function openEvent({ staticValid = true, revisionValue = revision, blockApi = false, fresh = false, width = 1280 }) {
+async function openEvent({ staticValid = true, revisionValue = dataRevision, outputRevisionValue = outputRevision, blockApi = false, fresh = false, width = 1280 }) {
   const page = await browser.newPage({ viewport: { width, height: 900 } });
   const calls = [];
   const pageErrors = [];
@@ -44,13 +47,16 @@ async function openEvent({ staticValid = true, revisionValue = revision, blockAp
   await page.route("**/data/snapshots/**/events/EV0001.json", route => route.fulfill({
     status: 200,
     contentType: "application/json",
-    body: JSON.stringify(staticValid ? { snapshot: { revision }, data: pair("Static Event", revision) } : {})
+    body: JSON.stringify(staticValid ? {
+      snapshot: { revision: outputRevision, outputRevision, dataRevision },
+      data: pair("Static Event", dataRevision)
+    } : {})
   }));
   await page.route(/script\.google(?:usercontent)?\.com\//, async route => {
     const action = new URL(route.request().url()).searchParams.get("action");
     calls.push(action);
     if (blockApi) return route.abort();
-    if (action === "revision") return jsonp(route, { dataRevision: revisionValue });
+    if (action === "revision") return jsonp(route, { dataRevision: revisionValue, outputRevision: outputRevisionValue });
     if (fresh) await new Promise(resolve => setTimeout(resolve, 400));
     const latest = pair("Fresh Event", revisionValue);
     if (action === "event") return jsonp(route, latest.event);
@@ -151,7 +157,7 @@ test("blocked JSONP leaves complete Static visible at 390px", async () => {
 });
 
 test("stale Static appears first and updates both datasets without resetting the song filter", async () => {
-  const { page, calls, pageErrors } = await openEvent({ revisionValue: newerRevision, fresh: true });
+  const { page, calls, pageErrors } = await openEvent({ revisionValue: newerDataRevision, outputRevisionValue: newerOutputRevision, fresh: true });
   await page.locator("#mainContent").waitFor({ state: "visible" });
   assert.equal(await page.locator("#eventName").innerText(), "Static Event");
   await page.locator('[data-filter="first"]').click();

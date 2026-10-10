@@ -7,7 +7,11 @@ export function validAmazonProduct(product) {
   if (!/^[A-Z0-9]{10}$/.test(asin)) return false;
   try {
     const url = new URL(String(product.url || ""));
-    if (url.protocol !== "https:" || !["amazon.co.jp", "www.amazon.co.jp"].includes(url.hostname)) return false;
+    if (url.protocol !== "https:") return false;
+    // SiteStripe short links hide the tracking tag and ASIN until Amazon redirects.
+    // Both values must be verified before adding an entry to amazon-products.json.
+    if (url.hostname === "link.amazon") return /^\/[A-Za-z0-9]+$/.test(url.pathname) && !url.search && !url.hash;
+    if (!["amazon.co.jp", "www.amazon.co.jp"].includes(url.hostname)) return false;
     if (url.searchParams.get("tag") !== AMAZON_TAG) return false;
     const segments = url.pathname.split("/").filter(Boolean);
     return segments.some((segment, index) => (segment === "dp" && segments[index + 1] === asin)

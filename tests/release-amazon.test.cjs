@@ -53,11 +53,20 @@ async function openRelease(id, width, products) {
   return { page, errors };
 }
 
-test("production registry is empty and R0010 / R0094 have no Amazon DOM", async () => {
-  assert.deepEqual(data, {});
+test("R0010 alone uses the issued SiteStripe URL; R0094 has no Amazon DOM", async () => {
+  assert.deepEqual(data, { R0010: { asin: "B0CTMFBH8S", url: "https://link.amazon/B01lpczBW" } });
   for (const id of ["R0010", "R0094"]) for (const width of [1280, 390]) {
     const { page, errors } = await openRelease(id, width, null);
-    assert.equal(await page.locator(".release-amazon, .release-amazon-link, link[data-release-amazon-style]").count(), 0, `${id} ${width}`);
+    if (id === "R0010") {
+      const link = page.locator(".release-amazon-link");
+      await link.waitFor({ state: "visible" });
+      assert.equal(await link.getAttribute("href"), data.R0010.url);
+      assert.equal(await link.getAttribute("target"), "_blank");
+      assert.equal(await link.getAttribute("rel"), "noopener noreferrer sponsored");
+      assert.equal(await page.locator("#officialRelease + .release-amazon").count(), 1);
+    } else {
+      assert.equal(await page.locator(".release-amazon, .release-amazon-link, link[data-release-amazon-style]").count(), 0, `${id} ${width}`);
+    }
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `${id} ${width} overflow`);
     assert.deepEqual(errors, [], `${id} ${width} errors`);
     await page.close();
@@ -86,7 +95,8 @@ test("unregistered or invalid products create no Amazon DOM", async () => {
     { R0010: { asin: fixtureAsin, url: "javascript:alert(1)" } },
     { R0010: { asin: fixtureAsin, url: "https://example.com/" } },
     { R0010: { asin: fixtureAsin, url: fixtureUrl.href.replace("mussongdb-22", "other-tag") } },
-    { R0010: { asin: "B111111111", url: fixtureUrl.href } }
+    { R0010: { asin: "B111111111", url: fixtureUrl.href } },
+    { R0010: { asin: fixtureAsin, url: "https://link.amazon.invalid/B01lpczBW" } }
   ]) {
     const { page, errors } = await openRelease("R0010", 1280, products);
     assert.equal(await page.locator(".release-amazon, .release-amazon-link, link[data-release-amazon-style]").count(), 0);

@@ -946,7 +946,7 @@ function renderOfficialRelease_(song) {
       ${hasDebutRelease
         ? `
         <a class="official-release-link release-detail-link"
-           href="release.html?id=${encodeURIComponent(debutReleaseId)}">
+           href="release/${encodeURIComponent(debutReleaseId)}.html">
           リリース詳細を見る
         </a>
       `
@@ -1007,7 +1007,7 @@ function renderIncludedReleases_(song) {
       const variant = relation.variant == null ? "" : String(relation.variant);
       return `<div class="song-included-relation-row">${position ? `<span>${escapeHtml(position)}</span>` : `<span class="song-included-relation-empty">位置情報なし</span>`}${variant ? `<span class="song-included-variant">${escapeHtml(variant)}</span>` : ""}</div>`;
     }).join("");
-    return `<article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release.html?id=${encodeURIComponent(group.releaseId)}">${escapeHtml(item.releaseName)} <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a><div class="song-included-release-badges">${isDebut ? '<span class="song-included-release-badge debut">初出</span>' : ""}${type ? `<span class="song-included-release-badge">${escapeHtml(type)}</span>` : ""}</div></div><p class="song-included-release-date">${item.releaseDate ? escapeHtml(formatDate(item.releaseDate)) : "発売日未登録"}</p>${singerName ? `<p class="song-included-release-singer">${escapeHtml(singerName)}</p>` : ""}<div class="song-included-relation-list">${relationRows}</div></article>`;
+    return `<article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release/${encodeURIComponent(group.releaseId)}.html">${escapeHtml(item.releaseName)} <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a><div class="song-included-release-badges">${isDebut ? '<span class="song-included-release-badge debut">初出</span>' : ""}${type ? `<span class="song-included-release-badge">${escapeHtml(type)}</span>` : ""}</div></div><p class="song-included-release-date">${item.releaseDate ? escapeHtml(formatDate(item.releaseDate)) : "発売日未登録"}</p>${singerName ? `<p class="song-included-release-singer">${escapeHtml(singerName)}</p>` : ""}<div class="song-included-relation-list">${relationRows}</div></article>`;
   };
   const seriesGroups = new Map();
   const blocks = [];

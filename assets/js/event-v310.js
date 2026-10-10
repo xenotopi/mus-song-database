@@ -628,7 +628,7 @@ function renderEvent(event) {
   }
   if (relatedReleases.length) {
     infoRows.push(infoRow("関連リリース", `<span class="event-info-links">${relatedReleases.map(release =>
-      `<a href="release.html?id=${encodeURIComponent(release.releaseId)}">${escapeHtml(release.releaseName || "リリース名未設定")}</a>`
+      `<a href="release/${encodeURIComponent(release.releaseId)}.html">${escapeHtml(release.releaseName || "リリース名未設定")}</a>`
     ).join("")}</span>`));
   }
   const namedPerformers = performerRows.filter(item => item.name !== "—");

@@ -164,7 +164,7 @@ test("1件を基本情報内のReleaseリンクで表示する", async () => {
   assert.match(text, /関連リリース/);
   assert.match(text, new RegExp(release.releaseName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   assert.equal(text.includes("R0041"), false);
-  assert.equal(new URL(await section.locator('a[href^="release.html"]').getAttribute("href"), baseUrl).searchParams.get("id"), "R0041");
+  assert.match(new URL(await section.locator('a[href^="release/"]').getAttribute("href"), baseUrl).pathname, /\/release\/R0041\.html$/);
   assert.equal(actions.filter(action => action === "release" || action === "releaseList").length, 0);
   assert.deepEqual(issues, []);
   await page.close();
@@ -178,7 +178,7 @@ test("複数件はAPI順のまま全件表示し、欠損メタだけ省略す�
   ];
   const { page, issues } = await openEvent(releases, { width: 390, height: 900 });
   assert.deepEqual(
-    await page.locator('#eventInfo a[href^="release.html"]').evaluateAll(nodes => nodes.map(node => new URL(node.href).searchParams.get("id"))),
+    await page.locator('#eventInfo a[href^="release/"]').evaluateAll(nodes => nodes.map(node => /\/release\/(R\d{4})\.html$/.exec(new URL(node.href).pathname)?.[1])),
     ["R0003", "R0001", "R0002"]
   );
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
@@ -191,7 +191,7 @@ test("不正IDを除外し、外部文字列をescapeする", async () => {
     { releaseId: "INVALID", releaseName: "不正", relation: "" },
     { releaseId: "R0041", releaseName: "<script>window.__xss=1</script>", relation: "<img src=x onerror=window.__xss=2>", classification: "CD", releaseType: "シングル" }
   ]);
-  assert.equal(await page.locator('#eventInfo a[href^="release.html"]').count(), 1);
+  assert.equal(await page.locator('#eventInfo a[href^="release/"]').count(), 1);
   assert.equal(await page.locator("#eventInfo script, #eventInfo img").count(), 0);
   assert.equal(await page.evaluate(() => window.__xss), undefined);
   assert.match(await page.locator("#eventInfo").innerText(), /<script>/);
@@ -206,10 +206,10 @@ test("主要viewportで横overflowがなく通常a要素で遷移できる", asy
     await page.setViewportSize({ width, height: 900 });
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true, `${width}px overflow`);
   }
-  const link = page.locator('#eventInfo a[href^="release.html"]');
+  const link = page.locator('#eventInfo a[href^="release/"]');
   assert.equal(await link.evaluate(node => node.tagName), "A");
   await link.focus();
-  assert.equal(await page.evaluate(() => document.activeElement?.getAttribute("href")?.startsWith("release.html")), true);
+  assert.equal(await page.evaluate(() => document.activeElement?.getAttribute("href")?.startsWith("release/")), true);
   assert.deepEqual(issues, []);
   await page.close();
 });
@@ -228,7 +228,7 @@ test("情報量の多い公式ライブは基本情報→披露曲→歌唱名�
   await page.locator("#eventInsightsSection").waitFor({ state: "visible" });
   assert.deepEqual(await page.locator("#mainContent, #songsSection, #eventPerformersSection, #eventInsightsSection").evaluateAll(nodes => nodes.map(node => node.id)), ["mainContent", "songsSection", "eventPerformersSection", "eventInsightsSection"]);
   assert.equal(await page.locator('#eventInfo a[href="venue.html?id=VE0001"]').count(), 1);
-  assert.equal(await page.locator('#eventInfo a[href="release.html?id=R0041"]').count(), 1);
+  assert.equal(await page.locator('#eventInfo a[href="release/R0041.html"]').count(), 1);
   assert.equal(await page.locator('#eventInfo a[href="singer.html?id=SN0001"]').count(), 1);
   assert.equal(await page.locator('#eventInfo a[href="singer.html?id=SN0002"]').count(), 1);
   assert.equal(await page.locator("#songList .event-song-row").count(), 2);

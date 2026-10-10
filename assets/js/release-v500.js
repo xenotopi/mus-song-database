@@ -6,7 +6,8 @@ import { renderKamiparaRelease } from "./release-kamipara.js?v=1.0.0";
 renderCommon("release");
 const $ = id => document.getElementById(id);
 const elements = { breadcrumbName: $("breadcrumbName"), releaseName: $("releaseName"), heroMeta: $("heroMeta"), status: $("status"), skeleton: $("releaseSkeleton"), mainContent: $("mainContent"), releaseInfo: $("releaseInfo"), officialRelease: $("officialRelease"), relatedEventsHost: $("relatedEventsHost"), childReleasesHost: $("childReleasesHost"), debutSongsSection: $("debutSongsSection"), debutSongs: $("debutSongs"), includedSongsSection: $("includedSongsSection"), includedSongsCount: $("includedSongsCount"), includedSongsContent: $("includedSongsContent") };
-const releaseId = String(new URLSearchParams(location.search).get("id") || "").trim();
+const pathReleaseId = /^\/release\/(R\d{4})\.html$/.exec(location.pathname)?.[1] || "";
+const releaseId = pathReleaseId || String(new URLSearchParams(location.search).get("id") || "").trim();
 let skeletonTimer = 0;
 
 function hideSkeleton() {
@@ -163,7 +164,7 @@ function renderRelease(release, releaseList = []) {
   elements.releaseInfo.innerHTML = info.map(([label, value]) => `<div class="release-info-row"><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("");
   const parentReleaseId = String(release.parentReleaseId || "").trim();
   const parentRelease = parentReleaseId ? releaseList.find(item => String(item.releaseId) === parentReleaseId) : null;
-  if (parentRelease) elements.releaseInfo.insertAdjacentHTML("beforeend", `<div class="release-info-row"><dt>BOX</dt><dd><a href="release.html?id=${encodeURIComponent(parentReleaseId)}">${escapeHtml(parentRelease.releaseName || "BOX詳細を見る")}</a></dd></div>`);
+  if (parentRelease) elements.releaseInfo.insertAdjacentHTML("beforeend", `<div class="release-info-row"><dt>BOX</dt><dd><a href="release/${encodeURIComponent(parentReleaseId)}.html">${escapeHtml(parentRelease.releaseName || "BOX詳細を見る")}</a></dd></div>`);
   const officialUrl = String(release.officialReleaseUrl || "").trim();
   elements.officialRelease.innerHTML = officialUrl ? `<a class="release-official-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">公式作品ページを見る <span class="site-icon-inline " data-site-icon="external-link" aria-hidden="true"></span></a>` : `<p class="release-official-empty">公式作品ページは未登録です</p>`;
   const relatedEvents = (Array.isArray(release.relatedEvents) ? release.relatedEvents : [])
@@ -181,7 +182,7 @@ function renderRelease(release, releaseList = []) {
     : [];
   elements.childReleasesHost.innerHTML = children.length ? `<section class="release-related" aria-labelledby="childReleasesHeading"><p class="release-section-kicker">INDIVIDUAL EDITIONS</p><h2 id="childReleasesHeading">個別盤</h2><div class="release-child-list">${children.map(child => {
     const childSinger = String(child.featuredSinger?.name || "").trim();
-    return `<a class="release-child-row" href="release.html?id=${encodeURIComponent(child.releaseId)}"><span class="release-child-copy"><span class="release-child-title">${escapeHtml(child.releaseName || "リリース名未設定")}</span>${childSinger ? `<span class="release-child-meta"><span>${escapeHtml(childSinger)}</span></span>` : ""}</span><span class="release-child-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a>`;
+    return `<a class="release-child-row" href="release/${encodeURIComponent(child.releaseId)}.html"><span class="release-child-copy"><span class="release-child-title">${escapeHtml(child.releaseName || "リリース名未設定")}</span>${childSinger ? `<span class="release-child-meta"><span>${escapeHtml(childSinger)}</span></span>` : ""}</span><span class="release-child-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a>`;
   }).join("")}</div></section>` : "";
   const songs = Array.isArray(release.debutSongs) ? release.debutSongs : [];
   elements.debutSongsSection.hidden = songs.length === 0;

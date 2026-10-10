@@ -80,9 +80,9 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
     assert.match(await series.locator(".song-included-series-heading").innerText(), /Solo Live/);
     assert.equal(await series.locator(".song-included-release-card").count(), 10);
     assert.match(await series.locator(".song-included-release-card").first().innerText(), /Memorial BOX/);
-    const debut = page.locator('.song-included-release-card:has(.song-included-release-link[href="release.html?id=R0058"])');
+    const debut = page.locator('.song-included-release-card:has(.song-included-release-link[href="release/R0058.html"])');
     assert.equal(await debut.locator(".song-included-release-badge.debut").innerText(), "初出");
-    const memorial = page.locator('.song-included-release-card:has(.song-included-release-link[href="release.html?id=R0090"])');
+    const memorial = page.locator('.song-included-release-card:has(.song-included-release-link[href="release/R0090.html"])');
     assert.equal(await memorial.locator(".song-included-relation-row").count(), 2);
     assert.equal(await memorial.locator(".song-included-variant").innerText(), "Movie Edit");
     assert.match(await memorial.innerText(), /Disc 12 \/ Track 3[\s\S]*Disc 12 \/ Track 4/);
@@ -92,8 +92,8 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
 
   await t.test("S046はR0081の通常版とBitter-Sweet Mixを別relationで表示", async () => {
     const { page, issues } = await openSong("S046");
-    assert.equal(await page.locator("#includedReleasesCount").innerText(), "4作品・5件");
-    const best = page.locator('.song-included-release-card:has(.song-included-release-link[href="release.html?id=R0081"])');
+    assert.equal(await page.locator("#includedReleasesCount").innerText(), "14作品・23件");
+    const best = page.locator('.song-included-release-card:has(.song-included-release-link[href="release/R0081.html"])');
     assert.equal(await best.locator(".song-included-relation-row").count(), 2);
     const mix = best.locator(".song-included-relation-row", { hasText: "Bitter-Sweet Mix" });
     assert.match(await mix.innerText(), /Disc 3 \/ Track 9/);
@@ -160,7 +160,7 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
       const { page, issues } = await openSong(expected.songId);
       const link = page.locator(".release-detail-link");
       assert.equal(await link.innerText(), "リリース詳細を見る");
-      assert.equal(new URL(await link.getAttribute("href"), baseUrl).searchParams.get("id"), expected.releaseId);
+      assert.match(new URL(await link.getAttribute("href"), baseUrl).pathname, new RegExp(`/release/${expected.releaseId}\\.html$`));
       const body = await page.locator("#releaseSection").innerText();
       assert.match(body, new RegExp(expected.recordingCd.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
       assert.match(body, /発売日/);
@@ -198,16 +198,16 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
   await t.test("S100からR0058を経由してS100・S101へ遷移できる", async () => {
     const { page, issues } = await openSong("S100", { width: 390, height: 844 });
     await page.locator(".release-detail-link").click();
-    await page.waitForURL(/release\.html\?id=R0058/);
+    await page.waitForURL(/release\/R0058\.html/);
     await page.locator("#mainContent").waitFor({ state: "visible", timeout: 45000 });
-    assert.deepEqual((await page.locator(".release-song-row").evaluateAll(nodes => nodes.map(node => new URL(node.href).searchParams.get("id")))).sort(), ["S100", "S101"]);
+    assert.deepEqual((await page.locator(".release-song-row").evaluateAll(nodes => nodes.map(node => /\/song\/(S\d{3})\.html$/.exec(new URL(node.href).pathname)?.[1]))).sort(), ["S100", "S101"]);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
-    await page.locator(".release-song-row[href*='id=S100']").click();
-    await page.waitForURL(/song\.html\?id=S100/);
+    await page.locator(".release-song-row[href='song/S100.html']").click();
+    await page.waitForURL(/song\/S100\.html/);
     await page.locator(".release-detail-link").waitFor({ state: "visible", timeout: 45000 });
     await page.goBack();
-    await page.locator(".release-song-row[href*='id=S101']").click();
-    await page.waitForURL(/song\.html\?id=S101/);
+    await page.locator(".release-song-row[href='song/S101.html']").click();
+    await page.waitForURL(/song\/S101\.html/);
     await page.locator("#mainContent").waitFor({ state: "visible", timeout: 45000 });
     assert.deepEqual(issues, []);
     await page.close();

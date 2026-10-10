@@ -84,8 +84,8 @@ test("検索ページはSongとReleaseを区別し、ReleaseタブとURLを提�
   assert.equal(await page.locator('[data-tab="releases"]').count(), 1);
   assert.equal(await page.locator(".result-type.song").count(), 1);
   assert.equal(await page.locator(".result-type.release").count(), 1);
-  assert.equal(await page.locator('.result-row[href="release.html?id=R0015"]').count(), 1);
-  assert.match(await page.locator('.result-row[href="release.html?id=R0015"] .result-meta').innerText(), /2012\/09\/05.*CD.*シングル/s);
+  assert.equal(await page.locator('.result-row[href="release/R0015.html"]').count(), 1);
+  assert.match(await page.locator('.result-row[href="release/R0015.html"] .result-meta').innerText(), /2012\/09\/05.*CD.*シングル/s);
   assert.equal(await page.locator("#summaryCount").innerText(), "5件");
   await page.locator('[data-tab="releases"]').click();
   assert.equal(await page.locator(".result-section").count(), 1);
@@ -119,9 +119,9 @@ test("同名・Release固有名・releaseTypeをAPI結果どおり表示する",
   for (const [query, songId, releaseId] of cases) {
     const { page, issues } = await openPage(`/search.html?q=${encodeURIComponent(query)}`);
     await page.locator(".result-type.release").waitFor();
-    assert.equal(await page.locator(`.result-row[href="release.html?id=${releaseId}"]`).count(), 1);
+    assert.equal(await page.locator(`.result-row[href="release/${releaseId}.html"]`).count(), 1);
     if (songId) assert.equal(await page.locator(`.result-row[href="song/${songId}.html"]`).count(), 1);
-    if (query === "Solo Live!") assert.match(await page.locator(`.result-row[href="release.html?id=${releaseId}"] .result-meta`).innerText(), /Solo Live! Ⅲ[\s\S]*個別盤[\s\S]*南ことり[\s\S]*LACA-9781/);
+    if (query === "Solo Live!") assert.match(await page.locator(`.result-row[href="release/${releaseId}.html"] .result-meta`).innerText(), /Solo Live! Ⅲ[\s\S]*個別盤[\s\S]*南ことり[\s\S]*LACA-9781/);
     assert.deepEqual(issues, []);
     await page.close();
   }
@@ -146,7 +146,7 @@ test("共通ヘッダー候補はRelease最大1件、全体最大6件、キー�
   assert.ok(await page.locator(".global-suggest-item").count() <= 6);
   assert.equal(await page.locator(".global-suggest-type.release").count(), 1);
   assert.equal(await page.locator('.global-suggest-item[href="song/S032.html"]').count(), 1);
-  assert.equal(await page.locator('.global-suggest-item[href="release.html?id=R0015"]').count(), 1);
+  assert.equal(await page.locator('.global-suggest-item[href="release/R0015.html"]').count(), 1);
   assert.equal(await input.getAttribute("aria-expanded"), "true");
   await input.press("ArrowDown");
   assert.equal(await page.locator(".global-suggest-item.active").count(), 1);
@@ -168,8 +168,8 @@ test("共通ヘッダー候補はclickとEnterの既存遷移を維持する", a
     const { page, issues } = await openPage("/about.html");
     const input = page.locator("#globalSearchInput");
     await input.fill("Wonderful Rush");
-    await page.locator('.global-suggest-item[href="release.html?id=R0015"]').click();
-    await page.waitForURL("**/release.html?id=R0015");
+    await page.locator('.global-suggest-item[href="release/R0015.html"]').click();
+    await page.waitForURL("**/release/R0015.html");
     assert.deepEqual(issues, []);
     await page.close();
   }

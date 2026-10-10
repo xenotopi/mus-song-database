@@ -570,7 +570,7 @@ function renderToday(today) {
               ${meta ? `<div class="home-ranking-meta">${escapeHtml(meta)}</div>` : ""}
           `;
           const songs = renderTodayReleaseSongs(item);
-          const releaseLink = `<a class="today-item${songs ? " today-release-main" : ""}" href="release.html?id=${encodeURIComponent(item.releaseId)}">${content}</a>`;
+          const releaseLink = `<a class="today-item${songs ? " today-release-main" : ""}" href="release/${encodeURIComponent(item.releaseId)}.html">${content}</a>`;
           return songs
             ? `<div class="today-release-entry">${releaseLink}${songs}</div>`
             : releaseLink;

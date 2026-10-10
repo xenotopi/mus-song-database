@@ -85,13 +85,13 @@ test("Release 1件をEvent前へ表示し、summary・既存3カテゴリ・往�
   });
   assert.deepEqual(await page.locator("#todayContent .today-group h3").allTextContents(), ["この日に発売された作品", "この日に開催されたイベント", "この日に初披露された曲", "この日に最後に歌われた曲"]);
   assert.match(await page.locator("#todaySummary").innerText(), /本日の記録\s*4件.*リリース\s*1.*イベント\s*1.*初披露\s*1.*最終披露\s*1/s);
-  const item = page.locator('#todayContent a[href="release.html?id=R0015"]');
+  const item = page.locator('#todayContent a[href="release/R0015.html"]');
   assert.match(await item.innerText(), /発売から14周年.*Wonderful Rush.*2012年｜CD/s);
   assert.doesNotMatch(await item.innerText(), /R0015|シングル/);
   await item.click();
   await page.locator("#releaseName").waitFor({ timeout: 45000 });
   await page.goBack({ waitUntil: "domcontentloaded" });
-  await page.locator('#todayContent a[href="release.html?id=R0015"]').waitFor({ timeout: 45000 });
+  await page.locator('#todayContent a[href="release/R0015.html"]').waitFor({ timeout: 45000 });
   assert.deepEqual(issues, []);
   await page.close();
 });
@@ -138,7 +138,7 @@ test("API順の先頭6件、長文・escape・全viewportを維持する", async
   const { page, issues } = await openHome({ releases }, { width: 390, height: 900 });
   const items = page.locator("#todayContent .today-group").first().locator(".today-item");
   assert.equal(await items.count(), 6);
-  assert.deepEqual(await items.evaluateAll(nodes => nodes.map(node => new URL(node.href).searchParams.get("id"))), ["R0001", "R0002", "R0003", "R0004", "R0005", "R0006"]);
+  assert.deepEqual(await items.evaluateAll(nodes => nodes.map(node => /\/release\/(R\d{4})\.html$/.exec(new URL(node.href).pathname)?.[1])), ["R0001", "R0002", "R0003", "R0004", "R0005", "R0006"]);
   assert.equal(await page.locator("#todayContent script, #todayContent img").count(), 0);
   assert.equal(await page.evaluate(() => window.__xss), undefined);
   for (const width of [1440, 1280, 1024, 900, 768, 620, 390]) {
@@ -175,8 +175,8 @@ test("通常Blu-ray・店舗特典・収録曲なしを同じTodayで表示す�
   assert.deepEqual(await entries.nth(3).locator(".today-release-song").allTextContents(), [
     "収録曲「Shangri-La Shower」", "収録曲「るてしキスキしてる」"
   ]);
-  assert.deepEqual(await entries.nth(2).locator(".today-release-song a").evaluateAll(nodes => nodes.map(node => new URL(node.href).searchParams.get("id"))), ["S090", "S091", "S092"]);
-  assert.equal(await page.locator('#todayContent a[href="release.html?id=R0015"] + .today-release-songs').count(), 0);
+  assert.deepEqual(await entries.nth(2).locator(".today-release-song a").evaluateAll(nodes => nodes.map(node => /\/song\/(S\d{3})\.html$/.exec(new URL(node.href).pathname)?.[1])), ["S090", "S091", "S092"]);
+  assert.equal(await page.locator('#todayContent a[href="release/R0015.html"] + .today-release-songs').count(), 0);
   assert.equal(await page.locator("#todayContent a a").count(), 0);
   for (const width of [1280, 390]) {
     await page.setViewportSize({ width, height: 900 });

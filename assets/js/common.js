@@ -528,9 +528,9 @@ function setupGlobalSearch_() {
                 item.classification,
             ].filter(Boolean).join("｜"),
             href:
-              `release.html?id=${encodeURIComponent(
+              `release/${encodeURIComponent(
                 item.releaseId
-              )}`,
+              )}.html`,
           });
         }
       );

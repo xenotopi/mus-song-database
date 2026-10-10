@@ -9,7 +9,15 @@
   <link rel="manifest" href="manifest.webmanifest">
   <title>リリース詳細｜μ's Song Database</title>
   <meta name="description" content="μ's関連作品の発売情報と、このリリースを初出・由来とする楽曲を確認できます。">
-  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="robots" content="noindex,follow">
+  <script data-release-legacy-redirect>
+    (() => {
+      const id = new URLSearchParams(location.search).get("id") || "";
+      if (/^R\d{4}$/.test(id) && location.pathname.endsWith("/release.html")) {
+        location.replace(`/release/${id}.html${location.hash}`);
+      }
+    })();
+  </script>
   <meta property="og:site_name" content="μ's Song Database">
   <meta property="og:title" content="リリース詳細｜μ's Song Database">
   <meta property="og:type" content="website">

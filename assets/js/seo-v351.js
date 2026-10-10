@@ -92,6 +92,10 @@
       url.pathname = `/song/${encodeURIComponent(id)}.html`;
       url.search = "";
     }
+    if (pageName === "release.html") {
+      url.pathname = `/release/${encodeURIComponent(id)}.html`;
+      url.search = "";
+    }
     canonical.href = url.toString();
     if (pageName === "song.html" || pageName === "event.html") {
       const ogUrl = document.head.querySelector('meta[property="og:url"]');

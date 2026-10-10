@@ -16,27 +16,13 @@ let releaseListFixture = [];
 let kamiparaFixture;
 let venueFixtures = new Map();
 const releaseDetailFixtures = new Map();
-
-function activeApiUrl() {
-  const source = fs.readFileSync(path.join(ROOT, "assets", "js", "api.js"), "utf8");
-  const match = source.match(/export\s+const\s+API_URL\s*=\s*["']([^"']+)["']/);
-  assert.ok(match, "active Public API URLを取得できること");
-  return match[1];
-}
-
-async function fetchApi(action, params = {}) {
-  const url = new URL(activeApiUrl());
-  url.searchParams.set("action", action);
-  url.searchParams.set("fresh", "1");
-  Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
-  const response = await fetch(url);
-  assert.equal(response.status, 200, `${action} HTTP 200`);
-  const json = await response.json();
-  assert.equal(json.success, true, `${action} success`);
-  return json.data;
-}
+const SNAPSHOT_DIR = path.join(ROOT, "data", "snapshots", JSON.parse(fs.readFileSync(path.join(ROOT, "data", "current.json"), "utf8")).revision);
+function snapshotData(file) { return JSON.parse(fs.readFileSync(path.join(SNAPSHOT_DIR, file), "utf8")).data; }
 
 async function installApiFixtures(page) {
+  // This suite exercises API fixtures. An invalid pointer selects the existing
+  // API fallback without requesting a missing snapshot or emitting a 404.
+  await page.route("**/data/current.json", route => route.fulfill({ contentType: "application/json", body: JSON.stringify({ revision: "release-detail-test" }) }));
   await page.route(/script\.google(?:usercontent)?\.com\//, route => {
     const url = new URL(route.request().url());
     const action = url.searchParams.get("action");
@@ -55,12 +41,12 @@ async function installApiFixtures(page) {
 }
 
 test.before(async () => {
-  releaseListFixture = await fetchApi("releaseList");
-  kamiparaFixture = await fetchApi("kamiparaDashboard");
+  releaseListFixture = snapshotData("release-list.json");
+  kamiparaFixture = snapshotData("kamipara-dashboard.json");
   const venueIds = [...new Set(kamiparaFixture.events.map(event => event.venueId).filter(Boolean))];
-  venueFixtures = new Map(await Promise.all(venueIds.map(async id => [id, await fetchApi("venue", { id })])));
-  const ids = ["R0001", "R0007", "R0015", "R0041", "R0054", "R0058", "R0060", "R0068", "R0069", "R0070", "R0071", "R0072", "R0074", "R0077", "R0087", "R0088", "R0090", "R0091", "R0097", "R0106", "R0114"];
-  const details = await Promise.all(ids.map(id => fetchApi("release", { id })));
+  venueFixtures = new Map(venueIds.map(id => [id, { venueName: "テスト会場" }]));
+  const ids = ["R0001", "R0007", "R0015", "R0041", "R0054", "R0058", "R0060", "R0068", "R0069", "R0070", "R0071", "R0072", "R0074", "R0077", "R0083", "R0087", "R0088", "R0090", "R0091", "R0097", "R0106", "R0114"];
+  const details = ids.map(id => snapshotData(`releases/${id}.json`));
   ids.forEach((id, index) => releaseDetailFixtures.set(id, details[index]));
   server = http.createServer((request, response) => {
     const pathname = decodeURIComponent(new URL(request.url, "http://127.0.0.1").pathname);
@@ -68,6 +54,7 @@ test.before(async () => {
     const relative = path.relative(ROOT, file);
     if (relative.startsWith("..") || path.isAbsolute(relative) || !fs.existsSync(file) || !fs.statSync(file).isFile()) { response.writeHead(404).end(); return; }
     response.writeHead(200, { "content-type": `${MIME[path.extname(file)] || "application/octet-stream"}; charset=utf-8`, "cache-control": "no-store" });
+    if (pathname === "/release.html") { response.end(fs.readFileSync(file, "utf8").replace(/<script data-release-legacy-redirect>[\s\S]*?<\/script>/, "")); return; }
     fs.createReadStream(file).pipe(response);
   });
   await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
@@ -106,7 +93,7 @@ test("Release詳細", async t => {
     for (const id of ["R0070", "R0088", "R0090"]) {
       const { page, issues } = await openDetail(id);
       await waitForDetail(page);
-      assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), `https://mus-song-db.com/release.html?id=${id}`);
+      assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), `https://mus-song-db.com/release/${id}.html`);
       assert.equal(await page.locator('meta[name="robots"]').getAttribute("content"), "index,follow,max-image-preview:large");
       assert.match(await page.title(), /｜μ's Song Database$/);
       assert.deepEqual(issues, []);
@@ -118,7 +105,7 @@ test("Release詳細", async t => {
     const { page, issues } = await openDetail("R0090%26utm_source%3Dx");
     await page.goto(`${baseUrl}/release.html?id=R0090&utm_source=x&foo=bar`, { waitUntil: "domcontentloaded" });
     await waitForDetail(page);
-    assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), "https://mus-song-db.com/release.html?id=R0090");
+    assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), "https://mus-song-db.com/release/R0090.html");
     assert.deepEqual(issues, []);
     await page.close();
   });
@@ -140,7 +127,7 @@ test("Release詳細", async t => {
         const debut = document.querySelector("#debutSongsSection");
         return Boolean(included && debut && (included.compareDocumentPosition(debut) & Node.DOCUMENT_POSITION_FOLLOWING));
       }), true, "収録楽曲は初出・由来楽曲より前に配置");
-      assert.deepEqual((await page.locator(".release-song-row").evaluateAll(nodes => nodes.map(node => new URL(node.href).searchParams.get("id")))).sort(), expected.songs);
+      assert.deepEqual((await page.locator(".release-song-row").evaluateAll(nodes => nodes.map(node => /\/song\/(S\d{3})\.html$/.exec(new URL(node.href).pathname)?.[1]))).sort(), expected.songs);
       const official = page.locator(".release-official-link");
       assert.equal(await official.getAttribute("target"), "_blank");
       assert.equal(await official.getAttribute("rel"), "noopener noreferrer");
@@ -181,6 +168,7 @@ test("Release詳細", async t => {
     const page = await browser.newPage({ viewport: { width: 390, height: 900 } });
     const issues = [];
     page.on("console", message => { if (["error", "warning"].includes(message.type())) issues.push(`${message.type()}: ${message.text()}`); });
+    await page.route("**/data/current.json", route => route.fulfill({ contentType: "application/json", body: JSON.stringify({ revision: "release-detail-test" }) }));
     await page.route(/script\.google(?:usercontent)?\.com\//, route => {
       const url = new URL(route.request().url());
       const callback = url.searchParams.get("callback");
@@ -222,7 +210,7 @@ test("Release詳細", async t => {
       if (release.editionType === "individual") {
         assert.match(info, /エディション\s*個別盤/);
         assert.match(info, /対象キャラクター／歌唱名義/);
-        assert.equal(await page.locator('#releaseInfo a[href^="release.html?id="]').count(), release.parentReleaseId ? 1 : 0);
+        assert.equal(await page.locator('#releaseInfo a[href^="release/"]').count(), release.parentReleaseId ? 1 : 0);
       }
       if (release.editionType === "memorial_box") {
         assert.match(info, /エディション\s*Memorial BOX/);
@@ -236,8 +224,8 @@ test("Release詳細", async t => {
     }
   });
 
-  await t.test("R0068のdebutSongs 0件はsectionごと非表示", async () => {
-    const { page, issues } = await openDetail("R0068");
+  await t.test("R0083のdebutSongs 0件はsectionごと非表示", async () => {
+    const { page, issues } = await openDetail("R0083");
     await waitForDetail(page);
     assert.equal(await page.locator("#debutSongsSection").isVisible(), false);
     assert.doesNotMatch(await page.locator("body").innerText(), /このリリースを初出・由来として登録している楽曲はありません/);
@@ -262,11 +250,11 @@ test("Release詳細", async t => {
     await page.close();
   });
 
-  await t.test("収録情報のcomplete・partial・special_holdとDisc表示", async () => {
+  await t.test("収録情報の現行件数とDisc表示", async () => {
     const cases = [
       { id: "R0070", count: 31, groups: 2, details: 0, progress: null },
-      { id: "R0071", count: 17, groups: 2, details: 0, progress: "確認済み17件 / 確認中1件" },
-      { id: "R0077", count: 115, groups: 0, details: 9, progress: "確認済み115件 / 確認中9件" },
+      { id: "R0071", count: 18, groups: 2, details: 0, progress: null },
+      { id: "R0077", count: 124, groups: 0, details: 9, progress: null },
       { id: "R0088", count: 285, groups: 0, details: 27, progress: null },
       { id: "R0090", count: 116, groups: 0, details: 12, progress: null }
     ];
@@ -284,7 +272,7 @@ test("Release詳細", async t => {
       if (expected.progress) assert.match(await page.locator(".release-coverage-note").innerText(), new RegExp(expected.progress));
       if (expected.id === "R0088") assert.ok(Date.now() - started < 10000, "285件を10秒以内に描画");
       if (expected.id === "R0090") {
-        const sunny = page.locator('.release-included-song-row[href="song.html?id=S100"]');
+        const sunny = page.locator('.release-included-song-row[href="song/S100.html"]');
         assert.equal(await sunny.count(), 2);
         assert.equal(await sunny.filter({ hasText: "Movie Edit" }).count(), 1);
       }
@@ -295,7 +283,7 @@ test("Release詳細", async t => {
 
   await t.test("0件coverage状態と収録schema異常をsection内で処理", async () => {
     for (const expected of [
-      { id: "R0068", section: true, progress: "確認済み0件 / 確認中48件", empty: false }
+      { id: "R0083", section: true, progress: "収録情報を確認中です。", empty: false }
     ]) {
       const { page, issues } = await openDetail(expected.id);
       await waitForDetail(page);
@@ -346,7 +334,7 @@ test("Release詳細", async t => {
       await waitForDetail(page);
       if (id === "R9011") {
         assert.equal(await page.locator(".release-included-song-row").count(), 3);
-        assert.equal(await page.locator('.release-included-song-row[href="song.html?id=S100"]').count(), 2);
+        assert.equal(await page.locator('.release-included-song-row[href="song/S100.html"]').count(), 2);
         assert.match(await page.locator("#includedSongsContent").innerText(), /Disc 3[\s\S]*Track 9/);
         assert.match(await page.locator("#includedSongsContent").innerText(), /Disc情報なし/);
         assert.equal(await page.locator("#includedSongsContent img, #includedSongsContent script").count(), 0);
@@ -393,7 +381,10 @@ test("Release詳細", async t => {
 
   await t.test("APIエラー後の再試行で復旧", async () => {
     const { page } = await openDetail("R0015");
-    await page.route(/script\.google(?:usercontent)?\.com\/.*[?&]action=release(?:&|$)/, route => route.fulfill({ status: 503, body: "unavailable" }));
+    await page.route(/script\.google(?:usercontent)?\.com\/.*[?&]action=release(?:&|$)/, route => {
+      const callback = new URL(route.request().url()).searchParams.get("callback");
+      return route.fulfill({ status: 200, contentType: "text/javascript", body: `${callback}(${JSON.stringify({ success: false, error: { code: "TEMPORARY_UNAVAILABLE", message: "一時的に利用できません" } })});` });
+    });
     await page.reload({ waitUntil: "domcontentloaded" });
     await page.locator("#retryButton").waitFor({ state: "visible", timeout: 45000 });
     assert.equal(await page.locator("#releaseName").innerText(), "リリースデータを表示できません");
@@ -410,7 +401,7 @@ test("Release詳細", async t => {
     await page.goto(`${baseUrl}/releases.html?q=Wonderful%20Rush`, { waitUntil: "domcontentloaded" });
     await page.locator(".release-list-card").waitFor({ state: "visible", timeout: 45000 });
     await page.locator(".release-list-card").click();
-    await page.waitForURL(/release\.html\?id=R0015/);
+    await page.waitForURL(/release\/R0015\.html/);
     await waitForDetail(page);
     await page.locator(".release-back").click();
     await page.waitForURL(/releases\.html$/);
@@ -421,8 +412,8 @@ test("Release詳細", async t => {
     const page = await browser.newPage();
     await installApiFixtures(page);
     await page.goto(`${baseUrl}/releases.html?classification=Blu-ray&type=%E3%83%A9%E3%82%A4%E3%83%96Blu-ray`, { waitUntil: "domcontentloaded" });
-    await page.locator('.release-list-card[href="release.html?id=R0041"]').waitFor({ state: "visible", timeout: 45000 });
-    await page.locator('.release-list-card[href="release.html?id=R0041"]').click();
+    await page.locator('.release-list-card[href="release/R0041.html"]').waitFor({ state: "visible", timeout: 45000 });
+    await page.locator('.release-list-card[href="release/R0041.html"]').click();
     await waitForDetail(page);
     await page.goBack({ waitUntil: "domcontentloaded" });
     await page.locator("#allReleasesSection").waitFor({ state: "visible", timeout: 45000 });

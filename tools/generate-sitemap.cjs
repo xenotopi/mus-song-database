@@ -74,7 +74,7 @@ async function main() {
 
   const urls = [
     ...STATIC_PATHS.map(value => new URL(value, SITE_ROOT).toString()),
-    ...releaseIds.map(id => `${SITE_ROOT}release.html?id=${id}`),
+    ...releaseIds.map(id => `${SITE_ROOT}release/${id}.html`),
     ...songIds.map(id => `${SITE_ROOT}song/${id}.html`)
   ];
   if (new Set(urls).size !== urls.length) throw new Error("sitemap URL重複があります。");

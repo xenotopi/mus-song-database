@@ -146,7 +146,7 @@ test("大分類とリリース種別を2段階で絞り込む", async () => {
   await page.locator("#moreButton").click();
   for (const id of ["R0091", "R0097", "R0106"]) {
     const source = releaseFixture.find(item => item.releaseId === id);
-    const card = page.locator(`.release-list-card[href="release.html?id=${id}"]`);
+    const card = page.locator(`.release-list-card[href="release/${id}.html"]`);
     assert.equal(await card.count(), 1);
     const text = await card.innerText();
     assert.match(text, new RegExp(String(source.releaseSeries.shortName || source.releaseSeries.name).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
@@ -159,15 +159,15 @@ test("大分類とリリース種別を2段階で絞り込む", async () => {
   assert.deepEqual((await page.locator("[data-release-type]").allTextContents()).map(value => value.trim()), ["すべて", "アニメBlu-ray", "劇場版Blu-ray", "ライブBlu-ray", "映像集", "映像BOX"]);
   await page.locator('[data-release-type="ライブBlu-ray"]').click();
   assert.equal(await page.locator("#resultText").innerText(), "5/5件表示");
-  assert.deepEqual((await page.locator(".release-list-card").evaluateAll(nodes => nodes.map(node => new URL(node.href).searchParams.get("id")))).sort(), ["R0041", "R0060", "R0069", "R0074", "R0087"]);
+  assert.deepEqual((await page.locator(".release-list-card").evaluateAll(nodes => nodes.map(node => /\/release\/(R\d{4})\.html$/.exec(new URL(node.href).pathname)?.[1]))).sort(), ["R0041", "R0060", "R0069", "R0074", "R0087"]);
 
   await page.locator('[data-classification="特典"]').click();
   assert.equal(await page.locator("#resultText").innerText(), "5/5件表示");
   assert.deepEqual((await page.locator("[data-release-type]").allTextContents()).map(value => value.trim()), ["すべて", "前売券特典", "全巻購入特典"]);
   await page.locator('[data-release-type="前売券特典"]').click();
-  assert.deepEqual((await page.locator(".release-list-card").evaluateAll(nodes => nodes.map(node => new URL(node.href).searchParams.get("id")))).sort(), ["R0054", "R0055", "R0056"]);
+  assert.deepEqual((await page.locator(".release-list-card").evaluateAll(nodes => nodes.map(node => /\/release\/(R\d{4})\.html$/.exec(new URL(node.href).pathname)?.[1]))).sort(), ["R0054", "R0055", "R0056"]);
   await page.locator('[data-release-type="全巻購入特典"]').click();
-  assert.deepEqual((await page.locator(".release-list-card").evaluateAll(nodes => nodes.map(node => new URL(node.href).searchParams.get("id")))).sort(), ["R0032", "R0052"]);
+  assert.deepEqual((await page.locator(".release-list-card").evaluateAll(nodes => nodes.map(node => /\/release\/(R\d{4})\.html$/.exec(new URL(node.href).pathname)?.[1]))).sort(), ["R0032", "R0052"]);
   assert.deepEqual(issues, []);
   await page.close();
 });

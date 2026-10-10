@@ -1,0 +1,4 @@
+.release-amazon{margin-top:16px}
+.release-amazon-link{display:inline-flex;align-items:center;min-height:44px;max-width:100%;padding:8px 14px;border:1px solid var(--line);border-radius:10px;color:var(--indigo);background:#fff;font-size:14px;font-weight:800;line-height:1.5;text-decoration:none;overflow-wrap:anywhere;transition:background-color .18s ease,border-color .18s ease}
+.release-amazon-link:hover{background:#f7f7ff;border-color:var(--indigo);text-decoration:underline}
+.release-amazon-link:focus-visible{outline:3px solid rgba(79,70,229,.34);outline-offset:3px;text-decoration:underline}

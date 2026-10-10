@@ -2,6 +2,7 @@ import { buildSongUrl, apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&c
 import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
 import { detailWithApiFallback, staticReleaseList } from "./static-detail.js?v=1.3.0";
 import { renderKamiparaRelease } from "./release-kamipara.js?v=1.0.0";
+import { renderAmazonProduct } from "./release-amazon.js";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
@@ -227,6 +228,7 @@ async function loadRelease() {
       officialName: release.officialName ?? listRelease.officialName
     } : release;
     renderRelease(resolvedRelease, safeReleaseList);
+    if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
     if (resolvedRelease.releaseId === "R0072") await renderKamiparaRelease();
   } catch (error) {
     if (errorKind(error) === "not-found") { setError("該当するリリースが見つかりません", error?.message || "指定されたリリースは存在しません。", false); return; }

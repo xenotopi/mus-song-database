@@ -241,14 +241,14 @@ export function renderCommon(active = "") {
   if (footer) {
     footer.innerHTML = `
       <footer class="site-footer">
-        <div>
-          <b>μ's Song Database</b><br>
-          μ's歌唱履歴データベース
+        <div class="site-footer-main">
+          <div>
+            <b>μ's Song Database</b><br>
+            μ's歌唱履歴データベース
+          </div>
+          <div>© μ's Song Database Project</div>
         </div>
-
-        <div>
-          © μ's Song Database Project
-        </div>
+        <p class="site-footer-disclosure">Amazonのアソシエイトとして、μ's Song Databaseは適格販売により収入を得ています。</p>
       </footer>`;
   }
 

@@ -103,6 +103,9 @@ async function generateSongPages({ revision, ids } = {}) {
         document.querySelectorAll(".v46-detail-context, #backToTop").forEach(n => n.remove());
         document.getElementById("musdb-analytics-consent")?.remove();
         document.body.classList.remove("musdb-consent-visible");
+        const xShare = document.getElementById("xShareButton");
+        xShare.href = xShare.href.replace(/([?&]url=)[^&]*/, (_, prefix) =>
+          `${prefix}${encodeURIComponent(`https://mus-song-db.com/share/song/${id}.html`)}`);
         document.getElementById("songShareActions").hidden = true;
         // These features require live Discover data; empty mocks must not become published facts.
         for (const id of ["songSwitcher", "discoverySection", "songInsightsSection"]) document.getElementById(id).hidden = true;

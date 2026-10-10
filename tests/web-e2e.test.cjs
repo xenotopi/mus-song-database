@@ -245,6 +245,9 @@ async function assertPageCase(t, context, baseUrl, pageCase) {
     assert.ok((await page.title()).includes("μ's Song Database"), `${pageCase.name}: title`);
     assert.equal(await page.locator("#siteHeader .site-header").count(), 1, `${pageCase.name}: 共通ヘッダー`);
     assert.equal(await page.locator("#siteFooter .site-footer").count(), 1, `${pageCase.name}: 共通フッター`);
+    const disclosure = page.locator("#siteFooter .site-footer-disclosure");
+    assert.equal(await disclosure.textContent(), "Amazonのアソシエイトとして、μ's Song Databaseは適格販売により収入を得ています。", `${pageCase.name}: Amazon参加表示`);
+    assert.ok(await disclosure.evaluate(element => Number.parseFloat(getComputedStyle(element).fontSize) >= 14), `${pageCase.name}: Amazon参加表示の文字サイズ`);
     assert.deepEqual(diagnostics.localFailures, [], `${pageCase.name}: ローカルasset失敗`);
 
     if (diagnostics.apiFailures.length) {
@@ -308,7 +311,7 @@ test("主要導線は一覧から実在詳細へ遷移できる", { timeout: 5 *
     await waitForNavigationReady(page, "#songsList .song-list-card");
 
     await page.locator("#songsList .song-list-card").first().click();
-    await page.waitForURL(/\/song\.html\?id=S\d+/, { timeout: READY_TIMEOUT_MS });
+    await page.waitForURL(/\/song\/S\d+\.html$/, { timeout: READY_TIMEOUT_MS });
     await waitForNavigationReady(page, "#mainContent:not([hidden])");
 
     await page.locator(".mus-desktop-navigation a[href='events.html']").click();

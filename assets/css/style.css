@@ -428,10 +428,19 @@ h2{margin:2px 0 14px}
   margin:40px auto 0;
   padding:22px 14px;
   border-top:1px solid var(--line);
-  display:flex;
-  justify-content:space-between;
   color:var(--muted);
   font-size:12px;
+}
+.site-footer-main{
+  display:flex;
+  justify-content:space-between;
+  gap:12px 20px;
+}
+.site-footer-disclosure{
+  margin:14px 0 0;
+  color:var(--navy);
+  font-size:14px;
+  line-height:1.6;
 }
 
 @media(max-width:800px){
@@ -443,6 +452,7 @@ h2{margin:2px 0 14px}
 }
 
 @media(max-width:520px){
+  .site-footer-main{flex-wrap:wrap}
   main{padding:14px 10px 50px}
   .hero{padding:26px 18px 40px}
   .muse-line{left:18px;right:18px}

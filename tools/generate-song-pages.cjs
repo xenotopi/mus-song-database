@@ -109,10 +109,8 @@ async function generateSongPages({ revision, ids } = {}) {
         document.getElementById("songShareActions").hidden = true;
         // These features require live Discover data; empty mocks must not become published facts.
         for (const id of ["songSwitcher", "discoverySection", "songInsightsSection"]) document.getElementById(id).hidden = true;
-        // Explicitly expose the ID and a factual description without changing the UI design.
+        // Keep the Song ID visible; the generated description belongs in metadata, not the UI.
         document.getElementById("heroMeta").textContent = `${id} ｜ ${document.getElementById("heroMeta").textContent}`;
-        const note = document.createElement("p"); note.className = "detail-note"; note.dataset.prerenderDescription = ""; note.textContent = description;
-        document.getElementById("songInfo").after(note);
       }, { id, title, description, canonical, revision: current.revision });
       {
         const recording = buildSongStructuredData(song, canonical, description);

@@ -7,7 +7,7 @@ const http = require("node:http");
 const crypto = require("node:crypto");
 const { chromium } = require("playwright");
 const root = path.resolve(__dirname, "..");
-const ids = ["S001", "S003", "S117"];
+const ids = ["S001", "S003", "S017", "S117"];
 const current = JSON.parse(fs.readFileSync(path.join(root, "data/current.json")));
 const snapshot = id => JSON.parse(fs.readFileSync(path.join(root, "data/snapshots", current.revision, "songs", `${id}.json`))).data;
 let server, browser, origin;
@@ -36,7 +36,7 @@ test("raw pages are distinct, factual, and have unique canonical metadata", () =
     assert.ok(!raw.includes("undefined件"));
     for (const match of raw.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) assert.doesNotThrow(() => JSON.parse(match[1]));
   }
-  assert.equal(hashes.size, 3);
+  assert.equal(hashes.size, ids.length);
 });
 test("all 117 static pages parse, match snapshots, and pass build manifest hashes", async () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(root, "song/manifest.json"), "utf8"));
@@ -63,6 +63,7 @@ test("all 117 static pages parse, match snapshots, and pass build manifest hashe
     assert.ok(parsed.description); assert.equal(parsed.canonicalCount, 1);
     assert.equal(parsed.canonical, `https://mus-song-db.com/song/${id}.html`);
     assert.equal(parsed.og, parsed.canonical); assert.ok(parsed.robots.startsWith("index,follow"));
+    assert.doesNotMatch(raw, /data-prerender-description/);
     canonicals.add(parsed.canonical);
     assert.doesNotMatch(raw, /http:\/\/127\.0\.0\.1|xenotopi\.github\.io|data-song-legacy-redirect/);
   }
@@ -160,7 +161,7 @@ for (const id of ids) for (const width of [1280, 390]) for (const enabled of [fa
     assert.equal(await page.title(), `${song.displayName || song.songName}｜μ's Song Database`);
     assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), `https://mus-song-db.com/song/${id}.html`);
     assert.equal(await page.locator('meta[property="og:url"]').getAttribute("content"), `https://mus-song-db.com/song/${id}.html`);
-    assert.equal(await page.locator("[data-prerender-description]").count(), 1);
+    assert.equal(await page.locator("[data-prerender-description]").count(), 0);
     if (!enabled) assert.equal(await page.locator("#musdb-analytics-consent").count(), 0);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
     assert.deepEqual(errors, []);

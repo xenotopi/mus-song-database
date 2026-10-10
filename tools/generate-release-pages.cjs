@@ -10,6 +10,31 @@ const { sha256, validateSnapshot, validateEventSnapshot, validateKamiparaDashboa
 const root = path.resolve(__dirname, "..");
 const mime = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png" };
 
+// Code that produces/validates the serialized DOM on the query-URL capture path.
+// External CSS is not inlined. Amazon's pathname-only branch and interactive
+// search's singer-links helper do not run during capture. Snapshot data has its
+// own revision/hash guards and must not be included in this renderer hash.
+const RELEASE_RENDERER_FILES = Object.freeze([
+  "release.html",
+  "tools/generate-release-pages.cjs",
+  "tools/detail-snapshot-lib.cjs",
+  "assets/js/release-v500.js",
+  "assets/js/release-kamipara.js",
+  "assets/js/static-detail.js",
+  "assets/js/api.js",
+  "assets/js/common.js",
+  "assets/js/icons.js",
+  "assets/js/analytics.js",
+  "assets/js/seo-v351.js"
+].sort());
+
+function rendererFingerprint() {
+  // Normalize checkout line endings so Windows and CI hash the same source.
+  return sha256(RELEASE_RENDERER_FILES.map(file =>
+    `${file}\n${fs.readFileSync(path.join(root, file), "utf8").replace(/\r\n/g, "\n")}`
+  ).join("\n"));
+}
+
 function loadKamiparaCaptureData(snapshotRoot, manifest, revision) {
   const wrapper = JSON.parse(fs.readFileSync(path.join(snapshotRoot, "kamipara-dashboard.json"), "utf8"));
   if (manifest.revision !== revision || (manifest.outputRevision && manifest.outputRevision !== revision) ||
@@ -60,6 +85,7 @@ async function validateKamiparaCapture(page) {
 }
 
 async function generateReleasePages({ revision, ids } = {}) {
+  const rendererSha256 = rendererFingerprint();
   const pointer = JSON.parse(fs.readFileSync(path.join(root, "data/current.json"), "utf8"));
   revision ||= pointer.revision;
   const manifest = JSON.parse(fs.readFileSync(path.join(root, "data/snapshots", revision, "manifest.json"), "utf8"));
@@ -148,9 +174,10 @@ async function generateReleasePages({ revision, ids } = {}) {
       pages.push({ id, html, sha256: crypto.createHash("sha256").update(html).digest("hex"), title, description, canonical });
       await page.close();
     }
+    if (rendererFingerprint() !== rendererSha256) throw new Error("Release renderer changed during capture; regenerate from stable sources");
     fs.mkdirSync(path.join(root, "release"), { recursive: true });
     for (const page of pages) fs.writeFileSync(path.join(root, "release", `${page.id}.html`), page.html);
-    fs.writeFileSync(path.join(root, "release", "manifest.json"), JSON.stringify({ schemaVersion: 1, outputRevision: revision, dataRevision: manifest.dataRevision, count: pages.length, pages: Object.fromEntries(pages.map(({ id, html, sha256, canonical }) => [id, { path: `release/${id}.html`, sha256, bytes: Buffer.byteLength(html), canonical }])) }, null, 2) + "\n");
+    fs.writeFileSync(path.join(root, "release", "manifest.json"), JSON.stringify({ schemaVersion: 1, outputRevision: revision, dataRevision: manifest.dataRevision, rendererSha256, count: pages.length, pages: Object.fromEntries(pages.map(({ id, html, sha256, canonical }) => [id, { path: `release/${id}.html`, sha256, bytes: Buffer.byteLength(html), canonical }])) }, null, 2) + "\n");
     return pages.map(({ html, ...rest }) => rest);
   } finally {
     await browser?.close();
@@ -158,5 +185,5 @@ async function generateReleasePages({ revision, ids } = {}) {
   }
 }
 
-module.exports = { generateReleasePages, loadKamiparaCaptureData, captureJsonpData, validateKamiparaCapture };
+module.exports = { generateReleasePages, loadKamiparaCaptureData, captureJsonpData, validateKamiparaCapture, rendererFingerprint, RELEASE_RENDERER_FILES };
 if (require.main === module) generateReleasePages().then(pages => console.log(`Generated ${pages.length} Release pages from current snapshot`)).catch(error => { console.error(error); process.exitCode = 1; });

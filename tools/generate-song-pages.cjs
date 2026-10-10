@@ -9,9 +9,29 @@ const { chromium } = require("../tests/node_modules/playwright");
 const root = path.resolve(__dirname, "..");
 const { sha256, validateSnapshot } = require("./detail-snapshot-lib.cjs");
 const mime = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png" };
+
+// The query-URL capture entry, its transitive browser modules, and generation
+// helpers that produce/validate serialized HTML. Snapshot data has separate
+// revision/hash guards. External CSS is not inlined: capture has no tooltip
+// interaction, and its layout-dependent context bar is removed before saving.
+// Changes to this list must be reviewed against the capture dependency tests.
+const SONG_RENDERER_FILES = Object.freeze([
+  "song.html",
+  "tools/generate-song-pages.cjs",
+  "tools/detail-snapshot-lib.cjs",
+  "assets/js/song-v441.js",
+  "assets/js/static-detail.js",
+  "assets/js/common.js",
+  "assets/js/api.js",
+  "assets/js/singer-links.js",
+  "assets/js/song-hero-decorations.js",
+  "assets/js/icons.js",
+  "assets/js/analytics.js",
+  "assets/js/seo-v351.js"
+].sort());
+
 function rendererFingerprint() {
-  const files = ["song.html", "tools/generate-song-pages.cjs", ...["assets/js", "assets/css"].flatMap(dir => fs.readdirSync(path.join(root, dir)).filter(file => /\.(js|css)$/.test(file)).map(file => `${dir}/${file}`))].sort();
-  return sha256(files.map(file => `${file}\n${fs.readFileSync(path.join(root, file), "utf8")}`).join("\n"));
+  return sha256(SONG_RENDERER_FILES.map(file => `${file}\n${fs.readFileSync(path.join(root, file), "utf8")}`).join("\n"));
 }
 
 function buildSongPageManifest({ previous, current, generatedPages, rendererSha256 }) {
@@ -165,7 +185,7 @@ async function generateSongPages({ revision, ids } = {}) {
     await new Promise(resolve => server.close(resolve));
   }
 }
-module.exports = { generateSongPages, rendererFingerprint, buildSongStructuredData, buildSongPageManifest };
+module.exports = { generateSongPages, rendererFingerprint, buildSongStructuredData, buildSongPageManifest, SONG_RENDERER_FILES };
 if (require.main === module) {
   const revisionIndex = process.argv.indexOf("--revision");
   const idsIndex = process.argv.indexOf('--ids');

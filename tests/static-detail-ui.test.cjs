@@ -63,7 +63,11 @@ for (const failure of ["404", "corrupt", "mismatch"]) {
       if (action === "release") { releaseCalls += 1; return jsonp(route, snapshot("release", "R0001").data); }
       return route.abort();
     });
+    // Prerendered content is already visible; visibility alone is not API completion.
+    const apiResponse = page.waitForResponse(response => new URL(response.url()).searchParams.get("action") === "release");
     await page.goto(`${baseUrl}/release.html?id=R0001`, { waitUntil: "domcontentloaded" });
+    await apiResponse;
+    await page.waitForLoadState("networkidle");
     await page.locator("#mainContent").waitFor({ state: "visible" });
     assert.equal(releaseCalls, 1);
     assert.match(await page.locator("#releaseName").innerText(), /僕らのLIVE/);

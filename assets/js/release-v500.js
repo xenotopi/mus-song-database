@@ -9,6 +9,9 @@ const $ = id => document.getElementById(id);
 const elements = { breadcrumbName: $("breadcrumbName"), releaseName: $("releaseName"), heroMeta: $("heroMeta"), status: $("status"), skeleton: $("releaseSkeleton"), mainContent: $("mainContent"), releaseInfo: $("releaseInfo"), officialRelease: $("officialRelease"), relatedEventsHost: $("relatedEventsHost"), childReleasesHost: $("childReleasesHost"), debutSongsSection: $("debutSongsSection"), debutSongs: $("debutSongs"), includedSongsSection: $("includedSongsSection"), includedSongsCount: $("includedSongsCount"), includedSongsContent: $("includedSongsContent") };
 const pathReleaseId = /^\/release\/(R\d{4})\.html$/.exec(location.pathname)?.[1] || "";
 const releaseId = pathReleaseId || String(new URLSearchParams(location.search).get("id") || "").trim();
+// The generator marks completed Release HTML; never infer this from its title.
+const hasPrerenderedContent = document.documentElement.dataset.releaseId === releaseId &&
+  /^R\d{4}$/.test(releaseId) && !elements.mainContent.hidden;
 let skeletonTimer = 0;
 
 function hideSkeleton() {
@@ -19,6 +22,11 @@ function hideSkeleton() {
 
 function setLoading() {
   hideSkeleton();
+  if (hasPrerenderedContent) {
+    elements.status.hidden = true;
+    elements.status.classList.remove("error");
+    return;
+  }
   skeletonTimer = window.setTimeout(() => { elements.skeleton.hidden = false; }, 120);
   elements.releaseName.textContent = "読み込み中…";
   elements.heroMeta.textContent = "APIから実データを取得しています。";
@@ -40,15 +48,19 @@ function errorKind(error) {
 
 function setError(title, message, retryable) {
   hideSkeleton();
-  elements.releaseName.textContent = title;
-  elements.heroMeta.textContent = message;
-  elements.breadcrumbName.textContent = title;
-  document.title = `${title}｜μ's Song Database`;
-  elements.mainContent.hidden = true;
-  elements.debutSongsSection.hidden = true;
-  elements.includedSongsSection.hidden = true;
-  $("kamiparaHistorySection").hidden = true;
-  $("kamiparaDashboardSection").hidden = true;
+  if (hasPrerenderedContent) {
+    title = "保存済みのリリース情報を表示しています。最新データを確認できませんでした。";
+  } else {
+    elements.releaseName.textContent = title;
+    elements.heroMeta.textContent = message;
+    elements.breadcrumbName.textContent = title;
+    document.title = `${title}｜μ's Song Database`;
+    elements.mainContent.hidden = true;
+    elements.debutSongsSection.hidden = true;
+    elements.includedSongsSection.hidden = true;
+    $("kamiparaHistorySection").hidden = true;
+    $("kamiparaDashboardSection").hidden = true;
+  }
   elements.status.hidden = false;
   elements.status.classList.add("error");
   elements.status.innerHTML = `<strong>${escapeHtml(title)}</strong><span>${escapeHtml(message)}</span><div class="release-status-actions">${retryable ? '<button id="retryButton" type="button">再試行</button>' : ""}<a href="releases.html">リリース一覧へ戻る</a></div>`;
@@ -232,7 +244,7 @@ async function loadRelease() {
     if (resolvedRelease.releaseId === "R0072") await renderKamiparaRelease();
   } catch (error) {
     if (errorKind(error) === "not-found") { setError("該当するリリースが見つかりません", error?.message || "指定されたリリースは存在しません。", false); return; }
-    console.error(error);
+    if (!hasPrerenderedContent) console.error(error);
     setError("リリースデータを表示できません", error?.message || "APIへの接続に失敗しました。", true);
   }
 }

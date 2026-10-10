@@ -43,7 +43,6 @@ const DEFAULT_PROVISIONAL_STALE_TTL_MS =
 
 const inFlightRequests = new Map();
 const backgroundRefreshes = new Map();
-let requestSequence = 0;
 let dataRevisionPromise = null;
 let dataRevisionPromiseFetchedAt = 0;
 
@@ -719,10 +718,14 @@ export function jsonpRequest(options) {
     options?.timeoutMs ||
     DEFAULT_TIMEOUT_MS;
 
-  requestSequence += 1;
+  // Query-distinct module instances share one page-wide sequence. Keep it after
+  // callback cleanup so delayed responses can never reuse another request's name.
+  const sequenceKey = Symbol.for("musdb.jsonp.callbackSequence");
+  const requestSequence = (window[sequenceKey] || 0) + 1;
+  window[sequenceKey] = requestSequence;
 
   const callbackName =
-    `__musJsonpCallback_${Date.now()}_${requestSequence}`;
+    `__musJsonpCallback_${Date.now()}_page_${requestSequence}`;
 
   const script =
     document.createElement(

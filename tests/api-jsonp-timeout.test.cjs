@@ -19,7 +19,6 @@ function lifecycleSource() {
     'const API_URL = "https://example.test/exec";',
     "const DEFAULT_TIMEOUT_MS = 15000;",
     "const JSONP_LATE_CALLBACK_TTL_MS = 60000;",
-    "let requestSequence = 0;",
     apiSource.slice(start, end).replace("export function", "function"),
     "globalThis.__exports = { jsonpRequest, requestWithRetry };"
   ].join("\n");
@@ -60,11 +59,16 @@ function createHarness() {
     Error,
     Promise,
     String,
-    Object
+    Object,
+    Date: class extends Date { static now() { return 1700000000000; } }
   });
-  vm.runInContext(lifecycleSource(), context, { filename: "api-jsonp-lifecycle.js" });
+  function newModule() {
+    return vm.runInContext(`(() => { ${lifecycleSource()}\nreturn globalThis.__exports; })()`, context, { filename: "api-jsonp-lifecycle.js" });
+  }
+  const initialModule = newModule();
   return {
-    ...context.__exports,
+    ...initialModule,
+    newModule,
     window,
     scripts,
     timers,
@@ -149,4 +153,54 @@ test("Header keeps request guards and uses the shared 15-second retry contract",
   assert.match(commonSource, /timeoutMs:\s*15000,\s*retryCount:\s*1/);
   assert.match(commonSource, /currentRequestId\s*!==\s*requestId/);
   assert.match(commonSource, /window\.setTimeout\(\s*requestSuggestions,\s*260/);
+});
+
+test("same-module concurrent JSONP callbacks are unique at a fixed timestamp", async () => {
+  const harness = createHarness();
+  const requests = [0, 1, 2].map(id => harness.jsonpRequest({ action: "search", params: { id }, timeoutMs: 10 }));
+  const names = requests.map((_, index) => harness.callbackName(index));
+  assert.equal(new Set(names).size, 3);
+  for (const index of [2, 0, 1]) harness.window[names[index]]({ success: true, data: { id: index } });
+  assert.deepEqual((await Promise.all(requests.map(request => request.promise))).map(result => result.data.id), [0, 1, 2]);
+  assert.ok(names.every(name => harness.window[name] === undefined));
+  assert.ok(harness.scripts.every(script => script.parentNode === null));
+});
+
+test("separate-module concurrent JSONP callbacks are unique at a fixed timestamp", async () => {
+  const harness = createHarness();
+  const modules = [harness, harness.newModule(), harness.newModule()];
+  const requests = modules.map((module, id) => module.jsonpRequest({ action: "search", params: { id }, timeoutMs: 10 }));
+  const names = requests.map((_, index) => harness.callbackName(index));
+  assert.equal(new Set(names).size, 3);
+  assert.ok(names.every(name => /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(name)));
+  for (const index of [1, 2, 0]) harness.window[names[index]]({ success: true, data: { id: index } });
+  assert.deepEqual((await Promise.all(requests.map(request => request.promise))).map(result => result.data.id), [0, 1, 2]);
+  assert.ok(names.every(name => harness.window[name] === undefined));
+});
+
+test("failure and late cleanup never alter another module's active callback", async () => {
+  for (const mode of ["timeout", "error", "cancel"]) {
+    const harness = createHarness();
+    const other = harness.newModule();
+    const failed = harness.jsonpRequest({ action: "search", timeoutMs: 10 });
+    const healthy = other.jsonpRequest({ action: "release", timeoutMs: 20 });
+    const failedName = harness.callbackName(0), healthyName = harness.callbackName(1);
+    assert.notEqual(failedName, healthyName);
+    const healthyCallback = harness.window[healthyName];
+    if (mode === "timeout") {
+      harness.runTimer(10);
+      await assert.rejects(failed.promise, /タイムアウト/);
+    } else if (mode === "error") {
+      harness.scripts[0].onerror();
+      await assert.rejects(failed.promise, /読み込めませんでした/);
+    } else failed.cancel();
+    assert.doesNotThrow(() => harness.window[failedName]({ success: true, data: { late: true } }));
+    assert.equal(harness.window[healthyName], healthyCallback);
+    harness.runTimer(60000);
+    assert.equal(harness.window[failedName], undefined);
+    assert.equal(harness.window[healthyName], healthyCallback);
+    healthyCallback({ success: true, data: { healthy: true } });
+    assert.equal((await healthy.promise).data.healthy, true);
+    assert.equal(harness.window[healthyName], undefined);
+  }
 });

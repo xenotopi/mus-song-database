@@ -128,7 +128,7 @@ for (const width of [1280, 390]) {
           if (mode === "api-fallback") assert.ok(actions.includes("release"));
         }
         assert.equal(await page.locator("h1").innerText(), release.releaseName);
-        assert.equal(await page.locator("[data-prerender-description]").count(), 1);
+        assert.equal(await page.locator("[data-prerender-description]").count(), 0);
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
         assert.equal(overflow, false);
         assert.deepEqual(errors, []);

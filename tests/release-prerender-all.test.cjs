@@ -40,6 +40,10 @@ test("Release prerender 114 raw HTML", () => {
     assert.match(html, /<meta name="description" content="[^"]+">/, id);
     assert.match(html, /<meta property="og:title" content="[^"]+">/, id);
     assert.match(html, /<meta property="og:description" content="[^"]+">/, id);
+    // SEO descriptions stay in metadata, not a duplicated visible paragraph.
+    // Legitimate release-songs-note explanations must remain untouched.
+    assert.doesNotMatch(html, /data-prerender-description\b/, `${id}: visible SEO description must not be generated`);
+    assert.ok(html.includes('<p class="release-songs-note">曲マスター上で、このリリースを初出・由来として登録している楽曲です</p>'), `${id}: legitimate debut-song explanation retained`);
     assert.match(html, /<meta name="robots" content="index,follow,max-image-preview:large">/, id);
     assert.ok(html.includes(source.releaseDate || "発売日未登録"), `${id} date`);
     assert.ok(html.includes(escapeText(source.releaseType || source.classification || "リリース")), `${id} type`);

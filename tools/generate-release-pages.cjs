@@ -158,8 +158,6 @@ async function generateReleasePages({ revision, ids } = {}) {
         document.querySelectorAll(".v46-detail-context, #backToTop").forEach(node => node.remove());
         document.getElementById("musdb-analytics-consent")?.remove();
         document.body.classList.remove("musdb-consent-visible");
-        const note = document.createElement("p"); note.className = "release-songs-note"; note.dataset.prerenderDescription = ""; note.textContent = description;
-        document.getElementById("mainContent").after(note);
         const breadcrumb = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
           { "@type": "ListItem", position: 1, name: "ホーム", item: "https://mus-song-db.com/" },
           { "@type": "ListItem", position: 2, name: "リリース", item: "https://mus-song-db.com/releases.html" },

@@ -6,6 +6,7 @@ const path = require("node:path");
 const http = require("node:http");
 const crypto = require("node:crypto");
 const { chromium } = require("playwright");
+const { assertProductionSongManifest } = require("./helpers/song-prerender-manifest.cjs");
 const root = path.resolve(__dirname, "..");
 const ids = ["S001", "S003", "S017", "S117"];
 const current = JSON.parse(fs.readFileSync(path.join(root, "data/current.json")));
@@ -40,9 +41,12 @@ test("raw pages are distinct, factual, and have unique canonical metadata", () =
 });
 test("all 117 static pages parse, match snapshots, and pass build manifest hashes", async () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(root, "song/manifest.json"), "utf8"));
-  assert.equal(manifest.count, 117);
-  assert.equal(manifest.outputRevision, current.revision);
-  assert.equal(manifest.latestRendererSha256 || manifest.rendererSha256, require("../tools/generate-song-pages.cjs").rendererFingerprint());
+  const snapshotManifest = JSON.parse(fs.readFileSync(path.join(root, "data/snapshots", current.revision, "manifest.json"), "utf8"));
+  assertProductionSongManifest(manifest, {
+    ids: Object.keys(snapshotManifest.hashes.songs),
+    rendererSha256: require("../tools/generate-song-pages.cjs").rendererFingerprint(),
+    outputRevision: current.revision, dataRevision: snapshotManifest.dataRevision
+  });
   const page = await browser.newPage();
   const canonicals = new Set();
   for (const id of Object.keys(manifest.pages)) {

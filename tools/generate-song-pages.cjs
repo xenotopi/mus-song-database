@@ -14,6 +14,21 @@ function rendererFingerprint() {
   return sha256(files.map(file => `${file}\n${fs.readFileSync(path.join(root, file), "utf8")}`).join("\n"));
 }
 
+function buildSongPageManifest({ previous, current, generatedPages, rendererSha256 }) {
+  if (previous && previous.outputRevision !== current.revision) throw new Error('Partial generation cannot mix snapshot revisions');
+  // rendererSha256 describes the non-merged generation's whole set. A partial
+  // merge preserves it, even when the newly captured pages use another renderer.
+  // latestRendererSha256 only describes the last partial batch, not freshness of
+  // the complete production set. Production must also check every page's renderer fingerprint.
+  return previous ? {
+    ...previous, latestRendererSha256: rendererSha256, pages: { ...previous.pages, ...generatedPages }
+  } : {
+    schemaVersion: 1, outputRevision: current.revision, dataRevision: current.dataRevision,
+    source: "song-snapshot-and-existing-renderer", count: Object.keys(generatedPages).length,
+    rendererSha256, pages: generatedPages
+  };
+}
+
 function buildSongStructuredData(song, canonical, description) {
   const recording = {
     "@context": "https://schema.org", "@type": "MusicRecording",
@@ -138,16 +153,9 @@ async function generateSongPages({ revision, ids } = {}) {
     fs.mkdirSync(path.join(root, "song"), { recursive: true });
     const manifestFile = path.join(root, 'song/manifest.json');
     const previous = ids.length < 117 && fs.existsSync(manifestFile) ? JSON.parse(fs.readFileSync(manifestFile, 'utf8')) : null;
-    if (previous && previous.outputRevision !== revision) throw new Error('Partial generation cannot mix snapshot revisions');
-    const generatedPages = Object.fromEntries(pages.map(page => [page.id, { path: `song/${page.id}.html`, sha256: page.hash, bytes: Buffer.byteLength(page.html), canonical: page.canonical, structuredData: true, rendererSha256: rendererFingerprint() }]));
-    const outputManifest = previous ? {
-      ...previous, latestRendererSha256: rendererFingerprint(), pages: { ...previous.pages, ...generatedPages }
-    } : {
-      schemaVersion: 1, outputRevision: revision, dataRevision: current.dataRevision,
-      source: "song-snapshot-and-existing-renderer", count: pages.length,
-      rendererSha256: rendererFingerprint(),
-      pages: generatedPages
-    };
+    const rendererSha256 = rendererFingerprint();
+    const generatedPages = Object.fromEntries(pages.map(page => [page.id, { path: `song/${page.id}.html`, sha256: page.hash, bytes: Buffer.byteLength(page.html), canonical: page.canonical, structuredData: true, rendererSha256 }]));
+    const outputManifest = buildSongPageManifest({ previous, current, generatedPages, rendererSha256 });
     for (const page of pages) fs.writeFileSync(path.join(root, "song", `${page.id}.html`), page.html);
     fs.writeFileSync(path.join(root, "song/manifest.json"), JSON.stringify(outputManifest, null, 2) + "\n");
     console.log(`Generated ${ids.length} Song pages in ${Date.now() - started}ms; source ${revision}; no API requests.`);
@@ -157,7 +165,7 @@ async function generateSongPages({ revision, ids } = {}) {
     await new Promise(resolve => server.close(resolve));
   }
 }
-module.exports = { generateSongPages, rendererFingerprint, buildSongStructuredData };
+module.exports = { generateSongPages, rendererFingerprint, buildSongStructuredData, buildSongPageManifest };
 if (require.main === module) {
   const revisionIndex = process.argv.indexOf("--revision");
   const idsIndex = process.argv.indexOf('--ids');

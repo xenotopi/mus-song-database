@@ -48,9 +48,13 @@ test("R0072だけ神パラ10曲とC2型の歌唱履歴を表示する", async ()
         const data = action === "kamiparaDashboard" ? dashboard : action === "venue" ? venues.get(url.searchParams.get("id")) : action === "release" ? releases.get(url.searchParams.get("id")) : action === "revision" ? { dataRevision: dashboard.revision } : [];
         const payload = { success: true, data };
         const callback = url.searchParams.get("callback");
-        return route.fulfill({ status: 200, contentType: "text/javascript", body: callback ? `${callback}(${JSON.stringify(payload)});` : JSON.stringify(payload) });
+        const completion = action === "venue" ? ";window.__releaseKamiparaVenueResponses = (window.__releaseKamiparaVenueResponses || 0) + 1;" : "";
+        return route.fulfill({ status: 200, contentType: "text/javascript", body: callback ? `${callback}(${JSON.stringify(payload)});${completion}` : JSON.stringify(payload) });
       });
       await page.goto(`http://127.0.0.1:${server.address().port}/release.html?id=R0072`);
+      // Initial HTML now contains all ten songs. Wait for the runtime refresh,
+      // not a raw-HTML match that can disappear while the secondary loader runs.
+      await page.waitForFunction(() => window.__releaseKamiparaVenueResponses === 4 && document.querySelectorAll("#includedSongsContent .release-kp-song").length === 10);
       await page.locator("#includedSongsContent .release-kp-song").first().waitFor();
       assert.equal(await page.locator("#includedSongsContent .release-kp-song").count(), 10);
       assert.deepEqual(await page.locator(".release-kp-track").allTextContents(), Array.from({ length: 10 }, (_, index) => String(index + 1).padStart(2, "0")));

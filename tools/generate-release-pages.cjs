@@ -6,9 +6,58 @@ const path = require("node:path");
 const http = require("node:http");
 const crypto = require("node:crypto");
 const { chromium } = require("../tests/node_modules/playwright");
-const { sha256, validateSnapshot } = require("./detail-snapshot-lib.cjs");
+const { sha256, validateSnapshot, validateEventSnapshot, validateKamiparaDashboard } = require("./detail-snapshot-lib.cjs");
 const root = path.resolve(__dirname, "..");
 const mime = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png" };
+
+function loadKamiparaCaptureData(snapshotRoot, manifest, revision) {
+  const wrapper = JSON.parse(fs.readFileSync(path.join(snapshotRoot, "kamipara-dashboard.json"), "utf8"));
+  if (manifest.revision !== revision || (manifest.outputRevision && manifest.outputRevision !== revision) ||
+      wrapper.snapshot?.revision !== revision || (wrapper.snapshot.outputRevision && wrapper.snapshot.outputRevision !== revision) ||
+      wrapper.snapshot.dataRevision !== manifest.dataRevision) throw new Error("Kamipara snapshot revision mismatch");
+  const dashboard = validateKamiparaDashboard(wrapper.data, manifest.dataRevision);
+  if (sha256(dashboard) !== manifest.kamiparaDashboard?.sha256) throw new Error("Kamipara snapshot hash mismatch");
+  const wanted = new Set(dashboard.events.map(event => event.venueId).filter(Boolean));
+  const venues = new Map();
+  // Only use verified venue records embedded in this generation's Event snapshots.
+  // A venue absent from those snapshots stays unnamed; never consult the live API.
+  for (const [id, entry] of Object.entries(manifest.hashes.events || {})) {
+    const eventWrapper = JSON.parse(fs.readFileSync(path.join(snapshotRoot, "events", `${id}.json`), "utf8"));
+    const venue = eventWrapper.data?.event?.venue;
+    if (!wanted.has(venue?.venueId) || !venue.venueName) continue;
+    validateEventSnapshot(id, eventWrapper, revision, manifest.dataRevision);
+    if (sha256(eventWrapper.data) !== entry.sha256) throw new Error(`${id}: venue source hash mismatch`);
+    if (venues.has(venue.venueId) && venues.get(venue.venueId).venueName !== venue.venueName) throw new Error(`${venue.venueId}: conflicting snapshot venue names`);
+    venues.set(venue.venueId, { venueId: venue.venueId, venueName: venue.venueName });
+  }
+  return { dashboard, venues };
+}
+
+function captureJsonpData(url, kamipara) {
+  if (url.searchParams.get("action") === "kamiparaDashboard") return kamipara.dashboard;
+  if (url.searchParams.get("action") === "venue") return kamipara.venues.get(url.searchParams.get("id")) || {};
+  return {};
+}
+
+async function validateKamiparaCapture(page) {
+  await page.waitForFunction(() => document.querySelector(".release-inclusion-error, .release-kp-retry") ||
+    (!document.getElementById("kamiparaHistorySection")?.hidden && document.querySelectorAll(".release-kp-song").length > 0));
+  const state = await page.evaluate(() => ({
+    errors: document.querySelectorAll(".release-inclusion-error, .release-kp-retry").length,
+    songs: document.querySelectorAll(".release-kp-song").length,
+    tracks: [...document.querySelectorAll(".release-kp-track")].map(node => node.textContent.trim()),
+    events: document.querySelectorAll("#kamiparaHistory .release-kp-event").length,
+    performances: document.querySelectorAll("#kamiparaHistory .release-kp-performance").length,
+    historyVisible: document.getElementById("kamiparaHistorySection")?.hidden === false,
+    dashboardVisible: document.getElementById("kamiparaDashboardSection")?.hidden === false
+  }));
+  if (state.errors || state.songs !== 10 || state.events !== 5 || state.performances !== 10 ||
+      !state.historyVisible || !state.dashboardVisible ||
+      state.tracks.join(",") !== "01,02,03,04,05,06,07,08,09,10") {
+    throw new Error(`R0072: invalid Kamipara capture ${JSON.stringify(state)}`);
+  }
+  return state;
+}
 
 async function generateReleasePages({ revision, ids } = {}) {
   const pointer = JSON.parse(fs.readFileSync(path.join(root, "data/current.json"), "utf8"));
@@ -16,6 +65,7 @@ async function generateReleasePages({ revision, ids } = {}) {
   const manifest = JSON.parse(fs.readFileSync(path.join(root, "data/snapshots", revision, "manifest.json"), "utf8"));
   ids ||= Object.keys(manifest.hashes.releases).sort();
   if (ids.length !== 114 || new Set(ids).size !== 114 || ids.some(id => !/^R\d{4}$/.test(id))) throw new Error("Expected 114 unique Release IDs");
+  const kamipara = loadKamiparaCaptureData(path.join(root, "data/snapshots", revision), manifest, revision);
   const server = http.createServer((req, res) => {
     const pathname = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
     if (pathname === "/data/current.json") { res.writeHead(200, { "content-type": "application/json" }); return res.end(JSON.stringify({ revision, outputRevision: revision, dataRevision: manifest.dataRevision })); }
@@ -40,11 +90,12 @@ async function generateReleasePages({ revision, ids } = {}) {
       await page.route("**/*", route => {
         const url = new URL(route.request().url());
         if (url.origin === origin) return route.continue();
-        if (url.searchParams.get("callback")) return route.fulfill({ contentType: "text/javascript", body: `${url.searchParams.get("callback")}(${JSON.stringify({ success: true, data: {} })});` });
+        if (url.searchParams.get("callback")) return route.fulfill({ contentType: "text/javascript", body: `${url.searchParams.get("callback")}(${JSON.stringify({ success: true, data: captureJsonpData(url, kamipara) })});` });
         return route.abort();
       });
       await page.goto(`${origin}/release.html?id=${id}`);
       await page.waitForFunction(() => !document.getElementById("mainContent").hidden && document.getElementById("status").hidden);
+      if (id === "R0072") await validateKamiparaCapture(page);
       const name = release.releaseName;
       const date = release.releaseDate || "発売日未登録";
       const type = release.releaseType || release.classification || "リリース";
@@ -107,5 +158,5 @@ async function generateReleasePages({ revision, ids } = {}) {
   }
 }
 
-module.exports = { generateReleasePages };
+module.exports = { generateReleasePages, loadKamiparaCaptureData, captureJsonpData, validateKamiparaCapture };
 if (require.main === module) generateReleasePages().then(pages => console.log(`Generated ${pages.length} Release pages from current snapshot`)).catch(error => { console.error(error); process.exitCode = 1; });

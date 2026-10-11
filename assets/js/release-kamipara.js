@@ -16,6 +16,7 @@ const fullCastNames = Object.freeze({
 const $ = id => document.getElementById(id);
 const completedHosts = new WeakSet();
 let pendingRender = null;
+let renderGeneration = 0;
 
 export function hasCompletedKamiparaContent(releaseId = /^\/release\/(R\d{4})\.html$/.exec(location.pathname)?.[1] || new URLSearchParams(location.search).get("id")) {
   const host = $("includedSongsContent");
@@ -46,8 +47,28 @@ function validate(data) {
   if (songs.some(song => !songCredits[song.songId] || songCredits[song.songId].some(id => !people.has(id))) || performances.some(row => !songIds.has(row.songId) || !eventIds.has(row.eventId))) throw new Error("神パラデータの参照を確認できません。");
 }
 
-function render(data, venues) {
+function existingEventState(data) {
+  const items = [...$("kamiparaHistory").querySelectorAll(".release-kp-event")];
+  const state = new Map();
+  for (const event of data.events) {
+    // Older prerender has no event-ID marker. Accept only an exact, unique
+    // date/name match; never associate a venue by list position.
+    const matches = items.filter(item => item.dataset.eventId
+      ? item.dataset.eventId === event.eventId && item.dataset.venueId === (event.venueId || "")
+      : item.querySelector("time")?.getAttribute("datetime") === (event.date || "") &&
+        item.querySelector("h3")?.textContent === event.eventName);
+    if (matches.length === 1) state.set(event.eventId, {
+      venueName: matches[0].querySelector(".release-kp-event-venue")?.textContent || "",
+      open: matches[0].open
+    });
+  }
+  return state;
+}
+
+function render(data) {
   const { songs, performers, events, performances } = data;
+  const previous = existingEventState(data);
+  const selectedYear = $("kamiparaYearFilter").querySelector('[aria-pressed="true"]')?.dataset.year || "all";
   const people = new Map(performers.map(person => [person.performerId, person]));
   const songMap = new Map(songs.map(song => [song.songId, song]));
   const counts = new Map();
@@ -68,12 +89,13 @@ function render(data, venues) {
     const year = String(event.date || "").slice(0, 4);
     yearCounts.set(year, (yearCounts.get(year) || 0) + performances.filter(row => row.eventId === event.eventId).length);
   });
+  const year = selectedYear === "all" || yearCounts.has(selectedYear) ? selectedYear : "all";
   $("kamiparaYearFilter").innerHTML = [["all", "全期間", performances.length], ...[...yearCounts].sort(([a], [b]) => a.localeCompare(b)).map(([year, count]) => [year, year, count])]
-    .map(([year, label, count]) => `<button type="button" data-year="${escapeHtml(year)}" aria-pressed="${year === "all"}">${escapeHtml(label)} ${count}件</button>`).join("");
+    .map(([value, label, count]) => `<button type="button" data-year="${escapeHtml(value)}" aria-pressed="${value === year}">${escapeHtml(label)} ${count}件</button>`).join("");
   $("kamiparaHistory").innerHTML = eventRows.map(event => {
     const rows = performances.filter(row => row.eventId === event.eventId).sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity) || String(a.performanceId).localeCompare(String(b.performanceId)));
-    const venueName = venues.get(event.venueId);
-    return `<details class="release-kp-event" data-year="${escapeHtml(String(event.date || "").slice(0, 4))}"><summary><span class="release-kp-event-heading"><time datetime="${escapeHtml(event.date || "")}">${escapeHtml(formatDate(event.date))}</time><h3>${escapeHtml(event.eventName)}</h3>${venueName ? `<span class="release-kp-event-venue">${escapeHtml(venueName)}</span>` : ""}</span><span class="release-kp-event-count">${rows.length}曲<span class="site-icon-inline site-disclosure-icon" data-site-icon="chevron-down" aria-hidden="true"></span></span></summary><div class="release-kp-performances">${rows.map(row => `<div class="release-kp-performance"><p>${row.order == null ? "" : `${escapeHtml(row.order)}. `}${escapeHtml(songMap.get(row.songId).displayName || songMap.get(row.songId).songName)}</p><small>実歌唱：${escapeHtml(row.actualSinger || "記載なし")}${row.performanceForm ? ` ／ ${escapeHtml(row.performanceForm)}` : ""}</small></div>`).join("")}</div></details>`;
+    const venueName = previous.get(event.eventId)?.venueName;
+    return `<details class="release-kp-event" data-event-id="${escapeHtml(event.eventId)}" data-venue-id="${escapeHtml(event.venueId || "")}" data-year="${escapeHtml(String(event.date || "").slice(0, 4))}"${previous.get(event.eventId)?.open ? " open" : ""}${year !== "all" && String(event.date || "").slice(0, 4) !== year ? " hidden" : ""}><summary><span class="release-kp-event-heading"><time datetime="${escapeHtml(event.date || "")}">${escapeHtml(formatDate(event.date))}</time><h3>${escapeHtml(event.eventName)}</h3>${venueName ? `<span class="release-kp-event-venue">${escapeHtml(venueName)}</span>` : ""}</span><span class="release-kp-event-count">${rows.length}曲<span class="site-icon-inline site-disclosure-icon" data-site-icon="chevron-down" aria-hidden="true"></span></span></summary><div class="release-kp-performances">${rows.map(row => `<div class="release-kp-performance"><p>${row.order == null ? "" : `${escapeHtml(row.order)}. `}${escapeHtml(songMap.get(row.songId).displayName || songMap.get(row.songId).songName)}</p><small>実歌唱：${escapeHtml(row.actualSinger || "記載なし")}${row.performanceForm ? ` ／ ${escapeHtml(row.performanceForm)}` : ""}</small></div>`).join("")}</div></details>`;
   }).join("");
   $("kamiparaYearFilter").onclick = event => {
     const selected = event.target.closest("button[data-year]");
@@ -85,23 +107,52 @@ function render(data, venues) {
   $("kamiparaHistorySection").hidden = false;
   $("kamiparaDashboardSection").hidden = false;
   completedHosts.add($("includedSongsContent"));
+  return [...$("kamiparaHistory").querySelectorAll(".release-kp-event")];
 }
 
 async function updateKamiparaRelease() {
   const host = $("includedSongsContent");
+  const history = $("kamiparaHistory");
+  const generation = ++renderGeneration;
+  const isCurrent = () => generation === renderGeneration && host === $("includedSongsContent") &&
+    history === $("kamiparaHistory") && host.isConnected && history.isConnected &&
+    (!document.documentElement.dataset.releaseId || document.documentElement.dataset.releaseId === "R0072");
   if (!hasCompletedKamiparaContent()) host.textContent = "神パラの収録情報を読み込んでいます…";
+  const initialBody = [host, history].map(node => [...node.childNodes]);
+  const bodyUnchanged = () => [host, history].every((node, index) =>
+    node.childNodes.length === initialBody[index].length && initialBody[index].every((child, i) => node.childNodes[i] === child));
   try {
     const response = await apiGet("kamiparaDashboard", {}, { timeoutMs: 25000, retryCount: 1 });
     const data = response.data;
     validate(data);
+    if (!isCurrent() || !bodyUnchanged()) return;
+    // The validated body is ready now. Supplemental venue requests must not
+    // block it; releaseReady still waits for all enrichment before capture.
+    const targets = render(data);
     const venueIds = [...new Set(data.events.map(event => event.venueId).filter(Boolean))];
-    const results = await Promise.allSettled(venueIds.map(id => apiGet("venue", { id }, { timeoutMs: 15000, retryCount: 0 })));
-    const venues = new Map(results.map((result, index) => [venueIds[index], result.status === "fulfilled" ? result.value.data?.venueName : ""]).filter(([, name]) => name));
-    render(data, venues);
+    await Promise.allSettled(venueIds.map(async id => {
+      const response = await apiGet("venue", { id }, { timeoutMs: 15000, retryCount: 0 });
+      const venue = response.data;
+      if (!isCurrent() || (venue?.venueId && venue.venueId !== id) || typeof venue?.venueName !== "string" || !venue.venueName.trim()) return;
+      for (const item of targets) {
+        // Node identity also protects a newer/replaced body from stale replies.
+        if (!item.isConnected || !history.contains(item) || item.dataset.venueId !== id) continue;
+        const heading = item.querySelector(".release-kp-event-heading");
+        let label = heading.querySelector(".release-kp-event-venue");
+        if (label?.textContent === venue.venueName) continue;
+        if (!label) {
+          label = document.createElement("span");
+          label.className = "release-kp-event-venue";
+          heading.append(label);
+        }
+        // Untrusted supplemental text is never interpreted as HTML.
+        label.textContent = venue.venueName;
+      }
+    }));
   } catch (error) {
     // A failed refresh must not replace a complete, validated static body.
     // Without completed content, retain the existing error/retry behavior.
-    if (hasCompletedKamiparaContent()) return;
+    if (!isCurrent() || !bodyUnchanged() || hasCompletedKamiparaContent()) return;
     host.innerHTML = `<p class="release-inclusion-error">神パラの収録情報を表示できませんでした。${escapeHtml(error.message || "再読み込みしてください。")}</p><button class="release-kp-retry" type="button">再試行</button>`;
     host.querySelector("button").addEventListener("click", renderKamiparaRelease, { once: true });
   }

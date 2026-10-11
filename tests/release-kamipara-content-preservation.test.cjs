@@ -35,7 +35,7 @@ test.after(async () => { await browser?.close(); await new Promise(r => server.c
 
 async function open(width, options = {}) {
   const page = await browser.newPage({ viewport: { width, height: 900 } });
-  await page.clock.install();
+  if (!options.realClock) await page.clock.install();
   await page.addInitScript(() => {
     localStorage.setItem("musdb_analytics_consent", "rejected");
     window.__kpFrames = [];
@@ -52,10 +52,14 @@ async function open(width, options = {}) {
         errors: host.querySelectorAll(".release-inclusion-error,.release-kp-retry").length,
         hidden: document.getElementById("mainContent").hidden || document.getElementById("includedSongsSection").hidden,
         skeleton: !document.getElementById("releaseSkeleton").hidden });
+      if (host.textContent.includes("更新fixture") && window.__basicReadyAt == null) window.__basicReadyAt = performance.now();
     }).observe(document, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ["hidden"] });
   });
   const stages = Object.fromEntries(["detail", "list", "dashboard", "venue"].map(stage => [stage, { started: deferred(), gate: deferred() }]));
   for (const [name, stage] of Object.entries(stages)) if (!(options.hold || []).includes(name)) stage.gate.resolve();
+  const venues = new Map([...new Set(capture.dashboard.events.map(event => event.venueId).filter(Boolean))]
+    .map(id => [id, { started: deferred(), gate: deferred() }]));
+  if (!options.holdIndividualVenues) for (const venue of venues.values()) venue.gate.resolve();
   const actions = [], errors = [];
   const detail = read("releases/R0072.json");
   if (options.list) detail.data.releaseSeries = "list-enrichment-fixture";
@@ -77,19 +81,28 @@ async function open(width, options = {}) {
     actions.push(action);
     if (action === "release") await wait("detail");
     if (action === "kamiparaDashboard") await wait("dashboard");
-    if (action === "venue") await wait("venue");
+    if (action === "venue") {
+      venues.get(url.searchParams.get("id")).started.resolve();
+      await wait("venue"); await venues.get(url.searchParams.get("id")).gate.promise;
+    }
     const data = action === "revision" ? current : action === "release" ? detail.data
-      : action === "kamiparaDashboard" ? (options.invalidDashboard ? {} : dashboard) : captureJsonpData(url, capture);
-    const payload = action === "kamiparaDashboard" && options.failedDashboard
+      : action === "kamiparaDashboard" ? (options.invalidDashboard ? {} : dashboard)
+      : action === "venue" && options.venueData?.[url.searchParams.get("id")] || captureJsonpData(url, capture);
+    const failedVenue = action === "venue" && options.failedVenues?.includes(url.searchParams.get("id"));
+    const payload = failedVenue ? { success: false, error: { code: "TEST_UNAVAILABLE", message: "venue unavailable" } }
+      : action === "kamiparaDashboard" && options.failedDashboard
       ? { success: false, error: { code: "TEST_UNAVAILABLE", message: "dashboard unavailable" } }
       : { success: true, data };
     const failed = action === "kamiparaDashboard" && options.failedDashboard
       ? ";window.__dashboardFailures = (window.__dashboardFailures || 0) + 1;" : "";
-    return route.fulfill({ contentType: "text/javascript", body: `${callback}(${JSON.stringify(payload)});${failed}` });
+    const received = action === "kamiparaDashboard" ? "window.__dashboardReceivedAt = performance.now();" : "";
+    return route.fulfill({ contentType: "text/javascript", body: `${received}${callback}(${JSON.stringify(payload)});${failed}` });
   });
   page.on("pageerror", e => errors.push(e.message)); page.on("console", m => { if (m.type() === "error") errors.push(m.text()); });
   await page.goto(origin + (options.legacy ? "/release.html?id=R0072" : "/release/R0072.html"), { waitUntil: "domcontentloaded" });
-  return { page, stages, actions, errors, options, detail, close: async () => { for (const s of Object.values(stages)) s.gate.resolve(); await page.close(); } };
+  return { page, stages, venues, actions, errors, options, detail, close: async () => {
+    for (const s of [...Object.values(stages), ...venues.values()]) s.gate.resolve(); await page.close();
+  } };
 }
 async function ready(page) {
   await page.evaluate(async () => { await (await import(document.querySelector('script[src*="release-v500.js"]').src)).releaseReady; });
@@ -118,7 +131,8 @@ for (const width of [1280, 390]) {
       const before = await s.page.locator("#includedSongsContent").innerHTML();
       for (const name of ["detail", "list", "dashboard", "venue"]) {
         await s.stages[name].started.promise; await s.page.clock.runFor(500);
-        assert.equal(await s.page.locator("#includedSongsContent").innerHTML(), before, name);
+        if (name !== "venue") assert.equal(await s.page.locator("#includedSongsContent").innerHTML(), before, name);
+        else assert.match(await s.page.locator(".release-kp-song h3").first().innerText(), /更新fixture/, "dashboard renders before venues");
         await preserved(s.page); s.stages[name].gate.resolve();
       }
       await ready(s.page); await preserved(s.page);
@@ -225,5 +239,181 @@ test("completed DOM guard rejects wrong Release, unmarked/incomplete/error DOM a
       values.push(check()); return values;
     });
     assert.deepEqual(results, [true, false, false, false, false, false, false, false, false, true]);
+  } finally { await s.close(); }
+});
+
+const venueIds = [...new Set(capture.dashboard.events.map(event => event.venueId).filter(Boolean))];
+async function rememberBody(page) {
+  await page.evaluate(() => {
+    window.__kpNodes = [...document.querySelectorAll(".release-kp-song,.release-kp-event,.release-kp-performance,#kamiparaYearFilter button")];
+  });
+}
+async function unchangedBody(page) {
+  assert.equal(await page.evaluate(() => {
+    const nodes = [...document.querySelectorAll(".release-kp-song,.release-kp-event,.release-kp-performance,#kamiparaYearFilter button")];
+    return nodes.length === window.__kpNodes.length && nodes.every((node, i) => node === window.__kpNodes[i]);
+  }), true, "venue enrichment must not rebuild songs, history, details or filter");
+}
+async function basicReady(page) {
+  await page.waitForFunction(() => window.__basicReadyAt != null);
+  await complete(page);
+}
+
+test("formal generator awaits the same full releaseReady contract before serialization", () => {
+  const source = fs.readFileSync(path.join(root, "tools/generate-release-pages.cjs"), "utf8");
+  const capture = source.indexOf("await page.evaluate(async () => {");
+  const completion = source.indexOf("await (await import(entry.src)).releaseReady;", capture);
+  const serialize = source.indexOf("const html = (await page.content())", completion);
+  assert.ok(capture >= 0 && completion > capture && serialize > completion,
+    "generator must await releaseReady (including pending venues), not just visible basic content");
+});
+
+for (const width of [1280, 390]) {
+  for (const legacy of [false, true]) test(`R0072 ${width}px ${legacy ? "no prerender" : "prerender"}: real 2s venue delay, early body and full capture completion`, async t => {
+    const s = await open(width, { legacy, realClock: true, hold: ["venue"] });
+    let timer;
+    try {
+      await s.stages.venue.started.promise;
+      timer = setTimeout(() => s.stages.venue.gate.resolve(), 2000);
+      await basicReady(s.page);
+      const elapsed = await s.page.evaluate(() => window.__basicReadyAt - window.__dashboardReceivedAt);
+      assert.ok(elapsed >= 0 && elapsed < 2000, `basic body rendered after ${elapsed}ms`);
+      t.diagnostic(`dashboard callback -> observed basic DOM: ${elapsed.toFixed(1)}ms (venue held for 2000ms)`);
+      await rememberBody(s.page);
+      await s.page.evaluate(async () => {
+        window.__releaseSettled = false;
+        (await import(document.querySelector('script[src*="release-v500.js"]').src)).releaseReady.then(() => { window.__releaseSettled = true; });
+      });
+      assert.equal(await s.page.evaluate(() => window.__releaseSettled), false, "generator's releaseReady must wait for enrichment");
+      await s.page.locator('#kamiparaYearFilter [data-year="2019"]').click();
+      const selected = s.page.locator('.release-kp-event[data-year="2019"]').first();
+      await selected.locator("summary").click();
+      assert.equal(await selected.getAttribute("open"), "");
+      await ready(s.page);
+      assert.equal(await s.page.evaluate(() => window.__releaseSettled), true);
+      await unchangedBody(s.page); await preserved(s.page);
+      assert.equal(await selected.getAttribute("open"), "");
+      assert.equal(await s.page.locator('#kamiparaYearFilter [aria-pressed="true"]').getAttribute("data-year"), "2019");
+      assert.equal(await s.page.locator(".release-kp-event:visible").count(), 2);
+      for (const event of capture.dashboard.events) {
+        const actual = s.page.locator(`.release-kp-event[data-event-id="${event.eventId}"] .release-kp-event-venue`);
+        const expected = capture.venues.get(event.venueId)?.venueName;
+        assert.equal(await actual.count(), expected ? 1 : 0);
+        if (expected) assert.equal(await actual.textContent(), expected);
+      }
+      assert.equal(s.actions.filter(a => a === "kamiparaDashboard").length, 1);
+      assert.equal(s.actions.filter(a => a === "venue").length, 4);
+      assert.equal(await s.page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+      assert.deepEqual(s.errors, []);
+    } finally { clearTimeout(timer); await s.close(); }
+  });
+}
+
+test("venue partial success enriches only corresponding events immediately, preserves known names on failure and escapes text", async () => {
+  const id = venueIds[0], name = '<img src=x onerror="window.__venueXss=true">会場fixture';
+  const s = await open(390, { holdIndividualVenues: true, failedVenues: venueIds.slice(1), venueData: { [id]: { venueId: id, venueName: name } } });
+  try {
+    await Promise.all([...s.venues.values()].map(venue => venue.started.promise));
+    await basicReady(s.page); await rememberBody(s.page);
+    const before = await s.page.locator(".release-kp-event").evaluateAll(items => items.map(item => ({ id: item.dataset.eventId, venue: item.querySelector(".release-kp-event-venue")?.textContent || "" })));
+    s.venues.get(id).gate.resolve();
+    await s.page.waitForFunction(name => [...document.querySelectorAll(".release-kp-event-venue")].some(item => item.textContent === name), name);
+    // The other three requests are still pending: successful enrichment is not
+    // gated on Promise.allSettled completion.
+    for (const event of capture.dashboard.events) {
+      const actual = await s.page.locator(`.release-kp-event[data-event-id="${event.eventId}"]`).evaluate(item => item.querySelector(".release-kp-event-venue")?.textContent || "");
+      assert.equal(actual, event.venueId === id ? name : before.find(item => item.id === event.eventId).venue);
+    }
+    for (const venue of s.venues.values()) venue.gate.resolve();
+    await ready(s.page); await unchangedBody(s.page); await preserved(s.page);
+    assert.equal(await s.page.locator(".release-kp-event-venue img").count(), 0);
+    assert.equal(await s.page.evaluate(() => window.__venueXss), undefined);
+    assert.deepEqual(s.errors, []);
+  } finally { await s.close(); }
+});
+
+for (const legacy of [false, true]) test(`venue total failure preserves ${legacy ? "early non-prerender body" : "prerender venue names"}`, async () => {
+  const s = await open(1280, { legacy, hold: ["venue"], failedVenues: venueIds });
+  try {
+    const before = await s.page.locator(".release-kp-event-venue").allTextContents();
+    await s.stages.venue.started.promise; await basicReady(s.page); await rememberBody(s.page);
+    s.stages.venue.gate.resolve(); await ready(s.page);
+    await unchangedBody(s.page); await preserved(s.page);
+    assert.deepEqual(await s.page.locator(".release-kp-event-venue").allTextContents(), before);
+    assert.equal(s.actions.filter(a => a === "venue").length, 4);
+    assert.deepEqual(s.errors, []);
+  } finally { await s.close(); }
+});
+
+test("concurrent calls share pending enrichment; stale replies cannot overwrite a replacement body", async () => {
+  const s = await open(390, { hold: ["venue"] });
+  try {
+    await s.stages.venue.started.promise; await basicReady(s.page);
+    await s.page.evaluate(async () => {
+      const module = await import(new URL("assets/js/release-kamipara.js?v=1.0.0", document.baseURI));
+      const a = module.renderKamiparaRelease(), b = module.renderKamiparaRelease();
+      window.__sharedEnrichment = a === b;
+      const history = document.getElementById("kamiparaHistory");
+      // Simulate a newer body with the same event/venue identifiers, not just
+      // another Release. Old node identity must prevent writes into this body.
+      history.innerHTML = history.innerHTML;
+      history.querySelectorAll(".release-kp-event-venue").forEach(label => { label.textContent = "newer body"; });
+      window.__replacementBody = history.innerHTML;
+    });
+    s.stages.venue.gate.resolve(); await ready(s.page);
+    assert.equal(await s.page.evaluate(() => window.__sharedEnrichment), true);
+    assert.equal(await s.page.locator("#kamiparaHistory").innerHTML(), await s.page.evaluate(() => window.__replacementBody));
+    assert.equal(s.actions.filter(a => a === "kamiparaDashboard").length, 1);
+    assert.equal(s.actions.filter(a => a === "venue").length, 4);
+    await preserved(s.page); assert.deepEqual(s.errors, []);
+  } finally { await s.close(); }
+});
+
+test("mismatched venue identifier never enriches the wrong event", async () => {
+  const id = venueIds[0];
+  const s = await open(390, { legacy: true, venueData: { [id]: { venueId: "VE_WRONG", venueName: "wrong venue" } } });
+  try {
+    await ready(s.page); await complete(s.page);
+    assert.doesNotMatch(await s.page.locator("#kamiparaHistory").innerText(), /wrong venue/);
+    assert.deepEqual(s.errors, []);
+  } finally { await s.close(); }
+});
+
+test("existing venue names and seeded filter/details state survive the dashboard refresh and failed enrichment", async () => {
+  const s = await open(390, { hold: ["dashboard", "venue"], failedVenues: venueIds });
+  try {
+    await s.stages.dashboard.started.promise;
+    const names = await s.page.locator(".release-kp-event-venue").allTextContents();
+    // The raw prerender buttons are not bound until runtime render. Seed a
+    // prior validated render's selection without claiming early hydration.
+    await s.page.evaluate(() => {
+      document.querySelectorAll("#kamiparaYearFilter button").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.year === "2019")));
+      document.querySelectorAll(".release-kp-event").forEach(item => { item.hidden = item.dataset.year !== "2019"; });
+      document.querySelector('.release-kp-event[data-year="2019"]').open = true;
+    });
+    s.stages.dashboard.gate.resolve(); await s.stages.venue.started.promise; await basicReady(s.page);
+    assert.equal(await s.page.locator('#kamiparaYearFilter [aria-pressed="true"]').getAttribute("data-year"), "2019");
+    assert.equal(await s.page.locator('.release-kp-event[data-year="2019"][open]').count(), 1);
+    assert.deepEqual(await s.page.locator(".release-kp-event-venue").allTextContents(), names);
+    s.stages.venue.gate.resolve(); await ready(s.page); await preserved(s.page);
+    assert.deepEqual(await s.page.locator(".release-kp-event-venue").allTextContents(), names);
+    assert.deepEqual(s.errors, []);
+  } finally { await s.close(); }
+});
+
+test("stale dashboard response does not replace a newer body or start supplemental requests", async () => {
+  const s = await open(390, { hold: ["dashboard"] });
+  try {
+    await s.stages.dashboard.started.promise;
+    await s.page.evaluate(() => {
+      const history = document.getElementById("kamiparaHistory");
+      history.innerHTML = history.innerHTML;
+      history.querySelector("h3").textContent = "newer event fixture";
+      window.__newerBody = history.innerHTML;
+    });
+    s.stages.dashboard.gate.resolve(); await ready(s.page);
+    assert.equal(await s.page.locator("#kamiparaHistory").innerHTML(), await s.page.evaluate(() => window.__newerBody));
+    assert.equal(s.actions.filter(a => a === "venue").length, 0);
+    await preserved(s.page); assert.deepEqual(s.errors, []);
   } finally { await s.close(); }
 });

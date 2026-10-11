@@ -1,7 +1,7 @@
 import { buildSongUrl, apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema&songUrls=1";
 import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
 import { detailWithApiFallback, staticReleaseList } from "./static-detail.js?v=1.3.0";
-import { renderKamiparaRelease } from "./release-kamipara.js?v=1.0.0";
+import { renderKamiparaRelease, hasCompletedKamiparaContent } from "./release-kamipara.js?v=1.0.0";
 import { renderAmazonProduct } from "./release-amazon.js";
 
 renderCommon("release");
@@ -206,8 +206,10 @@ function renderRelease(release, releaseList = []) {
   }).join("")}</div>` : "";
   if (release.releaseId === "R0072") {
     elements.includedSongsSection.classList.remove("is-empty");
-    elements.includedSongsCount.textContent = "";
-    elements.includedSongsContent.textContent = "神パラの収録情報を読み込んでいます…";
+    if (!hasCompletedKamiparaContent(releaseId)) {
+      elements.includedSongsCount.textContent = "";
+      elements.includedSongsContent.textContent = "神パラの収録情報を読み込んでいます…";
+    }
     elements.includedSongsSection.hidden = false;
   } else renderIncludedSongs(release);
   hideSkeleton();

@@ -14,6 +14,26 @@ const fullCastNames = Object.freeze({
 });
 
 const $ = id => document.getElementById(id);
+const completedHosts = new WeakSet();
+let pendingRender = null;
+
+export function hasCompletedKamiparaContent(releaseId = /^\/release\/(R\d{4})\.html$/.exec(location.pathname)?.[1] || new URLSearchParams(location.search).get("id")) {
+  const host = $("includedSongsContent");
+  const marker = document.documentElement.dataset.releaseId;
+  // Trust only formal R0072 prerender or this renderer's validated completion.
+  // Nonempty/error DOM and another Release's body are never sufficient.
+  if (releaseId !== "R0072" || !host || (marker && marker !== "R0072") ||
+      (marker !== "R0072" && !completedHosts.has(host))) return false;
+  if (["mainContent", "includedSongsSection", "kamiparaHistorySection", "kamiparaDashboardSection"].some(id => !$(id) || $(id).hidden) ||
+      $("mainContent").querySelector(".release-inclusion-error,.release-kp-retry")) return false;
+  const songs = [...host.querySelectorAll(".release-kp-song")];
+  return songs.length === 10 && new Set(songs.map(song => song.dataset.songId)).size === 10 &&
+    songs.every((song, index) => songCredits[song.dataset.songId] &&
+      song.querySelector(".release-kp-track")?.textContent.trim() === String(index + 1).padStart(2, "0") &&
+      song.querySelector("h3")?.textContent.trim()) &&
+    $("kamiparaHistory")?.querySelectorAll(".release-kp-event").length === 5 &&
+    $("kamiparaHistory")?.querySelectorAll(".release-kp-performance").length === 10;
+}
 
 function validate(data) {
   if (!data || !Array.isArray(data.songs) || !Array.isArray(data.performers) || !Array.isArray(data.events) || !Array.isArray(data.performances)) throw new Error("神パラデータの形式を確認できません。");
@@ -64,11 +84,12 @@ function render(data, venues) {
   };
   $("kamiparaHistorySection").hidden = false;
   $("kamiparaDashboardSection").hidden = false;
+  completedHosts.add($("includedSongsContent"));
 }
 
-export async function renderKamiparaRelease() {
+async function updateKamiparaRelease() {
   const host = $("includedSongsContent");
-  host.textContent = "神パラの収録情報を読み込んでいます…";
+  if (!hasCompletedKamiparaContent()) host.textContent = "神パラの収録情報を読み込んでいます…";
   try {
     const response = await apiGet("kamiparaDashboard", {}, { timeoutMs: 25000, retryCount: 1 });
     const data = response.data;
@@ -78,7 +99,17 @@ export async function renderKamiparaRelease() {
     const venues = new Map(results.map((result, index) => [venueIds[index], result.status === "fulfilled" ? result.value.data?.venueName : ""]).filter(([, name]) => name));
     render(data, venues);
   } catch (error) {
+    // A failed refresh must not replace a complete, validated static body.
+    // Without completed content, retain the existing error/retry behavior.
+    if (hasCompletedKamiparaContent()) return;
     host.innerHTML = `<p class="release-inclusion-error">神パラの収録情報を表示できませんでした。${escapeHtml(error.message || "再読み込みしてください。")}</p><button class="release-kp-retry" type="button">再試行</button>`;
     host.querySelector("button").addEventListener("click", renderKamiparaRelease, { once: true });
   }
+}
+
+export function renderKamiparaRelease() {
+  // Same-page rerenders share the full dashboard + venue + render operation.
+  // Clear on settlement so a later retry/refresh remains possible.
+  if (!pendingRender) pendingRender = updateKamiparaRelease().finally(() => { pendingRender = null; });
+  return pendingRender;
 }

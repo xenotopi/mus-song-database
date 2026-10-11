@@ -10,7 +10,7 @@
     "e2e:home-today-release": "node --test home-today-release.test.cjs",
     "e2e:navigation": "node --test common-navigation.test.cjs",
     "e2e:release": "node --test release-list.test.cjs",
-    "e2e:release-detail": "node --test release-detail.test.cjs",
+    "e2e:release-detail": "node --test release-detail.test.cjs release-kamipara-content-preservation.test.cjs",
     "e2e:song-release": "node --test song-release-link.test.cjs",
     "e2e:event-release": "node --test event-related-releases-ui.test.cjs",
     "test:detail-initial-render": "node --test detail-initial-render.test.cjs",

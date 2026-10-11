@@ -59,7 +59,7 @@ for (const width of [1280, 390]) {
     assert.equal(await page.locator('#memberAnalyticsTable [data-song-id="S003"] td').count(), 10);
     assert.equal(await page.locator(".member-analytics-total, .member-analytics-mobile-total").count(), 0);
     assert.equal(await page.locator(".member-analytics-section-head p").innerText(), "117 / 117曲 ｜ 曲ID順");
-    assert.equal(await page.locator('#memberAnalyticsTable [data-song-id="S003"] td:nth-child(2)').innerText(), "49");
+    assert.equal(await page.locator('#memberAnalyticsTable [data-song-id="S003"] td:nth-child(2)').innerText(), "50");
     assert.equal(await page.locator('#memberAnalyticsTable [data-song-id="S041"] a').getAttribute("href"), "song/S041.html");
     assert.equal(await page.locator('#memberAnalyticsTable [data-song-id="S046"] a').getAttribute("href"), "song/S046.html");
     if (width === 1280) {
@@ -77,7 +77,7 @@ for (const width of [1280, 390]) {
     assert.deepEqual((await page.locator("#memberAnalyticsTable thead th").allInnerTexts()).slice(1, 10),
       ["穂乃果", "絵里", "ことり", "海未", "凛", "真姫", "希", "花陽", "にこ"]);
     assert.equal(await page.locator(".member-analytics-rank-badge").count(), 0);
-    assert.equal(await page.locator("#memberAnalyticsSummary tbody tr:first-child .member-analytics-maximum").innerText(), "702件");
+    assert.equal(await page.locator("#memberAnalyticsSummary tbody tr:first-child .member-analytics-maximum").innerText(), "703件");
     assert.equal(await page.locator("#memberAnalyticsSummary tbody tr:first-child .member-analytics-maximum").evaluate(node => getComputedStyle(node).backgroundColor), "rgba(0, 0, 0, 0)");
     assert.equal(await page.locator("#memberAnalyticsMobileSummary > div:first-child .member-analytics-maximum").count(), 3);
     assert.deepEqual(await page.locator('#memberAnalyticsTable [data-song-id="S001"] .member-analytics-maximum').allInnerTexts(), ["45", "45"]);
@@ -85,7 +85,7 @@ for (const width of [1280, 390]) {
     assert.equal(await page.locator('#memberAnalyticsMobileSongs [data-song-id="S063"] .member-analytics-maximum').count(), 0);
     assert.equal(await page.locator("#memberAnalyticsSummary thead th:nth-child(2)").evaluate(node => node.style.getPropertyValue("--member-color")), "var(--h)");
     assert.equal(await page.locator("#memberAnalyticsTable thead th:nth-child(2)").evaluate(node => node.style.getPropertyValue("--member-color")), "var(--h)");
-    assert.equal(await page.locator('#memberAnalyticsTable [data-song-id="S003"] td:nth-child(2)').evaluate(node => getComputedStyle(node).fontWeight), "500");
+    assert.equal(await page.locator('#memberAnalyticsTable [data-song-id="S003"] td:nth-child(2)').evaluate(node => getComputedStyle(node).fontWeight), "700");
     assert.equal(await page.locator('#memberAnalyticsTable [data-song-id="S001"] td.member-analytics-maximum').first().evaluate(node => getComputedStyle(node).fontWeight), "700");
     assert.equal(await page.locator('#memberAnalyticsSummary tbody td.member-analytics-maximum').first().evaluate(node => getComputedStyle(node).fontWeight), "800");
     assert.equal(await page.locator('#memberAnalyticsSummary tbody td:not(.member-analytics-maximum)').first().evaluate(node => getComputedStyle(node).fontWeight), "500");

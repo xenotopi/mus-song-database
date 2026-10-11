@@ -6,7 +6,7 @@
   "scripts": {
     "test:api-jsonp": "node --test api-jsonp-timeout.test.cjs api-jsonp-collision.test.cjs",
     "contract:search": "node --test search-api-contract.test.cjs",
-    "e2e:search-release": "node --test search-release-ui.test.cjs",
+    "e2e:search-release": "node --test search-release-ui.test.cjs search-latest-response.test.cjs",
     "e2e:home-today-release": "node --test home-today-release.test.cjs",
     "e2e:navigation": "node --test common-navigation.test.cjs",
     "e2e:release": "node --test release-list.test.cjs",

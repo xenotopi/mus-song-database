@@ -391,9 +391,7 @@ function removeOldLocalEntries() {
           key,
 
         bytes:
-          raw
-            ? new Blob([raw]).size
-            : 0,
+          new Blob([key, raw || ""]).size,
 
         savedAt:
           Number(
@@ -402,7 +400,7 @@ function removeOldLocalEntries() {
       });
     }
 
-    const totalBytes =
+    let totalBytes =
       entries.reduce(
         (sum, item) =>
           sum + item.bytes,
@@ -416,24 +414,26 @@ function removeOldLocalEntries() {
       return;
     }
 
-    entries
-      .sort((a, b) =>
-        a.savedAt -
-        b.savedAt
-      )
-      .forEach(item => {
-        if (
-          estimateLocalCacheBytes() <=
-          MAX_LOCAL_CACHE_BYTES *
-          0.8
-        ) {
-          return;
-        }
+    entries.sort((a, b) =>
+      a.savedAt -
+      b.savedAt
+    );
 
-        localStorage.removeItem(
-          item.key
-        );
-      });
+    for (const item of entries) {
+      if (
+        totalBytes <=
+        MAX_LOCAL_CACHE_BYTES *
+        0.8
+      ) {
+        break;
+      }
+
+      localStorage.removeItem(
+        item.key
+      );
+      // Count key + value as before; only subtract after removal succeeds.
+      totalBytes -= item.bytes;
+    }
 
   } catch (error) {
     console.warn(
@@ -441,46 +441,6 @@ function removeOldLocalEntries() {
       error
     );
   }
-}
-
-
-function estimateLocalCacheBytes() {
-  let total = 0;
-
-  try {
-    for (
-      let index = 0;
-      index < localStorage.length;
-      index += 1
-    ) {
-      const key =
-        localStorage.key(index);
-
-      if (
-        !key ||
-        !ALL_LOCAL_PREFIXES.some(
-          prefix =>
-            key.startsWith(prefix)
-        )
-      ) {
-        continue;
-      }
-
-      const raw =
-        localStorage.getItem(key);
-
-      total +=
-        new Blob([
-          key,
-          raw || ""
-        ]).size;
-    }
-
-  } catch {
-    return 0;
-  }
-
-  return total;
 }
 
 

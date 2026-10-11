@@ -34,6 +34,7 @@ let metric = "performanceCount";
 let chartMode = "bar";
 let chart = null;
 let comparisonChart = null;
+const requestState = { trends:"pending", rankings:"pending", singerList:"pending" };
 
 const metricSettings = {
   performanceCount:{label:"歌唱記録数",suffix:"件",note:"同じ曲が複数回歌われた場合も、それぞれ1件の歌唱記録として数えます。"},
@@ -126,14 +127,22 @@ function renderOverview(){
       <div class="stats-overview-note">${escapeHtml(suffix)}</div>
     ${href ? "</a>" : "</article>"}`).join("");
 
-  if (el.heroSummary) {
+  el.overviewSection.hidden = false;
+}
+
+function renderHeroSummary(){
+  if (el.heroSummary && requestState.rankings === "fulfilled") {
+    const songCounts = getSongCountBreakdown(rankings.summary || {});
     el.heroSongs.textContent = `全${songCounts.registered.toLocaleString("ja-JP")}曲`;
-    el.heroEvents.textContent = `${number(s.eventCount).toLocaleString("ja-JP")}イベント`;
+    el.heroEvents.textContent = `${number(rankings.summary?.eventCount).toLocaleString("ja-JP")}イベント`;
 
     const validYears = trends
       .map(item => number(item.year))
       .filter(Boolean);
 
+    // Pending trends are not an empty result. Reveal the year label only once
+    // that request settles; failed/empty trends retain the existing fallback.
+    el.heroYears.hidden = requestState.trends === "pending";
     if (validYears.length) {
       const first = Math.min(...validYears);
       const last = Math.max(...validYears);
@@ -144,8 +153,6 @@ function renderOverview(){
 
     el.heroSummary.hidden = false;
   }
-
-  el.overviewSection.hidden = false;
 }
 
 function renderYearlyChart(){
@@ -430,7 +437,9 @@ function setupMetricTabs(){
     button.addEventListener("click",() => {
       document.querySelectorAll("[data-metric]").forEach(item => item.classList.toggle("active",item === button));
       metric = button.dataset.metric || "performanceCount";
-      requestAnimationFrame(() => renderYearlyChart());
+      requestAnimationFrame(() => {
+        if (requestState.trends === "fulfilled") renderYearlyChart();
+      });
     });
   });
 }
@@ -443,13 +452,15 @@ function setupChartModeTabs(){
         item.classList.toggle("active", item === button)
       );
       chartMode = button.dataset.chartMode || "bar";
-      requestAnimationFrame(() => renderYearlyChart());
+      requestAnimationFrame(() => {
+        if (requestState.trends === "fulfilled") renderYearlyChart();
+      });
     });
   });
 }
 
 async function load(){
-  const results = await Promise.allSettled([
+  const requests = [
       apiGet("trends",{},{
         timeoutMs:30000,retryCount:1,cache:true,cacheTtlMs:300000
       }),
@@ -459,38 +470,39 @@ async function load(){
       apiGet("singerList",{},{
         timeoutMs:30000,retryCount:1,cache:true,cacheTtlMs:300000
       })
-    ]);
-
-  const [trendResult, rankingResult, singerResult] = results;
+    ];
+  const actions = ["trends", "rankings", "singerList"];
+  const renderAvailable = action => {
+    if (action === "trends" && requestState.trends === "fulfilled") {
+      renderYearlyChart();
+      renderOfficialSoloComparison();
+    }
+    if (action === "rankings" && requestState.rankings === "fulfilled") renderRankings();
+    if (action === "rankings" || action === "trends") renderHeroSummary();
+    if (action === "rankings" || action === "singerList") {
+      // Singer failure may use rankings' established fallback, but a pending
+      // singer request must not briefly publish that fallback as a final count.
+      if (requestState.rankings === "fulfilled" && requestState.singerList !== "pending") renderOverview();
+      if (requestState[action] === "fulfilled") renderDiscovery();
+    }
+  };
+  const results = await Promise.allSettled(requests.map((request, index) => {
+    const action = actions[index];
+    return request.then(response => {
+      if (action === "trends") trends = Array.isArray(response.data?.years) ? response.data.years : [];
+      if (action === "rankings") rankings = response.data || {};
+      if (action === "singerList") singerData = response.data || {};
+      requestState[action] = "fulfilled";
+      renderAvailable(action);
+    }).catch(error => {
+      requestState[action] = "rejected";
+      renderAvailable(action);
+      throw error;
+    });
+  }));
+  // Global loading/partial-failure status belongs to the whole request batch,
+  // not the first usable section. allSettled also consumes rendering failures.
   const failures = results.filter(item => item.status === "rejected");
-
-  if (trendResult.status === "fulfilled") {
-    trends = Array.isArray(trendResult.value.data?.years)
-      ? trendResult.value.data.years
-      : [];
-    renderYearlyChart();
-    renderOfficialSoloComparison();
-  }
-
-  if (rankingResult.status === "fulfilled") {
-    rankings = rankingResult.value.data || {};
-  }
-
-  if (singerResult.status === "fulfilled") {
-    singerData = singerResult.value.data || {};
-  }
-
-  if (rankingResult.status === "fulfilled") {
-    renderOverview();
-    renderRankings();
-  }
-
-  if (
-    rankingResult.status === "fulfilled" ||
-    singerResult.status === "fulfilled"
-  ) {
-    renderDiscovery();
-  }
 
   if (!failures.length) {
     el.status.hidden = true;

@@ -121,6 +121,12 @@ async function generateReleasePages({ revision, ids } = {}) {
       });
       await page.goto(`${origin}/release.html?id=${id}`);
       await page.waitForFunction(() => !document.getElementById("mainContent").hidden && document.getElementById("status").hidden);
+      // Basic details can now appear before supplemental list metadata arrives.
+      // Reuse the loaded module's completion promise; never capture that interim DOM.
+      await page.evaluate(async () => {
+        const entry = document.querySelector('script[src*="release-v500.js"]');
+        await (await import(entry.src)).releaseReady;
+      });
       if (id === "R0072") await validateKamiparaCapture(page);
       const name = release.releaseName;
       const date = release.releaseDate || "発売日未登録";

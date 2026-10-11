@@ -202,6 +202,11 @@ test("Release詳細", async t => {
     for (const id of ["R0001", "R0007", "R0077", "R0088", "R0091", "R0097", "R0106", "R0114"]) {
       const { page, issues } = await openDetail(id);
       await waitForDetail(page);
+      // Basic details can precede the optional list; assert BOX enrichment only
+      // after the loaded renderer has finished that separate phase.
+      await page.evaluate(async () => {
+        await (await import(document.querySelector('script[src*="release-v500.js"]').src)).releaseReady;
+      });
       const detail = releaseDetailFixtures.get(id);
       const listed = releaseListFixture.find(item => item.releaseId === id) || {};
       const release = { ...detail, releaseSeries: detail.releaseSeries ?? listed.releaseSeries, editionType: detail.editionType ?? listed.editionType, parentReleaseId: detail.parentReleaseId ?? listed.parentReleaseId, featuredSinger: detail.featuredSinger ?? listed.featuredSinger };

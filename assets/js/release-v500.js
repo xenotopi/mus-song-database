@@ -225,8 +225,18 @@ async function loadRelease() {
     const needsReleaseList = Boolean(release.releaseSeries || release.parentReleaseId || release.editionType === "memorial_box" || release.releaseType === "Solo Live!");
     let releaseList = [];
     if (needsReleaseList) {
-      try { releaseList = (await staticReleaseList()).data || []; }
-      catch { releaseList = (await apiGet("releaseList", {}, { timeoutMs: 30000, retryCount: 1, cache: true })).data || []; }
+      // List metadata is supplementary. Render basic details immediately only
+      // when there is no completed static body to preserve (including BOX links).
+      if (!hasPrerenderedContent) renderRelease(release);
+      try {
+        try { releaseList = (await staticReleaseList()).data || []; }
+        catch { releaseList = (await apiGet("releaseList", {}, { timeoutMs: 30000, retryCount: 1, cache: true })).data || []; }
+      } catch {
+        // A list outage must not erase successful details or completed prerender.
+        if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
+        if (release.releaseId === "R0072") await renderKamiparaRelease();
+        return;
+      }
     }
     const safeReleaseList = Array.isArray(releaseList) ? releaseList : [];
     const listRelease = safeReleaseList.find(item => String(item.releaseId || "") === String(release.releaseId || ""));
@@ -249,4 +259,5 @@ async function loadRelease() {
   }
 }
 
-loadRelease();
+// Capture must wait for optional enrichment, not just the first visible body.
+export const releaseReady = loadRelease();

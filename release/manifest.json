@@ -2,19 +2,19 @@
   "schemaVersion": 1,
   "outputRevision": "sha256-de25812203433bf07d2e23ca203816b1cb033eed1eb723cd223a1362fef865cd",
   "dataRevision": "sha256-ae60c8e521edbb636f1c3a584736413ea697f661603ebe14208acc4a4dadf968",
-  "rendererSha256": "8bb981978ccff9ffc923ecb3d766be5db9f75d385b26a343986659ef8a742a3f",
+  "rendererSha256": "c23da424f6b8ce1718553b9757b2e61728dbdaa2d7d02467177cf96d1b3aa50f",
   "count": 114,
   "pages": {
     "R0001": {
       "path": "release/R0001.html",
-      "sha256": "7cd3b6a8921172aa8d8129bc0a93f06ef22154f73f7780b906ee8551668adb4d",
-      "bytes": 37410,
+      "sha256": "cdfe4e6556fce97592471a1d61fa427bf8f4d3e0d2b0e6915ad29164de061919",
+      "bytes": 37434,
       "canonical": "https://mus-song-db.com/release/R0001.html"
     },
     "R0002": {
       "path": "release/R0002.html",
-      "sha256": "94e84a60dfc7c15a0ce00af91a473f405202906ceb12922150bef0cdddd6d98f",
-      "bytes": 37264,
+      "sha256": "df418b00f23fb0ac208dd02cb4ace06d947a515c2ba506b8ba28a127db9e548d",
+      "bytes": 37288,
       "canonical": "https://mus-song-db.com/release/R0002.html"
     },
     "R0003": {
@@ -43,20 +43,20 @@
     },
     "R0007": {
       "path": "release/R0007.html",
-      "sha256": "4081128ea82c5278799e72fdc3aa125535e1ac601edfb0d742ec6f3da1dfa679",
-      "bytes": 43372,
+      "sha256": "d812f9b0923a050c6c0b5cc041233c7ec9503654ceac18981ba0cb857c39ad95",
+      "bytes": 43396,
       "canonical": "https://mus-song-db.com/release/R0007.html"
     },
     "R0008": {
       "path": "release/R0008.html",
-      "sha256": "51ee8344dec0366a8d8f6889d0fe0ec8f8be1f85af75f8d37ef5e67696779141",
-      "bytes": 43260,
+      "sha256": "1917132ac79167ad0a8a6c7b67c9e3f8515d054d48c60c92052039afe8df57f7",
+      "bytes": 43284,
       "canonical": "https://mus-song-db.com/release/R0008.html"
     },
     "R0009": {
       "path": "release/R0009.html",
-      "sha256": "221eea791c429aa47fc13c030619e97f811bd5d91fc3920743dd11d6487b897c",
-      "bytes": 44663,
+      "sha256": "4f94970d2a55228c500820fcf1828d312376d0a02b23700bee2bec8350357dd0",
+      "bytes": 44687,
       "canonical": "https://mus-song-db.com/release/R0009.html"
     },
     "R0010": {
@@ -73,8 +73,8 @@
     },
     "R0012": {
       "path": "release/R0012.html",
-      "sha256": "ca4d1e323111a75b1bd1e259fa70139dd5d61dc7b0b65fb66a8cb2aa152076f4",
-      "bytes": 38726,
+      "sha256": "edfe3b664c06d52c59f92a7ab7779825480b251e30fbda90b385415b2ab066ce",
+      "bytes": 38750,
       "canonical": "https://mus-song-db.com/release/R0012.html"
     },
     "R0013": {
@@ -127,8 +127,8 @@
     },
     "R0021": {
       "path": "release/R0021.html",
-      "sha256": "bb31c9ddd1f94d5a4a81c60a2fe951ef557caac4cb35e39cf4f49abc6e476ddd",
-      "bytes": 36219,
+      "sha256": "7c134b604eb877bd63f26f63b5537460f64980e225493afe3467e4eebf74e014",
+      "bytes": 36243,
       "canonical": "https://mus-song-db.com/release/R0021.html"
     },
     "R0022": {
@@ -223,14 +223,14 @@
     },
     "R0037": {
       "path": "release/R0037.html",
-      "sha256": "516887d20118e254bd1140c9d92632209f726b81ad38c2fcf7cf3f29a4e38bee",
-      "bytes": 37292,
+      "sha256": "54d8da9f13744df19a3a51faba7139cee3c3ccc90de19e16accddead075458cf",
+      "bytes": 37316,
       "canonical": "https://mus-song-db.com/release/R0037.html"
     },
     "R0038": {
       "path": "release/R0038.html",
-      "sha256": "de9466ad50682ff30ca5070730169adaeb01da144e8d6667a3f9f8051aec172f",
-      "bytes": 37407,
+      "sha256": "fc05011c0aa2345ca1beff864cc220884d58a414a572f92d23f24bf95f610812",
+      "bytes": 37431,
       "canonical": "https://mus-song-db.com/release/R0038.html"
     },
     "R0039": {
@@ -253,14 +253,14 @@
     },
     "R0042": {
       "path": "release/R0042.html",
-      "sha256": "18a0438a8e2e713e8f1376f84f9401d0a2dbec6f68794533afe604eb98c196f5",
-      "bytes": 36231,
+      "sha256": "0f6a320d7db5396edd33fd09be0779fff3819945688ac7eaf869bc365a52e06b",
+      "bytes": 36255,
       "canonical": "https://mus-song-db.com/release/R0042.html"
     },
     "R0043": {
       "path": "release/R0043.html",
-      "sha256": "755e0c8ebac62eb5e41914fe3ce2938abe20e7d043efa8ac6ac4da70ac9894b6",
-      "bytes": 36203,
+      "sha256": "e94a89314fd287394bf487d2f6ef5b3e3caf9d04fe0e849dad75d962597d2609",
+      "bytes": 36227,
       "canonical": "https://mus-song-db.com/release/R0043.html"
     },
     "R0044": {
@@ -307,8 +307,8 @@
     },
     "R0051": {
       "path": "release/R0051.html",
-      "sha256": "ed414b0f1be8006b9b98447af48f188bffcda893f33d3ad73a7edeb83e20f726",
-      "bytes": 36259,
+      "sha256": "9d837ac7a32c5bb6086e0d4349c56dbcd4d5dca4ae39517e8aac74a372fccd94",
+      "bytes": 36283,
       "canonical": "https://mus-song-db.com/release/R0051.html"
     },
     "R0052": {
@@ -325,20 +325,20 @@
     },
     "R0054": {
       "path": "release/R0054.html",
-      "sha256": "17cda3ac3a412ae4d28164a04979ee53b06ec9b5e5e6cf427512428bb97414be",
-      "bytes": 36901,
+      "sha256": "1bac1283b18cb47330f0ed971a3054c244e142ff2454cd32f5764dc27a3a7811",
+      "bytes": 36925,
       "canonical": "https://mus-song-db.com/release/R0054.html"
     },
     "R0055": {
       "path": "release/R0055.html",
-      "sha256": "0835d629016c9403a4abbd3db292bdd65bca005c9c0ccd6c10079e2d1cad3de8",
-      "bytes": 36855,
+      "sha256": "9dcd504282e6731d5194ecc99240d1a2e3dcf0bbbd2699358f5bccc99145b938",
+      "bytes": 36879,
       "canonical": "https://mus-song-db.com/release/R0055.html"
     },
     "R0056": {
       "path": "release/R0056.html",
-      "sha256": "870c0be9ac444d61a921cb5671405c2e2b2bf34244ac0722a448ab6d0e9e4f46",
-      "bytes": 36842,
+      "sha256": "7197a185f052ba9e4b884da58cea756c173296b5be63afcc6c24ee6091f8fd64",
+      "bytes": 36866,
       "canonical": "https://mus-song-db.com/release/R0056.html"
     },
     "R0057": {
@@ -409,8 +409,8 @@
     },
     "R0068": {
       "path": "release/R0068.html",
-      "sha256": "89cdc2e53b6119387eead39cad59a3eb7e96dbd555b5a3868efe714a957c7be2",
-      "bytes": 95257,
+      "sha256": "23cf39104bbb65cb872d37e0c16785ff3f90ade48b55a4020bbc2709966c57fa",
+      "bytes": 95281,
       "canonical": "https://mus-song-db.com/release/R0068.html"
     },
     "R0069": {
@@ -421,20 +421,20 @@
     },
     "R0070": {
       "path": "release/R0070.html",
-      "sha256": "d6f57a0a3b420a02afb761c7195feb89b48b761d87e7e383e3b0a18d3ac0be8a",
-      "bytes": 57503,
+      "sha256": "5b6b8be9744a8b62054dc5656415db00c24259570744244d127131f1e597997f",
+      "bytes": 57527,
       "canonical": "https://mus-song-db.com/release/R0070.html"
     },
     "R0071": {
       "path": "release/R0071.html",
-      "sha256": "6e4156d7181070587035a920f7c853700fa1c56978c941fb3c3fa8f53bef92f6",
-      "bytes": 49561,
+      "sha256": "3d1151ae7d9122a2a87fbeb1e260d68b5998222c529ff0ed1f30da539428f8a8",
+      "bytes": 49585,
       "canonical": "https://mus-song-db.com/release/R0071.html"
     },
     "R0072": {
       "path": "release/R0072.html",
-      "sha256": "d01d5cd4a05ab7606666db846d14022e5f8cc6ee39b8ff03a791ebbafc689f0a",
-      "bytes": 43331,
+      "sha256": "517fd93ff7e582e47296ac604df07fb7c2bdb94991ccc1433944ecef88b23a04",
+      "bytes": 43355,
       "canonical": "https://mus-song-db.com/release/R0072.html"
     },
     "R0073": {
@@ -463,14 +463,14 @@
     },
     "R0077": {
       "path": "release/R0077.html",
-      "sha256": "f2c8ffe0068d08f1e81cc5cb181e9d1f2e5118da2d7f15d04573ecec78eeeee8",
-      "bytes": 141448,
+      "sha256": "9e1476ff022370d6fc0f54c30d9db5b6e8676efec35655270a417f4da98e31b3",
+      "bytes": 141472,
       "canonical": "https://mus-song-db.com/release/R0077.html"
     },
     "R0078": {
       "path": "release/R0078.html",
-      "sha256": "8f20477a495c59b3c95b56a686be4b9606db546702989971356725068c342764",
-      "bytes": 50209,
+      "sha256": "c6b4c9bca4f77336bf45b50148de8f7280175984f108b39336c779d1bde81ecd",
+      "bytes": 50233,
       "canonical": "https://mus-song-db.com/release/R0078.html"
     },
     "R0079": {
@@ -493,8 +493,8 @@
     },
     "R0082": {
       "path": "release/R0082.html",
-      "sha256": "ab3d79ae1291596995fd3d88e3292963682ec166af6e17cc859fe699aac564df",
-      "bytes": 40323,
+      "sha256": "86156857b8a73d76ab3e446342e7e20375ed25f126450290859d423f2e578dad",
+      "bytes": 40347,
       "canonical": "https://mus-song-db.com/release/R0082.html"
     },
     "R0083": {
@@ -529,20 +529,20 @@
     },
     "R0088": {
       "path": "release/R0088.html",
-      "sha256": "086bee99065c4501eda995df89e9d1c37111b24a35d2cd4a63275f09dcc42835",
-      "bytes": 272741,
+      "sha256": "8042f3fc8a16fbefd750ee49f9b29824c5493cb73f18ed1c40e951d986272f37",
+      "bytes": 272765,
       "canonical": "https://mus-song-db.com/release/R0088.html"
     },
     "R0089": {
       "path": "release/R0089.html",
-      "sha256": "71edafb70c94052fb638057b5bd9f0db4d1a21aeba992e436d1c0ae4b986e637",
-      "bytes": 89911,
+      "sha256": "e6fbdb53d1917e57fab65e0201213ee87439127b2fd60b64c70f6200118da3cb",
+      "bytes": 89935,
       "canonical": "https://mus-song-db.com/release/R0089.html"
     },
     "R0090": {
       "path": "release/R0090.html",
-      "sha256": "2d5b9b14c2444fdb69555d5019696a5570e674544307309570970ef3277c4044",
-      "bytes": 124399,
+      "sha256": "3d692404a99ecb0f331c90f06ca98df7fbd9e798ce71b867953182063bbf1bb6",
+      "bytes": 124423,
       "canonical": "https://mus-song-db.com/release/R0090.html"
     },
     "R0091": {
@@ -553,8 +553,8 @@
     },
     "R0092": {
       "path": "release/R0092.html",
-      "sha256": "6db4d0ffe8b49af305d6be06ab840124cfb1f340489a4021a1d605064ac1743d",
-      "bytes": 41816,
+      "sha256": "f43e99ec636ff5233210f256f1935c5f094807383fd2390cc98ab5a0a1935e1f",
+      "bytes": 41840,
       "canonical": "https://mus-song-db.com/release/R0092.html"
     },
     "R0093": {
@@ -577,8 +577,8 @@
     },
     "R0096": {
       "path": "release/R0096.html",
-      "sha256": "2f08674079b4bd2fdbe3733969c025de806f6b90ba5197d92914c597290abed0",
-      "bytes": 41850,
+      "sha256": "02355977d2ce6fe0f05de92b9312d1f5df0cee19ecae82060740782d3f4bf2ed",
+      "bytes": 41874,
       "canonical": "https://mus-song-db.com/release/R0096.html"
     },
     "R0097": {
@@ -607,8 +607,8 @@
     },
     "R0101": {
       "path": "release/R0101.html",
-      "sha256": "8172aac888cfb7ae87848d89f3c81e76a157c63526564599fad64e7f5c3aa156",
-      "bytes": 47430,
+      "sha256": "354dea1bcf11d44b5f6704690783553a01f76d155c5e84d54a4accd2c1835f9d",
+      "bytes": 47454,
       "canonical": "https://mus-song-db.com/release/R0101.html"
     },
     "R0102": {
@@ -619,26 +619,26 @@
     },
     "R0103": {
       "path": "release/R0103.html",
-      "sha256": "60d46841b0a6d94fffb33e5ce5ed9fb329907af697fb4e6aa19136d3d9febfbd",
-      "bytes": 45194,
+      "sha256": "648424e32cb121011c1bc80da0cf0126c636356d102a020f62da6805271f23a0",
+      "bytes": 45218,
       "canonical": "https://mus-song-db.com/release/R0103.html"
     },
     "R0104": {
       "path": "release/R0104.html",
-      "sha256": "6742b363f7bb9f65e09f4ce4823286a96d040cdc06aaaa2a71b69fed3e2b7319",
-      "bytes": 47442,
+      "sha256": "842639ac46e268e27b75be3427db5db526e49ef6fa3782c372c5bc82105376bc",
+      "bytes": 47466,
       "canonical": "https://mus-song-db.com/release/R0104.html"
     },
     "R0105": {
       "path": "release/R0105.html",
-      "sha256": "13862c15b2fc915fe9c6bb65968b2f284459a01d9b83f184264dc091dd56f299",
-      "bytes": 47484,
+      "sha256": "47e883516e077fc0c07434d2e3ec7015630a962b09a5e62ded20b6c519fd8bad",
+      "bytes": 47508,
       "canonical": "https://mus-song-db.com/release/R0105.html"
     },
     "R0106": {
       "path": "release/R0106.html",
-      "sha256": "d81c5ad912c4e82da57c5932e74beb1fbbc4a8f1d0c5e7deaa328910edd1da03",
-      "bytes": 60983,
+      "sha256": "ae96b520aa92cc99ffd0e0ccd6e068f91169c1e4e1db5d68b02a4241a8505fb8",
+      "bytes": 61007,
       "canonical": "https://mus-song-db.com/release/R0106.html"
     },
     "R0107": {
@@ -649,8 +649,8 @@
     },
     "R0108": {
       "path": "release/R0108.html",
-      "sha256": "057952ca5233da9731dcf2a5333160e692e13567952b275f2610858bb0856f0b",
-      "bytes": 60956,
+      "sha256": "1a93da57839f4a85f87ee160c39af54c015bb129034f1f84f119a3a9ad2d9bb4",
+      "bytes": 60980,
       "canonical": "https://mus-song-db.com/release/R0108.html"
     },
     "R0109": {
@@ -661,14 +661,14 @@
     },
     "R0110": {
       "path": "release/R0110.html",
-      "sha256": "16fc26eb3d1c043e91e997efdf60b6790fa795a95ced494013ef31eb279826db",
-      "bytes": 61618,
+      "sha256": "be553ce41b150c0eec5359f20c5bfa8514a3f391697ef37caea90324da72f36b",
+      "bytes": 61642,
       "canonical": "https://mus-song-db.com/release/R0110.html"
     },
     "R0111": {
       "path": "release/R0111.html",
-      "sha256": "4b126d22e4b8021f629368ed3e14a2ce5774867fafdd0570a5347c84d324ed3b",
-      "bytes": 61668,
+      "sha256": "dbd73481290decd3c451dc779c463207e658686bb378f15ae3299c8c9f17736a",
+      "bytes": 61692,
       "canonical": "https://mus-song-db.com/release/R0111.html"
     },
     "R0112": {
@@ -679,14 +679,14 @@
     },
     "R0113": {
       "path": "release/R0113.html",
-      "sha256": "fff707bc35f10f7eb5c836e1501cc5629f40508083c6ce10955e7067fb94ff2b",
-      "bytes": 61720,
+      "sha256": "8136f072cfe030f7d5bca5216c5b4ba6b627e07dc10d76796ad9bd7b740f5bc3",
+      "bytes": 61744,
       "canonical": "https://mus-song-db.com/release/R0113.html"
     },
     "R0114": {
       "path": "release/R0114.html",
-      "sha256": "cf6a7c5b403a533db8c5f144817994e90487642fc4f4d5c480622c452be528e1",
-      "bytes": 61635,
+      "sha256": "08fc31724ad3a9366517cf40d07458776fc7c540260abbf2bca4c2620b7b398e",
+      "bytes": 61659,
       "canonical": "https://mus-song-db.com/release/R0114.html"
     }
   }

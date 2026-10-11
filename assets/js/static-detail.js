@@ -1,6 +1,9 @@
 const CURRENT_URL = "data/current.json";
 const CURRENT_CACHE_KEY = "musdb:static-current:v1";
 const FETCH_TIMEOUT_MS = 8000;
+// Pin a successful fresh generation for this module's page lifecycle only.
+// Failed requests are evicted; localStorage fallback is never shared as fresh.
+let freshPointerPromise;
 
 function timeoutSignal(ms = FETCH_TIMEOUT_MS) {
   return typeof AbortSignal?.timeout === "function" ? AbortSignal.timeout(ms) : undefined;
@@ -31,11 +34,19 @@ function validDetail(type, id, wrapper, current) {
 
 async function currentPointer({ allowStale = false } = {}) {
   try {
-    const current = await fetchJson(CURRENT_URL);
-    if (!validRevision(current?.revision)) throw new Error("Static current revision invalid");
-    if (current.outputRevision && current.outputRevision !== current.revision) throw new Error("Static current output revision mismatch");
-    if (current.dataRevision && !validRevision(current.dataRevision)) throw new Error("Static current data revision invalid");
-    try { localStorage.setItem(CURRENT_CACHE_KEY, JSON.stringify(current)); } catch {}
+    if (!freshPointerPromise) {
+      freshPointerPromise = fetchJson(CURRENT_URL).then(current => {
+        if (!validRevision(current?.revision)) throw new Error("Static current revision invalid");
+        if (current.outputRevision && current.outputRevision !== current.revision) throw new Error("Static current output revision mismatch");
+        if (current.dataRevision && !validRevision(current.dataRevision)) throw new Error("Static current data revision invalid");
+        try { localStorage.setItem(CURRENT_CACHE_KEY, JSON.stringify(current)); } catch {}
+        return current;
+      }).catch(error => {
+        freshPointerPromise = undefined;
+        throw error;
+      });
+    }
+    const current = await freshPointerPromise;
     return { current, stale: false };
   } catch (error) {
     if (!allowStale) throw error;

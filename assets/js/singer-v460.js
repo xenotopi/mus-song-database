@@ -23,6 +23,8 @@ const el = {
   eventCount: $("eventCount"),
   analysisSection: $("analysisSection"),
   yearChart: $("yearChart"),
+  yearMetrics: $("yearMetrics"),
+  yearChartNote: $("yearChartNote"),
   songsSection: $("songsSection"),
   songsCount: $("songsCount"),
   songsList: $("songsList"),
@@ -56,6 +58,7 @@ let allHistory = [];
 let eventHistory = [];
 const expandedEventIds = new Set();
 let selectedYear = "all";
+let selectedYearlyMetric = "events";
 let visibleLimit = 20;
 
 function colorsForSinger(text) {
@@ -78,32 +81,62 @@ function renderSingerColors(name) {
       .join("");
 }
 
-function buildYearly(items) {
+function buildYearly(items, metric = "performances") {
+  if (!["events", "performances"].includes(metric)) throw new Error("Unknown yearly metric");
+  const history = Array.isArray(items) ? items : [];
   const map = new Map();
-  items.forEach(item => {
-    const year = String(item.date || "").slice(0,4);
-    if (!year) return;
-    map.set(year, Number(map.get(year) || 0) + 1);
-  });
+  const yearOf = item => {
+    const year = String(item?.date || "").slice(0, 4);
+    return /^\d{4}$/.test(year) ? year : "";
+  };
+  const add = year => map.set(year, (map.get(year) || 0) + 1);
+  if (metric === "events") {
+    // Same non-empty, trimmed Event ID set as API summary.eventCount. Distinct
+    // performances have distinct IDs; Song/title/Day must not be dedupe keys.
+    const events = new Map();
+    for (const item of history) {
+      const id = String(item?.eventId || "").trim();
+      if (!id) continue;
+      if (!events.has(id)) events.set(id, new Set());
+      const year = yearOf(item);
+      if (year) events.get(id).add(year);
+    }
+    // Conflicting years are not guessed or counted twice: retain the Event
+    // once in the unknown-year bucket so the total still matches summary.
+    for (const years of events.values()) add(years.size === 1 ? [...years][0] : "");
+  } else {
+    history.forEach(item => add(yearOf(item)));
+  }
   return [...map.entries()]
     .map(([year,count]) => ({year,count}))
-    .sort((a,b) => String(a.year).localeCompare(String(b.year)));
+    .sort((a,b) => a.year && b.year ? a.year.localeCompare(b.year) : a.year ? -1 : b.year ? 1 : 0);
 }
 
 function renderAnalysis(items) {
-  const yearly = buildYearly(items);
+  const yearly = buildYearly(items, selectedYearlyMetric);
+  const metricLabel = selectedYearlyMetric === "events" ? "出演イベント数" : "歌唱記録数";
   const max = Math.max(1, ...yearly.map(x => x.count));
+  el.yearMetrics.querySelectorAll("[data-yearly-metric]").forEach(button => {
+    const active = button.dataset.yearlyMetric === selectedYearlyMetric;
+    button.setAttribute("aria-pressed", String(active));
+  });
+  el.yearChart.setAttribute("aria-label", `${metricLabel}の年別集計`);
+  el.yearChart.setAttribute("role", yearly.length ? "list" : "status");
 
   el.yearChart.innerHTML = yearly.length
     ? yearly.map(item => `
-        <div class="singer-year-row">
-          <span class="singer-year-label">${escapeHtml(item.year)}</span>
-          <span class="singer-year-track">
+        <div class="singer-year-row" role="listitem">
+          <span class="singer-year-label">${escapeHtml(item.year || "年不明")}</span>
+          <span class="singer-year-track" aria-hidden="true">
             <span class="singer-year-bar" style="width:${Math.max(3, Math.round(item.count / max * 100))}%"></span>
           </span>
           <span class="singer-year-value">${item.count}件</span>
         </div>`).join("")
     : `<div class="empty">年別データはありません。</div>`;
+
+  el.yearChartNote.textContent = selectedYearlyMetric === "events"
+    ? "同じイベントの複数曲は1件として集計します。イベントIDがない記録は含みません。年を確定できないイベントは「年不明」にまとめます。"
+    : "歌唱履歴の1行を1件として集計します。年を読み取れない記録は「年不明」にまとめます。";
 
   el.analysisSection.hidden = false;
 }
@@ -384,4 +417,10 @@ async function loadSinger() {
 }
 
 el.retryButton.addEventListener("click", loadSinger);
+el.yearMetrics.addEventListener("click", event => {
+  const button = event.target.closest("[data-yearly-metric]");
+  if (!button || button.dataset.yearlyMetric === selectedYearlyMetric) return;
+  selectedYearlyMetric = button.dataset.yearlyMetric;
+  renderAnalysis(allHistory);
+});
 loadSinger();

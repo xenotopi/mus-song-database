@@ -83,6 +83,11 @@
     .singer-year-track{height:12px;overflow:hidden;border-radius:999px;background:#eceef5}
     .singer-year-bar{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#4f46e5,#8b5cf6)}
     .singer-year-value{color:var(--navy);font-size:14px;font-weight:900;text-align:right}
+    .singer-year-metrics{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+    .singer-year-metrics button{min-height:42px;max-width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);font:inherit;font-size:14px;font-weight:800;cursor:pointer}
+    .singer-year-metrics button[aria-pressed="true"]{border-color:var(--indigo);background:var(--indigo);color:#fff}
+    .singer-year-metrics button:focus-visible{outline:2px solid var(--indigo);outline-offset:3px}
+    .singer-year-note{margin:12px 0 0;color:var(--muted);font-size:14px;line-height:1.7}
     .singer-song-row{grid-template-columns:38px minmax(0,1fr) auto}
     .singer-song-rank{
       width:30px;height:30px;display:grid;place-items:center;border-radius:50%;
@@ -181,9 +186,14 @@
 
       <div class="singer-analysis-grid">
         <article class="singer-analysis-card">
-          <p class="singer-section-kicker">YEARLY PERFORMANCES</p>
-          <h2>年別歌唱推移</h2>
+          <p class="singer-section-kicker">YEARLY EVENT APPEARANCES &amp; PERFORMANCE RECORDS</p>
+          <h2>年別の出演・歌唱記録</h2>
+          <div class="singer-year-metrics" id="yearMetrics" role="group" aria-label="年別グラフの集計指標">
+            <button type="button" data-yearly-metric="events" aria-pressed="true" aria-controls="yearChart">出演イベント数</button>
+            <button type="button" data-yearly-metric="performances" aria-pressed="false" aria-controls="yearChart">歌唱記録数</button>
+          </div>
           <div class="singer-year-chart" id="yearChart"></div>
+          <p class="singer-year-note" id="yearChartNote"></p>
         </article>
 
       </div>
@@ -228,7 +238,7 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/singer-v460.js?v=4.9.1&amp;cache=revision-nonblocking&songUrls=1"></script>
+  <script type="module" src="assets/js/singer-v460.js?v=4.9.2&amp;cache=revision-nonblocking&songUrls=1"></script>
   <script type="module">
     import {
       setupDetailContext

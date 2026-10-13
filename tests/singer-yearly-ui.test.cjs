@@ -47,6 +47,15 @@ for (const missing of [null, undefined, [], {}]) test(`empty/missing history ${J
 });
 test('unrecognised metric is rejected', () => assert.throws(() => context.buildYearly(rows, 'other'), /Unknown yearly metric/));
 
+test('scale matches Song Detail for small, large and empty maxima', () => {
+  const song = fs.readFileSync(path.join(root, 'assets/js/song-v441.js'), 'utf8');
+  const reference = vm.createContext({});
+  vm.runInContext(song.slice(song.indexOf('function buildGraphScale_('), song.indexOf('\nfunction renderGraphScaleLabels_(')), reference);
+  for (const max of [0, ...Array.from({ length: 200 }, (_, i) => i + 1)]) {
+    assert.deepEqual(JSON.parse(JSON.stringify(context.buildGraphScale_(max))), JSON.parse(JSON.stringify(reference.buildGraphScale_(max))));
+  }
+});
+
 const current = JSON.parse(fs.readFileSync(path.join(root, 'data/current.json')));
 const histories = new Map();
 for (const file of fs.readdirSync(path.join(root, 'data/snapshots', current.revision, 'events'))) {
@@ -112,7 +121,7 @@ for (const width of [1280, 390]) {
       await metric(page, 'performances').focus(); await page.keyboard.press('Enter');
       assert.equal(await metric(page, 'performances').getAttribute('aria-pressed'), 'true');
       assert.equal(await metric(page, 'events').getAttribute('aria-pressed'), 'false');
-      assert.deepEqual(await chart(page), [{ year: '2013', count: 2, width: '67%' }, { year: '2014', count: 3, width: '100%' }]);
+      assert.deepEqual(await chart(page), [{ year: '2013', count: 2, width: '66.6667%' }, { year: '2014', count: 3, width: '100%' }]);
       assert.equal((await chart(page)).reduce((n, row) => n + row.count, 0), Number(await page.locator('#performanceCount').textContent()));
       assert.equal(await page.locator('#historyList').innerHTML(), history); assert.equal(await page.locator('#visibleHistoryCount').textContent(), visible);
       assert.equal(await page.evaluate(() => document.querySelector('#historyList').firstElementChild === window.originalHistoryNode), true);
@@ -152,6 +161,49 @@ for (const width of [1280, 390]) {
       assert.equal(data.summary.eventCount, 24); assert.equal(data.summary.performanceCount, 179);
       assert.equal((await chart(page)).reduce((n, row) => n + row.count, 0), 24);
       await metric(page, 'performances').click(); assert.equal((await chart(page)).reduce((n, row) => n + row.count, 0), 179);
+      assert.deepEqual(errors, []);
+    } finally { await page.close(); }
+  });
+}
+
+for (const width of [1280, 390, 320]) {
+  test(`Singer scale, gridlines and exact bar ratio update with metric ${width}px`, async () => {
+    const history = Array.from({ length: 20 }, (_, i) => ({ eventId: `E${i % 5}`, date: '2020-01-01' }))
+      .concat([{ eventId: 'OTHER', date: '2021-01-01' }]);
+    const { page, errors } = await open(width, payload(history));
+    try {
+      for (const [name, max, labels] of [['events', 5, [0, 1, 3, 4, 5]], ['performances', 20, [0, 5, 10, 15, 20]], ['events', 5, [0, 1, 3, 4, 5]]]) {
+        await metric(page, name).click();
+        assert.deepEqual(await page.locator('.singer-chart-scale-labels > span').allTextContents(), labels.map(n => `${n}件`));
+        assert.equal(await page.locator('.singer-year-scale').getAttribute('aria-hidden'), 'true');
+        const geometry = await page.evaluate(() => {
+          const bounds = node => { const r = node.getBoundingClientRect(); return { left: r.left, right: r.right, width: r.width }; };
+          return { chart: bounds(document.querySelector('#yearChart')), axis: bounds(document.querySelector('.singer-chart-scale-labels')),
+            ticks: [...document.querySelectorAll('.singer-chart-scale-labels > span')].map(bounds),
+            rows: [...document.querySelectorAll('.singer-year-row')].map(row => ({
+              track: bounds(row.querySelector('.singer-year-track')),
+              count: Number(row.querySelector('.singer-year-value').textContent.replace('件', '')),
+              width: parseFloat(row.querySelector('.singer-year-bar').style.width),
+              lines: [...row.querySelectorAll('.singer-chart-gridline')].map(line => ({ position: parseFloat(line.style.left), left: bounds(line).left }))
+            })), overflow: document.documentElement.scrollWidth > innerWidth };
+        });
+        assert.equal(geometry.overflow, false);
+        geometry.ticks.forEach((tick, i) => {
+          const limit = width <= 360 ? geometry.chart : geometry.axis;
+          assert.ok(tick.left >= limit.left - 1 && tick.right <= limit.right + 1);
+          if (i) assert.ok(geometry.ticks[i - 1].right <= tick.left + 1, 'tick labels do not overlap');
+        });
+        for (const row of geometry.rows) {
+          assert.ok(Math.abs(row.track.left - geometry.axis.left) < 1);
+          assert.ok(Math.abs(row.track.width - geometry.axis.width) < 1);
+          assert.ok(Math.abs(row.width - row.count / max * 100) < 0.001);
+          assert.equal(row.lines.length, labels.length - 2);
+          row.lines.forEach((line, i) => {
+            assert.ok(Math.abs(line.position - labels[i + 1] / max * 100) < 0.001);
+            assert.ok(Math.abs(line.left - (row.track.left + row.track.width * line.position / 100)) < 1);
+          });
+        }
+      }
       assert.deepEqual(errors, []);
     } finally { await page.close(); }
   });

@@ -78,10 +78,20 @@
     }
     .singer-analysis-card h2{margin:4px 0 0;color:var(--navy);font-size:20px}
     .singer-year-chart{margin-top:18px;display:grid;gap:9px}
-    .singer-year-row{display:grid;grid-template-columns:52px minmax(0,1fr) 56px;gap:10px;align-items:center}
+    .singer-year-row,.singer-year-scale{display:grid;grid-template-columns:52px minmax(0,1fr) 56px;gap:10px;align-items:center}
+    .singer-year-scale{align-items:end;margin-bottom:2px}
+    .singer-chart-scale-labels{position:relative;display:block;height:14px;color:var(--muted);font-size:14px;font-weight:800;line-height:1}
+    .singer-chart-scale-labels span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+    .singer-chart-scale-labels span:first-child{transform:none}
+    .singer-chart-scale-labels span:last-child{transform:translateX(-100%)}
+    @media(max-width:360px){
+      .singer-chart-scale-labels span:first-child,.singer-chart-scale-labels span:last-child{transform:translateX(-50%)}
+    }
     .singer-year-label{color:var(--muted);font-size:14px;font-weight:900}
-    .singer-year-track{height:12px;overflow:hidden;border-radius:999px;background:#eceef5}
-    .singer-year-bar{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#4f46e5,#8b5cf6)}
+    .singer-year-track{position:relative;height:13px;overflow:hidden;border-radius:999px;background:#eceef5}
+    .singer-year-bar{display:block;height:100%;min-width:3px;border-radius:inherit;background:linear-gradient(90deg,#4f46e5,#8b5cf6)}
+    .singer-year-bar.is-zero{min-width:0}
+    .singer-chart-gridline{position:absolute;top:0;bottom:0;width:1px;background:#dfe2eb;pointer-events:none}
     .singer-year-value{color:var(--navy);font-size:14px;font-weight:900;text-align:right}
     .singer-year-metrics{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
     .singer-year-metrics button{min-height:42px;max-width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--navy);font:inherit;font-size:14px;font-weight:800;cursor:pointer}
@@ -133,7 +143,7 @@
       .singer-color-line{left:18px;right:18px}
       .singer-analysis-card{padding:16px}
       .singer-song-row{grid-template-columns:34px minmax(0,1fr) auto}
-      .singer-year-row{grid-template-columns:44px minmax(0,1fr) 50px}
+      .singer-year-row,.singer-year-scale{grid-template-columns:44px minmax(0,1fr) 50px}
       .singer-event-head{gap:10px;padding:15px 14px}
       .singer-event-toggle{padding:8px 10px}
       .singer-event-songs{padding:0 14px 14px}
@@ -238,7 +248,7 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/singer-v460.js?v=4.9.2&amp;cache=revision-nonblocking&songUrls=1"></script>
+  <script type="module" src="assets/js/singer-v460.js?v=4.9.3&amp;cache=revision-nonblocking&songUrls=1"></script>
   <script type="module">
     import {
       setupDetailContext

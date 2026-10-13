@@ -112,10 +112,23 @@ function buildYearly(items, metric = "performances") {
     .sort((a,b) => a.year && b.year ? a.year.localeCompare(b.year) : a.year ? -1 : b.year ? 1 : 0);
 }
 
+// Match Song Detail's scale divisions and bar denominator.
+function buildGraphScale_(maximum) {
+  const max = Math.max(1, Number(maximum || 0));
+  const divisions = max <= 4 ? max : max % 3 === 0 ? 3 : 4;
+  return {
+    max,
+    ticks: Array.from({ length: divisions + 1 }, (_, index) => {
+      const value = Math.round(max * index / divisions);
+      return { value, position: value / max * 100 };
+    })
+  };
+}
+
 function renderAnalysis(items) {
   const yearly = buildYearly(items, selectedYearlyMetric);
   const metricLabel = selectedYearlyMetric === "events" ? "出演イベント数" : "歌唱記録数";
-  const max = Math.max(1, ...yearly.map(x => x.count));
+  const scale = buildGraphScale_(Math.max(1, ...yearly.map(x => x.count)));
   el.yearMetrics.querySelectorAll("[data-yearly-metric]").forEach(button => {
     const active = button.dataset.yearlyMetric === selectedYearlyMetric;
     button.setAttribute("aria-pressed", String(active));
@@ -124,11 +137,16 @@ function renderAnalysis(items) {
   el.yearChart.setAttribute("role", yearly.length ? "list" : "status");
 
   el.yearChart.innerHTML = yearly.length
-    ? yearly.map(item => `
+    ? `<div class="singer-year-scale" aria-hidden="true">
+        <span></span>
+        <span class="singer-chart-scale-labels">${scale.ticks.map(tick => `<span style="left:${tick.position}%">${tick.value.toLocaleString("ja-JP")}件</span>`).join("")}</span>
+        <span></span>
+      </div>` + yearly.map(item => `
         <div class="singer-year-row" role="listitem">
           <span class="singer-year-label">${escapeHtml(item.year || "年不明")}</span>
           <span class="singer-year-track" aria-hidden="true">
-            <span class="singer-year-bar" style="width:${Math.max(3, Math.round(item.count / max * 100))}%"></span>
+            <span class="singer-year-bar${item.count === 0 ? " is-zero" : ""}" style="width:${item.count / scale.max * 100}%"></span>
+            ${scale.ticks.slice(1, -1).map(tick => `<span class="singer-chart-gridline" style="left:${tick.position}%"></span>`).join("")}
           </span>
           <span class="singer-year-value">${item.count}件</span>
         </div>`).join("")

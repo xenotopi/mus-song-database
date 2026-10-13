@@ -141,7 +141,13 @@
   .member-analytics-filter-toggle { width: 100%; }
   .member-analytics-filter-panel { max-width: 100%; }
   .member-analytics-filter-list { gap: 7px; }
-  .member-analytics-filter-group { gap: 4px; }
+  .member-analytics-filter-group { gap: 4px; max-width: 100%; }
+  .member-analytics-filter-unit { width: 100%; }
+  .member-analytics-filter-subgroups { min-width: 0; max-width: calc(100% - 12px); }
+  /* The wrapping label cannot consume the check or count column. */
+  .member-analytics-filter-option { display: inline-grid; grid-template-columns: 12px minmax(0, 1fr) max-content; min-width: 0; max-width: 100%; white-space: normal; }
+  .member-analytics-filter-option > span { min-width: 0; overflow-wrap: anywhere; }
+  .member-analytics-filter-option small { white-space: nowrap; }
   .member-analytics-summary-wrap,
   .member-analytics-table-wrap { display: none; }
   .member-analytics-mobile-summary {

@@ -8,6 +8,9 @@ const path = require("node:path");
 const { chromium } = require("playwright");
 
 const root = path.resolve(__dirname, "..");
+const current = JSON.parse(fs.readFileSync(path.join(root, 'data/current.json')));
+const analytics = JSON.parse(fs.readFileSync(path.join(root, 'data/snapshots', current.revision, 'member-analytics.json'))).data;
+const groups = JSON.parse(fs.readFileSync(path.join(root, 'data/song-view-groups.json')));
 let server;
 let browser;
 let baseUrl;
@@ -197,3 +200,150 @@ for (const width of [1280, 390]) {
     await page.close();
   });
 }
+
+async function assertFilterGeometry(page, width) {
+  const layout = await page.evaluate(() => {
+    const problems = [], tolerance = 1;
+    const inside = (outer, inner) => inner.left >= outer.left - tolerance && inner.right <= outer.right + tolerance && inner.top >= outer.top - tolerance && inner.bottom <= outer.bottom + tolerance;
+    const collision = (a, b) => Math.min(a.right, b.right) - Math.max(a.left, b.left) > tolerance && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > tolerance;
+    function glyphs(node) {
+      const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT), rects = [];
+      while (walker.nextNode()) {
+        if (!walker.currentNode.textContent.trim()) continue;
+        const range = document.createRange(); range.selectNodeContents(walker.currentNode);
+        rects.push(...range.getClientRects());
+      }
+      return rects;
+    }
+    function enclosed(child, parent, name) {
+      const outer = parent.getBoundingClientRect();
+      if (!inside(outer, child.getBoundingClientRect()) || glyphs(child).some(rect => !inside(outer, rect))) problems.push(`${name}: outside parent`);
+      if (child.scrollWidth > child.clientWidth + tolerance) problems.push(`${name}: horizontal content overflow`);
+    }
+    for (const option of document.querySelectorAll('.member-analytics-filter-option')) {
+      if (!option.getClientRects().length) continue;
+      const label = option.children[1], count = option.querySelector('small'), box = option.getBoundingClientRect(), style = getComputedStyle(option), pseudo = getComputedStyle(option, '::before');
+      enclosed(option, option.parentElement, label.textContent);
+      enclosed(label, option, `${label.textContent}: label`);
+      enclosed(count, option, `${label.textContent}: count`);
+      const left = box.left + parseFloat(style.borderLeftWidth) + parseFloat(style.paddingLeft), checkWidth = parseFloat(style.gridTemplateColumns);
+      const height = parseFloat(pseudo.height) + (pseudo.boxSizing === 'border-box' ? 0 : parseFloat(pseudo.borderTopWidth) + parseFloat(pseudo.borderBottomWidth));
+      const check = { left, right: left + checkWidth, top: box.top + (box.height - height) / 2, bottom: box.top + (box.height + height) / 2 };
+      if (!inside(box, check)) problems.push(`${label.textContent}: check outside option`);
+      if (glyphs(label).some(rect => collision(rect, count.getBoundingClientRect()) || collision(rect, check)) || glyphs(count).some(rect => collision(rect, check))) problems.push(`${label.textContent}: check/label/count collision`);
+      if (getComputedStyle(count).whiteSpace !== 'nowrap') problems.push(`${label.textContent}: count can wrap`);
+      const minimum = option.classList.contains('member-analytics-filter-subgroup') ? 30 : 34;
+      if (box.height < minimum - tolerance) problems.push(`${label.textContent}: tap target reduced`);
+    }
+    for (const row of document.querySelectorAll('.member-analytics-filter-row, .member-analytics-filter-subgroups')) {
+      if (!row.getClientRects().length) continue;
+      const children = [...row.children];
+      children.forEach(child => enclosed(child, row, 'filter child'));
+      for (let i = 0; i < children.length; i++) for (let j = i + 1; j < children.length; j++) if (collision(children[i].getBoundingClientRect(), children[j].getBoundingClientRect())) problems.push('filter children collide');
+    }
+    const panel = document.querySelector('#memberAnalyticsFilterPanel');
+    if (panel.getClientRects().length) {
+      const outer = panel.getBoundingClientRect();
+      for (const option of panel.querySelectorAll('.member-analytics-filter-option')) {
+        const rect = option.getBoundingClientRect();
+        if (rect.left < outer.left - tolerance || rect.right > outer.right + tolerance) problems.push('option outside panel width');
+      }
+      const actions = [...panel.querySelectorAll('.member-analytics-filter-actions button')];
+      actions.forEach(button => enclosed(button, button.parentElement, 'action button'));
+      if (collision(actions[0].getBoundingClientRect(), actions[1].getBoundingClientRect())) problems.push('action buttons collide');
+    }
+    return { problems, documentWidth: document.documentElement.scrollWidth, viewportWidth: innerWidth };
+  });
+  assert.deepEqual(layout.problems, [], JSON.stringify(layout));
+  assert.ok(layout.documentWidth <= width + 1 && layout.viewportWidth <= width + 1, `configured width ${width}: ${JSON.stringify(layout)}`);
+}
+
+async function assertSnapshotValues(page, mode, expectedIds) {
+  const countKey = mode === 'character' ? 'characterCounts' : 'castCounts';
+  const source = new Map(analytics.songs.map(song => [song.songId, song]));
+  const displayed = await page.evaluate(() => ({
+    desktop: [...document.querySelectorAll('#memberAnalyticsTable tbody tr')].map(row => ({ id: row.dataset.songId, counts: [...row.querySelectorAll('td')].slice(1).map(node => Number(node.textContent)) })),
+    mobile: [...document.querySelectorAll('#memberAnalyticsMobileSongs article')].map(row => ({ id: row.dataset.songId, counts: [...row.querySelectorAll('.member-analytics-mobile-counts strong')].map(node => Number(node.textContent)) })),
+    summary: [...document.querySelectorAll('#memberAnalyticsSummary tbody tr')].map(row => [...row.querySelectorAll('td')].map(node => node.textContent))
+  }));
+  assert.deepEqual(displayed.desktop, displayed.mobile);
+  assert.deepEqual(displayed.desktop.map(row => row.id).sort(), [...expectedIds].sort());
+  for (const row of displayed.desktop) assert.deepEqual(row.counts, source.get(row.id)[countKey], row.id);
+  const summary = analytics[mode === 'character' ? 'characterSummary' : 'castSummary'];
+  assert.deepEqual(displayed.summary, [['performanceCount', '件'], ['uniqueSongCount', '曲'], ['eventCount', '件']].map(([key, unit]) => summary.map(row => `${row[key]}${unit}`)));
+  assert.equal(await page.locator('#memberAnalyticsVisibleCount').textContent(), `${expectedIds.length} / 117曲`);
+}
+
+for (const width of [320, 360, 375, 390, 393, 430]) for (const percent of [100, 125, 150]) {
+  test(`Member filter glyphs and snapshot values ${width}px / ${percent}%`, async () => {
+    const page = await browser.newPage({ viewport: { width, height: 900 }, isMobile: true, hasTouch: true }), errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    try {
+      await page.goto(`${baseUrl}/member-analytics.html`, { waitUntil: 'domcontentloaded' });
+      await page.locator('#memberAnalyticsContent').waitFor({ state: 'visible' });
+      const decline = page.getByRole('button', { name: '同意しない', exact: true });
+      if (await decline.isVisible()) await decline.click();
+      // Text-only mobile Chromium scaling is a stress test, not physical Safari QA.
+      await page.locator('.member-analytics-page').evaluate((node, scale) => { node.style.webkitTextSizeAdjust = `${scale}%`; }, percent);
+      const allIds = analytics.songs.map(song => song.songId);
+      await assertSnapshotValues(page, 'character', allIds);
+      await page.locator('#memberAnalyticsFilterToggle').click();
+      assert.equal(await page.locator('#memberAnalyticsFilterPanel').isVisible(), true);
+      const options = await page.locator('.member-analytics-filter-option').evaluateAll(nodes => nodes.map(node => ({ label: node.children[1].textContent, count: node.querySelector('small').textContent })));
+      assert.deepEqual(options, [
+        { label: 'TVアニメ・映画・CD・誌面企画・ラジオ系', count: '46' }, { label: 'Blu-ray系', count: '21' }, { label: 'スクフェス／スクパラ曲', count: '6' },
+        { label: 'ソロ曲', count: '13' }, { label: 'デュオ・トリオ', count: '4' }, { label: 'ユニット曲', count: '27' },
+        { label: 'Printemps', count: '9' }, { label: 'lily white', count: '9' }, { label: 'BiBi', count: '9' }
+      ]);
+      assert.ok(Math.abs(parseFloat(await page.locator('.member-analytics-filter-option > span').first().evaluate(node => getComputedStyle(node).fontSize)) - 14 * percent / 100) < 0.1, 'scaling must actually be active');
+      await assertFilterGeometry(page, width);
+      const parent = id => page.locator(`#memberAnalyticsFilters input[data-group="${id}"]:not([data-key])`);
+      for (const group of groups.groups) {
+        await parent(group.id).check();
+        const ids = groups.assignments.filter(item => item.group === group.id).flatMap(item => item.songIds);
+        await assertSnapshotValues(page, 'character', ids);
+        await assertFilterGeometry(page, width);
+        await parent(group.id).uncheck();
+      }
+      const selectedIds = groups.assignments.find(item => item.group === 'unit' && item.subgroup === 'printemps').songIds;
+      await page.locator('input[data-key="unit:printemps"]').check();
+      assert.equal(await parent('unit').evaluate(node => node.indeterminate), true);
+      await assertSnapshotValues(page, 'character', selectedIds);
+      await page.locator('#memberAnalyticsFilterToggle').click();
+      assert.equal(await page.locator('#memberAnalyticsFilterPanel').isHidden(), true);
+      await page.locator('[data-mode="cast"]').click();
+      await assertSnapshotValues(page, 'cast', selectedIds);
+      await page.locator('#memberAnalyticsFilterToggle').click();
+      assert.equal(await page.locator('input[data-key="unit:printemps"]').isChecked(), true);
+      await assertFilterGeometry(page, width);
+      await page.locator('[data-action="all"]').click(); await assertSnapshotValues(page, 'cast', allIds);
+      assert.equal(await page.locator('#memberAnalyticsFilterText').textContent(), '6グループを選択中');
+      await page.locator('[data-action="clear"]').click(); await assertSnapshotValues(page, 'cast', allIds);
+      assert.equal(await page.locator('#memberAnalyticsFilterText').textContent(), 'すべての曲グループ');
+      assert.deepEqual(await page.locator('.member-analytics-filter-option').evaluateAll(nodes => nodes.map(node => ({ label: node.children[1].textContent, count: node.querySelector('small').textContent }))), options);
+      await assertFilterGeometry(page, width);
+      await page.keyboard.press('Escape');
+      assert.equal(await page.locator('#memberAnalyticsFilterPanel').isHidden(), true);
+      assert.deepEqual(errors, []);
+    } finally { await page.close(); }
+  });
+}
+
+test('Member filter long English/Japanese labels and multi-digit counts stay inside', async () => {
+  const page = await browser.newPage({ viewport: { width: 320, height: 900 }, isMobile: true, hasTouch: true }), errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+  try {
+    await page.goto(`${baseUrl}/member-analytics.html`);
+    await page.locator('#memberAnalyticsContent').waitFor({ state: 'visible' });
+    await page.locator('.member-analytics-page').evaluate(node => { node.style.webkitTextSizeAdjust = '150%'; });
+    await page.locator('#memberAnalyticsFilterToggle').click();
+    const label = 'VeryLongUnbrokenEnglishLabel長い日本語の曲グループ名';
+    await page.locator('.member-analytics-filter-subgroup').first().evaluate((option, value) => { option.children[1].textContent = value; option.querySelector('small').textContent = '12345'; }, label);
+    await assertFilterGeometry(page, 320);
+    assert.equal(await page.locator('.member-analytics-filter-subgroup').first().locator('span').textContent(), label);
+    assert.equal(await page.locator('.member-analytics-filter-subgroup').first().locator('small').textContent(), '12345');
+    assert.deepEqual(errors, []);
+  } finally { await page.close(); }
+});

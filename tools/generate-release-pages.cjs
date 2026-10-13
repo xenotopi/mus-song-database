@@ -7,6 +7,7 @@ const http = require("node:http");
 const crypto = require("node:crypto");
 const { chromium } = require("../tests/node_modules/playwright");
 const { sha256, validateSnapshot, validateEventSnapshot, validateKamiparaDashboard } = require("./detail-snapshot-lib.cjs");
+const { beginCapture } = require("./capture-provenance.cjs");
 const root = path.resolve(__dirname, "..");
 const mime = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png" };
 
@@ -18,6 +19,7 @@ const RELEASE_RENDERER_FILES = Object.freeze([
   "release.html",
   "tools/generate-release-pages.cjs",
   "tools/detail-snapshot-lib.cjs",
+  "tools/capture-provenance.cjs",
   "assets/js/release-v500.js",
   "assets/js/release-kamipara.js",
   "assets/js/static-detail.js",
@@ -35,8 +37,8 @@ function rendererFingerprint() {
   ).join("\n"));
 }
 
-function loadKamiparaCaptureData(snapshotRoot, manifest, revision) {
-  const wrapper = JSON.parse(fs.readFileSync(path.join(snapshotRoot, "kamipara-dashboard.json"), "utf8"));
+function loadKamiparaCaptureData(snapshotRoot, manifest, revision, readFile = file => fs.readFileSync(file, "utf8")) {
+  const wrapper = JSON.parse(readFile(path.join(snapshotRoot, "kamipara-dashboard.json")));
   if (manifest.revision !== revision || (manifest.outputRevision && manifest.outputRevision !== revision) ||
       wrapper.snapshot?.revision !== revision || (wrapper.snapshot.outputRevision && wrapper.snapshot.outputRevision !== revision) ||
       wrapper.snapshot.dataRevision !== manifest.dataRevision) throw new Error("Kamipara snapshot revision mismatch");
@@ -47,7 +49,7 @@ function loadKamiparaCaptureData(snapshotRoot, manifest, revision) {
   // Only use verified venue records embedded in this generation's Event snapshots.
   // A venue absent from those snapshots stays unnamed; never consult the live API.
   for (const [id, entry] of Object.entries(manifest.hashes.events || {})) {
-    const eventWrapper = JSON.parse(fs.readFileSync(path.join(snapshotRoot, "events", `${id}.json`), "utf8"));
+    const eventWrapper = JSON.parse(readFile(path.join(snapshotRoot, "events", `${id}.json`)));
     const venue = eventWrapper.data?.event?.venue;
     if (!wanted.has(venue?.venueId) || !venue.venueName) continue;
     validateEventSnapshot(id, eventWrapper, revision, manifest.dataRevision);
@@ -85,16 +87,24 @@ async function validateKamiparaCapture(page) {
 }
 
 async function generateReleasePages({ revision, ids } = {}) {
-  const rendererSha256 = rendererFingerprint();
   const pointer = JSON.parse(fs.readFileSync(path.join(root, "data/current.json"), "utf8"));
   revision ||= pointer.revision;
-  const manifest = JSON.parse(fs.readFileSync(path.join(root, "data/snapshots", revision, "manifest.json"), "utf8"));
-  ids ||= Object.keys(manifest.hashes.releases).sort();
+  const initialManifest = JSON.parse(fs.readFileSync(path.join(root, "data/snapshots", revision, "manifest.json"), "utf8"));
+  ids ||= Object.keys(initialManifest.hashes.releases).sort();
   if (ids.length !== 114 || new Set(ids).size !== 114 || ids.some(id => !/^R\d{4}$/.test(id))) throw new Error("Expected 114 unique Release IDs");
-  const kamipara = loadKamiparaCaptureData(path.join(root, "data/snapshots", revision), manifest, revision);
+  const capture = beginCapture({ root, type: "release", revision, ids, rendererFiles: RELEASE_RENDERER_FILES, rendererFingerprint });
+  const { manifest, rendererSha256 } = capture;
+  const kamipara = loadKamiparaCaptureData(path.join(root, "data/snapshots", revision), manifest, revision,
+    file => capture.source(path.relative(root, file).replace(/\\/g, "/")));
   const server = http.createServer((req, res) => {
     const pathname = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
     if (pathname === "/data/current.json") { res.writeHead(200, { "content-type": "application/json" }); return res.end(JSON.stringify({ revision, outputRevision: revision, dataRevision: manifest.dataRevision })); }
+    const pinned = capture.source(pathname.slice(1));
+    if (pinned) {
+      res.writeHead(200, { "content-type": `${mime[path.extname(pathname)] || "application/octet-stream"}; charset=utf-8` });
+      return res.end(pathname === "/release.html" ? pinned.toString("utf8").replace(/<script data-release-legacy-redirect>[\s\S]*?<\/script>/, "") : pinned);
+    }
+    if (pathname.startsWith("/data/snapshots/")) return res.writeHead(404).end();
     const file = path.resolve(root, pathname.slice(1));
     if (path.relative(root, file).startsWith("..") || !fs.existsSync(file) || !fs.statSync(file).isFile()) return res.writeHead(404).end();
     res.writeHead(200, { "content-type": `${mime[path.extname(file)] || "application/octet-stream"}; charset=utf-8` });
@@ -108,7 +118,7 @@ async function generateReleasePages({ revision, ids } = {}) {
     browser = await chromium.launch({ channel: "chrome", headless: true });
     const pages = [];
     for (const id of ids) {
-      const wrapper = JSON.parse(fs.readFileSync(path.join(root, "data/snapshots", revision, "releases", `${id}.json`), "utf8"));
+      const wrapper = capture.snapshot(`releases/${id}.json`);
       validateSnapshot("release", id, wrapper, revision, manifest.dataRevision);
       if (sha256(wrapper.data) !== manifest.hashes.releases[id]?.sha256) throw new Error(`${id}: snapshot hash mismatch`);
       const release = wrapper.data;
@@ -178,10 +188,8 @@ async function generateReleasePages({ revision, ids } = {}) {
       pages.push({ id, html, sha256: crypto.createHash("sha256").update(html).digest("hex"), title, description, canonical });
       await page.close();
     }
-    if (rendererFingerprint() !== rendererSha256) throw new Error("Release renderer changed during capture; regenerate from stable sources");
-    fs.mkdirSync(path.join(root, "release"), { recursive: true });
-    for (const page of pages) fs.writeFileSync(path.join(root, "release", `${page.id}.html`), page.html);
-    fs.writeFileSync(path.join(root, "release", "manifest.json"), JSON.stringify({ schemaVersion: 1, outputRevision: revision, dataRevision: manifest.dataRevision, rendererSha256, count: pages.length, pages: Object.fromEntries(pages.map(({ id, html, sha256, canonical }) => [id, { path: `release/${id}.html`, sha256, bytes: Buffer.byteLength(html), canonical }])) }, null, 2) + "\n");
+    capture.publish(pages, { schemaVersion: 1, outputRevision: revision, dataRevision: manifest.dataRevision, rendererSha256, count: pages.length,
+      pages: Object.fromEntries(pages.map(({ id, html, sha256, canonical }) => [id, { path: `release/${id}.html`, sha256, bytes: Buffer.byteLength(html), canonical }])) });
     return pages.map(({ html, ...rest }) => rest);
   } finally {
     await browser?.close();

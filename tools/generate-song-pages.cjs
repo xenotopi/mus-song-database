@@ -8,6 +8,7 @@ const crypto = require("node:crypto");
 const { chromium } = require("../tests/node_modules/playwright");
 const root = path.resolve(__dirname, "..");
 const { sha256, validateSnapshot } = require("./detail-snapshot-lib.cjs");
+const { beginCapture } = require("./capture-provenance.cjs");
 const mime = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png" };
 
 // The query-URL capture entry, its transitive browser modules, and generation
@@ -19,6 +20,7 @@ const SONG_RENDERER_FILES = Object.freeze([
   "song.html",
   "tools/generate-song-pages.cjs",
   "tools/detail-snapshot-lib.cjs",
+  "tools/capture-provenance.cjs",
   "assets/js/song-v441.js",
   "assets/js/static-detail.js",
   "assets/js/common.js",
@@ -31,7 +33,8 @@ const SONG_RENDERER_FILES = Object.freeze([
 ].sort());
 
 function rendererFingerprint() {
-  return sha256(SONG_RENDERER_FILES.map(file => `${file}\n${fs.readFileSync(path.join(root, file), "utf8")}`).join("\n"));
+  // Match Release: checkout line endings must not change capture identity.
+  return sha256(SONG_RENDERER_FILES.map(file => `${file}\n${fs.readFileSync(path.join(root, file), "utf8").replace(/\r\n/g, "\n")}`).join("\n"));
 }
 
 function buildSongPageManifest({ previous, current, generatedPages, rendererSha256 }) {
@@ -40,13 +43,17 @@ function buildSongPageManifest({ previous, current, generatedPages, rendererSha2
   // merge preserves it, even when the newly captured pages use another renderer.
   // latestRendererSha256 only describes the last partial batch, not freshness of
   // the complete production set. Production must also check every page's renderer fingerprint.
-  return previous ? {
+  const result = previous ? {
     ...previous, latestRendererSha256: rendererSha256, pages: { ...previous.pages, ...generatedPages }
   } : {
     schemaVersion: 1, outputRevision: current.revision, dataRevision: current.dataRevision,
     source: "song-snapshot-and-existing-renderer", count: Object.keys(generatedPages).length,
     rendererSha256, pages: generatedPages
   };
+  // Partial capture is not a new full-set capture, even when HTML/fingerprints
+  // happen to be unchanged. Only the full capture publisher creates a receipt.
+  delete result.captureProvenance;
+  return result;
 }
 
 function buildSongStructuredData(song, canonical, description) {
@@ -65,15 +72,22 @@ function buildSongStructuredData(song, canonical, description) {
 async function generateSongPages({ revision, ids } = {}) {
   const pointer = JSON.parse(fs.readFileSync(path.join(root, "data/current.json"), "utf8"));
   revision ||= pointer.revision;
-  const manifest = JSON.parse(fs.readFileSync(path.join(root, "data/snapshots", revision, "manifest.json"), "utf8"));
-  const current = { revision, outputRevision: manifest.outputRevision || revision, dataRevision: manifest.dataRevision || revision };
-  ids ||= Object.keys(manifest.hashes.songs).sort();
+  const initialManifest = JSON.parse(fs.readFileSync(path.join(root, "data/snapshots", revision, "manifest.json"), "utf8"));
+  ids ||= Object.keys(initialManifest.hashes.songs).sort();
   if (!ids.length || new Set(ids).size !== ids.length || ids.some(id => !/^S\d{3}$/.test(id))) throw new Error("Invalid Song ID set");
   if (ids.length !== 3 && ids.length !== 117) throw new Error("Expected complete 117 Songs or 3-song PoC");
+  const capture = beginCapture({ root, type: "song", revision, ids, rendererFiles: SONG_RENDERER_FILES, rendererFingerprint });
+  const { current, manifest, rendererSha256 } = capture;
   const pages = [];
   const server = http.createServer((req, res) => {
     const pathname = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
     if (pathname === "/data/current.json") { res.writeHead(200, { "content-type": "application/json" }); return res.end(JSON.stringify(current)); }
+    const pinned = capture.source(pathname.slice(1));
+    if (pinned) {
+      res.writeHead(200, { "content-type": `${mime[path.extname(pathname)] || "application/octet-stream"}; charset=utf-8` });
+      return res.end(pathname === "/song.html" ? pinned.toString("utf8").replace(/<script data-song-legacy-redirect>[\s\S]*?<\/script>/, "") : pinned);
+    }
+    if (pathname.startsWith("/data/snapshots/")) return res.writeHead(404).end();
     const file = path.resolve(root, pathname.slice(1));
     if (path.relative(root, file).startsWith("..") || !fs.existsSync(file) || !fs.statSync(file).isFile()) return res.writeHead(404).end();
     res.writeHead(200, { "content-type": `${mime[path.extname(file)] || "application/octet-stream"}; charset=utf-8` });
@@ -87,7 +101,7 @@ async function generateSongPages({ revision, ids } = {}) {
   try {
     browser = await chromium.launch({ channel: "chrome", headless: true });
     for (const id of ids) {
-      const wrapper = JSON.parse(fs.readFileSync(path.join(root, "data/snapshots", current.revision, "songs", `${id}.json`), "utf8"));
+      const wrapper = capture.snapshot(`songs/${id}.json`);
       validateSnapshot("song", id, wrapper, revision, current.dataRevision);
       if (sha256(wrapper.data) !== manifest.hashes.songs[id]?.sha256) throw new Error(`${id}: snapshot hash mismatch`);
       const song = wrapper.data;
@@ -170,14 +184,11 @@ async function generateSongPages({ revision, ids } = {}) {
       await page.close();
     }
     // No output is replaced until every page has rendered and validated successfully.
-    fs.mkdirSync(path.join(root, "song"), { recursive: true });
     const manifestFile = path.join(root, 'song/manifest.json');
     const previous = ids.length < 117 && fs.existsSync(manifestFile) ? JSON.parse(fs.readFileSync(manifestFile, 'utf8')) : null;
-    const rendererSha256 = rendererFingerprint();
     const generatedPages = Object.fromEntries(pages.map(page => [page.id, { path: `song/${page.id}.html`, sha256: page.hash, bytes: Buffer.byteLength(page.html), canonical: page.canonical, structuredData: true, rendererSha256 }]));
     const outputManifest = buildSongPageManifest({ previous, current, generatedPages, rendererSha256 });
-    for (const page of pages) fs.writeFileSync(path.join(root, "song", `${page.id}.html`), page.html);
-    fs.writeFileSync(path.join(root, "song/manifest.json"), JSON.stringify(outputManifest, null, 2) + "\n");
+    capture.publish(pages, outputManifest);
     console.log(`Generated ${ids.length} Song pages in ${Date.now() - started}ms; source ${revision}; no API requests.`);
     return outputManifest;
   } finally {

@@ -190,7 +190,7 @@ function validateKamiparaBody(doc, data, venues) {
 }
 
 /**
- * Proposed future captureProvenance v1 contract, NOT synthesized for old files:
+ * captureProvenance v1 producer contract, NOT synthesized for old files:
  * {schemaVersion:1, outputRevision, dataRevision, rendererSha256,
  *  entry:"song.html"|"release.html", completion:"all-pages-and-enrichment",
  *  externalJsonp:"song-empty-discover-v1"|"release-kamipara-snapshot-v1",

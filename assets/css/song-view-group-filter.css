@@ -26,4 +26,17 @@
 .song-group-actions button { min-height:34px; padding:5px 10px; border:1px solid #b7c8dc; border-radius:8px; background:#fff; color:#173d69; font:inherit; font-size:14px; font-weight:700; cursor:pointer; }
 .song-group-actions button:hover { background:#edf4fb; }
 .song-group-actions button:focus-visible { outline:2px solid #2b65b1; outline-offset:2px; }
-@media(max-width:620px) { .song-group-toggle { width:100%; } .song-group-panel { width:100%; } .song-group-filter { align-items:stretch; } .song-group-label { width:100%; } }
+@media(max-width:620px) {
+  .song-group-toggle { width:100%; }
+  .song-group-panel { width:100%; }
+  .song-group-filter { align-items:stretch; }
+  .song-group-label { width:100%; }
+  .song-group-group { max-width:100%; }
+  .song-group-unit { width:100%; }
+  .song-group-subgroups { min-width:0; max-width:calc(100% - 12px); }
+  /* Keep the check and count out of the wrapping label's column. */
+  .song-group-option { display:inline-grid; grid-template-columns:12px minmax(0,1fr) max-content; min-width:0; }
+  .song-group-option > span { min-width:0; overflow-wrap:anywhere; }
+  .song-group-option small { white-space:nowrap; }
+  .song-group-label-part { display:inline; }
+}

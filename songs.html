@@ -27,7 +27,7 @@
   <meta name="twitter:image" content="https://mus-song-db.com/assets/images/og-default-v2.png">
   <meta name="twitter:image:alt" content="μ's Song Database｜μ's歌唱履歴データベース">
   <link rel="stylesheet" href="assets/css/style.css?v=4.7.0">
-  <link rel="stylesheet" href="assets/css/song-view-group-filter.css?v=1">
+  <link rel="stylesheet" href="assets/css/song-view-group-filter.css?v=2">
 
   <style>
     .songs-page{
@@ -503,18 +503,28 @@
       }
 
       .song-list-stats{
-        grid-template-columns:repeat(3,minmax(0,1fr));
+        grid-template-columns:minmax(0,1fr);
       }
 
       .song-list-stat{
+        display:flex;
+        flex-wrap:wrap;
+        align-items:center;
+        justify-content:space-between;
+        gap:4px 12px;
+        min-width:0;
         padding:7px 6px;
       }
 
       .song-list-stat b{
+        min-width:0;
+        max-width:100%;
+        overflow-wrap:anywhere;
         font-size:14px;
       }
 
       .song-list-stat span{
+        margin-top:0;
         font-size:14px;
       }
     }

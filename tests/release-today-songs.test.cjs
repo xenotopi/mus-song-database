@@ -12,7 +12,7 @@ async function open(url,width=1280,options={}){
   const page=await browser.newPage({viewport:{width,height:900}}),errors=[],calls={static:[],api:[]};
   page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
   if(options.clock)await page.clock.install({time:new Date(options.clock)});
-  await page.route('**/data/snapshots/**',async route=>{calls.static.push(route.request().url());if(options.staticInvalid&&/\/events\//.test(route.request().url()))return route.fulfill({status:200,json:{}});if(options.releaseFailure&&/\/releases\//.test(route.request().url()))return route.fulfill({status:200,json:{}});return route.continue();});
+  await page.route('**/data/snapshots/**',async route=>{calls.static.push(route.request().url());if(options.staticInvalid&&/\/events\//.test(route.request().url()))return route.fulfill({status:200,json:{}});if((options.releaseFailure||options.releaseEmpty)&&/\/releases\//.test(route.request().url()))return route.fulfill({status:200,json:{}});return route.continue();});
   await page.route(/script\.google(?:usercontent)?\.com\//,async route=>{
     const u=new URL(route.request().url()),action=u.searchParams.get('action'),id=u.searchParams.get('id');calls.api.push({action,id});
     let data={},success=true;
@@ -22,10 +22,11 @@ async function open(url,width=1280,options={}){
       data={summary:{songCount:117,eventCount:353,venueCount:154,performanceCount:1000},today:{dateKey:`${parts.year}-${parts.month}-${parts.day}`,month:+parts.month,day:+parts.day,label:`${+parts.month}月${+parts.day}日`,events:[{eventId:'EV0001',eventName:'Event one',date:'2011-01-01'},{eventId:'EV0002',eventName:'Event two',date:'2011-01-01'}],releases:[],firstPerformedSongs:[],lastPerformedSongs:[]},recentPerformances:[],topSongs:[],topVenues:[]};
     }
     if(action==='event'){if(options.eventFailure){success=false;}else data=options.eventData||read('events/'+id+'.json').data.event;}
-    if(action==='release'){if(options.releaseFailure)success=false;else data=read('releases/'+id+'.json').data;}
+    if(action==='release'){if(options.releaseFailure)success=false;else {data=read('releases/'+id+'.json').data;if(options.releaseEmpty)data={...data,includedSongs:[]};}}
     return route.fulfill({status:200,contentType:'text/javascript',body:`${u.searchParams.get('callback')}(${JSON.stringify({success,data,error:'controlled failure'})});`});
   });
   await page.goto(base+'/'+url);await page.locator(url.startsWith('releases')?'#allReleasesSection':'#topSection').waitFor({state:'visible'});
+  const decline=page.getByRole('button',{name:'同意しない',exact:true});if(await decline.isVisible())await decline.click();
   return {page,errors,calls,options};
 }
 async function clean(ctx){assert.deepEqual(ctx.errors,[]);assert.equal(await ctx.page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);await ctx.page.close();}
@@ -36,6 +37,13 @@ for(const width of [1280,390]){
       const name=read('releases/'+id+'.json').data.releaseName;
       await page.locator('#releaseSearch').fill(name);await page.locator(`a.release-list-card[href="release/${id}.html"]`).scrollIntoViewIfNeeded();const card=page.locator(`[data-release-songs="${id}"]`);await card.locator('a').first().waitFor({state:'visible'});
       assert.deepEqual(await card.locator('a').allTextContents(),names);
+      const releaseCard=page.locator(`a.release-list-card[href="release/${id}.html"]`);
+      assert.equal(await releaseCard.locator('.release-list-category').innerText(),id==='R0021'?'Blu-ray':'特典');
+      if(id!=='R0021')assert.equal(await releaseCard.locator('.release-list-meta-tag').count(),0);
+      const bounds=await page.locator('.release-list-entry').evaluate(entry=>({title:entry.querySelector('.release-list-title').getBoundingClientRect().left,songs:entry.querySelector('.release-list-songs').getBoundingClientRect().left,titleSize:parseFloat(getComputedStyle(entry.querySelector('.release-list-title')).fontSize),songSize:parseFloat(getComputedStyle(entry.querySelector('.release-list-songs')).fontSize)}));
+      assert.ok(Math.abs(bounds.title-bounds.songs)<0.5,JSON.stringify(bounds));assert.ok(bounds.songSize<bounds.titleSize);
+      console.log(`coordinates ${width} ${id}: title=${bounds.title}, songs=${bounds.songs}`);
+      if(process.env.MUSDB_RELEASE_SONGS_QA_DIR){await page.locator('.release-list-entry').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(process.env.MUSDB_RELEASE_SONGS_QA_DIR,`${width}-${id}.png`)});}
       assert.equal(await page.locator('a a').count(),0);assert.equal(await page.locator(`a.release-list-card[href="release/${id}.html"]`).count(),1);
       const rows=read('releases/'+id+'.json').data.includedSongs;for(let i=0;i<rows.length;i++)assert.equal(await card.locator('a').nth(i).getAttribute('href'),'song/'+rows[i].songId+'.html');
       if(id==='R0052')assert.match(await card.innerText(),/3曲.*ゲーマーズ.*CheerDay CheerGirl!.*ソフマップ.*同じ星が見たい.*アニメイト.*Silent tonight/s);
@@ -48,7 +56,7 @@ for(const width of [1280,390]){
     assert.equal(await page.locator('.release-list-card').count(),24);await page.locator('#moreButton').click();assert.equal(await page.locator('.release-list-card').count(),48);
     await page.locator('[data-classification="CD"]').click();assert.equal(await page.locator('[data-release-songs]').count(),0);
     await page.locator('[data-classification="Blu-ray"]').click();const zero=read('release-list.json').data.find(x=>x.classification==='Blu-ray'&&!read('releases/'+x.releaseId+'.json').data.includedSongs.length);
-    assert.ok(zero);await page.locator('#releaseSearch').fill(zero.releaseName);await page.locator('.release-list-card').waitFor();await page.waitForFunction(()=>document.querySelector('.release-list-songs')?.hidden===true);
+    assert.ok(zero);await page.locator('#releaseSearch').fill(zero.releaseName);await page.locator('.release-list-card').waitFor();assert.equal(await page.locator('[data-release-songs]').count(),0);
     assert.equal(await page.locator('.release-list-song').count(),0);await clean(ctx);
   });
   test(`Today ${width}: no prefetch, independent expansion, cached reopening, Event/Song links`,async()=>{
@@ -65,12 +73,35 @@ for(const width of [1280,390]){
   });
 }
 test('Release failure preserves list and provides retry, no invented song',async()=>{const ctx=await open('releases.html?q='+encodeURIComponent(read('releases/R0021.json').data.releaseName),390,{releaseFailure:true});await ctx.page.locator('.release-list-card').scrollIntoViewIfNeeded();await ctx.page.locator('[data-release-songs] button').waitFor();assert.equal(await ctx.page.locator('.release-list-card').count(),1);assert.equal(await ctx.page.locator('.release-list-song').count(),0);ctx.options.releaseFailure=false;await ctx.page.locator('[data-release-songs] button').click();await ctx.page.locator('.release-list-song a').waitFor();await clean(ctx);});
+test('Eligible Release with zero relations adds no visible supplement',async()=>{const ctx=await open('releases.html?q='+encodeURIComponent(read('releases/R0021.json').data.releaseName),390,{releaseEmpty:true});const finished=ctx.page.waitForEvent('requestfinished',{predicate:r=>new URL(r.url()).searchParams.get('action')==='release'});await ctx.page.locator('.release-list-card').scrollIntoViewIfNeeded();await finished;await ctx.page.waitForFunction(()=>!Object.keys(window).some(k=>k.startsWith('__musJsonpCallback_')));assert.equal(await ctx.page.locator('.release-list-song').count(),0);assert.equal(await ctx.page.locator('.release-list-songs').isVisible(),false);await clean(ctx);});
 for(const mode of ['absolute','relative','raw','incomplete'])test('Today order '+mode+' preserves duplicates and escapes HTML',async()=>{
   const rows=[{songId:'S001',songName:'<img src=x onerror=alert(1)>',setlistPosition:2,relativePosition:null},{songId:'S002',songName:'Second',setlistPosition:1,relativePosition:null},{songId:'S001',songName:'Repeat',setlistPosition:3,relativePosition:null}];
   if(mode==='relative')rows.forEach((s,i)=>{s.setlistPosition=null;s.relativePosition=[2,1,3][i];});if(mode==='raw')rows.forEach(s=>s.setlistPosition=null);if(mode==='incomplete')rows[1].setlistPosition=null;
   const ctx=await open('index.html',390,{staticInvalid:true,eventData:{songs:rows,songOrderIsSetlist:['absolute','incomplete'].includes(mode)}});await ctx.page.locator('[data-today-event]').first().click();const p=ctx.page.locator('#today-songs-EV0001');await p.locator('li').first().waitFor();assert.deepEqual(await p.locator('a').allTextContents(),['absolute','relative'].includes(mode)?['Second',rows[0].songName,'Repeat']:[rows[0].songName,'Second','Repeat']);assert.equal(await p.locator('img').count(),0);assert.equal(await p.locator('li').count(),3);await clean(ctx);
 });
+for(const width of [1280,390])test(`Release ${width}: only 16 eligible releases, excluded rows make zero detail requests`,async()=>{
+  const ctx=await open('releases.html',width),{page,calls}=ctx;
+  while(await page.locator('#moreButton').isVisible())await page.locator('#moreButton').click();
+  assert.equal(await page.locator('.release-list-card').count(),114);assert.equal(await page.locator('[data-release-songs]').count(),16);
+  const list=read('release-list.json').data,eligible=list.filter(x=>(x.classification==='Blu-ray'&&x.releaseType==='アニメBlu-ray')||(x.classification==='特典'&&x.releaseType==='全巻購入特典')).map(x=>x.releaseId);
+  for(const id of ['R0089','R0041','R0010']){
+    await page.locator('#releaseSearch').fill(list.find(x=>x.releaseId===id).releaseName);await page.locator(`a[href="release/${id}.html"]`).scrollIntoViewIfNeeded();
+    assert.equal(await page.locator('[data-release-songs]').count(),0);assert.equal(await page.locator('.release-list-song').count(),0);
+    if(width===1280&&id==='R0089'&&process.env.MUSDB_RELEASE_SONGS_QA_DIR)await page.screenshot({path:path.join(process.env.MUSDB_RELEASE_SONGS_QA_DIR,'1280-R0089.png')});
+  }
+  assert.equal(calls.static.filter(u=>/\/releases\/(R0089|R0041|R0010)\.json$/.test(u)).length,0);
+  assert.equal(calls.api.filter(x=>x.action==='release'&&['R0089','R0041','R0010'].includes(x.id)).length,0);
+  assert.ok(calls.static.filter(u=>/\/releases\//.test(u)).every(u=>eligible.includes(u.match(/(R\d{4})\.json$/)[1])));
+  await clean(ctx);
+});
 test('Today zero and failed requests differ; retry succeeds',async()=>{const ctx=await open('index.html',390,{staticInvalid:true,eventFailure:true,eventData:{songs:[]}});await ctx.page.locator('[data-today-event]').first().click();const p=ctx.page.locator('#today-songs-EV0001');await p.locator('button').waitFor();assert.doesNotMatch(await p.innerText(),/登録済みの歌唱記録はありません/);ctx.options.eventFailure=false;await p.locator('button').click();await p.getByText('登録済みの歌唱記録はありません。').waitFor();await clean(ctx);});
 test('JST rollover replaces expanded panels and rejects previous-day DOM',async()=>{
   const opts={clock:'2026-10-14T14:59:00Z',todayTime:'2026-10-14T14:59:00Z'},ctx=await open('index.html',390,opts);await ctx.page.locator('[data-today-event]').first().click();await ctx.page.locator('#today-songs-EV0001 li').first().waitFor();opts.todayTime='2026-10-14T15:01:00Z';await ctx.page.clock.runFor(120000);await ctx.page.waitForFunction(()=>document.querySelector('#todayDate').textContent.includes('10月15日'));assert.equal(await ctx.page.locator('[data-today-event]').first().getAttribute('aria-expanded'),'false');assert.equal(await ctx.page.locator('#today-songs-EV0001').isVisible(),false);await clean(ctx);
+});
+for(const width of [1280,390])test(`Release ${width}: other benefit source media remains unchanged`,async()=>{
+  const list=read('release-list.json').data;
+  const item=list.find(x=>x.classification==='特典'&&x.releaseType!=='全巻購入特典'&&x.sourceMedia&&x.sourceMedia!==x.classification);
+  assert.ok(item);const ctx=await open('releases.html?q='+encodeURIComponent(item.releaseName),width);
+  assert.equal(await ctx.page.locator(`a[href="release/${item.releaseId}.html"] .release-list-meta-tag`).innerText(),item.sourceMedia);
+  await clean(ctx);
 });

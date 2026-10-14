@@ -31,7 +31,8 @@ const detailObserver = new IntersectionObserver(entries => {
 });
 
 function hasSongSupplement(item) {
-  return item.classification === "Blu-ray" || item.releaseType === "全巻購入特典";
+  return (item.classification === "Blu-ray" && item.releaseType === "アニメBlu-ray") ||
+    (item.classification === "特典" && item.releaseType === "全巻購入特典");
 }
 
 async function fillSongs(container) {
@@ -50,7 +51,7 @@ async function fillSongs(container) {
     const valid = songs.filter(song => /^S\d{3}$/.test(song.songId) && String(song.songName || "").trim());
     if (!valid.length) return;
     const label = container.dataset.classification === "Blu-ray" ? "収録特典曲" : "収録曲";
-    container.innerHTML = `${valid.length > 1 ? `<div class="release-list-songs-label">${label}：${valid.length}曲</div>` : ""}${valid.map(song => `<div class="release-list-song"><span>${escapeHtml(song.benefitStore || label)}：</span><a href="song/${encodeURIComponent(song.songId)}.html">${escapeHtml(song.songName)}</a></div>`).join("")}`;
+    container.innerHTML = `${valid.length > 1 ? `<div class="release-list-songs-label">${label}：${valid.length}曲</div>` : ""}${valid.map(song => `<div class="release-list-song"><span>${escapeHtml(valid.length > 1 ? song.benefitStore || label : label)}：</span><a href="song/${encodeURIComponent(song.songId)}.html">${escapeHtml(song.songName)}</a></div>`).join("")}`;
     container.hidden = false;
   } catch {
     // Supplemental data must never block or erase the Release list.
@@ -93,6 +94,7 @@ function releaseYear(value) {
 }
 
 function sourceMediaSupplement(item) {
+  if (item.classification === "特典" && item.releaseType === "全巻購入特典") return "";
   const classification = String(item.classification || "").trim();
   const sourceMedia = String(item.sourceMedia || "").trim();
   return sourceMedia && sourceMedia !== classification && ["特典", "その他"].includes(classification)

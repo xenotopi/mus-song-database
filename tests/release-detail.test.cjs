@@ -288,7 +288,7 @@ test("Release詳細", async t => {
 
   await t.test("0件coverage状態と収録schema異常をsection内で処理", async () => {
     for (const expected of [
-      { id: "R0083", section: true, progress: "収録情報を確認中です。", empty: false }
+      { id: "R0083", section: true, progress: "本データベースでは、ラジオCD本編内で使用される楽曲は収録楽曲の登録対象外としています。", empty: false }
     ]) {
       const { page, issues } = await openDetail(expected.id);
       await waitForDetail(page);

@@ -79,18 +79,19 @@ for(const mode of ['absolute','relative','raw','incomplete'])test('Today order '
   if(mode==='relative')rows.forEach((s,i)=>{s.setlistPosition=null;s.relativePosition=[2,1,3][i];});if(mode==='raw')rows.forEach(s=>s.setlistPosition=null);if(mode==='incomplete')rows[1].setlistPosition=null;
   const ctx=await open('index.html',390,{staticInvalid:true,eventData:{songs:rows,songOrderIsSetlist:['absolute','incomplete'].includes(mode)}});await ctx.page.locator('[data-today-event]').first().click();const p=ctx.page.locator('#today-songs-EV0001');await p.locator('li').first().waitFor();assert.deepEqual(await p.locator('a').allTextContents(),['absolute','relative'].includes(mode)?['Second',rows[0].songName,'Repeat']:[rows[0].songName,'Second','Repeat']);assert.equal(await p.locator('img').count(),0);assert.equal(await p.locator('li').count(),3);await clean(ctx);
 });
-for(const width of [1280,390])test(`Release ${width}: only 16 eligible releases, excluded rows make zero detail requests`,async()=>{
+for(const width of [1280,390])test(`Release ${width}: only 22 eligible releases, excluded rows make zero detail requests`,async()=>{
   const ctx=await open('releases.html',width),{page,calls}=ctx;
   while(await page.locator('#moreButton').isVisible())await page.locator('#moreButton').click();
-  assert.equal(await page.locator('.release-list-card').count(),114);assert.equal(await page.locator('[data-release-songs]').count(),16);
-  const list=read('release-list.json').data,eligible=list.filter(x=>(x.classification==='Blu-ray'&&x.releaseType==='アニメBlu-ray')||(x.classification==='特典'&&x.releaseType==='全巻購入特典')).map(x=>x.releaseId);
-  for(const id of ['R0089','R0041','R0010']){
+  assert.equal(await page.locator('.release-list-card').count(),114);assert.equal(await page.locator('[data-release-songs]').count(),22);
+  const list=read('release-list.json').data,eligible=list.filter(x=>(x.classification==='Blu-ray'&&x.releaseType==='アニメBlu-ray')||(x.classification==='特典'&&x.releaseType==='全巻購入特典')||['R0063','R0041','R0060','R0054','R0055','R0056'].includes(x.releaseId)).map(x=>x.releaseId);
+  const excluded=['R0089','R0069','R0074','R0087','R0075','R0086','R0010'];
+  for(const id of excluded){
     await page.locator('#releaseSearch').fill(list.find(x=>x.releaseId===id).releaseName);await page.locator(`a[href="release/${id}.html"]`).scrollIntoViewIfNeeded();
     assert.equal(await page.locator('[data-release-songs]').count(),0);assert.equal(await page.locator('.release-list-song').count(),0);
     if(width===1280&&id==='R0089'&&process.env.MUSDB_RELEASE_SONGS_QA_DIR)await page.screenshot({path:path.join(process.env.MUSDB_RELEASE_SONGS_QA_DIR,'1280-R0089.png')});
   }
-  assert.equal(calls.static.filter(u=>/\/releases\/(R0089|R0041|R0010)\.json$/.test(u)).length,0);
-  assert.equal(calls.api.filter(x=>x.action==='release'&&['R0089','R0041','R0010'].includes(x.id)).length,0);
+  assert.equal(calls.static.filter(u=>excluded.some(id=>u.endsWith('/releases/'+id+'.json'))).length,0);
+  assert.equal(calls.api.filter(x=>x.action==='release'&&excluded.includes(x.id)).length,0);
   assert.ok(calls.static.filter(u=>/\/releases\//.test(u)).every(u=>eligible.includes(u.match(/(R\d{4})\.json$/)[1])));
   await clean(ctx);
 });
@@ -104,4 +105,28 @@ for(const width of [1280,390])test(`Release ${width}: other benefit source media
   assert.ok(item);const ctx=await open('releases.html?q='+encodeURIComponent(item.releaseName),width);
   assert.equal(await ctx.page.locator(`a[href="release/${item.releaseId}.html"] .release-list-meta-tag`).innerText(),item.sourceMedia);
   await clean(ctx);
+});
+test('Extra Release IDs require the matching classification and release type',()=>{
+  const source=fs.readFileSync(path.join(ROOT,'assets/js/releases-v500.js'),'utf8');
+  const code=source.slice(source.indexOf('const EXTRA_SONG_SUPPLEMENTS'),source.indexOf('async function fillSongs'));
+  const accepts=require('node:vm').runInNewContext(code+';hasSongSupplement');
+  for(const id of ['R0063','R0041','R0060','R0054','R0055','R0056']){const item=read('release-list.json').data.find(x=>x.releaseId===id);assert.equal(accepts(item),true);assert.equal(accepts({...item,classification:'その他'}),false);assert.equal(accepts({...item,releaseType:'映像BOX'}),false);assert.equal(accepts({...item,releaseId:'R9999'}),false);}
+});
+for(const width of [1280,390])test(`Extra six Releases ${width}: formal Relation/song/link, alignment, one-line layout shift`,async()=>{
+  const expected={R0063:'S109',R0041:'S075',R0060:'S104',R0054:'S095',R0055:'S096',R0056:'S097'};
+  const ctx=await open('releases.html',width),{page,calls}=ctx;
+  for(const [id,songId] of Object.entries(expected)){
+    const d=read('releases/'+id+'.json').data;assert.equal(d.includedSongs.length,1);assert.equal(d.includedSongs[0].songId,songId);
+    if(['R0041','R0060'].includes(id))assert.equal(d.includedSongsMeta.status,'not_applicable');
+    await page.route('**/releases/'+id+'.json',async route=>{calls.static.push(route.request().url());await new Promise(r=>setTimeout(r,300));await route.continue();});
+    await page.locator('#releaseSearch').fill(d.releaseName);const card=page.locator(`a.release-list-card[href="release/${id}.html"]`);await card.scrollIntoViewIfNeeded();
+    const before=await page.locator('.release-list-entry').evaluate(x=>x.getBoundingClientRect().height);
+    const songs=page.locator(`[data-release-songs="${id}"]`);await songs.locator('a').waitFor({state:'visible'});
+    assert.equal(await songs.locator('a').innerText(),d.includedSongs[0].songName);assert.equal(await songs.locator('a').getAttribute('href'),'song/'+songId+'.html');
+    const bounds=await page.locator('.release-list-entry').evaluate(x=>({title:x.querySelector('.release-list-title').getBoundingClientRect().left,songs:x.querySelector('.release-list-songs').getBoundingClientRect().left,height:x.getBoundingClientRect().height}));
+    assert.ok(Math.abs(bounds.title-bounds.songs)<0.5,JSON.stringify(bounds));assert.ok(bounds.height-before<=58,`unexpected shift ${bounds.height-before}px`);
+    console.log(`extra ${width} ${id}: left=${bounds.title}/${bounds.songs}, delayed height change=${bounds.height-before}px`);
+    assert.equal(await page.locator('a a').count(),0);
+    if(process.env.MUSDB_RELEASE_SONGS_QA_DIR){await page.locator('.release-list-entry').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(process.env.MUSDB_RELEASE_SONGS_QA_DIR,`${width}-${id}.png`)});}
+  }await clean(ctx);
 });

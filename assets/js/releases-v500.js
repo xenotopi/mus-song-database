@@ -30,9 +30,20 @@ const detailObserver = new IntersectionObserver(entries => {
   drainDetails();
 });
 
+const EXTRA_SONG_SUPPLEMENTS = {
+  R0063: ["Blu-ray", "劇場版Blu-ray"],
+  R0041: ["Blu-ray", "ライブBlu-ray"],
+  R0060: ["Blu-ray", "ライブBlu-ray"],
+  R0054: ["特典", "前売券特典"],
+  R0055: ["特典", "前売券特典"],
+  R0056: ["特典", "前売券特典"]
+};
+
 function hasSongSupplement(item) {
+  const extra = EXTRA_SONG_SUPPLEMENTS[item.releaseId];
   return (item.classification === "Blu-ray" && item.releaseType === "アニメBlu-ray") ||
-    (item.classification === "特典" && item.releaseType === "全巻購入特典");
+    (item.classification === "特典" && item.releaseType === "全巻購入特典") ||
+    Boolean(extra && item.classification === extra[0] && item.releaseType === extra[1]);
 }
 
 async function fillSongs(container) {

@@ -17,6 +17,55 @@ import {
   getMillisecondsUntilNextJstDay,
   isHomeResponseForJstDate
 } from "./home-date-v493.js?v=4.9.3&cache=today-jst";
+import { staticEventDetail } from "./static-detail.js?v=1.3.0";
+
+const todayEventRequests = new Map();
+let todayEventDate = "";
+
+function orderedTodaySongs(event) {
+  if (!Array.isArray(event?.songs)) throw new Error("歌唱曲データの形式を確認できません。");
+  const songs = event.songs;
+  const absolute = event.songOrderIsSetlist === true && songs.every(song => Number.isSafeInteger(song.setlistPosition) && song.setlistPosition > 0);
+  const relative = event.songOrderIsSetlist !== true && songs.some(song => Number.isSafeInteger(song.relativePosition) && song.relativePosition > 0) && songs.every(song => Number.isSafeInteger(song.relativePosition) && song.relativePosition > 0 && song.setlistPosition == null);
+  return { songs: absolute ? songs.slice().sort((a, b) => a.setlistPosition - b.setlistPosition) : relative ? songs.slice().sort((a, b) => a.relativePosition - b.relativePosition) : songs,
+    note: relative ? "イベント全体ではなく、μ's関連歌唱内で確認できている順番です。" : absolute ? (event.songOrderNote || "実際の歌唱順で掲載しています。") : (event.songOrderIsSetlist === true ? "曲順データが不完全なため、登録順で掲載しています。" : event.songOrderNote || "掲載順は実際の歌唱順とは限りません。番号は登録順です。") };
+}
+
+async function loadTodayEvent(button, panel) {
+  const id = button.dataset.todayEvent;
+  const dateKey = todayEventDate;
+  panel.textContent = "歌唱曲を読み込んでいます…";
+  if (!todayEventRequests.has(id)) {
+    const pending = (async () => {
+      let event;
+      try { event = (await staticEventDetail(id)).data.event; }
+      catch { event = (await apiGet("event", { id }, { timeoutMs: 25000, retryCount: 1, cache: true })).data; }
+      return orderedTodaySongs(event);
+    })();
+    todayEventRequests.set(id, pending);
+    pending.catch(() => { if (todayEventRequests.get(id) === pending) todayEventRequests.delete(id); });
+  }
+  try {
+    const { songs, note } = await todayEventRequests.get(id);
+    if (!panel.isConnected || dateKey !== todayEventDate) return;
+    panel.innerHTML = songs.length ? `<p class="today-event-order">${escapeHtml(note)}</p><ol>${songs.map(song => `<li>${/^S\d{3}$/.test(song.songId) ? `<a href="${buildSongUrl(song.songId)}">${escapeHtml(song.songName || "曲名未設定")}</a>` : escapeHtml(song.songName || "曲名未設定")}</li>`).join("")}</ol>` : "登録済みの歌唱記録はありません。";
+    panel.dataset.loaded = "true";
+  } catch {
+    if (!panel.isConnected || dateKey !== todayEventDate) return;
+    panel.innerHTML = '歌唱曲を取得できませんでした。<button type="button" data-today-event-retry>再試行</button>';
+  }
+}
+
+document.addEventListener("click", event => {
+  const retry = event.target.closest("[data-today-event-retry]");
+  const button = retry ? retry.closest(".today-event-entry").querySelector("[data-today-event]") : event.target.closest("[data-today-event]");
+  if (!button) return;
+  const panel = document.getElementById(button.getAttribute("aria-controls"));
+  if (retry) { loadTodayEvent(button, panel); return; }
+  const expanded = button.getAttribute("aria-expanded") !== "true";
+  button.setAttribute("aria-expanded", String(expanded)); button.textContent = expanded ? "閉じる" : "曲を見る"; panel.hidden = !expanded;
+  if (expanded && panel.dataset.loaded !== "true") loadTodayEvent(button, panel);
+});
 
 import {
   drawSecretMemory,
@@ -531,6 +580,8 @@ function renderTodaySummary(today) {
 
 
 function renderToday(today) {
+  const dateKey = today.dateKey || getJstDateKey();
+  if (todayEventDate !== dateKey) { todayEventRequests.clear(); todayEventDate = dateKey; }
   elements.todayDate.textContent =
     today.label || "";
 
@@ -585,7 +636,7 @@ function renderToday(today) {
 
       render:
         item => `
-          <a class="today-item" href="event.html?id=${encodeURIComponent(item.eventId)}">
+          <div class="today-event-entry"><a class="today-item" href="event.html?id=${encodeURIComponent(item.eventId)}">
             <span class="today-anniversary-badge">${escapeHtml(renderAnniversaryLabel(item.date))}</span>
             <b>${escapeHtml(item.eventName || "イベント名未設定")}</b>
             <div class="home-ranking-meta">
@@ -599,7 +650,7 @@ function renderToday(today) {
                   .join("｜")
               )}
             </div>
-          </a>
+          </a><button type="button" class="today-event-toggle" data-today-event="${escapeHtml(item.eventId)}" aria-expanded="false" aria-controls="today-songs-${escapeHtml(item.eventId)}">曲を見る</button><div class="today-event-songs" id="today-songs-${escapeHtml(item.eventId)}" hidden></div></div>
         `
     },
     {

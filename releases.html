@@ -62,6 +62,16 @@
     .release-list-category{display:inline-flex;align-items:center;min-height:30px;padding:5px 11px;border-radius:999px;background:#f0edff;color:var(--indigo);font-size: 14px;font-weight:900;white-space:nowrap}
     .release-list-arrow{color:var(--indigo);font-size:22px;font-weight:900}
     .releases-empty{padding:34px 20px;text-align:center;color:var(--muted)}
+    .release-list-entry{border-bottom:1px solid var(--line)}
+    .release-list-entry:last-child{border-bottom:0}
+    .release-list-entry>.release-list-card{border-bottom:0}
+    .release-list-songs{padding:0 20px 18px;color:var(--muted);font-size:14px;line-height:1.8;overflow-wrap:anywhere}
+    .release-list-songs[hidden]{display:none}
+    .release-list-songs-label{font-weight:700}
+    .release-list-song{display:flex;gap:4px;flex-wrap:wrap}
+    .release-list-song a{color:var(--indigo);font-weight:700;text-decoration:none}
+    .release-list-song a:hover{text-decoration:underline}
+    .release-list-songs button{margin-left:8px;min-height:36px;color:var(--indigo);background:#f0edff;border:1px solid var(--line);border-radius:8px;cursor:pointer}
     .releases-more-wrap{text-align:center;margin-top:18px}
     .releases-more{min-height:48px;padding:0 22px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--indigo);font-size:14px;font-weight:900;cursor:pointer}
     @media(max-width:900px){.releases-control-grid{grid-template-columns:1fr 1fr}.releases-control-grid .releases-search{grid-column:1/-1}}
@@ -99,6 +109,6 @@
     </section>
   </main>
   <div id="siteFooter"></div>
-  <script type="module" src="assets/js/releases-v500.js?v=5.5.0&amp;cache=output-revision"></script>
+  <script type="module" src="assets/js/releases-v500.js?v=5.5.1&amp;cache=output-revision"></script>
 </body>
 </html>

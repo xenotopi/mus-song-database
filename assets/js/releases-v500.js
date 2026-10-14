@@ -1,6 +1,6 @@
 import { apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema";
 import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking";
-import { staticReleaseList } from "./static-detail.js?v=1.3.0";
+import { staticReleaseList, detailWithApiFallback } from "./static-detail.js?v=1.3.0";
 
 renderCommon("release");
 
@@ -19,6 +19,59 @@ let allReleases = [];
 let selectedClassification = "";
 let selectedReleaseType = "";
 let visibleLimit = 24;
+const songDetails = new Map();
+const detailQueue = [];
+let detailActive = 0;
+const detailObserver = new IntersectionObserver(entries => {
+  for (const entry of entries) if (entry.isIntersecting) {
+    detailObserver.unobserve(entry.target);
+    detailQueue.push(entry.target.parentElement.querySelector("[data-release-songs]"));
+  }
+  drainDetails();
+});
+
+function hasSongSupplement(item) {
+  return item.classification === "Blu-ray" || item.releaseType === "全巻購入特典";
+}
+
+async function fillSongs(container) {
+  const id = container.dataset.releaseSongs;
+  if (!songDetails.has(id)) {
+    const pending = detailWithApiFallback("release", id, () => apiGet("release", { id }, { timeoutMs: 30000, retryCount: 1, cache: true }))
+      .then(response => {
+        if (!Array.isArray(response.data?.includedSongs)) throw new Error("収録データの形式を確認できません。");
+        return response.data.includedSongs;
+      }).catch(error => { songDetails.delete(id); throw error; });
+    songDetails.set(id, pending);
+  }
+  try {
+    const songs = await songDetails.get(id);
+    if (!container.isConnected) return;
+    const valid = songs.filter(song => /^S\d{3}$/.test(song.songId) && String(song.songName || "").trim());
+    if (!valid.length) return;
+    const label = container.dataset.classification === "Blu-ray" ? "収録特典曲" : "収録曲";
+    container.innerHTML = `${valid.length > 1 ? `<div class="release-list-songs-label">${label}：${valid.length}曲</div>` : ""}${valid.map(song => `<div class="release-list-song"><span>${escapeHtml(song.benefitStore || label)}：</span><a href="song/${encodeURIComponent(song.songId)}.html">${escapeHtml(song.songName)}</a></div>`).join("")}`;
+    container.hidden = false;
+  } catch {
+    // Supplemental data must never block or erase the Release list.
+    if (container.isConnected) {
+      container.textContent = "収録曲を取得できませんでした。";
+      const retry = document.createElement("button");
+      retry.type = "button"; retry.textContent = "再試行";
+      retry.addEventListener("click", () => { container.hidden = true; detailQueue.push(container); drainDetails(); }, { once: true });
+      container.append(retry); container.hidden = false;
+    }
+  }
+}
+
+function drainDetails() {
+  while (detailActive < 3 && detailQueue.length) {
+    const container = detailQueue.shift();
+    if (!container.isConnected) continue;
+    detailActive += 1;
+    fillSongs(container).finally(() => { detailActive -= 1; drainDetails(); });
+  }
+}
 
 const CLASSIFICATION_ORDER = ["CD", "Blu-ray", "特典"];
 const RELEASE_TYPE_ORDER = {
@@ -134,6 +187,8 @@ function populateYears() {
 }
 
 function renderReleases() {
+  detailObserver.disconnect();
+  detailQueue.length = 0;
   const items = filteredReleases();
   const visible = items.slice(0, visibleLimit);
   el.resultText.textContent = `${visible.length.toLocaleString("ja-JP")}/${items.length.toLocaleString("ja-JP")}件表示`;
@@ -142,14 +197,16 @@ function renderReleases() {
     const edition = item.editionType === "individual" ? "個別盤" : item.editionType === "memorial_box" ? "Memorial BOX" : "";
     const soloMeta = [item.releaseSeries?.shortName || item.releaseSeries?.name, edition, item.featuredSinger?.name, item.catalogNumber].map(value => String(value || "").trim()).filter(Boolean);
     const meta = [...soloMeta, supplement].filter(Boolean);
-    return `<a class="release-list-card" href="release/${encodeURIComponent(item.releaseId)}.html">
+    const card = `<a class="release-list-card" href="release/${encodeURIComponent(item.releaseId)}.html">
       <span class="release-list-date">${validDate(item.releaseDate) ? escapeHtml(formatDate(item.releaseDate)) : "発売日未登録"}</span>
       <span class="release-list-main"><span class="release-list-title">${escapeHtml(item.releaseName || "リリース名未設定")}</span>${meta.length ? `<span class="release-list-meta">${meta.map(value => `<span class="release-list-meta-tag">${escapeHtml(value)}</span>`).join("")}</span>` : ""}</span>
       <span class="release-list-category">${escapeHtml(item.classification || "分類未設定")}</span><span class="release-list-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span>
     </a>`;
+    return hasSongSupplement(item) ? `<div class="release-list-entry">${card}<div class="release-list-songs" data-release-songs="${escapeHtml(item.releaseId)}" data-classification="${escapeHtml(item.classification)}" hidden></div></div>` : card;
   }).join("") : `<div class="releases-empty">条件に一致するリリースはありません</div>`;
   el.moreButton.hidden = visible.length >= items.length;
   if (!el.moreButton.hidden) el.moreButton.textContent = `もっと見る（残り${(items.length - visible.length).toLocaleString("ja-JP")}件）`;
+  el.releasesList.querySelectorAll("[data-release-songs]").forEach(container => detailObserver.observe(container.parentElement.querySelector(".release-list-card")));
 }
 
 function syncUrl() {

@@ -281,6 +281,16 @@
     .today-release-entry {
       border-bottom: 1px solid rgba(79,70,229,.12);
     }
+    .today-event-entry{padding-bottom:10px;border-bottom:1px solid var(--line)}
+    .today-event-entry:last-child{border-bottom:0}
+    .today-event-toggle,.today-event-songs button{min-height:36px;margin:4px 0 0;padding:5px 12px;border:1px solid var(--line);border-radius:999px;background:#f0edff;color:var(--indigo);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+    .today-event-toggle:focus-visible,.today-event-songs a:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+    .today-event-songs{font-size:14px;line-height:1.8;overflow-wrap:anywhere}
+    .today-event-songs[hidden]{display:none}
+    .today-event-songs ol{padding-left:24px;margin:6px 0}
+    .today-event-songs a{color:var(--indigo);font-weight:700;text-decoration:none}
+    .today-event-songs a:hover{text-decoration:underline}
+    .today-event-order{color:var(--muted);font-size:13px;margin:8px 0 0}
 
     .today-release-entry:last-child {
       border-bottom: 0;
@@ -2441,6 +2451,6 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/home-v453.js?v=4.9.3&amp;cache=today-jst&songUrls=1"></script>
+  <script type="module" src="assets/js/home-v453.js?v=4.9.4&amp;cache=today-jst&songUrls=1"></script>
 </body>
 </html>

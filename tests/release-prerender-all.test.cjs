@@ -122,5 +122,5 @@ test("Release sitemap uses only static URLs", () => {
   const sitemap = fs.readFileSync(path.join(root, "sitemap.xml"), "utf8");
   assert.equal((sitemap.match(/<loc>https:\/\/mus-song-db\.com\/release\/R\d{4}\.html<\/loc>/g) || []).length, 114);
   assert.equal((sitemap.match(/release\.html\?id=/g) || []).length, 0);
-  assert.equal((sitemap.match(/<loc>/g) || []).length, 241);
+  assert.equal((sitemap.match(/<loc>/g) || []).length, 242);
 });

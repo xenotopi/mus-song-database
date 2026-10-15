@@ -44,52 +44,11 @@
       color: var(--indigo);
     }
 
-    .discovery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
 
-    .discovery-card {
-      min-height: 132px;
-      padding: 17px;
-      display: flex;
-      flex-direction: column;
-      border: 1px solid var(--line);
-      border-radius: 17px;
-      background: #fff;
-      box-shadow: var(--shadow);
-      text-decoration: none;
-      transition: transform .15s ease, border-color .15s ease;
-    }
 
-    .discovery-card:hover {
-      border-color: #bbb6f5;
-      transform: translateY(-2px);
-    }
 
-    .discovery-label {
-      color: var(--indigo);
-      font-size:14px;
-      font-weight: 900;
-      letter-spacing: .08em;
-    }
 
-    .discovery-title {
-      margin-top: 12px;
-      color: var(--navy);
-      font-size: 16px;
-      font-weight: 900;
-      line-height: 1.45;
-    }
 
-    .discovery-meta {
-      margin-top: auto;
-      padding-top: 10px;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 700;
-    }
 
     .list-controls {
       margin-bottom: 12px;
@@ -151,9 +110,6 @@
         top: 60px;
       }
 
-      .discovery-grid {
-        grid-template-columns: 1fr;
-      }
     }
 
 .discover-panel {
@@ -216,46 +172,11 @@
   font-weight: 700;
 }
 
-.insight-list {
-  display: grid;
-  gap: 9px;
-}
 
-.insight-row {
-  display: grid;
-  grid-template-columns:
-    minmax(0, 1fr) auto;
-  gap: 12px;
-  align-items: center;
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: #fff;
-  text-decoration: none;
-}
 
-.insight-row:hover {
-  border-color: #bdb7f5;
-  background: #fcfbff;
-}
 
-.insight-title {
-  color: var(--navy);
-  font-weight: 900;
-}
 
-.insight-meta {
-  margin-top: 3px;
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 500;
-}
 
-.insight-value {
-  color: var(--indigo);
-  font-weight: 900;
-  white-space: nowrap;
-}
 
 .trend-chart {
   display: grid;
@@ -901,81 +822,14 @@
 
 
     /* v4.4 曲詳細の情報階層・説明UI */
-    .discovery-card-performance {
-      min-height: 150px;
-      border-color: #d8d4ff;
-      background:
-        linear-gradient(180deg, #ffffff, #fbfaff);
-    }
 
-    .discovery-card-performance .discovery-title {
-      margin-top: 13px;
-      font-size: 18px;
-      line-height: 1.5;
-    }
 
-    .discovery-card-performance .discovery-meta {
-      padding-top: 12px;
-      color: var(--navy);
-      font-size: 14px;
-      font-weight: 800;
-    }
 
-    .song-gap-cta {
-      margin-top: 12px;
-      min-height: 72px;
-      padding: 14px 17px;
-      display: grid;
-      grid-template-columns: 38px minmax(0,1fr) auto;
-      gap: 12px;
-      align-items: center;
-      border: 1px solid #d5d0ff;
-      border-radius: 17px;
-      background:
-        radial-gradient(circle at 90% 0, rgba(79,70,229,.11), transparent 35%),
-        linear-gradient(135deg, #fbfaff, #ffffff);
-      color: var(--navy);
-      text-decoration: none;
-      box-shadow: var(--shadow);
-      transition: transform .15s ease, border-color .15s ease;
-    }
 
-    .song-gap-cta:hover {
-      transform: translateY(-2px);
-      border-color: #aaa2f4;
-    }
 
-    .song-gap-cta-icon {
-      width: 38px;
-      height: 38px;
-      display: grid;
-      place-items: center;
-      border-radius: 12px;
-      background: var(--indigo);
-      color: #fff;
-      font-size: 20px;
-      font-weight: 900;
-    }
 
-    .song-gap-cta strong {
-      display: block;
-      font-size: 14px;
-      font-weight: 900;
-    }
 
-    .song-gap-cta small {
-      display: block;
-      margin-top: 3px;
-      color: var(--muted);
-      font-size:14px;
-      font-weight: 700;
-    }
 
-    .song-gap-cta-arrow {
-      color: var(--indigo);
-      font-size: 20px;
-      font-weight: 900;
-    }
 
     .stat .label,
     .song-record-label {
@@ -1045,23 +899,9 @@
     }
 
     @media (max-width: 760px) {
-      .discovery-card-performance {
-        min-height: 128px;
-      }
 
-      .discovery-card-performance .discovery-title {
-        font-size: 16px;
-      }
 
-      .song-gap-cta {
-        grid-template-columns: 34px minmax(0,1fr) auto;
-        padding: 13px 14px;
-      }
 
-      .song-gap-cta-icon {
-        width: 34px;
-        height: 34px;
-      }
 
       .song-record-grid {
         grid-template-columns: repeat(2, minmax(0,1fr));
@@ -1073,9 +913,6 @@
         grid-template-columns: 1fr;
       }
 
-      .song-gap-cta small {
-        line-height: 1.5;
-      }
     }
 
 
@@ -1288,11 +1125,11 @@
     #relatedSongArea{margin-top:34px}
     #historyList .song-row{grid-template-columns:minmax(0,1fr)}
     #historyList .song-row:hover{background:transparent}
-    #historyList .song-history-event-link{display:inline-block;width:fit-content;color:var(--navy);text-decoration:none}
-    #historyList .song-history-singer-link{color:var(--indigo);text-decoration:none}
+    #historyList .song-history-event-link{color:var(--navy);text-decoration:none}
+    #historyList .song-history-singer-link{color:var(--indigo);text-decoration:underline;text-underline-offset:3px}
     #historyList .song-history-event-link:hover,#historyList .song-history-singer-link:hover{color:var(--indigo);text-decoration:underline;text-underline-offset:3px}
     #historyList .song-history-event-link:focus-visible,#historyList .song-history-singer-link:focus-visible{outline:3px solid var(--indigo);outline-offset:2px;border-radius:3px}
-    #historyList .song-history-event-link .arrow{margin-left:5px}
+
     @media(max-width:620px){
       #historySection{padding:17px 14px;border-radius:17px}
       .history-purpose{font-size:14px}
@@ -1411,6 +1248,14 @@
     .song-hero-v46{min-height:248px}.song-hero-v46 #songName{min-height:1.35em}.song-hero-v46 #heroMeta{min-height:1.5em}.song-hero-v46 .muse-line{min-height:9px}
     .song-detail-skeleton{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:18px}.song-detail-skeleton[hidden]{display:none}.song-detail-skeleton-card{min-height:150px;padding:22px;border:1px solid var(--line);border-radius:18px;background:#fff}.song-detail-skeleton-card.wide{grid-column:1/-1}.song-detail-skeleton-line{display:block;height:12px;margin-bottom:14px;border-radius:999px;background:#ececf5}.song-detail-skeleton-line.short{width:30%}.song-detail-skeleton-line.medium{width:64%}.song-detail-skeleton-line:last-child{margin-bottom:0}
     @media(max-width:620px){.song-hero-v46{min-height:230px}.song-detail-skeleton{grid-template-columns:1fr}.song-detail-skeleton-card{min-height:138px;padding:19px 17px}}
+  </style>
+  <link rel="stylesheet" href="assets/css/link-ui.css?v=2">
+  <style>
+    .song-gap-checker-button{display:inline-flex;align-items:center;gap:8px;max-width:100%;min-height:44px;margin-top:14px;padding:9px 14px;border:1px solid var(--indigo);border-radius:10px;color:var(--indigo);background:#f2efff;font-weight:800;text-decoration:none;overflow-wrap:anywhere}
+    .song-gap-checker-button:is(:hover,:focus-visible){background:#e9e6ff;text-decoration:underline;text-underline-offset:3px}
+    .song-gap-checker-button:focus-visible{outline:3px solid var(--indigo);outline-offset:3px}
+    .song-included-releases a.song-included-release-card{display:block;text-decoration:none}
+    .song-included-releases .song-included-release-link{padding-right:4px}
   </style>
 <link rel="stylesheet" href="assets/css/icons.css?v=2"><link id="musdb-analytics-consent-style" rel="stylesheet" href="assets/css/analytics-consent.css?v=1.0.0"><style id="globalSearchEnhancementStyles">
     .global-search-wrap {
@@ -2138,7 +1983,6 @@
     <nav class="detail-local-nav" id="detailLocalNav" aria-label="ページ内ナビゲーション">
       <a href="song/S037.html#mainContent">概要</a>
       <a href="song/S037.html#historySection" class="history-nav-link">歌唱履歴</a>
-      <a href="song/S037.html#discoverySection">この曲を巡る</a>
       <a href="song/S037.html#songAnalysisSection">分析</a>
     </nav>
 
@@ -2471,11 +2315,12 @@
       <span class="gap-value">9日</span>
     </div>
   </div>
+          <a id="songGapCheckerLink" class="song-gap-checker-button mus-link-action" href="gap-checker.html?song=S037">この曲の『いつ振り』を調べる <span class="site-icon-inline" data-site-icon="arrow-right" aria-hidden="true" data-icon-rendered="arrow-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span></a>
         </article>
       </div>
 
       <div id="relatedMasterSongs" hidden=""><div class="empty">同じ収録CD・メディア・区分の関連曲はありません。</div></div>
-    </section><section class="section" id="historySection">
+    </section><section class="section mus-link-scope" id="historySection">
       <div class="section-head">
         <div>
           <p class="kicker">
@@ -2541,9 +2386,8 @@
       <article class="card song-list" id="historyList">
             <article class="song-row">
               <span>
-                <a class="song-title song-history-event-link" href="event.html?id=EV0013">
-                  μ’s 3rd Anniversary LoveLive!
-                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                <a class="song-title song-history-event-link mus-link-primary mus-chip-link" href="event.html?id=EV0013">
+                  <span class="mus-title-chip">μ’s 3rd Anniversary LoveLiv<span class="mus-title-tail">e!<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span>
                 </a>
 
                 <span class="song-meta">
@@ -2555,15 +2399,14 @@
                     公式
                   </span>
 
-                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0001">μ's</a></span>
+                  <span>歌唱者：<a class="song-history-singer-link mus-link-secondary" href="singer.html?id=SN0001">μ's</a></span>
                 </span>
               </span>
             </article>
             <article class="song-row">
               <span>
-                <a class="song-title song-history-event-link" href="event.html?id=EV0319">
-                  AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.5 room502
-                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                <a class="song-title song-history-event-link mus-link-primary mus-chip-link" href="event.html?id=EV0319">
+                  <span class="mus-title-chip">AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.5 room5<span class="mus-title-tail">02<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span>
                 </a>
 
                 <span class="song-meta">
@@ -2575,15 +2418,14 @@
                     ソロ
                   </span>
 
-                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0050">内田彩</a></span>
+                  <span>歌唱者：<a class="song-history-singer-link mus-link-secondary" href="singer.html?id=SN0050">内田彩</a></span>
                 </span>
               </span>
             </article>
             <article class="song-row">
               <span>
-                <a class="song-title song-history-event-link" href="event.html?id=EV0329">
-                  AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.5 room504
-                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span>
+                <a class="song-title song-history-event-link mus-link-primary mus-chip-link" href="event.html?id=EV0329">
+                  <span class="mus-title-chip">AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.5 room5<span class="mus-title-tail">04<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span>
                 </a>
 
                 <span class="song-meta">
@@ -2595,7 +2437,7 @@
                     ソロ
                   </span>
 
-                  <span>歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0050">内田彩</a></span>
+                  <span>歌唱者：<a class="song-history-singer-link mus-link-secondary" href="singer.html?id=SN0050">内田彩</a></span>
                 </span>
               </span>
             </article></article>
@@ -2605,70 +2447,14 @@
           もっと見る
         </button>
       </div>
-    </section><section class="section song-included-releases" id="includedReleasesSection" aria-labelledby="includedReleasesHeading">
+    </section><section class="section song-included-releases mus-link-scope" id="includedReleasesSection" aria-labelledby="includedReleasesHeading">
       <div class="section-head"><div><p class="kicker">INCLUDED RELEASES</p><h2 id="includedReleasesHeading">収録リリース</h2></div><span class="song-included-release-count" id="includedReleasesCount">13作品・21件</span></div>
-      <div id="includedReleasesContent"><div class="song-included-release-list"><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release/R0017.html">僕らは今のなかで <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge debut">初出</span><span class="song-included-release-badge">シングル</span></div></div><p class="song-included-release-date">2013/01/23</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span class="song-included-relation-empty">位置情報なし</span></div></div></article><section class="song-included-series-group" data-series-id="RS0002"><h3 class="song-included-series-heading">Solo Live! II</h3><div class="song-included-series-items"><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release/R0077.html">ラブライブ！Solo Live! collection Memorial BOX Ⅱ <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">Memorial BOX</span></div></div><p class="song-included-release-date">2014/04/02</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 7</span><span class="song-included-variant">HONOKA Mix</span></div><div class="song-included-relation-row"><span>Disc 2 / Track 7</span><span class="song-included-variant">ELI Mix</span></div><div class="song-included-relation-row"><span>Disc 3 / Track 7</span><span class="song-included-variant">KOTORI Mix</span></div><div class="song-included-relation-row"><span>Disc 4 / Track 7</span><span class="song-included-variant">UMI Mix</span></div><div class="song-included-relation-row"><span>Disc 5 / Track 9</span><span class="song-included-variant">RIN Mix</span></div><div class="song-included-relation-row"><span>Disc 6 / Track 7</span><span class="song-included-variant">MAKI Mix</span></div><div class="song-included-relation-row"><span>Disc 7 / Track 7</span><span class="song-included-variant">NOZOMI Mix</span></div><div class="song-included-relation-row"><span>Disc 8 / Track 9</span><span class="song-included-variant">HANAYO Mix</span></div><div class="song-included-relation-row"><span>Disc 9 / Track 9</span><span class="song-included-variant">NICO Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release/R0097.html">ラブライブ！ Solo Live! from μ's 高坂穂乃果 orange cheers! <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">高坂穂乃果</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 7</span><span class="song-included-variant">HONOKA Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release/R0098.html">ラブライブ！ Solo Live! from μ's 絢瀬絵里 アイス・ブルーの瞬間 <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">絢瀬絵里</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 7</span><span class="song-included-variant">ELI Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release/R0099.html">ラブライブ！ Solo Live! from μ's 南ことり 純白ロマンス <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">南ことり</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 7</span><span class="song-included-variant">KOTORI Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release/R0100.html">ラブライブ！ Solo Live! from μ's 園田海未 蒼の神話 <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">園田海未</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 7</span><span class="song-included-variant">UMI Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release/R0101.html">ラブライブ！ Solo Live! from μ's 星空凛 Ring a yellow bell <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">星空凛</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 9</span><span class="song-included-variant">RIN Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release/R0102.html">ラブライブ！ Solo Live! from μ's 西木野真姫 SCARLET PRINCESS <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">西木野真姫</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 7</span><span class="song-included-variant">MAKI Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release/R0103.html">ラブライブ！ Solo Live! from μ's 東條希 バイオレットムーン <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">東條希</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 7</span><span class="song-included-variant">NOZOMI Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release/R0104.html">ラブライブ！ Solo Live! from μ's 小泉花陽 若草のSeason <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">小泉花陽</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 9</span><span class="song-included-variant">HANAYO Mix</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release/R0105.html">ラブライブ！ Solo Live! from μ's 矢澤にこ ももいろ♡えがお <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">矢澤にこ</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 9</span><span class="song-included-variant">NICO Mix</span></div></div></article></div></section><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release/R0081.html">μ's Best Album Best Live! Collection Ⅱ <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">ベストアルバム</span></div></div><p class="song-included-release-date">2015/05/27</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 2</span></div></div></article><article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release/R0090.html">μ's Memorial CD-BOX「Complete BEST BOX」 <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></a><div class="song-included-release-badges"><span class="song-included-release-badge">コンプリートBOX</span></div></div><p class="song-included-release-date">2019/12/25</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 2 / Track 2</span></div></div></article></div></div>
-    </section><section class="section" id="discoverySection" hidden="">
-      <div class="section-head">
-        <div>
-          <p class="kicker">EXPLORE THIS SONG</p>
-          <h2>この曲を巡る</h2>
-        </div>
-      </div>
-
-      <div class="discovery-grid" id="songDiscovery">
-      <a class="discovery-card discovery-card-performance" href="event.html?id=EV0013">
-        <span class="discovery-label">FIRST PERFORMANCE</span>
-        <span class="discovery-title">μ’s 3rd Anniversary LoveLive!</span>
-        <span class="discovery-meta">初披露｜2013/06/16</span>
-      </a>
-      <a class="discovery-card discovery-card-performance" href="event.html?id=EV0329">
-        <span class="discovery-label">LAST PERFORMANCE</span>
-        <span class="discovery-title">AYA UCHIDA CHARACTER SONG LIVE 『〜chara・melt・room〜』No.5 room504</span>
-        <span class="discovery-meta">最終披露｜2025/11/24</span>
-      </a>
-      <a class="discovery-card " href="singer.html?id=SN0050">
-        <span class="discovery-label">主な歌唱名義</span>
-        <span class="discovery-title">内田彩</span>
-        <span class="discovery-meta">この名義の歌唱履歴を見る</span>
-      </a></div>
-
-      <a class="song-gap-cta" id="songGapCheckerLink" href="gap-checker.html?song=S037">
-        <span class="song-gap-cta-icon" aria-hidden="true">↺</span>
-        <span>
-          <strong>この曲の「いつ振り」を調べる</strong>
-          <small>曲を選択した状態でチェッカーを開きます</small>
-        </span>
-        <span class="song-gap-cta-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true" data-icon-rendered="arrow-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span></span>
-      </a>
-    </section><section class="section" id="songInsightsSection" hidden="">
-      <div class="section-head">
-        <div>
-          <p class="kicker">RELATED DATA</p>
-          <h2>関連データ</h2>
-        </div>
-      </div>
-
-      <div class="grid">
-        <article class="card">
-          <p class="kicker">CO-PERFORMED SONGS</p>
-          <h2>一緒に歌われた曲</h2>
-          <div class="insight-list" id="coPerformedSongs"><div class="empty">関連曲データはありません。</div></div>
-        </article>
-
-        <article class="card">
-          <p class="kicker">TOP VENUES</p>
-          <h2>よく歌われた会場</h2>
-          <div class="insight-list" id="songTopVenues"><div class="empty">会場データはありません。</div></div>
-        </article>
-      </div>
+      <div id="includedReleasesContent"><div class="song-included-release-list"><a class="song-included-release-card mus-card-link mus-chip-link" href="release/R0017.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">僕らは今のな<span class="mus-title-tail">かで<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span><div class="song-included-release-badges"><span class="song-included-release-badge debut">初出</span><span class="song-included-release-badge">シングル</span></div></div><p class="song-included-release-date">2013/01/23</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span class="song-included-relation-empty">位置情報なし</span></div></div></a><section class="song-included-series-group" data-series-id="RS0002"><h3 class="song-included-series-heading">Solo Live! II</h3><div class="song-included-series-items"><a class="song-included-release-card mus-card-link mus-chip-link" href="release/R0077.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">ラブライブ！Solo Live! collection Memorial BOX<span class="mus-title-tail"> Ⅱ<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span><div class="song-included-release-badges"><span class="song-included-release-badge">Memorial BOX</span></div></div><p class="song-included-release-date">2014/04/02</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 7</span><span class="song-included-variant">HONOKA Mix</span></div><div class="song-included-relation-row"><span>Disc 2 / Track 7</span><span class="song-included-variant">ELI Mix</span></div><div class="song-included-relation-row"><span>Disc 3 / Track 7</span><span class="song-included-variant">KOTORI Mix</span></div><div class="song-included-relation-row"><span>Disc 4 / Track 7</span><span class="song-included-variant">UMI Mix</span></div><div class="song-included-relation-row"><span>Disc 5 / Track 9</span><span class="song-included-variant">RIN Mix</span></div><div class="song-included-relation-row"><span>Disc 6 / Track 7</span><span class="song-included-variant">MAKI Mix</span></div><div class="song-included-relation-row"><span>Disc 7 / Track 7</span><span class="song-included-variant">NOZOMI Mix</span></div><div class="song-included-relation-row"><span>Disc 8 / Track 9</span><span class="song-included-variant">HANAYO Mix</span></div><div class="song-included-relation-row"><span>Disc 9 / Track 9</span><span class="song-included-variant">NICO Mix</span></div></div></a><a class="song-included-release-card mus-card-link mus-chip-link" href="release/R0097.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">ラブライブ！ Solo Live! from μ's 高坂穂乃果 orange cheer<span class="mus-title-tail">s!<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">高坂穂乃果</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 7</span><span class="song-included-variant">HONOKA Mix</span></div></div></a><a class="song-included-release-card mus-card-link mus-chip-link" href="release/R0098.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">ラブライブ！ Solo Live! from μ's 絢瀬絵里 アイス・ブルーの<span class="mus-title-tail">瞬間<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">絢瀬絵里</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 7</span><span class="song-included-variant">ELI Mix</span></div></div></a><a class="song-included-release-card mus-card-link mus-chip-link" href="release/R0099.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">ラブライブ！ Solo Live! from μ's 南ことり 純白ロマ<span class="mus-title-tail">ンス<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">南ことり</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 7</span><span class="song-included-variant">KOTORI Mix</span></div></div></a><a class="song-included-release-card mus-card-link mus-chip-link" href="release/R0100.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">ラブライブ！ Solo Live! from μ's 園田海未 蒼の<span class="mus-title-tail">神話<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">園田海未</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 7</span><span class="song-included-variant">UMI Mix</span></div></div></a><a class="song-included-release-card mus-card-link mus-chip-link" href="release/R0101.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">ラブライブ！ Solo Live! from μ's 星空凛 Ring a yellow be<span class="mus-title-tail">ll<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">星空凛</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 9</span><span class="song-included-variant">RIN Mix</span></div></div></a><a class="song-included-release-card mus-card-link mus-chip-link" href="release/R0102.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">ラブライブ！ Solo Live! from μ's 西木野真姫 SCARLET PRINCE<span class="mus-title-tail">SS<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">西木野真姫</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 7</span><span class="song-included-variant">MAKI Mix</span></div></div></a><a class="song-included-release-card mus-card-link mus-chip-link" href="release/R0103.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">ラブライブ！ Solo Live! from μ's 東條希 バイオレットム<span class="mus-title-tail">ーン<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">東條希</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 7</span><span class="song-included-variant">NOZOMI Mix</span></div></div></a><a class="song-included-release-card mus-card-link mus-chip-link" href="release/R0104.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">ラブライブ！ Solo Live! from μ's 小泉花陽 若草のSeas<span class="mus-title-tail">on<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">小泉花陽</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 9</span><span class="song-included-variant">HANAYO Mix</span></div></div></a><a class="song-included-release-card mus-card-link mus-chip-link" href="release/R0105.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">ラブライブ！ Solo Live! from μ's 矢澤にこ ももいろ♡え<span class="mus-title-tail">がお<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span><div class="song-included-release-badges"><span class="song-included-release-badge">個別盤</span></div></div><p class="song-included-release-date">2014/04/02</p><p class="song-included-release-singer">矢澤にこ</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 9</span><span class="song-included-variant">NICO Mix</span></div></div></a></div></section><a class="song-included-release-card mus-card-link mus-chip-link" href="release/R0081.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">μ's Best Album Best Live! Collection<span class="mus-title-tail"> Ⅱ<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span><div class="song-included-release-badges"><span class="song-included-release-badge">ベストアルバム</span></div></div><p class="song-included-release-date">2015/05/27</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 2</span></div></div></a><a class="song-included-release-card mus-card-link mus-chip-link" href="release/R0090.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">μ's Memorial CD-BOX「Complete BEST BO<span class="mus-title-tail">X」<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true" data-icon-rendered="chevron-right"><svg class="site-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></span></span></span><div class="song-included-release-badges"><span class="song-included-release-badge">コンプリートBOX</span></div></div><p class="song-included-release-date">2019/12/25</p><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 2 / Track 2</span></div></div></a></div></div>
     </section>
 
 
 
     <div id="relatedSongArea"></div>
-
-
 
 
 
@@ -2699,13 +2485,11 @@
   const records = document.getElementById("songRecordsSection");
   const history = document.getElementById("historySection");
   const analysis = document.getElementById("songAnalysisSection");
-  const insights = document.getElementById("songInsightsSection");
-  const discovery = document.getElementById("discoverySection");
 
   if (!main || !mainContent) return;
 
   let cursor = mainContent;
-  [records, analysis, history, includedReleases, discovery, insights].forEach(node => {
+  [records, analysis, history, includedReleases].forEach(node => {
     if (!node) return;
     cursor.insertAdjacentElement("afterend", node);
     cursor = node;
@@ -2713,7 +2497,7 @@
 })();
 </script>
 
-<script type="module" src="assets/js/song-v441.js?v=5.5.1&amp;cache=output-revision&amp;songUrls=1"></script>
+<script type="module" src="assets/js/song-v441.js?v=5.5.3&amp;cache=output-revision&amp;songUrls=1"></script>
 
   <script>
     (() => {

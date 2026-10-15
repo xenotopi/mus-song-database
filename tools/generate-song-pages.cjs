@@ -157,7 +157,7 @@ async function generateSongPages({ revision, ids } = {}) {
           `${prefix}${encodeURIComponent(`https://mus-song-db.com/share/song/${id}.html`)}`);
         document.getElementById("songShareActions").hidden = true;
         // These features require live Discover data; empty mocks must not become published facts.
-        for (const id of ["songSwitcher", "discoverySection", "songInsightsSection"]) document.getElementById(id).hidden = true;
+        for (const id of ["songSwitcher"]) document.getElementById(id).hidden = true;
         // Keep the Song ID visible; the generated description belongs in metadata, not the UI.
         document.getElementById("heroMeta").textContent = `${id} ｜ ${document.getElementById("heroMeta").textContent}`;
       }, { id, title, description, canonical, revision: current.revision });

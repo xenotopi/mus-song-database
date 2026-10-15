@@ -27,6 +27,25 @@ test("complete synthetic set with explicit input/output receipts passes independ
   assert.equal(fixture.reads.includes("data/current.json"), false);
 });
 
+function withTypeACard() {
+  const f=createFixture(),r=f.getJson(f.prefix+'releases/R0001.json').data;
+  f.editSnapshot('songs/S001.json',s=>s.includedReleases=[{relationId:'RT9999',releaseId:r.releaseId,releaseName:r.releaseName,releaseDate:r.releaseDate,classification:r.classification,releaseType:r.releaseType,disc:1,track:1,displayOrder:1,variant:''}]);
+  const h=f.getJson(f.prefix+'manifest.json').hashes.songs.S001;
+  f.editJson('song/manifest.json',m=>m.captureProvenance.inputs['songs/S001.json']={dataSha256:h.sha256,fileSha256:h.fileSha256,bytes:h.bytes});
+  const title=r.releaseName.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  f.editHtml('song','S001',html=>html.replace('<div id="includedReleasesContent"></div>',`<div id="includedReleasesContent"><a class="song-included-release-card" href="release/R0001.html"><span class="song-included-release-link">${title}</span><div class="song-included-relation-row">Disc 1 / Track 1</div></a></div>`),true);
+  return f;
+}
+test('Song TYPE A validates the title separately from date/Relation link content',()=>{
+  const f=withTypeACard();assert.equal(validateStaticHtml(f.options).status,'PASS');
+});
+test('Song TYPE A rejects nested links even when hashes and receipts match',()=>{
+  const f=withTypeACard();f.editHtml('song','S001',h=>h.replace('Disc 1 / Track 1','<a href="release/R0002.html">Disc 1 / Track 1</a>'),true);reject(f,/nested anchors/);
+});
+test('Song TYPE A rejects dangling titles outside cards even with matching hashes',()=>{
+  const f=withTypeACard();f.editHtml('song','S001',h=>h.replace('<div id="includedReleasesContent">','<div id="includedReleasesContent"><span class="song-included-release-link">extra</span>'),true);reject(f,/title\/card count/);
+});
+
 for (const type of ["song", "release"]) {
   const id = type === "song" ? "S001" : "R0001";
   test(`${type}: missing HTML rejected`, () => { const f = createFixture(); f.files.delete(`${type}/${id}.html`); reject(f, /ID set/); });

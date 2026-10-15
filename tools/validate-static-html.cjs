@@ -104,7 +104,15 @@ function validateSongBody(doc, song) {
   const included = byId(doc, "includedReleasesContent");
   const groups = new Map();
   for (const row of song.includedReleases) if (!groups.has(row.releaseId)) groups.set(row.releaseId, row);
-  const actual = classes(included, "song-included-release-link").map(n => [n.attrs.href, cleanText(n)]).sort();
+  const cards = classes(included, "song-included-release-card");
+  check(classes(included, "song-included-release-link").length === cards.length, "Song included Release title/card count mismatch");
+  const actual = cards.map(card => {
+    const title = one(classes(card, "song-included-release-link"), "Song included Release title must be unique");
+    const link = card.tag === "a" ? card : title;
+    check(link.tag === "a", "Song included Release must have an actual anchor");
+    if (card.tag === "a") check(descendants(card, n => n.tag === "a").length === 0, "Song included Release nested anchors");
+    return [link.attrs.href, cleanText(title)];
+  }).sort();
   equal(actual, [...groups.values()].map(r => [`release/${r.releaseId}.html`, r.releaseName]).sort(), "Song included Release identities differ from snapshot");
   check(classes(included, "song-included-relation-row").length === song.includedReleases.length, "Song included relation multiplicity mismatch");
   const history = byId(doc, "historyList");

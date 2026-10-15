@@ -48,8 +48,6 @@ const elements = {
   includedReleasesSection: document.getElementById("includedReleasesSection"),
   includedReleasesCount: document.getElementById("includedReleasesCount"),
   includedReleasesContent: document.getElementById("includedReleasesContent"),
-  discoverySection: document.getElementById("discoverySection"),
-  songDiscovery: document.getElementById("songDiscovery"),
   songGapCheckerLink: document.getElementById("songGapCheckerLink"),
   songRecordsSection: document.getElementById("songRecordsSection"),
   songRecordGrid: document.getElementById("songRecordGrid"),
@@ -61,9 +59,6 @@ const elements = {
   historyYearReset: document.getElementById("historyYearReset"),
   singerRanking: document.getElementById("singerRanking"),
   relatedMasterSongs: document.getElementById("relatedMasterSongs"),
-  songInsightsSection: document.getElementById("songInsightsSection"),
-  coPerformedSongs: document.getElementById("coPerformedSongs"),
-  songTopVenues: document.getElementById("songTopVenues"),
   historySection: document.getElementById("historySection"),
   historyCount: document.getElementById("historyCount"),
   visibleHistoryCount: document.getElementById("visibleHistoryCount"),
@@ -136,10 +131,8 @@ function setLoading() {
   elements.releaseSection.hidden = true;
   elements.includedReleasesSection.hidden = true;
   elements.songShareActions.hidden = true;
-  elements.discoverySection.hidden = true;
   elements.songRecordsSection.hidden = true;
   elements.songAnalysisSection.hidden = true;
-  elements.songInsightsSection.hidden = true;
   elements.historySection.hidden = true;
 }
 
@@ -181,6 +174,11 @@ function getPerformanceType_(performance) {
 }
 
 
+function titleWithChevron_(text) {
+  const chars = Array.from(String(text));
+  return `${escapeHtml(chars.slice(0, -2).join(""))}<span class="mus-title-tail">${escapeHtml(chars.slice(-2).join(""))}<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span>`;
+}
+
 function renderHistory_() {
   const filteredByType =
     historyFilter === "all"
@@ -210,12 +208,8 @@ function renderHistory_() {
           performance => `
             <article class="song-row">
               <span>
-                <a class="song-title song-history-event-link" href="event.html?id=${encodeURIComponent(performance.eventId)}">
-                  ${escapeHtml(
-                    performance.eventName ||
-                    "イベント名未設定"
-                  )}
-                  <span class="arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span>
+                <a class="song-title song-history-event-link mus-link-primary mus-chip-link" href="event.html?id=${encodeURIComponent(performance.eventId)}">
+                  <span class="mus-title-chip">${titleWithChevron_(performance.eventName || "イベント名未設定")}</span>
                 </a>
 
                 <span class="song-meta">
@@ -233,7 +227,7 @@ function renderHistory_() {
                   </span>
 
                   <span>歌唱者：${performance.singerId
-                    ? `<a class="song-history-singer-link" href="singer.html?id=${encodeURIComponent(performance.singerId)}">${escapeHtml(performance.singerDisplayName || performance.singer || "—")}</a>`
+                    ? `<a class="song-history-singer-link mus-link-secondary" href="singer.html?id=${encodeURIComponent(performance.singerId)}">${escapeHtml(performance.singerDisplayName || performance.singer || "—")}</a>`
                     : escapeHtml(performance.singerDisplayName || performance.singer || "—")}</span>
                 </span>
               </span>
@@ -249,97 +243,6 @@ function renderHistory_() {
       `もっと見る（残り${filtered.length - visible.length}件）`;
   }
 }
-
-
-function buildSongDiscovery_(song) {
-  const singerCounts = new Map();
-
-  performances.forEach(item => {
-    const key = String(
-      item.singerId ||
-      `${item.singerCategory || ""}｜${item.singer || ""}`
-    ).trim();
-
-    if (!key) return;
-
-    const current = singerCounts.get(key) || {
-      singerId: item.singerId || "",
-      category: item.singerCategory || "",
-      rawName: item.singer || "",
-      displayName:
-        item.singerDisplayName ||
-        item.singer ||
-        "",
-      count: 0
-    };
-
-    current.count += 1;
-    singerCounts.set(key, current);
-  });
-
-  const topSinger =
-    Array.from(singerCounts.values())
-      .sort((a, b) => b.count - a.count)[0] || null;
-
-  const firstPerformance = performances[0] || null;
-  const latestPerformance =
-    performances.length
-      ? performances[performances.length - 1]
-      : null;
-
-  const cards = [];
-
-  if (firstPerformance) {
-    cards.push({
-      label: "FIRST PERFORMANCE",
-      title: firstPerformance.eventName,
-      meta: `初披露｜${formatDate(firstPerformance.date)}`,
-      href: `event.html?id=${encodeURIComponent(firstPerformance.eventId)}`
-    });
-  }
-
-  if (latestPerformance) {
-    cards.push({
-      label: "LAST PERFORMANCE",
-      title: latestPerformance.eventName,
-      meta: `最終披露｜${formatDate(latestPerformance.date)}`,
-      href: `event.html?id=${encodeURIComponent(latestPerformance.eventId)}`
-    });
-  }
-
-  const topSingerName =
-    topSinger
-      ? String(
-          topSinger.displayName ||
-          topSinger.rawName ||
-          ""
-        ).trim()
-      : "";
-
-  if (topSingerName) {
-    cards.push({
-      label: "主な歌唱名義",
-      title: topSingerName,
-      meta: "この名義の歌唱履歴を見る",
-      href:
-        buildSingerUrl(topSinger)
-    });
-  }
-
-  elements.songDiscovery.innerHTML =
-    cards.map((card, index) => `
-      <a
-        class="discovery-card ${index < 2 ? "discovery-card-performance" : ""}"
-        href="${card.href}"
-      >
-        <span class="discovery-label">${escapeHtml(card.label)}</span>
-        <span class="discovery-title">${escapeHtml(card.title || "—")}</span>
-        <span class="discovery-meta">${escapeHtml(card.meta || "")}</span>
-      </a>`
-    ).join("");
-}
-
-
 
 
 function renderSongNavigation_(
@@ -834,79 +737,6 @@ function renderSingerRanking_(
 }
 
 
-function renderSongInsights_(
-  discover
-) {
-  const coSongs =
-    discover.coPerformedSongs || [];
-
-  const venues =
-    discover.topVenues || [];
-
-  elements.coPerformedSongs.innerHTML =
-    coSongs.length
-      ? coSongs.map(item => `
-          <a
-            class="insight-row"
-            href="${buildSongUrl(
-              item.songId
-            )}"
-          >
-            <span>
-              <span class="insight-title">
-                ${escapeHtml(
-                  item.songName ||
-                  "曲名未設定"
-                )}
-              </span>
-
-              <span class="insight-meta">
-                同じイベントで歌唱
-              </span>
-            </span>
-
-            <span class="insight-value">
-              ${Number(
-                item.eventCount || 0
-              ).toLocaleString(
-                "ja-JP"
-              )}件
-            </span>
-          </a>`
-        ).join("")
-      : `<div class="empty">関連曲データはありません。</div>`;
-
-  elements.songTopVenues.innerHTML =
-    venues.length
-      ? venues.map(item => `
-          <a
-            class="insight-row"
-            href="venue.html?id=${encodeURIComponent(
-              item.venueId
-            )}"
-          >
-            <span>
-              <span class="insight-title">
-                ${escapeHtml(
-                  item.venueName ||
-                  "会場名未設定"
-                )}
-              </span>
-            </span>
-
-            <span class="insight-value">
-              ${Number(
-                item.count || 0
-              ).toLocaleString(
-                "ja-JP"
-              )}回
-            </span>
-          </a>`
-        ).join("")
-      : `<div class="empty">会場データはありません。</div>`;
-}
-
-
 function renderOfficialRelease_(song) {
   elements.releaseTitle.textContent =
     song.recordingCd || song.displayName || song.songName || "作品名未設定";
@@ -1007,7 +837,8 @@ function renderIncludedReleases_(song) {
       const variant = relation.variant == null ? "" : String(relation.variant);
       return `<div class="song-included-relation-row">${position ? `<span>${escapeHtml(position)}</span>` : `<span class="song-included-relation-empty">位置情報なし</span>`}${variant ? `<span class="song-included-variant">${escapeHtml(variant)}</span>` : ""}</div>`;
     }).join("");
-    return `<article class="song-included-release-card"><div class="song-included-release-head"><a class="song-included-release-link" href="release/${encodeURIComponent(group.releaseId)}.html">${escapeHtml(item.releaseName)} <span class="song-included-release-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a><div class="song-included-release-badges">${isDebut ? '<span class="song-included-release-badge debut">初出</span>' : ""}${type ? `<span class="song-included-release-badge">${escapeHtml(type)}</span>` : ""}</div></div><p class="song-included-release-date">${item.releaseDate ? escapeHtml(formatDate(item.releaseDate)) : "発売日未登録"}</p>${singerName ? `<p class="song-included-release-singer">${escapeHtml(singerName)}</p>` : ""}<div class="song-included-relation-list">${relationRows}</div></article>`;
+    const title = titleWithChevron_(item.releaseName);
+    return `<a class="song-included-release-card mus-card-link mus-chip-link" href="release/${encodeURIComponent(group.releaseId)}.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">${title}</span><div class="song-included-release-badges">${isDebut ? '<span class="song-included-release-badge debut">初出</span>' : ""}${type ? `<span class="song-included-release-badge">${escapeHtml(type)}</span>` : ""}</div></div><p class="song-included-release-date">${item.releaseDate ? escapeHtml(formatDate(item.releaseDate)) : "発売日未登録"}</p>${singerName ? `<p class="song-included-release-singer">${escapeHtml(singerName)}</p>` : ""}<div class="song-included-relation-list">${relationRows}</div></a>`;
   };
   const seriesGroups = new Map();
   const blocks = [];
@@ -1292,7 +1123,6 @@ function renderSong(song) {
   elements.historyCount.textContent =
     `${performances.length}件`;
 
-  buildSongDiscovery_(song);
   renderSongRecords_();
   renderOfficialSoloChart_();
   renderGapChart_();
@@ -1313,10 +1143,8 @@ function renderSong(song) {
   elements.mainContent.hidden = false;
   elements.releaseSection.hidden = false;
   elements.includedReleasesSection.hidden = false;
-  elements.discoverySection.hidden = false;
   elements.songRecordsSection.hidden = false;
   elements.songAnalysisSection.hidden = false;
-  elements.songInsightsSection.hidden = false;
   elements.historySection.hidden = false;
 }
 
@@ -1476,7 +1304,6 @@ async function loadSong() {
       const discoverData =
         discoverResponse.data || {};
 
-      renderSongInsights_(discoverData);
       renderSingerRanking_(discoverData);
       renderSongNavigation_(
         discoverData.navigation || {}
@@ -1486,8 +1313,6 @@ async function loadSong() {
         "Song discover API error:",
         discoverError
       );
-      elements.songInsightsSection.hidden = true;
-      elements.discoverySection.hidden = true;
     }
 
   } catch (error) {

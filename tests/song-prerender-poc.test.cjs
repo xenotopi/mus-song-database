@@ -60,9 +60,19 @@ test("all 117 static pages parse, match snapshots, and pass build manifest hashe
         canonical: doc.querySelector('link[rel="canonical"]').getAttribute("href"),
         canonicalCount: doc.querySelectorAll('link[rel="canonical"]').length,
         og: doc.querySelector('meta[property="og:url"]').content,
-        robots: doc.querySelector('meta[name="robots"]').content };
+        robots: doc.querySelector('meta[name="robots"]').content,
+        releaseCards: [...doc.querySelectorAll('.song-included-release-card')].map(n=>({tag:n.tagName,href:n.getAttribute('href'),nested:n.querySelectorAll('a,button').length,title:n.querySelector('.song-included-release-link').textContent,relations:n.querySelectorAll('.song-included-relation-row').length})),
+        linkedSeriesHeadings: doc.querySelectorAll('.song-included-series-heading a').length,
+        deletedSections: doc.querySelectorAll('#discoverySection,#songInsightsSection,#songDiscovery,#coPerformedSongs,#songTopVenues,.song-gap-cta,a[href*="#discoverySection"]').length,
+        gapHref: doc.querySelector('#songGapCheckerLink')?.getAttribute('href'),
+        gapAfterChart: doc.querySelector('#songGapCheckerLink')?.previousElementSibling?.id,
+        historyChips: doc.querySelectorAll('#historyList .song-history-event-link.mus-chip-link .mus-link-chevron').length };
     }, raw);
     assert.equal(parsed.id, id); assert.equal(parsed.h1, song.displayName || song.songName);
+    assert.equal(parsed.deletedSections,0);assert.equal(parsed.gapHref,`gap-checker.html?song=${id}`);assert.equal(parsed.gapAfterChart,'gapChart');assert.equal(parsed.historyChips,Math.min(20,song.performances.length));
+    const releaseGroups=new Map();for(const relation of song.includedReleases){if(!releaseGroups.has(relation.releaseId))releaseGroups.set(relation.releaseId,[]);releaseGroups.get(relation.releaseId).push(relation);}
+    assert.equal(parsed.releaseCards.length,releaseGroups.size);assert.equal(parsed.linkedSeriesHeadings,0);
+    for(const card of parsed.releaseCards){assert.equal(card.tag,'A');assert.equal(card.nested,0);const relations=releaseGroups.get(card.href.match(/R\d{4}/)[0]);assert.equal(card.title,relations[0].releaseName);assert.equal(card.relations,relations.length);}
     assert.equal(parsed.title, `${song.displayName || song.songName}｜μ's Song Database`);
     assert.ok(parsed.description); assert.equal(parsed.canonicalCount, 1);
     assert.equal(parsed.canonical, `https://mus-song-db.com/song/${id}.html`);

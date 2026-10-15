@@ -213,7 +213,7 @@ test("Actual snapshot capture is unchanged without external CSS; outputs stay in
     assert.equal(writes.get(file).replace(canonical, ""), styled.get(file).replace(canonical, ""), file);
     assert.ok(writes.get(file).includes(`href="https://mus-song-db.com/song/${id}.html"`));
   }
-  assert.deepEqual([...requestedCss].sort(), ["assets/css/analytics-consent.css", "assets/css/icons.css", "assets/css/style.css"]);
+  assert.deepEqual([...requestedCss].sort(), ["assets/css/analytics-consent.css", "assets/css/icons.css", "assets/css/link-ui.css", "assets/css/style.css"]);
   assert.equal(JSON.parse(writes.get("song/manifest.json")).latestRendererSha256, rendererFingerprint());
   for (const [file, contents] of before) assert.deepEqual(readFileSync(path.join(root, file)), contents, `${file}: test must not alter production outputs`);
 });

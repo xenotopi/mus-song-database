@@ -310,3 +310,76 @@ Homeの最近の曲を先に描画し、`apiGet`の既存cache/in-flightを利�
 実APIを使用したローカルChrome各1回の観測では、1280pxはHomeの最初の歌唱者DOMが2.02秒、正式名3.57秒、390pxは1.69秒→2.66秒。追加通信はそれぞれ1件。これはその環境・回線での単発観測で速度保証/改善率ではない。初期表示は取得完了を待たず、名前のノードとカードは同一のまま。最終画像は新規一時領域`musdb-link03-real-Ebi9dN`へ保存。公式名義・複数名義を含む実表示と自然な折返し、page/console error0、横overflowなしを確認。
 
 公開対象は従来6ファイル＋標準登録のtests/package.jsonの7ファイル。正式snapshot/Revision/231 HTML、ランキング、Venueは無変更。今回の公開承認に基づき、全検証後に限りcommit/push/Pages QAへ進む。実機iPhone/Safariは未検証。
+
+## 13. UI-LINK-CONSISTENCY-04：Song収録リリース TYPE A（ローカル、未公開）
+
+基準は `01d89c94a4008a025245eda9bc191b042fb417c1`、開始時HEAD/main/origin/main一致・clean・独立validator PASSを確認。data/outputRevisionは変更しない。
+
+### 構造と共通UI
+
+`article.song-included-release-card > title a` を、実際の `a.song-included-release-card.mus-card-link.mus-chip-link[href="release/Rxxxx.html"]` に変更。タイトルは `span.song-included-release-link.mus-card-title.mus-title-chip`、日付・badge・featuredSinger・全Relation行を同じaへ包含する。a入れ子/overlay/独立buttonはない。Solo Live!シリーズのsection/h3は非リンクのまま。
+
+Homeと同じ末尾2文字＋chipのinline tailをSong renderer内でも使用し、共通 `link-ui.css?v=2` のopt-inスタイルをそのまま再利用。shared CSS/common.js/icons.jsは変更しない。30px薄紫背景・16px SVG・8px角丸・文字末尾から8px間隔・3px hover/focus移動・reduced-motion対応。cardはblockで枠線/padding込みの実a、titleの右paddingは移動分の余裕のみ。JS参照は5.5.2。
+
+### 正式captureと保全
+
+既存 `generate-song-pages.cjs --revision sha256-275359f11de62455f3b36af362b6ac441b9c3ece24df200b92291a45e51fec61` を1回実行し、117件を約50秒でcapture。外部API取得なし。generator/provenance実装・依存集合の変更や手修正はなく、manifest/hash/bytes/全page renderer/captureProvenanceを正式同期した。
+
+全117件を開始時の不変Git blobとDOM解析比較し、title/meta/OGP/canonical/JSON-LD、main本文、全リンク、収録名・Relation行・Solo Live!見出しが一致。Releaseとdata配下5,539ファイルはraw hash/bytes一致。追加の保護UI/API6ファイルもGit基準に一致（うち5ファイルはcheckoutのCRLF正規化あり）。当初の一時baselineファイルは実行環境切替で消失したため流用せず、開始時cleanで確認した基準commitのGit blobから照合した。snapshot/current・Release114/manifest・ランキング派生データは変更なし。
+
+独立validatorは旧「リンク全文＝作品名」から、card内の一意なtitle専用spanをsnapshot正式名と比較する方式へ対応。card/title数の完全一致、実a、a入れ子拒否を追加し、既存hash/bytes/来歴/件数guardは維持。正式TYPE A・入れ子・card外の余分titleの3回帰を追加。旧構造検査の内容を削除してPASS扱いする方式ではない。
+
+### 回帰と残件
+
+PC1280/390、S017/S046/S100の静的・動的（legacy redirectのみ隔離）・JS OFFでカードID/作品名/全Relationが一致。通常/複数Relation、Memorial BOX/個別盤を確認。カード余白・日付/Relation包含、通常/中/Ctrl/Enter/Tab/tap、focus、3px移動・card矩形不変・reduced-motion・overflow/errorなしを検証。標準`e2e:song-release`内の恒久回帰として登録済み。全117静的ページtestにもa構造・全Relation数を追加した。
+
+追加CSSはstrict entrypoint一覧と「通常CSS対空CSS」の要求ファイル完全一致testへ登録。3曲×2の比較captureは既存のメモリ隔離方式のみで正式出力を変更しない。CSSを空にしてもcanonical管理属性を除くserialized HTML一致を確認。
+
+**未解決STOP**：変更していない `tests/release-prerender-all.test.cjs` のsitemap全URL期待値が241、既存の公開済みsitemapは242（Song117＋Release114＋固定11）。これは今回の変更前からの差異であり、sitemap/generator/当該testは変更していない。今回の正式生成・UI実装を全検証PASSとは扱わず、無関係な期待値の修正承認を待つ。commit/push/deployは行わない。
+
+### 次の一括工程（今回は未適用）
+
+| 順 | 対象 | 適用と修正ファイル | 回帰 |
+| --- | --- | --- | --- |
+| 1 | Song一覧 | songs.html / songs-v470.js、既存外枠aはAのままタイトルspanへchip。filter CSS/JSは変更しない | 全117・group filter18条件・検索/sort/もっと見る・余白/中クリック |
+| 1 | Event一覧 | events.html / events-v470.js、外枠a内titleへchip | 年/category/filter/順序・長い名称・Event URL |
+| 1 | Release一覧 | releases.html / releases-v500.js、通常A、22収録対象はBの個別aを維持 | 22対象と対象外・遅延/共有/3同時・店舗名・filter/sort/もっと見る |
+| 1 | Venue一覧 | venues.html / venues-v470.js、外枠a内titleへchip | 全会場/filter/sort・長文・Venue ID |
+| 1 | Singer一覧 | singers.html / singers-v470.js、外枠a内titleへchip | 72名義・公式/ソロ/filter・正式表示名・Singer ID |
+
+5一覧は既存link-ui.cssのopt-inを使用し、各HTMLのCSS参照と個別JSの装飾hostのみを変更する方針。現Song/Release rendererへの実依存を再確認し、正式再captureを必要とする変更は別承認。CSSだけではmarkup/操作型を統一したと扱わない。
+
+その後はEvent詳細→Singer詳細→Venue詳細→通常ランキング/統計→チェッカー→Release詳細→検索/共通ナビ。Release詳細は正式114同期、common.js変更は両正式セット同期が必要。Venue情報整理・年フィルター統一・曲を見る追加は独立したUI再設計として保留。Song収録Releaseは今回ローカル実装・正式captureまで進んだが、表示承認/公開は未完了である。
+
+04最終検証：393件中391 PASS / 1 FAIL / 1 SKIP。FAILは上記の既存sitemap全件期待値のみ。SKIPは既定でopt-inのSong117＋Release114実generator統合capture（今回は正式Release再captureを実施しない）。今回の正式Song117実captureと独立validator PASSは別に実施済み。TYPE A静的/動的/JS OFF・CSS除外回帰・全117 JSON-LDはPASS。追加したvalidator3ケースもPASS。全PASSではないため04ローカルPASSを宣言しない。
+
+変更は127ファイル（Song HTML117・manifest1・実装/検証/文書9）、staged/untracked0、HEAD/main/origin/mainは基準commitのまま。画像は新規一時領域 `musdb-song-release-type-a-TuN0Gc` のS017/S046/S100×1280/390と各viewport画像。既存prerenderテストが今回作成したQA8枚は `musdb-link04-prerender-qa-01d89c9` へ移して保全し、未追跡のtests/artifactsは残していない。diff --check PASS。commit/push/deployなし、実機iPhone/Safari未検証。
+
+## 14. UI-LINK-CONSISTENCY-04B（追加削除指示を優先、ローカル）
+
+04の収録リリースTYPE Aと未commit成果物を保持。後から承認された04B本体と追加指示を合わせて実施し、旧「関連データを残す」は撤回として扱う。
+
+- `section#discoverySection`（この曲を巡る）とページ内nav、`section#songInsightsSection`（関連データ・一緒に歌われた曲・よく歌われた会場）をDOMから削除。専用grid/card/list/空状態・旧大判CTA CSS、専用DOM参照・描画関数・表示制御・再配置参照も削除。非表示化や空sectionとして残さない。
+- discover APIは従来どおりSong詳細取得と並行開始し、`renderSingerRanking_`・`renderSongNavigation_`は維持する。関係のないrelatedMasterSongs処理・正式データ・収録Relation・歌唱履歴は変更しない。
+- `songGapCheckerLink`を歌唱間隔の推移カードのgapChart直後へ実DOM移設。ラベルは「この曲の『いつ振り』を調べる」、コンパクトな枠付き機能リンク＋arrow-right。各Song IDのqueryを既存処理で設定。履歴0/1件でも使用可能。グラフ計算・色・スケールは変更しない。
+- 歌唱履歴はTYPE Bのarticleを維持。Event aだけに共通opt-inの30px薄紫chip・16px SVG・3px移動/0.18s/reduced-motion/focusを適用。収録リリースと共通の表示専用tail関数で末尾2文字とchipをまとめる。Singerは別aの青＋下線、日付/区分は非リンク。年/type/もっと見るの再描画にも同じrendererを使用。
+- generatorの捕捉後処理から削除済み2IDへのhidden設定を除去し、live専用Songナビの非公開化契約は維持。正式Song117を既存generator/provenanceで最終rendererへ一括再capture。JS参照5.5.3。Release側renderer依存は変更しない。
+- 04で残ったsitemap期待値の修正をユーザーが承認。`tests/release-prerender-all.test.cjs`の総件数241→242だけを変更。他のRelease114件検証・query URL拒否・sitemap自体は変更なし。
+
+### 検証範囲
+
+標準song-releaseテストへ新規6件（2幅×構成/操作・0件・1件）を追加。discoverは正常mockでtopSingerと前後Songを返し、削除UI用データも意図的に返して再出現しないことを検証。年フィルター・公式/ソロ・もっと見るの件数と再生成chip、長い日英名、Event/Singer非重複、3px移動・リンク矩形不変・focus/reduced-motionを測定する。静的117件の恒久検証には削除要素/navが0、gapChart直後のSong ID付きCTA、全初期履歴chip件数を追加。
+
+全117の旧Git HTMLとの比較は、許可された2section/nav削除とCTA移設/文言だけを区別し、残す概要・記録・分析・履歴・収録リリース、全SEO/JSON-LD、残存リンク/Relationを照合する。正式snapshot/Revision/current/Release114は変更しない。
+
+任意SKIPは既存opt-inの「実generatorでSong117＋Release114をメモリcaptureする統合テスト」。正式Song117captureは別途実行し、正式Release再生成は行わない。実機iPhone/Safariは未検証。commit/push/deployせず表示承認待ちとする。
+
+### 04B最終結果
+
+最終ボタン表記『いつ振り』を含むrendererで正式117件のcaptureを完了（最終実行48,236ms、外部APIなし）。全117 pageのrenderer fingerprint/hash/bytesとmanifest/provenanceが一致。独立validatorはPASS / integrity PASS / provenance VERIFIED / reusable true。全117の保持本文/SEO/JSON-LD/Relation/残存リンクも、承認された削除/移設だけを区別してGit基準と一致した。
+
+全関連回帰407件中406 PASS / FAIL0 / SKIP1。04のsitemap FAILは承認済み1箇所修正で解消。実APIのローカルChrome1280/390でも歌唱名義ランキング5行・前S016/次S018のナビ正常。移設ボタンの実際の新規タブ遷移で、gap checkerのsongSelectがS017選択済みになることを確認。page/console error0、横overflowなし。正式静的/動的/JS OFFのリンク契約は恒久回帰で確認済み。
+
+表示確認画像は新規一時領域 `musdb-link04b-real-in5GjG` のhistory/gap×1280/390（実API・正式snapshot、無改変）。スクロール途中やhoverが混ざらないよう、QAのスクロールのみinstant指定で撮影した。制御長文と0/1件は `musdb-song-release-type-a-HQ2Qlq` に分離。既存prerenderテストが生成したQA8枚は `musdb-link04b-final-prerender-qa-01d89c9` へ移して保全した。
+
+最終Git差分129ファイル＝Song HTML117＋manifest1＋実装/検証/文書11、staged0/untracked0。Release/dataの5,539ファイルは生bytes/hash不変、その他保護6ファイルもGit正規化内容一致（うち5ファイルはcheckout改行正規化）。shared CSS/Home/Venue/API/Revision/正式snapshot無変更。HEAD/main/origin/mainは`01d89c94a4008a025245eda9bc191b042fb417c1`のまま、diff --check PASS。04BローカルPASS、未公開・表示承認待ち。commit/push/deployなし。未解決STOP事項なし。

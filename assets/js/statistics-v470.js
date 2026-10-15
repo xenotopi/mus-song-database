@@ -120,9 +120,9 @@ function renderOverview(){
   ];
   el.overviewCards.innerHTML = cards.map(([label,value,suffix,href]) => `
     ${href
-      ? `<a class="stats-overview-card stats-overview-card-link" href="${href}" aria-label="${escapeHtml(label)} ${value.toLocaleString("ja-JP")}${escapeHtml(suffix)}を見る"${label === "未歌唱曲" ? ' data-musdb-analytics-event="unperformed_click" data-navigation-source="statistics" data-filter-type="performance" data-filter-value="unperformed"' : ""}>`
+      ? `<a class="stats-overview-card stats-overview-card-link mus-card-link mus-chip-link" href="${href}" aria-label="${escapeHtml(label)} ${value.toLocaleString("ja-JP")}${escapeHtml(suffix)}を見る"${label === "未歌唱曲" ? ' data-musdb-analytics-event="unperformed_click" data-navigation-source="statistics" data-filter-type="performance" data-filter-value="unperformed"' : ""}>`
       : '<article class="stats-overview-card">'}
-      <div class="stats-overview-label">${escapeHtml(label)}</div>
+      <div class="stats-overview-label${href ? " mus-card-title mus-title-chip" : ""}">${href ? titleWithChevron_(label) : escapeHtml(label)}</div>
       <div class="stats-overview-value">${value.toLocaleString("ja-JP")}</div>
       <div class="stats-overview-note">${escapeHtml(suffix)}</div>
     ${href ? "</a>" : "</article>"}`).join("");
@@ -232,6 +232,11 @@ function renderYearlyChart(){
   el.yearlySection.hidden = false;
 }
 
+function titleWithChevron_(text) {
+  const chars = Array.from(String(text));
+  return `${escapeHtml(chars.slice(0, -2).join(""))}<span class="mus-title-tail">${escapeHtml(chars.slice(-2).join(""))}<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span>`;
+}
+
 function rankRow(item,index,type){
   const isSong = type === "song";
   const href = isSong
@@ -251,10 +256,10 @@ function rankRow(item,index,type){
     : [item.prefectureCity || item.region,`${number(item.uniqueSongCount).toLocaleString("ja-JP")}曲`].filter(Boolean).join("｜");
 
   return `
-    <a class="stats-rank-row" href="${href}">
+    <a class="stats-rank-row mus-card-link mus-chip-link" href="${href}">
       <span class="stats-rank-no">${index + 1}</span>
       <span>
-        <span class="stats-rank-name">${escapeHtml(name)}</span>
+        <span class="stats-rank-name mus-card-title mus-title-chip">${titleWithChevron_(name)}</span>
         <span class="stats-rank-meta">${escapeHtml(meta)}</span>
       </span>
       <span class="stats-rank-value">${escapeHtml(value)}</span>
@@ -422,9 +427,9 @@ function renderDiscovery(){
   ].filter(Boolean);
 
   el.discoveryCards.innerHTML = cards.map(card => `
-    <a class="stats-discovery-card" href="${card.href}">
+    <a class="stats-discovery-card mus-card-link mus-chip-link" href="${card.href}">
       <div class="stats-discovery-label">${escapeHtml(card.label)}</div>
-      <div class="stats-discovery-title">${escapeHtml(card.title || "—")}</div>
+      <div class="stats-discovery-title mus-card-title mus-title-chip">${titleWithChevron_(card.title || "—")}</div>
       <div class="stats-discovery-value">${escapeHtml(card.value || "—")}</div>
       <div class="stats-discovery-meta">${escapeHtml(card.meta || "")}</div>
     </a>`).join("");

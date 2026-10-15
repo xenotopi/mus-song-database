@@ -46,7 +46,8 @@
         "assets/js/gap-checker-v490.js"
       ],
       "css": [
-        "assets/css/style.css"
+        "assets/css/style.css",
+        "assets/css/link-ui.css"
       ]
     },
     "gap-rankings.html": {
@@ -87,7 +88,8 @@
         "assets/js/rankings-v421.js"
       ],
       "css": [
-        "assets/css/style.css"
+        "assets/css/style.css",
+        "assets/css/link-ui.css"
       ]
     },
     "release.html": {
@@ -164,7 +166,8 @@
         "assets/js/statistics-v470.js"
       ],
       "css": [
-        "assets/css/style.css"
+        "assets/css/style.css",
+        "assets/css/link-ui.css"
       ]
     },
     "venue.html": {

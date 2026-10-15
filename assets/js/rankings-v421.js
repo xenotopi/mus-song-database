@@ -418,12 +418,17 @@ function getActiveMetric(item) {
 }
 
 
+function titleWithChevron_(text) {
+  const chars = Array.from(String(text));
+  return `${escapeHtml(chars.slice(0, -2).join(""))}<span class="mus-title-tail">${escapeHtml(chars.slice(-2).join(""))}<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span>`;
+}
+
 function rankRow({href, rank, title, meta, count, countLabel}) {
   return `
-    <a class="ranking-row" href="${href}">
+    <a class="ranking-row mus-card-link mus-chip-link" href="${href}">
       <span class="ranking-position">${rank}</span>
       <span>
-        <span class="ranking-title">${escapeHtml(title)}</span>
+        <span class="ranking-title mus-card-title mus-title-chip">${titleWithChevron_(title)}</span>
         <span class="ranking-meta">${meta}</span>
       </span>
       <span class="ranking-count">
@@ -552,9 +557,9 @@ function renderPodium(items) {
               : buildSingerUrl(item);
 
       return `
-        <a class="ranking-podium-card ranking-podium-${index + 1}" href="${href}">
+        <a class="ranking-podium-card ranking-podium-${index + 1} mus-card-link mus-chip-link" href="${href}">
           <span class="ranking-podium-rank">${labels[index]}</span>
-          <strong>${escapeHtml(title)}</strong>
+          <strong class="mus-card-title mus-title-chip">${titleWithChevron_(title)}</strong>
           <span class="ranking-podium-value">${escapeHtml(metric.count)}</span>
           <small>${escapeHtml(metric.label)}</small>
         </a>

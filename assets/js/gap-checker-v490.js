@@ -446,6 +446,11 @@ function eventMeta(event) {
   ].filter(Boolean);
 }
 
+function titleWithChevron_(text) {
+  const chars = Array.from(String(text));
+  return `${escapeHtml(chars.slice(0, -2).join(""))}<span class="mus-title-tail">${escapeHtml(chars.slice(-2).join(""))}<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span>`;
+}
+
 function renderEvents(events) {
   const list = Array.isArray(events) ? events : [];
 
@@ -459,9 +464,9 @@ function renderEvents(events) {
       const name = escapeHtml(event.eventName || "イベント名未設定");
       const nameHtml = event.eventId
         ? (
-            '<a href="event.html?id=' +
+            '<a class="mus-link-primary mus-chip-link" href="event.html?id=' +
             encodeURIComponent(event.eventId) +
-            '">' + name + ' <span class="site-icon-inline" data-site-icon="chevron-right" aria-hidden="true"></span></a>'
+            '"><span class="mus-title-chip">' + titleWithChevron_(event.eventName || "イベント名未設定") + '</span></a>'
           )
         : name;
       const meta = eventMeta(event);

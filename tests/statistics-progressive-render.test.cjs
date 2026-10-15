@@ -53,7 +53,8 @@ async function open(t, {width=1280, noChart=false, chartThrows=false}={}) {
     window.statsApi=(action,params,options)=>new Promise((resolve,reject)=>window.statsRequests.push({action,params,options,resolve,reject}));
     window.statsWrites={};
     new MutationObserver(records=>{
-      for(const record of records){const host=record.target.closest?.("#overviewCards,#topSongs,#topVenues,#discoveryCards");if(host)window.statsWrites[host.id]=(window.statsWrites[host.id]||0)+1;}
+      // Count section redraws, not SiteIcons replacing an opt-in icon host's children.
+      for(const record of records){const host=record.target.closest?.("#overviewCards,#topSongs,#topVenues,#discoveryCards");if(host===record.target)window.statsWrites[host.id]=(window.statsWrites[host.id]||0)+1;}
     }).observe(document,{childList:true,subtree:true});
   });
   await page.route(url=>url.origin===origin && url.pathname==="/assets/js/api.js" && url.searchParams.get("v")==="4.9.6",route=>route.fulfill({contentType:"text/javascript",body:`export { buildSongUrl, escapeHtml, formatDate } from "/assets/js/api.js?statistics-test-real";

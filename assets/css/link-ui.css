@@ -48,3 +48,42 @@
 .mus-link-scope a.mus-card-link .mus-card-title { color: var(--navy); font-weight: 900; overflow-wrap: anywhere; }
 .mus-link-scope a.mus-card-link:is(:hover,:focus-visible) { border-color: #bdb7f5; background: #f5f5ff; }
 .mus-link-scope a.mus-card-link:is(:hover,:focus-visible) .mus-card-title { color: var(--indigo); text-decoration: underline; text-underline-offset: 3px; }
+
+/* Opt-in title chip: TYPE A opts in on its outer anchor, TYPE B on each title.
+   Inline text flow keeps the chip next to the final characters of wrapped titles. */
+.mus-link-scope .mus-title-chip {
+  color: var(--navy);
+  font-weight: 900;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+.mus-link-scope a.mus-link-primary.mus-chip-link {
+  display: block;
+  width: fit-content;
+  padding: 4px 6px 4px 0;
+}
+.mus-link-scope .mus-title-tail { white-space: nowrap; }
+.mus-link-scope .mus-chip-link .mus-link-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+  margin-inline-start: 8px;
+  border-radius: 8px;
+  background: #f2efff;
+  color: var(--indigo);
+  line-height: 1;
+  transition: transform .18s ease;
+}
+.mus-link-scope .mus-chip-link .mus-link-chevron .site-icon {
+  width: 16px;
+  height: 16px;
+}
+.mus-link-scope a.mus-chip-link:is(:hover,:focus-visible) .mus-link-chevron { transform: translateX(3px); }
+.mus-link-scope a.mus-chip-link:is(:hover,:focus-visible) .mus-title-chip { color: var(--indigo); }
+@media (prefers-reduced-motion: reduce) {
+  .mus-link-scope .mus-chip-link .mus-link-chevron { transition: none; }
+  .mus-link-scope a.mus-chip-link:is(:hover,:focus-visible) .mus-link-chevron { transform: none; }
+}

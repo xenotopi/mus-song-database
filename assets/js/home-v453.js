@@ -211,6 +211,8 @@ const loadingSections = [
 
 let recentItems = [];
 let recentVisibleCount = 5;
+let recentSingerNames = new Map();
+let recentSingerRequest = null;
 let currentSecretMemoryId = "";
 let currentSecretMemoryItem = null;
 let secretMemoryDrawing = false;
@@ -892,17 +894,22 @@ async function redrawSecretMemory() {
 }
 
 
+// Presentation only: keep the last two characters with the decorative chip.
+// Unlike a no-wrap title, this bounded tail also permits long English words to wrap.
+function titleWithChevron(title) {
+  const chars = Array.from(String(title));
+  return `<span class="mus-link-label">${escapeHtml(chars.slice(0, -2).join(""))}<span class="mus-title-tail">${escapeHtml(chars.slice(-2).join(""))}<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span></span>`;
+}
+
 function renderTopSongs(items) {
   elements.topSongs.innerHTML =
     items.length
       ? items.map(item => `
-          <a class="home-ranking-row" href="${buildSongUrl(item.songId)}">
+          <a class="home-ranking-row mus-chip-link" href="${buildSongUrl(item.songId)}">
             <span class="home-rank">${escapeHtml(item.rank)}</span>
-            <span>
-              <span class="home-ranking-name">${escapeHtml(item.songName || "曲名未設定")}</span>
-              <span class="home-ranking-meta">イベント ${Number(item.eventCount || 0).toLocaleString("ja-JP")}件</span>
-            </span>
-            <span class="home-ranking-count">${Number(item.performanceCount || 0).toLocaleString("ja-JP")}回<span class="site-icon-inline site-row-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span>
+            <span class="home-ranking-name mus-title-chip">${titleWithChevron(item.songName || "曲名未設定")}</span>
+            <span class="home-ranking-meta">イベント ${Number(item.eventCount || 0).toLocaleString("ja-JP")}件</span>
+            <span class="home-ranking-count">${Number(item.performanceCount || 0).toLocaleString("ja-JP")}回</span>
           </a>
         `).join("")
       : '<div class="empty">ランキングデータはありません。</div>';
@@ -956,6 +963,33 @@ function renderLatestEvents(items) {
 }
 
 
+function recentSingerName(song) {
+  return song.singerDisplayName || recentSingerNames.get(song.singerId) || song.singer || "";
+}
+
+function ensureRecentSingerNames() {
+  if (recentSingerRequest || !elements.recentList.querySelector("[data-home-singer-id]")) return;
+  // One batch per Home instance, including failure. Never block Home or redraw cards.
+  recentSingerRequest = apiGet("singerList", {}, {
+    timeoutMs: 15000, retryCount: 0, cache: true,
+    cacheTtlMs: 300000, staleWhileRevalidate: false
+  }).then(response => {
+    const data = response.data;
+    if (!Array.isArray(data?.official) || !Array.isArray(data?.solo)) return;
+    const names = new Map();
+    for (const singer of [...data.official, ...data.solo]) {
+      if (typeof singer.singerId !== "string" || typeof singer.displayName !== "string" || !singer.displayName) continue;
+      if (names.has(singer.singerId) && names.get(singer.singerId) !== singer.displayName) return;
+      names.set(singer.singerId, singer.displayName);
+    }
+    recentSingerNames = names;
+    for (const node of elements.recentList.querySelectorAll("[data-home-singer-id]:not([data-home-singer-explicit])")) {
+      const name = names.get(node.dataset.homeSingerId);
+      if (name && node.textContent !== name) node.textContent = name;
+    }
+  }).catch(() => { /* Optional enrichment: keep the existing name and links. */ });
+}
+
 function renderRecent() {
   const visible =
     recentItems.slice(
@@ -983,7 +1017,7 @@ function renderRecent() {
             <article class="recent-card mus-link-scope mus-card-multi">
               <div class="recent-card-head">
                 <div class="recent-date">${escapeHtml(formatDate(item.date))}</div>
-                <a class="recent-event mus-link-primary" href="event.html?id=${encodeURIComponent(item.eventId)}"><span class="recent-event-label mus-link-label">${escapeHtml(item.eventName || "イベント名未設定")}</span><span class="site-icon-inline site-row-chevron mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></a>
+                <a class="recent-event mus-link-primary mus-chip-link" href="event.html?id=${encodeURIComponent(item.eventId)}"><span class="recent-event-label mus-title-chip">${titleWithChevron(item.eventName || "イベント名未設定")}</span></a>
 
                 <div class="recent-tags">
                   <span class="type-badge">${escapeHtml(item.category || "未分類")}</span>
@@ -998,8 +1032,8 @@ function renderRecent() {
                   songs.length
                     ? songs.map(song => `
                         <article class="recent-song mus-card-multi">
-                          <a class="recent-song-name mus-link-primary" href="${buildSongUrl(song.songId)}"><span class="mus-link-label">${escapeHtml(song.songName || "曲名未設定")}</span><span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></a>
-                          ${song.singer ? `<span class="recent-song-singer">${song.singerId ? `<a class="recent-singer-link mus-link-secondary" href="singer.html?id=${encodeURIComponent(song.singerId)}">${escapeHtml(song.singer)}</a>` : escapeHtml(song.singer)}</span>` : ""}
+                          <a class="recent-song-name mus-link-primary mus-chip-link" href="${buildSongUrl(song.songId)}"><span class="mus-title-chip">${titleWithChevron(song.songName || "曲名未設定")}</span></a>
+                          ${recentSingerName(song) ? `<span class="recent-song-singer"><span class="recent-singer-label">歌唱者：</span>${song.singerId ? `<a class="recent-singer-link mus-link-secondary" data-home-singer-id="${escapeHtml(song.singerId)}"${song.singerDisplayName ? ' data-home-singer-explicit' : ''} href="singer.html?id=${encodeURIComponent(song.singerId)}">${escapeHtml(recentSingerName(song))}</a>` : escapeHtml(recentSingerName(song))}</span>` : ""}
                         </article>
                       `).join("")
                     : '<div class="empty">歌唱曲情報はありません。</div>'
@@ -1020,6 +1054,7 @@ function renderRecent() {
     elements.recentMoreButton.textContent =
       `もっと見る（残り${recentItems.length - recentVisibleCount}件）`;
   }
+  ensureRecentSingerNames();
 }
 
 

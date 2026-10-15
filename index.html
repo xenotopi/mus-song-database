@@ -515,8 +515,7 @@
       font-weight: 700;
     }
 
-    .recent-song-singer::before {
-      content: "歌唱：";
+    .recent-singer-label {
       color: var(--navy);
       font-weight: 600;
     }
@@ -1324,7 +1323,6 @@
       grid-template-columns: 36px minmax(0,1fr) minmax(130px,1fr) auto;
       column-gap: 12px;
     }
-    .home-top-songs-card .home-ranking-row > span:nth-child(2) { display: contents; }
     .home-top-songs-card .home-ranking-name { min-width: 0; color: #172033; }
     .home-top-songs-card .home-ranking-meta {
       margin-top: 0;
@@ -1334,11 +1332,6 @@
       white-space: nowrap;
     }
     .home-top-songs-card .home-ranking-count { white-space: nowrap; }
-    .home-top-songs-card .home-ranking-count > .site-row-chevron {
-      display: inline-block;
-      margin-left: 6px;
-      transition: transform .18s ease;
-    }
     @media (max-width: 680px) {
       .home-top-songs-card .home-ranking-row {
         grid-template-columns: 36px minmax(0,1fr) auto;
@@ -1385,12 +1378,6 @@
       font-size: 18px;
       font-weight: 700;
       line-height: 1.4;
-    }
-    .home-recent-section .recent-event > .site-row-chevron{
-      display:inline-block;
-      margin-left:6px;
-      color:var(--indigo);
-      transition:transform .18s ease;
     }
 
     /* FOOTER PANEL */
@@ -2151,7 +2138,6 @@
       .home-kamipara-card:hover .home-kamipara-cta{transform:translateX(8px);text-decoration:underline;text-underline-offset:4px}
       .home-tool-card:hover .home-tool-cta,.home-ranking-row:hover .home-ranking-name{text-decoration:underline;text-underline-offset:3px}
       .home-top-songs-card .home-ranking-row:hover .home-ranking-name{color:var(--indigo)}
-      .home-top-songs-card .home-ranking-row:hover .home-ranking-count > .site-row-chevron{transform:translateX(6px)}
       .today-item:hover,.home-ranking-row:hover{background:#e9e6ff}
       .home-recent-section .recent-event:hover{color:var(--indigo)}
       .home-recent-section .recent-event:hover::after{transform:translateX(6px)}
@@ -2174,7 +2160,6 @@
       .home-explore-card:hover,.home-tool-card:hover,.home-kamipara-card:hover{transform:none}
     }
     @media (prefers-reduced-motion:reduce){
-      .home-top-songs-card .home-ranking-count > .site-row-chevron{transition:none}
       .home-explore-card,.home-tool-card,.home-kamipara-card,.home-kamipara-card::before,.home-kamipara-stat,.home-kamipara-cta,.home-explore-arrow,.home-explore-icon,.home-explore-card::before,.home-recent-section .recent-event > .site-row-chevron,.home-tool-icon,.home-tool-card::before,.home-tool-cta,.home-more-button{transition:none}
       .home-explore-card:hover,.home-tool-card:hover,.home-kamipara-card:hover,.home-explore-card:active,.home-tool-card:active,.home-kamipara-card:active,.home-tool-card:hover .home-tool-cta{transform:none}
     }
@@ -2182,7 +2167,7 @@
 
   <script src="assets/js/seo-v351.js?v=4.6.2&amp;cache=domain-c&songUrls=1" defer></script>
   <link rel="stylesheet" href="assets/css/icons.css?v=2">
-  <link rel="stylesheet" href="assets/css/link-ui.css?v=1">
+  <link rel="stylesheet" href="assets/css/link-ui.css?v=2">
   <script src="assets/js/icons.js?v=2" defer></script>
 </head>
 
@@ -2414,7 +2399,7 @@
       </div>
 
       <div class="home-top-songs-card">
-        <div class="home-ranking-list home-ranking-list-v45" id="topSongs"></div>
+        <div class="home-ranking-list home-ranking-list-v45 mus-link-scope" id="topSongs"></div>
         <div class="home-more-wrap">
           <a class="home-more-button home-more-link" href="rankings.html">ランキングをもっと見る <span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></a>
         </div>
@@ -2460,6 +2445,6 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/home-v453.js?v=4.9.5&amp;cache=today-jst&songUrls=1"></script>
+  <script type="module" src="assets/js/home-v453.js?v=4.9.6&amp;cache=today-jst&songUrls=1"></script>
 </body>
 </html>

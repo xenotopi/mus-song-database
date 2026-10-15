@@ -241,3 +241,72 @@ FEATURE-GAP-RANKINGS-PROD-01では表示承認済みの4STEPをまとめて公�
 実装仕様書に残る「未公開」「承認待ち」「Git状態」は各ローカルSTEP時点の履歴である。実際の公開状態は対応commitとGitHub Pages buildの結果を別途確認する。
 
 保留：Song収録ReleaseのTYPE A構造変更・正式117再capture/manifest/provenance同期。Venueの不要セクション整理、年別フィルター統一、「曲を見る」追加も本公開には含めず、別工程で扱う。
+
+## 12. UI-LINK-CONSISTENCY-03：正式基準とHomeローカル展開
+
+01/02とランキング折返し修正は公開済み（基準commit `d697f16273326362a82fd4f5ec55b3b6b6c3c2f1`）。今回03はローカル表示承認待ち。既存の公開状態と各章の過去記録を区別する。
+
+正式基準は濃紺 `#172033` の太字タイトル＋indigoの16px SVGを中央配置した30px角・角丸8px・薄紫 `#f2efff` chevron。hover/focusでは背景枠だけ3px移動、0.18s transition。reduced-motionは移動なし、focus輪郭は維持する。
+
+### opt-in構成
+
+- `mus-link-scope` の中で、クリック可能な既存aに `mus-chip-link`、タイトル表示に `mus-title-chip` を追加する。汎用a/chevronには適用しない。
+- TYPE Aは外枠aにopt-inし、内部タイトルはspan。TYPE Bは各主要タイトルaだけにopt-in。補足 `mus-link-secondary`、機能 `mus-link-action`、非クリック `mus-card-info` の契約は維持する。
+- Homeのタイトル文字はinlineで流し、末尾2文字とchevronだけ `mus-title-tail` にまとめる。短い尾部だけnowrapとしてアイコン単独行を防ぐ。タイトル全体のnowrap、固定top、負margin、不可視overlayは使わない。
+- 最近の曲の主要aはblock＋fit-content/max-width、最小44px。inline-flow内でアイコンを最終文字の8px後へ置く。折返し時にもカード右端へ押し出さない。矢印の移動用に右paddingを確保。
+- TOP5は既存の行全体aを維持。子要素を順位／曲名／イベント件数／歌唱回数の明示Grid項目に整理し、旧display:contentsと回数側の矢印を除去。PC4列、mobileはイベント件数を次行。その他ランキング行は変更しない。
+- CSS `link-ui.css?v=2` / Home JS `4.9.6`。他ページのキャッシュ参照・markup・CSS適用は変更しない。ランキングの既存inline-flex版は表示承認済みのまま保持し、後続の共通クラス移行時に別途回帰する。共通CSSへのopt-inのみでランキング/Venueが変わることはない。
+
+### 全サイト展開の更新計画
+
+以下は計画であり、03ではHome2領域以外に適用しない。CSS読込だけではDOM上の役割付与や全面クリック化は完了しない。
+
+| 順 | 対象 | 型・現クリック範囲 | 共通chip適用・変更方式 | 正式生成HTMLへの影響 |
+| --- | --- | --- | --- | --- |
+| 済/今回 | ブランクランキング／Home TOP5・最近の曲 | B個別a／A全文a・B個別a | ランキングは既存実装維持。Homeのみ共通chip DOM/CSS | なし。集計/派生JSON不変 |
+| 1 | Song一覧 | A全文a | タイトルspan＋装飾hostのDOM追加、CSS参照 | 個別一覧のみ。Song正式HTML変更なし |
+| 1 | Event一覧 | A全文a | 同上。filter/buttonをカード外で維持 | 個別一覧のみ |
+| 1 | Release一覧 | 通常A、22対象はRelease a＋Song aのB | 主題span/個別aへopt-in。補足Songを外枠aに含めない。JS/HTML/CSS | 一覧のみ。遅延/3並行/通信共有回帰 |
+| 1 | Venue一覧／Singer一覧 | A全文a | 既存a内タイトルへ装飾host追加、CSS参照 | 正式Song/Releaseへの影響なし |
+| 2 | Event詳細 | BのSong・Singer個別a、操作D | 主要aのDOM/CSS変更。セットリスト順・リンク分離を維持 | 正式Song/Releaseへの影響なし |
+| 2 | Venue詳細 | 最初/最後A全文a、他はA/C/E | 既存全面aにchip DOM追加。今回変更なし。情報構成変更と分離 | 正式Song/Releaseへの影響なし |
+| 2 | Singer詳細 | BのEvent/Song a＋曲を見るD | 主要aのDOM/CSS、年フィルター・開閉保持 | 正式Song/Releaseへの影響なし |
+| 2 | 通常ランキング／統計 | 主にA全文a、情報Eと切替D | タイトルspan/装飾host追加。非リンク概要を除外 | 正式Song/Releaseへの影響なし。Chart/段階描画回帰 |
+| 2 | いつ振りチェッカー | B個別a、入力D | 個別主要aのDOM/CSS。計算/共有URL維持 | 正式Song/Releaseへの影響なし |
+| 別承認 | Song詳細 | 収録Releaseはタイトルのみa→将来A、履歴B | **CSSのみ不可**。収録Releaseの外枠a化・内部a→span、他領域は個別aへchip | **正式117再capture＋manifest/provenance同期＋独立検証が必要** |
+| 別承認 | Release詳細／R0072 | 多くはA全文a、神パラB/C/D | renderer/templateの装飾host変更。本文保持・補完契約維持 | **正式114再capture＋manifest/provenance同期＋独立検証が必要** |
+| 3 | Search／共通検索・nav | 検索A、nav専用a、操作D | Searchは個別DOM/CSS。共通側はcommon.js依存を監査 | common.js変更時は両正式セット同期を要する |
+| 3 | Member Analytics／神パラ専用 | B/C/D/E、表の文字a/details | タイトルaだけopt-in。Desktop/Mobile両DOMとdetailsを維持 | 当該ページのみ。集計/データ変更なし |
+| 3 | About／404／その他参照 | C/Eと機能リンク | 主要タイトルcardが存在する箇所のみ個別判断、全aへの適用なし | 共通rendererを変更しなければ正式同期不要 |
+
+正式Song/Releaseの外部CSSは現fingerprint対象外だが、templateのCSS参照変更・renderer markup変更は対象。CSSだけで静的本文とruntimeを別構造にする近道は採用しない。正式同期が必要な工程は別承認まで保留する。
+
+### 03回帰の範囲
+
+標準 `test:ui-links` の既存6件にHome2幅×通常/操作・reduced-motionの4件を追加。TOP5は5行すべて、最近の曲/Eventは正式snapshot由来fixture＋長い日英タイトルで測定する。末尾文字とchipの座標、SVG中央、3px移動、レイアウト不変、TYPE A余白クリック/中クリック/Enter、TYPE B分離、tap、focus、補足リンクを検証する。
+
+古い `home-recent-singer-links.test.cjs` にはEventとSingerが同色であるという01以前の期待値が残っていた。今回正式仕様（主要濃紺・補足青＋下線）に更新し、hover/focusの装飾・寸法・IDリンク・未解決名義非リンク検証は維持する。画像は既存outputsを上書きせず毎回新規一時領域へ保存する。
+
+今回commit/push/deploy・正式再生成は行わない。Song収録Releaseの全面リンク化、Venueの不要セクション整理/年フィルター統一/曲を見る追加は引き続き別工程。
+
+03ローカル結果：関連回帰102/102 PASS（skip 0）。Homeの両幅×7リンクでchip30px/SVG16px、hover移動3px、a矩形不変を確認。末尾2文字とchipの間隔は8px、長い日英Eventも単独icon行/横overflowなし。TYPE A余白/中クリック/Enter、TYPE B個別リンク/tap、focus/reduced-motion正常。新規4件は既存標準 `test:ui-links` に含まれる。
+
+独立validatorはPASS / integrity PASS / provenance VERIFIED / reusable true、Song117/Release114維持。実APIを使う別のローカルChrome新規環境でも1280/390のHome表示正常、page/console error 0、横overflowなし。表示承認用画像は一時領域 `musdb-link03-real-GbHmDP` の `top5-1280.png` / `top5-390.png` / `recent-1280.png` / `recent-390.png`。長文fixtureの画像は `musdb-ui-links-5nYTCl` に分離。実機iPhone/Safariは未検証。
+
+Gitは基準commitのまま、関連6ファイルmodified、staged/untracked 0。正式snapshot/Revision/生成HTML/manifest、ランキングmodel/例え/派生JSON、Venueに差分なし。diff --check PASS。表示承認前のため未公開。
+
+### FINAL：歌唱者正式表示と非ブロッキング補完
+
+Home実APIには短縮`singer`と`singerId`のみで、`singerDisplayName`はない。承認を受け既存`singerList`を使用。実APIは`data.official`49件・`data.solo`23件、各行の`singerId`/`displayName`を提供し、SN0054=新田恵海、SN0059=三森すずこ、SN0072=飯田里穂＆久保ユリカ＆Pileを確認した。手書き変換辞書・新API・正式データ更新はない。
+
+Homeの最近の曲を先に描画し、`apiGet`の既存cache/in-flightを利用して1インスタンス最大1回の補助取得を開始。retryCount=0、timeout15秒、TTL5分、SWRなし。失敗後の再描画でも自動再取得しない。表示優先順位は既存`singerDisplayName`→取得したMapのdisplayName→既存singer。不明IDは推測しない。取得成功時は現在存在する歌唱者aのtextContentだけを更新し、href/カード/他リンク/フォーカスを保持。既存正式表示名がある行は上書きしない。
+
+ラベルはDOMの`span.recent-singer-label`「歌唱者：」にし、旧CSS疑似要素を除去。HTML生成はescapeHtml、後続更新はtextContentでXSS対策を維持する。
+
+初回新規テストFAILは、応答を意図的に保留するJSONPモックの解放より前に`page.goto`の既定`load`待ちを置いたテスト内の待機循環。旧41行のgotoが30秒でTimeoutErrorとなった。診断時はHome/revision応答済み、singerList要求1件・応答保留、DOMはinteractive・5カード表示済み・status非表示・エラー0。実モックJSONもsuccess/data/official/solo構造で正常だった。`DOMContentLoaded`＋実DOM待機へ修正し、同じ失敗テストは約0.9秒でPASS。タイムアウト延長やsleep追加、production処理変更で隠していない。
+
+成功/失敗/実15秒timeout（仮想時計）×2幅の6件を追加し、既存2件と合わせ歌唱者回帰8/8 PASS。本文先行表示・正式3名義・同ID複数行・不明ID・正式名優先・XSS・ラベル重複なし・DOM/フォーカス同一性・もっと見る後も要求1回を確認。標準`test:ui-links`へ歌唱者testファイルを追加登録。全関連回帰108/108 PASS（skip0）、独立validator PASS/VERIFIED/reusable true、diff-check PASS。
+
+実APIを使用したローカルChrome各1回の観測では、1280pxはHomeの最初の歌唱者DOMが2.02秒、正式名3.57秒、390pxは1.69秒→2.66秒。追加通信はそれぞれ1件。これはその環境・回線での単発観測で速度保証/改善率ではない。初期表示は取得完了を待たず、名前のノードとカードは同一のまま。最終画像は新規一時領域`musdb-link03-real-Ebi9dN`へ保存。公式名義・複数名義を含む実表示と自然な折返し、page/console error0、横overflowなしを確認。
+
+公開対象は従来6ファイル＋標準登録のtests/package.jsonの7ファイル。正式snapshot/Revision/231 HTML、ランキング、Venueは無変更。今回の公開承認に基づき、全検証後に限りcommit/push/Pages QAへ進む。実機iPhone/Safariは未検証。

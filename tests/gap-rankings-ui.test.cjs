@@ -129,3 +129,30 @@ for(const width of[1280,390])for(const tab of['current','history'])test(`ranking
 for(const width of[1280,390])test('ranking chip reduced motion '+width,async()=>{
   const{page,context}=await open(width);try{await page.emulateMedia({reducedMotion:'reduce'});await ready(page);const link=page.locator('.mus-link-primary').first(),chip=link.locator('.mus-link-chevron');await link.hover();await page.waitForTimeout(220);assert.equal(await chip.evaluate(e=>getComputedStyle(e).transform),'none');assert.equal(await chip.evaluate(e=>getComputedStyle(e).transitionDuration),'0s');await page.mouse.move(0,0);await page.keyboard.press('Tab');await link.focus();assert.equal(await chip.evaluate(e=>getComputedStyle(e).transform),'none');assert.equal(await link.evaluate(e=>getComputedStyle(e).outlineStyle),'solid');}finally{await context.close();}
 });
+
+for(const width of[1280,390])test('all 30 analogies wrap without orphaned endings '+width,async()=>{
+  const{page,context,errors}=await open(width);try{
+    await ready(page);
+    const {PERIOD_ANALOGIES}=await import('../assets/js/gap-rankings-presentation.js');
+    const lines=PERIOD_ANALOGIES.flatMap(b=>b.lines);assert.equal(lines.length,30);
+    // Presentation-only samples: do not alter the derived data or ranking model.
+    const measurements=await page.locator('.gap-rankings-row').first().evaluate((row,lines)=>{
+      const list=row.parentElement,template=row.cloneNode(true);list.replaceChildren();
+      return lines.map(text=>{
+        const card=template.cloneNode(true),p=card.querySelector('.gap-rankings-analogy');p.textContent=text;list.append(card);
+        const node=p.firstChild,counts=new Map();
+        for(let i=0;i<node.length;i++){const r=document.createRange();r.setStart(node,i);r.setEnd(node,i+1);const rect=r.getBoundingClientRect(),y=Math.round(rect.y);counts.set(y,(counts.get(y)||0)+1);}
+        const box=p.getBoundingClientRect(),days=card.querySelector('.gap-rankings-days').getBoundingClientRect();
+        return{text,lineLengths:[...counts.values()],fontSize:getComputedStyle(p).fontSize,whiteSpace:getComputedStyle(p).whiteSpace,textAlign:getComputedStyle(p).textAlign,fits:p.scrollWidth<=p.clientWidth&&box.left>=0&&box.right<=innerWidth,rightAligned:Math.abs(box.right-days.right)<1,checkerNext:p.nextElementSibling.matches('.gap-rankings-checker')};
+      });
+    },lines);
+    for(const m of measurements){
+      assert.equal(m.fits,true,m.text);assert.equal(m.fontSize,'13px');assert.equal(m.whiteSpace,'normal');assert.equal(m.checkerNext,true);
+      if(width===1280){assert.equal(m.lineLengths.length,1,m.text);assert.equal(m.textAlign,'right');assert.equal(m.rightAligned,true);}
+      if(m.lineLengths.length>1)assert.ok(m.lineLengths.at(-1)>2,JSON.stringify(m));
+    }
+    await fit(page);assert.deepEqual(errors,[]);
+    await page.locator('.gap-rankings-row').first().scrollIntoViewIfNeeded();await page.screenshot({path:path.join(screenshots,`all-analogies-${width}.png`),fullPage:true});
+    console.log(JSON.stringify({width,analogyCount:measurements.length,multiline:measurements.filter(m=>m.lineLengths.length>1).length,orphanEndings:0}));
+  }finally{await context.close();}
+});

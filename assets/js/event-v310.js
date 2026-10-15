@@ -115,30 +115,6 @@ const elements = {
       "performerList"
     ),
 
-  eventInsightsSection:
-    document.getElementById(
-      "eventInsightsSection"
-    ),
-
-  uniqueEventSongs:
-    document.getElementById(
-      "uniqueEventSongs"
-    ),
-
-  firstEventSongs:
-    document.getElementById(
-      "firstEventSongs"
-    ),
-
-  lastEventSongs:
-    document.getElementById(
-      "lastEventSongs"
-    ),
-
-  firstEventCount: document.getElementById("firstEventCount"),
-  lastEventCount: document.getElementById("lastEventCount"),
-  uniqueEventCount: document.getElementById("uniqueEventCount"),
-
   songsSection:
     document.getElementById(
       "songsSection"
@@ -530,50 +506,6 @@ function updateSongFilterButtons_() {
 }
 
 
-function renderEventInsights_(
-  discover
-) {
-  const firstSongs = Array.isArray(discover.firstPerformedSongs) ? discover.firstPerformedSongs : [];
-  const lastSongs = Array.isArray(discover.lastPerformedSongs) ? discover.lastPerformedSongs : [];
-  const uniqueSongs = Array.isArray(discover.uniqueSongs) ? discover.uniqueSongs : [];
-  const renderSongs =
-    items =>
-      items.length
-        ? items.map(item => `
-            <a
-              class="insight-row"
-              href="${buildSongUrl(
-                item.songId
-              )}"
-            >
-              <span class="insight-title">
-                ${escapeHtml(
-                  item.songName ||
-                  "曲名未設定"
-                )}
-              </span>
-
-              <span class="insight-value">
-                <span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span>
-              </span>
-            </a>`
-          ).join("")
-        : `<div class="empty">該当する曲はありません。</div>`;
-
-  elements.uniqueEventSongs.innerHTML =
-    renderSongs(uniqueSongs);
-
-  elements.firstEventSongs.innerHTML =
-    renderSongs(firstSongs);
-
-  elements.lastEventSongs.innerHTML =
-    renderSongs(lastSongs);
-  elements.firstEventCount.textContent = `${firstSongs.length}曲`;
-  elements.lastEventCount.textContent = `${lastSongs.length}曲`;
-  elements.uniqueEventCount.textContent = `${uniqueSongs.length}曲`;
-}
-
-
 function renderEvent(event) {
   const statistics =
     event.statistics || {};
@@ -903,8 +835,6 @@ function renderNavigation(
 function renderEventPair_(eventData, discoverData) {
   currentDiscover = discoverData || {};
   renderEvent(eventData);
-  if (discoverData) renderEventInsights_(discoverData);
-  elements.eventInsightsSection.hidden = !discoverData;
   const renderedEventId = String(eventData.eventId || eventId);
   if (/^EV\d+$/.test(renderedEventId)) {
     window.MusDbAnalytics?.trackOnce(
@@ -1016,9 +946,6 @@ async function loadEvent() {
   elements.eventPerformersSection.hidden =
     true;
 
-  elements.eventInsightsSection.hidden =
-    true;
-
   elements.songsSection.hidden =
     true;
 
@@ -1045,9 +972,7 @@ async function loadEvent() {
     void discoverRequest.then(discoverData => {
       if (generation !== loadGeneration || !discoverData) return;
       currentDiscover = discoverData;
-      renderEventInsights_(discoverData);
       renderEventSongs_();
-      elements.eventInsightsSection.hidden = false;
     });
   } catch (error) {
     if (generation !== loadGeneration) return;

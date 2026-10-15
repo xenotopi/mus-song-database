@@ -214,47 +214,6 @@
   font-weight: 700;
 }
 
-.insight-list {
-  display: grid;
-  gap: 9px;
-}
-
-.insight-row {
-  display: grid;
-  grid-template-columns:
-    minmax(0, 1fr) auto;
-  gap: 12px;
-  align-items: center;
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: #fff;
-  text-decoration: none;
-}
-
-.insight-row:hover {
-  border-color: #bdb7f5;
-  background: #fcfbff;
-}
-
-.insight-title {
-  color: var(--navy);
-  font-weight: 900;
-}
-
-.insight-meta {
-  margin-top: 3px;
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.insight-value {
-  color: var(--indigo);
-  font-weight: 900;
-  white-space: nowrap;
-}
-
 .trend-chart {
   display: grid;
   gap: 9px;
@@ -411,21 +370,6 @@
       font-size:14px;
       line-height: 1.75;
     }
-
-    .event-insight-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .event-insight-card {
-      padding: 20px;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      background: #fff;
-      box-shadow: var(--shadow);
-    }
-
     .event-song-controls {
       margin-bottom: 13px;
       display: flex;
@@ -648,8 +592,7 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .event-performer-grid,
-      .event-insight-grid {
+      .event-performer-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -785,8 +728,6 @@
     #eventInfo dd a:focus-visible { outline: 3px solid var(--indigo); outline-offset: 2px; }
     .event-info-sub { display: block; color: var(--muted); font-size: 14px; font-weight: 500; }
     .event-info-links, .event-info-singers { display: flex; flex-wrap: wrap; gap: 5px 12px; }
-    .event-insight-count { color: var(--indigo); font-size: 18px; white-space: nowrap; }
-    #eventInsightsSection .event-insight-card { min-height: 0; }
 
     .event-stat-help-v46 {
       margin-top: 14px;
@@ -858,7 +799,6 @@
 
     #songsSection .section-head h2,
     #eventPerformersSection .section-head h2,
-    #eventInsightsSection .section-head h2,
     #venueSection h2,
     #discoverySection .section-head h2 {
       font-size: 26px;
@@ -886,14 +826,12 @@
     }
 
     #eventPerformersSection,
-    #eventInsightsSection,
     #venueSection,
     #discoverySection {
       margin-top: 58px;
     }
 
     .event-performer-card,
-    .event-insight-card,
     #venueSection .card,
     .discovery-card {
       border-color: #dfdced !important;
@@ -907,18 +845,6 @@
     .performer-list {
       margin-top: 0;
     }
-
-    .event-insight-grid {
-      gap: 13px;
-    }
-
-    .event-insight-card {
-      min-height: 168px;
-      background:
-        radial-gradient(circle at 100% 0,rgba(79,70,229,.06),transparent 38%),
-        #fff;
-    }
-
     #venueSection .card {
       padding: 22px;
     }
@@ -989,7 +915,6 @@
 
       #songsSection,
       #eventPerformersSection,
-      #eventInsightsSection,
       #venueSection,
       #discoverySection {
         margin-top: 46px;
@@ -997,7 +922,6 @@
 
       #songsSection .section-head h2,
       #eventPerformersSection .section-head h2,
-      #eventInsightsSection .section-head h2,
       #venueSection h2,
       #discoverySection .section-head h2 {
         font-size: 22px;
@@ -1177,7 +1101,6 @@
       <a href="#mainContent">基本情報</a>
       <a href="#songsSection">披露曲</a>
       <a href="#eventPerformersSection">歌唱名義</a>
-      <a href="#eventInsightsSection">記録</a>
     </nav>
 
     <section class="quicknav" id="quickNav" hidden>
@@ -1318,57 +1241,12 @@
         </article>
       </div>
     </section>
-    <section
-      class="section"
-      id="eventInsightsSection"
-      hidden
-    >
-      <div class="section-head">
-        <div>
-          <p class="kicker">EVENT RECORDS</p>
-          <h2>このイベントの記録</h2>
-        </div>
-      </div>
-
-      <div class="event-insight-grid">
-        <article class="event-insight-card">
-          <p class="kicker">FIRST PERFORMANCE</p>
-          <h2>初披露された曲 <span class="event-insight-count" id="firstEventCount"></span></h2>
-          <div
-            class="insight-list"
-            id="firstEventSongs"
-          ></div>
-        </article>
-
-        <article class="event-insight-card">
-          <p class="kicker">LATEST PERFORMANCE</p>
-          <h2>最終披露となった曲 <span class="event-insight-count" id="lastEventCount"></span></h2>
-          <div
-            class="insight-list"
-            id="lastEventSongs"
-          ></div>
-        </article>
-
-        <article class="event-insight-card">
-          <p class="kicker">ONLY HERE</p>
-          <h2>このイベントだけの曲 <span class="event-insight-count" id="uniqueEventCount"></span></h2>
-          <div
-            class="insight-list"
-            id="uniqueEventSongs"
-          ></div>
-        </article>
-      </div>
-    </section>
-
-
-
-
 
   </main>
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/event-v310.js?v=4.9.13&amp;cache=output-revision&songUrls=1&setlist=1&relative=1"></script>
+  <script type="module" src="assets/js/event-v310.js?v=4.9.14&amp;cache=output-revision&songUrls=1&setlist=1&relative=1"></script>
 
   <script>
     (() => {

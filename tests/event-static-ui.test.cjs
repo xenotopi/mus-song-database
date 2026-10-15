@@ -39,17 +39,25 @@ function jsonp(route, data) {
   return route.fulfill({ status: 200, contentType: "text/javascript", body: `${callback}(${JSON.stringify({ success: true, data })});` });
 }
 
-async function openEvent({ staticValid = true, revisionValue = dataRevision, outputRevisionValue = outputRevision, blockApi = false, fresh = false, width = 1280 }) {
+async function openEvent({ staticValid = true, revisionValue = dataRevision, outputRevisionValue = outputRevision, blockApi = false, fresh = false, width = 1280, discoverGate = null, discoverFail = false, discoverOverride = null, emptySongs = false }) {
   const page = await browser.newPage({ viewport: { width, height: 900 } });
   const calls = [];
   const pageErrors = [];
+  const consoleErrors = [];
   page.on("pageerror", error => pageErrors.push(error.message));
+  page.on("console", message => { if (message.type() === "error") consoleErrors.push(message.text()); });
+  const fixture = (name, revision) => {
+    const value = pair(name, revision);
+    if (discoverOverride) Object.assign(value.discover, discoverOverride);
+    if (emptySongs) value.event.songs = [];
+    return value;
+  };
   await page.route("**/data/snapshots/**/events/EV0001.json", route => route.fulfill({
     status: 200,
     contentType: "application/json",
     body: JSON.stringify(staticValid ? {
       snapshot: { revision: outputRevision, outputRevision, dataRevision },
-      data: pair("Static Event", dataRevision)
+      data: fixture("Static Event", dataRevision)
     } : {})
   }));
   await page.route(/script\.google(?:usercontent)?\.com\//, async route => {
@@ -58,13 +66,17 @@ async function openEvent({ staticValid = true, revisionValue = dataRevision, out
     if (blockApi) return route.abort();
     if (action === "revision") return jsonp(route, { dataRevision: revisionValue, outputRevision: outputRevisionValue });
     if (fresh) await new Promise(resolve => setTimeout(resolve, 400));
-    const latest = pair("Fresh Event", revisionValue);
+    const latest = fixture("Fresh Event", revisionValue);
     if (action === "event") return jsonp(route, latest.event);
-    if (action === "discover") return jsonp(route, latest.discover);
+    if (action === "discover") {
+      if (discoverGate) await discoverGate;
+      if (discoverFail) return route.fulfill({ contentType: "text/javascript", body: `${new URL(route.request().url()).searchParams.get("callback")}(${JSON.stringify({ success: false, error: "Controlled discover failure" })});` });
+      return jsonp(route, latest.discover);
+    }
     return route.abort();
   });
   await page.goto(`${baseUrl}/event.html?id=EV0001`, { waitUntil: "domcontentloaded" });
-  return { page, calls, pageErrors };
+  return { page, calls, pageErrors, consoleErrors };
 }
 
 test.before(async () => {
@@ -136,7 +148,8 @@ test("latest Static renders Event and discover before revision, with no detail J
   const { page, calls, pageErrors } = await openEvent({ width: 1280 });
   await page.locator("#mainContent").waitFor({ state: "visible" });
   assert.equal(await page.locator("#eventName").innerText(), "Static Event");
-  assert.equal(await page.locator("#firstEventCount").innerText(), "1曲");
+  assert.equal(await page.locator("#songList .event-song-badge.first").count(), 1);
+  assert.equal(await page.locator('#eventInsightsSection, a[href="#eventInsightsSection"]').count(), 0);
   await page.waitForTimeout(200);
   assert.equal(calls.filter(action => action === "event" || action === "discover").length, 0);
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false);
@@ -149,7 +162,7 @@ test("blocked JSONP leaves complete Static visible at 390px", async () => {
   await page.locator("#mainContent").waitFor({ state: "visible" });
   await page.waitForTimeout(200);
   assert.equal(await page.locator("#eventName").innerText(), "Static Event");
-  assert.equal(await page.locator("#firstEventCount").innerText(), "1曲");
+  assert.equal(await page.locator("#songList .event-song-badge.first").count(), 1);
   assert.equal(calls.filter(action => action === "event" || action === "discover").length, 0);
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false);
   assert.deepEqual(pageErrors, []);
@@ -162,7 +175,7 @@ test("stale Static appears first and updates both datasets without resetting the
   assert.equal(await page.locator("#eventName").innerText(), "Static Event");
   await page.locator('[data-filter="first"]').click();
   await page.waitForFunction(() => document.querySelector("#eventName")?.textContent === "Fresh Event");
-  assert.equal(await page.locator("#firstEventCount").innerText(), "1曲");
+  assert.equal(await page.locator("#songList .event-song-badge.first").count(), 1);
   assert.equal(await page.locator('[data-filter="first"]').getAttribute("class").then(value => value.includes("active")), true);
   assert.equal(calls.filter(action => action === "event").length, 1);
   assert.equal(calls.filter(action => action === "discover").length, 1);
@@ -173,10 +186,63 @@ test("stale Static appears first and updates both datasets without resetting the
 test("invalid Static falls back to API, and blocked API reaches the existing error state", async () => {
   const success = await openEvent({ staticValid: false });
   await success.page.waitForFunction(() => document.querySelector("#eventName")?.textContent === "Fresh Event");
-  assert.equal(await success.page.locator("#firstEventCount").innerText(), "1曲");
+  await success.page.locator("#songList .event-song-badge.first").waitFor();
+  assert.equal(await success.page.locator("#songList .event-song-badge.first").count(), 1);
   await success.page.close();
   const failure = await openEvent({ staticValid: false, blockApi: true });
   await failure.page.waitForFunction(() => document.querySelector("#eventName")?.textContent === "イベントデータを表示できません");
   assert.deepEqual(failure.pageErrors, []);
   await failure.page.close();
 });
+
+for (const width of [1280, 390]) {
+  for (const mode of ["static", "delayed", "failed", "empty"]) test(`Event records removed, discover badges retained ${width} ${mode}`, async () => {
+    let releaseDiscover;
+    const gate = new Promise(resolve => { releaseDiscover = resolve; });
+    const item = { songId: "S001", songName: "僕らのLIVE 君とのLIFE" };
+    const badges = mode === "empty" ? [] : [item];
+    const c = await openEvent({ width, staticValid: mode === "static" || mode === "empty", discoverGate: mode === "delayed" ? gate : null, discoverFail: mode === "failed", emptySongs: mode === "empty", discoverOverride: { firstPerformedSongs: badges, lastPerformedSongs: badges, uniqueSongs: badges } });
+    const { page } = c;
+    try {
+      await page.locator("#mainContent").waitFor({ state: "visible" });
+      assert.equal(await page.locator('#eventInsightsSection, #firstEventSongs, #lastEventSongs, #uniqueEventSongs, #firstEventCount, #lastEventCount, #uniqueEventCount, a[href="#eventInsightsSection"]').count(), 0);
+      assert.equal(await page.getByRole("heading", { name: "このイベントの記録", exact: true }).count(), 0);
+      assert.equal(await page.locator("#eventPerformersSection").isVisible(), true);
+      const note = await page.locator("#songOrderNote").innerText();
+      if (mode === "delayed") {
+        assert.equal(await page.locator(".event-song-row").count(), 1);
+        assert.equal(await page.locator(".event-song-badge").count(), 0);
+        await page.locator('[data-filter="first"]').click();
+        assert.equal(await page.locator(".event-song-row").count(), 0);
+        releaseDiscover();
+      }
+      if (mode === "static" || mode === "delayed") {
+        await page.locator(".event-song-badge.unique").waitFor();
+        for (const flag of ["first", "last", "unique"]) {
+          assert.equal(await page.locator(".event-song-badge." + flag).count(), 1);
+          await page.locator(`[data-filter="${flag}"]`).click();
+          assert.equal(await page.locator(".event-song-row").count(), 1);
+        }
+        await page.locator('[data-filter="all"]').click();
+        assert.equal(await page.locator(".event-song-singer-link").innerText(), "μ's");
+        assert.equal(await page.locator(".event-song-singer-link").getAttribute("href"), "singer.html?id=SN0001");
+        assert.equal(c.calls.filter(a => a === "discover").length, mode === "static" ? 0 : 1);
+      } else {
+        if (mode === "failed") await page.waitForFunction(() => ![...document.scripts].some(s => /action=discover/.test(s.src)));
+        assert.equal(await page.locator(".event-song-badge").count(), 0);
+        assert.equal(await page.locator(".event-song-row").count(), mode === "empty" ? 0 : 1);
+        for (const flag of ["first", "last", "unique"]) {
+          await page.locator(`[data-filter="${flag}"]`).click();
+          assert.equal(await page.locator(".event-song-row").count(), 0);
+        }
+        await page.locator('[data-filter="all"]').click();
+        if (mode === "failed") assert.equal(c.calls.filter(a => a === "discover").length, 1);
+      }
+      assert.equal(await page.locator("#songOrderNote").innerText(), note);
+      assert.equal(await page.locator("#status").isHidden(), true);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+      assert.deepEqual(c.pageErrors, []);
+      assert.deepEqual(c.consoleErrors, []);
+    } finally { releaseDiscover(); await page.close(); }
+  });
+}

@@ -214,7 +214,7 @@ test("主要viewportで横overflowがなく通常a要素で遷移できる", asy
   await page.close();
 });
 
-test("情報量の多い公式ライブは基本情報→披露曲→歌唱名義→記録の順で表示する", async () => {
+test("情報量の多い公式ライブは基本情報→披露曲→歌唱名義の順で表示し記録セクションを残さない", async () => {
   const songs = [
     { songId: "S001", songName: "曲A", singerId: "SN0001", singer: "μ's", singerDisplayName: "μ's", type: "公式" },
     { songId: "S002", songName: "曲B", singerId: "SN0002", singer: "新田恵海", singerDisplayName: "新田恵海", type: "公式" }
@@ -225,8 +225,12 @@ test("情報量の多い公式ライブは基本情報→披露曲→歌唱名�
     { eventId: "EV0001", eventName: "First LoveLive! 型fixture", venue: { venueId: "VE0001", venueName: "会場A", prefectureCity: "横浜市" }, songs },
     { firstPerformedSongs: [{ songId: "S001", songName: "曲A" }], lastPerformedSongs: [{ songId: "S002", songName: "曲B" }], uniqueSongs: [] }
   );
-  await page.locator("#eventInsightsSection").waitFor({ state: "visible" });
-  assert.deepEqual(await page.locator("#mainContent, #songsSection, #eventPerformersSection, #eventInsightsSection").evaluateAll(nodes => nodes.map(node => node.id)), ["mainContent", "songsSection", "eventPerformersSection", "eventInsightsSection"]);
+  await page.locator("#songList .event-song-badge.last").waitFor();
+  assert.deepEqual(await page.locator("#mainContent, #songsSection, #eventPerformersSection").evaluateAll(nodes => nodes.map(node => node.id)), ["mainContent", "songsSection", "eventPerformersSection"]);
+  assert.equal(await page.locator('#eventInsightsSection, a[href="#eventInsightsSection"]').count(), 0);
+  assert.equal(await page.locator("#songList .event-song-badge.first").count(), 1);
+  assert.equal(await page.locator("#songList .event-song-badge.last").count(), 1);
+  assert.equal(await page.locator("#songList .event-song-badge.unique").count(), 0);
   assert.equal(await page.locator('#eventInfo a[href="venue.html?id=VE0001"]').count(), 1);
   assert.equal(await page.locator('#eventInfo a[href="release/R0041.html"]').count(), 1);
   assert.equal(await page.locator('#eventInfo a[href="singer.html?id=SN0001"]').count(), 1);
@@ -235,9 +239,7 @@ test("情報量の多い公式ライブは基本情報→披露曲→歌唱名�
   await page.locator('[data-filter="first"]').click();
   assert.equal(await page.locator("#songList .event-song-row").count(), 1);
   assert.deepEqual(await page.locator("#performerList .performer-row").evaluateAll(nodes => nodes.map(node => [node.querySelector(".performer-name").textContent.trim(), node.querySelector(".performer-count").textContent.trim()]).sort((a, b) => a[0].localeCompare(b[0], "ja"))), [["新田恵海", "1曲"], ["μ's", "1曲"]].sort((a, b) => a[0].localeCompare(b[0], "ja")));
-  assert.equal(await page.locator("#firstEventCount").innerText(), "1曲");
-  assert.equal(await page.locator("#lastEventCount").innerText(), "1曲");
-  assert.equal(await page.locator("#uniqueEventCount").innerText(), "0曲");
+  assert.equal(await page.locator("#songList .event-song-badge.first").count(), 1);
   assert.equal(await page.locator("#relatedReleasesSection, #venueSection, #discoverySection, #eventRecordsSection").count(), 0);
   for (const width of [1280, 390]) {
     await page.setViewportSize({ width, height: 900 });
@@ -247,14 +249,15 @@ test("情報量の多い公式ライブは基本情報→披露曲→歌唱名�
   await page.close();
 });
 
-test("少数曲のイベントは欠損項目を増やさず、記録0件を簡潔に表示する", async () => {
+test("少数曲のイベントは欠損項目を増やさず、記録セクションや空枠を作らない", async () => {
   const { page, issues } = await openEvent([], { width: 390, height: 900 });
-  await page.locator("#eventInsightsSection").waitFor({ state: "visible" });
+  await page.locator("#eventPerformersSection").waitFor({ state: "visible" });
   assert.equal(await page.locator("#eventInfo dt").filter({ hasText: "会場" }).count(), 0);
   assert.equal(await page.locator("#eventInfo dt").filter({ hasText: "関連リリース" }).count(), 0);
   assert.equal(await page.locator('#eventInfo a[href^="singer.html"]').count(), 1);
-  assert.equal(await page.locator("#eventInsightsSection .event-insight-card").count(), 3);
-  assert.equal(await page.locator("#eventInsightsSection .empty").count(), 3);
+  assert.equal(await page.locator('#eventInsightsSection, .event-insight-card, a[href="#eventInsightsSection"]').count(), 0);
+  assert.equal(await page.locator("#songList .event-song-badge").count(), 0);
+  assert.equal(await page.locator("#songList .event-song-row").count(), 1);
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
   assert.deepEqual(issues, []);
   await page.close();

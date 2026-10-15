@@ -21,7 +21,7 @@ async function open(kind,width,eventName=event.eventName){
       const parts=Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).map(p=>[p.type,p.value]));
       data={summary:{songCount:117,eventCount:353,venueCount:154,performanceCount:1400},today:{dateKey:`${parts.year}-${parts.month}-${parts.day}`,month:Number(parts.month),day:Number(parts.day),events:[],releases:[],firstPerformedSongs:[],lastPerformedSongs:[]},recentPerformances:[{...event,eventName,venueId:event.venue.venueId,venueName:event.venue.venueName}],topSongs,topVenues:[],_cache:{revision:pointer.outputRevision}};
     }
-    if(action==='venue')data={venueId:'VE0038',venueName:'監査用会場',statistics:{eventCount:2},events:[],topSongs:[],navigation:{}};
+    if(action==='venue')data={venueId:'VE0038',venueName:'監査用会場',statistics:{eventCount:2},events:[{eventId:'EV0062',eventName:'監査用開催イベント',date:'2015-01-31',category:'公式'}],topSongs:[],navigation:{}};
     if(action==='discover')data={firstEvent:{eventId:'EV0062',eventName:'μ’s Go→Go! LoveLive! 2015 ～Dream Sensation!～ 1日目',date:'2015-01-31'},lastEvent:{eventId:'EV0353',eventName:event.eventName,date:event.date},topSingers:[],topSongs:[],firstPerformedSongs:[],navigation:{}};
     return route.fulfill({contentType:'text/javascript',body:`${callback}(${JSON.stringify({success:true,data})});`});
   });
@@ -29,14 +29,30 @@ async function open(kind,width,eventName=event.eventName){
   for(const pattern of ['**/song/S*.html','**/event.html?*','**/singer.html?*','**/gap-checker.html?*'])await context.route(pattern,r=>r.fulfill({contentType:'text/html',body:'<!doctype html><title>Destination</title><h1>Destination</h1>'}));
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
   const url=kind==='home'?'index.html':kind==='venue'?'venue.html?id=VE0038':'gap-rankings.html';await page.goto(base+'/'+url);
-  const selector=kind==='home'?'.recent-song.mus-card-multi':kind==='venue'?'#venueHistoryEvents .mus-card-link':'.gap-rankings-row.mus-card-multi';await page.locator(selector).first().waitFor();
+  const selector=kind==='home'?'.recent-song.mus-card-multi':kind==='venue'?'#eventList .venue-event-row':'.gap-rankings-row.mus-card-multi';await page.locator(selector).first().waitFor();
   const consent=page.getByRole('button',{name:'同意しない',exact:true});if(await consent.isVisible())await consent.click();return{context,page,errors,selector};
 }
 async function style(link){return link.evaluate(e=>{const c=getComputedStyle(e),r=e.getBoundingClientRect();return{color:c.color,underline:c.textDecorationLine,outline:c.outlineStyle,height:r.height};});}
 async function newTab(context,link,modified=false){const href=await link.getAttribute('href');const wait=context.waitForEvent('page',{timeout:10000});await link.click(modified?{modifiers:['Control']}:{button:'middle'});const popup=await wait;await popup.waitForURL(new URL(href,base+'/').href);assert.equal(popup.url(),new URL(href,base+'/').href);await popup.close();}
 for(const width of[1280,390])for(const kind of['gap','home','venue'])test(`${kind} normal / hover / focus / click separation / new tabs ${width}`,async()=>{
   const{context,page,errors,selector}=await open(kind,width);try{
-    const card=page.locator(selector).first(),primary=kind==='venue'?card:card.locator('.mus-link-primary').first();
+    const card=page.locator(selector).first(),primary=card.locator('.mus-link-primary').first();
+    if(kind==='venue'){
+      assert.equal(await page.locator('#discoverySection,#venueInsightsSection,#venueYearSelect').count(),0);
+      assert.equal(await card.evaluate(e=>e.tagName),'ARTICLE');
+      assert.equal(await card.locator('a a, a button, button a').count(),0);
+      assert.equal(await card.locator('[data-venue-event-songs]').getAttribute('aria-expanded'),'false');
+      assert.equal(await primary.getAttribute('href'),'event.html?id=EV0062');
+      await primary.scrollIntoViewIfNeeded();await primary.locator('svg').waitFor();
+      await page.mouse.move(0,0);
+      const finish=async()=>primary.evaluate(async e=>{const c=e.querySelector('.mus-link-chevron');getComputedStyle(c).transform;await new Promise(requestAnimationFrame);await Promise.all(c.getAnimations().map(a=>a.finished));await new Promise(requestAnimationFrame);return getComputedStyle(c).transform==='none'?0:new DOMMatrixReadOnly(getComputedStyle(c).transform).m41;});
+      assert.equal(await finish(),0);await primary.hover();assert.equal(await finish(),3);
+      await page.mouse.move(0,0);await primary.focus();await page.keyboard.press('Tab');await page.keyboard.press('Shift+Tab');assert.equal(await primary.evaluate(e=>e.matches(':focus-visible')),true);assert.equal((await style(primary)).outline,'solid');
+      await newTab(context,primary);await newTab(context,primary,true);
+      assert.equal(await card.locator('[data-venue-event-songs]').getAttribute('aria-expanded'),'false');
+      assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);assert.deepEqual(errors,[]);
+      return;
+    }
     await primary.evaluate(e=>scrollTo(0,e.getBoundingClientRect().top+scrollY-150));await page.mouse.move(0,0);
     const normal=await style(primary);assert.equal(normal.color,'rgb(23, 32, 51)');assert.equal(normal.underline,'none');assert.ok(normal.height>=44);
     assert.ok(await card.locator('[data-site-icon="chevron-right"]').count());assert.equal(await page.locator('a a').count(),0);

@@ -296,19 +296,25 @@ function createSongIdSet_(
 }
 
 
+// Resolve display-only names from this Event's own formal rows, never guess names.
+function eventSingerDisplayNames_(songs) {
+  return new Map(songs.filter(song => song.singerId && song.singerDisplayName)
+    .map(song => [song.singerId, song.singerDisplayName]));
+}
+
+function eventSingerName_(song, names) {
+  return String(song.singerDisplayName || names.get(song.singerId) || song.singer || "—").trim() || "—";
+}
+
 function getEventPerformerRows_(
   songs
 ) {
   const countMap =
     new Map();
+  const names = eventSingerDisplayNames_(songs);
 
   songs.forEach(song => {
-    const singer =
-      String(
-        song.singerDisplayName ||
-        song.singer ||
-        "—"
-      ).trim() || "—";
+    const singer = eventSingerName_(song, names);
 
     const key = String(
       song.singerId ||
@@ -343,13 +349,13 @@ function renderPerformerSummary_(rows) {
     rows.length
       ? rows.map(
           (item, index) => `
-            <a class="performer-row" href="${item.singerId ? `singer.html?id=${encodeURIComponent(item.singerId)}` : `singer.html?name=${encodeURIComponent(item.name)}`}" aria-label="${escapeHtml(item.name)}の歌唱名義詳細を見る">
+            <a class="performer-row mus-card-link mus-chip-link" href="${item.singerId ? `singer.html?id=${encodeURIComponent(item.singerId)}` : `singer.html?name=${encodeURIComponent(item.name)}`}" aria-label="${escapeHtml(item.name)}の歌唱名義詳細を見る">
               <span class="performer-rank">
                 ${index + 1}
               </span>
 
-              <span class="performer-name">
-                ${escapeHtml(item.name)}
+              <span class="performer-name mus-card-title mus-title-chip">
+                ${titleWithChevron_(item.name)}
               </span>
 
               <span class="performer-count">
@@ -411,7 +417,13 @@ function matchesSongFilter_(
 }
 
 
+function titleWithChevron_(text) {
+  const chars = Array.from(String(text));
+  return `${escapeHtml(chars.slice(0, -2).join(""))}<span class="mus-title-tail">${escapeHtml(chars.slice(-2).join(""))}<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span>`;
+}
+
 function renderEventSongs_() {
+  const names = eventSingerDisplayNames_(currentSongs);
   const filtered =
     currentSongs.filter(song =>
       matchesSongFilter_(
@@ -463,12 +475,8 @@ function renderEventSongs_() {
                 </span>
 
                 <span class="event-song-body">
-                  <a class="event-song-title" href="${buildSongUrl(songId)}">
-                    ${escapeHtml(
-                      song.songName ||
-                      "曲名未設定"
-                    )}
-                    <span class="event-song-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span>
+                  <a class="event-song-title mus-link-primary mus-chip-link" href="${buildSongUrl(songId)}">
+                    <span class="mus-title-chip">${titleWithChevron_(song.songName || "曲名未設定")}</span>
                   </a>
 
                   <span class="event-song-meta">
@@ -480,8 +488,8 @@ function renderEventSongs_() {
                     </span>
 
                     <span>歌唱名義：${song.singerId
-                      ? `<a class="event-song-singer-link" href="singer.html?id=${encodeURIComponent(song.singerId)}">${escapeHtml(song.singer || "—")}</a>`
-                      : escapeHtml(song.singer || "—")}</span>
+                      ? `<a class="event-song-singer-link mus-link-secondary" href="singer.html?id=${encodeURIComponent(song.singerId)}">${escapeHtml(eventSingerName_(song, names))}</a>`
+                      : escapeHtml(eventSingerName_(song, names))}</span>
 
                     ${
                       song.note

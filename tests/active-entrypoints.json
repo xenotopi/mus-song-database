@@ -27,7 +27,8 @@
         "assets/js/event-v310.js"
       ],
       "css": [
-        "assets/css/style.css"
+        "assets/css/style.css",
+        "assets/css/link-ui.css"
       ]
     },
     "events.html": {
@@ -124,7 +125,8 @@
         "assets/js/detail-context.js"
       ],
       "css": [
-        "assets/css/style.css"
+        "assets/css/style.css",
+        "assets/css/link-ui.css"
       ]
     },
     "singers.html": {
@@ -220,6 +222,7 @@
     "assets/js/songs-v470.js",
     "assets/js/static-detail.js",
     "assets/js/statistics-v470.js",
+    "assets/js/venue-event-songs.js",
     "assets/js/venue-v300.js",
     "assets/js/venues-v470.js"
   ],

@@ -159,15 +159,20 @@ function renderAnalysis(items) {
   el.analysisSection.hidden = false;
 }
 
+function titleWithChevron_(text) {
+  const chars = Array.from(String(text));
+  return `${escapeHtml(chars.slice(0, -2).join(""))}<span class="mus-title-tail">${escapeHtml(chars.slice(-2).join(""))}<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span>`;
+}
+
 function renderSongs(items) {
   el.songsCount.textContent = `${items.length.toLocaleString("ja-JP")}曲`;
 
   el.songsList.innerHTML = items.length
     ? items.map((item,index) => `
-        <a class="singer-song-row" href="${buildSongUrl(item.songId)}">
+        <a class="singer-song-row mus-card-link mus-chip-link" href="${buildSongUrl(item.songId)}">
           <span class="singer-song-rank">${index + 1}</span>
           <div>
-            <strong>${escapeHtml(item.songName || "曲名未設定")}</strong>
+            <strong class="mus-card-title mus-title-chip">${titleWithChevron_(item.songName || "曲名未設定")}</strong>
             <div class="singer-song-meta">
               ${item.firstDate ? `<span>初回 ${escapeHtml(formatDate(item.firstDate))}</span>` : ""}
               ${item.lastDate ? `<span>最終 ${escapeHtml(formatDate(item.lastDate))}</span>` : ""}
@@ -230,7 +235,7 @@ function renderHistory() {
             <div>
               <div class="singer-event-date">${escapeHtml(formatDate(item.date) || "日付不明")}</div>
               <div class="singer-event-title">${item.eventId
-                ? `<a href="event.html?id=${encodeURIComponent(item.eventId)}">${escapeHtml(item.eventName || "イベント名未設定")}</a>`
+                ? `<a class="mus-link-primary mus-chip-link" href="event.html?id=${encodeURIComponent(item.eventId)}"><span class="mus-title-chip">${titleWithChevron_(item.eventName || "イベント名未設定")}</span></a>`
                 : escapeHtml(item.eventName || "イベント名未設定")}</div>
               <div class="singer-event-meta">
                 ${item.eventType ? `<span>${escapeHtml(item.eventType)}</span>` : ""}
@@ -246,7 +251,7 @@ function renderHistory() {
           </div>
           <div class="singer-event-songs" id="${bodyId}" ${expanded ? "" : "hidden"}>
             ${item.songs.map(song => `<div class="singer-event-song-row">${song.songId
-              ? `<a href="${buildSongUrl(song.songId)}">${escapeHtml(song.songName || "曲名未設定")}</a>`
+              ? `<a class="mus-link-primary mus-chip-link" href="${buildSongUrl(song.songId)}"><span class="mus-title-chip">${titleWithChevron_(song.songName || "曲名未設定")}</span></a>`
               : escapeHtml(song.songName || "曲名未設定")}</div>`).join("")}
           </div>
         </article>`;

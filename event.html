@@ -1016,12 +1016,11 @@
 
     .performer-row{
       cursor:pointer;
-      transition:border-color .15s ease,background .15s ease,transform .15s ease;
+      transition:border-color .15s ease,background .15s ease;
     }
     .performer-row:hover{
       border-color:#bbb6f5;
       background:#fcfbff;
-      transform:translateY(-1px);
     }
     .performer-row:focus-visible{
       outline:3px solid rgba(79,70,229,.22);
@@ -1145,11 +1144,12 @@
   <meta name="theme-color" content="#4f46e5">
 
   <script src="assets/js/seo-v351.js?v=4.6.0&amp;cache=domain-f&songUrls=1" defer></script>
+  <link rel="stylesheet" href="assets/css/link-ui.css?v=2">
 </head>
 <body>
   <div id="siteHeader"></div>
 
-  <main>
+  <main class="mus-link-scope">
     <div class="crumb"><a href="index.html">ホーム</a> <span class="site-icon-inline site-breadcrumb-icon" data-site-icon="chevron-right" aria-hidden="true"></span> イベント詳細</div>
 
     <section class="hero event-hero-v46">
@@ -1368,7 +1368,7 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/event-v310.js?v=4.9.11&amp;cache=output-revision&songUrls=1&setlist=1&relative=1"></script>
+  <script type="module" src="assets/js/event-v310.js?v=4.9.13&amp;cache=output-revision&songUrls=1&setlist=1&relative=1"></script>
 
   <script>
     (() => {

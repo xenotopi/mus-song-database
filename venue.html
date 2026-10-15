@@ -122,8 +122,8 @@
         grid-template-columns: 1fr;
       }
     }
-  
-  
+
+
     html {
       scroll-behavior: smooth;
       scroll-padding-top: 92px;
@@ -160,52 +160,6 @@
       color: var(--indigo);
     }
 
-    .discovery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .discovery-card {
-      min-height: 132px;
-      padding: 17px;
-      display: flex;
-      flex-direction: column;
-      border: 1px solid var(--line);
-      border-radius: 17px;
-      background: #fff;
-      box-shadow: var(--shadow);
-      text-decoration: none;
-      transition: transform .15s ease, border-color .15s ease;
-    }
-
-    .discovery-card:hover {
-      border-color: #bbb6f5;
-      transform: translateY(-2px);
-    }
-
-    .discovery-label {
-      color: var(--indigo);
-      font-size:14px;
-      font-weight: 900;
-      letter-spacing: .08em;
-    }
-
-    .discovery-title {
-      margin-top: 12px;
-      color: var(--navy);
-      font-size: 16px;
-      font-weight: 900;
-      line-height: 1.45;
-    }
-
-    .discovery-meta {
-      margin-top: auto;
-      padding-top: 10px;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 700;
-    }
 
     .list-controls {
       margin-bottom: 12px;
@@ -266,13 +220,10 @@
         top: 60px;
       }
 
-      .discovery-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  
 
-  
+    }
+
+
 .discover-panel {
   margin-top: 24px;
   padding: 20px;
@@ -287,92 +238,6 @@
   box-shadow: var(--shadow);
 }
 
-.discover-cards {
-  display: grid;
-  grid-template-columns:
-    repeat(3, 1fr);
-  gap: 12px;
-}
-
-.discover-item {
-  min-height: 136px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: #fff;
-  text-decoration: none;
-}
-
-.discover-item:hover {
-  border-color: #bdb7f5;
-  transform: translateY(-1px);
-}
-
-.discover-item-label {
-  color: var(--indigo);
-  font-size:14px;
-  font-weight: 900;
-  letter-spacing: .08em;
-}
-
-.discover-item-title {
-  margin-top: 11px;
-  color: var(--navy);
-  font-size: 16px;
-  font-weight: 900;
-  line-height: 1.45;
-}
-
-.discover-item-meta {
-  margin-top: auto;
-  padding-top: 10px;
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.insight-list {
-  display: grid;
-  gap: 9px;
-}
-
-.insight-row {
-  display: grid;
-  grid-template-columns:
-    minmax(0, 1fr) auto;
-  gap: 12px;
-  align-items: center;
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: #fff;
-  text-decoration: none;
-}
-
-.insight-row:hover {
-  border-color: #bdb7f5;
-  background: #fcfbff;
-}
-
-.insight-title {
-  color: var(--navy);
-  font-weight: 900;
-}
-
-.insight-meta {
-  margin-top: 3px;
-  color: var(--muted);
-  font-size: 14px;
-  font-weight:500;
-}
-
-.insight-value {
-  color: var(--indigo);
-  font-weight: 900;
-  white-space: nowrap;
-}
 
 .trend-chart {
   display: grid;
@@ -419,9 +284,7 @@
 }
 
 @media (max-width: 760px) {
-  .discover-cards {
-    grid-template-columns: 1fr;
-  }
+
 }
 
 
@@ -683,15 +546,6 @@
       color: #fff;
     }
 
-    .venue-year-select {
-      min-height: 36px;
-      padding: 0 11px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: #fff;
-      color: var(--navy);
-      font-weight: 800;
-    }
 
     @media (max-width: 900px) {
       .venue-record-grid {
@@ -714,7 +568,6 @@
         font-size: 22px;
       }
     }
-
 
 
     /* =========================================================
@@ -773,8 +626,6 @@
     #mainContent > .card,
     .venue-record-card,
     .venue-analysis-card,
-    .discovery-card,
-    #venueInsightsSection .card,
     #eventList,
     #topSongList {
       border-color: #dfdced !important;
@@ -837,27 +688,11 @@
       border-radius: 999px;
     }
 
-    #discoverySection,
-    #venueInsightsSection,
     #eventsSection,
     #topSongsSection {
       margin-top: 58px;
     }
 
-    #discoverySection .discovery-card,
-    #venueInsightsSection .card {
-      background:
-        radial-gradient(circle at 100% 0,rgba(79,70,229,.05),transparent 38%),
-        #fff;
-    }
-
-    .venue-history-single-note {
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 500;
-      line-height: 1.65;
-    }
 
     #eventsSection,
     #topSongsSection {
@@ -867,8 +702,6 @@
 
     #eventsSection .section-head h2,
     #topSongsSection .section-head h2,
-    #venueInsightsSection .section-head h2,
-    #discoverySection .section-head h2,
     #venueAnalysisSection .section-head h2,
     #venueRecordsSection .section-head h2 {
       font-size: 26px;
@@ -901,8 +734,6 @@
         grid-row: 1 !important;
       }
 
-      #discoverySection,
-      #venueInsightsSection,
       #eventsSection,
       #topSongsSection {
         margin-top: 46px;
@@ -910,8 +741,6 @@
 
       #eventsSection .section-head h2,
       #topSongsSection .section-head h2,
-      #venueInsightsSection .section-head h2,
-      #discoverySection .section-head h2,
       #venueAnalysisSection .section-head h2,
       #venueRecordsSection .section-head h2 {
         font-size: 22px;
@@ -944,7 +773,6 @@
     .venue-singer-row:hover{
       border-color:#bbb6f5;
       background:#fcfbff;
-      transform:translateY(-1px);
     }
     .venue-singer-row:focus-visible{
       outline:3px solid rgba(79,70,229,.22);
@@ -998,12 +826,35 @@
 
   <script src="assets/js/seo-v351.js?v=4.6.0&amp;cache=domain-c&songUrls=1" defer></script>
   <link rel="stylesheet" href="assets/css/link-ui.css?v=1">
+<style>
+    #eventList .venue-event-row{display:block}
+    .venue-event-head{display:flex;gap:12px;justify-content:space-between;align-items:flex-start}
+    .venue-event-head>div{min-width:0;flex:1}
+    .venue-event-toggle,[data-venue-songs-retry]{flex:none;min-height:44px;padding:6px 12px;border:1px solid var(--line);border-radius:12px;background:#f2efff;color:var(--indigo);font:inherit;font-weight:800;cursor:pointer}
+    .venue-event-toggle:focus-visible,[data-venue-songs-retry]:focus-visible,.venue-year-button:focus-visible{outline:3px solid var(--indigo);outline-offset:3px}
+    .venue-event-songs{margin-top:12px;padding:12px;border-radius:14px;background:#f9f8ff}
+    .venue-event-songs[hidden]{display:none}
+    .venue-event-song{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+    .venue-event-song p,.venue-event-order-note{font-size:14px;color:var(--muted);overflow-wrap:anywhere}
+    .venue-event-song-order{font-size:13px;color:var(--muted);padding-top:12px}
+    .venue-year-filter{width:100%;padding:16px;border:1px solid #dcd9ff;border-radius:18px;background:linear-gradient(135deg,#fff,#f8f7ff)}
+    .venue-year-filter h3{margin:2px 0 13px;font-size:17px}
+    .venue-year-buttons{display:flex;gap:8px;overflow-x:auto;padding:3px 3px 6px}
+    .venue-year-button{flex:0 0 auto;min-width:78px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--navy);font-size:14px;font-weight:900;cursor:pointer}
+    .venue-year-button span{display:block;margin-top:3px;color:var(--indigo)}
+    .venue-year-button.active{border-color:var(--indigo);background:var(--indigo);color:#fff}
+    .venue-year-button.active span{color:#fff}
+    #venueEventControls{flex-wrap:wrap}
+    #eventsSection{margin-top:28px;padding-top:24px}
+    a.venue-song-row{display:block}
+    @media(max-width:620px){.venue-event-head{flex-wrap:wrap}.venue-event-head>div{flex-basis:100%}}
+  </style>
 </head>
 
 <body>
   <div id="siteHeader"></div>
 
-  <main>
+  <main class="mus-link-scope">
     <div class="crumb"><a href="index.html">ホーム</a> <span class="site-icon-inline site-breadcrumb-icon" data-site-icon="chevron-right" aria-hidden="true"></span> 会場詳細</div>
 
     <section class="hero venue-hero-v46">
@@ -1034,9 +885,9 @@
       aria-label="ページ内ナビゲーション"
     >
       <a href="#mainContent">基本情報</a>
-      <a href="#discoverySection">この会場を巡る</a>
-      <a href="#venueInsightsSection">発見</a>
       <a href="#eventsSection">開催イベント</a>
+      <a href="#venueRecordsSection">この会場の記録</a>
+      <a href="#venueAnalysisSection">会場利用データ</a>
       <a href="#topSongsSection">披露曲</a>
     </nav>
 
@@ -1158,6 +1009,76 @@
 
     <section
       class="section"
+      id="eventsSection"
+      hidden
+    >
+      <div class="section-head">
+        <div>
+          <p class="kicker">
+            EVENTS
+          </p>
+
+          <h2>開催イベント</h2>
+        </div>
+
+        <div
+          class="detail-note"
+          id="eventCount"
+        ></div>
+      </div>
+
+      <div
+        class="venue-event-controls"
+        id="venueEventControls"
+      >
+        <div class="venue-event-filter-list">
+          <button
+            class="venue-event-filter active"
+            type="button"
+            data-category="all"
+          >
+            すべて
+          </button>
+
+          <button
+            class="venue-event-filter"
+            type="button"
+            data-category="公式"
+          >
+            公式
+          </button>
+
+          <button
+            class="venue-event-filter"
+            type="button"
+            data-category="ソロ"
+          >
+            ソロ
+          </button>
+        </div>
+
+        <div class="venue-year-filter"><p class="kicker">YEAR FILTER</p><h3>開催年で絞り込む</h3><div class="venue-year-buttons" id="venueYearButtons"></div></div>
+      </div>
+
+      <article
+        class="card venue-event-list"
+        id="eventList"
+      ></article>
+
+      <div class="show-more-wrap">
+        <button
+          class="show-more-button"
+          id="eventMoreButton"
+          type="button"
+          hidden
+        >
+          もっと見る
+        </button>
+      </div>
+    </section>
+
+    <section
+      class="section"
       id="venueRecordsSection"
       hidden
     >
@@ -1209,134 +1130,7 @@
       </div>
     </section>
 
-    <section
-      class="section"
-      id="discoverySection"
-      hidden
-    >
-      <div class="section-head">
-        <div>
-          <p class="kicker">EXPLORE THIS VENUE</p>
-          <h2>この会場を巡る</h2>
-        </div>
-      </div>
-
-      <div
-        class="discovery-grid"
-        id="venueDiscovery"
-      ></div>
-    </section>
-
-    <section
-      class="section"
-      id="venueInsightsSection"
-      hidden
-    >
-      <div class="section-head">
-        <div>
-          <p class="kicker">VENUE DISCOVERY</p>
-          <h2>この会場の発見</h2>
-        </div>
-      </div>
-
-      <div class="grid">
-        <article class="card">
-          <p class="kicker">HISTORY</p>
-          <h2>最初と最後のイベント</h2>
-          <div
-            class="insight-list mus-link-scope"
-            id="venueHistoryEvents"
-          ></div>
-        </article>
-
-        <article class="card">
-          <p class="kicker">FIRST PERFORMANCE</p>
-          <h2>この会場で初披露された曲</h2>
-          <div
-            class="insight-list"
-            id="venueFirstSongs"
-          ></div>
-        </article>
-      </div>
-    </section>
-
-    <section
-      class="section"
-      id="eventsSection"
-      hidden
-    >
-      <div class="section-head">
-        <div>
-          <p class="kicker">
-            EVENTS
-          </p>
-
-          <h2>開催イベント</h2>
-        </div>
-
-        <div
-          class="detail-note"
-          id="eventCount"
-        ></div>
-      </div>
-
-      <div
-        class="venue-event-controls"
-        id="venueEventControls"
-      >
-        <div class="venue-event-filter-list">
-          <button
-            class="venue-event-filter active"
-            type="button"
-            data-category="all"
-          >
-            すべて
-          </button>
-
-          <button
-            class="venue-event-filter"
-            type="button"
-            data-category="公式"
-          >
-            公式
-          </button>
-
-          <button
-            class="venue-event-filter"
-            type="button"
-            data-category="ソロ"
-          >
-            ソロ
-          </button>
-        </div>
-
-        <select
-          class="venue-year-select"
-          id="venueYearSelect"
-          aria-label="開催年で絞り込む"
-        >
-          <option value="all">すべての年</option>
-        </select>
-      </div>
-
-      <article
-        class="card venue-event-list"
-        id="eventList"
-      ></article>
-
-      <div class="show-more-wrap">
-        <button
-          class="show-more-button"
-          id="eventMoreButton"
-          type="button"
-          hidden
-        >
-          もっと見る
-        </button>
-      </div>
-    </section>
-
-    <section
+<section
       class="section"
       id="topSongsSection"
       hidden
@@ -1362,7 +1156,7 @@
 
   <script
     type="module"
-    src="assets/js/venue-v300.js?v=4.9.2&amp;cache=perf02-revision-nonblocking&songUrls=1"
+    src="assets/js/venue-v300.js?v=4.9.3&amp;cache=perf02-revision-nonblocking&songUrls=1"
   ></script>
 
   <script type="module">
@@ -1483,9 +1277,8 @@
       }
 
       function firstSongCount() {
-        const container = document.getElementById("venueFirstSongs");
-        if (!container) return null;
-        return container.querySelectorAll(".insight-row").length;
+        const value = document.getElementById("venueRecordGrid")?.dataset.firstSongCount;
+        return value === undefined ? null : Number(value);
       }
 
       function rebuildVenueRecords() {
@@ -1543,44 +1336,10 @@
         grid.dataset.v46Built = "1";
       }
 
-      function normalizeSingleHistory() {
-        const container = document.getElementById("venueHistoryEvents");
-        if (!container || container.dataset.v46Checked === "1") return;
-
-        const rows = Array.from(container.querySelectorAll(".insight-row"));
-        if (rows.length < 2) return;
-
-        const keyOf = row => {
-          const href = row.getAttribute("href") || "";
-          const title = row.querySelector(".insight-title")?.textContent.trim() || "";
-          return `${href}|${title}`;
-        };
-
-        if (keyOf(rows[0]) !== keyOf(rows[1])) {
-          container.dataset.v46Checked = "1";
-          return;
-        }
-
-        rows.slice(1).forEach(row => row.remove());
-
-        const card = container.closest(".card");
-        const heading = card?.querySelector("h2");
-        if (heading) heading.textContent = "この会場での開催";
-
-        const note = document.createElement("p");
-        note.className = "venue-history-single-note";
-        note.textContent = "この会場で開催されたイベントは1件です。";
-        container.appendChild(note);
-
-        container.dataset.v46Checked = "1";
-      }
-
-
       function applyV46() {
         hideVenueSummarySongCount();
         addSingerColorBars();
         rebuildVenueRecords();
-        normalizeSingleHistory();
       }
 
       const observer = new MutationObserver(() => applyV46());

@@ -40,7 +40,9 @@ test("detail indexing policy and sitemap", async t => {
     assert.match(sitemap, /^<\?xml version="1\.0" encoding="UTF-8"\?>/);
     assert.match(sitemap, /<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/);
     assert.equal(new Set(locations).size, locations.length);
-    assert.equal(locations.length, 241);
+    assert.equal(locations.length, 242);
+    assert.equal(locations.filter(url => url === `${SITE_ROOT}gap-rankings.html`).length, 1);
+    assert.match(read('index.html'), /class="home-tool-card" href="gap-rankings\.html"/);
     assert.equal(releaseUrls.length, 114);
     assert.equal(songUrls.length, 117);
   });

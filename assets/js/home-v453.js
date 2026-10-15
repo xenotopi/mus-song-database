@@ -980,16 +980,16 @@ function renderRecent() {
               : [];
 
           return `
-            <article class="recent-card">
+            <article class="recent-card mus-link-scope mus-card-multi">
               <div class="recent-card-head">
                 <div class="recent-date">${escapeHtml(formatDate(item.date))}</div>
-                <a class="recent-event" href="event.html?id=${encodeURIComponent(item.eventId)}"><span class="recent-event-label">${escapeHtml(item.eventName || "イベント名未設定")}</span><span class="site-icon-inline site-row-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></a>
+                <a class="recent-event mus-link-primary" href="event.html?id=${encodeURIComponent(item.eventId)}"><span class="recent-event-label mus-link-label">${escapeHtml(item.eventName || "イベント名未設定")}</span><span class="site-icon-inline site-row-chevron mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></a>
 
                 <div class="recent-tags">
                   <span class="type-badge">${escapeHtml(item.category || "未分類")}</span>
                   ${item.eventType ? `<span class="recent-meta-link">${escapeHtml(item.eventType)}</span>` : ""}
                   ${performance ? `<span class="recent-meta-link">${escapeHtml(performance)}</span>` : ""}
-                  ${item.venueName ? `<a class="recent-meta-link" href="venue.html?id=${encodeURIComponent(item.venueId)}">${escapeHtml(item.venueName)}</a>` : ""}
+                  ${item.venueName ? `<a class="recent-meta-link mus-link-secondary" href="venue.html?id=${encodeURIComponent(item.venueId)}">${escapeHtml(item.venueName)}</a>` : ""}
                 </div>
               </div>
 
@@ -997,9 +997,9 @@ function renderRecent() {
                 ${
                   songs.length
                     ? songs.map(song => `
-                        <article class="recent-song">
-                          <a class="recent-song-name" href="${buildSongUrl(song.songId)}">${escapeHtml(song.songName || "曲名未設定")}</a>
-                          ${song.singer ? `<span class="recent-song-singer">${song.singerId ? `<a class="recent-singer-link" href="singer.html?id=${encodeURIComponent(song.singerId)}">${escapeHtml(song.singer)}</a>` : escapeHtml(song.singer)}</span>` : ""}
+                        <article class="recent-song mus-card-multi">
+                          <a class="recent-song-name mus-link-primary" href="${buildSongUrl(song.songId)}"><span class="mus-link-label">${escapeHtml(song.songName || "曲名未設定")}</span><span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></a>
+                          ${song.singer ? `<span class="recent-song-singer">${song.singerId ? `<a class="recent-singer-link mus-link-secondary" href="singer.html?id=${encodeURIComponent(song.singerId)}">${escapeHtml(song.singer)}</a>` : escapeHtml(song.singer)}</span>` : ""}
                         </article>
                       `).join("")
                     : '<div class="empty">歌唱曲情報はありません。</div>'

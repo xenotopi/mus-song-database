@@ -6,6 +6,7 @@ const http = require('node:http');
 const os = require('node:os');
 const { chromium } = require('playwright');
 const root = path.resolve(__dirname, '..');
+const screenshots = fs.mkdtempSync(path.join(os.tmpdir(), 'musdb-icons-prod-'));
 let server, browser, base;
 test.before(async () => {
   server = http.createServer((req, res) => {
@@ -70,7 +71,7 @@ if (process.env.ICON_PHASE2_LIVE === '1') for (const width of [1280, 390]) {
           await detailArrow.focus();
           assert.equal(await detailArrow.evaluate(n => n === document.activeElement && !n.querySelector('a,button')), true);
           if (width === 1280) await detailArrow.hover();
-          await detailArrow.screenshot({ path: path.join(os.tmpdir(), `phase3-${pathname.split('.')[0]}-${width}.png`), animations: 'disabled' });
+          await detailArrow.screenshot({ path: path.join(screenshots, `phase3-${pathname.split('.')[0]}-${width}.png`), animations: 'disabled' });
         }
         assert.deepEqual(await page.locator('[data-site-icon="search"] svg').evaluateAll(nodes => nodes.map(n => [getComputedStyle(n).width, getComputedStyle(n).height, getComputedStyle(n).strokeWidth])), Array(await page.locator('[data-site-icon="search"] svg').count()).fill(['20px', '20px', '2px']));
         const disclosure = page.locator('summary:has(.site-disclosure-icon)').first();
@@ -80,7 +81,7 @@ if (process.env.ICON_PHASE2_LIVE === '1') for (const width of [1280, 390]) {
           await disclosure.click();
           assert.equal(await details.evaluate(n => n.open), true);
           assert.equal(await disclosure.evaluate(n => getComputedStyle(n, '::after').content), 'none');
-          await disclosure.screenshot({ path: path.join(os.tmpdir(), `phase2-${pathname.split('.')[0]}-${width}.png`), animations: 'disabled' });
+          await disclosure.screenshot({ path: path.join(screenshots, `phase2-${pathname.split('.')[0]}-${width}.png`), animations: 'disabled' });
           await disclosure.click();
           assert.equal(await details.evaluate(n => n.open), false);
         }
@@ -88,7 +89,7 @@ if (process.env.ICON_PHASE2_LIVE === '1') for (const width of [1280, 390]) {
         if (await toggle.count()) {
           await toggle.click();
           assert.equal(await toggle.getAttribute('aria-expanded'), 'true');
-          await toggle.screenshot({ path: path.join(os.tmpdir(), `phase2-${pathname.split('.')[0]}-${width}.png`), animations: 'disabled' });
+          await toggle.screenshot({ path: path.join(screenshots, `phase2-${pathname.split('.')[0]}-${width}.png`), animations: 'disabled' });
           await toggle.click();
           assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
         }
@@ -106,7 +107,7 @@ if (process.env.ICON_PHASE2_LIVE === '1') for (const width of [1280, 390]) {
           await top.click();
           await page.waitForFunction(() => scrollY < 5);
         }
-        await page.locator('#siteHeader').screenshot({ path: path.join(os.tmpdir(), `phase2-header-${width}.png`), animations: 'disabled' });
+        await page.locator('#siteHeader').screenshot({ path: path.join(screenshots, `phase2-header-${width}.png`), animations: 'disabled' });
         assert.deepEqual(errors, []);
       } finally { await page.close(); }
     });
@@ -114,7 +115,7 @@ if (process.env.ICON_PHASE2_LIVE === '1') for (const width of [1280, 390]) {
 }
 
 for (const width of [1280, 390]) for (const name of ['index', 'about']) {
-  test(`${name}: 8 local Lucide icons, unchanged controls/layout at ${width}px`, async () => {
+  test(`${name}: ${name === 'index' ? 9 : 8} local Lucide icons, unchanged controls/layout at ${width}px`, async () => {
     const page = await browser.newPage({ viewport: { width, height: 900 } });
     const errors = [];
     page.on('pageerror', e => errors.push(e.message));
@@ -135,17 +136,17 @@ for (const width of [1280, 390]) for (const name of ['index', 'about']) {
     if (await decline.isVisible()) await decline.click();
     const primary = '[data-site-icon="music-2"], [data-site-icon="calendar-days"], [data-site-icon="map-pin"], [data-site-icon="mic-vocal"], [data-site-icon="trophy"], [data-site-icon="chart-no-axes-column-increasing"], [data-site-icon="users-round"], [data-site-icon="history"]';
     const primaryIcons = page.locator(primary).locator('svg');
-    assert.equal(await primaryIcons.count(), 8);
-    assert.deepEqual(await primaryIcons.evaluateAll(nodes => nodes.map(n => ({ width: getComputedStyle(n).width, height: getComputedStyle(n).height, stroke: getComputedStyle(n).strokeWidth, hidden: n.getAttribute('aria-hidden'), focus: n.getAttribute('focusable') }))), Array(8).fill({ width: '24px', height: '24px', stroke: '2px', hidden: 'true', focus: 'false' }));
+    assert.equal(await primaryIcons.count(), name === 'index' ? 9 : 8);
+    assert.deepEqual(await primaryIcons.evaluateAll(nodes => nodes.map(n => ({ width: getComputedStyle(n).width, height: getComputedStyle(n).height, stroke: getComputedStyle(n).strokeWidth, hidden: n.getAttribute('aria-hidden'), focus: n.getAttribute('focusable') }))), Array(name === 'index' ? 9 : 8).fill({ width: '24px', height: '24px', stroke: '2px', hidden: 'true', focus: 'false' }));
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
     const hosts = page.locator('[data-site-icon]');
     const before = await hosts.evaluateAll(nodes => nodes.map(n => [n.offsetWidth, n.offsetHeight, n.offsetLeft]));
     // Rendering twice must neither duplicate icons nor shift their host boxes.
     await page.evaluate(() => window.SiteIcons.render());
-    assert.equal(await primaryIcons.count(), 8);
+    assert.equal(await primaryIcons.count(), name === 'index' ? 9 : 8);
     assert.deepEqual(await hosts.evaluateAll(nodes => nodes.map(n => [n.offsetWidth, n.offsetHeight, n.offsetLeft])), before);
     const links = name === 'index' ? page.locator('.home-explore-card, .home-tool-card') : page.locator('a:has(.about-explore-icon)');
-    assert.equal(await links.count(), name === 'index' ? 8 : 4);
+    assert.equal(await links.count(), name === 'index' ? 9 : 4);
     for (const link of await links.all()) {
       assert.match(await link.getAttribute('href'), /\.html$/);
       await link.focus();
@@ -158,9 +159,9 @@ for (const width of [1280, 390]) for (const name of ['index', 'about']) {
     const section = name === 'index' ? '.home-explore' : '.about-record-grid';
     // Screenshot the actual content without changing layout or interaction styles.
     const target = page.locator(section);
-    if (await target.count()) await target.screenshot({ path: path.join(os.tmpdir(), `icons-${name}-${width}.png`) });
-    if (name === 'index') await page.locator('.home-tools').screenshot({ path: path.join(os.tmpdir(), `icons-tools-${width}.png`) });
-    else await page.locator('a:has(.about-explore-icon)').first().locator('..').screenshot({ path: path.join(os.tmpdir(), `icons-about-explore-${width}.png`) });
+    if (await target.count()) await target.screenshot({ path: path.join(screenshots, `icons-${name}-${width}.png`) });
+    if (name === 'index') await page.locator('.home-tools').screenshot({ path: path.join(screenshots, `icons-tools-${width}.png`) });
+    else await page.locator('a:has(.about-explore-icon)').first().locator('..').screenshot({ path: path.join(screenshots, `icons-about-explore-${width}.png`) });
     assert.deepEqual(errors, []);
     await page.close();
   });

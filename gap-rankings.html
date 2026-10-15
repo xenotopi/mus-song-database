@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>歌唱ブランクランキング｜μ's Song Database</title>
+  <meta name="description" content="μ'sの楽曲を、もし今日歌われたら何日ぶりか・歴代最大の歌唱間隔で辿るランキング。">
+  <link rel="canonical" href="https://mus-song-db.com/gap-rankings.html">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.7.0">
+  <link rel="stylesheet" href="assets/css/link-ui.css?v=1">
+  <style>
+    .gap-rankings-page{width:min(1120px,calc(100% - 32px));margin:28px auto 72px;color:var(--navy)}
+    .gap-rankings-hero{padding:30px;border-radius:24px;background:linear-gradient(135deg,#18213d,#5147c9);color:#fff}
+    .gap-rankings-hero h1{font-size:clamp(28px,4vw,42px);margin:8px 0 12px}
+    .gap-rankings-hero h1 span{display:inline-block}
+    .gap-rankings-hero p{line-height:1.8;margin:0;font-size:14px}
+    .gap-rankings-controls{margin:20px 0;padding:20px;border:1px solid var(--line);border-radius:20px;background:#fff}
+    .gap-rankings-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px}
+    .gap-rankings-tabs button{min-height:44px;padding:8px 16px;font:inherit;font-weight:700;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--indigo);cursor:pointer}
+    .gap-rankings-tabs button[aria-pressed=true]{color:#fff;background:var(--indigo);border-color:var(--indigo)}
+    .gap-rankings-page a{color:var(--indigo);overflow-wrap:anywhere}
+    .gap-rankings-page :is(a,button):focus-visible{outline:3px solid #7c73ee;outline-offset:3px}
+    .gap-rankings-note,.gap-rankings-meta{color:var(--muted);font-size:14px;line-height:1.8;overflow-wrap:anywhere}
+    .gap-rankings-status{padding:18px;background:#fff;border:1px solid var(--line);border-radius:16px;line-height:1.8}
+    .gap-rankings-status.error{color:#991b1b}
+    .gap-rankings-list{list-style:none;padding:0;display:grid;gap:14px}
+    .gap-rankings-row{padding:16px 20px;background:#fff;border:1px solid var(--line);border-radius:20px;display:grid;grid-template-columns:42px minmax(0,1fr) minmax(200px,250px);grid-template-areas:"rank song days" "rank dates days";gap:6px 12px;align-items:start}
+    .gap-rankings-rank{border-radius:50%;background:#f0edff;color:var(--indigo);width:42px;min-height:42px;display:grid;place-items:center;font-size:20px;font-weight:900}
+    .gap-rankings-rank{grid-area:rank}.gap-rankings-song{grid-area:song;min-width:0}.gap-rankings-song h3{margin:0;font-size:19px;line-height:1.6}
+    .gap-rankings-song h3 a{text-decoration:none}
+    .gap-rankings-days{grid-area:days;min-width:0;font-size:28px;font-weight:900;color:var(--indigo);text-align:right}
+    .gap-rankings-number{white-space:nowrap}
+    .gap-rankings-days small{display:block;font-size:12px;font-weight:500;text-align:right;color:var(--muted)}
+    .gap-rankings-analogy{margin:6px 0 0;font-size:13px;font-weight:400;line-height:1.7;color:var(--muted);overflow-wrap:anywhere}
+    .gap-rankings-dates{grid-area:dates;display:grid;gap:6px;font-size:14px;line-height:1.7;min-width:0;overflow-wrap:anywhere}
+    .gap-rankings-dates a{color:var(--navy);text-decoration-color:var(--line);text-underline-offset:3px}
+    .gap-rankings-dates a:hover{color:var(--indigo);text-decoration-color:currentColor}
+    .gap-rankings-days .gap-rankings-checker{font-size:13px;font-weight:500;margin-top:4px;gap:4px;text-align:left}
+    .gap-rankings-page .gap-rankings-dates a.mus-link-secondary{font-weight:700}
+    .gap-rankings-dates p{margin:0}.gap-rankings-date-label{color:var(--navy);font-weight:800}
+    /* Ranking-only TYPE B candidate: do not alter the approved Home/Venue pilot. */
+    .gap-rankings-page.mus-link-scope a.mus-link-primary{gap:8px;padding:4px 6px 4px 0}
+    .gap-rankings-page.mus-link-scope .mus-link-chevron{display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px;width:30px;height:30px;border-radius:8px;background:#f2efff;line-height:1;transition:transform .18s ease}
+    .gap-rankings-page.mus-link-scope .mus-link-chevron .site-icon{width:16px;height:16px;flex:none}
+    .gap-rankings-page.mus-link-scope a.mus-link-primary:is(:hover,:focus-visible) .mus-link-chevron{transform:translateX(3px)}
+    @media(prefers-reduced-motion:reduce){.gap-rankings-page.mus-link-scope .mus-link-chevron{transition:none}.gap-rankings-page.mus-link-scope a.mus-link-primary:is(:hover,:focus-visible) .mus-link-chevron{transform:none}}
+    .gap-rankings-today{padding:8px 12px;background:#f0edff;border-radius:10px;color:#5147c9}
+    .gap-rankings-unranked{padding:18px;background:#fff;border:1px solid var(--line);border-radius:16px;font-size:14px;line-height:1.8}
+    .gap-rankings-unranked ul{padding-left:22px}.gap-rankings-unranked li{overflow-wrap:anywhere}
+    /* Only this page: keep TOP in normal flow, away from ranking links. */
+    body.gap-rankings-body .back-to-top{position:relative;inset:auto;margin:16px auto 24px;z-index:auto}
+    @media(max-width:620px){.gap-rankings-page{width:calc(100% - 24px);margin-top:18px}.gap-rankings-hero{padding:24px 20px}.gap-rankings-controls{padding:16px}.gap-rankings-row{padding:16px;grid-template-columns:36px minmax(0,1fr);grid-template-areas:"rank song" ". days" ". dates";gap:8px 12px}.gap-rankings-rank{width:34px;min-height:34px;font-size:18px}.gap-rankings-days{font-size:30px;text-align:left}.gap-rankings-days small{text-align:left}.gap-rankings-song h3{font-size:17px}}
+  </style>
+</head>
+<body class="gap-rankings-body">
+  <div id="siteHeader"></div>
+  <main class="gap-rankings-page mus-link-scope">
+    <section class="gap-rankings-hero"><p>PERFORMANCE GAP RANKINGS</p><h1><span>歌唱ブランク</span><wbr><span>ランキング</span></h1><p>もし今日、この曲が歌われたら。<br>今の歌唱間隔と、これまでの「何日ぶり？」を辿ります。</p></section>
+    <section class="gap-rankings-controls" aria-label="ランキング条件">
+      <div class="gap-rankings-tabs" id="rankingTabs" role="group" aria-label="ランキングの種類"><button type="button" data-tab="current" aria-pressed="true">今歌われたら</button><button type="button" data-tab="history" aria-pressed="false">歴代『何日ぶり？』</button></div>
+      <div class="gap-rankings-tabs" id="rankingScopes" role="group" aria-label="集計区分"><button type="button" data-scope="all" aria-pressed="false">すべて</button><button type="button" data-scope="official" aria-pressed="true">公式</button><button type="button" data-scope="solo" aria-pressed="false">ソロ</button></div>
+      <p class="gap-rankings-note">Aは既存チェッカー（gapV2）と同じく、基準日当日を除外して前日までの直近歌唱日から計算します。当日歌唱済みでも仮定の比較値であり、実際の未歌唱期間を示すものではありません。</p>
+      <p class="gap-rankings-note">Bは異なる連続歌唱日の間隔を比較し、1曲につき最大1件。同じ最大間隔が複数ある場合は次の歌唱日が最新のものを採用します。同日記録は日数計算のみ集約し、関連する全イベントを保持します。同日数は同順位（競技順位）、表示順はSong ID順です。</p>
+      <a href="gap-checker.html">いつ振り歌唱チェッカーへ</a>
+    </section>
+    <div id="rankingStatus" class="gap-rankings-status" role="status">正式データを確認しています…</div>
+    <section id="rankingResults" hidden aria-live="polite"><h2 id="rankingTitle"></h2><p id="rankingMeta" class="gap-rankings-meta"></p><ol id="rankingList" class="gap-rankings-list"></ol><details class="gap-rankings-unranked"><summary id="unrankedSummary"></summary><ul id="unrankedList"></ul></details><p id="rankingSource" class="gap-rankings-meta"></p></section>
+    <p class="gap-rankings-note">期間の例えは、日数をイメージしやすくするための目安です。</p>
+  </main>
+  <div id="siteFooter"></div>
+  <script type="module" src="assets/js/gap-rankings.js?v=4"></script>
+</body>
+</html>

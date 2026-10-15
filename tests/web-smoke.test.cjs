@@ -16,6 +16,7 @@ const EXPECTED_PAGES = Object.freeze([
   "event.html",
   "events.html",
   "gap-checker.html",
+  "gap-rankings.html",
   "index.html",
   "kamipara.html",
   "member-analytics.html",

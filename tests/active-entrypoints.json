@@ -47,6 +47,10 @@
         "assets/css/style.css"
       ]
     },
+    "gap-rankings.html": {
+      "js": ["assets/js/gap-rankings.js"],
+      "css": ["assets/css/style.css", "assets/css/link-ui.css"]
+    },
     "index.html": {
       "js": [
         "assets/js/seo-v351.js",
@@ -55,7 +59,8 @@
       ],
       "css": [
         "assets/css/style.css",
-        "assets/css/icons.css"
+        "assets/css/icons.css",
+        "assets/css/link-ui.css"
       ]
     },
     "kamipara.html": {
@@ -162,7 +167,8 @@
         "assets/js/detail-context.js"
       ],
       "css": [
-        "assets/css/style.css"
+        "assets/css/style.css",
+        "assets/css/link-ui.css"
       ]
     },
     "venues.html": {
@@ -184,6 +190,9 @@
     "assets/js/event-v310.js",
     "assets/js/events-v470.js",
     "assets/js/gap-checker-v490.js",
+    "assets/js/gap-rankings-model.js",
+    "assets/js/gap-rankings-presentation.js",
+    "assets/js/gap-rankings.js",
     "assets/js/home-date-v493.js",
     "assets/js/home-v453.js",
     "assets/js/icons.js",
@@ -211,6 +220,7 @@
   "activeCss": [
     "assets/css/analytics-consent.css",
     "assets/css/icons.css",
+    "assets/css/link-ui.css",
     "assets/css/member-analytics.css",
     "assets/css/release-amazon.css",
     "assets/css/song-view-group-filter.css",

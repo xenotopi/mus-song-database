@@ -15,7 +15,8 @@ const STATIC_PATHS = [
   "rankings.html",
   "statistics.html",
   "about.html",
-  "gap-checker.html"
+  "gap-checker.html",
+  "gap-rankings.html"
 ];
 
 function activeApiUrl() {

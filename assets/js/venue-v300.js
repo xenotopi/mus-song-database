@@ -765,13 +765,13 @@ function renderVenueInsights_(
     historyItems.length
       ? historyItems.map(item => `
           <a
-            class="insight-row"
+            class="insight-row mus-card-link"
             href="event.html?id=${encodeURIComponent(
               item.eventId
             )}"
           >
             <span>
-              <span class="insight-title">
+              <span class="insight-title mus-card-title">
                 ${escapeHtml(
                   item.eventName ||
                   "イベント名未設定"

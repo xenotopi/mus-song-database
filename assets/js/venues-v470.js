@@ -541,6 +541,11 @@ function getRecordTag(
 }
 
 
+function titleWithChevron_(text) {
+  const chars = Array.from(String(text));
+  return `${escapeHtml(chars.slice(0, -2).join(""))}<span class="mus-title-tail">${escapeHtml(chars.slice(-2).join(""))}<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span>`;
+}
+
 function renderVenues() {
   const items =
     getFilteredVenues();
@@ -572,12 +577,12 @@ function renderVenues() {
 
             return `
               <a
-                class="venue-list-card"
+                class="venue-list-card mus-card-link mus-chip-link"
                 href="venue.html?id=${encodeURIComponent(item.venueId)}"
               >
                 <div class="venue-list-top">
-                  <div class="venue-list-title">
-                    ${escapeHtml(
+                  <div class="venue-list-title mus-card-title mus-title-chip">
+                    ${titleWithChevron_(
                       item.venueName ||
                       "会場名未設定"
                     )}

@@ -344,6 +344,11 @@ function renderYearNav(groups) {
     });
 }
 
+function titleWithChevron_(text) {
+  const chars = Array.from(String(text));
+  return `${escapeHtml(chars.slice(0, -2).join(""))}<span class="mus-title-tail">${escapeHtml(chars.slice(-2).join(""))}<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span>`;
+}
+
 function renderEventCard(item) {
   const date =
     dateParts(
@@ -374,7 +379,7 @@ function renderEventCard(item) {
       </div>
 
       <a
-        class="history-event-card"
+        class="history-event-card mus-card-link mus-chip-link"
         href="event.html?id=${encodeURIComponent(item.eventId)}"
       >
         <div class="history-event-badges">
@@ -391,8 +396,8 @@ function renderEventCard(item) {
           }
         </div>
 
-        <div class="history-event-title">
-          ${escapeHtml(item.eventName || "イベント名未設定")}
+        <div class="history-event-title mus-card-title mus-title-chip">
+          ${titleWithChevron_(item.eventName || "イベント名未設定")}
         </div>
 
         <div class="history-event-meta">

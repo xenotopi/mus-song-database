@@ -394,7 +394,6 @@
     .venue-list-card:hover{
       border-color:#bbb6f5;
       background:#fcfbff;
-      transform:translateY(-1px);
     }
 
     .venue-list-top{
@@ -421,6 +420,7 @@
 
     .venue-list-title{
       flex:1;
+      min-width:0;
       color:var(--navy);
       font-size:17px;
       font-weight:900;
@@ -590,12 +590,13 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="assets/css/link-ui.css?v=2">
 </head>
 
 <body>
   <div id="siteHeader"></div>
 
-  <main class="venues-page">
+  <main class="venues-page mus-link-scope">
     <div class="venues-breadcrumb">
       <a href="index.html">ホーム</a>
       <span class="site-icon-inline site-breadcrumb-icon" data-site-icon="chevron-right" aria-hidden="true"></span> 会場一覧
@@ -814,7 +815,7 @@
 
   <script
     type="module"
-    src="assets/js/venues-v470.js?v=4.9.1&amp;cache=revision-nonblocking"
+    src="assets/js/venues-v470.js?v=4.9.2&amp;cache=revision-nonblocking"
   ></script>
 </body>
 </html>

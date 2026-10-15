@@ -199,6 +199,11 @@ function populateYears() {
   el.releaseYear.innerHTML = `<option value="">すべての年</option>${years.map(year => `<option value="${year}">${year}年</option>`).join("")}`;
 }
 
+function titleWithChevron_(text) {
+  const chars = Array.from(String(text));
+  return `${escapeHtml(chars.slice(0, -2).join(""))}<span class="mus-title-tail">${escapeHtml(chars.slice(-2).join(""))}<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span>`;
+}
+
 function renderReleases() {
   detailObserver.disconnect();
   detailQueue.length = 0;
@@ -210,10 +215,10 @@ function renderReleases() {
     const edition = item.editionType === "individual" ? "個別盤" : item.editionType === "memorial_box" ? "Memorial BOX" : "";
     const soloMeta = [item.releaseSeries?.shortName || item.releaseSeries?.name, edition, item.featuredSinger?.name, item.catalogNumber].map(value => String(value || "").trim()).filter(Boolean);
     const meta = [...soloMeta, supplement].filter(Boolean);
-    const card = `<a class="release-list-card" href="release/${encodeURIComponent(item.releaseId)}.html">
+    const card = `<a class="release-list-card mus-card-link mus-chip-link" href="release/${encodeURIComponent(item.releaseId)}.html">
       <span class="release-list-date">${validDate(item.releaseDate) ? escapeHtml(formatDate(item.releaseDate)) : "発売日未登録"}</span>
-      <span class="release-list-main"><span class="release-list-title">${escapeHtml(item.releaseName || "リリース名未設定")}</span>${meta.length ? `<span class="release-list-meta">${meta.map(value => `<span class="release-list-meta-tag">${escapeHtml(value)}</span>`).join("")}</span>` : ""}</span>
-      <span class="release-list-category">${escapeHtml(item.classification || "分類未設定")}</span><span class="release-list-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span>
+      <span class="release-list-main"><span class="release-list-title mus-card-title mus-title-chip">${titleWithChevron_(item.releaseName || "リリース名未設定")}</span>${meta.length ? `<span class="release-list-meta">${meta.map(value => `<span class="release-list-meta-tag">${escapeHtml(value)}</span>`).join("")}</span>` : ""}</span>
+      <span class="release-list-category">${escapeHtml(item.classification || "分類未設定")}</span>
     </a>`;
     return hasSongSupplement(item) ? `<div class="release-list-entry">${card}<div class="release-list-songs" data-release-songs="${escapeHtml(item.releaseId)}" data-classification="${escapeHtml(item.classification)}" hidden></div></div>` : card;
   }).join("") : `<div class="releases-empty">条件に一致するリリースはありません</div>`;

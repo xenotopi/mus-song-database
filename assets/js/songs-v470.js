@@ -293,6 +293,11 @@ function renderPickup() {
   el.pickupSection.hidden = !cards.length;
 }
 
+function titleWithChevron_(text) {
+  const chars = Array.from(String(text));
+  return `${escapeHtml(chars.slice(0, -2).join(""))}<span class="mus-title-tail">${escapeHtml(chars.slice(-2).join(""))}<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span>`;
+}
+
 function renderSongs() {
   const items = getFilteredSongs();
   const visible = items.slice(0, visibleLimit);
@@ -310,11 +315,11 @@ function renderSongs() {
           "曲名未設定";
 
         return `
-          <a class="song-list-card" href="${buildSongUrl(item.songId)}">
+          <a class="song-list-card mus-card-link mus-chip-link" href="${buildSongUrl(item.songId)}">
             <span class="song-list-rank">${index + 1}</span>
 
             <div>
-              <div class="song-list-title">${escapeHtml(title)}</div>
+              <div class="song-list-title mus-card-title mus-title-chip">${titleWithChevron_(title)}</div>
 
               <div class="song-list-meta">
                 ${item.version ? `<span>${escapeHtml(item.version)}</span>` : ""}

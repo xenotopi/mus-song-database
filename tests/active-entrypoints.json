@@ -35,7 +35,8 @@
         "assets/js/events-v470.js"
       ],
       "css": [
-        "assets/css/style.css"
+        "assets/css/style.css",
+        "assets/css/link-ui.css"
       ]
     },
     "gap-checker.html": {
@@ -102,7 +103,8 @@
         "assets/js/releases-v500.js"
       ],
       "css": [
-        "assets/css/style.css"
+        "assets/css/style.css",
+        "assets/css/link-ui.css"
       ]
     },
     "search.html": {
@@ -130,7 +132,8 @@
         "assets/js/singers-v470.js"
       ],
       "css": [
-        "assets/css/style.css"
+        "assets/css/style.css",
+        "assets/css/link-ui.css"
       ]
     },
     "song.html": {
@@ -149,7 +152,8 @@
       ],
       "css": [
         "assets/css/style.css",
-        "assets/css/song-view-group-filter.css"
+        "assets/css/song-view-group-filter.css",
+        "assets/css/link-ui.css"
       ]
     },
     "statistics.html": {
@@ -177,7 +181,8 @@
         "assets/js/venues-v470.js"
       ],
       "css": [
-        "assets/css/style.css"
+        "assets/css/style.css",
+        "assets/css/link-ui.css"
       ]
     }
   },

@@ -423,6 +423,11 @@ function recordTag(item, maps) {
 }
 
 
+function titleWithChevron_(text) {
+  const chars = Array.from(String(text));
+  return `${escapeHtml(chars.slice(0, -2).join(""))}<span class="mus-title-tail">${escapeHtml(chars.slice(-2).join(""))}<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span>`;
+}
+
 function renderList() {
   const items =
     filteredItems();
@@ -446,7 +451,7 @@ function renderList() {
             recordTag(item, maps);
 
           return `
-            <a class="singer-list-card" href="${href}">
+            <a class="singer-list-card mus-card-link mus-chip-link" href="${href}">
               ${colorLine(item.members, "singer-card-colors")}
 
               <div class="singer-card-top">
@@ -465,8 +470,8 @@ function renderList() {
                 </span>
               </div>
 
-              <div class="singer-card-title">
-                ${escapeHtml(item.displayName)}
+              <div class="singer-card-title mus-card-title mus-title-chip">
+                ${titleWithChevron_(item.displayName)}
               </div>
 
               ${

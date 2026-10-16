@@ -67,11 +67,14 @@ for (const width of [1280, 390]) {
     assert.equal(await page.locator('#memberAnalyticsTable [data-song-id="S046"] a').getAttribute("href"), "song/S046.html");
     if (width === 1280) {
       const songCell = page.locator('#memberAnalyticsTable tbody tr').filter({ hasText: 'Mermaid festa vol.2 ～Passionate～' }).locator('.member-analytics-song').first();
-      const lineCount = await songCell.evaluate(node => {
+      const titleBounds = await songCell.evaluate(node => {
         const link = node.querySelector('a');
-        return Math.round(link.getBoundingClientRect().height / parseFloat(getComputedStyle(link).lineHeight));
+        const cell = node.getBoundingClientRect(), box = link.getBoundingClientRect();
+        const range = document.createRange(); range.selectNodeContents(link);
+        return { text: link.textContent, inside: [...range.getClientRects(), box].every(rect => rect.left >= cell.left && rect.right <= cell.right && rect.top >= cell.top && rect.bottom <= cell.bottom) };
       });
-      assert.equal(lineCount, 1);
+      assert.equal(titleBounds.text, 'Mermaid festa vol.2 ～Passionate～');
+      assert.equal(titleBounds.inside, true, 'full title and chip remain within the unchanged Song column');
       const memberWidths = await page.locator('#memberAnalyticsTable thead th.member-analytics-person-head').evaluateAll(nodes => nodes.map(cell => Math.round(cell.getBoundingClientRect().width)));
       assert.equal(new Set(memberWidths).size, 1);
     }

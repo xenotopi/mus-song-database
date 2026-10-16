@@ -117,9 +117,7 @@
   overflow-wrap: break-word;
   word-break: normal;
 }
-.member-analytics-table .member-analytics-song a { color: #172033; font-weight: 700; text-decoration: none; }
-.member-analytics-table .member-analytics-song a:hover { color: #2b65b1; text-decoration: underline; }
-.member-analytics-table .member-analytics-song a:focus-visible { outline: 2px solid #2b65b1; outline-offset: 2px; }
+/* Title links opt into link-ui.css; numeric cells and table geometry stay unchanged. */
 .member-analytics-table .member-analytics-person-head,
 .member-analytics-summary-table .member-analytics-person-head { padding-bottom: 16px; overflow-wrap: anywhere; }
 .member-analytics-summary-table .member-analytics-person-head { position: relative; }

@@ -71,7 +71,8 @@
         "assets/js/kamipara-v100.js"
       ],
       "css": [
-        "assets/css/style.css"
+        "assets/css/style.css",
+        "assets/css/link-ui.css"
       ]
     },
     "member-analytics.html": {
@@ -80,7 +81,8 @@
       ],
       "css": [
         "assets/css/style.css",
-        "assets/css/member-analytics.css"
+        "assets/css/member-analytics.css",
+        "assets/css/link-ui.css"
       ]
     },
     "rankings.html": {

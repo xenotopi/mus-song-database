@@ -73,6 +73,22 @@ function renderSummary(rows, names) {
   });
 }
 
+function songLink(song) {
+  const link = element("a", "mus-link-primary mus-chip-link");
+  link.href = buildSongUrl(song.songId);
+  const title = element("span", "mus-title-chip");
+  const chars = Array.from(String(song.songName));
+  title.append(document.createTextNode(chars.slice(0, -2).join("")));
+  const tail = element("span", "mus-title-tail", chars.slice(-2).join(""));
+  const icon = element("span", "site-icon-inline mus-link-chevron");
+  icon.dataset.siteIcon = "chevron-right";
+  icon.setAttribute("aria-hidden", "true");
+  tail.append(icon);
+  title.append(tail);
+  link.append(title);
+  return link;
+}
+
 function renderTable(fullNames, names, songs, countKey) {
   const head = element("thead");
   const heading = element("tr");
@@ -85,8 +101,7 @@ function renderTable(fullNames, names, songs, countKey) {
     const row = element("tr");
     row.dataset.songId = song.songId;
     const title = element("td", "member-analytics-song");
-    const link = element("a", "", song.songName);
-    link.href = buildSongUrl(song.songId);
+    const link = songLink(song);
     title.append(link);
     row.append(title);
     for (const count of song[countKey]) row.append(element("td", count === 0 ? "member-analytics-zero" : count === maximum ? "member-analytics-maximum" : "", count));
@@ -100,8 +115,7 @@ function renderTable(fullNames, names, songs, countKey) {
     const article = element("article", "member-analytics-mobile-song");
     article.dataset.songId = song.songId;
     const header = element("div", "member-analytics-mobile-song-head");
-    const link = element("a", "", song.songName);
-    link.href = buildSongUrl(song.songId);
+    const link = songLink(song);
     header.append(link);
     const grid = element("div", "member-analytics-mobile-counts");
     song[countKey].forEach((count, index) => {

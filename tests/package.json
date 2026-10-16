@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Read-only browser regression tests for the public μ's Song Database web UI",
   "scripts": {
-    "test:ui-links": "node --test ui-link-consistency.test.cjs home-recent-singer-links.test.cjs list-link-ui.test.cjs detail-link-ui.test.cjs analytics-link-ui.test.cjs dashboard-link-ui.test.cjs",
+    "test:ui-links": "node --test ui-link-consistency.test.cjs home-recent-singer-links.test.cjs list-link-ui.test.cjs detail-link-ui.test.cjs analytics-link-ui.test.cjs dashboard-link-ui.test.cjs search-link-ui.test.cjs",
     "test:gap-rankings": "node --test gap-rankings.test.cjs gap-rankings-ui.test.cjs",
     "test:release-today-songs": "node --test release-today-songs.test.cjs",
     "test:api-jsonp": "node --test api-jsonp-timeout.test.cjs api-jsonp-collision.test.cjs api-cache-cleanup.test.cjs",

@@ -13,6 +13,7 @@
     rel="stylesheet"
     href="assets/css/style.css?v=4.7.0"
   >
+  <link rel="stylesheet" href="assets/css/link-ui.css?v=2">
 
   <style>
     .about-page {
@@ -345,7 +346,7 @@
 
     .about-explore-card {
       display: grid;
-      grid-template-columns: 40px minmax(0, 1fr) auto;
+      grid-template-columns: 40px minmax(0, 1fr);
       gap: 12px;
       align-items: center;
       min-width: 0;
@@ -355,12 +356,11 @@
       background: #fff;
       color: inherit;
       text-decoration: none;
-      transition: .18s ease;
+      transition: border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
     }
 
     .about-explore-card:hover {
       border-color: #bdb6f3;
-      transform: translateY(-1px);
       box-shadow: 0 10px 26px rgba(58, 48, 130, .08);
     }
 
@@ -389,12 +389,6 @@
       font-size: 14px;
       font-weight: 500;
       line-height: 1.5;
-    }
-
-    .about-explore-arrow {
-      color: var(--indigo);
-      font-size: 20px;
-      font-weight: 900;
     }
 
     @media (max-width: 760px) {
@@ -485,7 +479,7 @@
 <body>
   <div id="siteHeader"></div>
 
-  <main class="about-page">
+  <main class="about-page mus-link-scope">
     <div class="crumb">
       <a href="index.html">ホーム</a> <span class="site-icon-inline site-breadcrumb-icon" data-site-icon="chevron-right" aria-hidden="true"></span> このサイトについて
     </div>
@@ -725,28 +719,24 @@
         </div>
 
         <div class="about-explore-grid">
-          <a class="about-explore-card" href="songs.html">
+          <a class="about-explore-card mus-card-link mus-chip-link" href="songs.html">
             <span class="about-explore-icon" aria-hidden="true" data-site-icon="music-2"></span>
-            <span><strong>曲から巡る</strong><small>楽曲ごとの歌唱履歴を見る</small></span>
-            <span class="about-explore-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></span>
+            <span><strong class="mus-card-title mus-title-chip">曲から<span class="mus-title-tail">巡る<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span></strong><small>楽曲ごとの歌唱履歴を見る</small></span>
           </a>
 
-          <a class="about-explore-card" href="events.html">
+          <a class="about-explore-card mus-card-link mus-chip-link" href="events.html">
             <span class="about-explore-icon" aria-hidden="true" data-site-icon="calendar-days"></span>
-            <span><strong>イベントから巡る</strong><small>開催順に歌唱の歴史を辿る</small></span>
-            <span class="about-explore-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></span>
+            <span><strong class="mus-card-title mus-title-chip">イベントから<span class="mus-title-tail">巡る<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span></strong><small>開催順に歌唱の歴史を辿る</small></span>
           </a>
 
-          <a class="about-explore-card" href="venues.html">
+          <a class="about-explore-card mus-card-link mus-chip-link" href="venues.html">
             <span class="about-explore-icon" aria-hidden="true" data-site-icon="map-pin"></span>
-            <span><strong>会場から巡る</strong><small>歌唱が行われた場所から探す</small></span>
-            <span class="about-explore-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></span>
+            <span><strong class="mus-card-title mus-title-chip">会場から<span class="mus-title-tail">巡る<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span></strong><small>歌唱が行われた場所から探す</small></span>
           </a>
 
-          <a class="about-explore-card" href="singers.html">
+          <a class="about-explore-card mus-card-link mus-chip-link" href="singers.html">
             <span class="about-explore-icon" aria-hidden="true" data-site-icon="mic-vocal"></span>
-            <span><strong>歌唱名義から巡る</strong><small>メンバーや組み合わせから探す</small></span>
-            <span class="about-explore-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></span>
+            <span><strong class="mus-card-title mus-title-chip">歌唱名義から<span class="mus-title-tail">巡る<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span></strong><small>メンバーや組み合わせから探す</small></span>
           </a>
         </div>
       </section>

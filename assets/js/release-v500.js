@@ -1,6 +1,6 @@
 import { buildSongUrl, apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema&songUrls=1";
 import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
-import { detailWithApiFallback, staticReleaseList } from "./static-detail.js?v=1.3.0";
+import { detailWithApiFallback, staticReleaseList, staticDetail } from "./static-detail.js?v=1.3.0";
 import { renderKamiparaRelease, hasCompletedKamiparaContent } from "./release-kamipara.js?v=1.0.0";
 import { renderAmazonProduct } from "./release-amazon.js";
 
@@ -9,6 +9,7 @@ const $ = id => document.getElementById(id);
 const elements = { breadcrumbName: $("breadcrumbName"), releaseName: $("releaseName"), heroMeta: $("heroMeta"), status: $("status"), skeleton: $("releaseSkeleton"), mainContent: $("mainContent"), releaseInfo: $("releaseInfo"), officialRelease: $("officialRelease"), relatedEventsHost: $("relatedEventsHost"), childReleasesHost: $("childReleasesHost"), debutSongsSection: $("debutSongsSection"), debutSongs: $("debutSongs"), includedSongsSection: $("includedSongsSection"), includedSongsCount: $("includedSongsCount"), includedSongsContent: $("includedSongsContent") };
 const pathReleaseId = /^\/release\/(R\d{4})\.html$/.exec(location.pathname)?.[1] || "";
 const releaseId = pathReleaseId || String(new URLSearchParams(location.search).get("id") || "").trim();
+document.body.classList.toggle("release-box-top-safe", releaseId === "R0088");
 // The generator marks completed Release HTML; never infer this from its title.
 const hasPrerenderedContent = document.documentElement.dataset.releaseId === releaseId &&
   /^R\d{4}$/.test(releaseId) && !elements.mainContent.hidden;
@@ -34,6 +35,7 @@ function setLoading() {
   elements.status.classList.remove("error");
   elements.status.textContent = "リリースデータを読み込んでいます...";
   elements.mainContent.hidden = true;
+  if ($("releaseSectionNav")) $("releaseSectionNav").hidden = true;
   elements.debutSongsSection.hidden = true;
   elements.includedSongsSection.hidden = true;
   $("kamiparaHistorySection").hidden = true;
@@ -56,6 +58,7 @@ function setError(title, message, retryable) {
     elements.breadcrumbName.textContent = title;
     document.title = `${title}｜μ's Song Database`;
     elements.mainContent.hidden = true;
+    if ($("releaseSectionNav")) $("releaseSectionNav").hidden = true;
     elements.debutSongsSection.hidden = true;
     elements.includedSongsSection.hidden = true;
     $("kamiparaHistorySection").hidden = true;
@@ -75,16 +78,78 @@ function inclusionError() {
   elements.includedSongsSection.hidden = false;
 }
 
-function includedSongRow(song, grouped) {
-  const title = String(song.displayName || song.songName || "曲名未設定");
-  const position = grouped
-    ? (song.track == null ? "" : `Track ${song.track}`)
-    : [song.disc == null ? "" : `Disc ${song.disc}`, song.track == null ? "" : `Track ${song.track}`].filter(Boolean).join(" / ");
-  const variant = song.variant == null ? "" : String(song.variant);
-  return `<a class="release-included-song-row" href="${buildSongUrl(song.songId)}"><span class="release-included-song-copy"><span class="release-included-song-title">${escapeHtml(title)}</span>${position || variant ? `<span class="release-included-song-meta">${position ? `<span>${escapeHtml(position)}</span>` : ""}${variant ? `<span class="release-variant">${escapeHtml(variant)}</span>` : ""}</span>` : ""}</span><span class="release-included-song-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a>`;
+function titleChip(title) {
+  const chars = Array.from(String(title));
+  return `<span class="mus-title-chip">${escapeHtml(chars.slice(0, -2).join(""))}<span class="mus-title-tail">${escapeHtml(chars.slice(-2).join(""))}<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></span></span>`;
 }
 
-function renderIncludedSongs(release) {
+// Presentation-only helpers. Never normalize or rewrite registered variants.
+export function commonDiscVariant(rows) {
+  const variant = rows[0]?.variant;
+  return typeof variant === "string" && variant.trim() && rows.every(row => row.variant === variant) ? variant : "";
+}
+
+export function inclusionCountLabel(release) {
+  const rows = release.includedSongs || [], unique = new Set(rows.map(row => row.songId)).size;
+  const discs = new Set(rows.map(row => row.disc));
+  if (!rows.length) return "";
+  if (release.classification === "特典" && release.releaseType === "全巻購入特典") return "店舗別特典CD";
+  if (discs.size > 1 && !discs.has(null) && !discs.has(undefined)) {
+    const registeredTracks = rows.every(row => Number.isInteger(row.disc) && row.disc > 0 && Number.isInteger(row.track) && row.track > 0) &&
+      new Set(rows.map(row => row.disc + ":" + row.track)).size === rows.length;
+    return unique === rows.length ? `${discs.size} Disc · ${rows.length}曲` :
+      `${discs.size} Disc · ${rows.length}${registeredTracks ? "トラック" : "件"}（${unique}曲）`;
+  }
+  return unique === rows.length ? `${rows.length}曲` : `${rows.length}件（${unique}曲）`;
+}
+
+// Future adapter input, NOT a new snapshot/API contract. The current loader
+// supplies no metadata. Preview fixtures and edition-unconfirmed credits are
+// never imported. A separately approved adapter must resolve source and scope.
+function approvedRelationMetadataItem(releaseId, relationId, metadata) {
+  if (!metadata || metadata.releaseId !== releaseId || metadata.approved !== true) return null;
+  const matches = (Array.isArray(metadata.relations) ? metadata.relations : []).filter(row => row?.relationId === relationId);
+  const item = matches.length === 1 ? matches[0] : null;
+  if (!item || item.verificationStatus !== "verified" || item.applicabilityMode !== "explicit_relation" ||
+      !/^https:\/\//.test(String(item.sourceUrl || ""))) return null;
+  return item;
+}
+
+function approvedCredits(item) {
+  return (Array.isArray(item.credits) ? item.credits : []).filter(row =>
+    ["lyricist", "composer"].includes(row.role) && typeof row.name === "string" && row.name.trim() &&
+    row.verificationStatus === "verified" && row.applicabilityMode === "explicit_relation" && /^https:\/\//.test(String(row.sourceUrl || "")));
+}
+
+export function approvedRelationMetadataHtml(releaseId, relationId, metadata) {
+  const item = approvedRelationMetadataItem(releaseId, relationId, metadata);
+  if (!item) return "";
+  const product = typeof item.productName === "string" && item.productName.trim() ?
+    `<span class="release-product-name">${escapeHtml(item.productName)}</span>` : "";
+  const credits = approvedCredits(item);
+  return product + (credits.length ? `<span class="release-credits">${credits.map(row => `${row.role === "lyricist" ? "作詞" : "作曲"}：${escapeHtml(row.name)}`).join("　")}</span>` : "");
+}
+
+function includedSongRow(song, grouped, origin, partialTrack, options = {}) {
+  const title = String(song.displayName || song.songName || "曲名未設定");
+  const position = grouped
+    ? (song.track == null ? (partialTrack ? "Track未登録" : "") : `Track ${song.track}`)
+    : [song.disc == null ? "" : `Disc ${song.disc}`, song.track == null ? "" : `Track ${song.track}`].filter(Boolean).join(" / ");
+  const variant = options.omitVariant || song.variant == null ? "" : String(song.variant);
+  const track = grouped && song.track != null ? `<span class="release-track-number" aria-label="Track ${escapeHtml(song.track)}">${escapeHtml(song.track)}</span>` : "";
+  const remainingPosition = track ? "" : position;
+  const supplement = approvedRelationMetadataHtml(options.releaseId, song.relationId, options.metadata);
+  const rowHtml = `<a class="release-included-song-row mus-card-link mus-chip-link" data-relation-id="${escapeHtml(song.relationId)}" href="${buildSongUrl(song.songId)}">${track}<span class="release-included-song-copy"><span class="release-included-song-title">${titleChip(title)}</span>${supplement}${remainingPosition || variant || origin ? `<span class="release-included-song-meta">${remainingPosition ? `<span>${escapeHtml(remainingPosition)}</span>` : ""}${variant ? `<span class="release-variant">${escapeHtml(variant)}</span>` : ""}${origin ? '<span class="release-origin">初出・由来</span>' : ""}</span>` : ""}</span></a>`;
+  if (!supplement) return rowHtml;
+  const item = approvedRelationMetadataItem(options.releaseId, song.relationId, options.metadata);
+  const sources = [...new Set([item.sourceUrl, ...approvedCredits(item).map(credit => credit.sourceUrl)])];
+  // Sources have a separate destination: siblings of the Song anchor, never nested.
+  return `<div class="release-metadata-entry">${rowHtml}<div class="release-metadata-sources">出典：${sources.map((url, index) => `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${sources.length === 1 ? "確認資料" : "資料" + (index + 1)}</a>`).join(" / ")}</div></div>`;
+}
+
+let boxView = null;
+function renderIncludedSongs(release, approvedMetadata = null) {
+  boxView = null;
   const songs = release.includedSongs;
   const meta = release.includedSongsMeta;
   if (!Array.isArray(songs) || !meta || typeof meta !== "object" || Array.isArray(meta) || !inclusionStatuses.has(String(meta.status || ""))) {
@@ -103,7 +168,8 @@ function renderIncludedSongs(release) {
     elements.includedSongsSection.hidden = true;
     return;
   }
-  elements.includedSongsCount.textContent = songs.length === 0 ? "" : `${songs.length}件`;
+  const uniqueCount = new Set(songs.map(song => song.songId)).size;
+  elements.includedSongsCount.textContent = inclusionCountLabel(release);
   const progress = status === "partial" && Number.isFinite(Number(meta.confirmedCount)) && Number.isFinite(Number(meta.pendingCount))
     ? `<span class="release-coverage-progress">確認済み${Number(meta.confirmedCount)}件 / 確認中${Number(meta.pendingCount)}件</span>` : "";
   const noteHtml = note || progress ? `<p class="release-coverage-note">${note ? escapeHtml(note) : ""}${progress}</p>` : "";
@@ -117,29 +183,186 @@ function renderIncludedSongs(release) {
     elements.includedSongsSection.hidden = false;
     return;
   }
-  const groups = [];
-  const byDisc = new Map();
+  const originIds = new Set((Array.isArray(release.debutSongs) ? release.debutSongs : []).map(song => song.songId));
+  const marked = new Set();
+  const stores = new Map();
+  const hasStores = songs.some(song => String(song.benefitStore || "").trim());
   songs.forEach(song => {
-    const key = song.disc == null ? "__NO_DISC__" : String(song.disc);
-    if (!byDisc.has(key)) {
-      const group = { key, disc: song.disc == null ? null : song.disc, songs: [] };
-      byDisc.set(key, group);
-      groups.push(group);
-    }
-    byDisc.get(key).songs.push(song);
+    const store = hasStores ? String(song.benefitStore || "").trim() : "";
+    if (!stores.has(store)) stores.set(store, []);
+    stores.get(store).push(song);
   });
-  const noDiscIndex = groups.findIndex(group => group.disc == null);
-  if (noDiscIndex >= 0 && noDiscIndex !== groups.length - 1) groups.push(groups.splice(noDiscIndex, 1)[0]);
-  let listHtml;
-  if (groups.length <= 1) {
-    listHtml = `<div class="release-included-list">${songs.map(song => includedSongRow(song, false)).join("")}</div>`;
-  } else if (groups.length === 2) {
-    listHtml = groups.map(group => `<section class="release-disc-group"><h3 class="release-disc-heading">${group.disc == null ? "Disc情報なし" : `Disc ${escapeHtml(group.disc)}`}</h3><div class="release-included-list">${group.songs.map(song => includedSongRow(song, true)).join("")}</div></section>`).join("");
-  } else {
-    listHtml = groups.map((group, index) => `<details class="release-disc-details"${index === 0 ? " open" : ""}><summary>${group.disc == null ? "Disc情報なし" : `Disc ${escapeHtml(group.disc)}`}（${group.songs.length}件）<span class="site-icon-inline site-disclosure-icon" data-site-icon="chevron-down" aria-hidden="true"></span></summary><div class="release-included-list">${group.songs.map(song => includedSongRow(song, true)).join("")}</div></details>`).join("");
-  }
-  elements.includedSongsContent.innerHTML = noteHtml + listHtml;
+  let discId = 0;
+  const renderStore = rows => {
+    const discs = new Map();
+    rows.forEach(song => {
+      const key = song.disc == null ? null : String(song.disc);
+      if (!discs.has(key)) discs.set(key, []);
+      discs.get(key).push(song);
+    });
+    // Preserve the established rule: unspecified discs follow known discs.
+    if (discs.has(null) && discs.size > 1) { const unknown = discs.get(null); discs.delete(null); discs.set(null, unknown); }
+    const groups = [...discs].map(([disc, rows]) => ({ disc, rows, id: `release-disc-${++discId}` }));
+    const largeBox = release.editionType === "memorial_box" && !hasStores && groups.length >= 10;
+    const collapsible = groups.length >= 2;
+    const index = largeBox ? `<div class="release-box-controls"><label>メンバーから探す<select data-box-member disabled><option value="">すべてのメンバー</option></select></label><label>Discから探す<select data-box-disc>${groups.map(group => `<option value="${group.id}">Disc ${escapeHtml(group.disc)}${commonDiscVariant(group.rows) ? " · " + escapeHtml(commonDiscVariant(group.rows)) : ""}</option>`).join("")}</select></label><a data-box-child hidden></a><p class="release-box-status" data-box-status role="status"></p></div>` : collapsible ? `<nav class="release-disc-index" aria-label="Disc索引">${groups.map(group => `<a href="#${group.id}" data-disc-target="${group.id}">${group.disc == null ? "Disc未登録" : `Disc ${escapeHtml(group.disc)}`}</a>`).join("")}</nav><div class="release-disc-actions"><button type="button" data-discs-open="true">すべて開く</button><button type="button" data-discs-open="false">すべて閉じる</button></div>` : "";
+    if (largeBox) boxView = { release, groups, members: [], host: null };
+    const partialTrack = songs.some(song => song.track != null);
+    const body = groups.map((group, i) => {
+      const content = `<div class="release-included-list">${group.rows.map(song => {
+        const origin = originIds.has(song.songId) && !marked.has(song.songId);
+        if (origin) marked.add(song.songId);
+        const headingVariant = largeBox ? commonDiscVariant(group.rows) : "";
+        return includedSongRow(song, true, origin, partialTrack, { omitVariant: Boolean(headingVariant), releaseId: release.releaseId, metadata: approvedMetadata });
+      }).join("")}</div>`;
+      const headingVariant = largeBox ? commonDiscVariant(group.rows) : "";
+      const label = `${group.disc == null ? "Disc未登録" : `Disc ${escapeHtml(group.disc)}`}${headingVariant ? " · " + escapeHtml(headingVariant) : ""}<span class="release-disc-count">${group.rows.length}${group.rows.every(row => row.track != null) ? "トラック" : "件"}</span>`;
+      if (collapsible) return `<details class="release-disc-details${largeBox && i === 0 ? " is-selected" : ""}" id="${group.id}"${(largeBox || groups.length >= 3) ? (i === 0 ? " open" : "") : " open"}><summary>${label}<span class="site-icon-inline site-disclosure-icon" data-site-icon="chevron-down" aria-hidden="true"></span></summary>${content}</details>`;
+      if (group.disc == null && groups.length === 1) return content;
+      return `<section class="release-disc-group"><h3 class="release-disc-heading">${label}</h3>${content}</section>`;
+    }).join("");
+    return largeBox ? `<div class="release-large-box">${index}${body}</div>` : index + body;
+  };
+  const explanation = songs.length !== uniqueCount ? '<p class="release-registration-note">同じ曲の別収録バージョン等も、それぞれ1件として表示しています。</p>' : "";
+  const originNote = songs.some(song => originIds.has(song.songId)) ? '<p class="release-registration-note">「初出・由来」は曲マスター上で、このリリースを初出・由来として登録している楽曲です。特定の収録バージョンの初出を意味しません。</p>' : "";
+  const trackNote = songs.every(song => song.track == null) ? '<p class="release-registration-note">Track番号は未登録です。</p>' : "";
+  const fullVolumeBenefit = release.classification === "特典" && release.releaseType === "全巻購入特典";
+  const storeNote = hasStores ? `<p class="release-registration-note">${fullVolumeBenefit ? "店舗別の全巻購入特典をまとめた登録です。" : "店舗ごとの収録情報です。"}</p>` : "";
+  const listHtml = [...stores].map(([store, rows]) => {
+    const title = fullVolumeBenefit && store && String(release.releaseName || "").trim() ? `${store}｜${release.releaseName}` : store || "店舗未登録";
+    return hasStores ? `<section class="release-store-group"><h3 class="release-store-heading">${escapeHtml(title)}</h3>${renderStore(rows)}</section>` : renderStore(rows);
+  }).join("");
+  const technicalNotes = storeNote + explanation + originNote + trackNote;
+  const supplement = technicalNotes ? `<details class="release-registration-details"${release.releaseId === "R0052" ? " hidden" : ""}><summary>収録情報の注記（初出・由来／Trackなど）</summary>${technicalNotes}</details>` : "";
+  // Coverage warnings remain ahead of the songs; technical definitions follow.
+  elements.includedSongsContent.innerHTML = noteHtml + listHtml + supplement;
+  elements.includedSongsContent.onclick = event => {
+    const toggle = event.target.closest("button[data-discs-open]");
+    if (toggle) {
+      elements.includedSongsContent.querySelectorAll(".release-disc-details").forEach(details => { details.open = toggle.dataset.discsOpen === "true"; });
+      return;
+    }
+    const link = event.target.closest("a[data-disc-target]");
+    if (!link || !elements.includedSongsContent.contains(link)) return;
+    const details = document.getElementById(link.dataset.discTarget);
+    if (!details || !elements.includedSongsContent.contains(details)) return;
+    event.preventDefault();
+    details.open = true;
+    const summary = details.querySelector("summary");
+    summary.focus({ preventScroll: true });
+    details.scrollIntoView({ block: "start" });
+  };
+  if (boxView) setupBoxView(boxView);
   elements.includedSongsSection.hidden = false;
+}
+
+// Exact child-disc content matching, never a disc-number/member offset.
+export function verifiedBoxMembers(release, children) {
+  const group = rows => {
+    const map = new Map();
+    for (const row of rows) { if (!map.has(row.disc)) map.set(row.disc, []); map.get(row.disc).push(row); }
+    return [...map].map(([disc, rows]) => ({ disc, rows }));
+  };
+  const signature = rows => JSON.stringify(rows.map(row => [row.songId, row.songName, row.displayName, row.track, row.variant, row.benefitStore]));
+  const discs = group(release.includedSongs), assigned = new Set(), singerIds = new Set();
+  if (!children.length) throw new Error("BOX_MEMBERS_UNAVAILABLE");
+  const members = children.map(child => {
+    if (child.parentReleaseId !== release.releaseId || child.editionType !== "individual" ||
+        !/^R\d{4}$/.test(String(child.releaseId)) || !/^SN\d+$/.test(String(child.featuredSinger?.id)) ||
+        !child.featuredSinger?.name || singerIds.has(child.featuredSinger.id) || !Array.isArray(child.includedSongs)) throw new Error("BOX_MEMBER_REFERENCE");
+    singerIds.add(child.featuredSinger.id);
+    const variant = commonDiscVariant(child.includedSongs);
+    if (!variant) throw new Error("BOX_MEMBER_VARIANT");
+    const matches = group(child.includedSongs).map(childDisc => {
+      const candidates = discs.filter(parentDisc => signature(parentDisc.rows) === signature(childDisc.rows));
+      if (candidates.length !== 1 || assigned.has(candidates[0].disc)) throw new Error("BOX_MEMBER_AMBIGUOUS");
+      assigned.add(candidates[0].disc);
+      return candidates[0].disc;
+    });
+    return { id: child.featuredSinger.id, name: child.featuredSinger.name, releaseId: child.releaseId, discs: matches };
+  });
+  if (assigned.size !== discs.length) throw new Error("BOX_MEMBER_INCOMPLETE");
+  return members;
+}
+
+function setupBoxView(view) {
+  const host = elements.includedSongsContent.querySelector(".release-large-box");
+  view.host = host;
+  const memberSelect = host.querySelector("[data-box-member]"), discSelect = host.querySelector("[data-box-disc]");
+  const selectedGroup = () => view.groups.find(group => group.id === discSelect.value);
+  function show(id, jump = false) {
+    const group = view.groups.find(group => group.id === id);
+    if (!group) return;
+    discSelect.value = id;
+    host.querySelectorAll(".release-disc-details").forEach(details => {
+      const selected = details.id === id;
+      details.classList.toggle("is-selected", selected);
+      details.open = selected;
+    });
+    const details = host.querySelector("#" + id);
+    if (jump) {
+      const target = details.querySelector("summary");
+      target?.focus({ preventScroll: true });
+      (target || details).scrollIntoView({ block: "start" });
+    }
+  }
+  discSelect.addEventListener("change", () => show(discSelect.value, true));
+  memberSelect.addEventListener("change", () => {
+    const selectedMember = view.members.find(member => member.id === memberSelect.value) || null;
+    const previous = selectedGroup();
+    const groups = view.groups.filter(group => !selectedMember || selectedMember.discs.includes(group.rows[0]?.disc));
+    discSelect.innerHTML = groups.map(group => `<option value="${group.id}">Disc ${escapeHtml(group.disc)}${commonDiscVariant(group.rows) ? " · " + escapeHtml(commonDiscVariant(group.rows)) : ""}</option>`).join("");
+    const childLink = host.querySelector("[data-box-child]");
+    childLink.hidden = !selectedMember;
+    if (selectedMember) {
+      childLink.href = "release/" + encodeURIComponent(selectedMember.releaseId) + ".html";
+      childLink.textContent = selectedMember.name + "の個別盤を見る →";
+    }
+    show(groups.some(group => group.id === previous?.id) ? previous.id : groups[0].id);
+  });
+  view.setMembers = members => {
+    view.members = members;
+    memberSelect.innerHTML = '<option value="">すべてのメンバー</option>' + members.map(member => `<option value="${escapeHtml(member.id)}">${escapeHtml(member.name)}</option>`).join("");
+    memberSelect.disabled = false;
+    host.querySelector("[data-box-status]").textContent = "";
+  };
+}
+
+const boxChildRequests = new Map();
+async function hydrateBoxMembers(view, list, source) {
+  if (!view || view !== boxView) return;
+  const children = list.filter(child => child.parentReleaseId === view.release.releaseId && child.editionType === "individual");
+  const status = view.host.querySelector("[data-box-status]");
+  status.textContent = "メンバー情報を読み込んでいます…";
+  try {
+    if (source.source !== "static" || !children.length) throw new Error("BOX_SOURCE_UNAVAILABLE");
+    const details = new Array(children.length);
+    let next = 0;
+    await Promise.all(Array.from({ length: Math.min(3, children.length) }, async () => {
+      while (next < children.length) {
+        const index = next++, child = children[index], key = source.revision + ":" + child.releaseId;
+        if (!boxChildRequests.has(key)) {
+          const request = staticDetail("release", child.releaseId).then(response => {
+            if (response.revision !== source.revision || response.dataRevision !== source.dataRevision) throw new Error("BOX_REVISION_MISMATCH");
+            return response.data;
+          }).catch(error => { boxChildRequests.delete(key); throw error; });
+          boxChildRequests.set(key, request);
+        }
+        details[index] = await boxChildRequests.get(key);
+      }
+    }));
+    let members;
+    try { members = verifiedBoxMembers(view.release, details); }
+    catch (error) {
+      children.forEach(child => boxChildRequests.delete(source.revision + ":" + child.releaseId));
+      throw error;
+    }
+    if (boxView === view) view.setMembers(members);
+  } catch {
+    if (boxView !== view) return;
+    status.innerHTML = 'メンバー情報を取得できません。Disc選択をご利用ください。 <button type="button" data-box-retry>再試行</button>';
+    status.querySelector("button").addEventListener("click", () => { void hydrateBoxMembers(view, list, source); }, { once: true });
+  }
 }
 
 function normalizedLabel(value) {
@@ -152,17 +375,25 @@ function editionLabel(value) {
   return "";
 }
 
-function renderRelease(release, releaseList = []) {
+function updateSectionNav() {
+  const nav = $("releaseSectionNav");
+  if (!nav) return;
+  const sections = [["includedSongsSection", "収録内容"], ["kamiparaHistorySection", "神パラ歌唱履歴"], ["debutSongsSection", "初出・由来"], ["relatedReleasesSection", "関連作品"], ["relatedEventsSection", "関連イベント"], ["releaseInformationSection", "作品情報"]].filter(([id]) => $(id) && !$(id).hidden);
+  nav.innerHTML = sections.map(([id, label]) => `<a href="#${id}">${label}</a>`).join("");
+  nav.hidden = sections.length === 0;
+}
+
+function renderRelease(release, releaseList = [], approvedMetadata = null) {
   const name = String(release.releaseName || "リリース名未設定");
   const date = release.releaseDate ? formatDate(release.releaseDate) : "発売日未登録";
   const classification = String(release.classification || "分類未設定");
   const releaseType = String(release.releaseType || "").trim();
   elements.releaseName.textContent = name;
   elements.breadcrumbName.textContent = name;
-  elements.heroMeta.innerHTML = `<span>${escapeHtml(date)}</span><span>${escapeHtml(classification)}</span>${releaseType ? `<span>${escapeHtml(releaseType)}</span>` : ""}`;
+  const dateLabel = ["R0032", "R0052"].includes(release.releaseId) ? `Blu-ray最終巻発売日：${date}` : date;
+  elements.heroMeta.innerHTML = `<span>${escapeHtml(dateLabel)}</span><span>${escapeHtml(classification)}</span>${releaseType ? `<span>${escapeHtml(releaseType)}</span>` : ""}`;
   document.title = `${name}｜μ's Song Database`;
-  const info = [["発売日", date], ["大分類", classification]];
-  if (releaseType) info.push(["リリース種別", releaseType]);
+  const info = [];
   const officialName = String(release.officialName || "").trim();
   if (officialName && normalizedLabel(officialName) !== normalizedLabel(name)) info.push(["正式商品名", officialName]);
   const seriesName = String(release.releaseSeries?.shortName || release.releaseSeries?.name || "").trim();
@@ -173,11 +404,13 @@ function renderRelease(release, releaseList = []) {
   if (singerName) info.push(["対象キャラクター／歌唱名義", singerName]);
   const catalogNumber = String(release.catalogNumber || "").trim();
   if (catalogNumber) info.push(["品番", catalogNumber]);
-  if (String(release.sourceMedia || "").trim()) info.push(["曲マスター由来メディア", release.sourceMedia]);
   elements.releaseInfo.innerHTML = info.map(([label, value]) => `<div class="release-info-row"><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("");
+  elements.releaseInfo.hidden = info.length === 0;
   const parentReleaseId = String(release.parentReleaseId || "").trim();
   const parentRelease = parentReleaseId ? releaseList.find(item => String(item.releaseId) === parentReleaseId) : null;
-  if (parentRelease) elements.releaseInfo.insertAdjacentHTML("beforeend", `<div class="release-info-row"><dt>BOX</dt><dd><a href="release/${encodeURIComponent(parentReleaseId)}.html">${escapeHtml(parentRelease.releaseName || "BOX詳細を見る")}</a></dd></div>`);
+  const parentHost = $("parentReleaseHost");
+  if (parentHost) parentHost.innerHTML = parentRelease ? `<section class="release-related"><h3>親BOX</h3><a class="release-child-row mus-card-link mus-chip-link" href="release/${encodeURIComponent(parentReleaseId)}.html">${titleChip(parentRelease.releaseName || "BOX詳細を見る")}</a></section>` : "";
+  else if (parentRelease) elements.releaseInfo.insertAdjacentHTML("beforeend", `<div class="release-info-row"><dt>BOX</dt><dd><a href="release/${encodeURIComponent(parentReleaseId)}.html">${escapeHtml(parentRelease.releaseName || "BOX詳細を見る")}</a></dd></div>`);
   const officialUrl = String(release.officialReleaseUrl || "").trim();
   elements.officialRelease.innerHTML = officialUrl ? `<a class="release-official-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">公式作品ページを見る <span class="site-icon-inline " data-site-icon="external-link" aria-hidden="true"></span></a>` : `<p class="release-official-empty">公式作品ページは未登録です</p>`;
   const relatedEvents = (Array.isArray(release.relatedEvents) ? release.relatedEvents : [])
@@ -188,21 +421,27 @@ function renderRelease(release, releaseList = []) {
   elements.relatedEventsHost.innerHTML = relatedEvents.length ? `<section class="release-related" aria-labelledby="relatedEventsHeading"><p class="release-section-kicker">RELATED EVENTS</p><h2 id="relatedEventsHeading">関連イベント</h2><div class="release-event-list">${relatedEvents.map(event => {
     const eventDate = String(event.date || "").trim();
     const relation = String(event.relation || "").trim();
-    return `<a class="release-event-row" href="event.html?id=${encodeURIComponent(event.eventId)}"><span class="release-event-copy"><span class="release-event-title">${escapeHtml(event.eventName)}</span>${eventDate || relation ? `<span class="release-event-meta">${eventDate ? `<span>${escapeHtml(formatDate(eventDate))}</span>` : ""}${relation ? `<span>${escapeHtml(relation)}</span>` : ""}</span>` : ""}</span><span class="release-event-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a>`;
+    return `<a class="release-event-row mus-card-link mus-chip-link" href="event.html?id=${encodeURIComponent(event.eventId)}"><span class="release-event-copy"><span class="release-event-title">${titleChip(event.eventName)}</span>${eventDate || relation ? `<span class="release-event-meta">${eventDate ? `<span>${escapeHtml(formatDate(eventDate))}</span>` : ""}${relation ? `<span>${escapeHtml(relation)}</span>` : ""}</span>` : ""}</span></a>`;
   }).join("")}</div></section>` : "";
   const children = String(release.editionType || "") === "memorial_box"
     ? releaseList.filter(item => String(item.parentReleaseId || "") === String(release.releaseId || ""))
     : [];
   elements.childReleasesHost.innerHTML = children.length ? `<section class="release-related" aria-labelledby="childReleasesHeading"><p class="release-section-kicker">INDIVIDUAL EDITIONS</p><h2 id="childReleasesHeading">個別盤</h2><div class="release-child-list">${children.map(child => {
     const childSinger = String(child.featuredSinger?.name || "").trim();
-    return `<a class="release-child-row" href="release/${encodeURIComponent(child.releaseId)}.html"><span class="release-child-copy"><span class="release-child-title">${escapeHtml(child.releaseName || "リリース名未設定")}</span>${childSinger ? `<span class="release-child-meta"><span>${escapeHtml(childSinger)}</span></span>` : ""}</span><span class="release-child-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a>`;
+    return `<a class="release-child-row mus-card-link mus-chip-link" href="release/${encodeURIComponent(child.releaseId)}.html"><span class="release-child-copy"><span class="release-child-title">${titleChip(child.releaseName || "リリース名未設定")}</span>${childSinger ? `<span class="release-child-meta"><span>${escapeHtml(childSinger)}</span></span>` : ""}</span></a>`;
   }).join("")}</div></section>` : "";
-  const songs = Array.isArray(release.debutSongs) ? release.debutSongs : [];
+  const excludedIds = new Set([release.releaseId, parentReleaseId, ...children.map(child => child.releaseId)]);
+  const siblings = release.releaseSeries?.id ? releaseList.filter(item => item.releaseSeries?.id === release.releaseSeries.id && !excludedIds.has(item.releaseId) && /^R\d{4}$/.test(String(item.releaseId))) : [];
+  if ($("seriesReleasesHost")) $("seriesReleasesHost").innerHTML = siblings.length ? `<section class="release-related"><h3>同シリーズ</h3><div class="release-child-list">${siblings.map(item => `<a class="release-child-row mus-card-link mus-chip-link" href="release/${encodeURIComponent(item.releaseId)}.html">${titleChip(item.releaseName || "リリース名未設定")}</a>`).join("")}</div></section>` : "";
+  if ($("relatedReleasesSection")) $("relatedReleasesSection").hidden = !parentRelease && !children.length && !siblings.length;
+  if ($("relatedEventsSection")) $("relatedEventsSection").hidden = relatedEvents.length === 0;
+  const includedIds = new Set((Array.isArray(release.includedSongs) ? release.includedSongs : []).map(song => song.songId));
+  const songs = (Array.isArray(release.debutSongs) ? release.debutSongs : []).filter(song => !includedIds.has(song.songId));
   elements.debutSongsSection.hidden = songs.length === 0;
   elements.debutSongs.innerHTML = songs.length ? `<div class="release-song-list">${songs.map(song => {
     const songName = String(song.songName || song.displayName || "曲名未設定");
     const displayName = String(song.displayName || "").trim();
-    return `<a class="release-song-row" href="${buildSongUrl(song.songId)}"><span class="release-song-copy"><span class="release-song-title">${escapeHtml(songName)}</span>${displayName && displayName !== songName ? `<span class="release-song-display">${escapeHtml(displayName)}</span>` : ""}</span><span class="release-song-arrow" aria-hidden="true"><span class="site-icon-inline " data-site-icon="chevron-right" aria-hidden="true"></span></span></a>`;
+    return `<a class="release-song-row mus-card-link mus-chip-link" href="${buildSongUrl(song.songId)}"><span class="release-song-copy"><span class="release-song-title">${titleChip(songName)}</span>${displayName && displayName !== songName ? `<span class="release-song-display">${escapeHtml(displayName)}</span>` : ""}</span></a>`;
   }).join("")}</div>` : "";
   if (release.releaseId === "R0072") {
     elements.includedSongsSection.classList.remove("is-empty");
@@ -211,10 +450,14 @@ function renderRelease(release, releaseList = []) {
       elements.includedSongsContent.textContent = "神パラの収録情報を読み込んでいます…";
     }
     elements.includedSongsSection.hidden = false;
-  } else renderIncludedSongs(release);
+  } else if (!approvedMetadata && boxView?.host?.isConnected && boxView.release.releaseId === release.releaseId && boxView.release.includedSongs === release.includedSongs) {
+    // Supplemental list metadata must not replace already usable BOX controls.
+    boxView.release = release;
+  } else renderIncludedSongs(release, approvedMetadata);
   hideSkeleton();
   elements.status.hidden = true;
   elements.mainContent.hidden = false;
+  updateSectionNav();
 }
 
 async function loadRelease() {
@@ -235,8 +478,10 @@ async function loadRelease() {
         catch { releaseList = (await apiGet("releaseList", {}, { timeoutMs: 30000, retryCount: 1, cache: true })).data || []; }
       } catch {
         // A list outage must not erase successful details or completed prerender.
+        if (boxView) boxView.host.querySelector("[data-box-status]").textContent = "メンバー情報を取得できません。Disc選択をご利用ください。";
         if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
         if (release.releaseId === "R0072") await renderKamiparaRelease();
+        updateSectionNav();
         return;
       }
     }
@@ -252,8 +497,10 @@ async function loadRelease() {
       officialName: release.officialName ?? listRelease.officialName
     } : release;
     renderRelease(resolvedRelease, safeReleaseList);
+    await hydrateBoxMembers(boxView, safeReleaseList, response);
     if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
     if (resolvedRelease.releaseId === "R0072") await renderKamiparaRelease();
+    updateSectionNav();
   } catch (error) {
     if (errorKind(error) === "not-found") { setError("該当するリリースが見つかりません", error?.message || "指定されたリリースは存在しません。", false); return; }
     if (!hasPrerenderedContent) console.error(error);

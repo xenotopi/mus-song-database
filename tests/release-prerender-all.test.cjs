@@ -9,8 +9,23 @@ const pointer = require("../data/current.json");
 const snapshotManifest = require(`../data/snapshots/${pointer.revision}/manifest.json`);
 const htmlManifestPath = path.join(root, "release", "manifest.json");
 const { rendererFingerprint, RELEASE_RENDERER_FILES } = require("../tools/generate-release-pages.cjs");
+const { validateReleaseBody } = require("../tools/validate-static-html.cjs");
+const { parseSerializedHtml, textContent } = require("../tools/static-html-readonly-lib.cjs");
+const releaseList = require(`../data/snapshots/${pointer.revision}/release-list.json`).data;
 function sha256(value) { return crypto.createHash("sha256").update(value).digest("hex"); }
 function escapeText(value) { return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+function assertReleaseDate(html, source) {
+  const hero = parseSerializedHtml(html).ids.get("heroMeta");
+  assert.ok(hero, `${source.releaseId} hero date container`);
+  const displayed = textContent(hero);
+  if (!source.releaseDate) { assert.match(displayed, /発売日未登録/); return; }
+  assert.match(source.releaseDate, /^\d{4}-\d{2}-\d{2}$/, "snapshot date contract");
+  const dates = [...displayed.matchAll(/\d{4}[-/]\d{2}[-/]\d{2}/g)].map(m => m[0]);
+  assert.equal(dates.length, 1, `${source.releaseId} exactly one visible date`);
+  assert.equal(dates[0].replaceAll("/", "-"), source.releaseDate, `${source.releaseId} date value`);
+  assert.equal(dates[0], source.releaseDate.replaceAll("-", "/"), `${source.releaseId} approved display format`);
+  if (["R0032", "R0052"].includes(source.releaseId)) assert.match(displayed, /Blu-ray最終巻発売日：/, "not the benefit CD distribution date");
+}
 
 test("Release prerender 114 raw HTML", () => {
   const manifest = JSON.parse(fs.readFileSync(htmlManifestPath, "utf8"));
@@ -43,12 +58,22 @@ test("Release prerender 114 raw HTML", () => {
     // SEO descriptions stay in metadata, not a duplicated visible paragraph.
     // Legitimate release-songs-note explanations must remain untouched.
     assert.doesNotMatch(html, /data-prerender-description\b/, `${id}: visible SEO description must not be generated`);
-    assert.ok(html.includes('<p class="release-songs-note">曲マスター上で、このリリースを初出・由来として登録している楽曲です</p>'), `${id}: legitimate debut-song explanation retained`);
+    validateReleaseBody(parseSerializedHtml(html), source, releaseList);
     assert.match(html, /<meta name="robots" content="index,follow,max-image-preview:large">/, id);
-    assert.ok(html.includes(source.releaseDate || "発売日未登録"), `${id} date`);
+    assertReleaseDate(html, source);
+    if (["R0032", "R0052"].includes(id)) {
+      const expected = id === "R0032"
+        ? "1期Blu-ray全巻購入特典。1期Blu-ray最終巻発売日基準：2013/09/25。収録情報：ぷわぷわーお！"
+        : "2期Blu-ray全巻購入特典。2期Blu-ray最終巻発売日基準：2014/12/25。店舗別の収録情報：CheerDay CheerGirl!、同じ星が見たい、Silent tonight。";
+      const metas = parseSerializedHtml(html).nodes.filter(n => n.tag === "meta");
+      assert.equal(metas.find(n => n.attrs.name === "description").attrs.content, expected);
+      assert.equal(metas.find(n => n.attrs.property === "og:description").attrs.content, expected);
+      assert.equal(source.releaseDate, id === "R0032" ? "2013-09-25" : "2014-12-25");
+    }
     assert.ok(html.includes(escapeText(source.releaseType || source.classification || "リリース")), `${id} type`);
     if (source.includedSongs?.length) assert.ok(html.includes(escapeText(source.includedSongs[0].displayName || source.includedSongs[0].songName)), `${id} tracks`);
-    else assert.ok(html.includes("収録楽曲の登録はありません") || html.includes("収録情報を確認中"), `${id} empty coverage`);
+    // Empty/not-applicable/special-held states are verified semantically by
+    // validateReleaseBody, never collapsed to the same "no songs" sentence.
     const ld = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
     assert.equal(ld.length, 1, `${id} JSON-LD count`);
     const breadcrumb = JSON.parse(ld[0][1]);
@@ -60,6 +85,20 @@ test("Release prerender 114 raw HTML", () => {
   }
   assert.equal(hashes.size, 114);
   assert.equal(canonicals.size, 114);
+});
+
+test("visible Release dates reject different values and missing dates", () => {
+  for (const id of ["R0032", "R0052"]) {
+    const source = require(`../data/snapshots/${pointer.revision}/releases/${id}.json`).data;
+    const raw = fs.readFileSync(path.join(root, "release", `${id}.html`), "utf8");
+    const shown = source.releaseDate.replaceAll("-", "/");
+    assert.doesNotThrow(() => assertReleaseDate(raw, source));
+    for (const wrong of [shown.replace(/^\d{4}/, "2000"), shown.replace(/\d{2}$/, "01"), "未登録"]) {
+      const changed = raw.replace(/(<p[^>]+id="heroMeta"[^>]*>)([\s\S]*?)(<\/p>)/, (_, a, b, c) => a + b.replace(shown, wrong) + c);
+      assert.notEqual(changed, raw);
+      assert.throws(() => assertReleaseDate(changed, source));
+    }
+  }
 });
 
 test("Release renderer dependencies are scoped to the capture path", () => {

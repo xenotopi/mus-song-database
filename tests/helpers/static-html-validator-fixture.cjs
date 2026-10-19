@@ -8,6 +8,7 @@ const crypto = require("node:crypto");
 const { sha256 } = require("../../tools/detail-snapshot-lib.cjs");
 const songGenerator = require("../../tools/generate-song-pages.cjs");
 const releaseGenerator = require("../../tools/generate-release-pages.cjs");
+const { releaseBody } = require("./release-body-fixture.cjs");
 const root = path.resolve(__dirname, "../..");
 const revision = `sha256-${"a".repeat(64)}`;
 const dataRevision = `sha256-${"b".repeat(64)}`;
@@ -38,10 +39,20 @@ function buildFixture() {
   for (let n = 1; n <= 114; n++) {
     const releaseId = id("R", n, 4), songId = id("S", n, 3), song = data.song[songId];
     const songs = releaseId === "R0072" ? [] : [{ relationId: id("RT", n, 4), songId, songName: song.songName, displayName: song.displayName }];
-    data.release[releaseId] = { releaseId, releaseName: `Fixture Release ${n}`, releaseDate: "2020-01-01", classification: "CD", releaseType: "シングル", sourceMedia: "CD", includedSongs: songs, includedSongsMeta: { status: "complete" }, debutSongs: songs, relatedEvents: [], _cache: cache };
+    data.release[releaseId] = { releaseId, releaseName: `Fixture Release ${n}`, releaseDate: "2020-01-01", classification: "CD", releaseType: "シングル", sourceMedia: "CD", includedSongs: songs, includedSongsMeta: { status: releaseId === "R0072" ? "special_hold" : "complete" }, debutSongs: songs, relatedEvents: [], _cache: cache };
     manifest.hashes.releases[releaseId] = snapshot(`releases/${releaseId}.json`, data.release[releaseId]);
   }
-  const releaseList = Object.values(data.release).map(r => ({ releaseId: r.releaseId, releaseName: r.releaseName }));
+  // Fictional BOX with the same structural invariants as R0088; no production rows.
+  const discCounts=[13,8,10,14,8,10,13,8,10,13,8,10,14,8,10,14,8,10,14,8,10,14,8,10,14,8,10];
+  let relation=2000,ordinal=0;
+  data.release.R0088.editionType="memorial_box";
+  data.release.R0088.includedSongs=discCounts.flatMap((count,i)=>Array.from({length:count},(_,j)=>{
+    const songId=id("S",ordinal++%46+1,3),song=data.song[songId];
+    return {relationId:id("RT",++relation,4),songId,songName:song.songName,displayName:song.displayName,disc:i+1,track:j+1,variant:"Fixture Mix "+Math.floor(i/3)};
+  }));
+  for(let i=0;i<9;i++)Object.assign(data.release[id("R",106+i,4)],{parentReleaseId:"R0088",editionType:"individual",featuredSinger:{id:id("SN",i+1,4),name:"Fixture Member "+(i+1)}});
+  for(const r of [data.release.R0088,...Array.from({length:9},(_,i)=>data.release[id("R",106+i,4)])])manifest.hashes.releases[r.releaseId]=snapshot("releases/"+r.releaseId+".json",r);
+  const releaseList = Object.values(data.release).map(r => ({ releaseId: r.releaseId, releaseName: r.releaseName, ...(r.parentReleaseId?{parentReleaseId:r.parentReleaseId}:{}),...(r.editionType?{editionType:r.editionType}:{}),...(r.featuredSinger?{featuredSinger:r.featuredSinger}:{}) }));
   manifest.releaseList = { ...snapshot("release-list.json", releaseList), count: 114 };
   const kp = { revision: dataRevision, _cache: cache, summary: { songCount: 10, performerCount: 9, eventCount: 5, performanceCount: 10 },
     songs: Array.from({ length: 10 }, (_, i) => ({ songId: id("S", i + 118, 3), songName: `Fixture KP Song ${i + 1}`, displayName: `Fixture KP Song ${i + 1}`, trackNumber: i + 1 })),
@@ -83,8 +94,11 @@ function buildFixture() {
         content = `<div id="songInfo">${pairs({ 表示名: name, バージョン: "通常", 収録CD: "Fixture CD", 発売日: "2020/01/01", メディア: "CD", 区分: "シングル" })}</div><div id="songStats">${[1, 1, 0, 1].map(n => `<div class="value">${n}</div>`).join("")}</div><div id="includedReleasesContent"></div><div id="historyList"><article class="song-row"><a class="song-history-event-link" href="event.html?id=EV0001">Fixture Event 1</a><span class="song-meta">2020/01/01 歌唱者：Fixture Singer</span></article></div>`;
       } else {
         name = item.releaseName;
-        description = `${name}（2020-01-01発売、シングル）の詳細。${item.includedSongs.length ? `収録情報：${item.includedSongs[0].displayName}。` : "収録楽曲の登録はありません。"}`;
-        content = `<div id="releaseInfo">${pairs({ 発売日: "2020/01/01", 大分類: "CD", リリース種別: "シングル", 曲マスター由来メディア: "CD" })}</div><div id="childReleasesHost"></div><div id="relatedEventsHost"></div><div id="debutSongs">${item.debutSongs.map(s => `<a class="release-song-row" href="song/${s.songId}.html"><span class="release-song-title">${escape(s.songName)}</span></a>`).join("")}</div>${target === "R0072" ? kpBody() : `<div id="includedSongsContent">${item.includedSongs.map(s => `<a class="release-included-song-row" href="song/${s.songId}.html"><span class="release-included-song-title">${escape(s.displayName)}</span></a>`).join("")}</div>`}`;
+        description = `${name}（2020-01-01発売、シングル）の詳細。${item.includedSongs.length ? `収録情報：${item.includedSongs.slice(0,3).map(s=>s.displayName).join("、")}${item.includedSongs.length>3?"ほか"+(item.includedSongs.length-3)+"件":""}。` : "収録楽曲の登録はありません。"}`;
+        if (target === "R0032") description = name + "。1期Blu-ray最終巻発売日基準：2020/01/01。収録情報：" + item.includedSongs.map(s => s.displayName).join("、");
+        if (target === "R0052") description = name + "。2期Blu-ray最終巻発売日基準：2020/01/01。店舗別の収録情報：" + item.includedSongs.map(s => s.displayName).join("、") + "。";
+        const kpHtml = target === "R0072" ? kpBody() : "", split = kpHtml.indexOf("</div><section");
+        content = releaseBody(item, releaseList, target === "R0072" ? { kamipara: kpHtml.slice('<div id="includedSongsContent">'.length, split) } : {}).replace(/^<h1>[\s\S]*?<\/h1>/, "") + (target === "R0072" ? kpHtml.slice(split + 6) : "");
       }
       const html = `<!DOCTYPE html><html data-${type}-id="${target}"${type === "song" ? ` data-prerender-revision="${revision}"` : ""}>${head(type, target, name, description, ld)}<body><h1>${escape(name)}</h1><main id="mainContent">${content}</main></body></html>\n`;
       put(`${type}/${target}.html`, html);

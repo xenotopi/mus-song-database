@@ -177,13 +177,16 @@ test("existing artifacts are inspected read-only; missing receipts are never inf
   const songManifest = JSON.parse(fs.readFileSync(path.join(root, "song/manifest.json")));
   const releaseManifest = JSON.parse(fs.readFileSync(path.join(root, "release/manifest.json")));
   const revision = songManifest.outputRevision;
-  const expected = songManifest.captureProvenance && releaseManifest.captureProvenance ? "PASS" : "UNVERIFIED";
+  const synchronized = songManifest.rendererSha256 === require("../tools/generate-song-pages.cjs").rendererFingerprint() &&
+    releaseManifest.rendererSha256 === require("../tools/generate-release-pages.cjs").rendererFingerprint();
+  const expected = !synchronized ? "FAIL" : songManifest.captureProvenance && releaseManifest.captureProvenance ? "PASS" : "UNVERIFIED";
   const watched = ["data/current.json", "song/manifest.json", "release/manifest.json", "song/S001.html", "release/R0072.html"];
   const before = watched.map(file => fs.readFileSync(path.join(root, file)));
   const result = validateStaticHtml({ revision });
   assert.equal(result.status, expected, JSON.stringify(result)); assert.equal(result.reusable, expected === "PASS");
-  assert.equal(result.checked.songs, 117); assert.equal(result.checked.releases, 114);
+  if (synchronized) { assert.equal(result.checked.songs, 117); assert.equal(result.checked.releases, 114); }
+  else assert.match(result.issues.find(i => i.severity === "FAIL").message, /complete-set renderer fingerprint mismatch/);
   const cli = spawnSync(process.execPath, [path.join(root, "tools/validate-static-html.cjs"), "--revision", revision], { encoding: "utf8" });
-  assert.equal(cli.status, expected === "PASS" ? 0 : 2, cli.stderr); assert.equal(JSON.parse(cli.stdout).status, expected);
+  assert.equal(cli.status, expected === "PASS" ? 0 : expected === "FAIL" ? 1 : 2, cli.stderr); assert.equal(JSON.parse(cli.stdout).status, expected);
   assert.deepEqual(watched.map(file => fs.readFileSync(path.join(root, file))), before);
 });

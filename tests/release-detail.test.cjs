@@ -118,16 +118,17 @@ test("Release詳細", async t => {
       const { page, issues } = await openDetail(expected.id);
       await waitForDetail(page);
       assert.equal(await page.locator("#releaseName").innerText(), expected.name);
-      assert.match(await page.locator("#releaseInfo").innerText(), new RegExp(expected.date.replaceAll("/", "\\/")));
-      assert.match(await page.locator("#releaseInfo").innerText(), /大分類[\s\S]*リリース種別/);
+      assert.match(await page.locator("#heroMeta").innerText(), new RegExp(expected.date.replaceAll("/", "\\/")));
+      assert.match(await page.locator("#heroMeta").innerText(), /CD[\s\S]*シングル/);
       assert.equal(await page.locator(".release-related").count(), 0);
-      assert.equal(await page.locator("#debutSongsSection").isVisible(), true);
+      assert.equal(await page.locator("#debutSongsSection").isVisible(), false);
+      assert.equal(await page.locator(".release-origin").count(), expected.songs.length);
       assert.equal(await page.evaluate(() => {
         const included = document.querySelector("#includedSongsSection");
         const debut = document.querySelector("#debutSongsSection");
         return Boolean(included && debut && (included.compareDocumentPosition(debut) & Node.DOCUMENT_POSITION_FOLLOWING));
       }), true, "収録楽曲は初出・由来楽曲より前に配置");
-      assert.deepEqual((await page.locator(".release-song-row").evaluateAll(nodes => nodes.map(node => /\/song\/(S\d{3})\.html$/.exec(new URL(node.href).pathname)?.[1]))).sort(), expected.songs);
+      assert.deepEqual((await page.locator(".release-included-song-row").filter({has:page.locator(".release-origin")}).evaluateAll(nodes => nodes.map(node => /\/song\/(S\d{3})\.html$/.exec(new URL(node.href).pathname)?.[1]))).sort(), expected.songs);
       const official = page.locator(".release-official-link");
       assert.equal(await official.getAttribute("target"), "_blank");
       assert.equal(await official.getAttribute("rel"), "noopener noreferrer");
@@ -146,7 +147,7 @@ test("Release詳細", async t => {
     ]) {
       const { page, issues } = await openDetail(expected.id);
       await waitForDetail(page);
-      assert.match(await page.locator("#releaseInfo").innerText(), /リリース種別\s*ライブBlu-ray/);
+      assert.match(await page.locator("#heroMeta").innerText(), /ライブBlu-ray/);
       assert.equal(await page.locator(".release-related h2").innerText(), "関連イベント");
       assert.deepEqual(await page.locator(".release-event-row").evaluateAll(nodes => nodes.map(node => new URL(node.href).searchParams.get("id"))), expected.events);
       const text = await page.locator(".release-related").innerText();
@@ -178,7 +179,7 @@ test("Release詳細", async t => {
     for (let index = 0; index < types.length; index += 1) {
       await page.goto(`${baseUrl}/release.html?id=R${9100 + index}`, { waitUntil: "domcontentloaded" });
       await waitForDetail(page);
-      assert.match(await page.locator("#releaseInfo").innerText(), new RegExp(types[index].replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+      assert.match(await page.locator("#heroMeta").innerText(), new RegExp(types[index].replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
       assert.equal(await page.locator(".release-related").count(), 0);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
     }
@@ -215,11 +216,11 @@ test("Release詳細", async t => {
       if (release.editionType === "individual") {
         assert.match(info, /エディション\s*個別盤/);
         assert.match(info, /対象キャラクター／歌唱名義/);
-        assert.equal(await page.locator('#releaseInfo a[href^="release/"]').count(), release.parentReleaseId ? 1 : 0);
+        assert.equal(await page.locator('#parentReleaseHost a[href^="release/"]').count(), release.parentReleaseId ? 1 : 0);
       }
       if (release.editionType === "memorial_box") {
         assert.match(info, /エディション\s*Memorial BOX/);
-        assert.equal(await page.locator(".release-child-row").count(), 9);
+        assert.equal(await page.locator("#childReleasesHost .release-child-row").count(), 9);
       }
       assert.doesNotMatch(await page.locator("body").innerText(), /parentReleaseId|editionType|officialName|catalogNumber/);
       await page.setViewportSize({ width: 390, height: 900 });
@@ -257,8 +258,8 @@ test("Release詳細", async t => {
 
   await t.test("収録情報の現行件数とDisc表示", async () => {
     const cases = [
-      { id: "R0070", count: 31, groups: 2, details: 0, progress: null },
-      { id: "R0071", count: 18, groups: 2, details: 0, progress: null },
+      { id: "R0070", count: 31, groups: 0, details: 2, progress: null },
+      { id: "R0071", count: 18, groups: 0, details: 2, progress: null },
       { id: "R0077", count: 124, groups: 0, details: 9, progress: null },
       { id: "R0088", count: 285, groups: 0, details: 27, progress: null },
       { id: "R0090", count: 116, groups: 0, details: 12, progress: null }
@@ -267,12 +268,14 @@ test("Release詳細", async t => {
       const started = Date.now();
       const { page, issues } = await openDetail(expected.id);
       await waitForDetail(page);
-      assert.equal(await page.locator("#includedSongsCount").innerText(), `${expected.count}件`);
+      const detail = releaseDetailFixtures.get(expected.id);
+      const labels = {R0070:"2 Disc · 31曲",R0071:"2 Disc · 18トラック（10曲）",R0077:"9 Disc · 124トラック（19曲）",R0088:"27 Disc · 285トラック（46曲）",R0090:"12 Disc · 116トラック（115曲）"};
+      assert.equal(await page.locator("#includedSongsCount").innerText(), labels[expected.id]);
       assert.equal(await page.locator(".release-included-song-row").count(), expected.count);
       assert.equal(await page.locator(".release-disc-group").count(), expected.groups);
       assert.equal(await page.locator(".release-disc-details").count(), expected.details);
       if (expected.details) {
-        assert.equal(await page.locator(".release-disc-details[open]").count(), 1);
+        assert.equal(await page.locator(".release-disc-details[open]").count(), expected.details === 2 ? 2 : 1);
       }
       if (expected.progress) assert.match(await page.locator(".release-coverage-note").innerText(), new RegExp(expected.progress));
       if (expected.id === "R0088") assert.ok(Date.now() - started < 10000, "285件を10秒以内に描画");
@@ -340,8 +343,9 @@ test("Release詳細", async t => {
       if (id === "R9011") {
         assert.equal(await page.locator(".release-included-song-row").count(), 3);
         assert.equal(await page.locator('.release-included-song-row[href="song/S100.html"]').count(), 2);
-        assert.match(await page.locator("#includedSongsContent").innerText(), /Disc 3[\s\S]*Track 9/);
-        assert.match(await page.locator("#includedSongsContent").innerText(), /Disc情報なし/);
+        assert.match(await page.locator("#includedSongsContent").innerText(), /Disc 3/);
+        assert.equal(await page.locator('.release-track-number[aria-label="Track 9"]').textContent(), "9");
+        assert.match(await page.locator("#includedSongsContent").innerText(), /Disc未登録/);
         assert.equal(await page.locator("#includedSongsContent img, #includedSongsContent script").count(), 0);
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
       } else if (id === "R9012") {

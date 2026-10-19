@@ -30,7 +30,9 @@ test("Song discover starts before Song detail await and stays secondary", () => 
 
 test("Release keeps every relation in the automatically rendered DOM", () => {
   const source = read("assets/js/release-v500.js");
-  assert.match(source, /groups\.map\(\(group, index\) => `<details/);
-  assert.match(source, /group\.songs\.map\(song => includedSongRow\(song, true\)\)\.join\(""\)/);
+  assert.match(source, /groups\.map\(\(group, i\) =>/);
+  assert.match(source, /group\.rows\.map\(song =>/);
+  assert.match(source, /return includedSongRow\(song, true, origin, partialTrack, \{/);
+  assert.match(source, /<details class="release-disc-details\$\{/);
   assert.doesNotMatch(source, /requestIdleCallback|toggle[^\n]*includedSongRow/);
 });

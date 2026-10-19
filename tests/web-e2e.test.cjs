@@ -7,6 +7,7 @@ const path = require("node:path");
 const test = require("node:test");
 
 const { chromium } = require("playwright");
+const { assertReleasePage } = require("./helpers/release-e2e-assertions.cjs");
 
 const ROOT = path.resolve(__dirname, "..");
 const API_HOST_PATTERN = /(?:script\.google\.com|script\.googleusercontent\.com)/i;
@@ -18,7 +19,7 @@ const PAGE_CASES = Object.freeze([
   { name: "曲一覧", path: "/songs.html", ready: "#allSongsSection:not([hidden])", content: "#songsList .song-list-card" },
   { name: "曲詳細", path: "/song.html?id=S003", ready: "#mainContent:not([hidden])", content: "#historyList" },
   { name: "リリース一覧", path: "/releases.html", ready: "#allReleasesSection:not([hidden])", content: "#releasesList .release-list-card" },
-  { name: "リリース詳細", path: "/release.html?id=R0015", ready: "#mainContent:not([hidden])", content: "#debutSongs .release-song-row" },
+  { name: "リリース詳細", path: "/release.html?id=R0015", ready: "#mainContent:not([hidden])", content: "#includedSongsContent .release-included-song-row", releaseId: "R0015" },
   { name: "イベント一覧", path: "/events.html", ready: "#timelineSection:not([hidden])", content: "#yearsContainer .history-event-card" },
   { name: "イベント詳細", path: "/event.html?id=EV0017", ready: "#mainContent:not([hidden])", content: "#songList" },
   { name: "会場一覧", path: "/venues.html", ready: "#allVenuesSection:not([hidden])", content: "#venuesList .venue-list-card" },
@@ -229,6 +230,13 @@ async function assertPageCase(t, context, baseUrl, pageCase) {
       throw new Error(`${pageCase.name}: 主要DOM未表示。status=${statusText || "なし"}; ${error.message}`);
     }
 
+    if (pageCase.releaseId) {
+      const pointer = JSON.parse(fs.readFileSync(path.join(ROOT, "data/current.json")));
+      const snapshotRoot = path.join(ROOT, "data/snapshots", pointer.outputRevision);
+      const release = JSON.parse(fs.readFileSync(path.join(snapshotRoot, "releases", pageCase.releaseId + ".json"))).data;
+      const releaseList = JSON.parse(fs.readFileSync(path.join(snapshotRoot, "release-list.json"))).data;
+      await assertReleasePage(page, release, releaseList);
+    }
     await page.waitForTimeout(500);
 
     const layout = await page.evaluate(() => ({

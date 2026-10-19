@@ -37,6 +37,68 @@ function rendererFingerprint() {
   ).join("\n"));
 }
 
+// Release-only description builder. The other 112 descriptions retain their
+// existing algorithm; these two dates describe the final Blu-ray volume.
+function releaseDescription(release) {
+  const rows = release.includedSongs || [];
+  const names = rows.slice(0, 3).map(r => r.displayName || r.songName).join("、");
+  const date = String(release.releaseDate || "発売日未登録").replaceAll("-", "/");
+  if (release.releaseId === "R0032") return release.releaseName + "。1期Blu-ray最終巻発売日基準：" + date + "。収録情報：" + names;
+  if (release.releaseId === "R0052") return release.releaseName + "。2期Blu-ray最終巻発売日基準：" + date + "。店舗別の収録情報：" + names + "。";
+  const content = rows.length ? `収録情報：${names}${rows.length > 3 ? "ほか" + (rows.length - 3) + "件" : ""}。` : "収録楽曲の登録はありません。";
+  return `${release.releaseName}（${release.releaseDate || "発売日未登録"}発売、${release.releaseType || release.classification || "リリース"}）の詳細。${content}`;
+}
+
+// Pin only Release's external stylesheet; do not change the shared receipt or
+// renderer-file definition. Tests inject a private reader and synchronous publish.
+function pinReleaseCss({ read = () => fs.readFileSync(path.join(root, "assets/css/release-detail.css")), audit = entry => console.log("[release-css-audit] " + JSON.stringify(entry)) } = {}) {
+  const assetPath = "/assets/css/release-detail.css";
+  const digest = bytes => crypto.createHash("sha256").update(bytes).digest("hex");
+  let bytes;
+  try { bytes = Buffer.from(read()); if (!bytes.length) throw new Error("empty CSS"); }
+  catch (error) { audit({ phase: "start", path: assetPath, status: "FAIL", error: String(error) }); throw new Error("RELEASE_CSS_UNAVAILABLE", { cause: error }); }
+  const sha256 = digest(bytes);
+  let requests = 0, completed = 0, deliveryError = null;
+  const record = (phase, status, extra = {}) => audit({ phase, path: assetPath, bytes: bytes.length, sha256, requests, completed, status, ...extra });
+  record("start", "PASS");
+  function assertStable(phase) {
+    try {
+      const current = Buffer.from(read());
+      if (current.length !== bytes.length || digest(current) !== sha256) throw new Error("CSS bytes/hash changed");
+      if (deliveryError) throw deliveryError;
+    } catch (error) { record(phase, "FAIL", { error: String(error) }); throw new Error("RELEASE_CSS_CHANGED_OR_UNAVAILABLE", { cause: error }); }
+    record(phase, "PASS");
+  }
+  return {
+    path: assetPath,
+    info: Object.freeze({ bytes: bytes.length, sha256 }),
+    serve(response) {
+      requests++;
+      let finished = false;
+      response.once("finish", () => { finished = true; completed++; });
+      response.once("error", error => { deliveryError = error; record("serve", "FAIL", { error: String(error) }); });
+      response.once("close", () => { if (!finished) deliveryError = new Error("CSS delivery closed before finish"); });
+      try {
+        response.writeHead(200, { "content-type": "text/css; charset=utf-8", "content-length": bytes.length, "cache-control": "no-store" });
+        response.end(Buffer.from(bytes));
+      } catch (error) {
+        deliveryError = error; record("serve", "FAIL", { error: String(error) }); response.destroy?.(error);
+      }
+    },
+    assertLoaded(loaded) {
+      if (!loaded) { deliveryError = new Error("Release stylesheet not loaded"); record("load", "FAIL"); throw new Error("RELEASE_CSS_NOT_LOADED"); }
+    },
+    publish(commit) {
+      assertStable("before-publish");
+      if (!requests || completed !== requests) { record("before-publish-delivery", "FAIL"); throw new Error("RELEASE_CSS_DELIVERY_INCOMPLETE"); }
+      const result = commit();
+      if (result && typeof result.then === "function") throw new Error("Release CSS guard requires synchronous publish");
+      assertStable("after-publish");
+      return result;
+    }
+  };
+}
+
 function loadKamiparaCaptureData(snapshotRoot, manifest, revision, readFile = file => fs.readFileSync(file, "utf8")) {
   const wrapper = JSON.parse(readFile(path.join(snapshotRoot, "kamipara-dashboard.json")));
   if (manifest.revision !== revision || (manifest.outputRevision && manifest.outputRevision !== revision) ||
@@ -86,18 +148,40 @@ async function validateKamiparaCapture(page) {
   return state;
 }
 
+// Runs in the capture browser. Only common.js's runtime TOP may be omitted
+// from saved HTML; common.js will recreate/bind it on the next real page load.
+function removeRuntimeTopForCapture({ templateHtml }) {
+  if (typeof templateHtml !== "string" || !templateHtml.trim()) throw new Error("RELEASE_CAPTURE_TEMPLATE_MISSING");
+  const input = new DOMParser().parseFromString(templateHtml, "text/html");
+  if (input.querySelectorAll('[id="backToTopButton"]').length) throw new Error("RELEASE_CAPTURE_TEMPLATE_TOP");
+  const nodes = document.querySelectorAll('[id="backToTopButton"]');
+  if (nodes.length !== 1) throw new Error("RELEASE_CAPTURE_TOP_COUNT");
+  const top = nodes[0];
+  if (top.tagName !== "BUTTON" || top.parentElement !== document.body ||
+      top.getAttribute("type") !== "button" || !top.classList.contains("back-to-top") ||
+      top.getAttribute("aria-label") !== "ページ上部へ戻る") throw new Error("RELEASE_CAPTURE_TOP_SHAPE");
+  const expected = document.documentElement.cloneNode(true);
+  expected.querySelector('[id="backToTopButton"]').remove();
+  top.remove();
+  if (document.querySelector('[id="backToTopButton"]')) throw new Error("RELEASE_CAPTURE_TOP_REMAINS");
+  if (document.documentElement.outerHTML !== expected.outerHTML) throw new Error("RELEASE_CAPTURE_NON_TOP_CHANGED");
+}
+
 async function generateReleasePages({ revision, ids } = {}) {
   const pointer = JSON.parse(fs.readFileSync(path.join(root, "data/current.json"), "utf8"));
   revision ||= pointer.revision;
   const initialManifest = JSON.parse(fs.readFileSync(path.join(root, "data/snapshots", revision, "manifest.json"), "utf8"));
   ids ||= Object.keys(initialManifest.hashes.releases).sort();
   if (ids.length !== 114 || new Set(ids).size !== 114 || ids.some(id => !/^R\d{4}$/.test(id))) throw new Error("Expected 114 unique Release IDs");
+  const css = pinReleaseCss({ audit: entry => console.log("[release-css-audit] " + JSON.stringify({ ...entry, revision })) });
   const capture = beginCapture({ root, type: "release", revision, ids, rendererFiles: RELEASE_RENDERER_FILES, rendererFingerprint });
   const { manifest, rendererSha256 } = capture;
+  const pinnedTemplate = capture.source("release.html");
   const kamipara = loadKamiparaCaptureData(path.join(root, "data/snapshots", revision), manifest, revision,
     file => capture.source(path.relative(root, file).replace(/\\/g, "/")));
   const server = http.createServer((req, res) => {
     const pathname = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
+    if (pathname === css.path) return css.serve(res);
     if (pathname === "/data/current.json") { res.writeHead(200, { "content-type": "application/json" }); return res.end(JSON.stringify({ revision, outputRevision: revision, dataRevision: manifest.dataRevision })); }
     const pinned = capture.source(pathname.slice(1));
     if (pinned) {
@@ -137,13 +221,10 @@ async function generateReleasePages({ revision, ids } = {}) {
         const entry = document.querySelector('script[src*="release-v500.js"]');
         await (await import(entry.src)).releaseReady;
       });
+      css.assertLoaded(await page.evaluate(assetPath => [...document.styleSheets].some(sheet => sheet.href && new URL(sheet.href).pathname === assetPath), css.path));
       if (id === "R0072") await validateKamiparaCapture(page);
       const name = release.releaseName;
-      const date = release.releaseDate || "発売日未登録";
-      const type = release.releaseType || release.classification || "リリース";
-      const tracks = release.includedSongs || [];
-      const trackText = tracks.length ? `収録情報：${tracks.slice(0, 3).map(song => song.displayName || song.songName).join("、")}${tracks.length > 3 ? `ほか${tracks.length - 3}件` : ""}。` : "収録楽曲の登録はありません。";
-      const description = `${name}（${date}発売、${type}）の詳細。${trackText}`;
+      const description = releaseDescription(release);
       const title = `${name}｜μ's Song Database`;
       const canonical = `https://mus-song-db.com/release/${id}.html`;
       await page.evaluate(({ id, title, description, canonical }) => {
@@ -182,14 +263,15 @@ async function generateReleasePages({ revision, ids } = {}) {
         const script = document.createElement("script"); script.type = "application/ld+json";
         script.textContent = JSON.stringify(breadcrumb).replace(/</g, "\\u003c"); document.head.append(script);
       }, { id, title, description, canonical });
+      await page.evaluate(removeRuntimeTopForCapture, { templateHtml: pinnedTemplate?.toString("utf8") });
       const html = (await page.content()).replace(/[\t ]+$/gm, "") + "\n";
       if (await page.locator('link[rel="canonical"]').count() !== 1 || await page.locator("h1").innerText() !== name) throw new Error(`${id}: raw HTML validation failed`);
       if (html.includes("http://127.0.0.1")) throw new Error(`${id}: local URL leaked`);
       pages.push({ id, html, sha256: crypto.createHash("sha256").update(html).digest("hex"), title, description, canonical });
       await page.close();
     }
-    capture.publish(pages, { schemaVersion: 1, outputRevision: revision, dataRevision: manifest.dataRevision, rendererSha256, count: pages.length,
-      pages: Object.fromEntries(pages.map(({ id, html, sha256, canonical }) => [id, { path: `release/${id}.html`, sha256, bytes: Buffer.byteLength(html), canonical }])) });
+    css.publish(() => capture.publish(pages, { schemaVersion: 1, outputRevision: revision, dataRevision: manifest.dataRevision, rendererSha256, count: pages.length,
+      pages: Object.fromEntries(pages.map(({ id, html, sha256, canonical }) => [id, { path: `release/${id}.html`, sha256, bytes: Buffer.byteLength(html), canonical }])) }));
     return pages.map(({ html, ...rest }) => rest);
   } finally {
     await browser?.close();
@@ -197,5 +279,5 @@ async function generateReleasePages({ revision, ids } = {}) {
   }
 }
 
-module.exports = { generateReleasePages, loadKamiparaCaptureData, captureJsonpData, validateKamiparaCapture, rendererFingerprint, RELEASE_RENDERER_FILES };
+module.exports = { generateReleasePages, loadKamiparaCaptureData, captureJsonpData, validateKamiparaCapture, rendererFingerprint, RELEASE_RENDERER_FILES, releaseDescription, pinReleaseCss, removeRuntimeTopForCapture };
 if (require.main === module) generateReleasePages().then(pages => console.log(`Generated ${pages.length} Release pages from current snapshot`)).catch(error => { console.error(error); process.exitCode = 1; });

@@ -303,13 +303,14 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
     await page.locator(".release-detail-link").click();
     await page.waitForURL(/release\/R0058\.html/);
     await page.locator("#mainContent").waitFor({ state: "visible", timeout: 45000 });
-    assert.deepEqual((await page.locator(".release-song-row").evaluateAll(nodes => nodes.map(node => /\/song\/(S\d{3})\.html$/.exec(new URL(node.href).pathname)?.[1]))).sort(), ["S100", "S101"]);
+    assert.deepEqual((await page.locator(".release-included-song-row").filter({has:page.locator(".release-origin")}).evaluateAll(nodes => nodes.map(node => /\/song\/(S\d{3})\.html$/.exec(new URL(node.href).pathname)?.[1]))).sort(), ["S100", "S101"]);
+    assert.equal(await page.locator("#debutSongsSection").isVisible(), false, "初出は収録行に統合し重複カードを出さない");
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
-    await page.locator(".release-song-row[href='song/S100.html']").click();
+    await page.locator(".release-included-song-row[href='song/S100.html']").click();
     await page.waitForURL(/song\/S100\.html/);
     await page.locator(".release-detail-link").waitFor({ state: "visible", timeout: 45000 });
     await page.goBack();
-    await page.locator(".release-song-row[href='song/S101.html']").click();
+    await page.locator(".release-included-song-row[href='song/S101.html']").click();
     await page.waitForURL(/song\/S101\.html/);
     await page.locator("#mainContent").waitFor({ state: "visible", timeout: 45000 });
     assert.deepEqual(issues, []);

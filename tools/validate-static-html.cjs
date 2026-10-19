@@ -44,6 +44,10 @@ function songDescription(song) {
 }
 function releaseDescription(release) {
   const tracks = release.includedSongs;
+  const names = tracks.slice(0, 3).map(s => s.displayName || s.songName).join("、");
+  const basisDate = release.releaseDate ? formatDate(release.releaseDate) : "発売日未登録";
+  if (release.releaseId === "R0032") return release.releaseName + "。1期Blu-ray最終巻発売日基準：" + basisDate + "。収録情報：" + names;
+  if (release.releaseId === "R0052") return release.releaseName + "。2期Blu-ray最終巻発売日基準：" + basisDate + "。店舗別の収録情報：" + names + "。";
   const content = tracks.length ? `収録情報：${tracks.slice(0, 3).map(s => s.displayName || s.songName).join("、")}${tracks.length > 3 ? `ほか${tracks.length - 3}件` : ""}。` : "収録楽曲の登録はありません。";
   return `${release.releaseName}（${release.releaseDate || "発売日未登録"}発売、${release.releaseType || release.classification || "リリース"}）の詳細。${content}`;
 }
@@ -129,38 +133,133 @@ function validateSongBody(doc, song) {
 }
 
 function validateReleaseBody(doc, release, releaseList) {
-  const listItem = releaseList.find(r => r.releaseId === release.releaseId);
-  const resolved = { ...release };
+  const resolved = { ...release }, listItem = releaseList.find(r => r.releaseId === release.releaseId);
   for (const key of ["releaseSeries", "editionType", "parentReleaseId", "featuredSinger", "catalogNumber", "officialName"]) resolved[key] ??= listItem?.[key];
-  const info = infoValues(byId(doc, "releaseInfo"));
-  const expectedInfo = { 発売日: release.releaseDate ? formatDate(release.releaseDate) : "発売日未登録", 大分類: release.classification || "分類未設定" };
-  if (release.releaseType?.trim()) expectedInfo["リリース種別"] = release.releaseType.trim();
-  const normalized = text => String(text || "").normalize("NFKC").replace(/\s+/g, "").toLocaleLowerCase("ja");
-  if (resolved.officialName?.trim() && normalized(resolved.officialName) !== normalized(release.releaseName)) expectedInfo["正式商品名"] = resolved.officialName.trim();
-  const series = resolved.releaseSeries?.shortName || resolved.releaseSeries?.name;
-  if (series?.trim()) expectedInfo["シリーズ"] = series.trim();
-  if (resolved.editionType === "individual") expectedInfo["エディション"] = "個別盤";
-  if (resolved.editionType === "memorial_box") expectedInfo["エディション"] = "Memorial BOX";
-  if (resolved.featuredSinger?.name?.trim()) expectedInfo["対象キャラクター／歌唱名義"] = resolved.featuredSinger.name.trim();
-  if (resolved.catalogNumber?.trim()) expectedInfo["品番"] = resolved.catalogNumber.trim();
-  if (release.sourceMedia?.trim()) expectedInfo["曲マスター由来メディア"] = release.sourceMedia;
-  const parent = releaseList.find(r => r.releaseId === resolved.parentReleaseId);
-  if (parent) expectedInfo.BOX = parent.releaseName || "BOX詳細を見る";
-  equal(info, expectedInfo, "Release basic/list-enriched information differs from snapshot");
-  const children = resolved.editionType === "memorial_box" ? releaseList.filter(r => r.parentReleaseId === release.releaseId) : [];
-  const childHost = byId(doc, "childReleasesHost");
-  equal(classes(childHost, "release-child-row").map(n => [n.attrs.href, cleanText(one(classes(n, "release-child-title"), "Missing child title"))]).sort(), children.map(r => [`release/${r.releaseId}.html`, r.releaseName || "リリース名未設定"]).sort(), "Release child identities mismatch");
-  const related = byId(doc, "relatedEventsHost");
-  equal(classes(related, "release-event-row").map(n => [n.attrs.href, cleanText(one(classes(n, "release-event-title"), "Missing related Event title"))]).sort(), (release.relatedEvents || []).map(e => [`event.html?id=${encodeURIComponent(e.eventId)}`, e.eventName]).sort(), "Release related Event identities mismatch");
-  const debut = byId(doc, "debutSongs", false);
-  equal(classes(debut, "release-song-row").map(n => [n.attrs.href, cleanText(one(classes(n, "release-song-title"), "Missing debut title"))]).sort(),
-    (release.debutSongs || []).map(s => [`song/${s.songId}.html`, s.songName || s.displayName || "曲名未設定"]).sort(), "Release debut Song identities mismatch");
-  if (release.releaseId === "R0072") return;
-  const included = byId(doc, "includedSongsContent", release.includedSongs.length > 0);
-  const rows = classes(included, "release-included-song-row");
-  equal(rows.map(n => [n.attrs.href, cleanText(one(classes(n, "release-included-song-title"), "Missing included title"))]).sort(),
-    release.includedSongs.map(s => [`song/${s.songId}.html`, s.displayName || s.songName]).sort(), "Release included Song identities/multiplicity mismatch");
-  check(!classes(included, "release-inclusion-error").length, "Release error DOM persisted");
+  if(doc.html.attrs["data-release-id"]) check(doc.html.attrs["data-release-id"]===release.releaseId,"Release body ID mismatch");
+  check(cleanText(one(doc.nodes.filter(n=>n.tag==="h1"),"Release h1 must be unique"))===release.releaseName,"Release body title mismatch");
+  const date=release.releaseDate?formatDate(release.releaseDate):"発売日未登録";
+  equal(byId(doc,"heroMeta").children.filter(n=>typeof n!=="string").map(cleanText),
+    [(["R0032","R0052"].includes(release.releaseId)?"Blu-ray最終巻発売日：":"")+date,release.classification||"分類未設定",...(release.releaseType?.trim()?[release.releaseType.trim()]:[])],"Release hero date/classification/type mismatch");
+  const expectedInfo = {}, normalized = s=>String(s||"").normalize("NFKC").replace(/\s+/g,"").toLocaleLowerCase("ja");
+  if(resolved.officialName?.trim()&&normalized(resolved.officialName)!==normalized(release.releaseName))expectedInfo["正式商品名"]=resolved.officialName.trim();
+  const series=resolved.releaseSeries?.shortName||resolved.releaseSeries?.name;
+  if(series?.trim())expectedInfo["シリーズ"]=series.trim();
+  if(resolved.editionType==="individual")expectedInfo["エディション"]="個別盤";
+  if(resolved.editionType==="memorial_box")expectedInfo["エディション"]="Memorial BOX";
+  if(resolved.featuredSinger?.name?.trim())expectedInfo["対象キャラクター／歌唱名義"]=resolved.featuredSinger.name.trim();
+  if(resolved.catalogNumber?.trim())expectedInfo["品番"]=resolved.catalogNumber.trim();
+  const info=byId(doc,"releaseInfo",false);
+  equal(infoValues(info),expectedInfo,"Release basic/list-enriched information differs from snapshot");
+  check(visible(info)===(Object.keys(expectedInfo).length>0),"Release basic information visibility mismatch");
+  const parent=releaseList.find(r=>r.releaseId===resolved.parentReleaseId);
+  const children=resolved.editionType==="memorial_box"?releaseList.filter(r=>r.parentReleaseId===release.releaseId):[];
+  const excluded=new Set([release.releaseId,resolved.parentReleaseId,...children.map(r=>r.releaseId)]);
+  const siblings=resolved.releaseSeries?.id?releaseList.filter(r=>r.releaseSeries?.id===resolved.releaseSeries.id&&!excluded.has(r.releaseId)):[];
+  function links(id,cls,expected,titleClass){
+    const rows=classes(byId(doc,id,expected.length>0),cls);
+    equal(rows.map(n=>[n.attrs.href,cleanText(titleClass?one(classes(n,titleClass),"Missing Release link title"):n)]),expected,"Release related identities mismatch: "+id);
+    rows.forEach(n=>check(n.tag==="a"&&!descendants(n,x=>x.tag==="a").length,"Release nested/non-anchor link"));
+  }
+  const url=r=>"release/"+r.releaseId+".html";
+  links("parentReleaseHost","release-child-row",parent?[[url(parent),parent.releaseName||"BOX詳細を見る"]]:[]);
+  links("childReleasesHost","release-child-row",children.map(r=>[url(r),r.releaseName||"リリース名未設定"]),"release-child-title");
+  links("seriesReleasesHost","release-child-row",siblings.map(r=>[url(r),r.releaseName||"リリース名未設定"]));
+  check(visible(byId(doc,"relatedReleasesSection",false))===Boolean(parent||children.length||siblings.length),"Release related section visibility mismatch");
+  const events=[...(release.relatedEvents||[])].sort((a,b)=>(Number.isFinite(Number(a.order))?Number(a.order):Infinity)-(Number.isFinite(Number(b.order))?Number(b.order):Infinity));
+  links("relatedEventsHost","release-event-row",events.map(e=>["event.html?id="+encodeURIComponent(e.eventId),e.eventName]),"release-event-title");
+  check(visible(byId(doc,"relatedEventsSection",false))===Boolean(events.length),"Release Event section visibility mismatch");
+  equal(descendants(byId(doc,"officialRelease"),n=>n.tag==="a").map(n=>n.attrs.href),release.officialReleaseUrl?.trim()?[release.officialReleaseUrl.trim()]:[],"Release official URL mismatch");
+  const tracks=release.includedSongs,meta=release.includedSongsMeta;
+  check(Array.isArray(tracks)&&object(meta)&&["complete","partial","not_applicable","special_hold","unreviewed"].includes(meta.status),"Release coverage status invalid");
+  const seen=new Set();
+  tracks.forEach(r=>{check(/^RT\d{4}$/.test(r.relationId)&&!seen.has(r.relationId),"Release RT ID duplicate/invalid");seen.add(r.relationId);});
+  if(Number.isInteger(meta.confirmedCount))check(meta.confirmedCount===tracks.length,"Release coverage confirmed count mismatch");
+  const ids=new Set(tracks.map(r=>r.songId)),origins=new Set((release.debutSongs||[]).map(r=>r.songId)),outside=(release.debutSongs||[]).filter(r=>!ids.has(r.songId));
+  links("debutSongs","release-song-row",outside.map(s=>["song/"+s.songId+".html",s.songName||s.displayName||"曲名未設定"]),"release-song-title");
+  check(visible(byId(doc,"debutSongsSection",false))===Boolean(outside.length),"Release independent origin visibility mismatch");
+  const included=byId(doc,"includedSongsContent",tracks.length>0||release.releaseId==="R0072");
+  check(!classes(included,"release-inclusion-error").length,"Release error DOM persisted");
+  const countLabel=byId(doc,"includedSongsCount",false);
+  if(release.releaseId==="R0072"){
+    check(cleanText(countLabel)==="10曲","R0072 dedicated count label mismatch");
+    check(meta.status==="special_hold"&&!tracks.length,"R0072 dedicated coverage mismatch");
+    check(!classes(included,"release-included-song-row").length,"R0072 must not use normal Song links");
+    check(classes(included,"release-kp-song").every(n=>n.tag==="article"&&!descendants(n,x=>x.tag==="a").length),"R0072 dedicated Song cards must stay nonlink");
+    return; // Dedicated snapshot/body verification is mandatory at the caller.
+  }
+  const note=String(meta.publicNote||"").trim();
+  const discNumbers=new Set(tracks.map(r=>r.disc)),uniqueSongs=new Set(tracks.map(r=>r.songId)).size;
+  let expectedCount=tracks.length?(uniqueSongs===tracks.length?tracks.length+"曲":tracks.length+"件（"+uniqueSongs+"曲）"):"";
+  if(tracks.length&&release.classification==="特典"&&release.releaseType==="全巻購入特典")expectedCount="店舗別特典CD";
+  else if(tracks.length&&discNumbers.size>1&&!discNumbers.has(null)&&!discNumbers.has(undefined)){
+    const registered=tracks.every(r=>Number.isInteger(r.disc)&&r.disc>0&&Number.isInteger(r.track)&&r.track>0)&&new Set(tracks.map(r=>r.disc+":"+r.track)).size===tracks.length;
+    expectedCount=discNumbers.size+" Disc · "+(uniqueSongs===tracks.length?tracks.length+"曲":tracks.length+(registered?"トラック":"件")+"（"+uniqueSongs+"曲）");
+  }
+  check(cleanText(countLabel)===expectedCount,"Release relation/unique Song count label mismatch");
+  check(visible(byId(doc,"includedSongsSection",false))===!(meta.status==="not_applicable"&&!tracks.length&&!note),"Release coverage visibility mismatch");
+  if(note)check(classes(included,"release-coverage-note").some(n=>visible(n)&&textContent(n).includes(note)),"Release publicNote missing/hidden");
+  if(meta.status==="partial"&&Number.isFinite(Number(meta.confirmedCount))&&Number.isFinite(Number(meta.pendingCount)))
+    equal(classes(included,"release-coverage-progress").map(cleanText),["確認済み"+Number(meta.confirmedCount)+"件 / 確認中"+Number(meta.pendingCount)+"件"],"Release coverage progress mismatch");
+  const rows=classes(included,"release-included-song-row");
+  check(rows.length===tracks.length,"Release included Song multiplicity mismatch");
+  if(!tracks.length){
+    if(meta.status==="complete")check(textContent(included).includes("収録楽曲の登録はありません"),"Release complete-empty state missing");
+    if(meta.status==="unreviewed"&&!note)check(textContent(included).includes("収録情報を確認中"),"Release unreviewed state missing");
+    return;
+  }
+  const hasStores=tracks.some(r=>String(r.benefitStore||"").trim()),stores=new Map();
+  tracks.forEach(r=>{const s=hasStores?String(r.benefitStore||"").trim():"";if(!stores.has(s))stores.set(s,[]);stores.get(s).push(r);});
+  const storeTitle=s=>release.classification==="特典"&&release.releaseType==="全巻購入特典"&&s?s+"｜"+release.releaseName:s||"店舗未登録";
+  equal(classes(included,"release-store-heading").map(cleanText),hasStores?[...stores.keys()].map(storeTitle):[],"Release store headings mismatch");
+  const groups=[],expectedRows=[];
+  for(const[store,records]of stores){
+    const discs=new Map();
+    records.forEach(r=>{const d=r.disc==null?null:String(r.disc);if(!discs.has(d))discs.set(d,[]);discs.get(d).push(r);});
+    const keys=[...discs.keys()].filter(d=>d!==null);if(discs.has(null))keys.push(null);
+    const large=resolved.editionType==="memorial_box"&&!hasStores&&keys.length>=10;
+    keys.forEach((disc,i)=>{
+      const data=discs.get(disc),common=typeof data[0].variant==="string"&&data[0].variant.trim()&&data.every(r=>r.variant===data[0].variant)?data[0].variant:"";
+      const group={store,disc,data,large,common:large?common:"",collapsible:keys.length>=2,open:keys.length<3||i===0};
+      groups.push(group);expectedRows.push(...data.map(record=>({record,group})));
+    });
+  }
+  const details=classes(included,"release-disc-details"),collapsible=groups.filter(g=>g.collapsible);
+  equal(details.map(n=>n.attrs.id),collapsible.map(g=>"release-disc-"+(groups.indexOf(g)+1)),"Release Disc identities/order mismatch");
+  details.forEach((n,i)=>check(Object.hasOwn(n.attrs,"open")===collapsible[i].open,"Release initial Disc state mismatch"));
+  const marked=new Set();
+  rows.forEach((node,i)=>{
+    const{record:r,group:g}=expectedRows[i];
+    check(node.tag==="a"&&node.attrs["data-relation-id"]===r.relationId,"Release RT identity/order mismatch");
+    check(node.attrs.href==="song/"+r.songId+".html"&&!descendants(node,n=>n.tag==="a").length,"Release included Song href/nested links mismatch");
+    check(cleanText(one(classes(node,"release-included-song-title"),"Missing included title"))===(r.displayName||r.songName),"Release included Song title mismatch");
+    equal(classes(node,"release-track-number").map(cleanText),r.track==null?[]:[String(r.track)],"Release Track mismatch");
+    if(r.track==null&&tracks.some(r=>r.track!=null))check(textContent(node).includes("Track未登録"),"Release missing Track must not be invented");
+    equal(classes(node,"release-variant").map(cleanText),!g.common&&r.variant!=null&&r.variant!==""?[String(r.variant)]:[],"Release variant omission/mismatch");
+    const mark=origins.has(r.songId)&&!marked.has(r.songId);if(mark)marked.add(r.songId);
+    equal(classes(node,"release-origin").map(cleanText),mark?["初出・由来"]:[],"Release origin set/multiplicity mismatch");
+    function ancestor(pred){for(let n=node.parent;n;n=n.parent)if(pred(n))return n;}
+    const host=ancestor(n=>hasClass(n,"release-disc-details")||hasClass(n,"release-disc-group"));
+    if(g.disc!==null||g.collapsible){
+      check(host,"Release Disc group missing");
+      const title=one(descendants(host,n=>n.tag==="summary"||hasClass(n,"release-disc-heading")),"Release Disc heading missing");
+      equal(cleanText(title),(g.disc===null?"Disc未登録":"Disc "+g.disc)+(g.common?" · "+g.common:"")+g.data.length+(g.data.every(r=>r.track!=null)?"トラック":"件"),"Release Disc/heading variant mismatch");
+    }else check(!host,"Release unregistered Disc must not be invented");
+    if(hasStores){const h=ancestor(n=>hasClass(n,"release-store-group"));check(h&&cleanText(one(classes(h,"release-store-heading"),"Missing store"))===storeTitle(g.store),"Release store association mismatch");}
+  });
+  const notes=classes(included,"release-registration-details");
+  if(release.releaseId==="R0052")check(notes.length===1&&Object.hasOwn(notes[0].attrs,"hidden"),"R0052 technical note must remain hidden");
+  if(marked.size)check(notes.some(n=>textContent(n).includes("曲マスター上")&&textContent(n).includes("収録バージョン")),"Release origin meaning missing");
+  if(groups.some(g=>g.large)){
+    check(!descendants(included,n=>["data-box-search","data-box-matches","data-box-jump","data-box-search-count"].some(a=>Object.hasOwn(n.attrs,a))||hasClass(n,"release-box-search")).length&&!textContent(included).includes("曲名から探す"),"Release removed BOX search present");
+    const disc=one(descendants(included,n=>Object.hasOwn(n.attrs,"data-box-disc")),"Missing BOX Disc selector");
+    equal(descendants(disc,n=>n.tag==="option").map(n=>n.attrs.value),groups.map((g,i)=>"release-disc-"+(i+1)),"Release BOX Disc selector mismatch");
+    const member=one(descendants(included,n=>Object.hasOwn(n.attrs,"data-box-member")),"Missing BOX member selector");
+    check(!Object.hasOwn(member.attrs,"disabled"),"Release BOX member enrichment incomplete");
+    equal(descendants(member,n=>n.tag==="option").map(n=>[n.attrs.value,cleanText(n)]),[["","すべてのメンバー"],...children.map(r=>[r.featuredSinger?.id,r.featuredSinger?.name])],"Release BOX members mismatch");
+    check(!textContent(one(descendants(included,n=>Object.hasOwn(n.attrs,"data-box-status")),"Missing BOX status")).trim(),"Release BOX pending/error status");
+    equal(details.map(n=>(n.attrs.class||"").split(/\s+/).includes("is-selected")),groups.map((g,i)=>i===0),"Release BOX initial selection mismatch");
+  }
+  if(release.releaseId==="R0088")check(groups.length===27&&tracks.length===285&&ids.size===46&&children.length===9,"R0088 27/285/46/9 invariant mismatch");
 }
 
 function validateKamiparaBody(doc, data, venues) {
@@ -356,7 +455,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
   return result;
 }
 
-module.exports = { validateStaticHtml };
+module.exports = { validateStaticHtml, validateReleaseBody, validateKamiparaBody, releaseDescription };
 if (require.main === module) {
   const args = process.argv.slice(2);
   const revision = args.length === 2 && args[0] === "--revision" ? args[1] : undefined;

@@ -101,7 +101,9 @@
         "assets/js/release-v500.js"
       ],
       "css": [
-        "assets/css/style.css"
+        "assets/css/style.css",
+        "assets/css/link-ui.css",
+        "assets/css/release-detail.css"
       ]
     },
     "releases.html": {
@@ -239,6 +241,7 @@
     "assets/css/link-ui.css",
     "assets/css/member-analytics.css",
     "assets/css/release-amazon.css",
+    "assets/css/release-detail.css",
     "assets/css/song-view-group-filter.css",
     "assets/css/style.css"
   ]

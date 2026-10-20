@@ -140,18 +140,28 @@ function validateReleaseBody(doc, release, releaseList) {
   const date=release.releaseDate?formatDate(release.releaseDate):"発売日未登録";
   equal(byId(doc,"heroMeta").children.filter(n=>typeof n!=="string").map(cleanText),
     [(["R0032","R0052"].includes(release.releaseId)?"Blu-ray最終巻発売日：":"")+date,release.classification||"分類未設定",...(release.releaseType?.trim()?[release.releaseType.trim()]:[])],"Release hero date/classification/type mismatch");
-  const expectedInfo = {}, normalized = s=>String(s||"").normalize("NFKC").replace(/\s+/g,"").toLocaleLowerCase("ja");
+  const expectedInfo = {};
   const parent=/^R\d{4}$/.test(resolved.parentReleaseId||"")&&resolved.parentReleaseId!==release.releaseId?releaseList.find(r=>r.releaseId===resolved.parentReleaseId):null;
-  if(resolved.officialName?.trim()&&normalized(resolved.officialName)!==normalized(release.releaseName))expectedInfo["正式商品名"]=resolved.officialName.trim();
+  if(resolved.officialName?.trim())expectedInfo["正式商品名"]=resolved.officialName.trim();
   const series=resolved.releaseSeries?.shortName||resolved.releaseSeries?.name;
   if(series?.trim())expectedInfo["シリーズ"]=series.trim();
   if(parent)expectedInfo["親BOX"]=parent.releaseName||"BOX詳細を見る";
+  if(resolved.featuredSinger?.name?.trim())expectedInfo["対象キャラクター／歌唱名義"]=resolved.featuredSinger.name.trim();
   if(resolved.editionType==="individual")expectedInfo["エディション"]="個別盤";
   if(resolved.editionType==="memorial_box")expectedInfo["エディション"]="Memorial BOX";
-  if(resolved.featuredSinger?.name?.trim())expectedInfo["対象キャラクター／歌唱名義"]=resolved.featuredSinger.name.trim();
   if(resolved.catalogNumber?.trim())expectedInfo["品番"]=resolved.catalogNumber.trim();
   const info=byId(doc,"releaseInfo",false);
   equal(infoValues(info),expectedInfo,"Release basic/list-enriched information differs from snapshot");
+  const fieldNames={"正式商品名":"official","シリーズ":"series","親BOX":"parent","対象キャラクター／歌唱名義":"featured","エディション":"edition","品番":"catalog"};
+  const infoRows=info.children.filter(n=>typeof n!=="string");
+  check(info.tag==="dl"&&infoRows.every(n=>n.tag==="div"&&hasClass(n,"release-info-row")),"Release information definition groups invalid");
+  equal(infoRows.map(n=>n.attrs["data-release-info-field"]),Object.keys(expectedInfo).map(label=>fieldNames[label]),"Release information semantic fields / order mismatch");
+  infoRows.forEach((row,i)=>{
+    const pair=row.children.filter(n=>typeof n!=="string");
+    equal(pair.map(n=>n.tag),["dt","dd"],"Release information dt/dd pair invalid");
+    check(cleanText(pair[0])===Object.keys(expectedInfo)[i],"Release information label order mismatch");
+    check(Object.hasOwn(row.attrs,"data-release-featured")===(row.attrs["data-release-info-field"]==="featured"),"Release featured identity marker mismatch");
+  });
   check(visible(info)===(Object.keys(expectedInfo).length>0),"Release basic information visibility mismatch");
   const infoLinks=descendants(info,n=>n.tag==="a");
   equal(infoLinks.map(n=>[n.attrs.href,cleanText(n)]),parent?[["release/"+parent.releaseId+".html",parent.releaseName||"BOX詳細を見る"]]:[],"Release information links / related identities differ from verified snapshot references");

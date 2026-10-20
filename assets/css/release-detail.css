@@ -6,7 +6,21 @@
 .release-included-head { align-items: start; flex-wrap: wrap; gap: 10px 18px; }
 .release-included-count { white-space: normal; line-height: 1.7; color: var(--muted); font-weight: 600; }
 .release-info { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
-.release-info-row { grid-template-columns: minmax(100px, 125px) minmax(0, 1fr); gap: 12px; }
+.release-info-row { min-width: 0; grid-column: 1 / -1; grid-template-columns: minmax(100px, 125px) minmax(0, 1fr); gap: 12px; }
+/* Empty semantic rows have no tracks or placeholder nodes. Single fields use
+   the full width; only present pairs share a row, without changing DOM order. */
+@media (min-width: 701px) {
+  .release-info [data-release-info-field="official"] { grid-row: 1; }
+  .release-info [data-release-info-field="series"], .release-info [data-release-info-field="parent"] { grid-row: 2; }
+  .release-info [data-release-info-field="featured"], .release-info [data-release-info-field="cv"] { grid-row: 3; }
+  .release-info [data-release-info-field="edition"], .release-info [data-release-info-field="catalog"] { grid-row: 4; }
+  .release-info:has([data-release-info-field="series"]):has([data-release-info-field="parent"]) [data-release-info-field="series"],
+  .release-info:has([data-release-info-field="featured"]):has([data-release-info-field="cv"]) [data-release-info-field="featured"],
+  .release-info:has([data-release-info-field="edition"]):has([data-release-info-field="catalog"]) [data-release-info-field="edition"] { grid-column: 1; }
+  .release-info:has([data-release-info-field="series"]):has([data-release-info-field="parent"]) [data-release-info-field="parent"],
+  .release-info:has([data-release-info-field="featured"]):has([data-release-info-field="cv"]) [data-release-info-field="cv"],
+  .release-info:has([data-release-info-field="edition"]):has([data-release-info-field="catalog"]) [data-release-info-field="catalog"] { grid-column: 2; }
+}
 .release-info-empty { margin: 0; color: var(--muted); }
 .release-local-nav { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 14px; }
 .release-local-nav[hidden], .release-info[hidden] { display: none; }
@@ -14,7 +28,8 @@
 .release-local-nav a:focus-visible { outline: 3px solid var(--indigo); outline-offset: 3px; }
 .release-card[id] { scroll-margin-top: 90px; }
 .release-has-context .release-card[id], .release-has-context .release-disc-details { scroll-margin-top: var(--release-anchor-offset, 90px); }
-.release-info dd a { color: var(--indigo); text-underline-offset: 4px; }
+.release-info dd a { display: inline-flex; align-items: center; box-sizing: border-box; min-height: 36px; max-width: 100%; padding: 4px 8px; color: var(--indigo); text-underline-offset: 4px; overflow-wrap: anywhere; }
+.release-info dd a:hover { text-decoration-thickness: 2px; }
 .release-info dd a:focus-visible { outline: 3px solid var(--indigo); outline-offset: 3px; }
 /* Reuse the shared context component, but keep it below the menu and out of
    a still-visible header. Bottom TOP keeps its independent 1279px boundary. */
@@ -82,6 +97,7 @@ html.mus-menu-lock .release-has-context .detail-context-inner { pointer-events: 
   .release-hero { padding: 23px 18px; }
   .release-info, .release-child-list { grid-template-columns: minmax(0, 1fr); }
   .release-info-row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .release-info dd a { min-height: 44px; }
   .release-included-count { flex: 1 1 100%; }
   .release-content .release-included-song-row { padding: 14px 12px; }
   .release-box-controls { grid-template-columns: minmax(0, 1fr); gap: 10px; }

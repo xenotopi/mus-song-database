@@ -70,7 +70,7 @@ function enrichReleasePerson(release) {
     dd.replaceChildren(anchor);
     if (!person.cv) return;
     const cvRow = document.createElement("div"), dt = document.createElement("dt"), value = document.createElement("dd");
-    cvRow.className = "release-info-row"; cvRow.dataset.releaseCv = ""; dt.textContent = "CV";
+    cvRow.className = "release-info-row"; cvRow.dataset.releaseInfoField = "cv"; cvRow.dataset.releaseCv = ""; dt.textContent = "CV";
     if (person.cvUrl) {
       const link = document.createElement("a"); link.href = person.cvUrl; link.textContent = person.cv;
       link.setAttribute("aria-label", `${person.cv}の歌唱記録`); value.append(link);
@@ -485,17 +485,19 @@ function renderRelease(release, releaseList = [], approvedMetadata = null) {
     ? releaseList.filter(item => item.releaseId === parentReleaseId) : [];
   const parentRelease = parentMatches.length === 1 ? parentMatches[0] : null;
   const officialName = String(release.officialName || "").trim();
-  if (officialName && normalizedLabel(officialName) !== normalizedLabel(name)) info.push(["正式商品名", officialName]);
+  if (officialName) info.push(["official", "正式商品名", officialName]);
   const seriesName = String(release.releaseSeries?.shortName || release.releaseSeries?.name || "").trim();
-  if (seriesName) info.push(["シリーズ", seriesName]);
-  if (parentRelease) info.push(["親BOX", parentRelease.releaseName || "BOX詳細を見る", `release/${parentReleaseId}.html`]);
-  const edition = editionLabel(String(release.editionType || "").trim());
-  if (edition) info.push(["エディション", edition]);
+  if (seriesName) info.push(["series", "シリーズ", seriesName]);
+  if (parentRelease) info.push(["parent", "親BOX", parentRelease.releaseName || "BOX詳細を見る", `release/${parentReleaseId}.html`]);
   const singerName = String(release.featuredSinger?.name || "").trim();
-  if (singerName) info.push(["対象キャラクター／歌唱名義", singerName]);
+  if (singerName) info.push(["featured", "対象キャラクター／歌唱名義", singerName]);
+  const edition = editionLabel(String(release.editionType || "").trim());
+  if (edition) info.push(["edition", "エディション", edition]);
   const catalogNumber = String(release.catalogNumber || "").trim();
-  if (catalogNumber) info.push(["品番", catalogNumber]);
-  elements.releaseInfo.innerHTML = info.map(([label, value, href]) => `<div class="release-info-row"${label === "対象キャラクター／歌唱名義" ? " data-release-featured" : ""}><dt>${escapeHtml(label)}</dt><dd>${href ? `<a href="${escapeHtml(href)}">${escapeHtml(value)}</a>` : escapeHtml(value)}</dd></div>`).join("");
+  if (catalogNumber) info.push(["catalog", "品番", catalogNumber]);
+  // Keep definition pairs in reading/Tab order. CSS pairs semantic fields, not
+  // element positions, so missing fields and optional late CV do not shift rows.
+  elements.releaseInfo.innerHTML = info.map(([field, label, value, href]) => `<div class="release-info-row" data-release-info-field="${field}"${field === "featured" ? " data-release-featured" : ""}><dt>${escapeHtml(label)}</dt><dd>${href ? `<a href="${escapeHtml(href)}">${escapeHtml(value)}</a>` : escapeHtml(value)}</dd></div>`).join("");
   elements.releaseInfo.hidden = info.length === 0;
   const parentHost = $("parentReleaseHost");
   if (parentHost) parentHost.innerHTML = parentRelease ? `<section class="release-related"><h3>親BOX</h3><a class="release-child-row mus-card-link mus-chip-link" href="release/${encodeURIComponent(parentReleaseId)}.html">${titleChip(parentRelease.releaseName || "BOX詳細を見る")}</a></section>` : "";

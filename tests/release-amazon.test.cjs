@@ -53,17 +53,25 @@ async function openRelease(id, width, products) {
   return { page, errors };
 }
 
-test("R0010 alone uses the issued SiteStripe URL; R0094 has no Amazon DOM", async () => {
-  assert.deepEqual(data, { R0010: { asin: "B0CTMFBH8S", url: "https://link.amazon/B01lpczBW" } });
-  for (const id of ["R0010", "R0094"]) for (const width of [1280, 390]) {
+test("R0010 and R0058 use their issued SiteStripe URLs; R0094 has no Amazon DOM", async () => {
+  assert.deepEqual(data, {
+    R0010: { asin: "B0CTMFBH8S", url: "https://link.amazon/B01lpczBW" },
+    R0058: { asin: "B00WNB7J3U", url: "https://link.amazon/B0drUEHEF" }
+  });
+  const current = require("../data/current.json");
+  const releases = require(`../data/snapshots/${current.outputRevision || current.revision}/release-list.json`).data;
+  assert.equal(releases.find(release => release.releaseId === "R0058").releaseName, "SUNNY DAY SONG／？←HEARTBEAT");
+  for (const id of ["R0010", "R0058", "R0094"]) for (const width of [1280, 390]) {
     const { page, errors } = await openRelease(id, width, null);
-    if (id === "R0010") {
+    if (id === "R0010" || id === "R0058") {
       const link = page.locator(".release-amazon-link");
       await link.waitFor({ state: "visible" });
-      assert.equal(await link.getAttribute("href"), data.R0010.url);
+      assert.equal(await link.getAttribute("href"), data[id].url);
       assert.equal(await link.getAttribute("target"), "_blank");
       assert.equal(await link.getAttribute("rel"), "noopener noreferrer sponsored");
       assert.equal(await page.locator("#officialRelease + .release-amazon").count(), 1);
+      assert.equal(await page.locator(".release-amazon img").count(), 0);
+      assert.ok((await link.boundingBox()).height >= 44, `${id} ${width} hitbox`);
     } else {
       assert.equal(await page.locator(".release-amazon, .release-amazon-link, link[data-release-amazon-style]").count(), 0, `${id} ${width}`);
     }

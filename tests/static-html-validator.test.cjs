@@ -93,7 +93,7 @@ for (const [name, mutate, pattern] of [
   ["JSON-LD semantic content", h => h.replace('"propertyID":"μ\'s Song Database Song ID","value":"S001"', '"propertyID":"μ\'s Song Database Song ID","value":"S002"'), /MusicRecording/],
   ["malformed HTML", h => h.replace("</main>", "</wrong>"), /Unbalanced/],
   ["body basic information", h => h.replace("Fixture CD", "Wrong CD"), /basic information/],
-  ["body history", h => h.replace("歌唱者：Fixture Singer", "歌唱者：Wrong Singer"), /date\/singer/],
+  ["body history", h => h.replace(">Fixture Singer</a>", ">Wrong Singer</a>"), /date\/singer/],
   ["visible SEO paragraph", h => h.replace("</main>", '<p data-prerender-description="">SEO</p></main>'), /Visible SEO/]
 ]) test(`matching hash cannot hide broken ${name}`, () => { const f = createFixture(); f.editHtml("song", "S001", mutate, true); reject(f, pattern); });
 

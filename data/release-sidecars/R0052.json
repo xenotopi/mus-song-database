@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "releaseId": "R0052",
+  "approvalScope": "public",
+  "masterReplacement": false,
+  "migration": "Temporary Relation-keyed supplement. Future reviewed PR/EVS migration needs a separate mapping; these keys are not PR IDs.",
+  "relations": [
+    {
+      "relationId": "RT0090",
+      "relationBinding": "6c5b5aed5375108221b3507bc785f50363552185bc78b3cd42ccb5608a555ec3",
+      "fields": {
+        "physicalMedia": {
+          "value": "CD",
+          "verificationStatus": "partial",
+          "displayApproval": "public",
+          "public": true,
+          "sources": [
+            {
+              "url": "https://akihata.jp/works/music/?ah=%E3%82%89&an=lovelive&at=k",
+              "edition": "2014店舗別全巻特典の対応（原盤クレジットではない）"
+            }
+          ],
+          "valueHash": "ee2dd9fc0cd5421c25f4679593b2ca765bb20b65a61411c9bb48e2900d25e0fb"
+        },
+        "qualifyingProducts": {
+          "value": "2期Blu-ray",
+          "verificationStatus": "partial",
+          "displayApproval": "public",
+          "public": true,
+          "sources": [
+            {
+              "url": "https://akihata.jp/works/music/?ah=%E3%82%89&an=lovelive&at=k",
+              "edition": "2014店舗別全巻特典の対応（原盤クレジットではない）"
+            }
+          ],
+          "valueHash": "f57aad9434ec129816b3b2839118658cc8dd9f9a43d35ae63721aea682b41f49"
+        },
+        "acquisitionCondition": {
+          "value": "全巻特典",
+          "verificationStatus": "partial",
+          "displayApproval": "public",
+          "public": true,
+          "sources": [
+            {
+              "url": "https://akihata.jp/works/music/?ah=%E3%82%89&an=lovelive&at=k",
+              "edition": "2014店舗別全巻特典の対応（原盤クレジットではない）"
+            }
+          ],
+          "valueHash": "aa562e6b69fbf01dbfbe825ffbb4db1b8fd93d5e5738aafb006cbe6497e6aa50"
+        }
+      }
+    },
+    {
+      "relationId": "RT0091",
+      "relationBinding": "86a0ac6d1a21fdfa1c6a0047c30d851dee96ff44b992e60ece29523337f65b65",
+      "fields": {
+        "physicalMedia": {
+          "value": "CD",
+          "verificationStatus": "partial",
+          "displayApproval": "public",
+          "public": true,
+          "sources": [
+            {
+              "url": "https://akihata.jp/works/music/?ah=%E3%82%89&an=lovelive&at=k",
+              "edition": "2014店舗別全巻特典の対応（原盤クレジットではない）"
+            },
+            {
+              "url": "https://www.sofmap.com/product_detail.aspx?sku=12334636",
+              "edition": "2014 2nd Season Blu-ray 第2巻ページの店舗特典案内"
+            }
+          ],
+          "valueHash": "1feefd309e08adec86493bad671b1006edea4f82fe079209ee1172f144767ac7"
+        },
+        "qualifyingProducts": {
+          "value": "2期Blu-ray特装限定版（全巻連続予約）",
+          "verificationStatus": "partial",
+          "displayApproval": "public",
+          "public": true,
+          "sources": [
+            {
+              "url": "https://www.sofmap.com/product_detail.aspx?sku=12334636",
+              "edition": "2014 2nd Season Blu-ray 第2巻ページの店舗特典案内"
+            }
+          ],
+          "valueHash": "e26bf2b3b7e219dfd7c08a353e62b166661908d42491c1fc7de801889fc5689d"
+        },
+        "acquisitionCondition": {
+          "value": "全巻連続予約特典（特装限定版第7巻予約分で終了）",
+          "verificationStatus": "partial",
+          "displayApproval": "public",
+          "public": true,
+          "sources": [
+            {
+              "url": "https://www.sofmap.com/product_detail.aspx?sku=12334636",
+              "edition": "2014 2nd Season Blu-ray 第2巻ページの店舗特典案内"
+            }
+          ],
+          "valueHash": "b3a1eb13ed61874a22548161d94515020474bc8235dae10194c2c8d149d951f7"
+        }
+      }
+    },
+    {
+      "relationId": "RT0092",
+      "relationBinding": "7869c8291d8b53d58b7726742cc38e1b124e386dd78f3ace5fdc13effb274281",
+      "fields": {
+        "physicalMedia": {
+          "value": "CD",
+          "verificationStatus": "partial",
+          "displayApproval": "public",
+          "public": true,
+          "sources": [
+            {
+              "url": "https://akihata.jp/works/music/?ah=%E3%82%89&an=lovelive&at=k",
+              "edition": "2014店舗別全巻特典の対応（原盤クレジットではない）"
+            }
+          ],
+          "valueHash": "ee2dd9fc0cd5421c25f4679593b2ca765bb20b65a61411c9bb48e2900d25e0fb"
+        },
+        "qualifyingProducts": {
+          "value": "2期Blu-ray",
+          "verificationStatus": "partial",
+          "displayApproval": "public",
+          "public": true,
+          "sources": [
+            {
+              "url": "https://akihata.jp/works/music/?ah=%E3%82%89&an=lovelive&at=k",
+              "edition": "2014店舗別全巻特典の対応（原盤クレジットではない）"
+            }
+          ],
+          "valueHash": "f57aad9434ec129816b3b2839118658cc8dd9f9a43d35ae63721aea682b41f49"
+        },
+        "acquisitionCondition": {
+          "value": "全巻特典",
+          "verificationStatus": "partial",
+          "displayApproval": "public",
+          "public": true,
+          "sources": [
+            {
+              "url": "https://akihata.jp/works/music/?ah=%E3%82%89&an=lovelive&at=k",
+              "edition": "2014店舗別全巻特典の対応（原盤クレジットではない）"
+            }
+          ],
+          "valueHash": "aa562e6b69fbf01dbfbe825ffbb4db1b8fd93d5e5738aafb006cbe6497e6aa50"
+        }
+      }
+    }
+  ]
+}

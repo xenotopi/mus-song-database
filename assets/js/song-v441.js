@@ -1,3 +1,4 @@
+import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import { buildSongUrl,
   apiGet,
   escapeHtml,
@@ -8,7 +9,7 @@ import { detailWithApiFallback } from "./static-detail.js?v=1.3.0";
 
 import {
   renderCommon
-} from "./common.js?v=4.10.0&cache=release-ux&songUrls=1";
+} from "./common.js?v=4.10.1&cache=release-ux&songUrls=1";
 
 import {
   buildSingerUrl
@@ -227,8 +228,8 @@ function renderHistory_() {
                   </span>
 
                   <span>歌唱者：${performance.singerId
-                    ? `<a class="song-history-singer-link mus-link-secondary" href="singer.html?id=${encodeURIComponent(performance.singerId)}">${escapeHtml(performance.singerDisplayName || performance.singer || "—")}</a>`
-                    : escapeHtml(performance.singerDisplayName || performance.singer || "—")}</span>
+                    ? `<a class="song-history-singer-link mus-link-secondary" href="singer.html?id=${encodeURIComponent(performance.singerId)}">${escapeHtml(singerDisplayName(performance, performance.singerDisplayName || performance.singer || "—"))}</a>`
+                    : escapeHtml(singerDisplayName(performance, performance.singerDisplayName || performance.singer || "—"))}</span>
                 </span>
               </span>
             </article>`
@@ -664,7 +665,7 @@ function renderSingerRanking_(
               class="singer-rank-row"
               href="${buildSingerUrl(item)}"
               aria-label="${escapeHtml(
-                item.name || "歌唱名義"
+                singerDisplayName(item, item.name || "歌唱名義")
               )}の歌唱名義詳細を見る"
             >
               <span class="singer-rank-number">
@@ -673,7 +674,7 @@ function renderSingerRanking_(
 
               <span class="singer-rank-name">
                 ${escapeHtml(
-                  item.name || "—"
+                  singerDisplayName(item, item.name || "—")
                 )}
               </span>
 
@@ -830,7 +831,7 @@ function renderIncludedReleases_(song) {
     const item = group.release;
     const edition = item.editionType === "individual" ? "個別盤" : item.editionType === "memorial_box" ? "Memorial BOX" : "";
     const type = edition || String(item.releaseType || item.classification || "").trim();
-    const singerName = String(item.featuredSinger?.name || "").trim();
+    const singerName = singerDisplayName(item.featuredSinger, item.featuredSinger?.name).trim();
     const isDebut = group.releaseId === debutReleaseId;
     const relationRows = group.relations.map(relation => {
       const position = [relation.disc == null ? "" : `Disc ${relation.disc}`, relation.track == null ? "" : `Track ${relation.track}`].filter(Boolean).join(" / ");

@@ -10,7 +10,7 @@ function releaseBody(r,list,options={}){
  const info={};if(x.officialName)info["正式商品名"]=x.officialName;
  if(x.releaseSeries)info["シリーズ"]=x.releaseSeries.shortName||x.releaseSeries.name;
  if(parent)info["親BOX"]=parent.releaseName||"BOX詳細を見る";
- if(x.featuredSinger)info["対象キャラクター／歌唱名義"]=x.featuredSinger.name;
+ if(x.featuredSinger)info["対象キャラクター／歌唱名義"]=({SN0007:"Printemps",SN0011:"lily white",SN0013:"BiBi"})[x.featuredSinger.id]||x.featuredSinger.name;
  if(x.editionType)info["エディション"]=x.editionType==="individual"?"個別盤":"Memorial BOX";
  if(x.catalogNumber)info["品番"]=x.catalogNumber;
  const fields={"正式商品名":"official","シリーズ":"series","親BOX":"parent","対象キャラクター／歌唱名義":"featured","エディション":"edition","品番":"catalog"};

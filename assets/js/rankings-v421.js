@@ -1,3 +1,4 @@
+import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import { buildSongUrl,
   apiGet,
   escapeHtml,
@@ -6,7 +7,7 @@ import { buildSongUrl,
 
 import {
   renderCommon
-} from "./common.js?v=4.10.0&cache=release-ux&songUrls=1";
+} from "./common.js?v=4.10.1&cache=release-ux&songUrls=1";
 
 import {
   buildSingerUrl
@@ -508,7 +509,7 @@ function renderSingers(items) {
     ? items.map((item, index) => rankRow({
         href: buildSingerUrl(item),
         rank: index + 1,
-        title: item.singerName || "歌唱名義未設定",
+        title: singerDisplayName(item, item.singerName || "歌唱名義未設定"),
         meta: [
           `<span>歌唱曲 ${Number(item.uniqueSongCount || 0)}曲</span>`,
           `<span>出演イベント ${Number(item.eventCount || 0)}件</span>`,
@@ -544,7 +545,7 @@ function renderPodium(items) {
         item.songName ||
         item.eventName ||
         item.venueName ||
-        item.singerName ||
+        singerDisplayName(item, item.singerName) ||
         "名称未設定";
 
       const href =

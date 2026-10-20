@@ -1,3 +1,4 @@
+import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import { buildSongUrl,
   apiGet,
   escapeHtml,
@@ -6,7 +7,7 @@ import { buildSongUrl,
 
 import {
   renderCommon
-} from "./common.js?v=4.10.0&cache=release-ux&songUrls=1";
+} from "./common.js?v=4.10.1&cache=release-ux&songUrls=1";
 
 renderCommon("singer");
 
@@ -311,13 +312,11 @@ function setupFilters() {
 
 function render(data) {
   const summary = data.summary || {};
-  const name =
-    data.displayName ||
-    data.singerName ||
-    "歌唱名義未設定";
+  const originalName = data.displayName || data.singerName || "歌唱名義未設定";
+  const name = singerDisplayName(data, originalName);
 
   el.singerName.textContent = name;
-  renderSingerColors(name);
+  renderSingerColors(originalName);
 
   document.title =
     `${name} | 歌唱名義詳細 | μ's Song Database`;

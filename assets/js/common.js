@@ -1,3 +1,4 @@
+import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import './icons.js?v=2';
 import { buildSongUrl,
   apiGet,
@@ -474,9 +475,7 @@ function setupGlobalSearch_() {
             type: "歌唱名義",
             className: "singer",
             title:
-              item.displayName ||
-              item.singerName ||
-              "歌唱名義未設定",
+              singerDisplayName(item, item.displayName || item.singerName || "歌唱名義未設定"),
             meta: [
               buildAliasMeta(item),
               `曲 ${Number(item.songCount || 0)}曲`,

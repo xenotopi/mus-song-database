@@ -1,0 +1,23 @@
+'use strict';
+const test=require('node:test'),a=require('node:assert/strict'),fs=require('node:fs'),p=require('node:path');
+const root=p.resolve(__dirname,'..'),load=f=>JSON.parse(fs.readFileSync(p.join(root,f),'utf8'));
+const rev=load('data/current.json').revision,release=load('data/snapshots/'+rev+'/releases/R0052.json').data,doc=load('data/release-sidecars/R0052.json');
+const mod=import('data:text/javascript;base64,'+fs.readFileSync(p.join(root,'assets/js/release-sidecar.js')).toString('base64'));
+test('three independent Relation bindings and exact approved values',async()=>{const m=await mod,r=await m.verifiedSidecarFields(release,doc,true);a.deepEqual(r.map(x=>x.relationId),['RT0090','RT0091','RT0092']);a.deepEqual(r.map(x=>x.fields.map(f=>f.value)),[['CD','2期Blu-ray','全巻特典'],['CD','2期Blu-ray特装限定版（全巻連続予約）','全巻連続予約特典（特装限定版第7巻予約分で終了）'],['CD','2期Blu-ray','全巻特典']]);});
+test('independent official sources and explicit site approval, not verified',()=>{const q1='https://akihata.jp/works/music/?ah=%E3%82%89&an=lovelive&at=k',q3='https://www.sofmap.com/product_detail.aspx?sku=12334636';for(let i=0;i<3;i++)for(const[k,f]of Object.entries(doc.relations[i].fields)){a.equal(f.verificationStatus,'partial');a.equal(f.public,true);a.equal(f.displayApproval,'public');a.deepEqual(f.sources.map(s=>s.url),i!==1?[q1]:k==='physicalMedia'?[q1,q3]:[q3]);a.ok(f.sources.every(s=>s.edition.startsWith('2014')));}});
+test('approved public sidecar works on production; local-only and unrelated fail closed',async()=>{const m=await mod;a.equal((await m.verifiedSidecarFields(release,doc,false)).length,3);const local=structuredClone(doc);local.approvalScope='local_only';for(const r of local.relations)for(const f of Object.values(r.fields)){f.displayApproval='local_only';f.public=false;}a.deepEqual(await m.verifiedSidecarFields(release,local,false),[]);a.deepEqual(await m.verifiedSidecarFields({...release,releaseId:'R0010'},doc,true),[]);});
+for(const [name,mutate]of [
+ ['duplicate Relation',d=>d.relations[1].relationId='RT0090'],
+ ['wrong Release',d=>d.releaseId='R0032'],
+ ['missing Relation',d=>d.relations.pop()],
+ ['changed approved value',d=>d.relations[0].fields.physicalMedia.value='DVD'],
+ ['Sofmap condition mixed into Gamers',d=>d.relations[0].fields.acquisitionCondition.value='全巻連続予約 第7巻'],
+ ['wrong source URL',d=>d.relations[0].fields.physicalMedia.sources[0].url='https://example.com/'],
+ ['2019 edition evidence',d=>d.relations[0].fields.physicalMedia.sources[0].edition='2019 Complete BEST BOX'],
+ ['wrong field evidence',d=>d.relations[1].fields.physicalMedia.sources=d.relations[1].fields.qualifyingProducts.sources]
+])test('negative rejects '+name,async()=>{const m=await mod,d=structuredClone(doc);mutate(d);a.deepEqual(await m.verifiedSidecarFields(release,d,true),[]);});
+test('binding detects wrong Song or store without copying master names',async()=>{const m=await mod;for(const field of ['songId','benefitStore']){const r=structuredClone(release);r.includedSongs[0][field]='誤対応';a.deepEqual(await m.verifiedSidecarFields(r,doc,true),[]);}});
+test('no credits, unknown products, dates, TEST IDs or internal links shipped',()=>{const s=JSON.stringify(doc);a.doesNotMatch(s,/TEST-|畑亜貴(?!.?公式)|creditedName|recordingId|officialProductName|catalogNumber|productDate|docs.google.com|reviewedBy|verifiedValueHash/);a.deepEqual(Object.keys(doc.relations[0].fields),['physicalMedia','qualifyingProducts','acquisitionCondition']);});
+test('source inputs remain untouched',async()=>{const m=await mod,before=JSON.stringify([release,doc]);await m.verifiedSidecarFields(release,doc,true);a.equal(JSON.stringify([release,doc]),before);});
+test('uniform display projection does not rewrite original Sofmap data',async()=>{const m=await mod,rows=await m.verifiedSidecarFields(release,doc,true),before=JSON.stringify(doc),views=rows.map(m.sidecarPresentation);for(const view of views)a.deepEqual(view.fields.map(f=>[f.label,f.value]),[['特典媒体','CD'],['対象商品','2期Blu-ray'],['入手条件','全巻特典']]);a.deepEqual(views.map(v=>v.conditions.length),[0,2,0]);a.match(views[1].conditions.map(f=>f.value).join(' '),/特装限定版.*全巻連続予約.*第7巻予約分で終了/);a.equal(JSON.stringify(doc),before);});
+test('source projection deduplicates URLs while preserving field associations',async()=>{const m=await mod,rows=await m.verifiedSidecarFields(release,doc,true),views=rows.map(m.sidecarPresentation);a.deepEqual(views.map(v=>v.sourceGroups.length),[1,2,1]);for(let i=0;i<3;i++)for(const field of rows[i].fields)for(const url of field.sources)a.ok(views[i].sourceGroups.some(s=>s.url===url&&s.labels.includes(field.label)));});

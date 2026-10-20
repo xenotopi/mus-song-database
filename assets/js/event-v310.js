@@ -1,3 +1,4 @@
+import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import { buildSongUrl,
   apiGet,
   escapeHtml,
@@ -6,7 +7,7 @@ import { buildSongUrl,
 
 import {
   renderCommon
-} from "./common.js?v=4.10.0&cache=release-ux&songUrls=1";
+} from "./common.js?v=4.10.1&cache=release-ux&songUrls=1";
 import { staticEventDetail } from "./static-detail.js?v=1.3.0";
 
 
@@ -325,13 +326,13 @@ function renderPerformerSummary_(rows) {
     rows.length
       ? rows.map(
           (item, index) => `
-            <a class="performer-row mus-card-link mus-chip-link" href="${item.singerId ? `singer.html?id=${encodeURIComponent(item.singerId)}` : `singer.html?name=${encodeURIComponent(item.name)}`}" aria-label="${escapeHtml(item.name)}の歌唱名義詳細を見る">
+            <a class="performer-row mus-card-link mus-chip-link" href="${item.singerId ? `singer.html?id=${encodeURIComponent(item.singerId)}` : `singer.html?name=${encodeURIComponent(item.name)}`}" aria-label="${escapeHtml(singerDisplayName(item, item.name))}の歌唱名義詳細を見る">
               <span class="performer-rank">
                 ${index + 1}
               </span>
 
               <span class="performer-name mus-card-title mus-title-chip">
-                ${titleWithChevron_(item.name)}
+                ${titleWithChevron_(singerDisplayName(item, item.name))}
               </span>
 
               <span class="performer-count">
@@ -464,8 +465,8 @@ function renderEventSongs_() {
                     </span>
 
                     <span>歌唱名義：${song.singerId
-                      ? `<a class="event-song-singer-link mus-link-secondary" href="singer.html?id=${encodeURIComponent(song.singerId)}">${escapeHtml(eventSingerName_(song, names))}</a>`
-                      : escapeHtml(eventSingerName_(song, names))}</span>
+                      ? `<a class="event-song-singer-link mus-link-secondary" href="singer.html?id=${encodeURIComponent(song.singerId)}">${escapeHtml(singerDisplayName(song, eventSingerName_(song, names)))}</a>`
+                      : escapeHtml(singerDisplayName(song, eventSingerName_(song, names)))}</span>
 
                     ${
                       song.note
@@ -577,7 +578,7 @@ function renderEvent(event) {
       const href = item.singerId
         ? `singer.html?id=${encodeURIComponent(item.singerId)}`
         : `singer.html?name=${encodeURIComponent(item.name)}`;
-      return `<a href="${href}">${escapeHtml(item.name)}</a>`;
+      return `<a href="${href}">${escapeHtml(singerDisplayName(item, item.name))}</a>`;
     }).join("")}</span>`));
   }
   infoRows.push(plainRow("備考", event.note));

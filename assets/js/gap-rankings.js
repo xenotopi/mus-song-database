@@ -1,4 +1,4 @@
-import { renderCommon } from './common.js?v=4.10.0&cache=release-ux&songUrls=1';
+import { renderCommon } from './common.js?v=4.10.1&cache=release-ux&songUrls=1';
 import { escapeHtml, buildSongUrl } from './api.js?v=5.3.0&cache=solo-live-schema';
 import { getJstDateKey, getMillisecondsUntilNextJstDay } from './home-date-v493.js?v=4.9.3&cache=today-jst';
 import { SCOPES, rankSongs, validateDataset } from './gap-rankings-model.js?v=1';

@@ -8,6 +8,8 @@ const crypto = require("node:crypto");
 const { chromium } = require("../tests/node_modules/playwright");
 const { sha256, validateSnapshot, validateEventSnapshot, validateKamiparaDashboard } = require("./detail-snapshot-lib.cjs");
 const { beginCapture } = require("./capture-provenance.cjs");
+const { expectedSidecar, validateSidecarBody } = require("./validate-release-sidecar.cjs");
+const { parseSerializedHtml } = require("./static-html-readonly-lib.cjs");
 const root = path.resolve(__dirname, "..");
 const mime = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png" };
 
@@ -21,6 +23,11 @@ const RELEASE_RENDERER_FILES = Object.freeze([
   "tools/detail-snapshot-lib.cjs",
   "tools/capture-provenance.cjs",
   "assets/js/release-v500.js",
+  "assets/js/release-sidecar.js",
+  "assets/js/singer-display.js",
+  "data/release-sidecars/R0052.json",
+  "tools/validate-release-sidecar.cjs",
+  "tools/static-html-readonly-lib.cjs",
   "assets/js/release-kamipara.js",
   "assets/js/static-detail.js",
   "assets/js/api.js",
@@ -202,6 +209,8 @@ async function generateReleasePages({ revision, ids } = {}) {
   const capture = beginCapture({ root, type: "release", revision, ids, rendererFiles: RELEASE_RENDERER_FILES, rendererFingerprint });
   const { manifest, rendererSha256 } = capture;
   const pinnedTemplate = capture.source("release.html");
+  const sidecar = JSON.parse(capture.source("data/release-sidecars/R0052.json"));
+  expectedSidecar(sidecar, capture.snapshot("releases/R0052.json").data);
   const kamipara = loadKamiparaCaptureData(path.join(root, "data/snapshots", revision), manifest, revision,
     file => capture.source(path.relative(root, file).replace(/\\/g, "/")));
   const server = http.createServer((req, res) => {
@@ -294,6 +303,7 @@ async function generateReleasePages({ revision, ids } = {}) {
       const html = (await page.content()).replace(/[\t ]+$/gm, "") + "\n";
       if (await page.locator('link[rel="canonical"]').count() !== 1 || await page.locator("h1").innerText() !== name) throw new Error(`${id}: raw HTML validation failed`);
       if (html.includes("http://127.0.0.1")) throw new Error(`${id}: local URL leaked`);
+      validateSidecarBody(parseSerializedHtml(html), release, sidecar);
       pages.push({ id, html, sha256: crypto.createHash("sha256").update(html).digest("hex"), title, description, canonical });
       await page.close();
     }

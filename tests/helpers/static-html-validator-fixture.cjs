@@ -38,10 +38,14 @@ function buildFixture() {
   }
   for (let n = 1; n <= 114; n++) {
     const releaseId = id("R", n, 4), songId = id("S", n, 3), song = data.song[songId];
-    const songs = releaseId === "R0072" ? [] : [{ relationId: id("RT", n, 4), songId, songName: song.songName, displayName: song.displayName }];
+    const songs = releaseId === "R0072" ? [] : releaseId === "R0052" ? ["ゲーマーズ","ソフマップ","アニメイト"].map((store,i)=>({relationId:id("RT",90+i,4),songId:id("S",90+i,3),songName:data.song[id("S",90+i,3)].songName,displayName:data.song[id("S",90+i,3)].displayName,benefitStore:store})) : [{ relationId: id("RT", n, 4), songId, songName: song.songName, displayName: song.displayName }];
     data.release[releaseId] = { releaseId, releaseName: `Fixture Release ${n}`, releaseDate: "2020-01-01", classification: "CD", releaseType: "シングル", sourceMedia: "CD", includedSongs: songs, includedSongsMeta: { status: releaseId === "R0072" ? "special_hold" : "complete" }, debutSongs: songs, relatedEvents: [], _cache: cache };
     manifest.hashes.releases[releaseId] = snapshot(`releases/${releaseId}.json`, data.release[releaseId]);
   }
+  // Synthetic sidecar inputs, not production receipts or source-review records.
+  const fixtureSource="https://akihata.jp/works/music/?ah=%E3%82%89&an=lovelive&at=k";
+  const fixtureSidecar={schemaVersion:1,releaseId:"R0052",approvalScope:"public",relations:data.release.R0052.includedSongs.map(row=>({relationId:row.relationId,relationBinding:hash(JSON.stringify(["R0052",row.relationId,row.songId,row.benefitStore])),fields:Object.fromEntries(Object.entries({physicalMedia:"CD",qualifyingProducts:"2期Blu-ray",acquisitionCondition:"全巻特典"}).map(([key,value])=>{const sources=[{url:fixtureSource,edition:"2014 synthetic fixture"}];return [key,{value,sources,verificationStatus:"partial",displayApproval:"public",public:true,valueHash:hash(JSON.stringify([value,sources]))}];}))}))};
+  putJson("data/release-sidecars/R0052.json",fixtureSidecar);
   // Fictional BOX with the same structural invariants as R0088; no production rows.
   const discCounts=[13,8,10,14,8,10,13,8,10,13,8,10,14,8,10,14,8,10,14,8,10,14,8,10,14,8,10];
   let relation=2000,ordinal=0;
@@ -91,7 +95,7 @@ function buildFixture() {
         description = `${name}の発売・収録情報と歌唱記録。発売日2020-01-01、歌唱記録1件。現行DBの初回歌唱日2020-01-01、最終歌唱日2020-01-01。`;
         ld = [{ "@context": "https://schema.org", "@type": "MusicRecording", "@id": `${canonical}#recording`, url: canonical, name, description,
           identifier: { "@type": "PropertyValue", propertyID: "μ's Song Database Song ID", value: target }, mainEntityOfPage: { "@type": "WebPage", "@id": canonical }, datePublished: item.releaseDate }];
-        content = `<div id="songInfo">${pairs({ 表示名: name, バージョン: "通常", 収録CD: "Fixture CD", 発売日: "2020/01/01", メディア: "CD", 区分: "シングル" })}</div><div id="songStats">${[1, 1, 0, 1].map(n => `<div class="value">${n}</div>`).join("")}</div><div id="includedReleasesContent"></div><div id="historyList"><article class="song-row"><a class="song-history-event-link" href="event.html?id=EV0001">Fixture Event 1</a><span class="song-meta">2020/01/01 歌唱者：Fixture Singer</span></article></div>`;
+        content = `<div id="songInfo">${pairs({ 表示名: name, バージョン: "通常", 収録CD: "Fixture CD", 発売日: "2020/01/01", メディア: "CD", 区分: "シングル" })}</div><div id="songStats">${[1, 1, 0, 1].map(n => `<div class="value">${n}</div>`).join("")}</div><div id="includedReleasesContent"></div><div id="historyList"><article class="song-row"><a class="song-history-event-link" href="event.html?id=EV0001">Fixture Event 1</a><span class="song-meta">2020/01/01 歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0001">Fixture Singer</a></span></article></div>`;
       } else {
         name = item.releaseName;
         description = `${name}（2020-01-01発売、シングル）の詳細。${item.includedSongs.length ? `収録情報：${item.includedSongs.slice(0,3).map(s=>s.displayName).join("、")}${item.includedSongs.length>3?"ほか"+(item.includedSongs.length-3)+"件":""}。` : "収録楽曲の登録はありません。"}`;
@@ -99,6 +103,7 @@ function buildFixture() {
         if (target === "R0052") description = name + "。2期Blu-ray最終巻発売日基準：2020/01/01。店舗別の収録情報：" + item.includedSongs.map(s => s.displayName).join("、") + "。";
         const kpHtml = target === "R0072" ? kpBody() : "", split = kpHtml.indexOf("</div><section");
         content = releaseBody(item, releaseList, target === "R0072" ? { kamipara: kpHtml.slice('<div id="includedSongsContent">'.length, split) } : {}).replace(/^<h1>[\s\S]*?<\/h1>/, "") + (target === "R0072" ? kpHtml.slice(split + 6) : "");
+        if(target==="R0052")for(const row of item.includedSongs){const block='<div class="release-sidecar-info"><dl><div><dt>特典媒体</dt><dd>CD</dd></div><div><dt>対象商品</dt><dd>2期Blu-ray</dd></div><div><dt>入手条件</dt><dd>全巻特典</dd></div></dl><details><summary>出典</summary><a href="'+escape(fixtureSource)+'">畑亜貴 公式作品一覧（特典媒体・対象商品・入手条件）</a></details></div>';content=content.replace(new RegExp('(<a[^>]*data-relation-id="'+row.relationId+'"[\\s\\S]*?</a>)'),'$1'+block);}
       }
       const html = `<!DOCTYPE html><html data-${type}-id="${target}"${type === "song" ? ` data-prerender-revision="${revision}"` : ""}>${head(type, target, name, description, ld)}<body><h1>${escape(name)}</h1><main id="mainContent">${content}</main></body></html>\n`;
       put(`${type}/${target}.html`, html);

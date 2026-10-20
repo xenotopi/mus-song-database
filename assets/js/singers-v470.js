@@ -1,3 +1,4 @@
+import { singerDisplayName, singerDisplaySearchText } from "./singer-display.js?v=1.0.0";
 import {
   apiGet,
   escapeHtml,
@@ -6,7 +7,7 @@ import {
 
 import {
   renderCommon
-} from "./common.js?v=4.10.0&cache=release-ux&songUrls=1";
+} from "./common.js?v=4.10.1&cache=release-ux&songUrls=1";
 
 import {
   buildSingerUrl
@@ -195,7 +196,7 @@ function filteredItems() {
         !q ||
         normalize(
           [
-            item.displayName,
+            singerDisplaySearchText(item),
             item.rawName,
             ...(item.members || []).map(member => member.label)
           ].join(" ")
@@ -471,7 +472,7 @@ function renderList() {
               </div>
 
               <div class="singer-card-title mus-card-title mus-title-chip">
-                ${titleWithChevron_(item.displayName)}
+                ${titleWithChevron_(singerDisplayName(item, item.displayName))}
               </div>
 
               ${

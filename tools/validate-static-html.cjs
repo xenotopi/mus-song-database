@@ -9,6 +9,7 @@ const { sha256, canonicalJson, validateSnapshot, validateEventSnapshot, validate
 const { validateMemberAnalytics } = require("./member-analytics-lib.cjs");
 const songGenerator = require("./generate-song-pages.cjs");
 const releaseGenerator = require("./generate-release-pages.cjs");
+const { validateSidecarBody } = require("./validate-release-sidecar.cjs");
 const { parseUniqueJson, parseSerializedHtml, descendants, textContent, visible, hasClass, requireCondition: check } = require("./static-html-readonly-lib.cjs");
 const ROOT = path.resolve(__dirname, "..");
 const REVISION = /^sha256-[a-f0-9]{64}$/;
@@ -20,6 +21,8 @@ const equal = (a, b, message) => check(canonicalJson(a) === canonicalJson(b), me
 const formatDate = value => value ? String(value).replaceAll("-", "/") : "—";
 const classes = (node, name) => descendants(node, n => hasClass(n, name));
 const cleanText = node => textContent(node).trim();
+// Independent presentation expectations; do not import the browser formatter.
+const singerLabel = (item, fallback) => ({SN0007:"Printemps",SN0011:"lily white",SN0013:"BiBi"})[item?.singerId || item?.id] || fallback;
 
 function exactIds(actual, expected, label) {
   check(Array.isArray(actual) && new Set(actual).size === actual.length, `${label}: duplicate IDs`);
@@ -128,7 +131,8 @@ function validateSongBody(doc, song) {
     check(event.attrs.href === `event.html?id=${encodeURIComponent(performance.eventId)}` && cleanText(event) === (performance.eventName || "イベント名未設定"), "Song history Event mismatch");
     const meta = one(classes(node, "song-meta"), "Song history metadata missing/duplicated");
     const body = textContent(meta);
-    check(body.includes(formatDate(performance.date)) && body.includes(`歌唱者：${performance.singerDisplayName || performance.singer || "—"}`), "Song history date/singer mismatch");
+    check(body.includes(formatDate(performance.date)) && body.includes(`歌唱者：${singerLabel(performance, performance.singerDisplayName || performance.singer || "—")}`), "Song history date/singer mismatch");
+    if(performance.singerId){const link=one(classes(node,"song-history-singer-link"),"Song singer link missing/duplicated");check(link.attrs.href===`singer.html?id=${encodeURIComponent(performance.singerId)}`&&cleanText(link)===singerLabel(performance,performance.singerDisplayName||performance.singer||"—"),"Song singer ID/link/display mismatch");}
   });
 }
 
@@ -146,7 +150,7 @@ function validateReleaseBody(doc, release, releaseList) {
   const series=resolved.releaseSeries?.shortName||resolved.releaseSeries?.name;
   if(series?.trim())expectedInfo["シリーズ"]=series.trim();
   if(parent)expectedInfo["親BOX"]=parent.releaseName||"BOX詳細を見る";
-  if(resolved.featuredSinger?.name?.trim())expectedInfo["対象キャラクター／歌唱名義"]=resolved.featuredSinger.name.trim();
+  if(resolved.featuredSinger?.name?.trim())expectedInfo["対象キャラクター／歌唱名義"]=singerLabel(resolved.featuredSinger,resolved.featuredSinger.name.trim());
   if(resolved.editionType==="individual")expectedInfo["エディション"]="個別盤";
   if(resolved.editionType==="memorial_box")expectedInfo["エディション"]="Memorial BOX";
   if(resolved.catalogNumber?.trim())expectedInfo["品番"]=resolved.catalogNumber.trim();
@@ -392,6 +396,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
     check(Array.isArray(list.wrapper.data) && snapshot.releaseList.count === 114, "Release list schema/count mismatch");
     exactIds(list.wrapper.data.map(r => r.releaseId), [...sources.release.keys()], "Release list");
     const releaseList = list.wrapper.data; inputs.release["release-list.json"] = list.input;
+    const sidecar = json("data/release-sidecars/R0052.json");
     const kp = readSnapshot("kamipara-dashboard.json", snapshot.kamiparaDashboard);
     const dashboard = validateKamiparaDashboard(kp.wrapper.data, dataRevision);
     check(dashboard.songs.length === 10 && dashboard.events.length === 5 && dashboard.performances.length === 10, "Kamipara source counts mismatch");
@@ -443,6 +448,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
         if (type === "song") validateSongBody(doc, data);
         else {
           validateReleaseBody(doc, data, releaseList);
+          validateSidecarBody(doc, data, sidecar);
           if (id === "R0072") validateKamiparaBody(doc, dashboard, venues);
         }
         result.checked[`${type}s`]++;

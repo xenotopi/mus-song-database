@@ -52,8 +52,13 @@
       ]
     },
     "gap-rankings.html": {
-      "js": ["assets/js/gap-rankings.js"],
-      "css": ["assets/css/style.css", "assets/css/link-ui.css"]
+      "js": [
+        "assets/js/gap-rankings.js"
+      ],
+      "css": [
+        "assets/css/style.css",
+        "assets/css/link-ui.css"
+      ]
     },
     "index.html": {
       "js": [
@@ -100,7 +105,9 @@
         "assets/js/seo-v351.js",
         "assets/js/release-v500.js",
         "assets/js/detail-context.js",
-        "assets/js/singer-links.js"
+        "assets/js/singer-links.js",
+        "assets/js/release-sidecar.js",
+        "assets/js/singer-display.js"
       ],
       "css": [
         "assets/css/style.css",
@@ -121,7 +128,8 @@
       "js": [
         "assets/js/common.js",
         "assets/js/api.js",
-        "assets/js/singer-links.js"
+        "assets/js/singer-links.js",
+        "assets/js/singer-display.js"
       ],
       "css": [
         "assets/css/style.css",

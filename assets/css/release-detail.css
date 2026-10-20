@@ -125,3 +125,12 @@ html.mus-menu-lock .release-has-context .detail-context-inner { pointer-events: 
   }
   body #backToTopButton small { margin: 0; font-size: 14px; }
 }
+.release-sidecar-info{padding:0 18px 16px;color:var(--navy);overflow-wrap:anywhere}
+.release-sidecar-info dl{margin:0;display:grid;gap:8px}
+.release-sidecar-info dl>div{display:grid;grid-template-columns:6em minmax(0,1fr);gap:12px;line-height:1.65}
+.release-sidecar-info dt{color:var(--muted);font-size:14px}.release-sidecar-info dd{margin:0;min-width:0}
+.release-sidecar-info details{margin-top:10px;font-size:14px}.release-sidecar-info summary{cursor:pointer;width:max-content;padding:6px 0;list-style:none}
+.release-sidecar-info summary::-webkit-details-marker{display:none}.release-sidecar-info summary::before{content:"▶";margin-right:.4em}.release-sidecar-info details[open]>summary::before{content:"▼"}
+.release-sidecar-info details a{display:block;line-height:1.6;padding:5px 0;color:var(--indigo)}
+.release-sidecar-info a:focus-visible,.release-sidecar-info summary:focus-visible{outline:2px solid var(--indigo);outline-offset:3px}
+@media(max-width:620px){.release-sidecar-info{padding:0 14px 14px}.release-sidecar-info dl>div{grid-template-columns:1fr;gap:2px}.release-sidecar-info details a,.release-sidecar-info summary{min-height:44px;box-sizing:border-box}}

@@ -1,10 +1,12 @@
 import { buildSongUrl, apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema&songUrls=1";
-import { renderCommon } from "./common.js?v=4.10.0&cache=release-ux&songUrls=1";
+import { renderCommon } from "./common.js?v=4.10.1&cache=release-ux&songUrls=1";
 import { buildSingerUrl } from "./singer-links.js?v=4.8.0";
 import { setupDetailContext } from "./detail-context.js?v=4.6.1";
 import { detailWithApiFallback, staticReleaseList, staticDetail } from "./static-detail.js?v=1.3.0";
 import { renderKamiparaRelease, hasCompletedKamiparaContent } from "./release-kamipara.js?v=1.0.0";
 import { renderAmazonProduct } from "./release-amazon.js";
+import { attachReleaseSidecar } from "./release-sidecar.js?v=1.0.0";
+import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
@@ -65,8 +67,8 @@ function enrichReleasePerson(release) {
     if (!person) return;
     const dd = row.querySelector("dd"), anchor = document.createElement("a");
     anchor.href = person.singerUrl;
-    anchor.textContent = release.featuredSinger.name;
-    anchor.setAttribute("aria-label", `${release.featuredSinger.name}の歌唱記録`);
+    anchor.textContent = singerDisplayName(release.featuredSinger, release.featuredSinger.name);
+    anchor.setAttribute("aria-label", `${anchor.textContent}の歌唱記録`);
     dd.replaceChildren(anchor);
     if (!person.cv) return;
     const cvRow = document.createElement("div"), dt = document.createElement("dt"), value = document.createElement("dd");
@@ -489,7 +491,7 @@ function renderRelease(release, releaseList = [], approvedMetadata = null) {
   const seriesName = String(release.releaseSeries?.shortName || release.releaseSeries?.name || "").trim();
   if (seriesName) info.push(["series", "シリーズ", seriesName]);
   if (parentRelease) info.push(["parent", "親BOX", parentRelease.releaseName || "BOX詳細を見る", `release/${parentReleaseId}.html`]);
-  const singerName = String(release.featuredSinger?.name || "").trim();
+  const singerName = singerDisplayName(release.featuredSinger, release.featuredSinger?.name).trim();
   if (singerName) info.push(["featured", "対象キャラクター／歌唱名義", singerName]);
   const edition = editionLabel(String(release.editionType || "").trim());
   if (edition) info.push(["edition", "エディション", edition]);
@@ -517,7 +519,7 @@ function renderRelease(release, releaseList = [], approvedMetadata = null) {
     ? releaseList.filter(item => String(item.parentReleaseId || "") === String(release.releaseId || ""))
     : [];
   elements.childReleasesHost.innerHTML = children.length ? `<section class="release-related" aria-labelledby="childReleasesHeading"><p class="release-section-kicker">INDIVIDUAL EDITIONS</p><h2 id="childReleasesHeading">個別盤</h2><div class="release-child-list">${children.map(child => {
-    const childSinger = String(child.featuredSinger?.name || "").trim();
+    const childSinger = singerDisplayName(child.featuredSinger, child.featuredSinger?.name).trim();
     return `<a class="release-child-row mus-card-link mus-chip-link" href="release/${encodeURIComponent(child.releaseId)}.html"><span class="release-child-copy"><span class="release-child-title">${titleChip(child.releaseName || "リリース名未設定")}</span>${childSinger ? `<span class="release-child-meta"><span>${escapeHtml(childSinger)}</span></span>` : ""}</span></a>`;
   }).join("")}</div></section>` : "";
   const excludedIds = new Set([release.releaseId, parentReleaseId, ...children.map(child => child.releaseId)]);
@@ -588,6 +590,7 @@ async function loadRelease() {
       officialName: release.officialName ?? listRelease.officialName
     } : release;
     renderRelease(resolvedRelease, safeReleaseList);
+    await attachReleaseSidecar(resolvedRelease, elements.includedSongsContent);
     await hydrateBoxMembers(boxView, safeReleaseList, response);
     if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
     if (resolvedRelease.releaseId === "R0072") await renderKamiparaRelease();

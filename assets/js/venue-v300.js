@@ -1,4 +1,5 @@
-import { createVenueEventSongs, titleWithChevron } from "./venue-event-songs.js?v=1";
+import { singerDisplayName } from "./singer-display.js?v=1.0.0";
+import { createVenueEventSongs, titleWithChevron } from "./venue-event-songs.js?v=2";
 import { buildSongUrl,
   apiGet,
   escapeHtml,
@@ -7,7 +8,7 @@ import { buildSongUrl,
 
 import {
   renderCommon
-} from "./common.js?v=4.10.0&cache=release-ux&songUrls=1";
+} from "./common.js?v=4.10.1&cache=release-ux&songUrls=1";
 
 
 renderCommon("venue");
@@ -533,13 +534,13 @@ function renderVenueAnalysisV30_(
     singers.length
       ? singers.map(
           (item, index) => `
-            <a class="venue-singer-row mus-card-link mus-chip-link" href="${item.singerId ? `singer.html?id=${encodeURIComponent(item.singerId)}` : `singer.html?name=${encodeURIComponent(item.displayName || item.name || "—")}`}" aria-label="${escapeHtml(item.displayName || item.name || "—")}の歌唱名義詳細を見る">
+            <a class="venue-singer-row mus-card-link mus-chip-link" href="${item.singerId ? `singer.html?id=${encodeURIComponent(item.singerId)}` : `singer.html?name=${encodeURIComponent(item.displayName || item.name || "—")}`}" aria-label="${escapeHtml(singerDisplayName(item, item.displayName || item.name || "—"))}の歌唱名義詳細を見る">
               <span class="venue-singer-rank">
                 ${index + 1}
               </span>
 
               <span class="venue-singer-name mus-card-title mus-title-chip">
-                ${titleWithChevron(item.displayName || item.name || "—")}
+                ${titleWithChevron(singerDisplayName(item, item.displayName || item.name || "—"))}
               </span>
 
               <span class="venue-singer-count">

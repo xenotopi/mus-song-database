@@ -22,6 +22,7 @@ const SONG_RENDERER_FILES = Object.freeze([
   "tools/detail-snapshot-lib.cjs",
   "tools/capture-provenance.cjs",
   "assets/js/song-v441.js",
+  "assets/js/singer-display.js",
   "assets/js/static-detail.js",
   "assets/js/common.js",
   "assets/js/api.js",

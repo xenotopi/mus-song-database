@@ -1,3 +1,4 @@
+import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import { apiGet, escapeHtml, buildSongUrl } from "./api.js?v=4.9.6&cache=revision-nonblocking&songUrls=1";
 import { staticEventDetail } from "./static-detail.js?v=1.3.0";
 
@@ -30,7 +31,7 @@ export function createVenueEventSongs(root) {
     const {mode,rows} = orderedEventSongs(event);
     if (!rows.length) return '<p>登録された歌唱曲はありません。</p>';
     const note = mode === "absolute" ? "確認済みのイベント全体の歌唱順です。" : mode === "relative" ? "μ's関連歌唱内で確認できた相対順です。イベント全体の歌唱順ではありません。" : "登録順で掲載しています。実際の歌唱順ではありません。";
-    return `<p class="venue-event-order-note">${note}</p>${rows.map((s,i) => `<div class="venue-event-song"><span class="venue-event-song-order">${mode === "absolute" ? s.setlistPosition : mode === "relative" ? `歌唱順 ${s.relativePosition}` : `登録順 ${i+1}`}</span><div>${/^S\d+$/.test(s.songId || "") && s.songName ? `<a class="mus-link-primary mus-chip-link" href="${buildSongUrl(s.songId)}"><span class="mus-title-chip">${titleWithChevron(s.songName)}</span></a>` : `<span>${escapeHtml(s.songName || "曲名未登録")}</span>`}${s.singerDisplayName || s.singer ? `<div>歌唱者：${/^SN\d+$/.test(s.singerId || "") ? `<a class="mus-link-secondary" href="singer.html?id=${encodeURIComponent(s.singerId)}">${escapeHtml(s.singerDisplayName || s.singer)}</a>` : escapeHtml(s.singerDisplayName || s.singer)}</div>` : ""}${s.note ? `<p>${escapeHtml(s.note)}</p>` : ""}</div></div>`).join("")}`;
+    return `<p class="venue-event-order-note">${note}</p>${rows.map((s,i) => `<div class="venue-event-song"><span class="venue-event-song-order">${mode === "absolute" ? s.setlistPosition : mode === "relative" ? `歌唱順 ${s.relativePosition}` : `登録順 ${i+1}`}</span><div>${/^S\d+$/.test(s.songId || "") && s.songName ? `<a class="mus-link-primary mus-chip-link" href="${buildSongUrl(s.songId)}"><span class="mus-title-chip">${titleWithChevron(s.songName)}</span></a>` : `<span>${escapeHtml(s.songName || "曲名未登録")}</span>`}${s.singerDisplayName || s.singer ? `<div>歌唱者：${/^SN\d+$/.test(s.singerId || "") ? `<a class="mus-link-secondary" href="singer.html?id=${encodeURIComponent(s.singerId)}">${escapeHtml(singerDisplayName(s, s.singerDisplayName || s.singer))}</a>` : escapeHtml(singerDisplayName(s, s.singerDisplayName || s.singer))}</div>` : ""}${s.note ? `<p>${escapeHtml(s.note)}</p>` : ""}</div></div>`).join("")}`;
   }
   function paint(panel,id,state) {
     if (!panel.isConnected || !expanded.has(id)) return;

@@ -46,6 +46,9 @@ function buildFixture() {
   const fixtureSource="https://akihata.jp/works/music/?ah=%E3%82%89&an=lovelive&at=k";
   const fixtureSidecar={schemaVersion:1,releaseId:"R0052",approvalScope:"public",relations:data.release.R0052.includedSongs.map(row=>({relationId:row.relationId,relationBinding:hash(JSON.stringify(["R0052",row.relationId,row.songId,row.benefitStore])),fields:Object.fromEntries(Object.entries({physicalMedia:"CD",qualifyingProducts:"2期Blu-ray",acquisitionCondition:"全巻特典"}).map(([key,value])=>{const sources=[{url:fixtureSource,edition:"2014 synthetic fixture"}];return [key,{value,sources,verificationStatus:"partial",displayApproval:"public",public:true,valueHash:hash(JSON.stringify([value,sources]))}];}))}))};
   putJson("data/release-sidecars/R0052.json",fixtureSidecar);
+  const unitData=JSON.parse(require('node:fs').readFileSync(path.join(root,'data/song-unit-memberships.json'),'utf8'));
+  putJson('data/song-unit-memberships.json',unitData);
+  const affiliationNames={printemps:'Printemps',lily_white:'lily white',bibi:'BiBi'};
   // Fictional BOX with the same structural invariants as R0088; no production rows.
   const discCounts=[13,8,10,14,8,10,13,8,10,13,8,10,14,8,10,14,8,10,14,8,10,14,8,10,14,8,10];
   let relation=2000,ordinal=0;
@@ -95,7 +98,8 @@ function buildFixture() {
         description = `${name}の発売・収録情報と歌唱記録。発売日2020-01-01、歌唱記録1件。現行DBの初回歌唱日2020-01-01、最終歌唱日2020-01-01。`;
         ld = [{ "@context": "https://schema.org", "@type": "MusicRecording", "@id": `${canonical}#recording`, url: canonical, name, description,
           identifier: { "@type": "PropertyValue", propertyID: "μ's Song Database Song ID", value: target }, mainEntityOfPage: { "@type": "WebPage", "@id": canonical }, datePublished: item.releaseDate }];
-        content = `<div id="songInfo">${pairs({ 表示名: name, バージョン: "通常", 収録CD: "Fixture CD", 発売日: "2020/01/01", メディア: "CD", 区分: "シングル" })}</div><div id="songStats">${[1, 1, 0, 1].map(n => `<div class="value">${n}</div>`).join("")}</div><div id="includedReleasesContent"></div><div id="historyList"><article class="song-row"><a class="song-history-event-link" href="event.html?id=EV0001">Fixture Event 1</a><span class="song-meta">2020/01/01 歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0001">Fixture Singer</a></span></article></div>`;
+        const affiliation=unitData.memberships.find(row=>row.songId===target);
+        content = `<div id="songInfo">${pairs({ 表示名: name, バージョン: "通常", 収録CD: "Fixture CD", 発売日: "2020/01/01", メディア: "CD", 区分: "シングル", ...(affiliation?{所属ユニット:affiliationNames[affiliation.unitKey]}:{}) })}</div><div id="songStats">${[1, 1, 0, 1].map(n => `<div class="value">${n}</div>`).join("")}</div><div id="includedReleasesContent"></div><div id="historyList"><article class="song-row"><a class="song-history-event-link" href="event.html?id=EV0001">Fixture Event 1</a><span class="song-meta">2020/01/01 歌唱者：<a class="song-history-singer-link" href="singer.html?id=SN0001">Fixture Singer</a></span></article></div>`;
       } else {
         name = item.releaseName;
         description = `${name}（2020-01-01発売、シングル）の詳細。${item.includedSongs.length ? `収録情報：${item.includedSongs.slice(0,3).map(s=>s.displayName).join("、")}${item.includedSongs.length>3?"ほか"+(item.includedSongs.length-3)+"件":""}。` : "収録楽曲の登録はありません。"}`;

@@ -9,6 +9,8 @@ const { chromium } = require("../tests/node_modules/playwright");
 const root = path.resolve(__dirname, "..");
 const { sha256, validateSnapshot } = require("./detail-snapshot-lib.cjs");
 const { beginCapture } = require("./capture-provenance.cjs");
+const { validateSongUnitMemberships, validateSongUnitBody } = require("./song-unit-membership-lib.cjs");
+const { parseSerializedHtml } = require("./static-html-readonly-lib.cjs");
 const mime = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png" };
 
 // The query-URL capture entry, its transitive browser modules, and generation
@@ -23,6 +25,10 @@ const SONG_RENDERER_FILES = Object.freeze([
   "tools/capture-provenance.cjs",
   "assets/js/song-v441.js",
   "assets/js/singer-display.js",
+  "assets/js/song-unit-memberships.js",
+  "data/song-unit-memberships.json",
+  "tools/song-unit-membership-lib.cjs",
+  "tools/static-html-readonly-lib.cjs",
   "assets/js/static-detail.js",
   "assets/js/common.js",
   "assets/js/api.js",
@@ -79,6 +85,7 @@ async function generateSongPages({ revision, ids } = {}) {
   if (ids.length !== 3 && ids.length !== 117) throw new Error("Expected complete 117 Songs or 3-song PoC");
   const capture = beginCapture({ root, type: "song", revision, ids, rendererFiles: SONG_RENDERER_FILES, rendererFingerprint });
   const { current, manifest, rendererSha256 } = capture;
+  const memberships = validateSongUnitMemberships(JSON.parse(capture.source("data/song-unit-memberships.json")), new Set(Object.keys(manifest.hashes.songs)));
   const pages = [];
   const server = http.createServer((req, res) => {
     const pathname = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
@@ -181,6 +188,7 @@ async function generateSongPages({ revision, ids } = {}) {
       const html = (await page.content()).replace(/[\t ]+$/gm, "") + "\n";
       if (await page.locator('link[rel="canonical"]').count() !== 1 || await page.locator("h1").innerText() !== (song.displayName || song.songName)) throw new Error(`${id}: rendered HTML validation failed`);
       if (html.includes("http://127.0.0.1") || html.includes("undefined件")) throw new Error(`${id}: runtime data leak`);
+      validateSongUnitBody(parseSerializedHtml(html), id, memberships);
       pages.push({ id, html, title, description, canonical, hash: crypto.createHash("sha256").update(html).digest("hex") });
       await page.close();
     }

@@ -1,6 +1,7 @@
 import { buildSongUrl } from "./api.js?v=5.3.0&cache=song-static-urls&songUrls=1";
 import { renderCommon } from "./common.js?v=4.10.1&cache=release-ux&songUrls=1";
 import { staticMemberAnalytics } from "./static-detail.js";
+import { prepareSongViewGroups, loadSongGroupMemberships } from "./song-view-group-filter.js?v=2";
 
 renderCommon();
 
@@ -130,24 +131,9 @@ function renderTable(fullNames, names, songs, countKey) {
   }
 }
 
-function prepareGroups(master, songs) {
+function prepareGroups(master, songs, memberships) {
   const songById = new Map(songs.map(song => [song.songId, song]));
-  const seen = new Set();
-  const groups = master.groups.slice().sort((a, b) => a.order - b.order).map(group => {
-    const assignments = master.assignments.filter(item => item.group === group.id);
-    const leaves = assignments.map(item => {
-      const subgroup = group.subgroups.find(candidate => candidate.id === item.subgroup);
-      if (item.subgroup !== null && !subgroup) throw new Error("Unknown Song subgroup");
-      const ids = item.songIds.slice().sort();
-      for (const id of ids) {
-        if (!songById.has(id) || seen.has(id)) throw new Error("Invalid Song group assignment");
-        seen.add(id);
-      }
-      return { key: item.subgroup === null ? group.id : `${group.id}:${item.subgroup}`, subgroup, ids, order: subgroup?.order ?? 0 };
-    }).filter(item => item.ids.length).sort((a, b) => a.order - b.order);
-    return { ...group, leaves, ids: leaves.flatMap(item => item.ids) };
-  }).filter(group => group.ids.length);
-  if (seen.size !== songs.length) throw new Error("Incomplete Song group assignment");
+  const groups = prepareSongViewGroups(master, songs, memberships);
   return { groups, songs: groups.flatMap(group => group.ids.map(id => songById.get(id))) };
 }
 
@@ -266,9 +252,9 @@ buttons.forEach(button => button.addEventListener("click", () => {
 Promise.all([staticMemberAnalytics(), fetch("data/song-view-groups.json").then(response => {
   if (!response.ok) throw new Error("Song view groups unavailable");
   return response.json();
-})]).then(([result, master]) => {
+}), loadSongGroupMemberships()]).then(([result, master, memberships]) => {
   data = result.data;
-  ({ groups: filterGroups, songs: orderedSongs } = prepareGroups(master, data.songs));
+  ({ groups: filterGroups, songs: orderedSongs } = prepareGroups(master, data.songs, memberships));
   renderFilters();
   render();
 }).catch(() => {

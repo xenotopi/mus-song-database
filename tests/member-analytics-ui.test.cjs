@@ -10,7 +10,7 @@ const { chromium } = require("playwright");
 const root = path.resolve(__dirname, "..");
 const current = JSON.parse(fs.readFileSync(path.join(root, 'data/current.json')));
 const analytics = JSON.parse(fs.readFileSync(path.join(root, 'data/snapshots', current.revision, 'member-analytics.json'))).data;
-const groups = JSON.parse(fs.readFileSync(path.join(root, 'data/song-view-groups.json')));
+const groups = require('./helpers/song-view-group-fixture.cjs').expectedSongViewGroups(JSON.parse(fs.readFileSync(path.join(root, 'data/song-view-groups.json'))));
 let server;
 let browser;
 let baseUrl;
@@ -128,13 +128,13 @@ for (const width of [1280, 390]) {
       assert.equal(await page.locator("#memberAnalyticsMobileSongs article").count(), count);
       assert.equal(await page.locator("#memberAnalyticsVisibleCount").innerText(), `${count} / 117曲`);
     };
-    for (const [id, count] of [["solo", 13], ["duo-trio", 4], ["unit", 27], ["blu-ray", 21], ["game", 6]]) {
+    for (const [id, count] of [["solo", 13], ["duo-trio", 4], ["unit", 31], ["blu-ray", 17], ["game", 6]]) {
       await groupInput(id).check();
       await expectCount(count);
       assert.equal(await groupInput(id).evaluate(node => getComputedStyle(node.parentElement).backgroundColor), "rgb(237, 244, 251)");
       await groupInput(id).uncheck();
     }
-    for (const [key, count] of [["unit:printemps", 9], ["unit:lily-white", 9], ["unit:bibi", 9]]) {
+    for (const [key, count] of [["unit:printemps", 11], ["unit:lily-white", 10], ["unit:bibi", 10]]) {
       await subgroupInput(key).check();
       await expectCount(count);
       assert.equal(await groupInput(key.split(":")[0]).evaluate(node => node.indeterminate), true);
@@ -142,7 +142,7 @@ for (const width of [1280, 390]) {
     }
     for (const id of ["solo", "duo-trio", "game"]) await groupInput(id).check();
     await subgroupInput("unit:printemps").check();
-    await expectCount(32);
+    await expectCount(34);
     const selectedStyles = await page.locator('#memberAnalyticsFilters input:checked').evaluateAll(nodes => nodes.map(node => {
       const label = node.parentElement;
       const style = getComputedStyle(label);
@@ -295,9 +295,9 @@ for (const width of [320, 360, 375, 390, 393, 430]) for (const percent of [100, 
       assert.equal(await page.locator('#memberAnalyticsFilterPanel').isVisible(), true);
       const options = await page.locator('.member-analytics-filter-option').evaluateAll(nodes => nodes.map(node => ({ label: node.children[1].textContent, count: node.querySelector('small').textContent })));
       assert.deepEqual(options, [
-        { label: 'TVアニメ・映画・CD・誌面企画・ラジオ系', count: '46' }, { label: 'Blu-ray系', count: '21' }, { label: 'スクフェス／スクパラ曲', count: '6' },
-        { label: 'ソロ曲', count: '13' }, { label: 'デュオ・トリオ', count: '4' }, { label: 'ユニット曲', count: '27' },
-        { label: 'Printemps', count: '9' }, { label: 'lily white', count: '9' }, { label: 'BiBi', count: '9' }
+        { label: 'TVアニメ・映画・CD・誌面企画・ラジオ系', count: '46' }, { label: 'Blu-ray系', count: '17' }, { label: 'スクフェス／スクパラ曲', count: '6' },
+        { label: 'ソロ曲', count: '13' }, { label: 'デュオ・トリオ', count: '4' }, { label: 'ユニット曲', count: '31' },
+        { label: 'Printemps', count: '11' }, { label: 'lily white', count: '10' }, { label: 'BiBi', count: '10' }
       ]);
       assert.ok(Math.abs(parseFloat(await page.locator('.member-analytics-filter-option > span').first().evaluate(node => getComputedStyle(node).fontSize)) - 14 * percent / 100) < 0.1, 'scaling must actually be active');
       await assertFilterGeometry(page, width);

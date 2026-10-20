@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "scope": "song_unit_affiliation_only",
+  "approvalScope": "public",
+  "publicReleaseApproved": true,
+  "unregisteredMeaning": "unknown_not_nonmember",
+  "sourcePolicyVersion": "UNIT-PERFORMANCE-RULE-02",
+  "units": {
+    "printemps": {
+      "displayNameRef": "SN0007"
+    },
+    "lily_white": {
+      "displayNameRef": "SN0011"
+    },
+    "bibi": {
+      "displayNameRef": "SN0013"
+    }
+  },
+  "evidence": [
+    {
+      "id": "aki-hata-complete-best-2019",
+      "url": "https://akihata.jp/works/music/27389/",
+      "kind": "creator_official",
+      "edition": "2019 Complete BEST BOX",
+      "scope": "song_unit_affiliation_only"
+    }
+  ],
+  "memberships": [
+    {
+      "songId": "S005",
+      "unitKey": "printemps",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 7",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S006",
+      "unitKey": "printemps",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 7",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S055",
+      "unitKey": "printemps",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 7",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S056",
+      "unitKey": "printemps",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 7",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S059",
+      "unitKey": "printemps",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 7",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S082",
+      "unitKey": "printemps",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 7",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S083",
+      "unitKey": "printemps",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 7",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S090",
+      "unitKey": "printemps",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 7",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S095",
+      "unitKey": "printemps",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 7",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S107",
+      "unitKey": "printemps",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 7",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S108",
+      "unitKey": "printemps",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 7",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S009",
+      "unitKey": "lily_white",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 9",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S010",
+      "unitKey": "lily_white",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 9",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S050",
+      "unitKey": "lily_white",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 9",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S051",
+      "unitKey": "lily_white",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 9",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S085",
+      "unitKey": "lily_white",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 9",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S086",
+      "unitKey": "lily_white",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 9",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S091",
+      "unitKey": "lily_white",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 9",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S097",
+      "unitKey": "lily_white",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 9",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S110",
+      "unitKey": "lily_white",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 9",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S111",
+      "unitKey": "lily_white",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 9",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S007",
+      "unitKey": "bibi",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 8",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S008",
+      "unitKey": "bibi",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 8",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S052",
+      "unitKey": "bibi",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 8",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S053",
+      "unitKey": "bibi",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 8",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S087",
+      "unitKey": "bibi",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 8",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S088",
+      "unitKey": "bibi",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 8",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S092",
+      "unitKey": "bibi",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 8",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S096",
+      "unitKey": "bibi",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 8",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S112",
+      "unitKey": "bibi",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 8",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    },
+    {
+      "songId": "S113",
+      "unitKey": "bibi",
+      "evidenceId": "aki-hata-complete-best-2019",
+      "sourceLocator": "Disc 8",
+      "verificationStatus": "source_matched",
+      "displayApproval": "public"
+    }
+  ]
+}

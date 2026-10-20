@@ -1,4 +1,5 @@
 import { singerDisplayName } from "./singer-display.js?v=1.0.0";
+import { loadSongUnitMembership } from "./song-unit-memberships.js?v=1.0.0";
 import { buildSongUrl,
   apiGet,
   escapeHtml,
@@ -1030,7 +1031,7 @@ async function copyCurrentUrl_() {
   }
 }
 
-function renderSong(song) {
+function renderSong(song, membership = null) {
   currentSong = song;
   const statistics = song.statistics || {};
 
@@ -1071,7 +1072,8 @@ function renderSong(song) {
     ["収録CD", song.recordingCd || "—"],
     ["発売日", formatDate(song.releaseDate)],
     ["メディア", song.media || "—"],
-    ["区分", song.category || "—"]
+    ["区分", song.category || "—"],
+    ...(membership ? [["所属ユニット", singerDisplayName({ singerId: membership.displayNameRef })]] : [])
   ].map(([label, value]) => `
     <dt>${escapeHtml(label)}</dt>
     <dd>${escapeHtml(value || "—")}</dd>`
@@ -1270,7 +1272,8 @@ async function loadSong() {
       }
     }
 
-    renderSong(response.data);
+    const membership = await loadSongUnitMembership(songId);
+    renderSong(response.data, membership);
 
     const renderedSongId = String(
       response.data?.songId || songId

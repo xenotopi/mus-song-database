@@ -1,5 +1,33 @@
 // Song ID assignments and interaction pattern shared with Member Analytics.
-export function prepareSongViewGroups(master, songs) {
+import { songUnitMembership } from "./song-unit-memberships.js?v=1.0.0";
+
+export function loadSongGroupMemberships() {
+  return fetch("data/song-unit-memberships.json", { cache: "no-cache", signal: AbortSignal.timeout(3000) }).then(response => {
+    if (!response.ok) throw new Error("ユニット所属情報を取得できませんでした。");
+    return response.json();
+  });
+}
+
+export function prepareSongViewGroups(master, songs, memberships) {
+  // Validate the original assignment first: projection must not conceal duplicates.
+  buildSongViewGroups(master, songs);
+  if (!Array.isArray(memberships?.memberships) || memberships.memberships.length !== 31) throw new Error("ユニット所属情報が不正です。");
+  const byId = new Set(songs.map(song => song.songId));
+  const projected = { ...master, assignments: master.assignments.map(item => ({ ...item, songIds: item.songIds.slice() })) };
+  const subgroupIds = { printemps: "printemps", lily_white: "lily-white", bibi: "bibi" };
+  for (const row of memberships.memberships) {
+    const membership = songUnitMembership(memberships, row.songId);
+    if (!membership || !byId.has(row.songId)) throw new Error("ユニット所属のSong IDが不正です。");
+    const target = projected.assignments.find(item => item.group === "unit" && item.subgroup === subgroupIds[membership.unitKey]);
+    if (!target) throw new Error("ユニット曲の内訳が不正です。");
+    for (const item of projected.assignments) item.songIds = item.songIds.filter(id => id !== row.songId);
+    target.songIds.push(row.songId);
+  }
+  // Membership wins over browsing media/category, without rewriting either source.
+  return buildSongViewGroups(projected, songs);
+}
+
+function buildSongViewGroups(master, songs) {
   const byId = new Map(songs.map(song => [song.songId, song]));
   const seen = new Set();
   const groups = master.groups.slice().sort((a, b) => a.order - b.order).map(group => {

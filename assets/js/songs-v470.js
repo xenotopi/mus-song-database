@@ -8,7 +8,7 @@ import {
   renderCommon
 } from "./common.js?v=4.10.1&cache=release-ux&songUrls=1";
 
-import { prepareSongViewGroups, createSongViewGroupFilter } from "./song-view-group-filter.js";
+import { prepareSongViewGroups, createSongViewGroupFilter, loadSongGroupMemberships } from "./song-view-group-filter.js?v=2";
 
 renderCommon("song");
 
@@ -423,7 +423,7 @@ async function loadSongs() {
   el.status.textContent = "曲データを読み込んでいます...";
 
   try {
-    const [response, groupMaster] = await Promise.all([apiGet(
+    const [response, groupMaster, memberships] = await Promise.all([apiGet(
       "rankings",
       {
         limit: 1000,
@@ -440,7 +440,7 @@ async function loadSongs() {
     ), fetch("data/song-view-groups.json").then(response => {
       if (!response.ok) throw new Error("曲グループを取得できませんでした。");
       return response.json();
-    })]);
+    }), loadSongGroupMemberships()]);
 
     const data = response.data || {};
     allSongs = Array.isArray(data.songs) ? data.songs : [];
@@ -452,7 +452,7 @@ async function loadSongs() {
     const mediaValues = uniqueValues(allSongs,"media");
     const categoryValues = uniqueValues(allSongs,"songCategory");
 
-    groupFilter = createSongViewGroupFilter($("songGroupFilter"), prepareSongViewGroups(groupMaster, allSongs), () => {
+    groupFilter = createSongViewGroupFilter($("songGroupFilter"), prepareSongViewGroups(groupMaster, allSongs, memberships), () => {
       visibleLimit = 24;
       renderSongs();
     });

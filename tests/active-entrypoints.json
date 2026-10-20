@@ -83,7 +83,9 @@
     },
     "member-analytics.html": {
       "js": [
-        "assets/js/member-analytics.js"
+        "assets/js/member-analytics.js",
+        "assets/js/song-view-group-filter.js",
+        "assets/js/song-unit-memberships.js"
       ],
       "css": [
         "assets/css/style.css",
@@ -159,7 +161,8 @@
     "song.html": {
       "js": [
         "assets/js/seo-v351.js",
-        "assets/js/song-v441.js"
+        "assets/js/song-v441.js",
+        "assets/js/song-unit-memberships.js"
       ],
       "css": [
         "assets/css/style.css",
@@ -168,7 +171,9 @@
     },
     "songs.html": {
       "js": [
-        "assets/js/songs-v470.js"
+        "assets/js/songs-v470.js",
+        "assets/js/song-view-group-filter.js",
+        "assets/js/song-unit-memberships.js"
       ],
       "css": [
         "assets/css/style.css",

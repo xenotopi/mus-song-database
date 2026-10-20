@@ -77,16 +77,16 @@ for (const width of [1280, 390]) test(`Song group filter ${width}px`, async () =
     await more(page);
     assert.deepEqual(await ids(page), songs.map(song => song.songId).sort());
     await page.locator(".song-group-toggle").click();
-    const expected = { general: 46, "blu-ray": 21, game: 6, solo: 13, "duo-trio": 4, unit: 27 };
+    const expected = { general: 46, "blu-ray": 17, game: 6, solo: 13, "duo-trio": 4, unit: 31 };
     for (const [group, size] of Object.entries(expected)) {
       await page.locator('.song-group-actions [data-action="clear"]').click();
       await page.locator(`input[data-group="${group}"]:not([data-key])`).check();
       await count(page, size);
     }
-    for (const subgroup of ["printemps", "lily-white", "bibi"]) {
+    for (const [subgroup, size] of [["printemps", 11], ["lily-white", 10], ["bibi", 10]]) {
       await page.locator('.song-group-actions [data-action="clear"]').click();
       await page.locator(`input[data-key="unit:${subgroup}"]`).check();
-      await count(page, 9);
+      await count(page, size);
       assert.equal(await page.locator('input[data-group="unit"]:not([data-key])').evaluate(node => node.indeterminate), true);
     }
     await page.locator('.song-group-actions [data-action="clear"]').click();
@@ -216,7 +216,7 @@ for (const width of [320, 360, 375, 390, 393, 430]) for (const percent of [100, 
       assert.ok(Math.abs(parseFloat(await page.locator('.song-list-stat b').first().evaluate(node => getComputedStyle(node).fontSize)) - 14 * percent / 100) < 0.1, 'text scaling must actually be active');
       await page.locator('input[data-group="general"]').check(); await count(page, 46);
       await page.locator('.song-group-actions [data-action="clear"]').click();
-      await page.locator('input[data-key="unit:printemps"]').check(); await count(page, 9);
+      await page.locator('input[data-key="unit:printemps"]').check(); await count(page, 11);
       assert.equal(await page.locator('input[data-group="unit"]:not([data-key])').evaluate(node => node.indeterminate), true);
       await assertContainedLayout(page, width);
       await page.locator('.song-group-actions [data-action="all"]').click(); await count(page, 117);

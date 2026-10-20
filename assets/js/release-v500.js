@@ -1,5 +1,7 @@
 import { buildSongUrl, apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema&songUrls=1";
-import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
+import { renderCommon } from "./common.js?v=4.10.0&cache=release-ux&songUrls=1";
+import { buildSingerUrl } from "./singer-links.js?v=4.8.0";
+import { setupDetailContext } from "./detail-context.js?v=4.6.1";
 import { detailWithApiFallback, staticReleaseList, staticDetail } from "./static-detail.js?v=1.3.0";
 import { renderKamiparaRelease, hasCompletedKamiparaContent } from "./release-kamipara.js?v=1.0.0";
 import { renderAmazonProduct } from "./release-amazon.js";
@@ -14,6 +16,90 @@ document.body.classList.toggle("release-box-top-safe", releaseId === "R0088");
 const hasPrerenderedContent = document.documentElement.dataset.releaseId === releaseId &&
   /^R\d{4}$/.test(releaseId) && !elements.mainContent.hidden;
 let skeletonTimer = 0;
+
+// Explicit document path: fragment-only URLs resolve against the formal page's
+// ../ base, not against the Release that the reader is viewing.
+export function releaseDocumentHref(fragment, current = location.href) {
+  if (!/^[A-Za-z][\w:-]*$/.test(fragment)) throw new Error("Invalid Release fragment");
+  const url = new URL(current);
+  url.hash = fragment;
+  return url.pathname + url.search + url.hash;
+}
+
+// ID-first references only. Members describe the existing live-history name;
+// they must never be promoted to a recording credit or inferred from a title.
+export function resolveReleasePerson(featured, data) {
+  const id = String(featured?.id || "").trim(), name = String(featured?.name || "").trim();
+  const official = Array.isArray(data?.official) ? data.official : [];
+  const matches = official.filter(row => row.singerId === id);
+  if (!/^SN\d{4}$/.test(id) || !name || matches.length !== 1 ||
+      matches[0].category !== "公式" || matches[0].displayName !== name) return null;
+  const result = { singerUrl: buildSingerUrl({ singerId: id }), cv: null, cvUrl: null };
+  const row = matches[0], members = row.members;
+  if (row.memberCount !== 1 || !Array.isArray(members) || members.length !== 1) return result;
+  const member = members[0];
+  if (!member.key || member.character !== name || !String(member.cast || "").trim()) return result;
+  result.cv = member.cast;
+  const solo = (Array.isArray(data?.solo) ? data.solo : []).filter(candidate =>
+    candidate.category === "ソロ" && /^SN\d{4}$/.test(candidate.singerId || "") &&
+    candidate.memberCount === 1 && candidate.displayName === member.cast &&
+    Array.isArray(candidate.members) && candidate.members.length === 1 &&
+    candidate.members[0].key === member.key && candidate.members[0].character === member.character &&
+    candidate.members[0].cast === member.cast);
+  if (solo.length === 1) result.cvUrl = buildSingerUrl(solo[0]);
+  return result;
+}
+
+let singerListPromise, personGeneration = 0;
+export let releasePersonReady = Promise.resolve();
+function enrichReleasePerson(release) {
+  const generation = ++personGeneration;
+  const row = elements.releaseInfo.querySelector("[data-release-featured]");
+  // Capture is snapshot-only. These references are optional runtime enrichment.
+  if (window.__MUSDB_RELEASE_CAPTURE__ || release.releaseId === "R0072" ||
+      !row || !/^SN\d{4}$/.test(String(release.featuredSinger?.id || ""))) return;
+  singerListPromise ||= apiGet("singerList", {}, { timeoutMs: 30000, retryCount: 1, cache: true, cacheTtlMs: 300000 });
+  releasePersonReady = singerListPromise.then(response => {
+    if (generation !== personGeneration || !row.isConnected) return;
+    const person = resolveReleasePerson(release.featuredSinger, response.data);
+    if (!person) return;
+    const dd = row.querySelector("dd"), anchor = document.createElement("a");
+    anchor.href = person.singerUrl;
+    anchor.textContent = release.featuredSinger.name;
+    anchor.setAttribute("aria-label", `${release.featuredSinger.name}の歌唱記録`);
+    dd.replaceChildren(anchor);
+    if (!person.cv) return;
+    const cvRow = document.createElement("div"), dt = document.createElement("dt"), value = document.createElement("dd");
+    cvRow.className = "release-info-row"; cvRow.dataset.releaseCv = ""; dt.textContent = "CV";
+    if (person.cvUrl) {
+      const link = document.createElement("a"); link.href = person.cvUrl; link.textContent = person.cv;
+      link.setAttribute("aria-label", `${person.cv}の歌唱記録`); value.append(link);
+    } else value.textContent = person.cv;
+    cvRow.append(dt, value); row.after(cvRow);
+  }).catch(() => { /* Optional name metadata never clears successful Release content. */ });
+}
+
+function initializeReleaseContext() {
+  document.body.classList.add("release-has-context");
+  if (document.querySelector(".detail-context-bar[data-release-context]")) return;
+  setupDetailContext({ typeLabel: "作品", titleSelector: "#releaseName", heroSelector: ".release-hero" });
+  const bar = document.querySelector(".detail-context-bar");
+  if (!bar) return;
+  bar.dataset.releaseContext = "";
+  const header = document.querySelector(".site-header");
+  const update = () => {
+    if (!bar.isConnected) return; // Capture removes the runtime bar before serialization.
+    const offset = Math.max(0, header?.getBoundingClientRect().bottom || 0);
+    document.body.style.setProperty("--release-context-top", `${offset}px`);
+    document.body.style.setProperty("--release-anchor-offset", `${offset + bar.getBoundingClientRect().height + 12}px`);
+  };
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update, { passive: true });
+  window.addEventListener("pageshow", update);
+  if (window.ResizeObserver) { const observer = new ResizeObserver(update); observer.observe(bar); if (header) observer.observe(header); }
+  update();
+}
+initializeReleaseContext();
 
 function hideSkeleton() {
   clearTimeout(skeletonTimer);
@@ -205,7 +291,7 @@ function renderIncludedSongs(release, approvedMetadata = null) {
     const groups = [...discs].map(([disc, rows]) => ({ disc, rows, id: `release-disc-${++discId}` }));
     const largeBox = release.editionType === "memorial_box" && !hasStores && groups.length >= 10;
     const collapsible = groups.length >= 2;
-    const index = largeBox ? `<div class="release-box-controls"><label>メンバーから探す<select data-box-member disabled><option value="">すべてのメンバー</option></select></label><label>Discから探す<select data-box-disc>${groups.map(group => `<option value="${group.id}">Disc ${escapeHtml(group.disc)}${commonDiscVariant(group.rows) ? " · " + escapeHtml(commonDiscVariant(group.rows)) : ""}</option>`).join("")}</select></label><a data-box-child hidden></a><p class="release-box-status" data-box-status role="status"></p></div>` : collapsible ? `<nav class="release-disc-index" aria-label="Disc索引">${groups.map(group => `<a href="#${group.id}" data-disc-target="${group.id}">${group.disc == null ? "Disc未登録" : `Disc ${escapeHtml(group.disc)}`}</a>`).join("")}</nav><div class="release-disc-actions"><button type="button" data-discs-open="true">すべて開く</button><button type="button" data-discs-open="false">すべて閉じる</button></div>` : "";
+    const index = largeBox ? `<div class="release-box-controls"><label>メンバーから探す<select data-box-member disabled><option value="">すべてのメンバー</option></select></label><label>Discから探す<select data-box-disc>${groups.map(group => `<option value="${group.id}">Disc ${escapeHtml(group.disc)}${commonDiscVariant(group.rows) ? " · " + escapeHtml(commonDiscVariant(group.rows)) : ""}</option>`).join("")}</select></label><a data-box-child hidden></a><p class="release-box-status" data-box-status role="status"></p></div>` : collapsible ? `<nav class="release-disc-index" aria-label="Disc索引">${groups.map(group => `<a href="${escapeHtml(releaseDocumentHref(group.id))}" data-disc-target="${group.id}">${group.disc == null ? "Disc未登録" : `Disc ${escapeHtml(group.disc)}`}</a>`).join("")}</nav><div class="release-disc-actions"><button type="button" data-discs-open="true">すべて開く</button><button type="button" data-discs-open="false">すべて閉じる</button></div>` : "";
     if (largeBox) boxView = { release, groups, members: [], host: null };
     const partialTrack = songs.some(song => song.track != null);
     const body = groups.map((group, i) => {
@@ -379,7 +465,7 @@ function updateSectionNav() {
   const nav = $("releaseSectionNav");
   if (!nav) return;
   const sections = [["includedSongsSection", "収録内容"], ["kamiparaHistorySection", "神パラ歌唱履歴"], ["debutSongsSection", "初出・由来"], ["relatedReleasesSection", "関連作品"], ["relatedEventsSection", "関連イベント"], ["releaseInformationSection", "作品情報"]].filter(([id]) => $(id) && !$(id).hidden);
-  nav.innerHTML = sections.map(([id, label]) => `<a href="#${id}">${label}</a>`).join("");
+  nav.innerHTML = sections.map(([id, label]) => `<a href="${escapeHtml(releaseDocumentHref(id))}">${label}</a>`).join("");
   nav.hidden = sections.length === 0;
 }
 
@@ -394,23 +480,25 @@ function renderRelease(release, releaseList = [], approvedMetadata = null) {
   elements.heroMeta.innerHTML = `<span>${escapeHtml(dateLabel)}</span><span>${escapeHtml(classification)}</span>${releaseType ? `<span>${escapeHtml(releaseType)}</span>` : ""}`;
   document.title = `${name}｜μ's Song Database`;
   const info = [];
+  const parentReleaseId = String(release.parentReleaseId || "").trim();
+  const parentMatches = /^R\d{4}$/.test(parentReleaseId) && parentReleaseId !== release.releaseId
+    ? releaseList.filter(item => item.releaseId === parentReleaseId) : [];
+  const parentRelease = parentMatches.length === 1 ? parentMatches[0] : null;
   const officialName = String(release.officialName || "").trim();
   if (officialName && normalizedLabel(officialName) !== normalizedLabel(name)) info.push(["正式商品名", officialName]);
   const seriesName = String(release.releaseSeries?.shortName || release.releaseSeries?.name || "").trim();
   if (seriesName) info.push(["シリーズ", seriesName]);
+  if (parentRelease) info.push(["親BOX", parentRelease.releaseName || "BOX詳細を見る", `release/${parentReleaseId}.html`]);
   const edition = editionLabel(String(release.editionType || "").trim());
   if (edition) info.push(["エディション", edition]);
   const singerName = String(release.featuredSinger?.name || "").trim();
   if (singerName) info.push(["対象キャラクター／歌唱名義", singerName]);
   const catalogNumber = String(release.catalogNumber || "").trim();
   if (catalogNumber) info.push(["品番", catalogNumber]);
-  elements.releaseInfo.innerHTML = info.map(([label, value]) => `<div class="release-info-row"><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("");
+  elements.releaseInfo.innerHTML = info.map(([label, value, href]) => `<div class="release-info-row"${label === "対象キャラクター／歌唱名義" ? " data-release-featured" : ""}><dt>${escapeHtml(label)}</dt><dd>${href ? `<a href="${escapeHtml(href)}">${escapeHtml(value)}</a>` : escapeHtml(value)}</dd></div>`).join("");
   elements.releaseInfo.hidden = info.length === 0;
-  const parentReleaseId = String(release.parentReleaseId || "").trim();
-  const parentRelease = parentReleaseId ? releaseList.find(item => String(item.releaseId) === parentReleaseId) : null;
   const parentHost = $("parentReleaseHost");
   if (parentHost) parentHost.innerHTML = parentRelease ? `<section class="release-related"><h3>親BOX</h3><a class="release-child-row mus-card-link mus-chip-link" href="release/${encodeURIComponent(parentReleaseId)}.html">${titleChip(parentRelease.releaseName || "BOX詳細を見る")}</a></section>` : "";
-  else if (parentRelease) elements.releaseInfo.insertAdjacentHTML("beforeend", `<div class="release-info-row"><dt>BOX</dt><dd><a href="release/${encodeURIComponent(parentReleaseId)}.html">${escapeHtml(parentRelease.releaseName || "BOX詳細を見る")}</a></dd></div>`);
   const officialUrl = String(release.officialReleaseUrl || "").trim();
   elements.officialRelease.innerHTML = officialUrl ? `<a class="release-official-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">公式作品ページを見る <span class="site-icon-inline " data-site-icon="external-link" aria-hidden="true"></span></a>` : `<p class="release-official-empty">公式作品ページは未登録です</p>`;
   const relatedEvents = (Array.isArray(release.relatedEvents) ? release.relatedEvents : [])
@@ -457,6 +545,7 @@ function renderRelease(release, releaseList = [], approvedMetadata = null) {
   hideSkeleton();
   elements.status.hidden = true;
   elements.mainContent.hidden = false;
+  enrichReleasePerson(release);
   updateSectionNav();
 }
 
@@ -508,5 +597,5 @@ async function loadRelease() {
   }
 }
 
-// Capture must wait for optional enrichment, not just the first visible body.
+// Capture waits for snapshot-backed BOX enrichment, never optional live CV.
 export const releaseReady = loadRelease();

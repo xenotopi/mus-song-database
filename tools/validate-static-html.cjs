@@ -141,9 +141,11 @@ function validateReleaseBody(doc, release, releaseList) {
   equal(byId(doc,"heroMeta").children.filter(n=>typeof n!=="string").map(cleanText),
     [(["R0032","R0052"].includes(release.releaseId)?"Blu-ray最終巻発売日：":"")+date,release.classification||"分類未設定",...(release.releaseType?.trim()?[release.releaseType.trim()]:[])],"Release hero date/classification/type mismatch");
   const expectedInfo = {}, normalized = s=>String(s||"").normalize("NFKC").replace(/\s+/g,"").toLocaleLowerCase("ja");
+  const parent=/^R\d{4}$/.test(resolved.parentReleaseId||"")&&resolved.parentReleaseId!==release.releaseId?releaseList.find(r=>r.releaseId===resolved.parentReleaseId):null;
   if(resolved.officialName?.trim()&&normalized(resolved.officialName)!==normalized(release.releaseName))expectedInfo["正式商品名"]=resolved.officialName.trim();
   const series=resolved.releaseSeries?.shortName||resolved.releaseSeries?.name;
   if(series?.trim())expectedInfo["シリーズ"]=series.trim();
+  if(parent)expectedInfo["親BOX"]=parent.releaseName||"BOX詳細を見る";
   if(resolved.editionType==="individual")expectedInfo["エディション"]="個別盤";
   if(resolved.editionType==="memorial_box")expectedInfo["エディション"]="Memorial BOX";
   if(resolved.featuredSinger?.name?.trim())expectedInfo["対象キャラクター／歌唱名義"]=resolved.featuredSinger.name.trim();
@@ -151,7 +153,9 @@ function validateReleaseBody(doc, release, releaseList) {
   const info=byId(doc,"releaseInfo",false);
   equal(infoValues(info),expectedInfo,"Release basic/list-enriched information differs from snapshot");
   check(visible(info)===(Object.keys(expectedInfo).length>0),"Release basic information visibility mismatch");
-  const parent=releaseList.find(r=>r.releaseId===resolved.parentReleaseId);
+  const infoLinks=descendants(info,n=>n.tag==="a");
+  equal(infoLinks.map(n=>[n.attrs.href,cleanText(n)]),parent?[["release/"+parent.releaseId+".html",parent.releaseName||"BOX詳細を見る"]]:[],"Release information links / related identities differ from verified snapshot references");
+  check(!doc.nodes.some(n=>Object.hasOwn(n.attrs,"data-release-cv")||hasClass(n,"detail-context-bar")),"Release runtime context/CV persisted");
   const children=resolved.editionType==="memorial_box"?releaseList.filter(r=>r.parentReleaseId===release.releaseId):[];
   const excluded=new Set([release.releaseId,resolved.parentReleaseId,...children.map(r=>r.releaseId)]);
   const siblings=resolved.releaseSeries?.id?releaseList.filter(r=>r.releaseSeries?.id===resolved.releaseSeries.id&&!excluded.has(r.releaseId)):[];
@@ -180,6 +184,9 @@ function validateReleaseBody(doc, release, releaseList) {
   const included=byId(doc,"includedSongsContent",tracks.length>0||release.releaseId==="R0072");
   check(!classes(included,"release-inclusion-error").length,"Release error DOM persisted");
   const countLabel=byId(doc,"includedSongsCount",false);
+  const nav=byId(doc,"releaseSectionNav",false),sections=[["includedSongsSection","収録内容"],["kamiparaHistorySection","神パラ歌唱履歴"],["debutSongsSection","初出・由来"],["relatedReleasesSection","関連作品"],["relatedEventsSection","関連イベント"],["releaseInformationSection","作品情報"]].filter(([id])=>doc.ids.has(id)&&visible(doc.ids.get(id)));
+  equal(descendants(nav,n=>n.tag==="a").map(n=>[n.attrs.href,cleanText(n)]),sections.map(([id,label])=>["/release/"+release.releaseId+".html#"+id,label]),"Release section navigation destination/order mismatch");
+  check(visible(nav)===(sections.length>0),"Release section navigation visibility mismatch");
   if(release.releaseId==="R0072"){
     check(cleanText(countLabel)==="10曲","R0072 dedicated count label mismatch");
     check(meta.status==="special_hold"&&!tracks.length,"R0072 dedicated coverage mismatch");
@@ -226,6 +233,7 @@ function validateReleaseBody(doc, release, releaseList) {
   const details=classes(included,"release-disc-details"),collapsible=groups.filter(g=>g.collapsible);
   equal(details.map(n=>n.attrs.id),collapsible.map(g=>"release-disc-"+(groups.indexOf(g)+1)),"Release Disc identities/order mismatch");
   details.forEach((n,i)=>check(Object.hasOwn(n.attrs,"open")===collapsible[i].open,"Release initial Disc state mismatch"));
+  equal(classes(included,"release-disc-index").flatMap(nav=>descendants(nav,n=>n.tag==="a")).map(n=>[n.attrs.href,n.attrs["data-disc-target"]]),groups.filter(g=>g.collapsible&&!g.large).map(g=>{const id="release-disc-"+(groups.indexOf(g)+1);return["/release/"+release.releaseId+".html#"+id,id];}),"Release Disc index destination mismatch");
   const marked=new Set();
   rows.forEach((node,i)=>{
     const{record:r,group:g}=expectedRows[i];

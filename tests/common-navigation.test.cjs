@@ -47,7 +47,7 @@ test("共通ナビ Release追加", { timeout: 4 * 60 * 1000 }, async t => {
     const { page, issues } = await open("/releases.html", { width: 1440, height: 900 });
     const expected = ["ホーム", "曲", "リリース", "イベント", "会場", "歌唱名義", "ランキング", "統計", "About"];
     assert.deepEqual(await page.locator(".mus-desktop-navigation a").allTextContents().then(values => values.map(value => value.trim())), expected);
-    for (const width of [1440, 1280, 1080, 1024]) {
+    for (const width of [1440, 1280, 1081]) {
       await page.setViewportSize({ width, height: 900 });
       const layout = await page.evaluate(() => {
         const brand = document.querySelector(".site-header .brand").getBoundingClientRect();
@@ -87,7 +87,7 @@ test("共通ナビ Release追加", { timeout: 4 * 60 * 1000 }, async t => {
 
   await t.test("mobile drawerの表示・開閉・キーボード操作", async () => {
     const { page, issues } = await open("/releases.html", { width: 900, height: 900 });
-    for (const width of [900, 768, 620, 390]) {
+    for (const width of [1080, 1024, 981, 980, 900, 768, 620, 390]) {
       await page.setViewportSize({ width, height: 900 });
       assert.equal(await page.locator(".mus-desktop-navigation").evaluate(node => getComputedStyle(node).display), "none", `${width}px desktop hidden`);
       assert.notEqual(await page.locator("#musMobileMenuButton").evaluate(node => getComputedStyle(node).display), "none", `${width}px menu visible`);

@@ -5,7 +5,7 @@
 
   <title>友情ノーチェンジ｜μ's Song Database</title>
 
-  <link rel="stylesheet" href="assets/css/style.css?v=4.4.1">
+  <link rel="stylesheet" href="assets/css/style.css?v=4.8.0">
 
   <style>
     html {
@@ -1701,7 +1701,7 @@
       overscroll-behavior: none;
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1080px) {
       .site-header {
         overflow: visible !important;
       }
@@ -1743,13 +1743,13 @@
       .global-search-suggestions {
         position: fixed !important;
         z-index: 2001 !important;
-        top: 134px !important;
+        top: var(--mus-search-suggestions-top, 134px) !important;
         right: 12px !important;
         left: 12px !important;
       }
     }
 
-    @media (min-width: 981px) {
+    @media (min-width: 1081px) {
       .mus-mobile-drawer,
       .mus-mobile-menu-overlay {
         display: none !important;
@@ -1800,7 +1800,7 @@
 
 <body class="">
   <div id="siteHeader">
-      <header class="site-header">
+      <header class="site-header" data-search-position-observed="true" style="--mus-search-suggestions-top: 77px;">
         <div class="header-inner">
           <a class="brand" href="index.html">
             <span class="brand-lockup">
@@ -2959,7 +2959,7 @@
 })();
 </script>
 
-<script type="module" src="assets/js/song-v441.js?v=5.5.3&amp;cache=output-revision&amp;songUrls=1"></script>
+<script type="module" src="assets/js/song-v441.js?v=5.5.4&amp;cache=output-revision&amp;songUrls=1"></script>
 
   <script>
     (() => {

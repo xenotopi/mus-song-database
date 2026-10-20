@@ -39,8 +39,8 @@ a{color:inherit}
   margin:auto;
   padding:12px 16px;
   display:grid;
-  grid-template-columns:auto 1fr auto;
-  gap:18px;
+  grid-template-columns:auto minmax(234px,1fr) max-content;
+  gap:12px;
   align-items:center;
 }
 
@@ -99,6 +99,8 @@ a{color:inherit}
 }
 
 .global-search input{
+  min-width:0;
+  flex:1 1 0;
   width:100%;
   border:0;
   outline:0;
@@ -113,6 +115,10 @@ a{color:inherit}
   font-size:13px;
   font-weight:800;
 }
+
+/* Shared desktop header only; body typography and Home sizing stay intact. */
+.site-header .mus-desktop-navigation{display:flex;align-items:center;gap:2px;white-space:nowrap}
+.site-header .mus-desktop-navigation a{margin-left:0;padding-inline:8px}
 
 .nav a.active{
   background:var(--indigo-soft);

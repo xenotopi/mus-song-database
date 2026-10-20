@@ -1,5 +1,5 @@
 import { buildSongUrl, apiGet, escapeHtml, formatDate } from "./api.js?v=4.9.6&cache=revision-nonblocking&songUrls=1";
-import { renderCommon } from "./common.js?v=4.9.1&cache=revision-nonblocking&songUrls=1";
+import { renderCommon } from "./common.js?v=4.10.0&cache=release-ux&songUrls=1";
 import { buildSingerUrl } from "./singer-links.js?v=4.8.0";
 
 renderCommon("statistics");

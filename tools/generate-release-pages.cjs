@@ -25,6 +25,8 @@ const RELEASE_RENDERER_FILES = Object.freeze([
   "assets/js/static-detail.js",
   "assets/js/api.js",
   "assets/js/common.js",
+  "assets/js/detail-context.js",
+  "assets/js/singer-links.js",
   "assets/js/icons.js",
   "assets/js/analytics.js",
   "assets/js/seo-v351.js"
@@ -167,6 +169,29 @@ function removeRuntimeTopForCapture({ templateHtml }) {
   if (document.documentElement.outerHTML !== expected.outerHTML) throw new Error("RELEASE_CAPTURE_NON_TOP_CHANGED");
 }
 
+// DOM-only, limited to Release-local navigation. Never rewrite other links or
+// save optional live person metadata into a snapshot-only formal artifact.
+function prepareReleaseUiForCapture({ id }) {
+  if (!/^R\d{4}$/.test(id)) throw new Error("RELEASE_CAPTURE_NAV_ID");
+  for (const link of document.querySelectorAll("#releaseSectionNav a, .release-disc-index a[data-disc-target]")) {
+    const source = new URL(link.getAttribute("href"), location.href);
+    if (source.origin !== location.origin ||
+        (source.pathname !== location.pathname && source.pathname !== `/release/${id}.html`) ||
+        (source.pathname === location.pathname && source.search !== location.search)) throw new Error("RELEASE_CAPTURE_NAV_SOURCE");
+    const fragment = source.hash.slice(1);
+    const targets = [...document.querySelectorAll("[id]")].filter(node => node.id === fragment);
+    if (!/^[A-Za-z][\w:-]*$/.test(fragment) || targets.length !== 1 || targets[0].closest("[hidden]")) throw new Error("RELEASE_CAPTURE_NAV_TARGET");
+    link.setAttribute("href", `/release/${id}.html#${fragment}`);
+  }
+  const bars = document.querySelectorAll(".detail-context-bar[data-release-context]");
+  if (bars.length > 1 || document.querySelectorAll(".detail-context-bar").length !== bars.length) throw new Error("RELEASE_CAPTURE_CONTEXT_COUNT");
+  bars.forEach(node => node.remove());
+  if (document.querySelector("[data-release-cv], [data-release-featured] a")) throw new Error("RELEASE_CAPTURE_LIVE_PERSON_METADATA");
+  document.body.classList.remove("release-has-context");
+  document.body.style.removeProperty("--release-context-top");
+  document.body.style.removeProperty("--release-anchor-offset");
+}
+
 async function generateReleasePages({ revision, ids } = {}) {
   const pointer = JSON.parse(fs.readFileSync(path.join(root, "data/current.json"), "utf8"));
   revision ||= pointer.revision;
@@ -207,6 +232,7 @@ async function generateReleasePages({ revision, ids } = {}) {
       if (sha256(wrapper.data) !== manifest.hashes.releases[id]?.sha256) throw new Error(`${id}: snapshot hash mismatch`);
       const release = wrapper.data;
       const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+      await page.addInitScript(() => { window.__MUSDB_RELEASE_CAPTURE__ = true; });
       await page.route("**/*", route => {
         const url = new URL(route.request().url());
         if (url.origin === origin) return route.continue();
@@ -263,6 +289,7 @@ async function generateReleasePages({ revision, ids } = {}) {
         const script = document.createElement("script"); script.type = "application/ld+json";
         script.textContent = JSON.stringify(breadcrumb).replace(/</g, "\\u003c"); document.head.append(script);
       }, { id, title, description, canonical });
+      await page.evaluate(prepareReleaseUiForCapture, { id });
       await page.evaluate(removeRuntimeTopForCapture, { templateHtml: pinnedTemplate?.toString("utf8") });
       const html = (await page.content()).replace(/[\t ]+$/gm, "") + "\n";
       if (await page.locator('link[rel="canonical"]').count() !== 1 || await page.locator("h1").innerText() !== name) throw new Error(`${id}: raw HTML validation failed`);
@@ -279,5 +306,5 @@ async function generateReleasePages({ revision, ids } = {}) {
   }
 }
 
-module.exports = { generateReleasePages, loadKamiparaCaptureData, captureJsonpData, validateKamiparaCapture, rendererFingerprint, RELEASE_RENDERER_FILES, releaseDescription, pinReleaseCss, removeRuntimeTopForCapture };
+module.exports = { generateReleasePages, loadKamiparaCaptureData, captureJsonpData, validateKamiparaCapture, rendererFingerprint, RELEASE_RENDERER_FILES, releaseDescription, pinReleaseCss, removeRuntimeTopForCapture, prepareReleaseUiForCapture };
 if (require.main === module) generateReleasePages().then(pages => console.log(`Generated ${pages.length} Release pages from current snapshot`)).catch(error => { console.error(error); process.exitCode = 1; });

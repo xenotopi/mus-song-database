@@ -17,6 +17,8 @@ const SITE_METADATA = Object.freeze({
   version:
     "Web v4.9.0"
 });
+// One boundary for header layout, drawer availability, and resize closing.
+const HEADER_MOBILE_MAX = 1080;
 
 /**
  * v4.7 STEP13-B
@@ -264,6 +266,7 @@ export function renderCommon(active = "") {
   setupGlobalSearch_();
   setupMobileNavigation_();
   setupBackToTop_();
+  observeHeaderSearchPosition_();
 }
 
 
@@ -923,16 +926,10 @@ function normalizeSearchText_(value) {
  * 共通検索候補用CSSを一度だけ挿入する。
  */
 function injectCommonSearchStyles_() {
-  if (
-    document.getElementById(
-      "globalSearchEnhancementStyles"
-    )
-  ) {
-    return;
-  }
-
+  // Formal HTML may contain an older captured stylesheet. Refresh that node
+  // in place rather than retaining stale layout rules or adding a second one.
   const style =
-    document.createElement("style");
+    document.getElementById("globalSearchEnhancementStyles") || document.createElement("style");
 
   style.id =
     "globalSearchEnhancementStyles";
@@ -1381,7 +1378,7 @@ function injectCommonSearchStyles_() {
       overscroll-behavior: none;
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: ${HEADER_MOBILE_MAX}px) {
       .site-header {
         overflow: visible !important;
       }
@@ -1423,13 +1420,13 @@ function injectCommonSearchStyles_() {
       .global-search-suggestions {
         position: fixed !important;
         z-index: 2001 !important;
-        top: 134px !important;
+        top: var(--mus-search-suggestions-top, 134px) !important;
         right: 12px !important;
         left: 12px !important;
       }
     }
 
-    @media (min-width: 981px) {
+    @media (min-width: ${HEADER_MOBILE_MAX + 1}px) {
       .mus-mobile-drawer,
       .mus-mobile-menu-overlay {
         display: none !important;
@@ -1438,9 +1435,20 @@ function injectCommonSearchStyles_() {
 
   `;
 
-  document.head.appendChild(
-    style
-  );
+  if (!style.isConnected) document.head.appendChild(style);
+}
+
+function observeHeaderSearchPosition_() {
+  const header = document.querySelector(".site-header");
+  if (header && !header.dataset.searchPositionObserved) {
+    header.dataset.searchPositionObserved = "true";
+    // backdrop-filter makes this header the fixed popup's containing block.
+    // Use its height, not viewport bottom (which changes when the page scrolls).
+    const update = () => header.style.setProperty("--mus-search-suggestions-top", `${header.getBoundingClientRect().height + 8}px`);
+    if (window.ResizeObserver) new ResizeObserver(update).observe(header);
+    window.addEventListener("resize", update, { passive: true });
+    update();
+  }
 }
 
 
@@ -1620,7 +1628,7 @@ function setupMobileNavigation_() {
     "resize",
     () => {
       if (
-        window.innerWidth > 820 &&
+        window.innerWidth > HEADER_MOBILE_MAX &&
         isOpen()
       ) {
         closeMenu();

@@ -9,11 +9,12 @@ function releaseBody(r,list,options={}){
  const links=(id,items,tc)=>'<div id="'+id+'">'+items.map(s=>a("release-child-row","release/"+s.releaseId+".html",s.releaseName,tc)).join("")+'</div>';
  const info={};if(x.officialName&&x.officialName!==r.releaseName)info["正式商品名"]=x.officialName;
  if(x.releaseSeries)info["シリーズ"]=x.releaseSeries.shortName||x.releaseSeries.name;
+ if(parent)info["親BOX"]=parent.releaseName||"BOX詳細を見る";
  if(x.editionType)info["エディション"]=x.editionType==="individual"?"個別盤":"Memorial BOX";
  if(x.featuredSinger)info["対象キャラクター／歌唱名義"]=x.featuredSinger.name;if(x.catalogNumber)info["品番"]=x.catalogNumber;
  const outside=(r.debutSongs||[]).filter(s=>!rows.some(t=>t.songId===s.songId));
  let body='<h1>'+e(r.releaseName)+'</h1><div id="heroMeta">'+[(['R0032','R0052'].includes(r.releaseId)?'Blu-ray最終巻発売日：':'')+(r.releaseDate?r.releaseDate.replaceAll("-","/"):"発売日未登録"),r.classification||"分類未設定",...(r.releaseType?[r.releaseType]:[])].map(s=>'<span>'+e(s)+'</span>').join("")+'</div>';
- body+='<dl id="releaseInfo"'+(Object.keys(info).length?"":" hidden")+'>'+Object.entries(info).map(([k,v])=>'<dt>'+e(k)+'</dt><dd>'+e(v)+'</dd>').join("")+'</dl><div id="officialRelease">'+(r.officialReleaseUrl?a("",r.officialReleaseUrl,"公式作品ページを見る"):"")+'</div>';
+ body+='<article id="releaseInformationSection"><dl id="releaseInfo"'+(Object.keys(info).length?"":" hidden")+'>'+Object.entries(info).map(([k,v])=>'<dt>'+e(k)+'</dt><dd>'+(k==="親BOX"?a("","release/"+parent.releaseId+".html",v):e(v))+'</dd>').join("")+'</dl><div id="officialRelease">'+(r.officialReleaseUrl?a("",r.officialReleaseUrl,"公式作品ページを見る"):"")+'</div></article>';
  body+='<section id="relatedReleasesSection"'+(parent||children.length||siblings.length?"":" hidden")+'>'+links("parentReleaseHost",parent?[parent]:[])+links("childReleasesHost",children,"release-child-title")+links("seriesReleasesHost",siblings)+'</section>';
  body+='<section id="relatedEventsSection"'+(r.relatedEvents?.length?"":" hidden")+'><div id="relatedEventsHost">'+[...(r.relatedEvents||[])].sort((a,b)=>a.order-b.order).map(s=>a("release-event-row","event.html?id="+s.eventId,s.eventName,"release-event-title")).join("")+'</div></section>';
  body+='<section id="debutSongsSection"'+(outside.length?"":" hidden")+'><div id="debutSongs">'+outside.map(s=>a("release-song-row","song/"+s.songId+".html",s.songName||s.displayName,"release-song-title")).join("")+'</div></section>';
@@ -27,6 +28,7 @@ function releaseBody(r,list,options={}){
   const records=rows.filter(s=>(hasStores?s.benefitStore||"":"")===store),discKeys=[...new Set(records.map(s=>s.disc==null?null:String(s.disc)))];discKeys.sort((a,b)=>a===null?1:b===null?-1:0);
   const large=x.editionType==="memorial_box"&&!hasStores&&discKeys.length>=10;
   let section="";
+  if(discKeys.length>=2&&!large)section+='<nav class="release-disc-index">'+discKeys.map((d,i)=>{const id="release-disc-"+(groupIndex+i+1);return '<a href="/release/'+r.releaseId+'.html#'+id+'" data-disc-target="'+id+'">Disc '+e(d)+'</a>';}).join("")+'</nav>';
   if(large)section+='<div class="release-large-box"><select data-box-member><option value="">すべてのメンバー</option>'+children.map(c=>'<option value="'+e(c.featuredSinger?.id)+'">'+e(c.featuredSinger?.name)+'</option>').join("")+'</select><select data-box-disc>'+discKeys.map((d,i)=>'<option value="release-disc-'+(groupIndex+i+1)+'">Disc '+e(d)+'</option>').join("")+'</select><p data-box-status></p>';
   discKeys.forEach((disc,idx)=>{
    groupIndex++;const data=records.filter(s=>(s.disc==null?null:String(s.disc))===disc),uniform=large&&data[0].variant&&data.every(s=>s.variant===data[0].variant)?data[0].variant:"";
@@ -53,6 +55,7 @@ function releaseBody(r,list,options={}){
   count=discSet.size+" Disc · "+(unique===rows.length?rows.length+"曲":rows.length+(registered?"トラック":"件")+"（"+unique+"曲）");
  }
  if(r.releaseId==="R0072")count="10曲";
- return body+'<section id="includedSongsSection"'+(hidden?" hidden":"")+'><span id="includedSongsCount">'+count+'</span><div id="includedSongsContent">'+(options.kamipara||content)+'</div></section>';
+ const navSections=[...(!hidden?[["includedSongsSection","収録内容"]]:[]),...(r.releaseId==="R0072"?[["kamiparaHistorySection","神パラ歌唱履歴"]]:[]),...(outside.length?[["debutSongsSection","初出・由来"]]:[]),...(parent||children.length||siblings.length?[["relatedReleasesSection","関連作品"]]:[]),...(r.relatedEvents?.length?[["relatedEventsSection","関連イベント"]]:[]),["releaseInformationSection","作品情報"]];
+ return body+'<section id="includedSongsSection"'+(hidden?" hidden":"")+'><span id="includedSongsCount">'+count+'</span><div id="includedSongsContent">'+(options.kamipara||content)+'</div></section><nav id="releaseSectionNav">'+navSections.map(([id,label])=>a("","/release/"+r.releaseId+".html#"+id,label)).join("")+'</nav>';
 }
 module.exports={releaseBody};

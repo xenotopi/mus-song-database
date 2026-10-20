@@ -186,8 +186,8 @@ for (const width of [1280,390]) test(`related-card visual/DOM/Tab order ${width}
     assert.equal(await cards.nth(1).evaluate(n=>n===document.activeElement),true);
     await page.keyboard.press("Tab");
     assert.equal(await cards.nth(2).evaluate(n=>n===document.activeElement),true);
-    assert.equal(await page.locator('#releaseSectionNav a[href="#debutSongsSection"]').count(),0);
-    assert.equal(await page.locator('#releaseSectionNav a[href="#relatedReleasesSection"]').count(),1);
+    assert.equal(await page.locator('#releaseSectionNav a[href$="#debutSongsSection"]').count(),0);
+    assert.equal(await page.locator('#releaseSectionNav a[href$="#relatedReleasesSection"]').getAttribute("href"),"/release.html?id=R0088#relatedReleasesSection");
     assert.equal(await page.evaluate(()=>Boolean(document.getElementById("includedSongsSection").compareDocumentPosition(document.getElementById("releaseInformationSection")) & Node.DOCUMENT_POSITION_FOLLOWING)),true);
     assert.deepEqual(errors,[]);
   } finally {await page.close();}

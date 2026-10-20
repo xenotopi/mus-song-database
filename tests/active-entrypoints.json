@@ -98,7 +98,9 @@
     "release.html": {
       "js": [
         "assets/js/seo-v351.js",
-        "assets/js/release-v500.js"
+        "assets/js/release-v500.js",
+        "assets/js/detail-context.js",
+        "assets/js/singer-links.js"
       ],
       "css": [
         "assets/css/style.css",

@@ -10,15 +10,19 @@ import {
 } from "./common.js?v=4.10.1&cache=release-ux&songUrls=1";
 
 import {
-  getBirthdaysForMonthDay
-} from "./birthday-data-v400.js?v=4.9.3&cache=today-jst";
+  getBirthdaysForMonthDay,
+  getKamiparaBirthdays
+} from "./birthday-data-v400.js?v=4.9.4&cache=today-kamipara";
 
 import {
   getJstDateKey,
   getMillisecondsUntilNextJstDay,
   isHomeResponseForJstDate
 } from "./home-date-v493.js?v=4.9.3&cache=today-jst";
-import { staticEventDetail } from "./static-detail.js?v=1.3.0";
+import { staticEventDetail, staticKamiparaDashboard } from "./static-detail.js?v=1.3.0";
+
+let birthdayRenderGeneration = 0;
+let kamiparaBirthdayRequest;
 
 const todayEventRequests = new Map();
 let todayEventDate = "";
@@ -319,6 +323,7 @@ function setError(error) {
 
 
 function setTodayRefreshPending() {
+  birthdayRenderGeneration++;
   elements.todayDate.textContent =
     "";
 
@@ -345,6 +350,7 @@ function setTodayRefreshPending() {
 
 
 function setTodayRefreshError(error) {
+  birthdayRenderGeneration++;
   elements.todayDate.textContent =
     "";
 
@@ -746,23 +752,37 @@ function renderToday(today) {
 
 
 function renderBirthdays(today) {
-  const birthdays =
-    getBirthdaysForMonthDay(
+  const generation = ++birthdayRenderGeneration;
+  const dateKey = String(today.dateKey || getJstDateKey());
+  const render = (additionalBirthdays = []) => {
+    const birthdays = getBirthdaysForMonthDay(
       today.month,
-      today.day
+      today.day,
+      additionalBirthdays
     );
 
-  elements.birthdaySection.hidden =
-    birthdays.length === 0;
+    elements.birthdaySection.hidden = birthdays.length === 0;
 
-  elements.birthdayContent.innerHTML =
-    birthdays.map(item => `
-      <article class="birthday-person">
-        <span class="birthday-type">${item.type === "character" ? "CHARACTER" : "CAST"}</span>
-        <strong>${escapeHtml(item.name)}${escapeHtml(item.suffix)}</strong>
-        <span>お誕生日おめでとうございます！</span>
-      </article>
-    `).join("");
+    elements.birthdayContent.innerHTML = birthdays.map(item => `
+        <article class="birthday-person">
+          <span class="birthday-type">${item.type === "character" ? "CHARACTER" : "CAST"}</span>
+          <strong>${escapeHtml(item.name)}${escapeHtml(item.suffix)}</strong>
+          <span>お誕生日おめでとうございます！</span>
+        </article>
+      `).join("");
+  };
+  // Render existing birthdays immediately; the optional Static supplement must
+  // not block them or restore a previous day's cards after a JST rollover.
+  render();
+  if (!kamiparaBirthdayRequest) {
+    kamiparaBirthdayRequest = staticKamiparaDashboard()
+      .then(({ data }) => getKamiparaBirthdays(data.performers))
+      .catch(() => []);
+  }
+  kamiparaBirthdayRequest.then(additionalBirthdays => {
+    if (generation !== birthdayRenderGeneration || dateKey !== getJstDateKey()) return;
+    render(additionalBirthdays);
+  });
 }
 
 

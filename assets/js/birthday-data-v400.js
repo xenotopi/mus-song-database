@@ -21,7 +21,8 @@ export const BIRTHDAY_DATA = Object.freeze([
 
 export function getBirthdaysForMonthDay(
   monthValue,
-  dayValue
+  dayValue,
+  additionalBirthdays = []
 ) {
   const month =
     Number(monthValue);
@@ -29,7 +30,27 @@ export function getBirthdaysForMonthDay(
   const day =
     Number(dayValue);
 
-  return BIRTHDAY_DATA.filter(item => item.month === month && item.day === day);
+  return [...BIRTHDAY_DATA, ...(Array.isArray(additionalBirthdays) ? additionalBirthdays : [])]
+    .filter(item => item.month === month && item.day === day)
+    .sort((a, b) => Number(a.type !== "character") - Number(b.type !== "character"));
+}
+
+// Derive optional birthdays from the same performer records used by Kamipara.
+// Do not copy dates, museCharacterName, or castName into another master.
+export function getKamiparaBirthdays(performers) {
+  if (!Array.isArray(performers)) return [];
+  const seen = new Set();
+  return performers.flatMap(person => {
+    const id = String(person?.performerId || "").trim();
+    const name = String(person?.characterName || "").trim();
+    const match = String(person?.birthday || "").trim().match(/^(\d{2})\/(\d{2})$/);
+    if (!/^KPS\d{3}$/.test(id) || !name || !match || seen.has(id)) return [];
+    const month = Number(match[1]), day = Number(match[2]);
+    const date = new Date(Date.UTC(2000, month - 1, day));
+    if (date.getUTCMonth() + 1 !== month || date.getUTCDate() !== day) return [];
+    seen.add(id);
+    return [{ id: `BD-KP-${id}`, performerId: id, source: "kamipara", type: "character", name, month, day, suffix: "ちゃん" }];
+  });
 }
 
 export function getBirthdaysForDate(date = new Date()) {

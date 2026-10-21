@@ -49,6 +49,7 @@ html.mus-menu-lock .release-has-context .detail-context-inner { pointer-events: 
 .release-content a.release-included-song-row { display: flex; gap: 12px; align-items: center; }
 .release-track-number { flex: 0 0 28px; text-align: center; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
 .release-included-song-copy { display: block; flex: 1; min-width: 0; }
+.release-recording-vocal { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; font-weight: 500; line-height: 1.6; overflow-wrap: anywhere; }
 .release-disc-count { margin-left: auto; color: var(--muted); font-size: 12px; font-weight: 600; white-space: nowrap; }
 .release-disc-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
 .release-disc-actions button, .release-box-status button { min-height: 40px; padding: 6px 12px; border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--indigo); cursor: pointer; font: inherit; font-size: 13px; }

@@ -1,0 +1,2635 @@
+{
+  "schemaVersion": 1,
+  "purpose": "recording-vocal-pilot",
+  "note": "Release/Relation-scoped auxiliary references; not a master or live-performance attribution. Unregistered rows have no default singer.",
+  "evidence": {
+    "trio": {
+      "url": "https://www.sunrise-inc.co.jp/work/news.php?id=13300",
+      "kind": "official-product"
+    },
+    "unit": {
+      "url": "https://www.sunrise-inc.co.jp/work/news.php?id=3911",
+      "kind": "official-product"
+    },
+    "nine": {
+      "url": "https://www.sunrise-music.co.jp/list/detail.php?id=387",
+      "kind": "official-product"
+    },
+    "solo3": {
+      "url": "https://www.sunrise-music.co.jp/list/detail.php?id=66",
+      "kind": "official-product"
+    },
+    "box2": {
+      "url": "https://www.lantis.jp/release-item/LACA-39331.html",
+      "kind": "official-product",
+      "additionalUrl": "https://www.sunrise-inc.co.jp/work/news.php?id=7485",
+      "note": "The old announcement lists 12 tracks for Maki; current individual catalog lists 13. Do not use the announcement count to rewrite registered Relations.",
+      "currentIndividualUrl": "https://catalog.bandainamcomusiclive.co.jp/release/63162/"
+    }
+  },
+  "singerReference": {
+    "source": "existing public singerList response (05A)",
+    "sha256": "6d1f36d1c4340c2c7509ade6473693fb4ee396241ab6940047e39db4c5a75375"
+  },
+  "singers": [
+    {
+      "singerId": "SN0001",
+      "name": "μ's",
+      "cv": null
+    },
+    {
+      "singerId": "SN0004",
+      "name": "高坂穂乃果",
+      "cv": "新田恵海"
+    },
+    {
+      "singerId": "SN0006",
+      "name": "西木野真姫",
+      "cv": "Pile"
+    },
+    {
+      "singerId": "SN0011",
+      "name": "園田海未＆星空凛＆東條希",
+      "cv": null
+    },
+    {
+      "singerId": "SN0012",
+      "name": "星空凛",
+      "cv": "飯田里穂"
+    },
+    {
+      "singerId": "SN0017",
+      "name": "高坂穂乃果＆南ことり＆園田海未",
+      "cv": null
+    },
+    {
+      "singerId": "SN0021",
+      "name": "小泉花陽",
+      "cv": "久保ユリカ"
+    },
+    {
+      "singerId": "SN0022",
+      "name": "矢澤にこ",
+      "cv": "徳井青空"
+    },
+    {
+      "singerId": "SN0026",
+      "name": "園田海未",
+      "cv": "三森すずこ"
+    },
+    {
+      "singerId": "SN0027",
+      "name": "東條希",
+      "cv": "楠田亜衣奈"
+    },
+    {
+      "singerId": "SN0028",
+      "name": "南ことり",
+      "cv": "内田彩"
+    },
+    {
+      "singerId": "SN0034",
+      "name": "絢瀬絵里",
+      "cv": "南條愛乃"
+    }
+  ],
+  "releases": [
+    {
+      "releaseId": "R0019",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0040",
+          "songId": "S040",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "ススメ→トゥモロウ",
+          "benefitStore": null,
+          "singerId": "SN0017",
+          "basis": "explicit_relation",
+          "evidence": [
+            "trio"
+          ]
+        },
+        {
+          "relationId": "RT0041",
+          "songId": "S041",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "START:DASH!!（3人）",
+          "benefitStore": null,
+          "singerId": "SN0017",
+          "basis": "explicit_relation",
+          "evidence": [
+            "trio"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0005",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0009",
+          "songId": "S009",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "知らないLove*教えてLove",
+          "benefitStore": null,
+          "singerId": "SN0011",
+          "basis": "explicit_relation",
+          "evidence": [
+            "unit"
+          ]
+        },
+        {
+          "relationId": "RT0010",
+          "songId": "S010",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "あ・の・ね・が・ん・ば・れ！",
+          "benefitStore": null,
+          "singerId": "SN0011",
+          "basis": "explicit_relation",
+          "evidence": [
+            "unit"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0022",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0045",
+          "songId": "S045",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "No brand girls",
+          "benefitStore": null,
+          "singerId": "SN0001",
+          "basis": "explicit_relation",
+          "evidence": [
+            "nine"
+          ]
+        },
+        {
+          "relationId": "RT0046",
+          "songId": "S046",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "START:DASH!!（9人）",
+          "benefitStore": null,
+          "singerId": "SN0001",
+          "basis": "explicit_relation",
+          "evidence": [
+            "nine"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0106",
+      "featuredSingerId": "SN0004",
+      "parentReleaseId": "R0088",
+      "records": [
+        {
+          "relationId": "RT0940",
+          "songId": "S060",
+          "disc": 1,
+          "track": 1,
+          "variant": "HONOKA Mix",
+          "displayName": "Music S.T.A.R.T!!",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0941",
+          "songId": "S061",
+          "disc": 1,
+          "track": 2,
+          "variant": "HONOKA Mix",
+          "displayName": "LOVELESS WORLD",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0942",
+          "songId": "S062",
+          "disc": 1,
+          "track": 3,
+          "variant": "HONOKA Mix",
+          "displayName": "タカラモノズ",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0943",
+          "songId": "S063",
+          "disc": 1,
+          "track": 4,
+          "variant": "HONOKA Mix",
+          "displayName": "Paradise Live",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0944",
+          "songId": "S064",
+          "disc": 1,
+          "track": 5,
+          "variant": "HONOKA Mix",
+          "displayName": "それは僕たちの奇跡",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0945",
+          "songId": "S065",
+          "disc": 1,
+          "track": 6,
+          "variant": "HONOKA Mix",
+          "displayName": "だってだって噫無情",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0946",
+          "songId": "S066",
+          "disc": 1,
+          "track": 7,
+          "variant": "HONOKA Mix",
+          "displayName": "どんなときもずっと",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0947",
+          "songId": "S067",
+          "disc": 1,
+          "track": 8,
+          "variant": "HONOKA Mix",
+          "displayName": "COLORFUL VOICE",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0948",
+          "songId": "S068",
+          "disc": 1,
+          "track": 9,
+          "variant": "HONOKA Mix",
+          "displayName": "ユメノトビラ",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0949",
+          "songId": "S069",
+          "disc": 1,
+          "track": 10,
+          "variant": "HONOKA Mix",
+          "displayName": "SENTIMENTAL StepS",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0950",
+          "songId": "S071",
+          "disc": 1,
+          "track": 11,
+          "variant": "HONOKA Mix",
+          "displayName": "Dancing stars on me!",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0951",
+          "songId": "S073",
+          "disc": 1,
+          "track": 12,
+          "variant": "HONOKA Mix",
+          "displayName": "KiRa-KiRa Sensation!",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0952",
+          "songId": "S074",
+          "disc": 1,
+          "track": 13,
+          "variant": "HONOKA Mix",
+          "displayName": "Happy maker!",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0953",
+          "songId": "S079",
+          "disc": 2,
+          "track": 1,
+          "variant": "HONOKA Mix",
+          "displayName": "Shangri-La Shower",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0954",
+          "songId": "S080",
+          "disc": 2,
+          "track": 2,
+          "variant": "HONOKA Mix",
+          "displayName": "るてしキスキしてる",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0955",
+          "songId": "S093",
+          "disc": 2,
+          "track": 3,
+          "variant": "HONOKA Mix",
+          "displayName": "ミはμ'sicのミ",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0956",
+          "songId": "S094",
+          "disc": 2,
+          "track": 4,
+          "variant": "HONOKA Mix",
+          "displayName": "Super LOVE=Super LIVE!",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0957",
+          "songId": "S098",
+          "disc": 2,
+          "track": 5,
+          "variant": "HONOKA Mix",
+          "displayName": "Angelic Angel",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0958",
+          "songId": "S100",
+          "disc": 2,
+          "track": 6,
+          "variant": "HONOKA Mix",
+          "displayName": "SUNNY DAY SONG",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0959",
+          "songId": "S102",
+          "disc": 2,
+          "track": 7,
+          "variant": "HONOKA Mix",
+          "displayName": "僕たちはひとつの光",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0960",
+          "songId": "S103",
+          "disc": 2,
+          "track": 8,
+          "variant": "HONOKA Mix",
+          "displayName": "Future style",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0961",
+          "songId": "S055",
+          "disc": 3,
+          "track": 1,
+          "variant": "HONOKA Mix",
+          "displayName": "Pure girls project",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0962",
+          "songId": "S056",
+          "disc": 3,
+          "track": 2,
+          "variant": "HONOKA Mix",
+          "displayName": "UNBALANCED LOVE",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0963",
+          "songId": "S082",
+          "disc": 3,
+          "track": 3,
+          "variant": "HONOKA Mix",
+          "displayName": "永遠フレンズ",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0964",
+          "songId": "S083",
+          "disc": 3,
+          "track": 4,
+          "variant": "HONOKA Mix",
+          "displayName": "小夜啼鳥恋詩",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0965",
+          "songId": "S107",
+          "disc": 3,
+          "track": 5,
+          "variant": "HONOKA Mix",
+          "displayName": "WAO-WAO Powerful day!",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0966",
+          "songId": "S108",
+          "disc": 3,
+          "track": 6,
+          "variant": "HONOKA Mix",
+          "displayName": "NO EXIT ORION",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0967",
+          "songId": "S105",
+          "disc": 3,
+          "track": 7,
+          "variant": "HONOKA Mix",
+          "displayName": "HEART to HEART!",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0968",
+          "songId": "S106",
+          "disc": 3,
+          "track": 8,
+          "variant": "HONOKA Mix",
+          "displayName": "嵐のなかの恋だから",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0969",
+          "songId": "S114",
+          "disc": 3,
+          "track": 9,
+          "variant": "HONOKA Mix",
+          "displayName": "MOMENT RING",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        },
+        {
+          "relationId": "RT0970",
+          "songId": "S115",
+          "disc": 3,
+          "track": 10,
+          "variant": "HONOKA Mix",
+          "displayName": "さようならへさよなら！",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "featured_singer",
+          "evidence": [
+            "solo3"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0077",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0188",
+          "songId": "S017",
+          "disc": 1,
+          "track": 1,
+          "variant": "HONOKA Mix",
+          "displayName": "もぎゅっと“love”で接近中！",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0097",
+          "childRelationId": "RT0825"
+        },
+        {
+          "relationId": "RT0189",
+          "songId": "S018",
+          "disc": 1,
+          "track": 2,
+          "variant": "HONOKA Mix",
+          "displayName": "愛してるばんざーい!",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0097",
+          "childRelationId": "RT0826"
+        },
+        {
+          "relationId": "RT0190",
+          "songId": "S019",
+          "disc": 1,
+          "track": 3,
+          "variant": "HONOKA Mix",
+          "displayName": "Mermaid festa vol.2 ～Passionate～",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0097",
+          "childRelationId": "RT0827"
+        },
+        {
+          "relationId": "RT0191",
+          "songId": "S032",
+          "disc": 1,
+          "track": 4,
+          "variant": "HONOKA Mix",
+          "displayName": "Wonderful Rush",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0097",
+          "childRelationId": "RT0828"
+        },
+        {
+          "relationId": "RT0192",
+          "songId": "S033",
+          "disc": 1,
+          "track": 5,
+          "variant": "HONOKA Mix",
+          "displayName": "Oh, Love & Peace!",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0097",
+          "childRelationId": "RT0829"
+        },
+        {
+          "relationId": "RT0193",
+          "songId": "S036",
+          "disc": 1,
+          "track": 6,
+          "variant": "HONOKA Mix",
+          "displayName": "僕らは今のなかで",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0097",
+          "childRelationId": "RT0830"
+        },
+        {
+          "relationId": "RT0194",
+          "songId": "S037",
+          "disc": 1,
+          "track": 7,
+          "variant": "HONOKA Mix",
+          "displayName": "WILD STARS",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0097",
+          "childRelationId": "RT0831"
+        },
+        {
+          "relationId": "RT0195",
+          "songId": "S038",
+          "disc": 1,
+          "track": 8,
+          "variant": "HONOKA Mix",
+          "displayName": "きっと青春が聞こえる",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0097",
+          "childRelationId": "RT0832"
+        },
+        {
+          "relationId": "RT0196",
+          "songId": "S039",
+          "disc": 1,
+          "track": 9,
+          "variant": "HONOKA Mix",
+          "displayName": "輝夜の城で踊りたい",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0097",
+          "childRelationId": "RT0833"
+        },
+        {
+          "relationId": "RT0197",
+          "songId": "S040",
+          "disc": 1,
+          "track": 10,
+          "variant": "HONOKA Mix",
+          "displayName": "ススメ→トゥモロウ",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0097",
+          "childRelationId": "RT0834"
+        },
+        {
+          "relationId": "RT0198",
+          "songId": "S042",
+          "disc": 1,
+          "track": 11,
+          "variant": "HONOKA Mix",
+          "displayName": "これからのSomeday",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0097",
+          "childRelationId": "RT0835"
+        },
+        {
+          "relationId": "RT0199",
+          "songId": "S043",
+          "disc": 1,
+          "track": 12,
+          "variant": "HONOKA Mix",
+          "displayName": "Wonder zone",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0097",
+          "childRelationId": "RT0836"
+        },
+        {
+          "relationId": "RT0200",
+          "songId": "S045",
+          "disc": 1,
+          "track": 13,
+          "variant": "HONOKA Mix",
+          "displayName": "No brand girls",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0097",
+          "childRelationId": "RT0837"
+        },
+        {
+          "relationId": "RT1296",
+          "songId": "S046",
+          "disc": 1,
+          "track": 14,
+          "variant": "HONOKA Mix",
+          "displayName": "START:DASH!!（9人）",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0097",
+          "childRelationId": "RT1305"
+        },
+        {
+          "relationId": "RT0201",
+          "songId": "S017",
+          "disc": 2,
+          "track": 1,
+          "variant": "ELI Mix",
+          "displayName": "もぎゅっと“love”で接近中！",
+          "benefitStore": null,
+          "singerId": "SN0034",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0098",
+          "childRelationId": "RT0838"
+        },
+        {
+          "relationId": "RT0202",
+          "songId": "S018",
+          "disc": 2,
+          "track": 2,
+          "variant": "ELI Mix",
+          "displayName": "愛してるばんざーい!",
+          "benefitStore": null,
+          "singerId": "SN0034",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0098",
+          "childRelationId": "RT0839"
+        },
+        {
+          "relationId": "RT0203",
+          "songId": "S028",
+          "disc": 2,
+          "track": 3,
+          "variant": "ELI Mix",
+          "displayName": "soldier game",
+          "benefitStore": null,
+          "singerId": "SN0034",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0098",
+          "childRelationId": "RT0840"
+        },
+        {
+          "relationId": "RT0204",
+          "songId": "S032",
+          "disc": 2,
+          "track": 4,
+          "variant": "ELI Mix",
+          "displayName": "Wonderful Rush",
+          "benefitStore": null,
+          "singerId": "SN0034",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0098",
+          "childRelationId": "RT0841"
+        },
+        {
+          "relationId": "RT0205",
+          "songId": "S033",
+          "disc": 2,
+          "track": 5,
+          "variant": "ELI Mix",
+          "displayName": "Oh, Love & Peace!",
+          "benefitStore": null,
+          "singerId": "SN0034",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0098",
+          "childRelationId": "RT0842"
+        },
+        {
+          "relationId": "RT0206",
+          "songId": "S036",
+          "disc": 2,
+          "track": 6,
+          "variant": "ELI Mix",
+          "displayName": "僕らは今のなかで",
+          "benefitStore": null,
+          "singerId": "SN0034",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0098",
+          "childRelationId": "RT0843"
+        },
+        {
+          "relationId": "RT0207",
+          "songId": "S037",
+          "disc": 2,
+          "track": 7,
+          "variant": "ELI Mix",
+          "displayName": "WILD STARS",
+          "benefitStore": null,
+          "singerId": "SN0034",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0098",
+          "childRelationId": "RT0844"
+        },
+        {
+          "relationId": "RT0208",
+          "songId": "S038",
+          "disc": 2,
+          "track": 8,
+          "variant": "ELI Mix",
+          "displayName": "きっと青春が聞こえる",
+          "benefitStore": null,
+          "singerId": "SN0034",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0098",
+          "childRelationId": "RT0845"
+        },
+        {
+          "relationId": "RT0209",
+          "songId": "S039",
+          "disc": 2,
+          "track": 9,
+          "variant": "ELI Mix",
+          "displayName": "輝夜の城で踊りたい",
+          "benefitStore": null,
+          "singerId": "SN0034",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0098",
+          "childRelationId": "RT0846"
+        },
+        {
+          "relationId": "RT0210",
+          "songId": "S043",
+          "disc": 2,
+          "track": 10,
+          "variant": "ELI Mix",
+          "displayName": "Wonder zone",
+          "benefitStore": null,
+          "singerId": "SN0034",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0098",
+          "childRelationId": "RT0847"
+        },
+        {
+          "relationId": "RT0211",
+          "songId": "S045",
+          "disc": 2,
+          "track": 11,
+          "variant": "ELI Mix",
+          "displayName": "No brand girls",
+          "benefitStore": null,
+          "singerId": "SN0034",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0098",
+          "childRelationId": "RT0848"
+        },
+        {
+          "relationId": "RT1297",
+          "songId": "S046",
+          "disc": 2,
+          "track": 12,
+          "variant": "ELI Mix",
+          "displayName": "START:DASH!!（9人）",
+          "benefitStore": null,
+          "singerId": "SN0034",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0098",
+          "childRelationId": "RT1306"
+        },
+        {
+          "relationId": "RT0212",
+          "songId": "S017",
+          "disc": 3,
+          "track": 1,
+          "variant": "KOTORI Mix",
+          "displayName": "もぎゅっと“love”で接近中！",
+          "benefitStore": null,
+          "singerId": "SN0028",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0099",
+          "childRelationId": "RT0849"
+        },
+        {
+          "relationId": "RT0213",
+          "songId": "S018",
+          "disc": 3,
+          "track": 2,
+          "variant": "KOTORI Mix",
+          "displayName": "愛してるばんざーい!",
+          "benefitStore": null,
+          "singerId": "SN0028",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0099",
+          "childRelationId": "RT0850"
+        },
+        {
+          "relationId": "RT0214",
+          "songId": "S025",
+          "disc": 3,
+          "track": 3,
+          "variant": "KOTORI Mix",
+          "displayName": "告白日和、です！",
+          "benefitStore": null,
+          "singerId": "SN0028",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0099",
+          "childRelationId": "RT0851"
+        },
+        {
+          "relationId": "RT0215",
+          "songId": "S032",
+          "disc": 3,
+          "track": 4,
+          "variant": "KOTORI Mix",
+          "displayName": "Wonderful Rush",
+          "benefitStore": null,
+          "singerId": "SN0028",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0099",
+          "childRelationId": "RT0852"
+        },
+        {
+          "relationId": "RT0216",
+          "songId": "S033",
+          "disc": 3,
+          "track": 5,
+          "variant": "KOTORI Mix",
+          "displayName": "Oh, Love & Peace!",
+          "benefitStore": null,
+          "singerId": "SN0028",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0099",
+          "childRelationId": "RT0853"
+        },
+        {
+          "relationId": "RT0217",
+          "songId": "S036",
+          "disc": 3,
+          "track": 6,
+          "variant": "KOTORI Mix",
+          "displayName": "僕らは今のなかで",
+          "benefitStore": null,
+          "singerId": "SN0028",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0099",
+          "childRelationId": "RT0854"
+        },
+        {
+          "relationId": "RT0218",
+          "songId": "S037",
+          "disc": 3,
+          "track": 7,
+          "variant": "KOTORI Mix",
+          "displayName": "WILD STARS",
+          "benefitStore": null,
+          "singerId": "SN0028",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0099",
+          "childRelationId": "RT0855"
+        },
+        {
+          "relationId": "RT0219",
+          "songId": "S038",
+          "disc": 3,
+          "track": 8,
+          "variant": "KOTORI Mix",
+          "displayName": "きっと青春が聞こえる",
+          "benefitStore": null,
+          "singerId": "SN0028",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0099",
+          "childRelationId": "RT0856"
+        },
+        {
+          "relationId": "RT0220",
+          "songId": "S039",
+          "disc": 3,
+          "track": 9,
+          "variant": "KOTORI Mix",
+          "displayName": "輝夜の城で踊りたい",
+          "benefitStore": null,
+          "singerId": "SN0028",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0099",
+          "childRelationId": "RT0857"
+        },
+        {
+          "relationId": "RT0221",
+          "songId": "S040",
+          "disc": 3,
+          "track": 10,
+          "variant": "KOTORI Mix",
+          "displayName": "ススメ→トゥモロウ",
+          "benefitStore": null,
+          "singerId": "SN0028",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0099",
+          "childRelationId": "RT0858"
+        },
+        {
+          "relationId": "RT0222",
+          "songId": "S042",
+          "disc": 3,
+          "track": 11,
+          "variant": "KOTORI Mix",
+          "displayName": "これからのSomeday",
+          "benefitStore": null,
+          "singerId": "SN0028",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0099",
+          "childRelationId": "RT0859"
+        },
+        {
+          "relationId": "RT0223",
+          "songId": "S043",
+          "disc": 3,
+          "track": 12,
+          "variant": "KOTORI Mix",
+          "displayName": "Wonder zone",
+          "benefitStore": null,
+          "singerId": "SN0028",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0099",
+          "childRelationId": "RT0860"
+        },
+        {
+          "relationId": "RT0224",
+          "songId": "S045",
+          "disc": 3,
+          "track": 13,
+          "variant": "KOTORI Mix",
+          "displayName": "No brand girls",
+          "benefitStore": null,
+          "singerId": "SN0028",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0099",
+          "childRelationId": "RT0861"
+        },
+        {
+          "relationId": "RT1298",
+          "songId": "S046",
+          "disc": 3,
+          "track": 14,
+          "variant": "KOTORI Mix",
+          "displayName": "START:DASH!!（9人）",
+          "benefitStore": null,
+          "singerId": "SN0028",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0099",
+          "childRelationId": "RT1307"
+        },
+        {
+          "relationId": "RT0225",
+          "songId": "S017",
+          "disc": 4,
+          "track": 1,
+          "variant": "UMI Mix",
+          "displayName": "もぎゅっと“love”で接近中！",
+          "benefitStore": null,
+          "singerId": "SN0026",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0100",
+          "childRelationId": "RT0862"
+        },
+        {
+          "relationId": "RT0226",
+          "songId": "S018",
+          "disc": 4,
+          "track": 2,
+          "variant": "UMI Mix",
+          "displayName": "愛してるばんざーい!",
+          "benefitStore": null,
+          "singerId": "SN0026",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0100",
+          "childRelationId": "RT0863"
+        },
+        {
+          "relationId": "RT0227",
+          "songId": "S028",
+          "disc": 4,
+          "track": 3,
+          "variant": "UMI Mix",
+          "displayName": "soldier game",
+          "benefitStore": null,
+          "singerId": "SN0026",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0100",
+          "childRelationId": "RT0864"
+        },
+        {
+          "relationId": "RT0228",
+          "songId": "S032",
+          "disc": 4,
+          "track": 4,
+          "variant": "UMI Mix",
+          "displayName": "Wonderful Rush",
+          "benefitStore": null,
+          "singerId": "SN0026",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0100",
+          "childRelationId": "RT0865"
+        },
+        {
+          "relationId": "RT0229",
+          "songId": "S033",
+          "disc": 4,
+          "track": 5,
+          "variant": "UMI Mix",
+          "displayName": "Oh, Love & Peace!",
+          "benefitStore": null,
+          "singerId": "SN0026",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0100",
+          "childRelationId": "RT0866"
+        },
+        {
+          "relationId": "RT0230",
+          "songId": "S036",
+          "disc": 4,
+          "track": 6,
+          "variant": "UMI Mix",
+          "displayName": "僕らは今のなかで",
+          "benefitStore": null,
+          "singerId": "SN0026",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0100",
+          "childRelationId": "RT0867"
+        },
+        {
+          "relationId": "RT0231",
+          "songId": "S037",
+          "disc": 4,
+          "track": 7,
+          "variant": "UMI Mix",
+          "displayName": "WILD STARS",
+          "benefitStore": null,
+          "singerId": "SN0026",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0100",
+          "childRelationId": "RT0868"
+        },
+        {
+          "relationId": "RT0232",
+          "songId": "S038",
+          "disc": 4,
+          "track": 8,
+          "variant": "UMI Mix",
+          "displayName": "きっと青春が聞こえる",
+          "benefitStore": null,
+          "singerId": "SN0026",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0100",
+          "childRelationId": "RT0869"
+        },
+        {
+          "relationId": "RT0233",
+          "songId": "S039",
+          "disc": 4,
+          "track": 9,
+          "variant": "UMI Mix",
+          "displayName": "輝夜の城で踊りたい",
+          "benefitStore": null,
+          "singerId": "SN0026",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0100",
+          "childRelationId": "RT0870"
+        },
+        {
+          "relationId": "RT0234",
+          "songId": "S040",
+          "disc": 4,
+          "track": 10,
+          "variant": "UMI Mix",
+          "displayName": "ススメ→トゥモロウ",
+          "benefitStore": null,
+          "singerId": "SN0026",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0100",
+          "childRelationId": "RT0871"
+        },
+        {
+          "relationId": "RT0235",
+          "songId": "S042",
+          "disc": 4,
+          "track": 11,
+          "variant": "UMI Mix",
+          "displayName": "これからのSomeday",
+          "benefitStore": null,
+          "singerId": "SN0026",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0100",
+          "childRelationId": "RT0872"
+        },
+        {
+          "relationId": "RT0236",
+          "songId": "S043",
+          "disc": 4,
+          "track": 12,
+          "variant": "UMI Mix",
+          "displayName": "Wonder zone",
+          "benefitStore": null,
+          "singerId": "SN0026",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0100",
+          "childRelationId": "RT0873"
+        },
+        {
+          "relationId": "RT0237",
+          "songId": "S045",
+          "disc": 4,
+          "track": 13,
+          "variant": "UMI Mix",
+          "displayName": "No brand girls",
+          "benefitStore": null,
+          "singerId": "SN0026",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0100",
+          "childRelationId": "RT0874"
+        },
+        {
+          "relationId": "RT1299",
+          "songId": "S046",
+          "disc": 4,
+          "track": 14,
+          "variant": "UMI Mix",
+          "displayName": "START:DASH!!（9人）",
+          "benefitStore": null,
+          "singerId": "SN0026",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0100",
+          "childRelationId": "RT1308"
+        },
+        {
+          "relationId": "RT0238",
+          "songId": "S017",
+          "disc": 5,
+          "track": 1,
+          "variant": "RIN Mix",
+          "displayName": "もぎゅっと“love”で接近中！",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0101",
+          "childRelationId": "RT0875"
+        },
+        {
+          "relationId": "RT0239",
+          "songId": "S018",
+          "disc": 5,
+          "track": 2,
+          "variant": "RIN Mix",
+          "displayName": "愛してるばんざーい!",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0101",
+          "childRelationId": "RT0876"
+        },
+        {
+          "relationId": "RT0240",
+          "songId": "S019",
+          "disc": 5,
+          "track": 3,
+          "variant": "RIN Mix",
+          "displayName": "Mermaid festa vol.2 ～Passionate～",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0101",
+          "childRelationId": "RT0877"
+        },
+        {
+          "relationId": "RT0241",
+          "songId": "S032",
+          "disc": 5,
+          "track": 4,
+          "variant": "RIN Mix",
+          "displayName": "Wonderful Rush",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0101",
+          "childRelationId": "RT0878"
+        },
+        {
+          "relationId": "RT0242",
+          "songId": "S033",
+          "disc": 5,
+          "track": 5,
+          "variant": "RIN Mix",
+          "displayName": "Oh, Love & Peace!",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0101",
+          "childRelationId": "RT0879"
+        },
+        {
+          "relationId": "RT0243",
+          "songId": "S034",
+          "disc": 5,
+          "track": 6,
+          "variant": "RIN Mix",
+          "displayName": "Listen to my heart!!",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0101",
+          "childRelationId": "RT0880"
+        },
+        {
+          "relationId": "RT0244",
+          "songId": "S035",
+          "disc": 5,
+          "track": 7,
+          "variant": "RIN Mix",
+          "displayName": "after school NAVIGATORS",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0101",
+          "childRelationId": "RT0881"
+        },
+        {
+          "relationId": "RT0245",
+          "songId": "S036",
+          "disc": 5,
+          "track": 8,
+          "variant": "RIN Mix",
+          "displayName": "僕らは今のなかで",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0101",
+          "childRelationId": "RT0882"
+        },
+        {
+          "relationId": "RT0246",
+          "songId": "S037",
+          "disc": 5,
+          "track": 9,
+          "variant": "RIN Mix",
+          "displayName": "WILD STARS",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0101",
+          "childRelationId": "RT0883"
+        },
+        {
+          "relationId": "RT0247",
+          "songId": "S038",
+          "disc": 5,
+          "track": 10,
+          "variant": "RIN Mix",
+          "displayName": "きっと青春が聞こえる",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0101",
+          "childRelationId": "RT0884"
+        },
+        {
+          "relationId": "RT0248",
+          "songId": "S039",
+          "disc": 5,
+          "track": 11,
+          "variant": "RIN Mix",
+          "displayName": "輝夜の城で踊りたい",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0101",
+          "childRelationId": "RT0885"
+        },
+        {
+          "relationId": "RT0249",
+          "songId": "S042",
+          "disc": 5,
+          "track": 12,
+          "variant": "RIN Mix",
+          "displayName": "これからのSomeday",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0101",
+          "childRelationId": "RT0886"
+        },
+        {
+          "relationId": "RT0250",
+          "songId": "S043",
+          "disc": 5,
+          "track": 13,
+          "variant": "RIN Mix",
+          "displayName": "Wonder zone",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0101",
+          "childRelationId": "RT0887"
+        },
+        {
+          "relationId": "RT0251",
+          "songId": "S045",
+          "disc": 5,
+          "track": 14,
+          "variant": "RIN Mix",
+          "displayName": "No brand girls",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0101",
+          "childRelationId": "RT0888"
+        },
+        {
+          "relationId": "RT1300",
+          "songId": "S046",
+          "disc": 5,
+          "track": 15,
+          "variant": "RIN Mix",
+          "displayName": "START:DASH!!（9人）",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0101",
+          "childRelationId": "RT1309"
+        },
+        {
+          "relationId": "RT0252",
+          "songId": "S017",
+          "disc": 6,
+          "track": 1,
+          "variant": "MAKI Mix",
+          "displayName": "もぎゅっと“love”で接近中！",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0102",
+          "childRelationId": "RT0889"
+        },
+        {
+          "relationId": "RT0253",
+          "songId": "S018",
+          "disc": 6,
+          "track": 2,
+          "variant": "MAKI Mix",
+          "displayName": "愛してるばんざーい!",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0102",
+          "childRelationId": "RT0890"
+        },
+        {
+          "relationId": "RT0254",
+          "songId": "S028",
+          "disc": 6,
+          "track": 3,
+          "variant": "MAKI Mix",
+          "displayName": "soldier game",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0102",
+          "childRelationId": "RT0891"
+        },
+        {
+          "relationId": "RT0255",
+          "songId": "S032",
+          "disc": 6,
+          "track": 4,
+          "variant": "MAKI Mix",
+          "displayName": "Wonderful Rush",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0102",
+          "childRelationId": "RT0892"
+        },
+        {
+          "relationId": "RT0256",
+          "songId": "S033",
+          "disc": 6,
+          "track": 5,
+          "variant": "MAKI Mix",
+          "displayName": "Oh, Love & Peace!",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0102",
+          "childRelationId": "RT0893"
+        },
+        {
+          "relationId": "RT0257",
+          "songId": "S036",
+          "disc": 6,
+          "track": 6,
+          "variant": "MAKI Mix",
+          "displayName": "僕らは今のなかで",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0102",
+          "childRelationId": "RT0894"
+        },
+        {
+          "relationId": "RT0258",
+          "songId": "S037",
+          "disc": 6,
+          "track": 7,
+          "variant": "MAKI Mix",
+          "displayName": "WILD STARS",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0102",
+          "childRelationId": "RT0895"
+        },
+        {
+          "relationId": "RT0259",
+          "songId": "S038",
+          "disc": 6,
+          "track": 8,
+          "variant": "MAKI Mix",
+          "displayName": "きっと青春が聞こえる",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0102",
+          "childRelationId": "RT0896"
+        },
+        {
+          "relationId": "RT0260",
+          "songId": "S039",
+          "disc": 6,
+          "track": 9,
+          "variant": "MAKI Mix",
+          "displayName": "輝夜の城で踊りたい",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0102",
+          "childRelationId": "RT0897"
+        },
+        {
+          "relationId": "RT0261",
+          "songId": "S042",
+          "disc": 6,
+          "track": 10,
+          "variant": "MAKI Mix",
+          "displayName": "これからのSomeday",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0102",
+          "childRelationId": "RT0898"
+        },
+        {
+          "relationId": "RT0262",
+          "songId": "S043",
+          "disc": 6,
+          "track": 11,
+          "variant": "MAKI Mix",
+          "displayName": "Wonder zone",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0102",
+          "childRelationId": "RT0899"
+        },
+        {
+          "relationId": "RT0263",
+          "songId": "S045",
+          "disc": 6,
+          "track": 12,
+          "variant": "MAKI Mix",
+          "displayName": "No brand girls",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0102",
+          "childRelationId": "RT0900"
+        },
+        {
+          "relationId": "RT1301",
+          "songId": "S046",
+          "disc": 6,
+          "track": 13,
+          "variant": "MAKI Mix",
+          "displayName": "START:DASH!!（9人）",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0102",
+          "childRelationId": "RT1310"
+        },
+        {
+          "relationId": "RT0264",
+          "songId": "S017",
+          "disc": 7,
+          "track": 1,
+          "variant": "NOZOMI Mix",
+          "displayName": "もぎゅっと“love”で接近中！",
+          "benefitStore": null,
+          "singerId": "SN0027",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0103",
+          "childRelationId": "RT0901"
+        },
+        {
+          "relationId": "RT0265",
+          "songId": "S018",
+          "disc": 7,
+          "track": 2,
+          "variant": "NOZOMI Mix",
+          "displayName": "愛してるばんざーい!",
+          "benefitStore": null,
+          "singerId": "SN0027",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0103",
+          "childRelationId": "RT0902"
+        },
+        {
+          "relationId": "RT0266",
+          "songId": "S022",
+          "disc": 7,
+          "track": 3,
+          "variant": "NOZOMI Mix",
+          "displayName": "乙女式れんあい塾",
+          "benefitStore": null,
+          "singerId": "SN0027",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0103",
+          "childRelationId": "RT0903"
+        },
+        {
+          "relationId": "RT0267",
+          "songId": "S032",
+          "disc": 7,
+          "track": 4,
+          "variant": "NOZOMI Mix",
+          "displayName": "Wonderful Rush",
+          "benefitStore": null,
+          "singerId": "SN0027",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0103",
+          "childRelationId": "RT0904"
+        },
+        {
+          "relationId": "RT0268",
+          "songId": "S033",
+          "disc": 7,
+          "track": 5,
+          "variant": "NOZOMI Mix",
+          "displayName": "Oh, Love & Peace!",
+          "benefitStore": null,
+          "singerId": "SN0027",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0103",
+          "childRelationId": "RT0905"
+        },
+        {
+          "relationId": "RT0269",
+          "songId": "S036",
+          "disc": 7,
+          "track": 6,
+          "variant": "NOZOMI Mix",
+          "displayName": "僕らは今のなかで",
+          "benefitStore": null,
+          "singerId": "SN0027",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0103",
+          "childRelationId": "RT0906"
+        },
+        {
+          "relationId": "RT0270",
+          "songId": "S037",
+          "disc": 7,
+          "track": 7,
+          "variant": "NOZOMI Mix",
+          "displayName": "WILD STARS",
+          "benefitStore": null,
+          "singerId": "SN0027",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0103",
+          "childRelationId": "RT0907"
+        },
+        {
+          "relationId": "RT0271",
+          "songId": "S038",
+          "disc": 7,
+          "track": 8,
+          "variant": "NOZOMI Mix",
+          "displayName": "きっと青春が聞こえる",
+          "benefitStore": null,
+          "singerId": "SN0027",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0103",
+          "childRelationId": "RT0908"
+        },
+        {
+          "relationId": "RT0272",
+          "songId": "S039",
+          "disc": 7,
+          "track": 9,
+          "variant": "NOZOMI Mix",
+          "displayName": "輝夜の城で踊りたい",
+          "benefitStore": null,
+          "singerId": "SN0027",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0103",
+          "childRelationId": "RT0909"
+        },
+        {
+          "relationId": "RT0273",
+          "songId": "S043",
+          "disc": 7,
+          "track": 10,
+          "variant": "NOZOMI Mix",
+          "displayName": "Wonder zone",
+          "benefitStore": null,
+          "singerId": "SN0027",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0103",
+          "childRelationId": "RT0910"
+        },
+        {
+          "relationId": "RT0274",
+          "songId": "S045",
+          "disc": 7,
+          "track": 11,
+          "variant": "NOZOMI Mix",
+          "displayName": "No brand girls",
+          "benefitStore": null,
+          "singerId": "SN0027",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0103",
+          "childRelationId": "RT0911"
+        },
+        {
+          "relationId": "RT1302",
+          "songId": "S046",
+          "disc": 7,
+          "track": 12,
+          "variant": "NOZOMI Mix",
+          "displayName": "START:DASH!!（9人）",
+          "benefitStore": null,
+          "singerId": "SN0027",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0103",
+          "childRelationId": "RT1311"
+        },
+        {
+          "relationId": "RT0275",
+          "songId": "S017",
+          "disc": 8,
+          "track": 1,
+          "variant": "HANAYO Mix",
+          "displayName": "もぎゅっと“love”で接近中！",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0104",
+          "childRelationId": "RT0912"
+        },
+        {
+          "relationId": "RT0276",
+          "songId": "S018",
+          "disc": 8,
+          "track": 2,
+          "variant": "HANAYO Mix",
+          "displayName": "愛してるばんざーい!",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0104",
+          "childRelationId": "RT0913"
+        },
+        {
+          "relationId": "RT0277",
+          "songId": "S025",
+          "disc": 8,
+          "track": 3,
+          "variant": "HANAYO Mix",
+          "displayName": "告白日和、です！",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0104",
+          "childRelationId": "RT0914"
+        },
+        {
+          "relationId": "RT0278",
+          "songId": "S032",
+          "disc": 8,
+          "track": 4,
+          "variant": "HANAYO Mix",
+          "displayName": "Wonderful Rush",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0104",
+          "childRelationId": "RT0915"
+        },
+        {
+          "relationId": "RT0279",
+          "songId": "S033",
+          "disc": 8,
+          "track": 5,
+          "variant": "HANAYO Mix",
+          "displayName": "Oh, Love & Peace!",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0104",
+          "childRelationId": "RT0916"
+        },
+        {
+          "relationId": "RT0280",
+          "songId": "S034",
+          "disc": 8,
+          "track": 6,
+          "variant": "HANAYO Mix",
+          "displayName": "Listen to my heart!!",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0104",
+          "childRelationId": "RT0917"
+        },
+        {
+          "relationId": "RT0281",
+          "songId": "S035",
+          "disc": 8,
+          "track": 7,
+          "variant": "HANAYO Mix",
+          "displayName": "after school NAVIGATORS",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0104",
+          "childRelationId": "RT0918"
+        },
+        {
+          "relationId": "RT0282",
+          "songId": "S036",
+          "disc": 8,
+          "track": 8,
+          "variant": "HANAYO Mix",
+          "displayName": "僕らは今のなかで",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0104",
+          "childRelationId": "RT0919"
+        },
+        {
+          "relationId": "RT0283",
+          "songId": "S037",
+          "disc": 8,
+          "track": 9,
+          "variant": "HANAYO Mix",
+          "displayName": "WILD STARS",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0104",
+          "childRelationId": "RT0920"
+        },
+        {
+          "relationId": "RT0284",
+          "songId": "S038",
+          "disc": 8,
+          "track": 10,
+          "variant": "HANAYO Mix",
+          "displayName": "きっと青春が聞こえる",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0104",
+          "childRelationId": "RT0921"
+        },
+        {
+          "relationId": "RT0285",
+          "songId": "S039",
+          "disc": 8,
+          "track": 11,
+          "variant": "HANAYO Mix",
+          "displayName": "輝夜の城で踊りたい",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0104",
+          "childRelationId": "RT0922"
+        },
+        {
+          "relationId": "RT0286",
+          "songId": "S042",
+          "disc": 8,
+          "track": 12,
+          "variant": "HANAYO Mix",
+          "displayName": "これからのSomeday",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0104",
+          "childRelationId": "RT0923"
+        },
+        {
+          "relationId": "RT0287",
+          "songId": "S043",
+          "disc": 8,
+          "track": 13,
+          "variant": "HANAYO Mix",
+          "displayName": "Wonder zone",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0104",
+          "childRelationId": "RT0924"
+        },
+        {
+          "relationId": "RT0288",
+          "songId": "S045",
+          "disc": 8,
+          "track": 14,
+          "variant": "HANAYO Mix",
+          "displayName": "No brand girls",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0104",
+          "childRelationId": "RT0925"
+        },
+        {
+          "relationId": "RT1303",
+          "songId": "S046",
+          "disc": 8,
+          "track": 15,
+          "variant": "HANAYO Mix",
+          "displayName": "START:DASH!!（9人）",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0104",
+          "childRelationId": "RT1312"
+        },
+        {
+          "relationId": "RT0289",
+          "songId": "S017",
+          "disc": 9,
+          "track": 1,
+          "variant": "NICO Mix",
+          "displayName": "もぎゅっと“love”で接近中！",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0105",
+          "childRelationId": "RT0926"
+        },
+        {
+          "relationId": "RT0290",
+          "songId": "S018",
+          "disc": 9,
+          "track": 2,
+          "variant": "NICO Mix",
+          "displayName": "愛してるばんざーい!",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0105",
+          "childRelationId": "RT0927"
+        },
+        {
+          "relationId": "RT0291",
+          "songId": "S022",
+          "disc": 9,
+          "track": 3,
+          "variant": "NICO Mix",
+          "displayName": "乙女式れんあい塾",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0105",
+          "childRelationId": "RT0928"
+        },
+        {
+          "relationId": "RT0292",
+          "songId": "S032",
+          "disc": 9,
+          "track": 4,
+          "variant": "NICO Mix",
+          "displayName": "Wonderful Rush",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0105",
+          "childRelationId": "RT0929"
+        },
+        {
+          "relationId": "RT0293",
+          "songId": "S033",
+          "disc": 9,
+          "track": 5,
+          "variant": "NICO Mix",
+          "displayName": "Oh, Love & Peace!",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0105",
+          "childRelationId": "RT0930"
+        },
+        {
+          "relationId": "RT0294",
+          "songId": "S034",
+          "disc": 9,
+          "track": 6,
+          "variant": "NICO Mix",
+          "displayName": "Listen to my heart!!",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0105",
+          "childRelationId": "RT0931"
+        },
+        {
+          "relationId": "RT0295",
+          "songId": "S035",
+          "disc": 9,
+          "track": 7,
+          "variant": "NICO Mix",
+          "displayName": "after school NAVIGATORS",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0105",
+          "childRelationId": "RT0932"
+        },
+        {
+          "relationId": "RT0296",
+          "songId": "S036",
+          "disc": 9,
+          "track": 8,
+          "variant": "NICO Mix",
+          "displayName": "僕らは今のなかで",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0105",
+          "childRelationId": "RT0933"
+        },
+        {
+          "relationId": "RT0297",
+          "songId": "S037",
+          "disc": 9,
+          "track": 9,
+          "variant": "NICO Mix",
+          "displayName": "WILD STARS",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0105",
+          "childRelationId": "RT0934"
+        },
+        {
+          "relationId": "RT0298",
+          "songId": "S038",
+          "disc": 9,
+          "track": 10,
+          "variant": "NICO Mix",
+          "displayName": "きっと青春が聞こえる",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0105",
+          "childRelationId": "RT0935"
+        },
+        {
+          "relationId": "RT0299",
+          "songId": "S039",
+          "disc": 9,
+          "track": 11,
+          "variant": "NICO Mix",
+          "displayName": "輝夜の城で踊りたい",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0105",
+          "childRelationId": "RT0936"
+        },
+        {
+          "relationId": "RT0300",
+          "songId": "S042",
+          "disc": 9,
+          "track": 12,
+          "variant": "NICO Mix",
+          "displayName": "これからのSomeday",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0105",
+          "childRelationId": "RT0937"
+        },
+        {
+          "relationId": "RT0301",
+          "songId": "S043",
+          "disc": 9,
+          "track": 13,
+          "variant": "NICO Mix",
+          "displayName": "Wonder zone",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0105",
+          "childRelationId": "RT0938"
+        },
+        {
+          "relationId": "RT0302",
+          "songId": "S045",
+          "disc": 9,
+          "track": 14,
+          "variant": "NICO Mix",
+          "displayName": "No brand girls",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0105",
+          "childRelationId": "RT0939"
+        },
+        {
+          "relationId": "RT1304",
+          "songId": "S046",
+          "disc": 9,
+          "track": 15,
+          "variant": "NICO Mix",
+          "displayName": "START:DASH!!（9人）",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "box2"
+          ],
+          "childReleaseId": "R0105",
+          "childRelationId": "RT1313"
+        }
+      ]
+    }
+  ]
+}

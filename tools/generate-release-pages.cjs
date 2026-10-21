@@ -10,6 +10,7 @@ const { sha256, validateSnapshot, validateEventSnapshot, validateKamiparaDashboa
 const { beginCapture } = require("./capture-provenance.cjs");
 const { expectedSidecar, validateSidecarBody } = require("./validate-release-sidecar.cjs");
 const { parseSerializedHtml } = require("./static-html-readonly-lib.cjs");
+const { validateVocalData, validateVocalBody } = require("./validate-release-vocals.cjs");
 const root = path.resolve(__dirname, "..");
 const mime = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png" };
 
@@ -23,6 +24,9 @@ const RELEASE_RENDERER_FILES = Object.freeze([
   "tools/detail-snapshot-lib.cjs",
   "tools/capture-provenance.cjs",
   "assets/js/release-v500.js",
+  "assets/js/release-vocals.js",
+  "data/release-vocals.json",
+  "tools/validate-release-vocals.cjs",
   "assets/js/release-sidecar.js",
   "assets/js/singer-display.js",
   "data/release-sidecars/R0052.json",
@@ -210,6 +214,8 @@ async function generateReleasePages({ revision, ids } = {}) {
   const { manifest, rendererSha256 } = capture;
   const pinnedTemplate = capture.source("release.html");
   const sidecar = JSON.parse(capture.source("data/release-sidecars/R0052.json"));
+  const vocals = validateVocalData(JSON.parse(capture.source("data/release-vocals.json")),
+    Object.fromEntries(ids.map(id => [id, capture.snapshot(`releases/${id}.json`).data])));
   expectedSidecar(sidecar, capture.snapshot("releases/R0052.json").data);
   const kamipara = loadKamiparaCaptureData(path.join(root, "data/snapshots", revision), manifest, revision,
     file => capture.source(path.relative(root, file).replace(/\\/g, "/")));
@@ -304,6 +310,7 @@ async function generateReleasePages({ revision, ids } = {}) {
       if (await page.locator('link[rel="canonical"]').count() !== 1 || await page.locator("h1").innerText() !== name) throw new Error(`${id}: raw HTML validation failed`);
       if (html.includes("http://127.0.0.1")) throw new Error(`${id}: local URL leaked`);
       validateSidecarBody(parseSerializedHtml(html), release, sidecar);
+      validateVocalBody(parseSerializedHtml(html), release, vocals);
       pages.push({ id, html, sha256: crypto.createHash("sha256").update(html).digest("hex"), title, description, canonical });
       await page.close();
     }

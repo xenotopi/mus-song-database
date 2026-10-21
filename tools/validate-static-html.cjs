@@ -10,6 +10,7 @@ const { validateMemberAnalytics } = require("./member-analytics-lib.cjs");
 const songGenerator = require("./generate-song-pages.cjs");
 const releaseGenerator = require("./generate-release-pages.cjs");
 const { validateSidecarBody } = require("./validate-release-sidecar.cjs");
+const { validateVocalData, validateVocalBody } = require("./validate-release-vocals.cjs");
 const { validateSongUnitMemberships, validateSongUnitBody } = require("./song-unit-membership-lib.cjs");
 const { parseUniqueJson, parseSerializedHtml, descendants, textContent, visible, hasClass, requireCondition: check } = require("./static-html-readonly-lib.cjs");
 const ROOT = path.resolve(__dirname, "..");
@@ -399,6 +400,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
     exactIds(list.wrapper.data.map(r => r.releaseId), [...sources.release.keys()], "Release list");
     const releaseList = list.wrapper.data; inputs.release["release-list.json"] = list.input;
     const sidecar = json("data/release-sidecars/R0052.json");
+    const vocals = validateVocalData(json("data/release-vocals.json"), Object.fromEntries(sources.release));
     const memberships = validateSongUnitMemberships(json("data/song-unit-memberships.json"), new Set(sources.song.keys()));
     const kp = readSnapshot("kamipara-dashboard.json", snapshot.kamiparaDashboard);
     const dashboard = validateKamiparaDashboard(kp.wrapper.data, dataRevision);
@@ -452,6 +454,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
         else {
           validateReleaseBody(doc, data, releaseList);
           validateSidecarBody(doc, data, sidecar);
+          validateVocalBody(doc, data, vocals);
           if (id === "R0072") validateKamiparaBody(doc, dashboard, venues);
         }
         result.checked[`${type}s`]++;

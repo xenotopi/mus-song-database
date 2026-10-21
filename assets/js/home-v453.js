@@ -29,7 +29,8 @@ function orderedTodaySongs(event) {
   const absolute = event.songOrderIsSetlist === true && songs.every(song => Number.isSafeInteger(song.setlistPosition) && song.setlistPosition > 0);
   const relative = event.songOrderIsSetlist !== true && songs.some(song => Number.isSafeInteger(song.relativePosition) && song.relativePosition > 0) && songs.every(song => Number.isSafeInteger(song.relativePosition) && song.relativePosition > 0 && song.setlistPosition == null);
   return { songs: absolute ? songs.slice().sort((a, b) => a.setlistPosition - b.setlistPosition) : relative ? songs.slice().sort((a, b) => a.relativePosition - b.relativePosition) : songs,
-    note: relative ? "イベント全体ではなく、μ's関連歌唱内で確認できている順番です。" : absolute ? (event.songOrderNote || "実際の歌唱順で掲載しています。") : (event.songOrderIsSetlist === true ? "曲順データが不完全なため、登録順で掲載しています。" : event.songOrderNote || "掲載順は実際の歌唱順とは限りません。番号は登録順です。") };
+    order: absolute ? "setlist" : relative ? "relative" : "unconfirmed",
+    note: relative ? "イベント全体ではなく、μ's関連歌唱内で確認できている順番です。" : absolute ? (event.songOrderNote || "実際の歌唱順で掲載しています。") : (event.songOrderIsSetlist === true ? "曲順データが不完全なため、登録順で掲載しています。" : event.songOrderNote || "掲載順は実際の歌唱順とは限りません。") };
 }
 
 async function loadTodayEvent(button, panel) {
@@ -47,9 +48,13 @@ async function loadTodayEvent(button, panel) {
     pending.catch(() => { if (todayEventRequests.get(id) === pending) todayEventRequests.delete(id); });
   }
   try {
-    const { songs, note } = await todayEventRequests.get(id);
+    const { songs, note, order } = await todayEventRequests.get(id);
     if (!panel.isConnected || dateKey !== todayEventDate) return;
-    panel.innerHTML = songs.length ? `<p class="today-event-order">${escapeHtml(note)}</p><ol>${songs.map(song => `<li>${/^S\d{3}$/.test(song.songId) ? `<a href="${buildSongUrl(song.songId)}">${escapeHtml(song.songName || "曲名未設定")}</a>` : escapeHtml(song.songName || "曲名未設定")}</li>`).join("")}</ol>` : "登録済みの歌唱記録はありません。";
+    const listTag = order === "unconfirmed" ? "ul" : "ol";
+    panel.innerHTML = songs.length ? `<p class="today-event-order">${escapeHtml(note)}</p><${listTag}>${songs.map(song => {
+      const position = order === "setlist" ? song.setlistPosition : order === "relative" ? song.relativePosition : null;
+      return `<li${position ? ` value="${position}"` : ""}>${/^S\d{3}$/.test(song.songId) ? `<a href="${buildSongUrl(song.songId)}">${escapeHtml(song.songName || "曲名未設定")}</a>` : escapeHtml(song.songName || "曲名未設定")}</li>`;
+    }).join("")}</${listTag}>` : "登録済みの歌唱記録はありません。";
     panel.dataset.loaded = "true";
   } catch {
     if (!panel.isConnected || dateKey !== todayEventDate) return;
@@ -65,6 +70,8 @@ document.addEventListener("click", event => {
   if (retry) { loadTodayEvent(button, panel); return; }
   const expanded = button.getAttribute("aria-expanded") !== "true";
   button.setAttribute("aria-expanded", String(expanded)); button.textContent = expanded ? "閉じる" : "曲を見る"; panel.hidden = !expanded;
+  const eventName = button.closest(".today-event-entry").querySelector(".today-item b")?.textContent || "イベント";
+  button.setAttribute("aria-label", `${eventName}の${expanded ? "曲一覧を閉じる" : "曲を見る"}`);
   if (expanded && panel.dataset.loaded !== "true") loadTodayEvent(button, panel);
 });
 
@@ -443,7 +450,7 @@ function getAnniversaryYears(dateValue) {
     );
 
   const currentYear =
-    new Date().getFullYear();
+    Number((todayEventDate || getJstDateKey()).slice(0, 4));
 
   if (
     !Number.isFinite(year) ||
@@ -515,7 +522,7 @@ function renderTodayReleaseSongs(item) {
 
   if (!songs.length) return "";
 
-  return `<div class="today-release-songs">${songs.map(song => {
+  const rows = songs.map(song => {
     const store = String(song.benefitStore || "").trim();
     const songName = `「${escapeHtml(String(song.songName).trim())}」`;
     const songId = String(song.songId || "").trim();
@@ -524,7 +531,12 @@ function renderTodayReleaseSongs(item) {
       : `<span>${songName}</span>`;
     const label = store || (item.classification === "Blu-ray" ? "収録特典曲" : "収録曲");
     return `<div class="today-release-song"><span>${escapeHtml(label)}</span>${name}</div>`;
-  }).join("")}</div>`;
+  });
+  const preview = rows.slice(0, 3).join("");
+  const remainder = rows.length > 3
+    ? `<details class="today-release-more"><summary>残り${rows.length - 3}件の収録情報を見る</summary><div class="today-release-rest">${rows.slice(3).join("")}</div></details>`
+    : "";
+  return `<div class="today-release-songs">${preview}${remainder}</div>`;
 }
 
 
@@ -653,7 +665,7 @@ function renderToday(today) {
                   .join("｜")
               )}
             </div>
-          </a><button type="button" class="today-event-toggle" data-today-event="${escapeHtml(item.eventId)}" aria-expanded="false" aria-controls="today-songs-${escapeHtml(item.eventId)}">曲を見る</button><div class="today-event-songs" id="today-songs-${escapeHtml(item.eventId)}" hidden></div></div>
+          </a><button type="button" class="today-event-toggle" data-today-event="${escapeHtml(item.eventId)}" aria-label="${escapeHtml(item.eventName || "イベント")}の曲を見る" aria-expanded="false" aria-controls="today-songs-${escapeHtml(item.eventId)}">曲を見る</button><div class="today-event-songs" id="today-songs-${escapeHtml(item.eventId)}" hidden></div></div>
         `
     },
     {
@@ -723,6 +735,7 @@ function renderToday(today) {
                   .slice(0,6)
                   .map(group.render)
                   .join("")
+                  + (group.items.length > 6 ? `<details class="today-group-more"><summary>このほか${group.items.length - 6}件の記録を見る</summary>${group.items.slice(6).map(group.render).join("")}</details>` : "")
               : '<div class="today-empty">該当する記録はありません。</div>'
           }
         </section>

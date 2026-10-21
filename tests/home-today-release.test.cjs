@@ -44,8 +44,9 @@ async function installApiFixture(page, todayOverrides) {
   });
 }
 
-async function openHome(todayOverrides, viewport = { width: 1280, height: 900 }) {
-  const page = await browser.newPage({ viewport });
+async function openHome(todayOverrides, viewport = { width: 1280, height: 900 }, options = {}) {
+  const page = await browser.newPage({ viewport, timezoneId: options.timezoneId });
+  if (options.clock) await page.clock.install({ time: new Date(options.clock) });
   const issues = [];
   page.on("console", message => { if (["error", "warning"].includes(message.type())) issues.push(`${message.type()}: ${message.text()}`); });
   page.on("pageerror", error => issues.push(`pageerror: ${error.message}`));
@@ -130,15 +131,20 @@ test("anniversary 0・null、無効ID・日付を安全に扱う", async () => {
   await page.close();
 });
 
-test("API順の先頭6件、長文・escape・全viewportを維持する", async () => {
+test("API順の先頭6件と残りの折りたたみ、長文・escape・全viewportを維持する", async () => {
   const releases = Array.from({ length: 7 }, (_, index) => release(`R${String(index + 1).padStart(4, "0")}`, {
     releaseName: index === 0 ? "「ラブライブ！The School Idol Movie」特典付前売券第3弾 ユニットシングル Printemps「MUSEUMでどうしたい？」<script>window.__xss=1</script>" : `作品${index + 1}`,
     classification: index === 1 ? "<img src=x onerror=window.__xss=2>" : index === 2 ? "Blu-ray" : "CD"
   }));
   const { page, issues } = await openHome({ releases }, { width: 390, height: 900 });
   const items = page.locator("#todayContent .today-group").first().locator(".today-item");
-  assert.equal(await items.count(), 6);
-  assert.deepEqual(await items.evaluateAll(nodes => nodes.map(node => /\/release\/(R\d{4})\.html$/.exec(new URL(node.href).pathname)?.[1])), ["R0001", "R0002", "R0003", "R0004", "R0005", "R0006"]);
+  assert.equal(await items.count(), 7);
+  assert.equal(await page.locator("#todayContent .today-group").first().locator(".today-item:visible").count(), 6);
+  assert.deepEqual(await items.evaluateAll(nodes => nodes.map(node => /\/release\/(R\d{4})\.html$/.exec(new URL(node.href).pathname)?.[1])), ["R0001", "R0002", "R0003", "R0004", "R0005", "R0006", "R0007"]);
+  const more = page.locator(".today-group-more");
+  assert.equal(await more.getAttribute("open"), null);
+  await more.locator("summary").press("Enter");
+  assert.ok(await items.last().isVisible());
   assert.equal(await page.locator("#todayContent script, #todayContent img").count(), 0);
   assert.equal(await page.evaluate(() => window.__xss), undefined);
   for (const width of [1440, 1280, 1024, 900, 768, 620, 390]) {
@@ -147,6 +153,91 @@ test("API順の先頭6件、長文・escape・全viewportを維持する", async
   }
   assert.deepEqual(issues, []);
   await page.close();
+});
+
+test("多数の収録行は3件を先に表示し、残りをキーボードで開閉して全リンクを維持する", async () => {
+  const songs = Array.from({ length: 7 }, (_, i) => ({ songId: `S${String(i % 3 + 1).padStart(3, "0")}`, songName: `収録曲${i + 1}` }));
+  for (const width of [1280, 390]) {
+    const { page, issues } = await openHome({ releases: [release("R0088", { includedSongs: songs })] }, { width, height: 900 });
+    const rows = page.locator(".today-release-song");
+    assert.equal(await rows.count(), 7);
+    assert.equal(await page.locator(".today-release-song:visible").count(), 3);
+    assert.deepEqual(await rows.locator("a").evaluateAll(nodes => nodes.map(n => n.getAttribute("href"))), songs.map(s => `song/${s.songId}.html`));
+    const summary = page.locator(".today-release-more > summary");
+    assert.equal(await summary.innerText(), "残り4件の収録情報を見る");
+    await summary.press("Enter");
+    assert.equal(await page.locator(".today-release-song:visible").count(), 7);
+    assert.deepEqual(await rows.locator("a").allTextContents(), songs.map(s => `「${s.songName}」`));
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    await summary.press("Enter");
+    assert.equal(await page.locator(".today-release-song:visible").count(), 3);
+    assert.deepEqual(issues, []);
+    await page.close();
+  }
+});
+
+test("JST年境界の周年はブラウザの現地年ではなく対象日の年を使用する", async () => {
+  const { page, issues } = await openHome({
+    dateKey: "2027-01-01", month: 1, day: 1, label: "1月1日",
+    events: [{ eventId: "EV0001", eventName: "年境界fixture", date: "2012-01-01", category: "公式" }]
+  }, { width: 390, height: 900 }, { clock: "2026-12-31T15:00:00Z", timezoneId: "America/Los_Angeles" });
+  assert.equal(await page.evaluate(() => new Date().getFullYear()), 2026);
+  assert.match(await page.locator(".today-anniversary-badge").innerText(), /15年前の今日/);
+  assert.match(await page.locator("#todayDate").innerText(), /1月1日/);
+  assert.deepEqual(issues, []);
+  await page.close();
+});
+
+test("12月25日の既存ReleaseデータをPC・スマホで表示し画像保存する", async () => {
+  const current = JSON.parse(fs.readFileSync(path.join(ROOT, "data/current.json"), "utf8"));
+  const releases = ["R0052", "R0090"].map(id => {
+    const data = JSON.parse(fs.readFileSync(path.join(ROOT, "data/snapshots", current.revision, "releases", `${id}.json`), "utf8")).data;
+    assert.equal(data.releaseDate.replaceAll("/", "-").slice(5), "12-25");
+    return { ...data, anniversary: 2026 - Number(data.releaseDate.slice(0, 4)) };
+  });
+  for (const width of [1280, 390]) {
+    const { page, issues } = await openHome({ dateKey: "2026-12-25", month: 12, day: 25, label: "12月25日", releases }, { width, height: 900 }, { clock: "2026-12-25T03:00:00Z" });
+    const decline = page.getByRole("button", { name: "同意しない", exact: true });
+    if (await decline.isVisible()) await decline.click();
+    assert.equal(await page.locator(".today-release-entry").count(), 2);
+    assert.equal(await page.locator(".today-release-song").count(), releases.reduce((n, r) => n + r.includedSongs.length, 0));
+    assert.equal(await page.locator(".today-release-more").count(), 1);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    if (process.env.MUSDB_HOME_TODAY_QA_DIR) {
+      await page.locator("#topSection").screenshot({ path: path.join(process.env.MUSDB_HOME_TODAY_QA_DIR, `today-${width}.png`) });
+    }
+    assert.deepEqual(issues, []);
+    await page.close();
+  }
+});
+
+test("既存Eventの曲一覧と記録なし表示をPC・スマホで確認する", async () => {
+  const current = JSON.parse(fs.readFileSync(path.join(ROOT, "data/current.json"), "utf8"));
+  const event = JSON.parse(fs.readFileSync(path.join(ROOT, "data/snapshots", current.revision, "events/EV0001.json"), "utf8")).data.event;
+  const date = String(event.date).replaceAll("/", "-");
+  const month = Number(date.slice(5, 7)), day = Number(date.slice(8, 10));
+  const context = { dateKey: `2026-${date.slice(5, 10)}`, month, day, label: `${month}月${day}日` };
+  for (const width of [1280, 390]) {
+    const { page, issues } = await openHome({ ...context, events: [event] }, { width, height: 900 }, { clock: `${context.dateKey}T03:00:00Z` });
+    const decline = page.getByRole("button", { name: "同意しない", exact: true });
+    if (await decline.isVisible()) await decline.click();
+    const button = page.locator("[data-today-event]");
+    assert.match(await button.getAttribute("aria-label"), new RegExp("の曲を見る$"));
+    await button.press("Enter");
+    const panel = page.locator(".today-event-songs");
+    await panel.locator("li").first().waitFor();
+    assert.equal(await panel.locator("li").count(), event.songs.length);
+    assert.ok(await button.evaluate(n => n.getBoundingClientRect().height >= 44));
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    if (process.env.MUSDB_HOME_TODAY_QA_DIR) await page.locator("#topSection").screenshot({ path: path.join(process.env.MUSDB_HOME_TODAY_QA_DIR, `event-${width}.png`) });
+    assert.deepEqual(issues, []);
+    await page.close();
+    const empty = await openHome(context, { width, height: 900 }, { clock: `${context.dateKey}T03:00:00Z` });
+    assert.match(await empty.page.locator("#todayContent").innerText(), /今日はまだ記録がありません/);
+    if (process.env.MUSDB_HOME_TODAY_QA_DIR) await empty.page.locator("#topSection").screenshot({ path: path.join(process.env.MUSDB_HOME_TODAY_QA_DIR, `empty-${width}.png`) });
+    assert.deepEqual(empty.issues, []);
+    await empty.page.close();
+  }
 });
 
 test("通常Blu-ray・店舗特典・収録曲なしを同じTodayで表示する", async () => {

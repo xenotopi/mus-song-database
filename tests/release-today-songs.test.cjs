@@ -77,7 +77,14 @@ test('Eligible Release with zero relations adds no visible supplement',async()=>
 for(const mode of ['absolute','relative','raw','incomplete'])test('Today order '+mode+' preserves duplicates and escapes HTML',async()=>{
   const rows=[{songId:'S001',songName:'<img src=x onerror=alert(1)>',setlistPosition:2,relativePosition:null},{songId:'S002',songName:'Second',setlistPosition:1,relativePosition:null},{songId:'S001',songName:'Repeat',setlistPosition:3,relativePosition:null}];
   if(mode==='relative')rows.forEach((s,i)=>{s.setlistPosition=null;s.relativePosition=[2,1,3][i];});if(mode==='raw')rows.forEach(s=>s.setlistPosition=null);if(mode==='incomplete')rows[1].setlistPosition=null;
-  const ctx=await open('index.html',390,{staticInvalid:true,eventData:{songs:rows,songOrderIsSetlist:['absolute','incomplete'].includes(mode)}});await ctx.page.locator('[data-today-event]').first().click();const p=ctx.page.locator('#today-songs-EV0001');await p.locator('li').first().waitFor();assert.deepEqual(await p.locator('a').allTextContents(),['absolute','relative'].includes(mode)?['Second',rows[0].songName,'Repeat']:[rows[0].songName,'Second','Repeat']);assert.equal(await p.locator('img').count(),0);assert.equal(await p.locator('li').count(),3);await clean(ctx);
+  const ctx=await open('index.html',390,{staticInvalid:true,eventData:{songs:rows,songOrderIsSetlist:['absolute','incomplete'].includes(mode)}});await ctx.page.locator('[data-today-event]').first().click();const p=ctx.page.locator('#today-songs-EV0001');await p.locator('li').first().waitFor();assert.deepEqual(await p.locator('a').allTextContents(),['absolute','relative'].includes(mode)?['Second',rows[0].songName,'Repeat']:[rows[0].songName,'Second','Repeat']);assert.equal(await p.locator('img').count(),0);assert.equal(await p.locator('li').count(),3);
+  const ordered=['absolute','relative'].includes(mode);
+  assert.equal(await p.locator(ordered?'ol':'ul').count(),1);
+  assert.equal(await p.locator(ordered?'ul':'ol').count(),0);
+  assert.deepEqual(await p.locator('li').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('value'))),ordered?['1','2','3']:[null,null,null]);
+  assert.match(await p.locator('.today-event-order').innerText(),mode==='absolute'?/実際の歌唱順/:mode==='relative'?/イベント全体ではなく/:mode==='incomplete'?/不完全.*登録順/:/実際の歌唱順とは限りません/);
+  assert.ok(await p.locator('a').first().evaluate(n=>n.getBoundingClientRect().height>=44));
+  await clean(ctx);
 });
 for(const width of [1280,390])test(`Release ${width}: only 22 eligible releases, excluded rows make zero detail requests`,async()=>{
   const ctx=await open('releases.html',width),{page,calls}=ctx;

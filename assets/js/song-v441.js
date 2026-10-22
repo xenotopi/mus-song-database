@@ -686,6 +686,7 @@ function renderSingerRanking_(
                   "ja-JP"
                 )}件
               </span>
+              <span class="site-icon-inline singer-rank-chevron" data-site-icon="chevron-right" aria-hidden="true"></span>
             </a>`
         ).join("")
       : `<div class="empty">歌唱名義データはありません。</div>`;
@@ -758,10 +759,6 @@ function renderOfficialRelease_(song) {
     `).join("");
 
   const url = String(song.officialReleaseUrl || "").trim();
-  const debutReleaseId = String(
-    song.debutRelease?.releaseId || ""
-  ).trim();
-  const hasDebutRelease = /^R\d{4}$/.test(debutReleaseId);
 
   elements.releaseAction.innerHTML =
     `<div class="official-release-links">
@@ -772,14 +769,6 @@ function renderOfficialRelease_(song) {
            target="_blank"
            rel="noopener noreferrer">
           公式作品ページを見る <span class="site-icon-inline " data-site-icon="external-link" aria-hidden="true"></span>
-        </a>
-      `
-        : ""}
-      ${hasDebutRelease
-        ? `
-        <a class="official-release-link release-detail-link"
-           href="release/${encodeURIComponent(debutReleaseId)}.html">
-          リリース詳細を見る
         </a>
       `
         : ""}
@@ -1031,6 +1020,15 @@ async function copyCurrentUrl_() {
   }
 }
 
+// Use the same static Release URL contract as the included-Release cards.
+// Only link an ID corroborated by this Song's registered inclusion records.
+function debutReleaseHref_(song) {
+  const id = String(song.debutRelease?.releaseId || "").trim();
+  return /^R\d{4}$/.test(id) && Array.isArray(song.includedReleases) &&
+    song.includedReleases.some(item => item?.releaseId === id)
+    ? `release/${encodeURIComponent(id)}.html` : "";
+}
+
 function renderSong(song, membership = null) {
   currentSong = song;
   const statistics = song.statistics || {};
@@ -1069,14 +1067,16 @@ function renderSong(song, membership = null) {
   elements.songInfo.innerHTML = [
     ["表示名", song.displayName || song.songName],
     ["バージョン", song.version || "—"],
-    ["収録CD", song.recordingCd || "—"],
+    ["収録CD", song.recordingCd || "—", debutReleaseHref_(song)],
     ["発売日", formatDate(song.releaseDate)],
     ["メディア", song.media || "—"],
     ["区分", song.category || "—"],
     ...(membership ? [["所属ユニット", singerDisplayName({ singerId: membership.displayNameRef })]] : [])
-  ].map(([label, value]) => `
+  ].map(([label, value, href]) => `
     <dt>${escapeHtml(label)}</dt>
-    <dd>${escapeHtml(value || "—")}</dd>`
+    <dd>${href
+      ? `<a class="song-debut-release-link mus-link-primary mus-chip-link" href="${escapeHtml(href)}"><span class="mus-title-chip">${escapeHtml(value)}</span><span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></a>`
+      : escapeHtml(value || "—")}</dd>`
   ).join("");
 
   const statItems = [

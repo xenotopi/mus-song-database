@@ -108,6 +108,11 @@ function validateSongBody(doc, song, memberships) {
   equal(info, { 表示名: song.displayName || song.songName, バージョン: song.version || "—", 収録CD: song.recordingCd || "—",
     発売日: formatDate(song.releaseDate), メディア: song.media || "—", 区分: song.category || "—", ...(memberships.has(song.songId) ? { 所属ユニット: memberships.get(song.songId).label } : {}) }, "Song basic information differs from snapshot");
   validateSongUnitBody(doc, song.songId, memberships);
+  const debutId = String(song.debutRelease?.releaseId || "").trim();
+  const debutLinks = classes(byId(doc, "songInfo"), "song-debut-release-link");
+  const linked = /^R\d{4}$/.test(debutId) && song.includedReleases.some(r => r.releaseId === debutId);
+  equal(debutLinks.map(n => [n.tag, n.attrs.href, cleanText(n)]), linked ? [["a", `release/${debutId}.html`, song.recordingCd || "—"]] : [], "Song debut Release identity/link mismatch");
+  for (const link of debutLinks) check(descendants(link,n=>n.attrs["data-site-icon"]==="chevron-right"&&n.attrs["aria-hidden"]==="true").length===1,"Song debut arrow must be decorative and unique");
   const stats = byId(doc, "songStats");
   const values = classes(stats, "value").map(cleanText);
   equal(values, ["eventCount", "officialEventCount", "soloEventCount", "performanceCount"].map(key => Number(song.statistics?.[key] ?? 0).toLocaleString("ja-JP")), "Song statistics differ from snapshot");

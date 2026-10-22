@@ -261,8 +261,9 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
       { songId: "S032", releaseId: "R0015", recordingCd: "Wonderful Rush" }
     ]) {
       const { page, issues } = await openSong(expected.songId);
-      const link = page.locator(".release-detail-link");
-      assert.equal(await link.innerText(), "リリース詳細を見る");
+      const link = page.locator("#songInfo .song-debut-release-link");
+      assert.equal(await link.innerText(), expected.recordingCd);
+      assert.equal(await page.locator("#releaseAction .release-detail-link").count(), 0);
       assert.match(new URL(await link.getAttribute("href"), baseUrl).pathname, new RegExp(`/release/${expected.releaseId}\\.html$`));
       const body = await page.locator("#releaseSection").innerText();
       assert.match(body, new RegExp(expected.recordingCd.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
@@ -291,7 +292,7 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
     });
     await page.goto(`${baseUrl}/song.html?id=S100`, { waitUntil: "domcontentloaded" });
     await page.locator("#mainContent").waitFor({ state: "visible", timeout: 45000 });
-    assert.equal(await page.locator(".release-detail-link").count(), 0);
+    assert.equal(await page.locator(".song-debut-release-link,.release-detail-link").count(), 0);
     assert.match(await page.locator("#releaseSection").innerText(), /SUNNY DAY SONG/);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
     assert.deepEqual(issues, []);
@@ -300,7 +301,7 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
 
   await t.test("S100からR0058を経由してS100・S101へ遷移できる", async () => {
     const { page, issues } = await openSong("S100", { width: 390, height: 844 });
-    await page.locator(".release-detail-link").click();
+    await page.locator("#songInfo .song-debut-release-link").click();
     await page.waitForURL(/release\/R0058\.html/);
     await page.locator("#mainContent").waitFor({ state: "visible", timeout: 45000 });
     assert.deepEqual((await page.locator(".release-included-song-row").filter({has:page.locator(".release-origin")}).evaluateAll(nodes => nodes.map(node => /\/song\/(S\d{3})\.html$/.exec(new URL(node.href).pathname)?.[1]))).sort(), ["S100", "S101"]);
@@ -308,7 +309,7 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true);
     await page.locator(".release-included-song-row[href='song/S100.html']").click();
     await page.waitForURL(/song\/S100\.html/);
-    await page.locator(".release-detail-link").waitFor({ state: "visible", timeout: 45000 });
+    await page.locator("#songInfo .song-debut-release-link").waitFor({ state: "visible", timeout: 45000 });
     await page.goBack();
     await page.locator(".release-included-song-row[href='song/S101.html']").click();
     await page.waitForURL(/song\/S101\.html/);

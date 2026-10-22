@@ -269,7 +269,7 @@ test("Release詳細", async t => {
       const { page, issues } = await openDetail(expected.id);
       await waitForDetail(page);
       const detail = releaseDetailFixtures.get(expected.id);
-      const labels = {R0070:"2 Disc · 31曲",R0071:"2 Disc · 18トラック（10曲）",R0077:"9 Disc · 124トラック（19曲）",R0088:"27 Disc · 285トラック（46曲）",R0090:"12 Disc · 116トラック（115曲）"};
+      const labels = {R0070:"2 Disc · 31曲",R0071:"2 Disc · 68トラック",R0077:"9 Disc · 124トラック（19曲）",R0088:"27 Disc · 285トラック（46曲）",R0090:"12 Disc · 116トラック（115曲）"};
       assert.equal(await page.locator("#includedSongsCount").innerText(), labels[expected.id]);
       assert.equal(await page.locator(".release-included-song-row").count(), expected.count);
       assert.equal(await page.locator(".release-disc-group").count(), expected.groups);

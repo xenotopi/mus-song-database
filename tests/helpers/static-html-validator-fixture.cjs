@@ -48,6 +48,7 @@ function buildFixture() {
   putJson("data/release-sidecars/R0052.json",fixtureSidecar);
   // These synthetic Releases have no recording-vocal registrations.
   putJson("data/release-vocals.json", { schemaVersion: 1, singers: [], releases: [] });
+  putJson("data/release-contents.json", { schemaVersion: 2, scope: "release-product-track-list-only", releases: [] });
   const unitData=JSON.parse(require('node:fs').readFileSync(path.join(root,'data/song-unit-memberships.json'),'utf8'));
   putJson('data/song-unit-memberships.json',unitData);
   const affiliationNames={printemps:'Printemps',lily_white:'lily white',bibi:'BiBi'};

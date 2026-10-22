@@ -11,6 +11,7 @@ const songGenerator = require("./generate-song-pages.cjs");
 const releaseGenerator = require("./generate-release-pages.cjs");
 const { validateSidecarBody } = require("./validate-release-sidecar.cjs");
 const { validateVocalData, validateVocalBody } = require("./validate-release-vocals.cjs");
+const { validateReleaseContentsData, validateReleaseContentsBody } = require("./validate-release-contents.cjs");
 const { validateSongUnitMemberships, validateSongUnitBody } = require("./song-unit-membership-lib.cjs");
 const { parseUniqueJson, parseSerializedHtml, descendants, textContent, visible, hasClass, requireCondition: check } = require("./static-html-readonly-lib.cjs");
 const ROOT = path.resolve(__dirname, "..");
@@ -144,7 +145,7 @@ function validateSongBody(doc, song, memberships) {
   });
 }
 
-function validateReleaseBody(doc, release, releaseList) {
+function validateReleaseBody(doc, release, releaseList, productContents = null) {
   const resolved = { ...release }, listItem = releaseList.find(r => r.releaseId === release.releaseId);
   for (const key of ["releaseSeries", "editionType", "parentReleaseId", "featuredSinger", "catalogNumber", "officialName"]) resolved[key] ??= listItem?.[key];
   if(doc.html.attrs["data-release-id"]) check(doc.html.attrs["data-release-id"]===release.releaseId,"Release body ID mismatch");
@@ -224,6 +225,7 @@ function validateReleaseBody(doc, release, releaseList) {
     const registered=tracks.every(r=>Number.isInteger(r.disc)&&r.disc>0&&Number.isInteger(r.track)&&r.track>0)&&new Set(tracks.map(r=>r.disc+":"+r.track)).size===tracks.length;
     expectedCount=discNumbers.size+" Disc · "+(uniqueSongs===tracks.length?tracks.length+"曲":tracks.length+(registered?"トラック":"件")+"（"+uniqueSongs+"曲）");
   }
+  if(productContents)expectedCount=productContents.discs.length+" Disc · "+productContents.tracks.length+"トラック";
   check(cleanText(countLabel)===expectedCount,"Release relation/unique Song count label mismatch");
   check(visible(byId(doc,"includedSongsSection",false))===!(meta.status==="not_applicable"&&!tracks.length&&!note),"Release coverage visibility mismatch");
   if(note)check(classes(included,"release-coverage-note").some(n=>visible(n)&&textContent(n).includes(note)),"Release publicNote missing/hidden");
@@ -272,7 +274,8 @@ function validateReleaseBody(doc, release, releaseList) {
     if(g.disc!==null||g.collapsible){
       check(host,"Release Disc group missing");
       const title=one(descendants(host,n=>n.tag==="summary"||hasClass(n,"release-disc-heading")),"Release Disc heading missing");
-      equal(cleanText(title),(g.disc===null?"Disc未登録":"Disc "+g.disc)+(g.common?" · "+g.common:"")+g.data.length+(g.data.every(r=>r.track!=null)?"トラック":"件"),"Release Disc/heading variant mismatch");
+      const trackCount=productContents?productContents.discs.find(d=>String(d.disc)===g.disc).tracks.length:g.data.length;
+      equal(cleanText(title),(g.disc===null?"Disc未登録":"Disc "+g.disc)+(g.common?" · "+g.common:"")+trackCount+(g.data.every(r=>r.track!=null)?"トラック":"件"),"Release Disc/heading variant mismatch");
     }else check(!host,"Release unregistered Disc must not be invented");
     if(hasStores){const h=ancestor(n=>hasClass(n,"release-store-group"));check(h&&cleanText(one(classes(h,"release-store-heading"),"Missing store"))===storeTitle(g.store),"Release store association mismatch");}
   });
@@ -406,6 +409,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
     const releaseList = list.wrapper.data; inputs.release["release-list.json"] = list.input;
     const sidecar = json("data/release-sidecars/R0052.json");
     const vocals = validateVocalData(json("data/release-vocals.json"), Object.fromEntries(sources.release));
+    const contents = validateReleaseContentsData(json("data/release-contents.json"), Object.fromEntries(sources.release));
     const memberships = validateSongUnitMemberships(json("data/song-unit-memberships.json"), new Set(sources.song.keys()));
     const kp = readSnapshot("kamipara-dashboard.json", snapshot.kamiparaDashboard);
     const dashboard = validateKamiparaDashboard(kp.wrapper.data, dataRevision);
@@ -457,7 +461,8 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
         validateHead(doc, type, id, data, revision);
         if (type === "song") validateSongBody(doc, data, memberships);
         else {
-          validateReleaseBody(doc, data, releaseList);
+          validateReleaseBody(doc, data, releaseList, contents.get(id));
+          validateReleaseContentsBody(doc, data, contents.get(id));
           validateSidecarBody(doc, data, sidecar);
           validateVocalBody(doc, data, vocals);
           if (id === "R0072") validateKamiparaBody(doc, dashboard, venues);

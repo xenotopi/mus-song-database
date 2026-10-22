@@ -8,6 +8,7 @@ import { renderAmazonProduct } from "./release-amazon.js";
 import { attachReleaseSidecar } from "./release-sidecar.js?v=1.0.0";
 import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import { attachReleaseVocals } from "./release-vocals.js?v=1.3.0";
+import { loadReleaseContents } from "./release-contents.js?v=1.1.0";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
@@ -220,6 +221,10 @@ export function approvedRelationMetadataHtml(releaseId, relationId, metadata) {
 }
 
 function includedSongRow(song, grouped, origin, partialTrack, options = {}) {
+  const codeParts = options.managementCode?.match(/^([^ ]+)(?: (.+))?$/);
+  const codeText = codeParts ? `<span class="release-management-code-value">${escapeHtml(codeParts[1])}</span>${codeParts[2] ? ` <span class="release-management-code-note">${escapeHtml(codeParts[2])}</span>` : ""}` : "";
+  const code = options.showManagementCode ? `<span class="release-management-code"${options.managementCode ? ` aria-label="楽曲管理番号 ${escapeHtml(options.managementCode)}"` : ' aria-hidden="true"'}>${codeText}</span>` : "";
+  if (song.contentOnly === true) return `<div class="release-product-track-row" data-product-disc="${song.disc}" data-product-track="${song.track}"><span class="release-track-number" aria-label="Track ${song.track}">${song.track}</span>${code}<span class="release-included-song-copy"><span class="release-product-track-title">${escapeHtml(song.officialTitle)}</span></span></div>`;
   const title = String(song.displayName || song.songName || "曲名未設定");
   const position = grouped
     ? (song.track == null ? (partialTrack ? "Track未登録" : "") : `Track ${song.track}`)
@@ -228,7 +233,7 @@ function includedSongRow(song, grouped, origin, partialTrack, options = {}) {
   const track = grouped && song.track != null ? `<span class="release-track-number" aria-label="Track ${escapeHtml(song.track)}">${escapeHtml(song.track)}</span>` : "";
   const remainingPosition = track ? "" : position;
   const supplement = approvedRelationMetadataHtml(options.releaseId, song.relationId, options.metadata);
-  const rowHtml = `<a class="release-included-song-row mus-card-link mus-chip-link" data-relation-id="${escapeHtml(song.relationId)}" href="${buildSongUrl(song.songId)}">${track}<span class="release-included-song-copy"><span class="release-included-song-title">${titleChip(title)}</span>${supplement}${remainingPosition || variant || origin ? `<span class="release-included-song-meta">${remainingPosition ? `<span>${escapeHtml(remainingPosition)}</span>` : ""}${variant ? `<span class="release-variant">${escapeHtml(variant)}</span>` : ""}${origin ? '<span class="release-origin">初出・由来</span>' : ""}</span>` : ""}</span></a>`;
+  const rowHtml = `<a class="release-included-song-row mus-card-link mus-chip-link" data-relation-id="${escapeHtml(song.relationId)}" href="${buildSongUrl(song.songId)}">${track}${code}<span class="release-included-song-copy"><span class="release-included-song-title">${titleChip(title)}</span>${supplement}${remainingPosition || variant || origin ? `<span class="release-included-song-meta">${remainingPosition ? `<span>${escapeHtml(remainingPosition)}</span>` : ""}${variant ? `<span class="release-variant">${escapeHtml(variant)}</span>` : ""}${origin ? '<span class="release-origin">初出・由来</span>' : ""}</span>` : ""}</span></a>`;
   if (!supplement) return rowHtml;
   const item = approvedRelationMetadataItem(options.releaseId, song.relationId, options.metadata);
   const sources = [...new Set([item.sourceUrl, ...approvedCredits(item).map(credit => credit.sourceUrl)])];
@@ -237,15 +242,16 @@ function includedSongRow(song, grouped, origin, partialTrack, options = {}) {
 }
 
 let boxView = null;
-function renderIncludedSongs(release, approvedMetadata = null) {
+function renderIncludedSongs(release, approvedMetadata = null, productContents = null) {
   boxView = null;
-  const songs = release.includedSongs;
+  const registered = release.includedSongs;
+  const songs = productContents?.tracks || registered;
   const meta = release.includedSongsMeta;
   if (!Array.isArray(songs) || !meta || typeof meta !== "object" || Array.isArray(meta) || !inclusionStatuses.has(String(meta.status || ""))) {
     inclusionError();
     return;
   }
-  const valid = songs.every(song => song && typeof song === "object" && /^RT\d{4}$/.test(String(song.relationId || "")) && /^S\d{3,}$/.test(String(song.songId || "")) && (song.disc == null || Number.isInteger(Number(song.disc))) && (song.track == null || Number.isInteger(Number(song.track))) && (song.variant == null || typeof song.variant === "string"));
+  const valid = songs.every(song => song?.contentOnly === true ? Boolean(productContents) : song && typeof song === "object" && /^RT\d{4}$/.test(String(song.relationId || "")) && /^S\d{3,}$/.test(String(song.songId || "")) && (song.disc == null || Number.isInteger(Number(song.disc))) && (song.track == null || Number.isInteger(Number(song.track))) && (song.variant == null || typeof song.variant === "string"));
   if (!valid) {
     inclusionError();
     return;
@@ -257,8 +263,8 @@ function renderIncludedSongs(release, approvedMetadata = null) {
     elements.includedSongsSection.hidden = true;
     return;
   }
-  const uniqueCount = new Set(songs.map(song => song.songId)).size;
-  elements.includedSongsCount.textContent = inclusionCountLabel(release);
+  const uniqueCount = new Set(registered.map(song => song.songId)).size;
+  elements.includedSongsCount.textContent = productContents ? `${productContents.discCounts.length} Disc · ${songs.length}トラック` : inclusionCountLabel(release);
   const progress = status === "partial" && Number.isFinite(Number(meta.confirmedCount)) && Number.isFinite(Number(meta.pendingCount))
     ? `<span class="release-coverage-progress">確認済み${Number(meta.confirmedCount)}件 / 確認中${Number(meta.pendingCount)}件</span>` : "";
   const noteHtml = note || progress ? `<p class="release-coverage-note">${note ? escapeHtml(note) : ""}${progress}</p>` : "";
@@ -298,11 +304,12 @@ function renderIncludedSongs(release, approvedMetadata = null) {
     if (largeBox) boxView = { release, groups, members: [], host: null };
     const partialTrack = songs.some(song => song.track != null);
     const body = groups.map((group, i) => {
-      const content = `<div class="release-included-list">${group.rows.map(song => {
+      const columnHeadings = productContents ? '<div class="release-track-columns" aria-hidden="true"><span>No.</span><span>管理番号</span><span>曲名</span></div>' : "";
+      const content = `<div class="release-included-list${productContents ? " release-product-track-list" : ""}">${columnHeadings}${group.rows.map(song => {
         const origin = originIds.has(song.songId) && !marked.has(song.songId);
         if (origin) marked.add(song.songId);
         const headingVariant = largeBox ? commonDiscVariant(group.rows) : "";
-        return includedSongRow(song, true, origin, partialTrack, { omitVariant: Boolean(headingVariant), releaseId: release.releaseId, metadata: approvedMetadata });
+        return includedSongRow(song, true, origin, partialTrack, { omitVariant: Boolean(headingVariant), releaseId: release.releaseId, metadata: approvedMetadata, showManagementCode: Boolean(productContents), managementCode: productContents?.managementCodes[`${song.disc}:${song.track}`] });
       }).join("")}</div>`;
       const headingVariant = largeBox ? commonDiscVariant(group.rows) : "";
       const label = `${group.disc == null ? "Disc未登録" : `Disc ${escapeHtml(group.disc)}`}${headingVariant ? " · " + escapeHtml(headingVariant) : ""}<span class="release-disc-count">${group.rows.length}${group.rows.every(row => row.track != null) ? "トラック" : "件"}</span>`;
@@ -312,7 +319,7 @@ function renderIncludedSongs(release, approvedMetadata = null) {
     }).join("");
     return largeBox ? `<div class="release-large-box">${index}${body}</div>` : index + body;
   };
-  const explanation = songs.length !== uniqueCount ? '<p class="release-registration-note">同じ曲の別収録バージョン等も、それぞれ1件として表示しています。</p>' : "";
+  const explanation = registered.length !== uniqueCount ? '<p class="release-registration-note">同じ曲の別収録バージョン等も、それぞれ1件として表示しています。</p>' : "";
   const originNote = songs.some(song => originIds.has(song.songId)) ? '<p class="release-registration-note">「初出・由来」は曲マスター上で、このリリースを初出・由来として登録している楽曲です。特定の収録バージョンの初出を意味しません。</p>' : "";
   const trackNote = songs.every(song => song.track == null) ? '<p class="release-registration-note">Track番号は未登録です。</p>' : "";
   const fullVolumeBenefit = release.classification === "特典" && release.releaseType === "全巻購入特典";
@@ -472,7 +479,7 @@ function updateSectionNav() {
   nav.hidden = sections.length === 0;
 }
 
-function renderRelease(release, releaseList = [], approvedMetadata = null) {
+function renderRelease(release, releaseList = [], approvedMetadata = null, productContents = null) {
   const name = String(release.releaseName || "リリース名未設定");
   const date = release.releaseDate ? formatDate(release.releaseDate) : "発売日未登録";
   const classification = String(release.classification || "分類未設定");
@@ -546,7 +553,7 @@ function renderRelease(release, releaseList = [], approvedMetadata = null) {
   } else if (!approvedMetadata && boxView?.host?.isConnected && boxView.release.releaseId === release.releaseId && boxView.release.includedSongs === release.includedSongs) {
     // Supplemental list metadata must not replace already usable BOX controls.
     boxView.release = release;
-  } else renderIncludedSongs(release, approvedMetadata);
+  } else renderIncludedSongs(release, approvedMetadata, productContents);
   hideSkeleton();
   elements.status.hidden = true;
   elements.mainContent.hidden = false;
@@ -590,7 +597,8 @@ async function loadRelease() {
       catalogNumber: release.catalogNumber ?? listRelease.catalogNumber,
       officialName: release.officialName ?? listRelease.officialName
     } : release;
-    renderRelease(resolvedRelease, safeReleaseList);
+    const productContents = await loadReleaseContents(resolvedRelease);
+    renderRelease(resolvedRelease, safeReleaseList, null, productContents);
     await attachReleaseSidecar(resolvedRelease, elements.includedSongsContent);
     await attachReleaseVocals(resolvedRelease, elements.includedSongsContent);
     await hydrateBoxMembers(boxView, safeReleaseList, response);

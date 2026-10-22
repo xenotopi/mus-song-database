@@ -15,8 +15,8 @@ function validateVocalData(data, releases) {
       const matches=source.includedSongs.filter(r=>r.relationId===record.relationId);
       check(/^RT\d{4}$/.test(record.relationId)&&!seen.has(record.relationId)&&matches.length===1,'Vocal duplicate/missing Relation');seen.add(record.relationId);
       check(fields.every(key=>matches[0][key]===record[key]),'Vocal Song/Disc/Track/Mix binding');check(singerIds.has(record.singerId),'Vocal Singer FK');
-      check(Array.isArray(record.evidence)&&record.evidence.length>0&&record.evidence.every(key=>data.evidence?.[key]?.kind==='official-product'&&/^https:\/\//.test(data.evidence[key].url)),'Vocal evidence');
-      check(['explicit_relation','featured_singer','child_release_exact'].includes(record.basis),'Vocal basis');
+      check(Array.isArray(record.evidence)&&record.evidence.length>0&&record.evidence.every(key=>/^https:\/\//.test(data.evidence?.[key]?.url||'')&&(data.evidence[key].kind==='official-product'||(data.evidence[key].kind==='official-creator-product'&&/^https:\/\/akihata\.jp\/works\/music\/\d+\/$/.test(data.evidence[key].url)))),'Vocal evidence');
+      check(['explicit_relation','featured_singer','child_release_exact','solo_disc_reference'].includes(record.basis),'Vocal basis');
       if(record.basis==='featured_singer')check(source.featuredSinger?.id===record.singerId,'Vocal Solo singer');
       if(record.basis==='child_release_exact'){
         const child=releases[record.childReleaseId],childRows=child?.includedSongs.filter(r=>r.relationId===record.childRelationId)||[];
@@ -25,6 +25,20 @@ function validateVocalData(data, releases) {
         const parentDisc=source.includedSongs.filter(r=>r.disc===record.disc),childDisc=child.includedSongs.filter(r=>r.disc===childRows[0].disc);
         const signature=rows=>rows.map(r=>fields.filter(key=>key!=='disc').map(key=>r[key]));
         check(same(signature(parentDisc),signature(childDisc)),'Vocal BOX complete Disc sequence');
+      }
+      if(record.basis==='solo_disc_reference'){
+        const child=releases[record.childReleaseId],refs=record.referenceRelationIds;
+        check(child&&child.releaseId!==entry.releaseId&&child.featuredSinger?.id===record.singerId&&Array.isArray(refs)&&refs.length>0&&new Set(refs).size===refs.length,'Vocal Solo reference');
+        // Historical BOX I inventory includes previously issued Solo CDs. Bind all stored
+        // Mix recordings in order, not a performer inferred from the word "Mix".
+        const childDisc=child.includedSongs.filter(r=>r.variant),parentDisc=source.includedSongs.filter(r=>r.disc===record.disc);
+        check(same(refs,childDisc.map(r=>r.relationId)),'Vocal Solo complete reference IDs');
+        const signature=rows=>rows.map(r=>['songId','variant','displayName','benefitStore'].map(key=>r[key]));
+        check(same(signature(parentDisc),signature(childDisc)),'Vocal Solo complete recording sequence');
+        const at=parentDisc.findIndex(r=>r.relationId===record.relationId);
+        check(at>=0&&refs[at]===record.childRelationId,'Vocal Solo reference position');
+        const childEntry=data.releases.filter(e=>e.releaseId===child.releaseId);
+        check(childEntry.length===1&&childEntry[0].records.filter(r=>r.relationId===record.childRelationId&&r.singerId===record.singerId).length===1,'Vocal Solo referenced credit');
       }
     }
   }

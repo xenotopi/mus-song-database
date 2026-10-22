@@ -17,11 +17,12 @@ export function resolveReleaseVocals(release, sidecar) {
     if (!id(record.relationId, /^RT\d{4}$/) || seen.has(record.relationId) || matches.length !== 1 ||
         !fields.every(key => matches[0][key] === record[key])) throw new Error("VOCAL_RELATION_REFERENCE");
     seen.add(record.relationId);
-    if (!["explicit_relation", "featured_singer", "child_release_exact"].includes(record.basis) ||
+    if (!["explicit_relation", "featured_singer", "child_release_exact", "solo_disc_reference"].includes(record.basis) ||
         (record.basis === "featured_singer" && record.singerId !== release.featuredSinger?.id) ||
-        (record.basis === "child_release_exact" && (!id(record.childReleaseId, /^R\d{4}$/) || !id(record.childRelationId, /^RT\d{4}$/)))) throw new Error("VOCAL_BASIS");
+        (["child_release_exact", "solo_disc_reference"].includes(record.basis) && (!id(record.childReleaseId, /^R\d{4}$/) || !id(record.childRelationId, /^RT\d{4}$/))) ||
+        (record.basis === "solo_disc_reference" && (!Array.isArray(record.referenceRelationIds) || !record.referenceRelationIds.includes(record.childRelationId) || new Set(record.referenceRelationIds).size !== record.referenceRelationIds.length || !record.referenceRelationIds.every(value => id(value, /^RT\d{4}$/))))) throw new Error("VOCAL_BASIS");
     if (!Array.isArray(record.evidence) || !record.evidence.length || record.evidence.some(key =>
-      sidecar.evidence?.[key]?.kind !== "official-product" || !/^https:\/\//.test(sidecar.evidence[key].url))) throw new Error("VOCAL_EVIDENCE");
+      !(sidecar.evidence?.[key]?.kind === "official-product" || (sidecar.evidence?.[key]?.kind === "official-creator-product" && /^https:\/\/akihata\.jp\/works\/music\/\d+\/$/.test(sidecar.evidence[key].url))) || !/^https:\/\//.test(sidecar.evidence[key].url))) throw new Error("VOCAL_EVIDENCE");
     const singers = sidecar.singers.filter(singer => singer.singerId === record.singerId);
     if (!id(record.singerId, /^SN\d{4}$/) || singers.length !== 1 || !singers[0].name?.trim()) throw new Error("VOCAL_SINGER_REFERENCE");
     const singer = singers[0], name = singerDisplayName(singer, singer.name);
@@ -33,7 +34,7 @@ let dataRequest;
 export async function attachReleaseVocals(release, host) {
   if (release.releaseId === "R0072") return { status: "not-applicable", count: 0 };
   try {
-    dataRequest ||= fetch(new URL("../../data/release-vocals.json?v=1.0.0", import.meta.url), { cache: "no-cache", signal: AbortSignal.timeout(8000) })
+    dataRequest ||= fetch(new URL("../../data/release-vocals.json?v=1.1.0", import.meta.url), { cache: "no-cache", signal: AbortSignal.timeout(8000) })
       .then(response => { if (!response.ok) throw new Error("VOCAL_HTTP"); return response.json(); })
       .catch(error => { dataRequest = null; throw error; });
     const data = await dataRequest, vocals = resolveReleaseVocals(release, data), anchors = [...host.querySelectorAll(".release-included-song-row")];

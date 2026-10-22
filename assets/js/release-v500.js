@@ -7,7 +7,7 @@ import { renderKamiparaRelease, hasCompletedKamiparaContent } from "./release-ka
 import { renderAmazonProduct } from "./release-amazon.js";
 import { attachReleaseSidecar } from "./release-sidecar.js?v=1.0.0";
 import { singerDisplayName } from "./singer-display.js?v=1.0.0";
-import { attachReleaseVocals } from "./release-vocals.js?v=1.0.0";
+import { attachReleaseVocals } from "./release-vocals.js?v=1.1.0";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);

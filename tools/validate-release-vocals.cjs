@@ -15,7 +15,7 @@ function validateVocalData(data, releases) {
       const matches=source.includedSongs.filter(r=>r.relationId===record.relationId);
       check(/^RT\d{4}$/.test(record.relationId)&&!seen.has(record.relationId)&&matches.length===1,'Vocal duplicate/missing Relation');seen.add(record.relationId);
       check(fields.every(key=>matches[0][key]===record[key]),'Vocal Song/Disc/Track/Mix binding');check(singerIds.has(record.singerId),'Vocal Singer FK');
-      check(Array.isArray(record.evidence)&&record.evidence.length>0&&record.evidence.every(key=>/^https:\/\//.test(data.evidence?.[key]?.url||'')&&(data.evidence[key].kind==='official-product'||(data.evidence[key].kind==='official-creator-product'&&/^https:\/\/akihata\.jp\/works\/music\/\d+\/$/.test(data.evidence[key].url)))),'Vocal evidence');
+      check(Array.isArray(record.evidence)&&record.evidence.length>0&&record.evidence.every(key=>/^https:\/\//.test(data.evidence?.[key]?.url||'')&&(data.evidence[key].kind==='official-product'||(data.evidence[key].kind==='official-creator-product'&&/^https:\/\/akihata\.jp\/works\/(?:music|video)\/\d+\/$/.test(data.evidence[key].url)))),'Vocal evidence');
       check(['explicit_relation','featured_singer','child_release_exact','solo_disc_reference'].includes(record.basis),'Vocal basis');
       if(record.basis==='featured_singer')check(source.featuredSinger?.id===record.singerId,'Vocal Solo singer');
       if(record.basis==='child_release_exact'){

@@ -374,6 +374,103 @@
     "catalog68547": {
       "url": "https://catalog.bandainamcomusiclive.co.jp/release/68547/",
       "kind": "official-product"
+    },
+    "soloDiscCrosswalk67640": {
+      "url": "https://catalog.bandainamcomusiclive.co.jp/release/67640/",
+      "kind": "official-product",
+      "note": "Complete member-only 3-CD product; stored Disc 1/2/3 maps to catalogue Disc 1/3/2. Full ordered sequences matched, no snapshot correction."
+    },
+    "aki19834": {
+      "url": "https://akihata.jp/works/music/19834/",
+      "kind": "official-creator-product"
+    },
+    "soloDiscCrosswalk67650": {
+      "url": "https://catalog.bandainamcomusiclive.co.jp/release/67650/",
+      "kind": "official-product",
+      "note": "Complete member-only 3-CD product; stored Disc 1/2/3 maps to catalogue Disc 1/3/2. Full ordered sequences matched, no snapshot correction."
+    },
+    "aki19830": {
+      "url": "https://akihata.jp/works/music/19830/",
+      "kind": "official-creator-product"
+    },
+    "soloDiscCrosswalk67657": {
+      "url": "https://catalog.bandainamcomusiclive.co.jp/release/67657/",
+      "kind": "official-product",
+      "note": "Complete member-only 3-CD product; stored Disc 1/2/3 maps to catalogue Disc 1/3/2. Full ordered sequences matched, no snapshot correction."
+    },
+    "aki19837": {
+      "url": "https://akihata.jp/works/music/19837/",
+      "kind": "official-creator-product"
+    },
+    "akiVideo10105": {
+      "url": "https://akihata.jp/works/video/10105/",
+      "kind": "official-creator-product",
+      "note": "Original Blu-ray bonus-CD song section; not later BOX credits or live-video soundtrack."
+    },
+    "akiVideo10104": {
+      "url": "https://akihata.jp/works/video/10104/",
+      "kind": "official-creator-product",
+      "note": "Original Blu-ray bonus-CD song section; not later BOX credits or live-video soundtrack."
+    },
+    "akiVideo10102": {
+      "url": "https://akihata.jp/works/video/10102/",
+      "kind": "official-creator-product",
+      "note": "Original Blu-ray bonus-CD song section; not later BOX credits or live-video soundtrack."
+    },
+    "akiVideo10242": {
+      "url": "https://akihata.jp/works/video/10242/",
+      "kind": "official-creator-product",
+      "note": "Original Blu-ray bonus-CD song section; not later BOX credits or live-video soundtrack."
+    },
+    "akiVideo7864": {
+      "url": "https://akihata.jp/works/video/7864/",
+      "kind": "official-creator-product",
+      "note": "Original Blu-ray bonus-CD song section; not later BOX credits or live-video soundtrack."
+    },
+    "akiVideo7875": {
+      "url": "https://akihata.jp/works/video/7875/",
+      "kind": "official-creator-product",
+      "note": "Original Blu-ray bonus-CD song section; not later BOX credits or live-video soundtrack."
+    },
+    "akiVideo5951": {
+      "url": "https://akihata.jp/works/video/5951/",
+      "kind": "official-creator-product",
+      "note": "Original Blu-ray bonus-CD song section; not later BOX credits or live-video soundtrack."
+    },
+    "akiVideo6048": {
+      "url": "https://akihata.jp/works/video/6048/",
+      "kind": "official-creator-product",
+      "note": "Original Blu-ray bonus-CD song section; not later BOX credits or live-video soundtrack."
+    },
+    "akiVideo6087": {
+      "url": "https://akihata.jp/works/video/6087/",
+      "kind": "official-creator-product",
+      "note": "Original Blu-ray bonus-CD song section; not later BOX credits or live-video soundtrack."
+    },
+    "akiVideo6090": {
+      "url": "https://akihata.jp/works/video/6090/",
+      "kind": "official-creator-product",
+      "note": "Original Blu-ray bonus-CD song section; not later BOX credits or live-video soundtrack."
+    },
+    "akiVideo6092": {
+      "url": "https://akihata.jp/works/video/6092/",
+      "kind": "official-creator-product",
+      "note": "Original Blu-ray bonus-CD song section; not later BOX credits or live-video soundtrack."
+    },
+    "akiVideo6346": {
+      "url": "https://akihata.jp/works/video/6346/",
+      "kind": "official-creator-product",
+      "note": "Original Blu-ray bonus-CD song section; not later BOX credits or live-video soundtrack."
+    },
+    "akiVideo6374": {
+      "url": "https://akihata.jp/works/video/6374/",
+      "kind": "official-creator-product",
+      "note": "Original Blu-ray bonus-CD song section; not later BOX credits or live-video soundtrack."
+    },
+    "akiVideo7712": {
+      "url": "https://akihata.jp/works/video/7712/",
+      "kind": "official-creator-product",
+      "note": "Original Blu-ray bonus-CD song section; not later BOX credits or live-video soundtrack."
     }
   },
   "singerReference": {
@@ -10233,6 +10330,276 @@
           "evidence": [
             "catalog67640"
           ]
+        },
+        {
+          "relationId": "RT1111",
+          "songId": "S079",
+          "disc": 2,
+          "track": 1,
+          "variant": "MAKI Mix",
+          "displayName": "Shangri-La Shower",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1112",
+          "songId": "S080",
+          "disc": 2,
+          "track": 2,
+          "variant": "MAKI Mix",
+          "displayName": "るてしキスキしてる",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1113",
+          "songId": "S093",
+          "disc": 2,
+          "track": 3,
+          "variant": "MAKI Mix",
+          "displayName": "ミはμ'sicのミ",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1114",
+          "songId": "S094",
+          "disc": 2,
+          "track": 4,
+          "variant": "MAKI Mix",
+          "displayName": "Super LOVE=Super LIVE!",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1115",
+          "songId": "S098",
+          "disc": 2,
+          "track": 5,
+          "variant": "MAKI Mix",
+          "displayName": "Angelic Angel",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1116",
+          "songId": "S100",
+          "disc": 2,
+          "track": 6,
+          "variant": "MAKI Mix",
+          "displayName": "SUNNY DAY SONG",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1117",
+          "songId": "S102",
+          "disc": 2,
+          "track": 7,
+          "variant": "MAKI Mix",
+          "displayName": "僕たちはひとつの光",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1118",
+          "songId": "S099",
+          "disc": 2,
+          "track": 8,
+          "variant": "MAKI Mix",
+          "displayName": "Hello,星を数えて",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1119",
+          "songId": "S052",
+          "disc": 3,
+          "track": 1,
+          "variant": "MAKI Mix",
+          "displayName": "Cutie Panther",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1120",
+          "songId": "S053",
+          "disc": 3,
+          "track": 2,
+          "variant": "MAKI Mix",
+          "displayName": "夏、終わらないで。",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1121",
+          "songId": "S087",
+          "disc": 3,
+          "track": 3,
+          "variant": "MAKI Mix",
+          "displayName": "冬がくれた予感",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1122",
+          "songId": "S088",
+          "disc": 3,
+          "track": 4,
+          "variant": "MAKI Mix",
+          "displayName": "Trouble Busters",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1123",
+          "songId": "S112",
+          "disc": 3,
+          "track": 5,
+          "variant": "MAKI Mix",
+          "displayName": "錯覚CROSSROADS",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1124",
+          "songId": "S113",
+          "disc": 3,
+          "track": 6,
+          "variant": "MAKI Mix",
+          "displayName": "PSYCHIC FIRE",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1125",
+          "songId": "S105",
+          "disc": 3,
+          "track": 7,
+          "variant": "MAKI Mix",
+          "displayName": "HEART to HEART!",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1126",
+          "songId": "S106",
+          "disc": 3,
+          "track": 8,
+          "variant": "MAKI Mix",
+          "displayName": "嵐のなかの恋だから",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1127",
+          "songId": "S114",
+          "disc": 3,
+          "track": 9,
+          "variant": "MAKI Mix",
+          "displayName": "MOMENT RING",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
+        },
+        {
+          "relationId": "RT1128",
+          "songId": "S115",
+          "disc": 3,
+          "track": 10,
+          "variant": "MAKI Mix",
+          "displayName": "さようならへさよなら！",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ]
         }
       ]
     },
@@ -10891,6 +11258,276 @@
           "evidence": [
             "catalog67650"
           ]
+        },
+        {
+          "relationId": "RT1175",
+          "songId": "S079",
+          "disc": 2,
+          "track": 1,
+          "variant": "HANAYO Mix",
+          "displayName": "Shangri-La Shower",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1176",
+          "songId": "S080",
+          "disc": 2,
+          "track": 2,
+          "variant": "HANAYO Mix",
+          "displayName": "るてしキスキしてる",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1177",
+          "songId": "S093",
+          "disc": 2,
+          "track": 3,
+          "variant": "HANAYO Mix",
+          "displayName": "ミはμ'sicのミ",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1178",
+          "songId": "S094",
+          "disc": 2,
+          "track": 4,
+          "variant": "HANAYO Mix",
+          "displayName": "Super LOVE=Super LIVE!",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1179",
+          "songId": "S098",
+          "disc": 2,
+          "track": 5,
+          "variant": "HANAYO Mix",
+          "displayName": "Angelic Angel",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1180",
+          "songId": "S100",
+          "disc": 2,
+          "track": 6,
+          "variant": "HANAYO Mix",
+          "displayName": "SUNNY DAY SONG",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1181",
+          "songId": "S102",
+          "disc": 2,
+          "track": 7,
+          "variant": "HANAYO Mix",
+          "displayName": "僕たちはひとつの光",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1182",
+          "songId": "S099",
+          "disc": 2,
+          "track": 8,
+          "variant": "HANAYO Mix",
+          "displayName": "Hello,星を数えて",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1183",
+          "songId": "S055",
+          "disc": 3,
+          "track": 1,
+          "variant": "HANAYO Mix",
+          "displayName": "Pure girls project",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1184",
+          "songId": "S056",
+          "disc": 3,
+          "track": 2,
+          "variant": "HANAYO Mix",
+          "displayName": "UNBALANCED LOVE",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1185",
+          "songId": "S082",
+          "disc": 3,
+          "track": 3,
+          "variant": "HANAYO Mix",
+          "displayName": "永遠フレンズ",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1186",
+          "songId": "S083",
+          "disc": 3,
+          "track": 4,
+          "variant": "HANAYO Mix",
+          "displayName": "小夜啼鳥恋詩",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1187",
+          "songId": "S107",
+          "disc": 3,
+          "track": 5,
+          "variant": "HANAYO Mix",
+          "displayName": "WAO-WAO Powerful day!",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1188",
+          "songId": "S108",
+          "disc": 3,
+          "track": 6,
+          "variant": "HANAYO Mix",
+          "displayName": "NO EXIT ORION",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1189",
+          "songId": "S105",
+          "disc": 3,
+          "track": 7,
+          "variant": "HANAYO Mix",
+          "displayName": "HEART to HEART!",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1190",
+          "songId": "S106",
+          "disc": 3,
+          "track": 8,
+          "variant": "HANAYO Mix",
+          "displayName": "嵐のなかの恋だから",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1191",
+          "songId": "S114",
+          "disc": 3,
+          "track": 9,
+          "variant": "HANAYO Mix",
+          "displayName": "MOMENT RING",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
+        },
+        {
+          "relationId": "RT1192",
+          "songId": "S115",
+          "disc": 3,
+          "track": 10,
+          "variant": "HANAYO Mix",
+          "displayName": "さようならへさよなら！",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ]
         }
       ]
     },
@@ -11093,6 +11730,276 @@
           "basis": "featured_singer",
           "evidence": [
             "catalog67657"
+          ]
+        },
+        {
+          "relationId": "RT1207",
+          "songId": "S079",
+          "disc": 2,
+          "track": 1,
+          "variant": "NICO Mix",
+          "displayName": "Shangri-La Shower",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1208",
+          "songId": "S080",
+          "disc": 2,
+          "track": 2,
+          "variant": "NICO Mix",
+          "displayName": "るてしキスキしてる",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1209",
+          "songId": "S093",
+          "disc": 2,
+          "track": 3,
+          "variant": "NICO Mix",
+          "displayName": "ミはμ'sicのミ",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1210",
+          "songId": "S094",
+          "disc": 2,
+          "track": 4,
+          "variant": "NICO Mix",
+          "displayName": "Super LOVE=Super LIVE!",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1211",
+          "songId": "S098",
+          "disc": 2,
+          "track": 5,
+          "variant": "NICO Mix",
+          "displayName": "Angelic Angel",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1212",
+          "songId": "S100",
+          "disc": 2,
+          "track": 6,
+          "variant": "NICO Mix",
+          "displayName": "SUNNY DAY SONG",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1213",
+          "songId": "S102",
+          "disc": 2,
+          "track": 7,
+          "variant": "NICO Mix",
+          "displayName": "僕たちはひとつの光",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1214",
+          "songId": "S101",
+          "disc": 2,
+          "track": 8,
+          "variant": "NICO Mix",
+          "displayName": "？←HEARTBEAT",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1215",
+          "songId": "S052",
+          "disc": 3,
+          "track": 1,
+          "variant": "NICO Mix",
+          "displayName": "Cutie Panther",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1216",
+          "songId": "S053",
+          "disc": 3,
+          "track": 2,
+          "variant": "NICO Mix",
+          "displayName": "夏、終わらないで。",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1217",
+          "songId": "S087",
+          "disc": 3,
+          "track": 3,
+          "variant": "NICO Mix",
+          "displayName": "冬がくれた予感",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1218",
+          "songId": "S088",
+          "disc": 3,
+          "track": 4,
+          "variant": "NICO Mix",
+          "displayName": "Trouble Busters",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1219",
+          "songId": "S112",
+          "disc": 3,
+          "track": 5,
+          "variant": "NICO Mix",
+          "displayName": "錯覚CROSSROADS",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1220",
+          "songId": "S113",
+          "disc": 3,
+          "track": 6,
+          "variant": "NICO Mix",
+          "displayName": "PSYCHIC FIRE",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1221",
+          "songId": "S105",
+          "disc": 3,
+          "track": 7,
+          "variant": "NICO Mix",
+          "displayName": "HEART to HEART!",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1222",
+          "songId": "S106",
+          "disc": 3,
+          "track": 8,
+          "variant": "NICO Mix",
+          "displayName": "嵐のなかの恋だから",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1223",
+          "songId": "S114",
+          "disc": 3,
+          "track": 9,
+          "variant": "NICO Mix",
+          "displayName": "MOMENT RING",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ]
+        },
+        {
+          "relationId": "RT1224",
+          "songId": "S115",
+          "disc": 3,
+          "track": 10,
+          "variant": "NICO Mix",
+          "displayName": "さようならへさよなら！",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "featured_singer",
+          "evidence": [
+            "soloDiscCrosswalk67657",
+            "aki19837"
           ]
         }
       ]
@@ -15028,6 +15935,978 @@
           ],
           "childReleaseId": "R0114",
           "childRelationId": "RT1206"
+        },
+        {
+          "relationId": "RT0542",
+          "songId": "S079",
+          "disc": 17,
+          "track": 1,
+          "variant": "MAKI Mix",
+          "displayName": "Shangri-La Shower",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1111"
+        },
+        {
+          "relationId": "RT0543",
+          "songId": "S080",
+          "disc": 17,
+          "track": 2,
+          "variant": "MAKI Mix",
+          "displayName": "るてしキスキしてる",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1112"
+        },
+        {
+          "relationId": "RT0544",
+          "songId": "S093",
+          "disc": 17,
+          "track": 3,
+          "variant": "MAKI Mix",
+          "displayName": "ミはμ'sicのミ",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1113"
+        },
+        {
+          "relationId": "RT0545",
+          "songId": "S094",
+          "disc": 17,
+          "track": 4,
+          "variant": "MAKI Mix",
+          "displayName": "Super LOVE=Super LIVE!",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1114"
+        },
+        {
+          "relationId": "RT0546",
+          "songId": "S098",
+          "disc": 17,
+          "track": 5,
+          "variant": "MAKI Mix",
+          "displayName": "Angelic Angel",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1115"
+        },
+        {
+          "relationId": "RT0547",
+          "songId": "S100",
+          "disc": 17,
+          "track": 6,
+          "variant": "MAKI Mix",
+          "displayName": "SUNNY DAY SONG",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1116"
+        },
+        {
+          "relationId": "RT0548",
+          "songId": "S102",
+          "disc": 17,
+          "track": 7,
+          "variant": "MAKI Mix",
+          "displayName": "僕たちはひとつの光",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1117"
+        },
+        {
+          "relationId": "RT0549",
+          "songId": "S099",
+          "disc": 17,
+          "track": 8,
+          "variant": "MAKI Mix",
+          "displayName": "Hello,星を数えて",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1118"
+        },
+        {
+          "relationId": "RT0550",
+          "songId": "S052",
+          "disc": 18,
+          "track": 1,
+          "variant": "MAKI Mix",
+          "displayName": "Cutie Panther",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1119"
+        },
+        {
+          "relationId": "RT0551",
+          "songId": "S053",
+          "disc": 18,
+          "track": 2,
+          "variant": "MAKI Mix",
+          "displayName": "夏、終わらないで。",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1120"
+        },
+        {
+          "relationId": "RT0552",
+          "songId": "S087",
+          "disc": 18,
+          "track": 3,
+          "variant": "MAKI Mix",
+          "displayName": "冬がくれた予感",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1121"
+        },
+        {
+          "relationId": "RT0553",
+          "songId": "S088",
+          "disc": 18,
+          "track": 4,
+          "variant": "MAKI Mix",
+          "displayName": "Trouble Busters",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1122"
+        },
+        {
+          "relationId": "RT0554",
+          "songId": "S112",
+          "disc": 18,
+          "track": 5,
+          "variant": "MAKI Mix",
+          "displayName": "錯覚CROSSROADS",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1123"
+        },
+        {
+          "relationId": "RT0555",
+          "songId": "S113",
+          "disc": 18,
+          "track": 6,
+          "variant": "MAKI Mix",
+          "displayName": "PSYCHIC FIRE",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1124"
+        },
+        {
+          "relationId": "RT0556",
+          "songId": "S105",
+          "disc": 18,
+          "track": 7,
+          "variant": "MAKI Mix",
+          "displayName": "HEART to HEART!",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1125"
+        },
+        {
+          "relationId": "RT0557",
+          "songId": "S106",
+          "disc": 18,
+          "track": 8,
+          "variant": "MAKI Mix",
+          "displayName": "嵐のなかの恋だから",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1126"
+        },
+        {
+          "relationId": "RT0558",
+          "songId": "S114",
+          "disc": 18,
+          "track": 9,
+          "variant": "MAKI Mix",
+          "displayName": "MOMENT RING",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1127"
+        },
+        {
+          "relationId": "RT0559",
+          "songId": "S115",
+          "disc": 18,
+          "track": 10,
+          "variant": "MAKI Mix",
+          "displayName": "さようならへさよなら！",
+          "benefitStore": null,
+          "singerId": "SN0006",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67640",
+            "aki19834"
+          ],
+          "childReleaseId": "R0111",
+          "childRelationId": "RT1128"
+        },
+        {
+          "relationId": "RT0606",
+          "songId": "S079",
+          "disc": 23,
+          "track": 1,
+          "variant": "HANAYO Mix",
+          "displayName": "Shangri-La Shower",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1175"
+        },
+        {
+          "relationId": "RT0607",
+          "songId": "S080",
+          "disc": 23,
+          "track": 2,
+          "variant": "HANAYO Mix",
+          "displayName": "るてしキスキしてる",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1176"
+        },
+        {
+          "relationId": "RT0608",
+          "songId": "S093",
+          "disc": 23,
+          "track": 3,
+          "variant": "HANAYO Mix",
+          "displayName": "ミはμ'sicのミ",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1177"
+        },
+        {
+          "relationId": "RT0609",
+          "songId": "S094",
+          "disc": 23,
+          "track": 4,
+          "variant": "HANAYO Mix",
+          "displayName": "Super LOVE=Super LIVE!",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1178"
+        },
+        {
+          "relationId": "RT0610",
+          "songId": "S098",
+          "disc": 23,
+          "track": 5,
+          "variant": "HANAYO Mix",
+          "displayName": "Angelic Angel",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1179"
+        },
+        {
+          "relationId": "RT0611",
+          "songId": "S100",
+          "disc": 23,
+          "track": 6,
+          "variant": "HANAYO Mix",
+          "displayName": "SUNNY DAY SONG",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1180"
+        },
+        {
+          "relationId": "RT0612",
+          "songId": "S102",
+          "disc": 23,
+          "track": 7,
+          "variant": "HANAYO Mix",
+          "displayName": "僕たちはひとつの光",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1181"
+        },
+        {
+          "relationId": "RT0613",
+          "songId": "S099",
+          "disc": 23,
+          "track": 8,
+          "variant": "HANAYO Mix",
+          "displayName": "Hello,星を数えて",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1182"
+        },
+        {
+          "relationId": "RT0614",
+          "songId": "S055",
+          "disc": 24,
+          "track": 1,
+          "variant": "HANAYO Mix",
+          "displayName": "Pure girls project",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1183"
+        },
+        {
+          "relationId": "RT0615",
+          "songId": "S056",
+          "disc": 24,
+          "track": 2,
+          "variant": "HANAYO Mix",
+          "displayName": "UNBALANCED LOVE",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1184"
+        },
+        {
+          "relationId": "RT0616",
+          "songId": "S082",
+          "disc": 24,
+          "track": 3,
+          "variant": "HANAYO Mix",
+          "displayName": "永遠フレンズ",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1185"
+        },
+        {
+          "relationId": "RT0617",
+          "songId": "S083",
+          "disc": 24,
+          "track": 4,
+          "variant": "HANAYO Mix",
+          "displayName": "小夜啼鳥恋詩",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1186"
+        },
+        {
+          "relationId": "RT0618",
+          "songId": "S107",
+          "disc": 24,
+          "track": 5,
+          "variant": "HANAYO Mix",
+          "displayName": "WAO-WAO Powerful day!",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1187"
+        },
+        {
+          "relationId": "RT0619",
+          "songId": "S108",
+          "disc": 24,
+          "track": 6,
+          "variant": "HANAYO Mix",
+          "displayName": "NO EXIT ORION",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1188"
+        },
+        {
+          "relationId": "RT0620",
+          "songId": "S105",
+          "disc": 24,
+          "track": 7,
+          "variant": "HANAYO Mix",
+          "displayName": "HEART to HEART!",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1189"
+        },
+        {
+          "relationId": "RT0621",
+          "songId": "S106",
+          "disc": 24,
+          "track": 8,
+          "variant": "HANAYO Mix",
+          "displayName": "嵐のなかの恋だから",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1190"
+        },
+        {
+          "relationId": "RT0622",
+          "songId": "S114",
+          "disc": 24,
+          "track": 9,
+          "variant": "HANAYO Mix",
+          "displayName": "MOMENT RING",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1191"
+        },
+        {
+          "relationId": "RT0623",
+          "songId": "S115",
+          "disc": 24,
+          "track": 10,
+          "variant": "HANAYO Mix",
+          "displayName": "さようならへさよなら！",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67650",
+            "aki19830"
+          ],
+          "childReleaseId": "R0113",
+          "childRelationId": "RT1192"
+        },
+        {
+          "relationId": "RT0638",
+          "songId": "S079",
+          "disc": 26,
+          "track": 1,
+          "variant": "NICO Mix",
+          "displayName": "Shangri-La Shower",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1207"
+        },
+        {
+          "relationId": "RT0639",
+          "songId": "S080",
+          "disc": 26,
+          "track": 2,
+          "variant": "NICO Mix",
+          "displayName": "るてしキスキしてる",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1208"
+        },
+        {
+          "relationId": "RT0640",
+          "songId": "S093",
+          "disc": 26,
+          "track": 3,
+          "variant": "NICO Mix",
+          "displayName": "ミはμ'sicのミ",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1209"
+        },
+        {
+          "relationId": "RT0641",
+          "songId": "S094",
+          "disc": 26,
+          "track": 4,
+          "variant": "NICO Mix",
+          "displayName": "Super LOVE=Super LIVE!",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1210"
+        },
+        {
+          "relationId": "RT0642",
+          "songId": "S098",
+          "disc": 26,
+          "track": 5,
+          "variant": "NICO Mix",
+          "displayName": "Angelic Angel",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1211"
+        },
+        {
+          "relationId": "RT0643",
+          "songId": "S100",
+          "disc": 26,
+          "track": 6,
+          "variant": "NICO Mix",
+          "displayName": "SUNNY DAY SONG",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1212"
+        },
+        {
+          "relationId": "RT0644",
+          "songId": "S102",
+          "disc": 26,
+          "track": 7,
+          "variant": "NICO Mix",
+          "displayName": "僕たちはひとつの光",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1213"
+        },
+        {
+          "relationId": "RT0645",
+          "songId": "S101",
+          "disc": 26,
+          "track": 8,
+          "variant": "NICO Mix",
+          "displayName": "？←HEARTBEAT",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1214"
+        },
+        {
+          "relationId": "RT0646",
+          "songId": "S052",
+          "disc": 27,
+          "track": 1,
+          "variant": "NICO Mix",
+          "displayName": "Cutie Panther",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1215"
+        },
+        {
+          "relationId": "RT0647",
+          "songId": "S053",
+          "disc": 27,
+          "track": 2,
+          "variant": "NICO Mix",
+          "displayName": "夏、終わらないで。",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1216"
+        },
+        {
+          "relationId": "RT0648",
+          "songId": "S087",
+          "disc": 27,
+          "track": 3,
+          "variant": "NICO Mix",
+          "displayName": "冬がくれた予感",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1217"
+        },
+        {
+          "relationId": "RT0649",
+          "songId": "S088",
+          "disc": 27,
+          "track": 4,
+          "variant": "NICO Mix",
+          "displayName": "Trouble Busters",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1218"
+        },
+        {
+          "relationId": "RT0650",
+          "songId": "S112",
+          "disc": 27,
+          "track": 5,
+          "variant": "NICO Mix",
+          "displayName": "錯覚CROSSROADS",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1219"
+        },
+        {
+          "relationId": "RT0651",
+          "songId": "S113",
+          "disc": 27,
+          "track": 6,
+          "variant": "NICO Mix",
+          "displayName": "PSYCHIC FIRE",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1220"
+        },
+        {
+          "relationId": "RT0652",
+          "songId": "S105",
+          "disc": 27,
+          "track": 7,
+          "variant": "NICO Mix",
+          "displayName": "HEART to HEART!",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1221"
+        },
+        {
+          "relationId": "RT0653",
+          "songId": "S106",
+          "disc": 27,
+          "track": 8,
+          "variant": "NICO Mix",
+          "displayName": "嵐のなかの恋だから",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1222"
+        },
+        {
+          "relationId": "RT0654",
+          "songId": "S114",
+          "disc": 27,
+          "track": 9,
+          "variant": "NICO Mix",
+          "displayName": "MOMENT RING",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1223"
+        },
+        {
+          "relationId": "RT0655",
+          "songId": "S115",
+          "disc": 27,
+          "track": 10,
+          "variant": "NICO Mix",
+          "displayName": "さようならへさよなら！",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "child_release_exact",
+          "evidence": [
+            "catalog67757",
+            "soloDiscCrosswalk67657",
+            "aki19837"
+          ],
+          "childReleaseId": "R0114",
+          "childRelationId": "RT1224"
         }
       ]
     },
@@ -19958,6 +21837,300 @@
           "evidence": [
             "aki27389",
             "catalog68547"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0021",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0044",
+          "songId": "S044",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "夢なき夢は夢じゃない",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "explicit_relation",
+          "evidence": [
+            "akiVideo10105"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0023",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0047",
+          "songId": "S047",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "Anemone heart",
+          "benefitStore": null,
+          "singerId": "SN0049",
+          "basis": "explicit_relation",
+          "evidence": [
+            "akiVideo10104"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0024",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0048",
+          "songId": "S048",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "なわとび",
+          "benefitStore": null,
+          "singerId": "SN0021",
+          "basis": "explicit_relation",
+          "evidence": [
+            "akiVideo10102"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0028",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0054",
+          "songId": "S054",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "にこぷり♡女子道",
+          "benefitStore": null,
+          "singerId": "SN0022",
+          "basis": "explicit_relation",
+          "evidence": [
+            "akiVideo10242"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0030",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0057",
+          "songId": "S057",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "硝子の花園",
+          "benefitStore": null,
+          "singerId": "SN0035",
+          "basis": "explicit_relation",
+          "evidence": [
+            "akiVideo7864"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0031",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0058",
+          "songId": "S058",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "LONELIEST BABY",
+          "benefitStore": null,
+          "singerId": "SN0001",
+          "basis": "explicit_relation",
+          "evidence": [
+            "akiVideo7875"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0039",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0072",
+          "songId": "S072",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "シアワセ行きのSMILING!",
+          "benefitStore": null,
+          "singerId": "SN0004",
+          "basis": "explicit_relation",
+          "evidence": [
+            "akiVideo5951"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0042",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0076",
+          "songId": "S076",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "ずるいよMagnetic today",
+          "benefitStore": null,
+          "singerId": "SN0047",
+          "basis": "explicit_relation",
+          "evidence": [
+            "akiVideo6048"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0043",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0077",
+          "songId": "S077",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "くるりんMIRACLE",
+          "benefitStore": null,
+          "singerId": "SN0012",
+          "basis": "explicit_relation",
+          "evidence": [
+            "akiVideo6087"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0044",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0078",
+          "songId": "S078",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "Storm in Lover",
+          "benefitStore": null,
+          "singerId": "SN0041",
+          "basis": "explicit_relation",
+          "evidence": [
+            "akiVideo6090"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0046",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0081",
+          "songId": "S081",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "もしもからきっと",
+          "benefitStore": null,
+          "singerId": "SN0027",
+          "basis": "explicit_relation",
+          "evidence": [
+            "akiVideo6092"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0048",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0084",
+          "songId": "S084",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "好きですが好きですか？",
+          "benefitStore": null,
+          "singerId": "SN0033",
+          "basis": "explicit_relation",
+          "evidence": [
+            "akiVideo6346"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0051",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0089",
+          "songId": "S089",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "そして最後のページには",
+          "benefitStore": null,
+          "singerId": "SN0001",
+          "basis": "explicit_relation",
+          "evidence": [
+            "akiVideo6374"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0063",
+      "featuredSingerId": null,
+      "parentReleaseId": null,
+      "records": [
+        {
+          "relationId": "RT0109",
+          "songId": "S109",
+          "disc": null,
+          "track": null,
+          "variant": null,
+          "displayName": "これから",
+          "benefitStore": null,
+          "singerId": "SN0001",
+          "basis": "explicit_relation",
+          "evidence": [
+            "akiVideo7712"
           ]
         }
       ]

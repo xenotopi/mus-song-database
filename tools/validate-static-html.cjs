@@ -15,6 +15,7 @@ const { validateReleaseContentsData, validateReleaseContentsBody } = require("./
 const { validateNavigationData, expectedGroups, validateNavigationBody } = require("./validate-release-navigation.cjs");
 const { validateBluRayData, validateBluRayBody } = require("./validate-release-bluray.cjs");
 const { validateSingleData, validateSingleBody } = require("./validate-release-single-products.cjs");
+const { validateAlbumData, validateAlbumBody } = require("./validate-release-album-products.cjs");
 const { validateSongUnitMemberships, validateSongUnitBody } = require("./song-unit-membership-lib.cjs");
 const { parseUniqueJson, parseSerializedHtml, descendants, textContent, visible, hasClass, requireCondition: check } = require("./static-html-readonly-lib.cjs");
 const ROOT = path.resolve(__dirname, "..");
@@ -170,7 +171,7 @@ function validateSongBody(doc, song, memberships) {
   });
 }
 
-function validateReleaseBody(doc, release, releaseList, productContents = null, navigationData = JSON.parse(fs.readFileSync(path.join(ROOT, "data/release-navigation.json"), "utf8")), singleProduct = null) {
+function validateReleaseBody(doc, release, releaseList, productContents = null, navigationData = JSON.parse(fs.readFileSync(path.join(ROOT, "data/release-navigation.json"), "utf8")), singleProduct = null, albumProduct = null) {
   const resolved = { ...release }, listItem = releaseList.find(r => r.releaseId === release.releaseId);
   for (const key of ["releaseSeries", "editionType", "parentReleaseId", "featuredSinger", "catalogNumber", "officialName"]) resolved[key] ??= listItem?.[key];
   if(doc.html.attrs["data-release-id"]) check(doc.html.attrs["data-release-id"]===release.releaseId,"Release body ID mismatch");
@@ -237,7 +238,9 @@ function validateReleaseBody(doc, release, releaseList, productContents = null, 
   // always supplies the independently validated product, including missing-DOM checks.
   if (!singleProduct && included?.attrs["data-release-single-inventory"]===release.releaseId)
     singleProduct=JSON.parse(fs.readFileSync(path.join(ROOT,"data/release-single-products.json"),"utf8")).releases.find(r=>r.releaseId===release.releaseId);
-  const nav=byId(doc,"releaseSectionNav",false),sections=[["includedSongsSection","収録内容"],["singleProductSection","特典・商品仕様"],["bluRayProductSection","本編・特典"],["kamiparaHistorySection","神パラ歌唱履歴"],["debutSongsSection","初出・由来"],["relatedReleasesSection","関連作品"],["relatedEventsSection","関連イベント"],["releaseInformationSection","作品情報"]].filter(([id])=>doc.ids.has(id)&&visible(doc.ids.get(id)));
+  if (!albumProduct && included?.attrs["data-release-album-ready"]===release.releaseId)
+    albumProduct=JSON.parse(fs.readFileSync(path.join(ROOT,"data/release-album-products.json"),"utf8")).releases.find(r=>r.releaseId===release.releaseId);
+  const nav=byId(doc,"releaseSectionNav",false),sections=[["includedSongsSection","収録内容"],["singleProductSection","特典・商品仕様"],["albumProductSection","特典・商品仕様"],["bluRayProductSection","本編・特典"],["kamiparaHistorySection","神パラ歌唱履歴"],["debutSongsSection","初出・由来"],["relatedReleasesSection","関連作品"],["relatedEventsSection","関連イベント"],["releaseInformationSection","作品情報"]].filter(([id])=>doc.ids.has(id)&&visible(doc.ids.get(id)));
   equal(descendants(nav,n=>n.tag==="a").map(n=>[n.attrs.href,cleanText(n)]),sections.map(([id,label])=>["/release/"+release.releaseId+".html#"+id,label]),"Release section navigation destination/order mismatch");
   check(visible(nav)===(sections.length>0),"Release section navigation visibility mismatch");
   if(release.releaseId==="R0072"){
@@ -257,9 +260,11 @@ function validateReleaseBody(doc, release, releaseList, productContents = null, 
   }
   if(productContents)expectedCount=productContents.discs.length+" Disc · "+productContents.tracks.length+"トラック";
   if(singleProduct)expectedCount="CD · "+singleProduct.cd.tracks.length+"トラック";
+  if(albumProduct?.extraTracks.length)expectedCount="CD · "+albumProduct.officialInventories[0].discs.reduce((n,d)=>n+d.tracks.length,0)+"トラック（登録曲"+tracks.length+"曲）";
   check(cleanText(countLabel)===expectedCount,"Release relation/unique Song count label mismatch");
   check(visible(byId(doc,"includedSongsSection",false))===!(meta.status==="not_applicable"&&!tracks.length&&!note),"Release coverage visibility mismatch");
-  if(note)check(classes(included,"release-coverage-note").some(n=>visible(n)&&textContent(n).includes(note)),"Release publicNote missing/hidden");
+  const displayedNote=release.releaseId==="R0068"&&albumProduct?.collectionNote?albumProduct.collectionNote.replace("。以下のDisc番号は収録一覧上の区分です。", ""):note;
+  if(displayedNote)check(classes(included,"release-coverage-note").some(n=>visible(n)&&textContent(n).includes(displayedNote)),"Release publicNote missing/hidden");
   if(meta.status==="partial"&&Number.isFinite(Number(meta.confirmedCount))&&Number.isFinite(Number(meta.pendingCount)))
     equal(classes(included,"release-coverage-progress").map(cleanText),["確認済み"+Number(meta.confirmedCount)+"件 / 確認中"+Number(meta.pendingCount)+"件"],"Release coverage progress mismatch");
   const rows=classes(included,"release-included-song-row");
@@ -444,6 +449,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
     const contents = validateReleaseContentsData(json("data/release-contents.json"), Object.fromEntries(sources.release));
     const bluRay = validateBluRayData(json("data/release-bluray-products.json"), Object.fromEntries(sources.release));
     const singles = validateSingleData(json("data/release-single-products.json"), Object.fromEntries(sources.release));
+    const albums = validateAlbumData(json("data/release-album-products.json"), Object.fromEntries(sources.release));
     const memberships = validateSongUnitMemberships(json("data/song-unit-memberships.json"), new Set(sources.song.keys()));
     const kp = readSnapshot("kamipara-dashboard.json", snapshot.kamiparaDashboard);
     const dashboard = validateKamiparaDashboard(kp.wrapper.data, dataRevision);
@@ -495,7 +501,8 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
         validateHead(doc, type, id, data, revision);
         if (type === "song") validateSongBody(doc, data, memberships);
         else {
-          validateReleaseBody(doc, data, releaseList, contents.get(id), navigationData, singles.get(id));
+          validateReleaseBody(doc, data, releaseList, contents.get(id), navigationData, singles.get(id), albums.get(id));
+          validateAlbumBody(doc, data, albums.get(id));
           validateSingleBody(doc, data, singles.get(id));
           validateBluRayBody(doc, data, bluRay.get(id));
           validateReleaseContentsBody(doc, data, contents.get(id));

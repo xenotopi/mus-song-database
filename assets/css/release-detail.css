@@ -239,3 +239,19 @@ html.mus-menu-lock .release-has-context .detail-context-inner { pointer-events: 
 .release-single-sources a { display: inline-flex; gap: .4rem; align-items: center; min-height: 44px; font-size: .85rem; line-height: 1.65; }
 .release-single-sources .site-icon-inline { flex-shrink: 0; }
 @media(max-width:600px) { .release-single-spec-grid { grid-template-columns: minmax(0,1fr); } .release-single-track { grid-template-columns: 1.6rem minmax(0,1fr); gap: .4rem; } }
+/* Album-only additions reuse the single-product disclosure cards above. */
+.release-album-disc-scope { margin: .3rem .75rem; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.release-album-extras { margin-top: .75rem; overflow-wrap: anywhere; }
+.release-album-extras h3 { font-size: 15px; color: var(--navy); }
+.release-album-extra-track { display: grid; grid-template-columns: 6rem minmax(0,1fr); gap: .6rem; padding: .5rem 0; border-bottom: 1px solid var(--line); line-height: 1.65; }
+.release-album-extra-track > span:first-child { font-size: 13px; color: var(--muted); }
+/* Product facts share one compact, non-interactive layout. Track/UI styles are unchanged. */
+.release-single-spec-grid { grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: .25rem .85rem; }
+.release-single-product h3 { margin: .5rem 0 .2rem; }
+.release-single-product .release-product-facts { display: flex; flex-wrap: wrap; gap: .2rem 1.1rem; list-style: none; padding: 0; margin: .2rem 0; }
+.release-single-product .release-product-facts > li { flex: 0 1 100%; min-width: 0; padding: 0; overflow-wrap: anywhere; }
+.release-single-product .release-product-facts > .release-product-short-fact { flex-basis: auto; }
+.release-product-fact-label { display: block; color: #24325b; }
+.release-product-fact-members { display: block; }
+.release-product-fact-members > span { overflow-wrap: anywhere; }
+@media(max-width:600px) { .release-single-spec-grid { grid-template-columns: minmax(0,1fr); } .release-single-product .release-product-facts { gap: .2rem .8rem; } }

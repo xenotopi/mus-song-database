@@ -12,6 +12,7 @@ const releaseGenerator = require("./generate-release-pages.cjs");
 const { validateSidecarBody } = require("./validate-release-sidecar.cjs");
 const { validateVocalData, validateVocalBody } = require("./validate-release-vocals.cjs");
 const { validateReleaseContentsData, validateReleaseContentsBody } = require("./validate-release-contents.cjs");
+const { validateNavigationData, expectedGroups, validateNavigationBody } = require("./validate-release-navigation.cjs");
 const { validateSongUnitMemberships, validateSongUnitBody } = require("./song-unit-membership-lib.cjs");
 const { parseUniqueJson, parseSerializedHtml, descendants, textContent, visible, hasClass, requireCondition: check } = require("./static-html-readonly-lib.cjs");
 const ROOT = path.resolve(__dirname, "..");
@@ -167,7 +168,7 @@ function validateSongBody(doc, song, memberships) {
   });
 }
 
-function validateReleaseBody(doc, release, releaseList, productContents = null) {
+function validateReleaseBody(doc, release, releaseList, productContents = null, navigationData = JSON.parse(fs.readFileSync(path.join(ROOT, "data/release-navigation.json"), "utf8"))) {
   const resolved = { ...release }, listItem = releaseList.find(r => r.releaseId === release.releaseId);
   for (const key of ["releaseSeries", "editionType", "parentReleaseId", "featuredSinger", "catalogNumber", "officialName"]) resolved[key] ??= listItem?.[key];
   if(doc.html.attrs["data-release-id"]) check(doc.html.attrs["data-release-id"]===release.releaseId,"Release body ID mismatch");
@@ -206,14 +207,15 @@ function validateReleaseBody(doc, release, releaseList, productContents = null) 
   const siblings=resolved.releaseSeries?.id?releaseList.filter(r=>r.releaseSeries?.id===resolved.releaseSeries.id&&!excluded.has(r.releaseId)):[];
   function links(id,cls,expected,titleClass){
     const rows=classes(byId(doc,id,expected.length>0),cls);
-    equal(rows.map(n=>[n.attrs.href,cleanText(titleClass?one(classes(n,titleClass),"Missing Release link title"):n)]),expected,"Release related identities mismatch: "+id);
+    equal(rows.map(n=>[n.attrs.href,cleanText(titleClass?one(classes(n,titleClass),"Missing Release link title"):(classes(n,"mus-title-chip")[0]||n))]),expected,"Release related identities mismatch: "+id);
     rows.forEach(n=>check(n.tag==="a"&&!descendants(n,x=>x.tag==="a").length,"Release nested/non-anchor link"));
   }
   const url=r=>"release/"+r.releaseId+".html";
   links("parentReleaseHost","release-child-row",parent?[[url(parent),parent.releaseName||"BOX詳細を見る"]]:[]);
   links("childReleasesHost","release-child-row",children.map(r=>[url(r),r.releaseName||"リリース名未設定"]),"release-child-title");
   links("seriesReleasesHost","release-child-row",siblings.map(r=>[url(r),r.releaseName||"リリース名未設定"]));
-  check(visible(byId(doc,"relatedReleasesSection",false))===Boolean(parent||children.length||siblings.length),"Release related section visibility mismatch");
+  check(visible(byId(doc,"relatedReleasesSection",false))===Boolean(parent||children.length||siblings.length||expectedGroups(resolved,releaseList,navigationData).length),"Release related section visibility mismatch");
+  validateNavigationBody(doc, resolved, releaseList, navigationData);
   const events=[...(release.relatedEvents||[])].sort((a,b)=>(Number.isFinite(Number(a.order))?Number(a.order):Infinity)-(Number.isFinite(Number(b.order))?Number(b.order):Infinity));
   links("relatedEventsHost","release-event-row",events.map(e=>["event.html?id="+encodeURIComponent(e.eventId),e.eventName]),"release-event-title");
   check(visible(byId(doc,"relatedEventsSection",false))===Boolean(events.length),"Release Event section visibility mismatch");
@@ -429,6 +431,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
     check(Array.isArray(list.wrapper.data) && snapshot.releaseList.count === 114, "Release list schema/count mismatch");
     exactIds(list.wrapper.data.map(r => r.releaseId), [...sources.release.keys()], "Release list");
     const releaseList = list.wrapper.data; inputs.release["release-list.json"] = list.input;
+    const navigationData = validateNavigationData(json("data/release-navigation.json"), releaseList);
     const sidecar = json("data/release-sidecars/R0052.json");
     const vocals = validateVocalData(json("data/release-vocals.json"), Object.fromEntries(sources.release));
     const contents = validateReleaseContentsData(json("data/release-contents.json"), Object.fromEntries(sources.release));
@@ -483,7 +486,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
         validateHead(doc, type, id, data, revision);
         if (type === "song") validateSongBody(doc, data, memberships);
         else {
-          validateReleaseBody(doc, data, releaseList, contents.get(id));
+          validateReleaseBody(doc, data, releaseList, contents.get(id), navigationData);
           validateReleaseContentsBody(doc, data, contents.get(id));
           validateSidecarBody(doc, data, sidecar);
           validateVocalBody(doc, data, vocals);

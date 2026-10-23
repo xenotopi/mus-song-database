@@ -12,6 +12,7 @@ const { expectedSidecar, validateSidecarBody } = require("./validate-release-sid
 const { parseSerializedHtml } = require("./static-html-readonly-lib.cjs");
 const { validateVocalData, validateVocalBody } = require("./validate-release-vocals.cjs");
 const { validateReleaseContentsData, validateReleaseContentsBody } = require("./validate-release-contents.cjs");
+const { validateNavigationData, validateNavigationBody } = require("./validate-release-navigation.cjs");
 const root = path.resolve(__dirname, "..");
 const mime = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png" };
 
@@ -25,6 +26,9 @@ const RELEASE_RENDERER_FILES = Object.freeze([
   "tools/detail-snapshot-lib.cjs",
   "tools/capture-provenance.cjs",
   "assets/js/release-v500.js",
+  "assets/js/release-navigation.js",
+  "data/release-navigation.json",
+  "tools/validate-release-navigation.cjs",
   "assets/js/release-contents.js",
   "data/release-contents.json",
   "tools/validate-release-contents.cjs",
@@ -217,6 +221,8 @@ async function generateReleasePages({ revision, ids } = {}) {
   const capture = beginCapture({ root, type: "release", revision, ids, rendererFiles: RELEASE_RENDERER_FILES, rendererFingerprint });
   const { manifest, rendererSha256 } = capture;
   const pinnedTemplate = capture.source("release.html");
+  const navigationList = capture.snapshot("release-list.json").data;
+  const navigationData = validateNavigationData(JSON.parse(capture.source("data/release-navigation.json")), navigationList);
   const sidecar = JSON.parse(capture.source("data/release-sidecars/R0052.json"));
   const vocals = validateVocalData(JSON.parse(capture.source("data/release-vocals.json")),
     Object.fromEntries(ids.map(id => [id, capture.snapshot(`releases/${id}.json`).data])));
@@ -318,6 +324,7 @@ async function generateReleasePages({ revision, ids } = {}) {
       validateSidecarBody(parseSerializedHtml(html), release, sidecar);
       validateVocalBody(parseSerializedHtml(html), release, vocals);
       validateReleaseContentsBody(parseSerializedHtml(html), release, contents.get(id));
+      validateNavigationBody(parseSerializedHtml(html), release, navigationList, navigationData);
       pages.push({ id, html, sha256: crypto.createHash("sha256").update(html).digest("hex"), title, description, canonical });
       await page.close();
     }

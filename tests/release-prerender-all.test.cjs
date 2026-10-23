@@ -11,7 +11,9 @@ const htmlManifestPath = path.join(root, "release", "manifest.json");
 const { rendererFingerprint, RELEASE_RENDERER_FILES } = require("../tools/generate-release-pages.cjs");
 const { validateReleaseBody } = require("../tools/validate-static-html.cjs");
 const { parseSerializedHtml, textContent } = require("../tools/static-html-readonly-lib.cjs");
+const { validateReleaseContentsData } = require("../tools/validate-release-contents.cjs");
 const releaseList = require(`../data/snapshots/${pointer.revision}/release-list.json`).data;
+const productContents = validateReleaseContentsData(require('../data/release-contents.json'),Object.fromEntries(releaseList.map(r=>[r.releaseId,require(`../data/snapshots/${pointer.revision}/releases/${r.releaseId}.json`).data])));
 function sha256(value) { return crypto.createHash("sha256").update(value).digest("hex"); }
 function escapeText(value) { return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 function assertReleaseDate(html, source) {
@@ -58,7 +60,7 @@ test("Release prerender 114 raw HTML", () => {
     // SEO descriptions stay in metadata, not a duplicated visible paragraph.
     // Legitimate release-songs-note explanations must remain untouched.
     assert.doesNotMatch(html, /data-prerender-description\b/, `${id}: visible SEO description must not be generated`);
-    validateReleaseBody(parseSerializedHtml(html), source, releaseList);
+    validateReleaseBody(parseSerializedHtml(html), source, releaseList, productContents.get(id));
     assert.match(html, /<meta name="robots" content="index,follow,max-image-preview:large">/, id);
     assertReleaseDate(html, source);
     if (["R0032", "R0052"].includes(id)) {
@@ -107,7 +109,7 @@ test("Release renderer dependencies are scoped to the capture path", () => {
   const excludedImports = new Set(["assets/js/release-amazon.js", "assets/js/singer-links.js"]);
   for (const file of RELEASE_RENDERER_FILES) {
     assert.ok(fs.statSync(path.join(root, file)).isFile(), file);
-    assert.ok((!file.startsWith("data/") || file === "data/release-sidecars/R0052.json") && !file.startsWith("assets/css/"), file);
+    assert.ok((!file.startsWith("data/") || ["data/release-sidecars/R0052.json","data/release-vocals.json","data/release-contents.json","data/release-navigation.json"].includes(file)) && !file.startsWith("assets/css/"), file);
     const source = fs.readFileSync(path.join(root, file), "utf8");
     if (file.startsWith("assets/js/")) {
       for (const match of source.matchAll(/\bimport\s+(?:[^;]*?\sfrom\s+)?["'](\.\/[^"']+)["']/g)) {

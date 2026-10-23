@@ -48,7 +48,7 @@ negative("deleted member option","R0088",h=>h.replace(/<option value="SN0004">[^
 negative("disabled member enrichment","R0088",h=>h.replace('data-box-member>','data-box-member disabled>'),/enrichment incomplete/);
 negative("restored search","R0088",h=>h.replace('<p data-box-status>','<input data-box-search><p data-box-status>'),/removed BOX search/);
 negative("removed selector Disc","R0088",h=>h.replace('<option value="release-disc-27">Disc 27</option>',""),/Disc selector/);
-negative("wrong child URL","R0088",h=>h.replace('href="release/R0106.html"','href="release/R0001.html"'),/related identities/);
+negative("wrong child URL","R0088",h=>h.replace(/(<div id="childReleasesHost">[\s\S]*?href=")release\/R0106\.html/,'$1release/R0001.html'),/related identities/);
 negative("wrong parent URL","R0106",h=>h.replace('href="release/R0088.html"','href="release/R0077.html"'),/related identities/);
 negative("publicNote dropped","R0068",h=>h.replace(/<p class="release-coverage-note">[^<]+<\/p>/,""),/publicNote/);
 negative("publicNote hidden","R0068",h=>h.replace('class="release-coverage-note"','class="release-coverage-note" hidden'),/publicNote/);

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "scope": "release-navigation-only",
+  "note": "表示導線のグループ。正式シリーズIDや音源同一性の定義ではない。名称・発売日は現行Release一覧を参照する。",
+  "groups": [
+    { "key": "soundtracks", "label": "サウンドトラック", "members": [
+      { "releaseId": "R0071", "label": "TVアニメ1期" },
+      { "releaseId": "R0078", "label": "TVアニメ2期" },
+      { "releaseId": "R0082", "label": "劇場版" }
+    ] },
+    { "key": "anime-bluray-season1", "label": "TVアニメ1期 Blu-ray", "members": [
+      { "releaseId": "R0021" }, { "releaseId": "R0023" }, { "releaseId": "R0024" }, { "releaseId": "R0025" }, { "releaseId": "R0028" }, { "releaseId": "R0030" }, { "releaseId": "R0031" }
+    ] },
+    { "key": "anime-bluray-season2", "label": "TVアニメ2期 Blu-ray", "members": [
+      { "releaseId": "R0039" }, { "releaseId": "R0042" }, { "releaseId": "R0043" }, { "releaseId": "R0044" }, { "releaseId": "R0046" }, { "releaseId": "R0048" }, { "releaseId": "R0051" }
+    ] },
+    { "key": "best-live-collection", "label": "Best Live! collection", "members": [
+      { "releaseId": "R0070" }, { "releaseId": "R0081" }
+    ] }
+  ]
+}

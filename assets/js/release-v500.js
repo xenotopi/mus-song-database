@@ -9,6 +9,7 @@ import { attachReleaseSidecar } from "./release-sidecar.js?v=1.0.0";
 import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import { attachReleaseVocals } from "./release-vocals.js?v=1.3.0";
 import { loadReleaseContents } from "./release-contents.js?v=1.1.0";
+import { applyReleaseNavigation, loadReleaseNavigation, releaseNavigationModel } from "./release-navigation.js?v=1.0.0";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
@@ -479,7 +480,7 @@ function updateSectionNav() {
   nav.hidden = sections.length === 0;
 }
 
-function renderRelease(release, releaseList = [], approvedMetadata = null, productContents = null) {
+function renderRelease(release, releaseList = [], approvedMetadata = null, productContents = null, navigationData = null) {
   const name = String(release.releaseName || "リリース名未設定");
   const date = release.releaseDate ? formatDate(release.releaseDate) : "発売日未登録";
   const classification = String(release.classification || "分類未設定");
@@ -510,7 +511,8 @@ function renderRelease(release, releaseList = [], approvedMetadata = null, produ
   elements.releaseInfo.innerHTML = info.map(([field, label, value, href]) => `<div class="release-info-row" data-release-info-field="${field}"${field === "featured" ? " data-release-featured" : ""}><dt>${escapeHtml(label)}</dt><dd>${href ? `<a href="${escapeHtml(href)}">${escapeHtml(value)}</a>` : escapeHtml(value)}</dd></div>`).join("");
   elements.releaseInfo.hidden = info.length === 0;
   const parentHost = $("parentReleaseHost");
-  if (parentHost) parentHost.innerHTML = parentRelease ? `<section class="release-related"><h3>親BOX</h3><a class="release-child-row mus-card-link mus-chip-link" href="release/${encodeURIComponent(parentReleaseId)}.html">${titleChip(parentRelease.releaseName || "BOX詳細を見る")}</a></section>` : "";
+  const preserveRelated = hasPrerenderedContent && $("relatedReleasesSection")?.dataset.releaseNavigationReady && (!navigationData || releaseList.length !== 114);
+  if (parentHost && !preserveRelated) parentHost.innerHTML = parentRelease ? `<section class="release-related"><h3>親BOX</h3><a class="release-child-row mus-card-link mus-chip-link" href="release/${encodeURIComponent(parentReleaseId)}.html">${titleChip(parentRelease.releaseName || "BOX詳細を見る")}</a></section>` : "";
   const officialUrl = String(release.officialReleaseUrl || "").trim();
   elements.officialRelease.innerHTML = officialUrl ? `<a class="release-official-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">公式作品ページを見る <span class="site-icon-inline " data-site-icon="external-link" aria-hidden="true"></span></a>` : `<p class="release-official-empty">公式作品ページは未登録です</p>`;
   const relatedEvents = (Array.isArray(release.relatedEvents) ? release.relatedEvents : [])
@@ -526,14 +528,15 @@ function renderRelease(release, releaseList = [], approvedMetadata = null, produ
   const children = String(release.editionType || "") === "memorial_box"
     ? releaseList.filter(item => String(item.parentReleaseId || "") === String(release.releaseId || ""))
     : [];
-  elements.childReleasesHost.innerHTML = children.length ? `<section class="release-related" aria-labelledby="childReleasesHeading"><p class="release-section-kicker">INDIVIDUAL EDITIONS</p><h2 id="childReleasesHeading">個別盤</h2><div class="release-child-list">${children.map(child => {
+  if (!preserveRelated) elements.childReleasesHost.innerHTML = children.length ? `<section class="release-related" aria-labelledby="childReleasesHeading"><p class="release-section-kicker">INDIVIDUAL EDITIONS</p><h2 id="childReleasesHeading">個別盤</h2><div class="release-child-list">${children.map(child => {
     const childSinger = singerDisplayName(child.featuredSinger, child.featuredSinger?.name).trim();
     return `<a class="release-child-row mus-card-link mus-chip-link" href="release/${encodeURIComponent(child.releaseId)}.html"><span class="release-child-copy"><span class="release-child-title">${titleChip(child.releaseName || "リリース名未設定")}</span>${childSinger ? `<span class="release-child-meta"><span>${escapeHtml(childSinger)}</span></span>` : ""}</span></a>`;
   }).join("")}</div></section>` : "";
   const excludedIds = new Set([release.releaseId, parentReleaseId, ...children.map(child => child.releaseId)]);
   const siblings = release.releaseSeries?.id ? releaseList.filter(item => item.releaseSeries?.id === release.releaseSeries.id && !excludedIds.has(item.releaseId) && /^R\d{4}$/.test(String(item.releaseId))) : [];
-  if ($("seriesReleasesHost")) $("seriesReleasesHost").innerHTML = siblings.length ? `<section class="release-related"><h3>同シリーズ</h3><div class="release-child-list">${siblings.map(item => `<a class="release-child-row mus-card-link mus-chip-link" href="release/${encodeURIComponent(item.releaseId)}.html">${titleChip(item.releaseName || "リリース名未設定")}</a>`).join("")}</div></section>` : "";
-  if ($("relatedReleasesSection")) $("relatedReleasesSection").hidden = !parentRelease && !children.length && !siblings.length;
+  if ($("seriesReleasesHost") && !preserveRelated) $("seriesReleasesHost").innerHTML = siblings.length ? `<section class="release-related"><h3>同シリーズ</h3><div class="release-child-list">${siblings.map(item => `<a class="release-child-row mus-card-link mus-chip-link" href="release/${encodeURIComponent(item.releaseId)}.html">${titleChip(item.releaseName || "リリース名未設定")}</a>`).join("")}</div></section>` : "";
+  if ($("relatedReleasesSection") && !preserveRelated) $("relatedReleasesSection").hidden = !parentRelease && !children.length && !siblings.length;
+  applyReleaseNavigation(release, releaseList, navigationData);
   if ($("relatedEventsSection")) $("relatedEventsSection").hidden = relatedEvents.length === 0;
   const includedIds = new Set((Array.isArray(release.includedSongs) ? release.includedSongs : []).map(song => song.songId));
   const songs = (Array.isArray(release.debutSongs) ? release.debutSongs : []).filter(song => !includedIds.has(song.songId));
@@ -568,7 +571,7 @@ async function loadRelease() {
   try {
     const response = await detailWithApiFallback("release", releaseId, () => apiGet("release", { id: releaseId }, { timeoutMs: 20000, retryCount: 1, cache: true }));
     const release = response.data || {};
-    const needsReleaseList = Boolean(release.releaseSeries || release.parentReleaseId || release.editionType === "memorial_box" || release.releaseType === "Solo Live!");
+    const needsReleaseList = !hasPrerenderedContent || Boolean(release.releaseSeries || release.parentReleaseId || release.editionType === "memorial_box" || release.releaseType === "Solo Live!");
     let releaseList = [];
     if (needsReleaseList) {
       // List metadata is supplementary. Render basic details immediately only
@@ -598,7 +601,9 @@ async function loadRelease() {
       officialName: release.officialName ?? listRelease.officialName
     } : release;
     const productContents = await loadReleaseContents(resolvedRelease);
-    renderRelease(resolvedRelease, safeReleaseList, null, productContents);
+    const navigationData = safeReleaseList.length === 114 ? await loadReleaseNavigation() : null;
+    if (navigationData && !releaseNavigationModel(releaseId, safeReleaseList, navigationData)) throw new Error("Release navigation list identity mismatch");
+    renderRelease(resolvedRelease, safeReleaseList, null, productContents, navigationData);
     await attachReleaseSidecar(resolvedRelease, elements.includedSongsContent);
     await attachReleaseVocals(resolvedRelease, elements.includedSongsContent);
     await hydrateBoxMembers(boxView, safeReleaseList, response);

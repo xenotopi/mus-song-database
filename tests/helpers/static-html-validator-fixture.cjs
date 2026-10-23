@@ -49,6 +49,8 @@ function buildFixture() {
   // These synthetic Releases have no recording-vocal registrations.
   putJson("data/release-vocals.json", { schemaVersion: 1, singers: [], releases: [] });
   putJson("data/release-contents.json", { schemaVersion: 2, scope: "release-product-track-list-only", releases: [] });
+  const navigationData={schemaVersion:1,scope:'release-navigation-only',groups:[]};
+  putJson('data/release-navigation.json',navigationData);
   const unitData=JSON.parse(require('node:fs').readFileSync(path.join(root,'data/song-unit-memberships.json'),'utf8'));
   putJson('data/song-unit-memberships.json',unitData);
   const affiliationNames={printemps:'Printemps',lily_white:'lily white',bibi:'BiBi'};
@@ -109,7 +111,7 @@ function buildFixture() {
         if (target === "R0032") description = name + "。1期Blu-ray最終巻発売日基準：2020/01/01。収録情報：" + item.includedSongs.map(s => s.displayName).join("、");
         if (target === "R0052") description = name + "。2期Blu-ray最終巻発売日基準：2020/01/01。店舗別の収録情報：" + item.includedSongs.map(s => s.displayName).join("、") + "。";
         const kpHtml = target === "R0072" ? kpBody() : "", split = kpHtml.indexOf("</div><section");
-        content = releaseBody(item, releaseList, target === "R0072" ? { kamipara: kpHtml.slice('<div id="includedSongsContent">'.length, split) } : {}).replace(/^<h1>[\s\S]*?<\/h1>/, "") + (target === "R0072" ? kpHtml.slice(split + 6) : "");
+        content = releaseBody(item, releaseList, {navigationData,...(target === "R0072" ? { kamipara: kpHtml.slice('<div id="includedSongsContent">'.length, split) } : {})}).replace(/^<h1>[\s\S]*?<\/h1>/, "") + (target === "R0072" ? kpHtml.slice(split + 6) : "");
         if(target==="R0052")for(const row of item.includedSongs){const block='<div class="release-sidecar-info"><dl><div><dt>特典媒体</dt><dd>CD</dd></div><div><dt>対象商品</dt><dd>2期Blu-ray</dd></div><div><dt>入手条件</dt><dd>全巻特典</dd></div></dl><details><summary>出典</summary><a href="'+escape(fixtureSource)+'">畑亜貴 公式作品一覧（特典媒体・対象商品・入手条件）</a></details></div>';content=content.replace(new RegExp('(<a[^>]*data-relation-id="'+row.relationId+'"[\\s\\S]*?</a>)'),'$1'+block);}
       }
       const html = `<!DOCTYPE html><html data-${type}-id="${target}"${type === "song" ? ` data-prerender-revision="${revision}"` : ""}>${head(type, target, name, description, ld)}<body><h1>${escape(name)}</h1><main id="mainContent">${content}</main></body></html>\n`;

@@ -1,0 +1,3465 @@
+{
+  "schemaVersion": 1,
+  "scope": "release-bluray-product-facts-only",
+  "relationPolicy": "Existing Relations remain immutable. Additional CD and video entries are product inventory, not Song or performance records.",
+  "releases": [
+    {
+      "releaseId": "R0021",
+      "releaseName": "「ラブライブ！」Blu-ray 第1巻",
+      "releaseDate": "2013-03-22",
+      "series": "TVアニメ1期",
+      "volume": 1,
+      "source": {
+        "key": "official-product-page",
+        "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd01",
+        "contentSha256": "2b0672d3265cad6b17a28b981869c37bee3ac6d83f94f075104da4b60e232b28",
+        "verification": "official-product-page-reviewed"
+      },
+      "historicalReservationDeadline": "2013-02-12",
+      "mainFeature": {
+        "type": "tv",
+        "episodes": [
+          {
+            "episode": 1,
+            "title": "叶え！私たちの夢——"
+          }
+        ]
+      },
+      "bonusCD": {
+        "label": "オリジナルソングCD 1",
+        "edition": "limited",
+        "disc": 1,
+        "positionScope": "封入CD内の収録位置（本編Blu-rayのDisc番号ではありません）",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "夢なき夢は夢じゃない",
+            "version": null,
+            "relationId": "RT0044",
+            "relationBinding": "fa9b35738d5d0c057cd809cde1b750b28287fd6f95f19ed704eb69aea390c601",
+            "officialSinger": "高坂穂乃果",
+            "sourceCreditText": "1.「夢なき夢は夢じゃない」（歌：高坂穂乃果）"
+          },
+          {
+            "track": 2,
+            "title": "夢なき夢は夢じゃない（Off Vocal）",
+            "version": "Off Vocal",
+            "relationId": null,
+            "relationBinding": null
+          }
+        ],
+        "officialName": "μ's オリジナルソングCD①"
+      },
+      "editions": [
+        {
+          "key": "limited",
+          "label": "初回限定版",
+          "catalogNumber": "BCXA-0697",
+          "price": {
+            "amount": 4500,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "μ's 3rd Anniversary LoveLive! 先行申込券",
+              "detail": "2013-06-16／パシフィコ横浜 国立大ホール",
+              "historical": true,
+              "officialName": "「μ's 3rd Anniversary LoveLive!」チケット最速先行販売申込券"
+            },
+            {
+              "label": "書き下ろし小説",
+              "detail": "公野櫻子／「ラブライブ！」（穂乃果・ことり・海未編）",
+              "historical": false,
+              "sourceRole": "原案"
+            },
+            {
+              "label": "ブックレット",
+              "detail": "8ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            },
+            {
+              "label": "Loveca+カード",
+              "detail": "ジャケット絵柄・各巻1種・3ポイント",
+              "historical": false,
+              "officialName": "特製カード「Loveca+（ラブカプラス）」"
+            },
+            {
+              "label": "スクールアイドルフェスティバル限定シリアル",
+              "detail": "ジャケット絵柄の限定URカード用／期限 2013-08-31 23:59",
+              "historical": true,
+              "officialName": "スマホアプリ「ラブライブ！スクールアイドルフェスティバル」限定シリアルコード"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "特別番組「もぎゅっと接近！ラブライブ！」",
+              "detail": "2012-12-31放送",
+              "historical": false
+            },
+            {
+              "label": "PV",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "CM",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "ノンテロップオープニング",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "ノンテロップ第1話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "パッケージ",
+              "detail": "西田亜沙子 描き下ろし特殊パッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろし特殊パッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろし特殊パッケージ"
+            },
+            {
+              "label": "ケース",
+              "detail": "三方背クリアケース",
+              "historical": false
+            }
+          ],
+          "bonusCD": "bonusCD",
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": [
+            {
+              "label": "詳細はこちら",
+              "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/img/bd/live_info2.jpg",
+              "sourceHref": "img/bd/live_info2.jpg",
+              "sourceText": "→詳細はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "小説試し読み",
+              "url": "https://www.lovelive-anime.jp/otonokizaka/img/bd/ss/s01-01.html",
+              "sourceHref": "../../img/bd/ss/s01-01.html",
+              "sourceText": "→試し読みはこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "特典CD試聴",
+              "url": "http://youtu.be/WzLBuusLwvc",
+              "sourceHref": "http://youtu.be/WzLBuusLwvc",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            }
+          ]
+        },
+        {
+          "key": "regular",
+          "label": "通常版",
+          "catalogNumber": "BCXA-0690",
+          "price": {
+            "amount": 3500,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ブックレット",
+              "detail": "4ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "PV",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "CM",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "ノンテロップオープニング",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "ノンテロップ第1話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "ジャケット",
+              "detail": "西田亜沙子 描き下ろしパッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろしパッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろしパッケージ"
+            }
+          ],
+          "bonusCD": null,
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": []
+        }
+      ],
+      "unlisted": [
+        "独立した音声特典",
+        "本編の収録時間・技術仕様（この公式商品ページの記載では確認できない項目）"
+      ],
+      "scopeNote": "店舗別・全巻購入特典は各巻の封入物に含めない。キャンペーン・申込券・コードは発売当時の情報。"
+    },
+    {
+      "releaseId": "R0023",
+      "releaseName": "「ラブライブ！」Blu-ray 第2巻",
+      "releaseDate": "2013-04-24",
+      "series": "TVアニメ1期",
+      "volume": 2,
+      "source": {
+        "key": "official-product-page",
+        "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd02",
+        "contentSha256": "2b0672d3265cad6b17a28b981869c37bee3ac6d83f94f075104da4b60e232b28",
+        "verification": "official-product-page-reviewed"
+      },
+      "historicalReservationDeadline": "2013-03-14",
+      "mainFeature": {
+        "type": "tv",
+        "episodes": [
+          {
+            "episode": 2,
+            "title": "アイドルを始めよう！"
+          },
+          {
+            "episode": 3,
+            "title": "ファーストライブ"
+          }
+        ]
+      },
+      "bonusCD": {
+        "label": "オリジナルソングCD 2",
+        "edition": "limited",
+        "disc": 1,
+        "positionScope": "封入CD内の収録位置（本編Blu-rayのDisc番号ではありません）",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "Anemone heart",
+            "version": null,
+            "relationId": "RT0047",
+            "relationBinding": "a539b6fccc2214de9a208511c1b1f6c0934c8c8f18545e4931e7cf0de2fcff9f",
+            "officialSinger": "南ことり・園田海未",
+            "sourceCreditText": "1.「Anemone heart」(歌：南ことり・園田海未)"
+          },
+          {
+            "track": 2,
+            "title": "Anemone heart（Off Vocal）",
+            "version": "Off Vocal",
+            "relationId": null,
+            "relationBinding": null
+          }
+        ],
+        "officialName": "μ'ｓオリジナルソングＣＤ②"
+      },
+      "editions": [
+        {
+          "key": "limited",
+          "label": "初回限定版",
+          "catalogNumber": "BCXA-0698",
+          "price": {
+            "amount": 7000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ブックレット",
+              "detail": "8ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            },
+            {
+              "label": "Loveca+カード",
+              "detail": "ジャケット絵柄・各巻1種・3ポイント",
+              "historical": false,
+              "officialName": "特製カード「Loveca+（ラブカプラス）」"
+            },
+            {
+              "label": "スクールアイドルフェスティバル限定シリアル",
+              "detail": "ジャケット絵柄の限定URカード用／期限 2013-08-31 23:59",
+              "historical": true,
+              "officialName": "スマホアプリ「ラブライブ！スクールアイドルフェスティバル」限定シリアルコード"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "μ's New Year LoveLive! 2013 Part1",
+              "detail": "2013-01-03／東京ドームシティホール。全3パートを第2・4・6巻に分割収録。",
+              "historical": false,
+              "performers": [
+                "新田恵海（高坂穂乃果）",
+                "内田彩（南ことり）",
+                "三森すずこ（園田海未）",
+                "飯田里穂（星空凛）",
+                "Pile（西木野真姫）",
+                "楠田亜衣奈（東條希）",
+                "久保ユリカ（小泉花陽）",
+                "徳井青空（矢澤にこ）"
+              ],
+              "tracks": [
+                {
+                  "number": 1,
+                  "title": "Wonderful Rush",
+                  "note": null
+                },
+                {
+                  "number": 2,
+                  "title": "僕らのLIVE 君とのLIFE",
+                  "note": null
+                },
+                {
+                  "number": 3,
+                  "title": "友情ノーチェンジ",
+                  "note": null
+                },
+                {
+                  "number": 4,
+                  "title": "Mermaid festa vol.1",
+                  "note": null
+                },
+                {
+                  "number": 5,
+                  "title": "Mermaid festa vol.2 〜Passionate〜",
+                  "note": null
+                },
+                {
+                  "number": 6,
+                  "title": "soldier game",
+                  "note": null
+                },
+                {
+                  "number": 7,
+                  "title": "乙女式れんあい塾",
+                  "note": null
+                },
+                {
+                  "number": 8,
+                  "title": "告白日和、です！",
+                  "note": null
+                },
+                {
+                  "number": 9,
+                  "title": "after school NAVIGATORS",
+                  "note": null
+                },
+                {
+                  "number": 10,
+                  "title": "Listen to my heart!!",
+                  "note": null
+                }
+              ]
+            },
+            {
+              "label": "ノンテロップエンディング：第2・3話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "パッケージ",
+              "detail": "西田亜沙子 描き下ろし特殊パッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろし特殊パッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろし特殊パッケージ"
+            },
+            {
+              "label": "ケース",
+              "detail": "三方背クリアケース",
+              "historical": false
+            }
+          ],
+          "bonusCD": "bonusCD",
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": [
+            {
+              "label": "特典CD試聴",
+              "url": "http://www.youtube.com/watch?v=Q_kd92iLYRM",
+              "sourceHref": "http://www.youtube.com/watch?v=Q_kd92iLYRM",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "特典映像試聴",
+              "url": "http://www.youtube.com/watch?v=AsuUdPNpvNk",
+              "sourceHref": "http://www.youtube.com/watch?v=AsuUdPNpvNk",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            }
+          ]
+        },
+        {
+          "key": "regular",
+          "label": "通常版",
+          "catalogNumber": "BCXA-0691",
+          "price": {
+            "amount": 6000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ブックレット",
+              "detail": "4ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ノンテロップエンディング：第2・3話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "ジャケット",
+              "detail": "西田亜沙子 描き下ろしパッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろしパッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろしパッケージ"
+            }
+          ],
+          "bonusCD": null,
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": []
+        }
+      ],
+      "unlisted": [
+        "独立した音声特典",
+        "本編の収録時間・技術仕様（この公式商品ページの記載では確認できない項目）"
+      ],
+      "scopeNote": "店舗別・全巻購入特典は各巻の封入物に含めない。キャンペーン・申込券・コードは発売当時の情報。"
+    },
+    {
+      "releaseId": "R0024",
+      "releaseName": "「ラブライブ！」Blu-ray 第3巻",
+      "releaseDate": "2013-05-28",
+      "series": "TVアニメ1期",
+      "volume": 3,
+      "source": {
+        "key": "official-product-page",
+        "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd03",
+        "contentSha256": "2b0672d3265cad6b17a28b981869c37bee3ac6d83f94f075104da4b60e232b28",
+        "verification": "official-product-page-reviewed"
+      },
+      "historicalReservationDeadline": "2013-04-16",
+      "mainFeature": {
+        "type": "tv",
+        "episodes": [
+          {
+            "episode": 4,
+            "title": "まきりんぱな"
+          },
+          {
+            "episode": 5,
+            "title": "にこ襲来"
+          }
+        ]
+      },
+      "bonusCD": {
+        "label": "オリジナルソングCD 3",
+        "edition": "limited",
+        "disc": 1,
+        "positionScope": "封入CD内の収録位置（本編Blu-rayのDisc番号ではありません）",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "なわとび",
+            "version": null,
+            "relationId": "RT0048",
+            "relationBinding": "82a6a4ebc96284d47d2fc3710d0d6328d153172eeda008781994f0dc869be501",
+            "officialSinger": "小泉花陽",
+            "sourceCreditText": "1.「なわとび」(歌：小泉花陽)"
+          },
+          {
+            "track": 2,
+            "title": "なわとび（Off Vocal）",
+            "version": "Off Vocal",
+            "relationId": null,
+            "relationBinding": null
+          }
+        ],
+        "officialName": "μ'ｓオリジナルソングＣＤ③"
+      },
+      "editions": [
+        {
+          "key": "limited",
+          "label": "初回限定版",
+          "catalogNumber": "BCXA-0699",
+          "price": {
+            "amount": 7000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "書き下ろし小説",
+              "detail": "公野櫻子／「ラブライブ！」（真姫・凛・花陽編）",
+              "historical": false,
+              "sourceRole": "原案"
+            },
+            {
+              "label": "ブックレット",
+              "detail": "8ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            },
+            {
+              "label": "Loveca+カード",
+              "detail": "ジャケット絵柄・各巻1種・3ポイント",
+              "historical": false,
+              "officialName": "特製カード「Loveca+（ラブカプラス）」"
+            },
+            {
+              "label": "スクールアイドルフェスティバル限定シリアル",
+              "detail": "ジャケット絵柄の限定URカード用／期限 2013-08-31 23:59",
+              "historical": true,
+              "officialName": "スマホアプリ「ラブライブ！スクールアイドルフェスティバル」限定シリアルコード"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ノンテロップエンディング：第4・5話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "パッケージ",
+              "detail": "西田亜沙子 描き下ろし特殊パッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろし特殊パッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろし特殊パッケージ"
+            },
+            {
+              "label": "ケース",
+              "detail": "三方背クリアケース",
+              "historical": false
+            }
+          ],
+          "bonusCD": "bonusCD",
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": [
+            {
+              "label": "小説試し読み",
+              "url": "https://www.lovelive-anime.jp/otonokizaka/img/bd/ss/s01-02.html",
+              "sourceHref": "../../img/bd/ss/s01-02.html",
+              "sourceText": "→試し読みはこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "特典CD試聴",
+              "url": "http://www.youtube.com/watch?v=j0XA2EsmYrE",
+              "sourceHref": "http://www.youtube.com/watch?v=j0XA2EsmYrE",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            }
+          ]
+        },
+        {
+          "key": "regular",
+          "label": "通常版",
+          "catalogNumber": "BCXA-0692",
+          "price": {
+            "amount": 6000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ブックレット",
+              "detail": "4ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ノンテロップエンディング：第4・5話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "ジャケット",
+              "detail": "西田亜沙子 描き下ろしパッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろしパッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろしパッケージ"
+            }
+          ],
+          "bonusCD": null,
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": []
+        }
+      ],
+      "unlisted": [
+        "独立した音声特典",
+        "本編の収録時間・技術仕様（この公式商品ページの記載では確認できない項目）"
+      ],
+      "scopeNote": "店舗別・全巻購入特典は各巻の封入物に含めない。キャンペーン・申込券・コードは発売当時の情報。"
+    },
+    {
+      "releaseId": "R0025",
+      "releaseName": "「ラブライブ！」Blu-ray 第4巻",
+      "releaseDate": "2013-06-21",
+      "series": "TVアニメ1期",
+      "volume": 4,
+      "source": {
+        "key": "official-product-page",
+        "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd04",
+        "contentSha256": "2b0672d3265cad6b17a28b981869c37bee3ac6d83f94f075104da4b60e232b28",
+        "verification": "official-product-page-reviewed"
+      },
+      "historicalReservationDeadline": "2013-05-15",
+      "mainFeature": {
+        "type": "tv",
+        "episodes": [
+          {
+            "episode": 6,
+            "title": "センターは誰だ？"
+          },
+          {
+            "episode": 7,
+            "title": "エリーチカ"
+          }
+        ]
+      },
+      "bonusCD": {
+        "label": "オリジナルソングCD 4",
+        "edition": "limited",
+        "disc": 1,
+        "positionScope": "封入CD内の収録位置（本編Blu-rayのDisc番号ではありません）",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "Beat in Angel",
+            "version": null,
+            "relationId": "RT0049",
+            "relationBinding": "3de692178e5263a69945b0a60dd1aa03d4f3ab4ffd103524f0285510289083e7",
+            "officialSinger": "星空 凛・西木野真姫",
+            "sourceCreditText": "1.「Beat in Angel」（星空 凛・西木野真姫）"
+          },
+          {
+            "track": 2,
+            "title": "Beat in Angel（Off Vocal）",
+            "version": "Off Vocal",
+            "relationId": null,
+            "relationBinding": null
+          }
+        ],
+        "officialName": "μ'ｓオリジナルソングＣＤ④"
+      },
+      "editions": [
+        {
+          "key": "limited",
+          "label": "初回限定版",
+          "catalogNumber": "BCXA-0700",
+          "price": {
+            "amount": 7000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ブックレット",
+              "detail": "8ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            },
+            {
+              "label": "Loveca+カード",
+              "detail": "ジャケット絵柄・各巻1種・3ポイント",
+              "historical": false,
+              "officialName": "特製カード「Loveca+（ラブカプラス）」"
+            },
+            {
+              "label": "スクールアイドルフェスティバル限定シリアル",
+              "detail": "ジャケット絵柄の限定URカード用／期限 2013-09-30 23:59",
+              "historical": true,
+              "officialName": "スマホアプリ「ラブライブ！スクールアイドルフェスティバル」限定シリアルコード"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "μ's New Year LoveLive! 2013 Part2",
+              "detail": "2013-01-03／東京ドームシティホール。全3パートを第2・4・6巻に分割収録。",
+              "historical": false,
+              "performers": [
+                "新田恵海（高坂穂乃果）",
+                "内田彩（南ことり）",
+                "三森すずこ（園田海未）",
+                "飯田里穂（星空凛）",
+                "Pile（西木野真姫）",
+                "楠田亜衣奈（東條希）",
+                "久保ユリカ（小泉花陽）",
+                "徳井青空（矢澤にこ）"
+              ],
+              "tracks": [
+                {
+                  "number": 11,
+                  "title": "ぶる〜べりぃ♡とれいん",
+                  "note": null
+                },
+                {
+                  "number": 12,
+                  "title": "勇気のReason",
+                  "note": null
+                },
+                {
+                  "number": 13,
+                  "title": "純愛レンズ",
+                  "note": null
+                },
+                {
+                  "number": 14,
+                  "title": "恋のシグナル Rin rin rin!",
+                  "note": null
+                },
+                {
+                  "number": 15,
+                  "title": "Someday of my life",
+                  "note": null
+                },
+                {
+                  "number": 16,
+                  "title": "Daring!!",
+                  "note": null
+                },
+                {
+                  "number": 17,
+                  "title": "孤独なHeaven",
+                  "note": null
+                },
+                {
+                  "number": 18,
+                  "title": "まほうつかいはじめました！",
+                  "note": null
+                },
+                {
+                  "number": 19,
+                  "title": "知らないLove*教えてLove",
+                  "note": null
+                },
+                {
+                  "number": 20,
+                  "title": "あ・の・ね・が・ん・ば・れ！",
+                  "note": null
+                },
+                {
+                  "number": 21,
+                  "title": "sweet&sweet holiday",
+                  "note": null
+                },
+                {
+                  "number": 22,
+                  "title": "Love marginal",
+                  "note": null
+                }
+              ]
+            },
+            {
+              "label": "ノンテロップエンディング：第6・7話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "パッケージ",
+              "detail": "西田亜沙子 描き下ろし特殊パッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろし特殊パッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろし特殊パッケージ"
+            },
+            {
+              "label": "ケース",
+              "detail": "三方背クリアケース",
+              "historical": false
+            }
+          ],
+          "bonusCD": "bonusCD",
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": [
+            {
+              "label": "特典CD試聴",
+              "url": "http://www.youtube.com/watch?v=QXtwqmrkjuQ",
+              "sourceHref": "http://www.youtube.com/watch?v=QXtwqmrkjuQ",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "特典映像試聴",
+              "url": "http://www.youtube.com/watch?v=kJkdoY_qPgg",
+              "sourceHref": "http://www.youtube.com/watch?v=kJkdoY_qPgg",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            }
+          ]
+        },
+        {
+          "key": "regular",
+          "label": "通常版",
+          "catalogNumber": "BCXA-0693",
+          "price": {
+            "amount": 6000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ブックレット",
+              "detail": "4ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ノンテロップエンディング：第6・7話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "ジャケット",
+              "detail": "西田亜沙子 描き下ろしパッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろしパッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろしパッケージ"
+            }
+          ],
+          "bonusCD": null,
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": []
+        }
+      ],
+      "unlisted": [
+        "独立した音声特典",
+        "本編の収録時間・技術仕様（この公式商品ページの記載では確認できない項目）"
+      ],
+      "scopeNote": "店舗別・全巻購入特典は各巻の封入物に含めない。キャンペーン・申込券・コードは発売当時の情報。"
+    },
+    {
+      "releaseId": "R0028",
+      "releaseName": "「ラブライブ！」Blu-ray 第5巻",
+      "releaseDate": "2013-07-26",
+      "series": "TVアニメ1期",
+      "volume": 5,
+      "source": {
+        "key": "official-product-page",
+        "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd05",
+        "contentSha256": "2b0672d3265cad6b17a28b981869c37bee3ac6d83f94f075104da4b60e232b28",
+        "verification": "official-product-page-reviewed"
+      },
+      "historicalReservationDeadline": "2013-06-18",
+      "mainFeature": {
+        "type": "tv",
+        "episodes": [
+          {
+            "episode": 8,
+            "title": "やりたいことは"
+          },
+          {
+            "episode": 9,
+            "title": "ワンダーゾーン"
+          }
+        ]
+      },
+      "bonusCD": {
+        "label": "オリジナルソングCD 5",
+        "edition": "limited",
+        "disc": 1,
+        "positionScope": "封入CD内の収録位置（本編Blu-rayのDisc番号ではありません）",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "にこぷり♡女子道",
+            "version": null,
+            "relationId": "RT0054",
+            "relationBinding": "70402486e0e21cee5c310552628da646236e7510d2d481fe5f0d371dd072a3b6",
+            "officialSinger": "矢澤にこ",
+            "sourceCreditText": "1.「にこぷり♡女子道」（矢澤にこ）"
+          },
+          {
+            "track": 2,
+            "title": "にこぷり♡女子道（Off Vocal）",
+            "version": "Off Vocal",
+            "relationId": null,
+            "relationBinding": null
+          }
+        ],
+        "officialName": "μ'ｓオリジナルソングＣＤ⑤"
+      },
+      "editions": [
+        {
+          "key": "limited",
+          "label": "初回限定版",
+          "catalogNumber": "BCXA-0701",
+          "price": {
+            "amount": 7000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "書き下ろし小説",
+              "detail": "公野櫻子／「ラブライブ！」（絵里・にこ・希編）",
+              "historical": false,
+              "sourceRole": "原案"
+            },
+            {
+              "label": "ブックレット",
+              "detail": "8ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            },
+            {
+              "label": "Loveca+カード",
+              "detail": "ジャケット絵柄・各巻1種・3ポイント",
+              "historical": false,
+              "officialName": "特製カード「Loveca+（ラブカプラス）」"
+            },
+            {
+              "label": "スクールアイドルフェスティバル限定シリアル",
+              "detail": "ジャケット絵柄の限定URカード用／期限 2013-10-31 23:59",
+              "historical": true,
+              "officialName": "スマホアプリ「ラブライブ！スクールアイドルフェスティバル」限定シリアルコード"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ノンテロップエンディング：第9話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "パッケージ",
+              "detail": "西田亜沙子 描き下ろし特殊パッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろし特殊パッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろし特殊パッケージ"
+            },
+            {
+              "label": "ケース",
+              "detail": "三方背クリアケース",
+              "historical": false
+            }
+          ],
+          "bonusCD": "bonusCD",
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": [
+            {
+              "label": "小説試し読み",
+              "url": "https://www.lovelive-anime.jp/otonokizaka/img/bd/ss/s01-03.html",
+              "sourceHref": "../../img/bd/ss/s01-03.html",
+              "sourceText": "→試し読みはこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "特典CD試聴",
+              "url": "http://www.youtube.com/watch?v=d8TjGQQG1OU",
+              "sourceHref": "http://www.youtube.com/watch?v=d8TjGQQG1OU",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            }
+          ]
+        },
+        {
+          "key": "regular",
+          "label": "通常版",
+          "catalogNumber": "BCXA-0694",
+          "price": {
+            "amount": 6000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ブックレット",
+              "detail": "4ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ノンテロップエンディング：第9話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "ジャケット",
+              "detail": "西田亜沙子 描き下ろしパッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろしパッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろしパッケージ"
+            }
+          ],
+          "bonusCD": null,
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": []
+        }
+      ],
+      "unlisted": [
+        "独立した音声特典",
+        "本編の収録時間・技術仕様（この公式商品ページの記載では確認できない項目）"
+      ],
+      "scopeNote": "店舗別・全巻購入特典は各巻の封入物に含めない。キャンペーン・申込券・コードは発売当時の情報。"
+    },
+    {
+      "releaseId": "R0030",
+      "releaseName": "「ラブライブ！」Blu-ray 第6巻",
+      "releaseDate": "2013-08-28",
+      "series": "TVアニメ1期",
+      "volume": 6,
+      "source": {
+        "key": "official-product-page",
+        "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd06",
+        "contentSha256": "2b0672d3265cad6b17a28b981869c37bee3ac6d83f94f075104da4b60e232b28",
+        "verification": "official-product-page-reviewed"
+      },
+      "historicalReservationDeadline": "2013-07-17",
+      "mainFeature": {
+        "type": "tv",
+        "episodes": [
+          {
+            "episode": 10,
+            "title": "先輩禁止！"
+          },
+          {
+            "episode": 11,
+            "title": "最高のライブ"
+          }
+        ]
+      },
+      "bonusCD": {
+        "label": "オリジナルソングCD 6",
+        "edition": "limited",
+        "disc": 1,
+        "positionScope": "封入CD内の収録位置（本編Blu-rayのDisc番号ではありません）",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "硝子の花園",
+            "version": null,
+            "relationId": "RT0057",
+            "relationBinding": "6ad57b68b9b1538dc9dad609cf1cf1eb57c5fb98b4c6fb66858dda553037848f",
+            "officialSinger": "絢瀬絵里・東條 希",
+            "sourceCreditText": "1.「硝子の花園」（絢瀬絵里・東條 希）"
+          },
+          {
+            "track": 2,
+            "title": "硝子の花園（Off Vocal）",
+            "version": "Off Vocal",
+            "relationId": null,
+            "relationBinding": null
+          }
+        ],
+        "officialName": "μ'ｓオリジナルソングＣＤ⑥"
+      },
+      "editions": [
+        {
+          "key": "limited",
+          "label": "初回限定版",
+          "catalogNumber": "BCXA-0702",
+          "price": {
+            "amount": 7000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ブックレット",
+              "detail": "8ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            },
+            {
+              "label": "Loveca+カード",
+              "detail": "ジャケット絵柄・各巻1種・3ポイント",
+              "historical": false,
+              "officialName": "特製カード「Loveca+（ラブカプラス）」"
+            },
+            {
+              "label": "スクールアイドルフェスティバル限定シリアル",
+              "detail": "ジャケット絵柄の限定URカード用／期限 2013-11-30 23:59",
+              "historical": true,
+              "officialName": "スマホアプリ「ラブライブ！スクールアイドルフェスティバル」限定シリアルコード"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "μ's New Year LoveLive! 2013 Part3",
+              "detail": "2013-01-03／東京ドームシティホール。全3パートを第2・4・6巻に分割収録。",
+              "historical": false,
+              "performers": [
+                "新田恵海（高坂穂乃果）",
+                "内田彩（南ことり）",
+                "三森すずこ（園田海未）",
+                "飯田里穂（星空凛）",
+                "Pile（西木野真姫）",
+                "楠田亜衣奈（東條希）",
+                "久保ユリカ（小泉花陽）",
+                "徳井青空（矢澤にこ）"
+              ],
+              "tracks": [
+                {
+                  "number": 23,
+                  "title": "ダイヤモンドプリンセスの憂鬱",
+                  "note": null
+                },
+                {
+                  "number": 24,
+                  "title": "ラブノベルス",
+                  "note": null
+                },
+                {
+                  "number": 25,
+                  "title": "もぎゅっと\"love\"で接近中！",
+                  "note": null
+                },
+                {
+                  "number": 26,
+                  "title": "baby maybe 恋のボタン",
+                  "note": null
+                },
+                {
+                  "number": 27,
+                  "title": "Snow halation",
+                  "note": null
+                },
+                {
+                  "number": 28,
+                  "title": "愛してるばんざーい！",
+                  "note": null
+                },
+                {
+                  "number": 29,
+                  "title": "夏色えがおで1,2,Jump!",
+                  "note": "アンコール"
+                },
+                {
+                  "number": 30,
+                  "title": "Oh, Love&Peace!",
+                  "note": "アンコール"
+                },
+                {
+                  "number": 31,
+                  "title": "僕らのLIVE 君とのLIFE",
+                  "note": "Wアンコール"
+                }
+              ]
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "パッケージ",
+              "detail": "西田亜沙子 描き下ろし特殊パッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろし特殊パッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろし特殊パッケージ"
+            },
+            {
+              "label": "ケース",
+              "detail": "三方背クリアケース",
+              "historical": false
+            }
+          ],
+          "bonusCD": "bonusCD",
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": [
+            {
+              "label": "特典CD試聴",
+              "url": "http://www.youtube.com/watch?v=wLZEMzTvA8s",
+              "sourceHref": "http://www.youtube.com/watch?v=wLZEMzTvA8s",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "特典映像試聴",
+              "url": "http://www.youtube.com/watch?v=z2DQruslWkU",
+              "sourceHref": "http://www.youtube.com/watch?v=z2DQruslWkU",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            }
+          ]
+        },
+        {
+          "key": "regular",
+          "label": "通常版",
+          "catalogNumber": "BCXA-0695",
+          "price": {
+            "amount": 6000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ブックレット",
+              "detail": "4ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            }
+          ],
+          "videoExtras": [],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "ジャケット",
+              "detail": "西田亜沙子 描き下ろしパッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろしパッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろしパッケージ"
+            }
+          ],
+          "bonusCD": null,
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": []
+        }
+      ],
+      "unlisted": [
+        "独立した音声特典",
+        "本編の収録時間・技術仕様（この公式商品ページの記載では確認できない項目）"
+      ],
+      "scopeNote": "店舗別・全巻購入特典は各巻の封入物に含めない。キャンペーン・申込券・コードは発売当時の情報。"
+    },
+    {
+      "releaseId": "R0031",
+      "releaseName": "「ラブライブ！」Blu-ray 第7巻",
+      "releaseDate": "2013-09-25",
+      "series": "TVアニメ1期",
+      "volume": 7,
+      "source": {
+        "key": "official-product-page",
+        "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd07",
+        "contentSha256": "2b0672d3265cad6b17a28b981869c37bee3ac6d83f94f075104da4b60e232b28",
+        "verification": "official-product-page-reviewed"
+      },
+      "historicalReservationDeadline": "2013-08-12",
+      "mainFeature": {
+        "type": "tv",
+        "episodes": [
+          {
+            "episode": 12,
+            "title": "ともだち"
+          },
+          {
+            "episode": 13,
+            "title": "μ'sミュージックスタート！"
+          }
+        ]
+      },
+      "bonusCD": {
+        "label": "オリジナルソングCD 7",
+        "edition": "limited",
+        "disc": 1,
+        "positionScope": "封入CD内の収録位置（本編Blu-rayのDisc番号ではありません）",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "LONELIEST BABY",
+            "version": null,
+            "relationId": "RT0058",
+            "relationBinding": "5b07cb5947fb90bf045d09afe3202b1fc260268788ecdf3325e92c5117a38146",
+            "officialSinger": "μ's",
+            "sourceCreditText": "1.「LONELIEST BABY」（μ's）"
+          },
+          {
+            "track": 2,
+            "title": "LONELIEST BABY（Off Vocal）",
+            "version": "Off Vocal",
+            "relationId": null,
+            "relationBinding": null
+          }
+        ],
+        "officialName": "μ'ｓオリジナルソングＣＤ⑦"
+      },
+      "editions": [
+        {
+          "key": "limited",
+          "label": "初回限定版",
+          "catalogNumber": "BCXA-0703",
+          "price": {
+            "amount": 7000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "μ's →NEXT LoveLive! 2014 〜ENDLESS PARADE〜 先行申込券",
+              "detail": "2014-02-08・09／さいたまスーパーアリーナ／申込期間 2013-09-25 10:00〜2013-10-30 23:59",
+              "historical": true,
+              "officialName": "「ラブライブ！ μ's →NEXT LoveLive！2014 〜ENDLESS PARADE〜」チケット最速先行販売申込券"
+            },
+            {
+              "label": "書き下ろし小説",
+              "detail": "公野櫻子／「ラブライブ！」（μ's Festival!）",
+              "historical": false,
+              "sourceRole": "原案"
+            },
+            {
+              "label": "ブックレット",
+              "detail": "8ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            },
+            {
+              "label": "Loveca+カード",
+              "detail": "ジャケット絵柄・各巻1種・3ポイント",
+              "historical": false,
+              "officialName": "特製カード「Loveca+（ラブカプラス）」"
+            },
+            {
+              "label": "スクールアイドルフェスティバル限定シリアル",
+              "detail": "高坂穂乃果の限定URカード用／期限 2013-12-31 23:59",
+              "historical": true,
+              "officialName": "スマホアプリ「ラブライブ！スクールアイドルフェスティバル」限定シリアルコード"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "CM",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "ノンテロップエンディング",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "パッケージ",
+              "detail": "西田亜沙子 描き下ろし特殊パッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろし特殊パッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子描き下ろし特殊パッケージ"
+            },
+            {
+              "label": "ケース",
+              "detail": "三方背クリアケース",
+              "historical": false
+            }
+          ],
+          "bonusCD": "bonusCD",
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": [
+            {
+              "label": "ライブ開催概要",
+              "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/sp_4thlive.html",
+              "sourceHref": "sp_4thlive.html",
+              "sourceText": "→開催概要はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "小説試し読み",
+              "url": "https://www.lovelive-anime.jp/otonokizaka/img/bd/ss/s01-04.html",
+              "sourceHref": "../../img/bd/ss/s01-04.html",
+              "sourceText": "→試し読みはこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "特典CD試聴",
+              "url": "http://www.youtube.com/watch?v=YrpAa4cmQmQ",
+              "sourceHref": "http://www.youtube.com/watch?v=YrpAa4cmQmQ",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            }
+          ]
+        },
+        {
+          "key": "regular",
+          "label": "通常版",
+          "catalogNumber": "BCXA-0696",
+          "price": {
+            "amount": 6000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ブックレット",
+              "detail": "4ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "CM",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "ノンテロップエンディング",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "ジャケット",
+              "detail": "西田亜沙子 描き下ろしパッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろしパッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子描き下ろしパッケージ"
+            }
+          ],
+          "bonusCD": null,
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": []
+        }
+      ],
+      "unlisted": [
+        "独立した音声特典",
+        "本編の収録時間・技術仕様（この公式商品ページの記載では確認できない項目）"
+      ],
+      "scopeNote": "店舗別・全巻購入特典は各巻の封入物に含めない。キャンペーン・申込券・コードは発売当時の情報。"
+    },
+    {
+      "releaseId": "R0039",
+      "releaseName": "「ラブライブ！」2期Blu-ray 第1巻",
+      "releaseDate": "2014-06-20",
+      "series": "TVアニメ2期",
+      "volume": 1,
+      "source": {
+        "key": "official-product-page",
+        "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv2nd/#bd01",
+        "contentSha256": "de37c0ed237b21dfcab9b8004331e0bbb225f91dec2a75205a22402d44f3b539",
+        "verification": "official-product-page-reviewed"
+      },
+      "historicalReservationDeadline": "2014-05-14",
+      "mainFeature": {
+        "type": "tv",
+        "episodes": [
+          {
+            "episode": 1,
+            "title": "もう一度ラブライブ！"
+          }
+        ]
+      },
+      "bonusCD": {
+        "label": "オリジナルソングCD 1",
+        "edition": "limited",
+        "disc": 1,
+        "positionScope": "封入CD内の収録位置（本編Blu-rayのDisc番号ではありません）",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "シアワセ行きのSMILING!",
+            "version": null,
+            "relationId": "RT0072",
+            "relationBinding": "b5c099dc9656ee0e50db07d7cb3cc7a032eea1fb889ca0da866577fbee4a0c37",
+            "officialSinger": "高坂穂乃果",
+            "sourceCreditText": "01.シアワセ行きのSMILING!（歌：高坂穂乃果）"
+          },
+          {
+            "track": 2,
+            "title": "シアワセ行きのSMILING!（Off Vocal）",
+            "version": "Off Vocal",
+            "relationId": null,
+            "relationBinding": null
+          }
+        ],
+        "officialName": "μ's オリジナルソングCD①"
+      },
+      "editions": [
+        {
+          "key": "limited",
+          "label": "特装限定版",
+          "catalogNumber": "BCXA-0839",
+          "price": {
+            "amount": 4500,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "μ's GO→GO! LoveLive! 2015 〜Dream Sensation!〜 先行抽選申込券",
+              "detail": "2015-01-31・02-01／さいたまスーパーアリーナ スタジアムモード",
+              "historical": true,
+              "officialName": "ラブライブ！ μ's GO→GO! LoveLive! 2015 〜Dream Sensation!〜 チケット最速先行抽選申込券",
+              "eventInfo": {
+                "description": "1次申込 2014-06-20 10:00〜2014-07-21 23:59、結果・入金 2014-07-26 13:00〜2014-07-29 21:00／2次申込 2014-07-26 13:00〜2014-08-18 23:59、結果・入金 2014-08-23 13:00〜2014-08-26 21:00／1シリアルにつき各公演2枚まで、当選済み公演日は再利用不可",
+                "source": {
+                  "url": "https://www.lovelive-anime.jp/otonokizaka/sp_5thlive.html",
+                  "contentSha256": "38225e558a12f4feaccc551544fe4c36c7411e9f365edff2b89fafd82f508d1e"
+                }
+              }
+            },
+            {
+              "label": "書き下ろし小説",
+              "detail": "公野櫻子／「ラブライブ！」（穂乃果・真姫・にこ編）",
+              "historical": false,
+              "sourceRole": "原案"
+            },
+            {
+              "label": "ライナーノート",
+              "detail": "国立音ノ木坂学院通信",
+              "historical": false,
+              "officialName": "特製ライナーノート"
+            },
+            {
+              "label": "Loveca+カード",
+              "detail": "ジャケット絵柄・各巻1種・3ポイント",
+              "historical": false,
+              "officialName": "特製カード「Loveca+（ラブカプラス）」"
+            },
+            {
+              "label": "スクールアイドルフェスティバル限定シリアル",
+              "detail": "期限 2014-12-31 23:59",
+              "historical": true,
+              "officialName": "スマホアプリ「ラブライブ！スクールアイドルフェスティバル」限定シリアルコード",
+              "benefitContent": "限定覚醒済みUR「高坂穂乃果」"
+            },
+            {
+              "label": "School idol paradise限定プロダクトコード",
+              "detail": "「それは僕たちの奇跡」コスチューム／期限 2015-01-31 23:59",
+              "historical": true,
+              "officialName": "PlayStation®Vita専用ソフト「ラブライブ！School idol paradise」限定プロダクトコード"
+            },
+            {
+              "label": "ファイブクロス",
+              "detail": "「ラブライブ！」PRカード",
+              "historical": false,
+              "officialName": "ファイブクロス「ラブライブ！」PRカード"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "特別番組「春もえがおで1,2,Jump!」",
+              "detail": "2014-03-30放送",
+              "historical": false
+            },
+            {
+              "label": "PV",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "CM",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "ノンテロップオープニング",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "ノンテロップ第1話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "パッケージ",
+              "detail": "西田亜沙子 描き下ろし特殊パッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろし特殊パッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろし特殊パッケージ"
+            },
+            {
+              "label": "ケース",
+              "detail": "三方背クリアケース",
+              "historical": false
+            }
+          ],
+          "bonusCD": "bonusCD",
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": [
+            {
+              "label": "ライブ開催概要",
+              "url": "https://www.lovelive-anime.jp/otonokizaka/sp_5thlive.html",
+              "sourceHref": "../../sp_5thlive.html",
+              "sourceText": "→開催概要はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "小説試し読み",
+              "url": "https://www.lovelive-anime.jp/otonokizaka/img/bd/ss/s02-01.html",
+              "sourceHref": "../../img/bd/ss/s02-01.html",
+              "sourceText": "→試し読みはこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "特典CD試聴",
+              "url": "http://www.youtube.com/watch?v=WL6C6hBFTW8",
+              "sourceHref": "http://www.youtube.com/watch?v=WL6C6hBFTW8",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            }
+          ]
+        },
+        {
+          "key": "regular",
+          "label": "通常版",
+          "catalogNumber": "BCXA-0832",
+          "price": {
+            "amount": 3500,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ライナーノート",
+              "detail": "国立音ノ木坂学院ちび通信",
+              "historical": false,
+              "officialName": "特製ライナーノート"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "PV",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "CM",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "ノンテロップオープニング",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "ノンテロップ第1話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "ジャケット",
+              "detail": "西田亜沙子 描き下ろしパッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろしパッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろしパッケージ"
+            }
+          ],
+          "bonusCD": null,
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": []
+        }
+      ],
+      "unlisted": [
+        "独立した音声特典",
+        "本編の収録時間・技術仕様（この公式商品ページの記載では確認できない項目）"
+      ],
+      "scopeNote": "店舗別・全巻購入特典は各巻の封入物に含めない。キャンペーン・申込券・コードは発売当時の情報。"
+    },
+    {
+      "releaseId": "R0042",
+      "releaseName": "「ラブライブ！」2期Blu-ray 第2巻",
+      "releaseDate": "2014-07-25",
+      "series": "TVアニメ2期",
+      "volume": 2,
+      "source": {
+        "key": "official-product-page",
+        "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv2nd/#bd02",
+        "contentSha256": "de37c0ed237b21dfcab9b8004331e0bbb225f91dec2a75205a22402d44f3b539",
+        "verification": "official-product-page-reviewed"
+      },
+      "historicalReservationDeadline": "2014-06-17",
+      "mainFeature": {
+        "type": "tv",
+        "episodes": [
+          {
+            "episode": 2,
+            "title": "優勝をめざして"
+          },
+          {
+            "episode": 3,
+            "title": "ユメノトビラ"
+          }
+        ]
+      },
+      "bonusCD": {
+        "label": "オリジナルソングCD 2",
+        "edition": "limited",
+        "disc": 1,
+        "positionScope": "封入CD内の収録位置（本編Blu-rayのDisc番号ではありません）",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "ずるいよMagnetic today",
+            "version": null,
+            "relationId": "RT0076",
+            "relationBinding": "a3e21492d8903a609975e3f174fd146faeba0fa1918688a9370a1cf3bfed8503",
+            "officialSinger": "西木野真姫・矢澤にこ",
+            "sourceCreditText": "01.ずるいよMagnetic today（歌：西木野真姫・矢澤にこ）"
+          },
+          {
+            "track": 2,
+            "title": "ずるいよMagnetic today（Off Vocal）",
+            "version": "Off Vocal",
+            "relationId": null,
+            "relationBinding": null
+          }
+        ],
+        "officialName": "μ's オリジナルソングCD②"
+      },
+      "editions": [
+        {
+          "key": "limited",
+          "label": "特装限定版",
+          "catalogNumber": "BCXA-0840",
+          "price": {
+            "amount": 7000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ライナーノート",
+              "detail": "国立音ノ木坂学院通信",
+              "historical": false,
+              "officialName": "特製ライナーノート"
+            },
+            {
+              "label": "Loveca+カード",
+              "detail": "ジャケット絵柄・各巻1種・3ポイント",
+              "historical": false,
+              "officialName": "特製カード「Loveca+（ラブカプラス）」"
+            },
+            {
+              "label": "スクールアイドルフェスティバル限定シリアル",
+              "detail": "期限 2015-01-31 23:59",
+              "historical": true,
+              "officialName": "スマホアプリ「ラブライブ！スクールアイドルフェスティバル」限定シリアルコード"
+            },
+            {
+              "label": "School idol paradise限定プロダクトコード",
+              "detail": "「真姫＆にこ」オリジナルギミック／期限 2015-01-31 23:59",
+              "historical": true,
+              "officialName": "PlayStation®Vita専用ソフト「ラブライブ！School idol paradise」限定プロダクトコード"
+            },
+            {
+              "label": "ファイブクロス",
+              "detail": "「ラブライブ！」PRカード",
+              "historical": false,
+              "officialName": "ファイブクロス「ラブライブ！」PRカード"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ラブライブ！μ's →NEXT LoveLive! 2014 〜ENDLESS PARADE〜 Part1",
+              "detail": "2014-02-08／さいたまスーパーアリーナ。全3パートを偶数巻に分割収録。オープニングパート・幕間ドラマは未収録。",
+              "historical": false,
+              "performers": [
+                "新田恵海（高坂穂乃果）",
+                "南條愛乃（絢瀬絵里）",
+                "内田彩（南ことり）",
+                "三森すずこ（園田海未）",
+                "飯田里穂（星空凛）",
+                "Pile（西木野真姫）",
+                "楠田亜衣奈（東條希）",
+                "久保ユリカ（小泉花陽）",
+                "徳井青空（矢澤にこ）"
+              ],
+              "tracks": [
+                {
+                  "number": 1,
+                  "title": "Music S.T.A.R.T!!",
+                  "note": null
+                },
+                {
+                  "number": 2,
+                  "title": "僕らは今のなかで",
+                  "note": null
+                },
+                {
+                  "number": 3,
+                  "title": "夏色えがおで1,2,Jump!",
+                  "note": null
+                },
+                {
+                  "number": 4,
+                  "title": "Wonderful Rush",
+                  "note": null
+                },
+                {
+                  "number": 5,
+                  "title": "ススメ→トゥモロウ",
+                  "note": null
+                },
+                {
+                  "number": 6,
+                  "title": "夢なき夢は夢じゃない",
+                  "note": null
+                },
+                {
+                  "number": 7,
+                  "title": "Anemone heart",
+                  "note": null
+                }
+              ]
+            },
+            {
+              "label": "ノンテロップエンディング：第2・3話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "パッケージ",
+              "detail": "西田亜沙子 描き下ろし特殊パッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろし特殊パッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろし特殊パッケージ"
+            },
+            {
+              "label": "ケース",
+              "detail": "三方背クリアケース",
+              "historical": false
+            }
+          ],
+          "bonusCD": "bonusCD",
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": [
+            {
+              "label": "特典CD試聴",
+              "url": "http://www.youtube.com/watch?v=Lys8JHAqA78",
+              "sourceHref": "http://www.youtube.com/watch?v=Lys8JHAqA78",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "特典映像試聴",
+              "url": "http://www.youtube.com/watch?v=PW8XObHGXrM",
+              "sourceHref": "http://www.youtube.com/watch?v=PW8XObHGXrM",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            }
+          ]
+        },
+        {
+          "key": "regular",
+          "label": "通常版",
+          "catalogNumber": "BCXA-0833",
+          "price": {
+            "amount": 6000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ライナーノート",
+              "detail": "国立音ノ木坂学院ちび通信",
+              "historical": false,
+              "officialName": "特製ライナーノート"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ノンテロップエンディング：第2・3話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "ジャケット",
+              "detail": "西田亜沙子 描き下ろしパッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろしパッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろしパッケージ"
+            }
+          ],
+          "bonusCD": null,
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": []
+        }
+      ],
+      "unlisted": [
+        "独立した音声特典",
+        "本編の収録時間・技術仕様（この公式商品ページの記載では確認できない項目）"
+      ],
+      "scopeNote": "店舗別・全巻購入特典は各巻の封入物に含めない。キャンペーン・申込券・コードは発売当時の情報。"
+    },
+    {
+      "releaseId": "R0043",
+      "releaseName": "「ラブライブ！」2期Blu-ray 第3巻",
+      "releaseDate": "2014-08-27",
+      "series": "TVアニメ2期",
+      "volume": 3,
+      "source": {
+        "key": "official-product-page",
+        "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv2nd/#bd03",
+        "contentSha256": "de37c0ed237b21dfcab9b8004331e0bbb225f91dec2a75205a22402d44f3b539",
+        "verification": "official-product-page-reviewed"
+      },
+      "historicalReservationDeadline": "2014-07-15",
+      "mainFeature": {
+        "type": "tv",
+        "episodes": [
+          {
+            "episode": 4,
+            "title": "宇宙No.1アイドル"
+          },
+          {
+            "episode": 5,
+            "title": "新しいわたし"
+          }
+        ]
+      },
+      "bonusCD": {
+        "label": "オリジナルソングCD 3",
+        "edition": "limited",
+        "disc": 1,
+        "positionScope": "封入CD内の収録位置（本編Blu-rayのDisc番号ではありません）",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "くるりんMIRACLE",
+            "version": null,
+            "relationId": "RT0077",
+            "relationBinding": "8996a9d6ed9fadf98e1aac0f8fd24cbad8445a01ffc3bf0402f46fe176dd32d5",
+            "officialSinger": "星空 凛",
+            "sourceCreditText": "01.くるりんMIRACLE（歌：星空 凛）"
+          },
+          {
+            "track": 2,
+            "title": "くるりんMIRACLE（Off Vocal）",
+            "version": "Off Vocal",
+            "relationId": null,
+            "relationBinding": null
+          }
+        ],
+        "officialName": "μ's オリジナルソングCD③"
+      },
+      "editions": [
+        {
+          "key": "limited",
+          "label": "特装限定版",
+          "catalogNumber": "BCXA-0841",
+          "price": {
+            "amount": 7000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "書き下ろし小説",
+              "detail": "公野櫻子／「ラブライブ！」（海未・凛・絵里編）",
+              "historical": false,
+              "sourceRole": "原案"
+            },
+            {
+              "label": "ライナーノート",
+              "detail": "国立音ノ木坂学院通信",
+              "historical": false,
+              "officialName": "特製ライナーノート"
+            },
+            {
+              "label": "Loveca+カード",
+              "detail": "ジャケット絵柄・各巻1種・3ポイント",
+              "historical": false,
+              "officialName": "特製カード「Loveca+（ラブカプラス）」"
+            },
+            {
+              "label": "スクールアイドルフェスティバル限定シリアル",
+              "detail": "期限 2015-02-28 23:59",
+              "historical": true,
+              "officialName": "スマホアプリ「ラブライブ！スクールアイドルフェスティバル」限定シリアルコード"
+            },
+            {
+              "label": "School idol paradise限定プロダクトコード",
+              "detail": "「凛」オリジナルギミック／期限 2015-02-28 23:59",
+              "historical": true,
+              "officialName": "PlayStation®Vita専用ソフト「ラブライブ！School idol paradise」限定プロダクトコード"
+            },
+            {
+              "label": "ファイブクロス",
+              "detail": "「ラブライブ！」PRカード",
+              "historical": false,
+              "officialName": "ファイブクロス「ラブライブ！」PRカード"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ノンテロップエンディング：第4・5話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "パッケージ",
+              "detail": "西田亜沙子 描き下ろし特殊パッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろし特殊パッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろし特殊パッケージ"
+            },
+            {
+              "label": "ケース",
+              "detail": "三方背クリアケース",
+              "historical": false
+            }
+          ],
+          "bonusCD": "bonusCD",
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": [
+            {
+              "label": "小説試し読み",
+              "url": "https://www.lovelive-anime.jp/otonokizaka/img/bd/ss/s02-02.html",
+              "sourceHref": "../../img/bd/ss/s02-02.html",
+              "sourceText": "→試し読みはこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "特典CD試聴",
+              "url": "http://www.youtube.com/watch?v=hNeO8yDABiQ",
+              "sourceHref": "http://www.youtube.com/watch?v=hNeO8yDABiQ",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            }
+          ]
+        },
+        {
+          "key": "regular",
+          "label": "通常版",
+          "catalogNumber": "BCXA-0834",
+          "price": {
+            "amount": 6000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ライナーノート",
+              "detail": "国立音ノ木坂学院ちび通信",
+              "historical": false,
+              "officialName": "特製ライナーノート"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ノンテロップエンディング：第4・5話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "ジャケット",
+              "detail": "西田亜沙子 描き下ろしパッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろしパッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろしパッケージ"
+            }
+          ],
+          "bonusCD": null,
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": []
+        }
+      ],
+      "unlisted": [
+        "独立した音声特典",
+        "本編の収録時間・技術仕様（この公式商品ページの記載では確認できない項目）"
+      ],
+      "scopeNote": "店舗別・全巻購入特典は各巻の封入物に含めない。キャンペーン・申込券・コードは発売当時の情報。"
+    },
+    {
+      "releaseId": "R0044",
+      "releaseName": "「ラブライブ！」2期Blu-ray 第4巻",
+      "releaseDate": "2014-09-24",
+      "series": "TVアニメ2期",
+      "volume": 4,
+      "source": {
+        "key": "official-product-page",
+        "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv2nd/#bd04",
+        "contentSha256": "de37c0ed237b21dfcab9b8004331e0bbb225f91dec2a75205a22402d44f3b539",
+        "verification": "official-product-page-reviewed"
+      },
+      "historicalReservationDeadline": "2014-08-10",
+      "mainFeature": {
+        "type": "tv",
+        "episodes": [
+          {
+            "episode": 6,
+            "title": "ハッピーハロウィーン"
+          },
+          {
+            "episode": 7,
+            "title": "なんとかしなきゃ！"
+          }
+        ]
+      },
+      "bonusCD": {
+        "label": "オリジナルソングCD 4",
+        "edition": "limited",
+        "disc": 1,
+        "positionScope": "封入CD内の収録位置（本編Blu-rayのDisc番号ではありません）",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "Storm in Lover",
+            "version": null,
+            "relationId": "RT0078",
+            "relationBinding": "9bef28d4205e4a223da61cff2b4fe5f6ae68b8e4ad11a6d417b35dd7d1c86746",
+            "officialSinger": "園田海未・絢瀬絵里",
+            "sourceCreditText": "01.Storm in Lover（歌：園田海未・絢瀬絵里）"
+          },
+          {
+            "track": 2,
+            "title": "Storm in Lover（Off Vocal）",
+            "version": "Off Vocal",
+            "relationId": null,
+            "relationBinding": null
+          }
+        ],
+        "officialName": "μ's オリジナルソングCD④"
+      },
+      "editions": [
+        {
+          "key": "limited",
+          "label": "特装限定版",
+          "catalogNumber": "BCXA-0842",
+          "price": {
+            "amount": 7000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ライナーノート",
+              "detail": "国立音ノ木坂学院通信",
+              "historical": false,
+              "officialName": "特製ライナーノート"
+            },
+            {
+              "label": "Loveca+カード",
+              "detail": "ジャケット絵柄・各巻1種・3ポイント",
+              "historical": false,
+              "officialName": "特製カード「Loveca+（ラブカプラス）」"
+            },
+            {
+              "label": "スクールアイドルフェスティバル限定シリアル",
+              "detail": "期限 2015-03-31 23:59",
+              "historical": true,
+              "officialName": "スマホアプリ「ラブライブ！スクールアイドルフェスティバル」限定シリアルコード"
+            },
+            {
+              "label": "School idol paradise限定プロダクトコード",
+              "detail": "「海未＆絵里」オリジナルギミック／期限 2015-03-31 23:59",
+              "historical": true,
+              "officialName": "PlayStation®Vita専用ソフト「ラブライブ！School idol paradise」限定プロダクトコード"
+            },
+            {
+              "label": "ファイブクロス",
+              "detail": "「ラブライブ！」PRカード",
+              "historical": false,
+              "officialName": "ファイブクロス「ラブライブ！」PRカード"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ラブライブ！μ's →NEXT LoveLive! 2014 〜ENDLESS PARADE〜 Part2",
+              "detail": "2014-02-08／さいたまスーパーアリーナ。全3パートを偶数巻に分割収録。オープニングパート・幕間ドラマは未収録。",
+              "historical": false,
+              "performers": [
+                "新田恵海（高坂穂乃果）",
+                "南條愛乃（絢瀬絵里）",
+                "内田彩（南ことり）",
+                "三森すずこ（園田海未）",
+                "飯田里穂（星空凛）",
+                "Pile（西木野真姫）",
+                "楠田亜衣奈（東條希）",
+                "久保ユリカ（小泉花陽）",
+                "徳井青空（矢澤にこ）"
+              ],
+              "tracks": [
+                {
+                  "number": 8,
+                  "title": "なわとび",
+                  "note": null
+                },
+                {
+                  "number": 9,
+                  "title": "Beat in Angel",
+                  "note": null
+                },
+                {
+                  "number": 10,
+                  "title": "にこぷり♡女子道",
+                  "note": null
+                },
+                {
+                  "number": 11,
+                  "title": "硝子の花園",
+                  "note": null
+                },
+                {
+                  "number": 12,
+                  "title": "LONELIEST BABY",
+                  "note": null
+                },
+                {
+                  "number": 13,
+                  "title": "輝夜の城で踊りたい",
+                  "note": null
+                },
+                {
+                  "number": 14,
+                  "title": "もぎゅっと“love”で接近中！",
+                  "note": null
+                },
+                {
+                  "number": 15,
+                  "title": "baby maybe 恋のボタン",
+                  "note": null
+                },
+                {
+                  "number": 16,
+                  "title": "LOVELESS WORLD",
+                  "note": null
+                }
+              ]
+            },
+            {
+              "label": "ノンテロップエンディング：第6・7話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "パッケージ",
+              "detail": "西田亜沙子 描き下ろし特殊パッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろし特殊パッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろし特殊パッケージ"
+            },
+            {
+              "label": "ケース",
+              "detail": "三方背クリアケース",
+              "historical": false
+            }
+          ],
+          "bonusCD": "bonusCD",
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": [
+            {
+              "label": "特典CD試聴",
+              "url": "http://www.youtube.com/watch?v=d8Nq8dDq-2E",
+              "sourceHref": "http://www.youtube.com/watch?v=d8Nq8dDq-2E",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "特典映像試聴",
+              "url": "http://www.youtube.com/watch?v=2nvpXPyTtjE",
+              "sourceHref": "http://www.youtube.com/watch?v=2nvpXPyTtjE",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            }
+          ]
+        },
+        {
+          "key": "regular",
+          "label": "通常版",
+          "catalogNumber": "BCXA-0835",
+          "price": {
+            "amount": 6000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ライナーノート",
+              "detail": "国立音ノ木坂学院ちび通信",
+              "historical": false,
+              "officialName": "特製ライナーノート"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ノンテロップエンディング：第6・7話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "ジャケット",
+              "detail": "西田亜沙子 描き下ろしパッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろしパッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろしパッケージ"
+            }
+          ],
+          "bonusCD": null,
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": []
+        }
+      ],
+      "unlisted": [
+        "独立した音声特典",
+        "本編の収録時間・技術仕様（この公式商品ページの記載では確認できない項目）"
+      ],
+      "scopeNote": "店舗別・全巻購入特典は各巻の封入物に含めない。キャンペーン・申込券・コードは発売当時の情報。"
+    },
+    {
+      "releaseId": "R0046",
+      "releaseName": "「ラブライブ！」2期Blu-ray 第5巻",
+      "releaseDate": "2014-10-29",
+      "series": "TVアニメ2期",
+      "volume": 5,
+      "source": {
+        "key": "official-product-page",
+        "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv2nd/#bd05",
+        "contentSha256": "de37c0ed237b21dfcab9b8004331e0bbb225f91dec2a75205a22402d44f3b539",
+        "verification": "official-product-page-reviewed"
+      },
+      "historicalReservationDeadline": "2014-09-18",
+      "mainFeature": {
+        "type": "tv",
+        "episodes": [
+          {
+            "episode": 8,
+            "title": "私の望み"
+          },
+          {
+            "episode": 9,
+            "title": "心のメロディ"
+          }
+        ]
+      },
+      "bonusCD": {
+        "label": "オリジナルソングCD 5",
+        "edition": "limited",
+        "disc": 1,
+        "positionScope": "封入CD内の収録位置（本編Blu-rayのDisc番号ではありません）",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "もしもからきっと",
+            "version": null,
+            "relationId": "RT0081",
+            "relationBinding": "7ce2f97f3561e864011657d75918b5342b1f2dc5b9ef570158e565fd1202141b",
+            "officialSinger": "東條 希",
+            "sourceCreditText": "01もしもからきっと（歌：東條 希）"
+          },
+          {
+            "track": 2,
+            "title": "もしもからきっと（Off Vocal）",
+            "version": "Off Vocal",
+            "relationId": null,
+            "relationBinding": null
+          }
+        ],
+        "officialName": "μ's オリジナルソングCD⑤"
+      },
+      "editions": [
+        {
+          "key": "limited",
+          "label": "特装限定版",
+          "catalogNumber": "BCXA-0843",
+          "price": {
+            "amount": 7000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "書き下ろし小説",
+              "detail": "公野櫻子／「ラブライブ！」（ことり・花陽・希編）",
+              "historical": false,
+              "sourceRole": "原案"
+            },
+            {
+              "label": "ライナーノート",
+              "detail": "国立音ノ木坂学院通信",
+              "historical": false,
+              "officialName": "特製ライナーノート"
+            },
+            {
+              "label": "Loveca+カード",
+              "detail": "ジャケット絵柄・各巻1種・3ポイント",
+              "historical": false,
+              "officialName": "特製カード「Loveca+（ラブカプラス）」"
+            },
+            {
+              "label": "スクールアイドルフェスティバル限定シリアル",
+              "detail": "期限 2015-04-30 23:59",
+              "historical": true,
+              "officialName": "スマホアプリ「ラブライブ！スクールアイドルフェスティバル」限定シリアルコード"
+            },
+            {
+              "label": "School idol paradise限定プロダクトコード",
+              "detail": "「希」オリジナルギミック／期限 2015-04-30 23:59",
+              "historical": true,
+              "officialName": "PlayStation®Vita専用ソフト「ラブライブ！School idol paradise」限定プロダクトコード"
+            },
+            {
+              "label": "ファイブクロス",
+              "detail": "「ラブライブ！」PRカード",
+              "historical": false,
+              "officialName": "ファイブクロス「ラブライブ！」PRカード"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ノンテロップエンディング：第8話",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "ノンテロップ版第9話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "パッケージ",
+              "detail": "西田亜沙子 描き下ろし特殊パッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろし特殊パッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろし特殊パッケージ"
+            },
+            {
+              "label": "ケース",
+              "detail": "三方背クリアケース",
+              "historical": false
+            }
+          ],
+          "bonusCD": "bonusCD",
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": [
+            {
+              "label": "小説試し読み",
+              "url": "https://www.lovelive-anime.jp/otonokizaka/img/bd/ss/s02-03.html",
+              "sourceHref": "../../img/bd/ss/s02-03.html",
+              "sourceText": "→試し読みはこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "特典CD試聴",
+              "url": "http://www.youtube.com/watch?v=wYpcybVqSCw",
+              "sourceHref": "http://www.youtube.com/watch?v=wYpcybVqSCw",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            }
+          ]
+        },
+        {
+          "key": "regular",
+          "label": "通常版",
+          "catalogNumber": "BCXA-0836",
+          "price": {
+            "amount": 6000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ライナーノート",
+              "detail": "国立音ノ木坂学院ちび通信",
+              "historical": false,
+              "officialName": "特製ライナーノート"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ノンテロップエンディング：第8話",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "ノンテロップ版第9話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "ジャケット",
+              "detail": "西田亜沙子 描き下ろしパッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろしパッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろしパッケージ"
+            }
+          ],
+          "bonusCD": null,
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": []
+        }
+      ],
+      "unlisted": [
+        "独立した音声特典",
+        "本編の収録時間・技術仕様（この公式商品ページの記載では確認できない項目）"
+      ],
+      "scopeNote": "店舗別・全巻購入特典は各巻の封入物に含めない。キャンペーン・申込券・コードは発売当時の情報。"
+    },
+    {
+      "releaseId": "R0048",
+      "releaseName": "「ラブライブ！」2期Blu-ray 第6巻",
+      "releaseDate": "2014-11-21",
+      "series": "TVアニメ2期",
+      "volume": 6,
+      "source": {
+        "key": "official-product-page",
+        "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv2nd/#bd06",
+        "contentSha256": "de37c0ed237b21dfcab9b8004331e0bbb225f91dec2a75205a22402d44f3b539",
+        "verification": "official-product-page-reviewed"
+      },
+      "historicalReservationDeadline": "2014-10-14",
+      "mainFeature": {
+        "type": "tv",
+        "episodes": [
+          {
+            "episode": 10,
+            "title": "μ's"
+          },
+          {
+            "episode": 11,
+            "title": "私たちが決めたこと"
+          }
+        ]
+      },
+      "bonusCD": {
+        "label": "オリジナルソングCD 6",
+        "edition": "limited",
+        "disc": 1,
+        "positionScope": "封入CD内の収録位置（本編Blu-rayのDisc番号ではありません）",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "好きですが好きですか？",
+            "version": null,
+            "relationId": "RT0084",
+            "relationBinding": "91a2a094f5d85650a64b166181fed87b820a8b593ec548b0b7936699028b7665",
+            "officialSinger": "南ことり・小泉花陽",
+            "sourceCreditText": "01.好きですが好きですか？（歌：南ことり・小泉花陽）"
+          },
+          {
+            "track": 2,
+            "title": "好きですが好きですか？（Off Vocal）",
+            "version": "Off Vocal",
+            "relationId": null,
+            "relationBinding": null
+          }
+        ],
+        "officialName": "μ's オリジナルソングCD⑥"
+      },
+      "editions": [
+        {
+          "key": "limited",
+          "label": "特装限定版",
+          "catalogNumber": "BCXA-0844",
+          "price": {
+            "amount": 7000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ライナーノート",
+              "detail": "国立音ノ木坂学院通信",
+              "historical": false,
+              "officialName": "特製ライナーノート"
+            },
+            {
+              "label": "Loveca+カード",
+              "detail": "ジャケット絵柄・各巻1種・3ポイント",
+              "historical": false,
+              "officialName": "特製カード「Loveca+（ラブカプラス）」"
+            },
+            {
+              "label": "スクールアイドルフェスティバル限定シリアル",
+              "detail": "期限 2015-05-31 23:59",
+              "historical": true,
+              "officialName": "スマホアプリ「ラブライブ！スクールアイドルフェスティバル」限定シリアルコード"
+            },
+            {
+              "label": "School idol paradise限定プロダクトコード",
+              "detail": "「ことり＆花陽」オリジナルギミック／期限 2015-05-31 23:59",
+              "historical": true,
+              "officialName": "PlayStation®Vita専用ソフト「ラブライブ！School idol paradise」限定プロダクトコード"
+            },
+            {
+              "label": "ファイブクロス",
+              "detail": "「ラブライブ！」PRカード",
+              "historical": false,
+              "officialName": "ファイブクロス「ラブライブ！」PRカード"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ラブライブ！μ's →NEXT LoveLive! 2014 〜ENDLESS PARADE〜 Part3",
+              "detail": "2014-02-08／さいたまスーパーアリーナ。全3パートを偶数巻に分割収録。オープニングパート・幕間ドラマは未収録。",
+              "historical": false,
+              "performers": [
+                "新田恵海（高坂穂乃果）",
+                "南條愛乃（絢瀬絵里）",
+                "内田彩（南ことり）",
+                "三森すずこ（園田海未）",
+                "飯田里穂（星空凛）",
+                "Pile（西木野真姫）",
+                "楠田亜衣奈（東條希）",
+                "久保ユリカ（小泉花陽）",
+                "徳井青空（矢澤にこ）"
+              ],
+              "tracks": [
+                {
+                  "number": 17,
+                  "title": "No brand girls",
+                  "note": null
+                },
+                {
+                  "number": 18,
+                  "title": "Snow halation",
+                  "note": null
+                },
+                {
+                  "number": 19,
+                  "title": "START:DASH!!",
+                  "note": "アンコール"
+                },
+                {
+                  "number": 20,
+                  "title": "友情ノーチェンジ",
+                  "note": "アンコール"
+                },
+                {
+                  "number": 21,
+                  "title": "僕らのLIVE 君とのLIFE",
+                  "note": "アンコール"
+                },
+                {
+                  "number": 22,
+                  "title": "きっと青春が聞こえる",
+                  "note": "アンコール"
+                }
+              ]
+            },
+            {
+              "label": "ノンテロップエンディング：第10・11話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "パッケージ",
+              "detail": "西田亜沙子 描き下ろし特殊パッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろし特殊パッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろし特殊パッケージ"
+            },
+            {
+              "label": "ケース",
+              "detail": "三方背クリアケース",
+              "historical": false
+            }
+          ],
+          "bonusCD": "bonusCD",
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": [
+            {
+              "label": "特典CD試聴",
+              "url": "http://www.youtube.com/watch?v=6CSeSw9KwSU",
+              "sourceHref": "http://www.youtube.com/watch?v=6CSeSw9KwSU",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "特典映像試聴",
+              "url": "http://www.youtube.com/watch?v=ZHGcpjQOK1I",
+              "sourceHref": "http://www.youtube.com/watch?v=ZHGcpjQOK1I",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            }
+          ]
+        },
+        {
+          "key": "regular",
+          "label": "通常版",
+          "catalogNumber": "BCXA-0837",
+          "price": {
+            "amount": 6000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ライナーノート",
+              "detail": "国立音ノ木坂学院ちび通信",
+              "historical": false,
+              "officialName": "特製ライナーノート"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ノンテロップエンディング：第10・11話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "ジャケット",
+              "detail": "西田亜沙子 描き下ろしパッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろしパッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろしパッケージ"
+            }
+          ],
+          "bonusCD": null,
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": []
+        }
+      ],
+      "unlisted": [
+        "独立した音声特典",
+        "本編の収録時間・技術仕様（この公式商品ページの記載では確認できない項目）"
+      ],
+      "scopeNote": "店舗別・全巻購入特典は各巻の封入物に含めない。キャンペーン・申込券・コードは発売当時の情報。"
+    },
+    {
+      "releaseId": "R0051",
+      "releaseName": "「ラブライブ！」2期Blu-ray 第7巻",
+      "releaseDate": "2014-12-25",
+      "series": "TVアニメ2期",
+      "volume": 7,
+      "source": {
+        "key": "official-product-page",
+        "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv2nd/#bd07",
+        "contentSha256": "de37c0ed237b21dfcab9b8004331e0bbb225f91dec2a75205a22402d44f3b539",
+        "verification": "official-product-page-reviewed"
+      },
+      "historicalReservationDeadline": "2014-11-16",
+      "mainFeature": {
+        "type": "tv",
+        "episodes": [
+          {
+            "episode": 12,
+            "title": "ラストライブ"
+          },
+          {
+            "episode": 13,
+            "title": "叶え！みんなの夢——"
+          }
+        ]
+      },
+      "bonusCD": {
+        "label": "オリジナルソングCD 7",
+        "edition": "limited",
+        "disc": 1,
+        "positionScope": "封入CD内の収録位置（本編Blu-rayのDisc番号ではありません）",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "そして最後のページには",
+            "version": null,
+            "relationId": "RT0089",
+            "relationBinding": "a51672891afee29ed5db59943fd500c6a6a2926b604ae74434599715924d44e2",
+            "officialSinger": "μ's",
+            "sourceCreditText": "01.そして最後のページには（歌：μ's）"
+          },
+          {
+            "track": 2,
+            "title": "そして最後のページには（Off Vocal）",
+            "version": "Off Vocal",
+            "relationId": null,
+            "relationBinding": null
+          }
+        ],
+        "officialName": "μ's オリジナルソングCD⑦"
+      },
+      "editions": [
+        {
+          "key": "limited",
+          "label": "特装限定版",
+          "catalogNumber": "BCXA-0845",
+          "price": {
+            "amount": 7000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "μ's Fan Meeting Tour 2015 〜あなたの街でラブライブ！〜 先行抽選申込券",
+              "detail": "発売当時の封入物",
+              "historical": true,
+              "officialName": "「μ’s Fan Meeting Tour 2015 〜あなたの街でラブライブ！〜」チケット最速先行抽選申込券",
+              "eventInfo": {
+                "description": "2015-05-30・31 東京 中野サンプラザホール／06-07 神奈川 パシフィコ横浜国立大ホール／06-13・14 千葉 幕張イベントホール／06-20 福岡 福岡市民会館／06-27 長野 ホクト文化ホール／07-04・05 大阪 グランキューブ大阪メインホール／07-12 広島 広島文化学園HBGホール／07-19 愛知 センチュリーホール／08-01 北海道 ニトリ文化ホール／08-09 宮城 仙台サンプラザホール。昼 開場13:00・開演14:00、夜 開場17:00・開演18:00（掲載時予定、6月13日の昼公演なし）。トーク＆ミニライブ",
+                "source": {
+                  "url": "https://www.lovelive-anime.jp/otonokizaka/sp_fmt2015.html",
+                  "contentSha256": "d6e1fd1fe97aed1e83566377fa7ec617a7bdb88d53827578b69de4d52a6193c7"
+                }
+              }
+            },
+            {
+              "label": "書き下ろし小説",
+              "detail": "公野櫻子／「ラブライブ！」（μ’s×A-RISE）",
+              "historical": false,
+              "sourceRole": "原案"
+            },
+            {
+              "label": "ライナーノート",
+              "detail": "国立音ノ木坂学院通信",
+              "historical": false,
+              "officialName": "特製ライナーノート"
+            },
+            {
+              "label": "Loveca+カード",
+              "detail": "ジャケット絵柄・各巻1種・3ポイント",
+              "historical": false,
+              "officialName": "特製カード「Loveca+（ラブカプラス）」"
+            },
+            {
+              "label": "スクールアイドルフェスティバル限定シリアル",
+              "detail": "期限 2015-06-30 23:59",
+              "historical": true,
+              "officialName": "スマホアプリ「ラブライブ！スクールアイドルフェスティバル」限定シリアルコード"
+            },
+            {
+              "label": "School idol paradise限定プロダクトコード",
+              "detail": "クリスマスコスチューム＆「穂乃果」オリジナルギミック／期限 2015-06-30 23:59",
+              "historical": true,
+              "officialName": "PlayStation®Vita専用ソフト「ラブライブ！School idol paradise」限定プロダクトコード"
+            },
+            {
+              "label": "ファイブクロス",
+              "detail": "「ラブライブ！」PRカード",
+              "historical": false,
+              "officialName": "ファイブクロス「ラブライブ！」PRカード"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ノンテロップ版第12・13話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "パッケージ",
+              "detail": "西田亜沙子 描き下ろし特殊パッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろし特殊パッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろし特殊パッケージ"
+            },
+            {
+              "label": "ケース",
+              "detail": "三方背クリアケース",
+              "historical": false
+            }
+          ],
+          "bonusCD": "bonusCD",
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": [
+            {
+              "label": "ライブ開催概要",
+              "url": "https://www.lovelive-anime.jp/otonokizaka/sp_fmt2015.html",
+              "sourceHref": "../../sp_fmt2015.html",
+              "sourceText": "→詳しくはこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "小説試し読み",
+              "url": "https://www.lovelive-anime.jp/otonokizaka/img/bd/ss/s02-04.html",
+              "sourceHref": "../../img/bd/ss/s02-04.html",
+              "sourceText": "→試し読みはこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "特典CD試聴",
+              "url": "http://www.youtube.com/watch?v=GssfQD9oO34",
+              "sourceHref": "http://www.youtube.com/watch?v=GssfQD9oO34",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            }
+          ]
+        },
+        {
+          "key": "regular",
+          "label": "通常版",
+          "catalogNumber": "BCXA-0838",
+          "price": {
+            "amount": 6000,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ライナーノート",
+              "detail": "国立音ノ木坂学院ちび通信",
+              "historical": false,
+              "officialName": "特製ライナーノート"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "ノンテロップ版第12・13話",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "ジャケット",
+              "detail": "西田亜沙子 描き下ろしパッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "西田亜沙子",
+                "assignment": "描き下ろしパッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター西田亜沙子 描き下ろしパッケージ"
+            }
+          ],
+          "bonusCD": null,
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": []
+        }
+      ],
+      "unlisted": [
+        "独立した音声特典",
+        "本編の収録時間・技術仕様（この公式商品ページの記載では確認できない項目）"
+      ],
+      "scopeNote": "店舗別・全巻購入特典は各巻の封入物に含めない。キャンペーン・申込券・コードは発売当時の情報。"
+    },
+    {
+      "releaseId": "R0063",
+      "releaseName": "ラブライブ！The School Idol Movie Blu-ray",
+      "releaseDate": "2015-12-15",
+      "series": "劇場版",
+      "volume": null,
+      "source": {
+        "key": "official-product-page",
+        "url": "https://www.lovelive-anime.jp/otonokizaka/bd/movie/#bd01",
+        "contentSha256": "8d5f2103b197be5a0e2dd893598d5d585946a2b801cb2ee164298668708d7963",
+        "verification": "official-product-page-reviewed"
+      },
+      "historicalReservationDeadline": "2015-10-18",
+      "mainFeature": {
+        "type": "movie",
+        "title": "ラブライブ！The School Idol Movie",
+        "episodes": []
+      },
+      "bonusCD": {
+        "label": "μ's オリジナルソングCD",
+        "edition": "limited",
+        "disc": 1,
+        "positionScope": "封入CD内の収録位置（本編Blu-rayのDisc番号ではありません）",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "これから",
+            "version": null,
+            "relationId": "RT0109",
+            "relationBinding": "2e584780dd73e8298caec2e9fda071ce0ea052de2d17c171b0839266e04189b1",
+            "officialSinger": "μ’s",
+            "sourceCreditText": "01. これから（歌：μ’s）"
+          },
+          {
+            "track": 2,
+            "title": "これから（Off Vocal）",
+            "version": "Off Vocal",
+            "relationId": null,
+            "relationBinding": null
+          }
+        ],
+        "officialName": "μ's オリジナルソングCD"
+      },
+      "editions": [
+        {
+          "key": "limited",
+          "label": "特装限定版",
+          "catalogNumber": "BCXA-1025",
+          "price": {
+            "amount": 9800,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "μ's Final LoveLive! 〜μ’sic Forever♪♪♪♪♪♪♪♪♪〜 先行抽選申込券",
+              "detail": "1人1シリアル分のみ有効。購入者名記載・本人名義申込み・本人確認の案内あり（発売当時の条件）",
+              "historical": true,
+              "officialName": "μ's Final LoveLive! 〜μ’sic Forever♪♪♪♪♪♪♪♪♪〜 チケット最速先行抽選申込券",
+              "eventInfo": {
+                "description": "2016-03-31・2016-04-01／東京ドーム／両日 開場14:00・開演16:00",
+                "source": {
+                  "url": "https://www.lovelive-anime.jp/otonokizaka/sp_finallive.html",
+                  "contentSha256": "b0051279e87dbc45818f0280c0ee62358ad834200abb241876a898aa5ae543b0"
+                }
+              }
+            },
+            {
+              "label": "書き下ろし小説",
+              "detail": "公野櫻子／「ラブライブ！」（μ’s welcome party!!）",
+              "historical": false,
+              "sourceRole": "原案"
+            },
+            {
+              "label": "ブックレット",
+              "detail": "28ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            },
+            {
+              "label": "Loveca+カード",
+              "detail": "ジャケット絵柄・1種・3ポイント",
+              "historical": false,
+              "officialName": "特製カード「Loveca+（ラブカプラス）」"
+            },
+            {
+              "label": "スクールアイドルフェスティバル限定シリアル",
+              "detail": "限定覚醒済みUR「高坂穂乃果」用／期限 2016-06-30 23:59",
+              "historical": true,
+              "officialName": "スマホアプリ「ラブライブ！スクールアイドルフェスティバル」限定シリアルコード"
+            },
+            {
+              "label": "BANDAI VISUAL+シリアル",
+              "detail": "有効期間 2015-12-15 12:00〜2016-12-14 23:59",
+              "historical": true
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "特報",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "本予告",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "公開記念PV",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "ノンテロップエンディング",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "パッケージ",
+              "detail": "室田雄平 描き下ろし特殊パッケージ",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "室田雄平",
+                "assignment": "描き下ろし特殊パッケージ"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター室田雄平描き下ろし特殊パッケージ"
+            },
+            {
+              "label": "ケース",
+              "detail": "三方背クリアケース",
+              "historical": false
+            }
+          ],
+          "bonusCD": "bonusCD",
+          "supplementaryDiscs": [
+            {
+              "medium": "Blu-ray",
+              "label": "特典ディスク",
+              "items": [
+                {
+                  "label": "μ's Fan Meeting Tour 2015 〜あなたの街でラブライブ！〜",
+                  "detail": "2015-05-31／中野サンプラザホール／東京公演 昼の部",
+                  "historical": false
+                },
+                {
+                  "label": "劇場マナーCM",
+                  "detail": "",
+                  "historical": false
+                }
+              ],
+              "performers": [
+                "新田恵海（高坂穂乃果）",
+                "南條愛乃（絢瀬絵里）",
+                "内田彩（南ことり）",
+                "三森すずこ（園田海未）",
+                "飯田里穂（星空凛）",
+                "Pile（西木野真姫）",
+                "楠田亜衣奈（東條希）",
+                "久保ユリカ（小泉花陽）",
+                "徳井青空（矢澤にこ）"
+              ],
+              "tracks": []
+            }
+          ],
+          "sourceRef": "official-product-page",
+          "relatedLinks": [
+            {
+              "label": "ライブ開催概要",
+              "url": "https://www.lovelive-anime.jp/otonokizaka/bd/movie/sp_finallive.html",
+              "sourceHref": "sp_finallive.html",
+              "sourceText": "こちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "小説試し読み",
+              "url": "https://www.lovelive-anime.jp/otonokizaka/img/bd/ss/s03.html",
+              "sourceHref": "../../img/bd/ss/s03.html",
+              "sourceText": "→試し読みはこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "特典CD試聴",
+              "url": "https://www.youtube.com/watch?v=Ph90_VeTVjU",
+              "sourceHref": "https://www.youtube.com/watch?v=Ph90_VeTVjU",
+              "sourceText": "→試聴はこちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "BANDAI VISUAL+",
+              "url": "https://www.bandaivisual.co.jp/bvplus/",
+              "sourceHref": "https://www.bandaivisual.co.jp/bvplus/",
+              "sourceText": "こちら",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            },
+            {
+              "label": "ライブ開催概要（公式特設ページ）",
+              "url": "https://www.lovelive-anime.jp/otonokizaka/sp_finallive.html",
+              "sourceHref": "../../sp_finallive.html",
+              "sourceText": "公式商品ページのフッター：Final LoveLive!",
+              "sourceRef": "official-product-page",
+              "edition": "limited"
+            }
+          ]
+        },
+        {
+          "key": "regular",
+          "label": "通常版",
+          "catalogNumber": "BCXA-1024",
+          "price": {
+            "amount": 6800,
+            "currency": "JPY",
+            "tax": "exclusive",
+            "basis": "公式ページ掲載時の税抜価格"
+          },
+          "included": [
+            {
+              "label": "ブックレット",
+              "detail": "4ページ",
+              "historical": false,
+              "officialName": "特製ブックレット"
+            }
+          ],
+          "videoExtras": [
+            {
+              "label": "特報",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "本予告",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "公開記念PV",
+              "detail": "",
+              "historical": false
+            },
+            {
+              "label": "ノンテロップエンディング",
+              "detail": "",
+              "historical": false
+            }
+          ],
+          "audioExtras": [],
+          "specifications": [
+            {
+              "label": "ジャケット",
+              "detail": "室田雄平 描き下ろしジャケット",
+              "historical": false,
+              "credit": {
+                "role": "キャラクターデザイン・アニメーションディレクター",
+                "name": "室田雄平",
+                "assignment": "描き下ろしジャケット"
+              },
+              "sourceCreditText": "キャラクターデザイン・アニメーションディレクター室田雄平描き下ろしジャケット"
+            }
+          ],
+          "bonusCD": null,
+          "supplementaryDiscs": [],
+          "sourceRef": "official-product-page",
+          "relatedLinks": []
+        }
+      ],
+      "unlisted": [
+        "独立した音声特典",
+        "本編の収録時間・技術仕様（この公式商品ページの記載では確認できない項目）"
+      ],
+      "scopeNote": "店舗別・全巻購入特典は各巻の封入物に含めない。キャンペーン・申込券・コードは発売当時の情報。"
+    }
+  ]
+}

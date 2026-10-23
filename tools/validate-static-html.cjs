@@ -13,6 +13,7 @@ const { validateSidecarBody } = require("./validate-release-sidecar.cjs");
 const { validateVocalData, validateVocalBody } = require("./validate-release-vocals.cjs");
 const { validateReleaseContentsData, validateReleaseContentsBody } = require("./validate-release-contents.cjs");
 const { validateNavigationData, expectedGroups, validateNavigationBody } = require("./validate-release-navigation.cjs");
+const { validateBluRayData, validateBluRayBody } = require("./validate-release-bluray.cjs");
 const { validateSongUnitMemberships, validateSongUnitBody } = require("./song-unit-membership-lib.cjs");
 const { parseUniqueJson, parseSerializedHtml, descendants, textContent, visible, hasClass, requireCondition: check } = require("./static-html-readonly-lib.cjs");
 const ROOT = path.resolve(__dirname, "..");
@@ -231,7 +232,7 @@ function validateReleaseBody(doc, release, releaseList, productContents = null, 
   const included=byId(doc,"includedSongsContent",tracks.length>0||release.releaseId==="R0072");
   check(!classes(included,"release-inclusion-error").length,"Release error DOM persisted");
   const countLabel=byId(doc,"includedSongsCount",false);
-  const nav=byId(doc,"releaseSectionNav",false),sections=[["includedSongsSection","収録内容"],["kamiparaHistorySection","神パラ歌唱履歴"],["debutSongsSection","初出・由来"],["relatedReleasesSection","関連作品"],["relatedEventsSection","関連イベント"],["releaseInformationSection","作品情報"]].filter(([id])=>doc.ids.has(id)&&visible(doc.ids.get(id)));
+  const nav=byId(doc,"releaseSectionNav",false),sections=[["includedSongsSection","収録内容"],["bluRayProductSection","本編・特典"],["kamiparaHistorySection","神パラ歌唱履歴"],["debutSongsSection","初出・由来"],["relatedReleasesSection","関連作品"],["relatedEventsSection","関連イベント"],["releaseInformationSection","作品情報"]].filter(([id])=>doc.ids.has(id)&&visible(doc.ids.get(id)));
   equal(descendants(nav,n=>n.tag==="a").map(n=>[n.attrs.href,cleanText(n)]),sections.map(([id,label])=>["/release/"+release.releaseId+".html#"+id,label]),"Release section navigation destination/order mismatch");
   check(visible(nav)===(sections.length>0),"Release section navigation visibility mismatch");
   if(release.releaseId==="R0072"){
@@ -435,6 +436,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
     const sidecar = json("data/release-sidecars/R0052.json");
     const vocals = validateVocalData(json("data/release-vocals.json"), Object.fromEntries(sources.release));
     const contents = validateReleaseContentsData(json("data/release-contents.json"), Object.fromEntries(sources.release));
+    const bluRay = validateBluRayData(json("data/release-bluray-products.json"), Object.fromEntries(sources.release));
     const memberships = validateSongUnitMemberships(json("data/song-unit-memberships.json"), new Set(sources.song.keys()));
     const kp = readSnapshot("kamipara-dashboard.json", snapshot.kamiparaDashboard);
     const dashboard = validateKamiparaDashboard(kp.wrapper.data, dataRevision);
@@ -487,6 +489,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
         if (type === "song") validateSongBody(doc, data, memberships);
         else {
           validateReleaseBody(doc, data, releaseList, contents.get(id), navigationData);
+          validateBluRayBody(doc, data, bluRay.get(id));
           validateReleaseContentsBody(doc, data, contents.get(id));
           validateSidecarBody(doc, data, sidecar);
           validateVocalBody(doc, data, vocals);

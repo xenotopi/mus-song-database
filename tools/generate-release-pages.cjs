@@ -13,6 +13,7 @@ const { parseSerializedHtml } = require("./static-html-readonly-lib.cjs");
 const { validateVocalData, validateVocalBody } = require("./validate-release-vocals.cjs");
 const { validateReleaseContentsData, validateReleaseContentsBody } = require("./validate-release-contents.cjs");
 const { validateNavigationData, validateNavigationBody } = require("./validate-release-navigation.cjs");
+const { validateBluRayData, validateBluRayBody } = require("./validate-release-bluray.cjs");
 const root = path.resolve(__dirname, "..");
 const mime = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png" };
 
@@ -26,6 +27,9 @@ const RELEASE_RENDERER_FILES = Object.freeze([
   "tools/detail-snapshot-lib.cjs",
   "tools/capture-provenance.cjs",
   "assets/js/release-v500.js",
+  "assets/js/release-bluray.js",
+  "data/release-bluray-products.json",
+  "tools/validate-release-bluray.cjs",
   "assets/js/release-navigation.js",
   "data/release-navigation.json",
   "tools/validate-release-navigation.cjs",
@@ -229,6 +233,8 @@ async function generateReleasePages({ revision, ids } = {}) {
   expectedSidecar(sidecar, capture.snapshot("releases/R0052.json").data);
   const contents = validateReleaseContentsData(JSON.parse(capture.source("data/release-contents.json")),
     Object.fromEntries(ids.map(id => [id, capture.snapshot(`releases/${id}.json`).data])));
+  const bluRay = validateBluRayData(JSON.parse(capture.source("data/release-bluray-products.json")),
+    Object.fromEntries(ids.map(id => [id, capture.snapshot(`releases/${id}.json`).data])));
   const kamipara = loadKamiparaCaptureData(path.join(root, "data/snapshots", revision), manifest, revision,
     file => capture.source(path.relative(root, file).replace(/\\/g, "/")));
   const server = http.createServer((req, res) => {
@@ -325,6 +331,7 @@ async function generateReleasePages({ revision, ids } = {}) {
       validateVocalBody(parseSerializedHtml(html), release, vocals);
       validateReleaseContentsBody(parseSerializedHtml(html), release, contents.get(id));
       validateNavigationBody(parseSerializedHtml(html), release, navigationList, navigationData);
+      validateBluRayBody(parseSerializedHtml(html), release, bluRay.get(id));
       pages.push({ id, html, sha256: crypto.createHash("sha256").update(html).digest("hex"), title, description, canonical });
       await page.close();
     }

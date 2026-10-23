@@ -170,3 +170,46 @@ html.mus-menu-lock .release-has-context .detail-context-inner { pointer-events: 
 .release-sidecar-info details a{display:block;line-height:1.6;padding:5px 0;color:var(--indigo)}
 .release-sidecar-info a:focus-visible,.release-sidecar-info summary:focus-visible{outline:2px solid var(--indigo);outline-offset:3px}
 @media(max-width:620px){.release-sidecar-info{padding:0 14px 14px}.release-sidecar-info dl>div{grid-template-columns:1fr;gap:2px}.release-sidecar-info details a,.release-sidecar-info summary{min-height:44px;box-sizing:border-box}}
+/* Edition-specific Blu-ray facts. Scoped away from all existing track/BOX UI. */
+.release-bluray { min-width: 0; overflow-wrap: anywhere; }
+.release-bluray h3 { margin: .9rem 0 .35rem; font-size: 1.08rem; color: #17203e; }
+.release-bluray h4 { margin: .7rem 0 .3rem; font-size: .95rem; color: #24325b; }
+.release-bd-intro, .release-bd-note { font-size: .86rem; color: #58657e; line-height: 1.8; }
+.release-bd-episodes { list-style: none; padding: 0; margin: .35rem 0 .65rem; }
+.release-bd-episodes li { padding: .12rem 0; line-height: 1.55; }
+.release-bd-cd, .release-bd-edition, .release-bd-history { margin-top: .6rem; border: 1px solid #dfe3f0; border-radius: 10px; background: #fff; }
+.release-bd-edition { border-width: 1px 0 0; border-radius: 0; }
+.release-bluray summary { cursor: pointer; padding: .55rem .75rem; min-height: 44px; box-sizing: border-box; color: #24325b; font-weight: 650; line-height: 1.7; }
+.release-bluray summary:hover { background: #f5f3ff; border-radius: 13px; }
+.release-bluray summary:focus-visible, .release-bluray a:focus-visible { outline: 3px solid #7161f5; outline-offset: 3px; border-radius: 6px; }
+.release-bd-cd > p, .release-bd-history > p { margin: .2rem .75rem .4rem; }
+.release-bd-cd-name { font-size: .84rem; color: #58657e; }
+.release-bd-edition-body { padding: 0 .75rem .6rem; }
+.release-bd-spec-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .25rem .75rem; margin: .25rem 0 .5rem; }
+.release-bd-spec-grid div { min-width: 0; }
+.release-bd-spec-grid dt { color: #66748f; font-size: .79rem; }
+.release-bd-spec-grid dd { margin: .1rem 0 0; line-height: 1.55; font-size: .92rem; }
+.release-bd-facts { padding-left: 1.2rem; margin: .25rem 0; }
+.release-bd-facts > li { padding: .16rem 0; line-height: 1.6; font-size: .9rem; }
+.release-bd-fact-label, .release-bd-fact-detail, .release-bd-historical { display: block; }
+.release-bd-fact-detail, .release-bd-performers { color: #58657e; font-size: .84rem; }
+.release-bd-historical { color: #7b633d; font-size: .75rem; margin-top: .2rem; }
+.release-bd-performers { margin: .3rem 0; line-height: 1.6; }
+.release-bd-video-list { margin-top: .3rem; background: #f8f9fd; border-radius: 8px; }
+.release-bd-video-list summary { font-size: .84rem; font-weight: 500; }
+.release-bd-video-list ol { padding: 0 .75rem .5rem 2.3rem; margin: 0; }
+.release-bd-video-list li { padding: .12rem 0; font-size: .84rem; }
+.release-bd-cd-tracks { margin: .2rem .75rem .4rem; padding: 0; list-style: none; }
+.release-bd-cd-tracks > li { display: grid; grid-template-columns: 2rem minmax(0,1fr); align-items: center; border-bottom: 1px solid #e5e8f2; min-height: 44px; line-height: 1.55; font-size: .9rem; }
+.release-bd-cd-tracks > li:last-child { border-bottom: 0; }
+.release-bd-track-copy { display: block; min-width: 0; padding-bottom: .1rem; }
+.release-bd-vocal { display: block; color: #58657e; font-size: .84rem; line-height: 1.5; }
+.release-bd-track-number { font-size: .78rem; color: #7d89a2; }
+.release-bd-song-link { display: flex; align-items: center; justify-content: space-between; gap: .7rem; min-width: 0; min-height: 44px; padding: .2rem 0; box-sizing: border-box; }
+.release-bd-song-link .site-icon-inline { flex-shrink: 0; }
+.release-bd-plain-track { padding: .2rem 0; }
+.release-bd-links { list-style: none; display: flex; flex-wrap: wrap; gap: 0 1rem; padding: 0; margin: .2rem 0; }
+.release-bd-links a { display: inline-flex; align-items: center; gap: .35rem; min-height: 44px; font-size: .84rem; line-height: 1.6; }
+.release-bd-links .site-icon-inline { flex-shrink: 0; }
+.release-bd-source a { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; line-height: 1.8; font-size: .85rem; }
+@media(max-width:600px) { .release-bd-spec-grid { grid-template-columns: minmax(0,1fr); } .release-bd-edition-body { padding: 0 .65rem .5rem; } }

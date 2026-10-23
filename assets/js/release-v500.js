@@ -10,6 +10,7 @@ import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import { attachReleaseVocals } from "./release-vocals.js?v=1.3.0";
 import { loadReleaseContents } from "./release-contents.js?v=1.1.0";
 import { applyReleaseNavigation, loadReleaseNavigation, releaseNavigationModel } from "./release-navigation.js?v=1.0.0";
+import { attachReleaseBluRay } from "./release-bluray.js?v=1.1.0";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
@@ -475,7 +476,7 @@ function editionLabel(value) {
 function updateSectionNav() {
   const nav = $("releaseSectionNav");
   if (!nav) return;
-  const sections = [["includedSongsSection", "収録内容"], ["kamiparaHistorySection", "神パラ歌唱履歴"], ["debutSongsSection", "初出・由来"], ["relatedReleasesSection", "関連作品"], ["relatedEventsSection", "関連イベント"], ["releaseInformationSection", "作品情報"]].filter(([id]) => $(id) && !$(id).hidden);
+  const sections = [["includedSongsSection", "収録内容"], ["bluRayProductSection", "本編・特典"], ["kamiparaHistorySection", "神パラ歌唱履歴"], ["debutSongsSection", "初出・由来"], ["relatedReleasesSection", "関連作品"], ["relatedEventsSection", "関連イベント"], ["releaseInformationSection", "作品情報"]].filter(([id]) => $(id) && !$(id).hidden);
   nav.innerHTML = sections.map(([id, label]) => `<a href="${escapeHtml(releaseDocumentHref(id))}">${label}</a>`).join("");
   nav.hidden = sections.length === 0;
 }
@@ -606,6 +607,7 @@ async function loadRelease() {
     renderRelease(resolvedRelease, safeReleaseList, null, productContents, navigationData);
     await attachReleaseSidecar(resolvedRelease, elements.includedSongsContent);
     await attachReleaseVocals(resolvedRelease, elements.includedSongsContent);
+    await attachReleaseBluRay(resolvedRelease);
     await hydrateBoxMembers(boxView, safeReleaseList, response);
     if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
     if (resolvedRelease.releaseId === "R0072") await renderKamiparaRelease();

@@ -11,6 +11,7 @@ import { attachReleaseVocals } from "./release-vocals.js?v=1.3.0";
 import { loadReleaseContents } from "./release-contents.js?v=1.1.0";
 import { applyReleaseNavigation, loadReleaseNavigation, releaseNavigationModel } from "./release-navigation.js?v=1.0.0";
 import { attachReleaseBluRay } from "./release-bluray.js?v=1.1.0";
+import { loadSingleProduct, applySingleProduct } from "./release-single-products.js?v=1.0.0";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
@@ -476,7 +477,7 @@ function editionLabel(value) {
 function updateSectionNav() {
   const nav = $("releaseSectionNav");
   if (!nav) return;
-  const sections = [["includedSongsSection", "収録内容"], ["bluRayProductSection", "本編・特典"], ["kamiparaHistorySection", "神パラ歌唱履歴"], ["debutSongsSection", "初出・由来"], ["relatedReleasesSection", "関連作品"], ["relatedEventsSection", "関連イベント"], ["releaseInformationSection", "作品情報"]].filter(([id]) => $(id) && !$(id).hidden);
+  const sections = [["includedSongsSection", "収録内容"], ["singleProductSection", "特典・商品仕様"], ["bluRayProductSection", "本編・特典"], ["kamiparaHistorySection", "神パラ歌唱履歴"], ["debutSongsSection", "初出・由来"], ["relatedReleasesSection", "関連作品"], ["relatedEventsSection", "関連イベント"], ["releaseInformationSection", "作品情報"]].filter(([id]) => $(id) && !$(id).hidden);
   nav.innerHTML = sections.map(([id, label]) => `<a href="${escapeHtml(releaseDocumentHref(id))}">${label}</a>`).join("");
   nav.hidden = sections.length === 0;
 }
@@ -601,12 +602,20 @@ async function loadRelease() {
       catalogNumber: release.catalogNumber ?? listRelease.catalogNumber,
       officialName: release.officialName ?? listRelease.officialName
     } : release;
+    const singleProduct = await loadSingleProduct(resolvedRelease);
+    // Failed optional data must not erase a previously captured complete inventory.
+    if (!singleProduct && hasPrerenderedContent && elements.includedSongsContent.dataset.releaseSingleInventory === releaseId) {
+      if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
+      updateSectionNav();
+      return;
+    }
     const productContents = await loadReleaseContents(resolvedRelease);
     const navigationData = safeReleaseList.length === 114 ? await loadReleaseNavigation() : null;
     if (navigationData && !releaseNavigationModel(releaseId, safeReleaseList, navigationData)) throw new Error("Release navigation list identity mismatch");
     renderRelease(resolvedRelease, safeReleaseList, null, productContents, navigationData);
     await attachReleaseSidecar(resolvedRelease, elements.includedSongsContent);
     await attachReleaseVocals(resolvedRelease, elements.includedSongsContent);
+    applySingleProduct(resolvedRelease, singleProduct);
     await attachReleaseBluRay(resolvedRelease);
     await hydrateBoxMembers(boxView, safeReleaseList, response);
     if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);

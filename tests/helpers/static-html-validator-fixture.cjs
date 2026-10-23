@@ -51,6 +51,7 @@ function buildFixture() {
   putJson("data/release-contents.json", { schemaVersion: 2, scope: "release-product-track-list-only", releases: [] });
   // Synthetic CD-only inputs do not represent any of the official Blu-ray products.
   putJson("data/release-bluray-products.json", { schemaVersion: 1, scope: "release-bluray-product-facts-only", releases: [] });
+  putJson("data/release-single-products.json", { schemaVersion: 1, scope: "release-single-product-facts-only", releases: [] });
   const navigationData={schemaVersion:1,scope:'release-navigation-only',groups:[]};
   putJson('data/release-navigation.json',navigationData);
   const unitData=JSON.parse(require('node:fs').readFileSync(path.join(root,'data/song-unit-memberships.json'),'utf8'));

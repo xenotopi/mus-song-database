@@ -109,7 +109,7 @@ test("Release renderer dependencies are scoped to the capture path", () => {
   const excludedImports = new Set(["assets/js/release-amazon.js", "assets/js/singer-links.js"]);
   for (const file of RELEASE_RENDERER_FILES) {
     assert.ok(fs.statSync(path.join(root, file)).isFile(), file);
-    assert.ok((!file.startsWith("data/") || ["data/release-sidecars/R0052.json","data/release-vocals.json","data/release-contents.json","data/release-navigation.json","data/release-bluray-products.json"].includes(file)) && !file.startsWith("assets/css/"), file);
+    assert.ok((!file.startsWith("data/") || ["data/release-sidecars/R0052.json","data/release-vocals.json","data/release-contents.json","data/release-navigation.json","data/release-bluray-products.json","data/release-single-products.json"].includes(file)) && !file.startsWith("assets/css/"), file);
     const source = fs.readFileSync(path.join(root, file), "utf8");
     if (file.startsWith("assets/js/")) {
       for (const match of source.matchAll(/\bimport\s+(?:[^;]*?\sfrom\s+)?["'](\.\/[^"']+)["']/g)) {

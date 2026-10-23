@@ -1,0 +1,4012 @@
+{
+  "schemaVersion": 1,
+  "scope": "release-single-product-facts-only",
+  "releases": [
+    {
+      "releaseId": "R0001",
+      "releaseName": "僕らのLIVE 君とのLIFE",
+      "releaseDate": "2010-08-25",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd01",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-4738",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/63902/",
+          "sha256": "665113d75b22880874521054bf4d6b69ac6cd1359994ee50904e92c41ce4e450",
+          "checkedAt": "2026-10-23T08:23:09.551Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "僕らのLIVE 君とのLIFE",
+            "relationId": "RT0001",
+            "relationBinding": "aa1d1f5c51f1e232ab5b1f0cc158278ca75a4dbb7e0e7c518838450492a54a5d",
+            "kind": "song",
+            "sourceRef": "LACM-4738"
+          },
+          {
+            "track": 2,
+            "title": "友情ノーチェンジ",
+            "relationId": "RT0002",
+            "relationBinding": "edb1fc84fa9e13eeb6263587edff7548acb323936ea8be4d30cbb73f7f9a6e18",
+            "kind": "song",
+            "sourceRef": "LACM-4738"
+          },
+          {
+            "track": 3,
+            "title": "僕らのLIVE 君とのLIFE (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4738"
+          },
+          {
+            "track": 4,
+            "title": "友情ノーチェンジ (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4738"
+          },
+          {
+            "track": 5,
+            "title": "はじめまして ‐高坂穂乃果‐",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4738"
+          },
+          {
+            "track": 6,
+            "title": "はじめまして ‐絢瀬絵里‐",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4738"
+          },
+          {
+            "track": 7,
+            "title": "はじめまして ‐南ことり‐",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4738"
+          },
+          {
+            "track": 8,
+            "title": "はじめまして ‐園田海未‐",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4738"
+          },
+          {
+            "track": 9,
+            "title": "はじめまして ‐星空 凛‐",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4738"
+          },
+          {
+            "track": 10,
+            "title": "はじめまして ‐西木野真姫‐",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4738"
+          },
+          {
+            "track": 11,
+            "title": "はじめまして ‐東條 希‐",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4738"
+          },
+          {
+            "track": 12,
+            "title": "はじめまして ‐小泉花陽‐",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4738"
+          },
+          {
+            "track": 13,
+            "title": "はじめまして ‐矢澤にこ‐",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4738"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-4738",
+          "label": "CD＋DVD",
+          "catalogNumber": "LACM-4738",
+          "price": {
+            "amount": 2000,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [],
+          "videoExtras": [
+            {
+              "text": "僕らのLIVE 君とのLIFE アニメーションショートムービー",
+              "sourceRef": "official"
+            }
+          ],
+          "specifications": [],
+          "sourceRef": "LACM-4738"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0002",
+      "releaseName": "Snow halation",
+      "releaseDate": "2010-12-22",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd02",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-4774",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/63935/",
+          "sha256": "1776b973f838fcc98e2802755004dfe517590a9d3533185d7c950e2bc92040fb",
+          "checkedAt": "2026-10-23T08:23:15.473Z"
+        },
+        {
+          "key": "supplement",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=3552",
+          "sha256": "0db5a2af2acde47b0d16a20d94f46c975ff937e06bdc9e056ec58b81131a2094",
+          "checkedAt": "2026-10-23T11:17:03.430Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "Snow halation",
+            "relationId": "RT0003",
+            "relationBinding": "636bfe03b1281bb641082a4e733be6be28c0f783d2fbe9f2ec88105fb77426bd",
+            "kind": "song",
+            "sourceRef": "LACM-4774"
+          },
+          {
+            "track": 2,
+            "title": "baby maybe 恋のボタン",
+            "relationId": "RT0004",
+            "relationBinding": "b7d1a36700c8279c95c5d9d0614432e4353203c250837adc424e931161dd3baf",
+            "kind": "song",
+            "sourceRef": "LACM-4774"
+          },
+          {
+            "track": 3,
+            "title": "Snow halation (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4774"
+          },
+          {
+            "track": 4,
+            "title": "baby maybe 恋のボタン (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4774"
+          },
+          {
+            "track": 5,
+            "title": "聖夜の女の子たち。…まだ明るいけど",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4774"
+          },
+          {
+            "track": 6,
+            "title": "あなたとクリスマス -高坂穂乃果-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4774"
+          },
+          {
+            "track": 7,
+            "title": "あなたとクリスマス -絢瀬絵里-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4774"
+          },
+          {
+            "track": 8,
+            "title": "あなたとクリスマス -南ことり-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4774"
+          },
+          {
+            "track": 9,
+            "title": "あなたとクリスマス -園田海未-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4774"
+          },
+          {
+            "track": 10,
+            "title": "あなたとクリスマス -星空 凛-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4774"
+          },
+          {
+            "track": 11,
+            "title": "あなたとクリスマス -西木野真姫-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4774"
+          },
+          {
+            "track": 12,
+            "title": "あなたとクリスマス -東條 希-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4774"
+          },
+          {
+            "track": 13,
+            "title": "あなたとクリスマス -小泉花陽-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4774"
+          },
+          {
+            "track": 14,
+            "title": "あなたとクリスマス -矢澤にこ-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4774"
+          },
+          {
+            "track": 15,
+            "title": "未来へゴー・ネクスト！",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4774"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-4774",
+          "label": "CD＋DVD",
+          "catalogNumber": "LACM-4774",
+          "price": {
+            "amount": 2000,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "特製モノローグカード（全9種よりランダムで1枚）",
+              "sourceRef": "supplement",
+              "historical": true,
+              "initialProduction": false
+            }
+          ],
+          "videoExtras": [
+            {
+              "text": "Snow halation アニメーションショートムービー",
+              "sourceRef": "official"
+            }
+          ],
+          "specifications": [],
+          "sourceRef": "LACM-4774"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0003",
+      "releaseName": "Love marginal",
+      "releaseDate": "2011-05-25",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd03",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-4812",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/63971/",
+          "sha256": "818716a55c9a210b7aeb225b34bd612eeac75cb622cb3ac32daba979bc4690a8",
+          "checkedAt": "2026-10-23T08:23:14.985Z"
+        },
+        {
+          "key": "supplement",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=3793",
+          "sha256": "34e1649d5b0de77728c0bd0c5ba46f70f1c331b9079a22567a900fcba6a07e4f",
+          "checkedAt": "2026-10-23T11:17:03.606Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "Love marginal",
+            "relationId": "RT0005",
+            "relationBinding": "067afa8b54d69c00bbedce22c90649ba8f68335dacfa2d00ec4a9106271c0e05",
+            "kind": "song",
+            "sourceRef": "LACM-4812"
+          },
+          {
+            "track": 2,
+            "title": "sweet&sweet holiday",
+            "relationId": "RT0006",
+            "relationBinding": "e519a76c0128c2d0f69dedd81b13eb47cc41230d3e370918f722a9233e9a343e",
+            "kind": "song",
+            "sourceRef": "LACM-4812"
+          },
+          {
+            "track": 3,
+            "title": "Love marginal (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4812"
+          },
+          {
+            "track": 4,
+            "title": "sweet&sweet holiday (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4812"
+          },
+          {
+            "track": 5,
+            "title": "やりたい握手会！",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4812"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-4812",
+          "label": "CD",
+          "catalogNumber": "LACM-4812",
+          "price": {
+            "amount": 1200,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "穂乃果・ことり・花陽のプロフィールカード（ランダムで1枚）",
+              "sourceRef": "supplement",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-4812"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0004",
+      "releaseName": "ダイヤモンドプリンセスの憂鬱",
+      "releaseDate": "2011-06-22",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd04",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-4816",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/63975/",
+          "sha256": "dc1f60f68602b90f911467cb231f5406518c6aed4dcb5d7738432efa53444b19",
+          "checkedAt": "2026-10-23T08:23:16.240Z"
+        },
+        {
+          "key": "supplement",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=3927",
+          "sha256": "16ff2372707c61c5bbec4b7cf4a92125711ad7e91225cd4089e131d12ac61908",
+          "checkedAt": "2026-10-23T11:17:03.705Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "ダイヤモンドプリンセスの憂鬱",
+            "relationId": "RT0007",
+            "relationBinding": "a53b86611731529a61d295acb5e623180e794b9cac2bd68c7f05482e3c132058",
+            "kind": "song",
+            "sourceRef": "LACM-4816"
+          },
+          {
+            "track": 2,
+            "title": "ラブノベルス",
+            "relationId": "RT0008",
+            "relationBinding": "e01a7874b3f5d084898a66cddcaa65adb5b7279da12a6e877a5557e67da7d472",
+            "kind": "song",
+            "sourceRef": "LACM-4816"
+          },
+          {
+            "track": 3,
+            "title": "ダイヤモンドプリンセスの憂鬱 (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4816"
+          },
+          {
+            "track": 4,
+            "title": "ラブノベルス (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4816"
+          },
+          {
+            "track": 5,
+            "title": "雨の日の練習は",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4816"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-4816",
+          "label": "CD",
+          "catalogNumber": "LACM-4816",
+          "price": {
+            "amount": 1200,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "プロフィールカード（全3種よりランダムで1枚）",
+              "sourceRef": "supplement",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-4816"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0005",
+      "releaseName": "知らないLove*教えてLove",
+      "releaseDate": "2011-07-27",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd05",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-4832",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/63990/",
+          "sha256": "a850f194ad95b9987e42aa90135bae45ce83c3e4bde9ba6a5b9f709fff8dd890",
+          "checkedAt": "2026-10-23T08:23:21.269Z"
+        },
+        {
+          "key": "supplement",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=3911",
+          "sha256": "86ee882e65cf1e821736a78db607a93293648af007913efbab32ecbd5b8370b6",
+          "checkedAt": "2026-10-23T11:17:03.796Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "知らないLove*教えてLove",
+            "relationId": "RT0009",
+            "relationBinding": "ac2bb27beef663d2def1ceb72a31381a3ab17a00b235441d6281feecd61a1fd7",
+            "kind": "song",
+            "sourceRef": "LACM-4832"
+          },
+          {
+            "track": 2,
+            "title": "あ・の・ね・が・ん・ば・れ！",
+            "relationId": "RT0010",
+            "relationBinding": "bf38e79a894213a43971bdb2640f3240073c48d1e98777b995a9dd65793ca68d",
+            "kind": "song",
+            "sourceRef": "LACM-4832"
+          },
+          {
+            "track": 3,
+            "title": "知らないLove*教えてLove (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4832"
+          },
+          {
+            "track": 4,
+            "title": "あ・の・ね・が・ん・ば・れ！ (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4832"
+          },
+          {
+            "track": 5,
+            "title": "みんなで水着を選んだら",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4832"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-4832",
+          "label": "CD",
+          "catalogNumber": "LACM-4832",
+          "price": {
+            "amount": 1200,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "プロフィールカード（全3種よりランダムで1枚）",
+              "sourceRef": "supplement",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-4832"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0006",
+      "releaseName": "夏色えがおで1,2,Jump!",
+      "releaseDate": "2011-08-24",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd06",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-4845",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64003/",
+          "sha256": "0628f4545a8809b91360a0daa04475a3940f5ec184829bdf5ef6348bcd614b11",
+          "checkedAt": "2026-10-23T08:23:20.927Z"
+        },
+        {
+          "key": "supplement",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=4125",
+          "sha256": "c4a0c6184f059a169bf6d811b95cd4c4fe8cfe053927b92bf915d8113657507e",
+          "checkedAt": "2026-10-23T08:25:11.737Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "夏色えがおで1,2,Jump!",
+            "relationId": "RT0011",
+            "relationBinding": "870e2efcc0e57f9093eb019fa21513d68face01bd978f2d199fd13277a8d7531",
+            "kind": "song",
+            "sourceRef": "LACM-4845"
+          },
+          {
+            "track": 2,
+            "title": "Mermaid festa vol.1",
+            "relationId": "RT0012",
+            "relationBinding": "b2fe2b8772c0b0bfccb8c9409a206ae09a4416cfe55061d79b92fe3385fcfe16",
+            "kind": "song",
+            "sourceRef": "LACM-4845"
+          },
+          {
+            "track": 3,
+            "title": "夏色えがおで1,2,Jump! (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4845"
+          },
+          {
+            "track": 4,
+            "title": "Mermaid festa vol.1 (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4845"
+          },
+          {
+            "track": 5,
+            "title": "沖縄到着！",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4845"
+          },
+          {
+            "track": 6,
+            "title": "やがてPV撮影に。",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4845"
+          },
+          {
+            "track": 7,
+            "title": "みんなでBBQ",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4845"
+          },
+          {
+            "track": 8,
+            "title": "波打ち際のパラダイス",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4845"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-4845",
+          "label": "CD＋DVD",
+          "catalogNumber": "LACM-4845",
+          "price": {
+            "amount": 2000,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "夏の思い出メッセージカード（全9種よりランダムで1枚）",
+              "sourceRef": "supplement",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [
+            {
+              "text": "夏色えがおで1,2,Jump！ アニメーションショートムービー",
+              "sourceRef": "official"
+            }
+          ],
+          "specifications": [],
+          "sourceRef": "LACM-4845"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0010",
+      "releaseName": "もぎゅっと“love”で接近中！",
+      "releaseDate": "2012-02-15",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd10",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-4907",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/65658/",
+          "sha256": "dc1eb0da25d0d5db4ac17e05b1c13f9d9624e0720df6298eda6f98ab80ac183f",
+          "checkedAt": "2026-10-23T08:23:23.129Z"
+        },
+        {
+          "key": "supplement",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=4706",
+          "sha256": "c40802531d4ad5f952efe9dcb32bd55ebe90bcc8cc5462b140496c6648520583",
+          "checkedAt": "2026-10-23T11:17:03.885Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "もぎゅっと\"love\"で接近中！",
+            "relationId": "RT0017",
+            "relationBinding": "b59ba8b8e931c4f594f37511302043a7d710ae74e5b529a55b1da75625a9927b",
+            "kind": "song",
+            "sourceRef": "LACM-4907"
+          },
+          {
+            "track": 2,
+            "title": "愛してるばんざーい！",
+            "relationId": "RT0018",
+            "relationBinding": "72c2282445a98f34ef46647a7f19d4baf4395257ebdb0eb22b73c50ba9fff157",
+            "kind": "song",
+            "sourceRef": "LACM-4907"
+          },
+          {
+            "track": 3,
+            "title": "もぎゅっと\"love\"で接近中！ (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4907"
+          },
+          {
+            "track": 4,
+            "title": "愛してるばんざーい！ (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4907"
+          },
+          {
+            "track": 5,
+            "title": "もうすぐバレンタイン",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4907"
+          },
+          {
+            "track": 6,
+            "title": "準備だ! バレンタイン",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4907"
+          },
+          {
+            "track": 7,
+            "title": "レッツクッキング!",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4907"
+          },
+          {
+            "track": 8,
+            "title": "あなたのもとへ",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4907"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-4907",
+          "label": "CD＋DVD",
+          "catalogNumber": "LACM-4907",
+          "price": {
+            "amount": 2000,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ’sのsweet&sweetバレンタインメッセージカード（全9種よりランダムで1枚）",
+              "sourceRef": "supplement",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [
+            {
+              "text": "もぎゅっと“love”で接近中！ アニメーションショートムービー",
+              "sourceRef": "official"
+            }
+          ],
+          "specifications": [
+            {
+              "text": "Wジャケット仕様",
+              "sourceRef": "supplement"
+            }
+          ],
+          "sourceRef": "LACM-4907"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0011",
+      "releaseName": "Mermaid festa vol.2 ～Passionate～",
+      "releaseDate": "2012-04-25",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd11",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-4924",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64065/",
+          "sha256": "6b89683c84574f2d0f286a8048edce567316cdfe35e29f5b1151e4f011550b86",
+          "checkedAt": "2026-10-23T08:23:27.102Z"
+        },
+        {
+          "key": "supplement",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=5022",
+          "sha256": "52a9c54c03526157b3a6884c405e3bf9a364fa2808acbca0abc27afec5b2fac4",
+          "checkedAt": "2026-10-23T08:25:11.485Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "Mermaid festa vol.2 ～Passionate～",
+            "relationId": "RT0019",
+            "relationBinding": "c4d8ab5aba54b124d1ee6baea310bcb9334d0e392e7b382ecabff093fdf14006",
+            "kind": "song",
+            "sourceRef": "LACM-4924"
+          },
+          {
+            "track": 2,
+            "title": "Someday of my life",
+            "relationId": "RT0020",
+            "relationBinding": "199e6a038c9bd3eb037f56076efd93d6499d670930a538b4664c6335c1477322",
+            "kind": "song",
+            "sourceRef": "LACM-4924"
+          },
+          {
+            "track": 3,
+            "title": "恋のシグナルRin rin rin!",
+            "relationId": "RT0021",
+            "relationBinding": "c5e2f3ef56b1fc3cafbf2f4b3dea3eb0d2075ac428d148b6ab9355e934e7aa5b",
+            "kind": "song",
+            "sourceRef": "LACM-4924"
+          },
+          {
+            "track": 4,
+            "title": "Mermaid festa vol.2 ～Passionate～ (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4924"
+          },
+          {
+            "track": 5,
+            "title": "Someday of my life (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4924"
+          },
+          {
+            "track": 6,
+            "title": "恋のシグナルRin rin rin (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4924"
+          },
+          {
+            "track": 7,
+            "title": "ほのりん、あなたを起こしに来ました！ (ミニドラマ)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4924"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-4924",
+          "label": "CD",
+          "catalogNumber": "LACM-4924",
+          "price": {
+            "amount": 1300,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "特製デュオモノローグカード（全2種よりランダムで1枚）",
+              "sourceRef": "supplement",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-4924"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0012",
+      "releaseName": "乙女式れんあい塾",
+      "releaseDate": "2012-05-23",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd12",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-4943",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64084/",
+          "sha256": "7ce127ef27a8580769bc4e6a18db35d8b71df95129a30a40b58bf7312e93d58d",
+          "checkedAt": "2026-10-23T08:23:27.069Z"
+        },
+        {
+          "key": "supplement",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=5088",
+          "sha256": "0b4b887015777f00f4d7d0bd8fb35f7f08dd308ff14f954fc587e508451c288c",
+          "checkedAt": "2026-10-23T08:25:11.615Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "乙女式れんあい塾",
+            "relationId": "RT0022",
+            "relationBinding": "fe29379dc3725138cd04afc15c30de6ad4b01b7788d53f446fa3fd21d8f52cb3",
+            "kind": "song",
+            "sourceRef": "LACM-4943"
+          },
+          {
+            "track": 2,
+            "title": "まほうつかいはじめました！",
+            "relationId": "RT0023",
+            "relationBinding": "18f683238e42106e73ad7325bd68d53114331b24f8e71008fda50dec6ad1d8b9",
+            "kind": "song",
+            "sourceRef": "LACM-4943"
+          },
+          {
+            "track": 3,
+            "title": "純愛レンズ",
+            "relationId": "RT0024",
+            "relationBinding": "79a573366be0de8f6951cff35419b8bab1b12627334f853395a54832184a76c7",
+            "kind": "song",
+            "sourceRef": "LACM-4943"
+          },
+          {
+            "track": 4,
+            "title": "乙女式れんあい塾 (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4943"
+          },
+          {
+            "track": 5,
+            "title": "まほうつかいはじめました！ (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4943"
+          },
+          {
+            "track": 6,
+            "title": "純愛レンズ (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4943"
+          },
+          {
+            "track": 7,
+            "title": "にこのぞ、手作り弁当を持って来ました! (ミニドラマ)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4943"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-4943",
+          "label": "CD",
+          "catalogNumber": "LACM-4943",
+          "price": {
+            "amount": 1300,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "特製デュオモノローグカード（全2種よりランダムで1枚）",
+              "sourceRef": "supplement",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-4943"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0013",
+      "releaseName": "告白日和、です！",
+      "releaseDate": "2012-06-27",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd13",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-4946",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64087/",
+          "sha256": "f2cc94ca097481250897f9d2309b3d80741fdd6fb078c3286885b18aa8085f92",
+          "checkedAt": "2026-10-23T08:23:29.807Z"
+        },
+        {
+          "key": "supplement",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=5240",
+          "sha256": "5221dfafb7c733b938497862e0f903e30ce3fabd7da5c642fc1c547738f240ed",
+          "checkedAt": "2026-10-23T11:17:03.949Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "告白日和、です！",
+            "relationId": "RT0025",
+            "relationBinding": "91b29699bce06319606409defd18b9c9ce064d505498b3858ad21bd8e711d02d",
+            "kind": "song",
+            "sourceRef": "LACM-4946"
+          },
+          {
+            "track": 2,
+            "title": "ぶる～べりぃ♥とれいん",
+            "relationId": "RT0026",
+            "relationBinding": "eb8dc544b016b33e6a31ab43f614f4e3c025ec22cadd8958df1a8505f99a323c",
+            "kind": "song",
+            "sourceRef": "official"
+          },
+          {
+            "track": 3,
+            "title": "孤独なHeaven",
+            "relationId": "RT0027",
+            "relationBinding": "f9a84e8427dd6109d044ec322c99db0a374145b7faec4738dd6b61594b5ab7c4",
+            "kind": "song",
+            "sourceRef": "LACM-4946"
+          },
+          {
+            "track": 4,
+            "title": "告白日和、です！ (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4946"
+          },
+          {
+            "track": 5,
+            "title": "ぶる～べりぃ♥とれいん(Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "official"
+          },
+          {
+            "track": 6,
+            "title": "孤独なHeaven (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4946"
+          },
+          {
+            "track": 7,
+            "title": "ことぱな、お見舞いに来ました！ (ミニドラマ)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4946"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-4946",
+          "label": "CD",
+          "catalogNumber": "LACM-4946",
+          "price": {
+            "amount": 1300,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "特製デュオモノローグカード（全2種よりランダムで1枚）",
+              "sourceRef": "supplement",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-4946"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0014",
+      "releaseName": "soldier game",
+      "releaseDate": "2012-07-25",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd14",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-4961",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64101/",
+          "sha256": "2279141c82440b98e58c53a85f0b7fd351adb0be5091c5215c7e42bf8f3298fd",
+          "checkedAt": "2026-10-23T08:23:32.833Z"
+        },
+        {
+          "key": "supplement",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=5453",
+          "sha256": "05ecd44653cb5f015aa38a4f7dd9206a7d7da0e15a56d97771500b832f1ab1e4",
+          "checkedAt": "2026-10-23T11:17:04.038Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "soldier game",
+            "relationId": "RT0028",
+            "relationBinding": "7506f46eea5ca7a44a716b241c0e5f5eb50e0257051ad08fe3b160eb3c3a2445",
+            "kind": "song",
+            "sourceRef": "LACM-4961"
+          },
+          {
+            "track": 2,
+            "title": "Daring!!",
+            "relationId": "RT0029",
+            "relationBinding": "a4e5b582e789ea97b50ccfb38dae16fd4d546787fa02ea55eb20820605fb3216",
+            "kind": "song",
+            "sourceRef": "LACM-4961"
+          },
+          {
+            "track": 3,
+            "title": "勇気のReason",
+            "relationId": "RT0030",
+            "relationBinding": "9d243518ba8d3636f9c6d1a7583adca69247cda09989e2562405501831d3411d",
+            "kind": "song",
+            "sourceRef": "LACM-4961"
+          },
+          {
+            "track": 4,
+            "title": "ありふれた悲しみの果て",
+            "relationId": "RT0031",
+            "relationBinding": "e47a3f6a2f7e7c5cd1d0f8f607e29240c662f03b1c36ef3fcf455e153b380926",
+            "kind": "song",
+            "sourceRef": "LACM-4961"
+          },
+          {
+            "track": 5,
+            "title": "soldier game (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4961"
+          },
+          {
+            "track": 6,
+            "title": "Daring!! (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4961"
+          },
+          {
+            "track": 7,
+            "title": "勇気のReason (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4961"
+          },
+          {
+            "track": 8,
+            "title": "ありふれた悲しみの果て (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4961"
+          },
+          {
+            "track": 9,
+            "title": "まきうみえり、お勉強会しにきました！ (ミニドラマ)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4961"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-4961",
+          "label": "CD",
+          "catalogNumber": "LACM-4961",
+          "price": {
+            "amount": 1300,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "特製トリオモノローグカード（全3種よりランダムで1枚）",
+              "sourceRef": "supplement",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-4961"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0015",
+      "releaseName": "Wonderful Rush",
+      "releaseDate": "2012-09-05",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd15",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-4979",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64119/",
+          "sha256": "e95da1428b6aca03051f17017bba1ced2bfd60cdd82631ecd3284f3f19b43acb",
+          "checkedAt": "2026-10-23T08:23:32.835Z"
+        },
+        {
+          "key": "supplement",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=5537",
+          "sha256": "30fe335fa0990e6089935500ae13c31b3bac94b5aaf5598b73605029ae99fb2b",
+          "checkedAt": "2026-10-23T11:17:04.115Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "Wonderful Rush",
+            "relationId": "RT0032",
+            "relationBinding": "aba8c0cde9400d32bd539cc7c375ea55c08a700a187e4c0e780f44ecbaa6275a",
+            "kind": "song",
+            "sourceRef": "LACM-4979"
+          },
+          {
+            "track": 2,
+            "title": "Oh,Love&Peace!",
+            "relationId": "RT0033",
+            "relationBinding": "a506bbf061c2950b3dce03794ed9514fca0016392fc97f862858a59e0af64dc0",
+            "kind": "song",
+            "sourceRef": "LACM-4979"
+          },
+          {
+            "track": 3,
+            "title": "Wonderful Rush (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4979"
+          },
+          {
+            "track": 4,
+            "title": "Oh,Love&Peace! (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-4979"
+          },
+          {
+            "track": 5,
+            "title": "喫茶とメイドな一年生",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4979"
+          },
+          {
+            "track": 6,
+            "title": "屋敷にお化けは二年生",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4979"
+          },
+          {
+            "track": 7,
+            "title": "ショーでファッション！三年生",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4979"
+          },
+          {
+            "track": 8,
+            "title": "ダンス・クライマックス！",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-4979"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-4979",
+          "label": "CD＋DVD",
+          "catalogNumber": "LACM-4979",
+          "price": {
+            "amount": 2000,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "明日へはばたけ！特製意気込みカード（全9種よりランダムで1枚）",
+              "sourceRef": "supplement",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [
+            {
+              "text": "Wonderful Rush アニメーションショートムービー",
+              "sourceRef": "official"
+            }
+          ],
+          "specifications": [],
+          "sourceRef": "LACM-4979"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0017",
+      "releaseName": "僕らは今のなかで",
+      "releaseDate": "2013-01-23",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd19",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14053",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64190/",
+          "sha256": "d1367f8f8d08485e34c6487b8914fd00daba4acdc7c8c4191ac391fc773bfd3f",
+          "checkedAt": "2026-10-23T08:23:35.887Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "僕らは今のなかで",
+            "relationId": "RT0036",
+            "relationBinding": "4d39112958a16a4225912307c24e5626fcae25d723856e8a13b1588c35e3df44",
+            "kind": "song",
+            "sourceRef": "LACM-14053"
+          },
+          {
+            "track": 2,
+            "title": "WILD STARS",
+            "relationId": "RT0037",
+            "relationBinding": "bdd242ee01c8a6a93c4a24ae69f3bb88ecddaa52f76f0b16d06484661f1a604a",
+            "kind": "song",
+            "sourceRef": "LACM-14053"
+          },
+          {
+            "track": 3,
+            "title": "僕らは今のなかで(Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14053"
+          },
+          {
+            "track": 4,
+            "title": "WILD STARS(Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14053"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14053",
+          "label": "CD＋DVD",
+          "catalogNumber": "LACM-14053",
+          "price": {
+            "amount": 2000,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "ヴァイスシュヴァルツPRカード「活動開始！ μ's」",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [
+            {
+              "text": "TVアニメ「ラブライブ！」ノンテロップオープニング（アニメ本編で使用された映像のノンテロップVer.）",
+              "sourceRef": "official"
+            }
+          ],
+          "specifications": [],
+          "sourceRef": "LACM-14053"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0018",
+      "releaseName": "きっと青春が聞こえる",
+      "releaseDate": "2013-02-06",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd20",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14054",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64191/",
+          "sha256": "8670cd2279f6dd7999baca05b27b1538fe1fb2eae3d7d4406f47e3a99b1f5bf4",
+          "checkedAt": "2026-10-23T08:23:38.698Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "きっと青春が聞こえる",
+            "relationId": "RT0038",
+            "relationBinding": "178b9d361ac6064fd2bae626d22a251720cc599922b0139299264d732c0d1d02",
+            "kind": "song",
+            "sourceRef": "LACM-14054"
+          },
+          {
+            "track": 2,
+            "title": "輝夜の城で踊りたい",
+            "relationId": "RT0039",
+            "relationBinding": "b0a642f15b2d76b0da53b231536d172919eac843617604dc71d404b7eef25cf6",
+            "kind": "song",
+            "sourceRef": "LACM-14054"
+          },
+          {
+            "track": 3,
+            "title": "きっと青春が聞こえる(Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14054"
+          },
+          {
+            "track": 4,
+            "title": "輝夜の城で踊りたい(Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14054"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14054",
+          "label": "CD",
+          "catalogNumber": "LACM-14054",
+          "price": {
+            "amount": 1200,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sのアイ活！自己PRカード（全9種よりランダムで1枚）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14054"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0019",
+      "releaseName": "ススメ→トゥモロウ／START:DASH!!",
+      "releaseDate": "2013-02-20",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd21",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14055",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64192/",
+          "sha256": "fde415dba285942b9d66437d6f150c1f7825d7616ea2ce6a0cf952f385bf1b4f",
+          "checkedAt": "2026-10-23T08:23:39.359Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "ススメ→トゥモロウ",
+            "relationId": "RT0040",
+            "relationBinding": "be1060b21d681519402d85e606a332966fd2b03aeba052ad95886dd763dffb79",
+            "kind": "song",
+            "sourceRef": "LACM-14055"
+          },
+          {
+            "track": 2,
+            "title": "START:DASH!!",
+            "relationId": "RT0041",
+            "relationBinding": "4018118872d65c7bf0d3412e8e39bc6c5ecce741ff611e801e724dedd7d42e21",
+            "kind": "song",
+            "sourceRef": "LACM-14055"
+          },
+          {
+            "track": 3,
+            "title": "ススメ→トゥモロウ (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14055"
+          },
+          {
+            "track": 4,
+            "title": "START:DASH!! (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14055"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14055",
+          "label": "CD",
+          "catalogNumber": "LACM-14055",
+          "price": {
+            "amount": 1200,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "穂乃果・ことり・海未のアイ活！OFFの過ごし方 カード（全3種よりランダムで1枚）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14055"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0020",
+      "releaseName": "これからのSomeday／Wonder zone",
+      "releaseDate": "2013-03-06",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd22",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14064",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64200/",
+          "sha256": "5f19953457a3edec4de888077297230481a43b66528fffc3447612dc5a749df2",
+          "checkedAt": "2026-10-23T08:23:41.914Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "これからのSomeday",
+            "relationId": "RT0042",
+            "relationBinding": "7066f62eed3878eb1195be56d98a649c8f163a349b9266054a8a35fbfd421b50",
+            "kind": "song",
+            "sourceRef": "LACM-14064"
+          },
+          {
+            "track": 2,
+            "title": "Wonder zone",
+            "relationId": "RT0043",
+            "relationBinding": "96fd1adec654636e7096af93ac9be406b429c88aef398e23ba5c0bbddb3d282b",
+            "kind": "song",
+            "sourceRef": "LACM-14064"
+          },
+          {
+            "track": 3,
+            "title": "これからのSomeday (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14064"
+          },
+          {
+            "track": 4,
+            "title": "Wonder zone (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14064"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14064",
+          "label": "CD",
+          "catalogNumber": "LACM-14064",
+          "price": {
+            "amount": 1200,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sのアイ活！理想のデートプランカード（全9種よりランダムで1枚）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14064"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0022",
+      "releaseName": "No brand girls／START:DASH!!",
+      "releaseDate": "2013-04-03",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd24",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14069",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64205/",
+          "sha256": "220e0e8c61a2ee0cb249f5277a2900d41a855db733385acd9f315fdbe88523b5",
+          "checkedAt": "2026-10-23T08:23:44.479Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "No brand girls",
+            "relationId": "RT0045",
+            "relationBinding": "f43979b2063f7ade52853f2035099e6a3e0338dbe7d377f4e0c861f68bbdb7d8",
+            "kind": "song",
+            "sourceRef": "LACM-14069"
+          },
+          {
+            "track": 2,
+            "title": "START:DASH!!",
+            "relationId": "RT0046",
+            "relationBinding": "1a219f30785c9a4c02c36a4bc67933d3e0c272303e7465f7079954e94bf8e8b9",
+            "kind": "song",
+            "sourceRef": "LACM-14069"
+          },
+          {
+            "track": 3,
+            "title": "No brand girls (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14069"
+          },
+          {
+            "track": 4,
+            "title": "START:DASH!! (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14069"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14069",
+          "label": "CD",
+          "catalogNumber": "LACM-14069",
+          "price": {
+            "amount": 1200,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sのアイ活！あなたを手料理でおもてなしカード（全9種よりランダムで1枚）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14069"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0026",
+      "releaseName": "微熱からMystery",
+      "releaseDate": "2013-06-26",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd25",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14101",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64235/",
+          "sha256": "a4fe66374a57affddae2ea028db3e1cf5781b27cbe59388b9ba73f1e10d268e1",
+          "checkedAt": "2026-10-23T08:23:45.440Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "微熱からMystery",
+            "relationId": "RT0050",
+            "relationBinding": "94af011b73136b9d5bd55f86831f32b47bec88d57d3d64fa1f9dc74644b2b9ee",
+            "kind": "song",
+            "sourceRef": "LACM-14101"
+          },
+          {
+            "track": 2,
+            "title": "キミのくせに!",
+            "relationId": "RT0051",
+            "relationBinding": "5a9ba4b340b217b0dab993ac01aecdd8d867608ce81265cf5594700f1b4125bf",
+            "kind": "song",
+            "sourceRef": "LACM-14101"
+          },
+          {
+            "track": 3,
+            "title": "微熱からMystery -Off Vocal-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14101"
+          },
+          {
+            "track": 4,
+            "title": "キミのくせに! -Off Vocal-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14101"
+          },
+          {
+            "track": 5,
+            "title": "プールでトレーニング!? -Mini Drama-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-14101"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14101",
+          "label": "CD",
+          "catalogNumber": "LACM-14101",
+          "price": {
+            "amount": 1200,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sのユニット活動！私たちのユニットの強みは…？カード",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14101"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0027",
+      "releaseName": "Cutie Panther",
+      "releaseDate": "2013-07-24",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd26",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14102",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64236/",
+          "sha256": "cd7367bbfcc9fe34309a0feb808ba75a1853b402b9d0f5894ff3a1e0ff477617",
+          "checkedAt": "2026-10-23T08:23:47.937Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "Cutie Panther",
+            "relationId": "RT0052",
+            "relationBinding": "729a77b37ebc60711641fe1adec5c9bee3b0c4ace81f570dac16f9f152a1e412",
+            "kind": "song",
+            "sourceRef": "LACM-14102"
+          },
+          {
+            "track": 2,
+            "title": "夏、終わらないで。",
+            "relationId": "RT0053",
+            "relationBinding": "b6af07db6e7e75729f6dc6c1158fcda80edced41591416bb024871543bbe3c08",
+            "kind": "song",
+            "sourceRef": "LACM-14102"
+          },
+          {
+            "track": 3,
+            "title": "Cutie Panther -Off Vocal-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14102"
+          },
+          {
+            "track": 4,
+            "title": "夏、終わらないで。 -Off Vocal-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14102"
+          },
+          {
+            "track": 5,
+            "title": "プールでウェイトレス!? -Mini Drama-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-14102"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14102",
+          "label": "CD",
+          "catalogNumber": "LACM-14102",
+          "price": {
+            "amount": 1200,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sのユニット活動！私たちのユニットの強みは…？カード",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14102"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0029",
+      "releaseName": "Pure girls project",
+      "releaseDate": "2013-08-21",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd27",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14103",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64237/",
+          "sha256": "61c0d7bb0e43130e3bc9777e7167456d1ae5e78791e1ca6ecb6397dd54d9a376",
+          "checkedAt": "2026-10-23T08:23:50.652Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "Pure girls project",
+            "relationId": "RT0055",
+            "relationBinding": "af173ad680f286b7eb6015d133fd707149c172f0e6d87d621f06268fcfd7d2ce",
+            "kind": "song",
+            "sourceRef": "LACM-14103"
+          },
+          {
+            "track": 2,
+            "title": "UNBALANCED LOVE",
+            "relationId": "RT0056",
+            "relationBinding": "77f05590b75a5ec218f58775fef348f274e044a204f4ac28c9ef8693eb57697a",
+            "kind": "song",
+            "sourceRef": "LACM-14103"
+          },
+          {
+            "track": 3,
+            "title": "Pure girls project -Off Vocal-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14103"
+          },
+          {
+            "track": 4,
+            "title": "UNBALANCED LOVE -Off Vocal-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14103"
+          },
+          {
+            "track": 5,
+            "title": "プールでオンステージ！ -Mini Drama-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-14103"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14103",
+          "label": "CD",
+          "catalogNumber": "LACM-14103",
+          "price": {
+            "amount": 1200,
+            "tax": "inclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sのユニット活動！私たちのユニットの強みは…？カード",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14103"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0033",
+      "releaseName": "Music S.T.A.R.T!!",
+      "releaseDate": "2013-11-27",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd28",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14155",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64942/",
+          "sha256": "34e888d45a77bebe213674bdb3f013c0c5ac1987bf8d5d0cbed87cc3f6450332",
+          "checkedAt": "2026-10-23T08:23:54.665Z"
+        },
+        {
+          "key": "LACM-14156",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64288/",
+          "sha256": "ec87ca6fa764f0dec4d40906f0e1fa8242842615b59f876e09b4b72123767f2d",
+          "checkedAt": "2026-10-23T08:23:56.559Z"
+        },
+        {
+          "key": "LACM-34155",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64367/",
+          "sha256": "8f42cec6fe1d82df6f0e26743a743cd594bc6d04aa68b987a9576f7aedb001cd",
+          "checkedAt": "2026-10-23T08:23:51.474Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "Music S.T.A.R.T!!",
+            "relationId": "RT0060",
+            "relationBinding": "bebac41e9c09ebf32d3559b3ea20c05242cd006955efb6d76e071caaab5b6f5b",
+            "kind": "song",
+            "sourceRef": "LACM-14155"
+          },
+          {
+            "track": 2,
+            "title": "LOVELESS WORLD",
+            "relationId": "RT0061",
+            "relationBinding": "503c03e8f8e0977615f80d87d00d0f28d4073e352d43cc352cab9543798de4a8",
+            "kind": "song",
+            "sourceRef": "LACM-14155"
+          },
+          {
+            "track": 3,
+            "title": "Music S.T.A.R.T!! (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14155"
+          },
+          {
+            "track": 4,
+            "title": "LOVELESS WORLD (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14155"
+          },
+          {
+            "track": 5,
+            "title": "行こう行こう♪ 雪の国へ",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-14155"
+          },
+          {
+            "track": 6,
+            "title": "ゲレンデでサバイバル!?",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-14155"
+          },
+          {
+            "track": 7,
+            "title": "危ない!? イン・マイ・ドリーム",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-14155"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14155",
+          "label": "BD付通常盤",
+          "catalogNumber": "LACM-14155",
+          "price": {
+            "amount": 4500,
+            "tax": "inclusive",
+            "exclusiveAmount": 4286,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sとあなたの遊園地デートカード",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [
+            {
+              "text": "スペシャルOVA＆「Music S.T.A.R.T!!」アニメーションクリップ（全15分予定）",
+              "sourceRef": "official"
+            }
+          ],
+          "specifications": [
+            {
+              "text": "360°描き下ろしパノラマスリーブ（初回生産分）",
+              "sourceRef": "official"
+            },
+            {
+              "text": "発売元：株式会社ランティス／販売元：バンダイビジュアル株式会社",
+              "sourceRef": "official"
+            }
+          ],
+          "sourceRef": "LACM-14155"
+        },
+        {
+          "key": "LACM-14156",
+          "label": "DVD付通常盤",
+          "catalogNumber": "LACM-14156",
+          "price": {
+            "amount": 2000,
+            "tax": "inclusive",
+            "exclusiveAmount": 1905,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sとあなたの遊園地デートカード",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [
+            {
+              "text": "「Music S.T.A.R.T!!」アニメーションクリップ（全5分予定）",
+              "sourceRef": "official"
+            }
+          ],
+          "specifications": [
+            {
+              "text": "360°描き下ろしパノラマスリーブ（初回生産分）",
+              "sourceRef": "official"
+            },
+            {
+              "text": "発売元：株式会社ランティス／販売元：バンダイビジュアル株式会社",
+              "sourceRef": "official"
+            }
+          ],
+          "sourceRef": "LACM-14156"
+        },
+        {
+          "key": "LACM-34155",
+          "label": "BD付超豪華盤",
+          "catalogNumber": "LACM-34155",
+          "price": {
+            "amount": 7500,
+            "tax": "inclusive",
+            "exclusiveAmount": 7143,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sとあなたの遊園地デートカード",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            },
+            {
+              "text": "音ノ木坂学院通学セット：アルパカぬいぐるみパスケース／ユニットシングルジャケットイラストハート型キーホルダー3種／μ'sランチバッグ",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [
+            {
+              "text": "スペシャルOVA＆「Music S.T.A.R.T!!」アニメーションクリップ（全15分予定）",
+              "sourceRef": "official"
+            }
+          ],
+          "specifications": [
+            {
+              "text": "360°描き下ろしパノラマスリーブ",
+              "sourceRef": "official"
+            },
+            {
+              "text": "パノラマスリーブは天地面が開いた仕様／展開時126mm×606mmの特大イラストボード",
+              "sourceRef": "official"
+            },
+            {
+              "text": "発売元：株式会社ランティス／販売元：バンダイビジュアル株式会社",
+              "sourceRef": "official"
+            }
+          ],
+          "sourceRef": "LACM-34155"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0034",
+      "releaseName": "タカラモノズ／Paradise Live",
+      "releaseDate": "2014-01-29",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd30",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14181",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64311/",
+          "sha256": "9a1170729e8b0e5755705bbc9d9685a518303efaf0445f8b7575252c32d3bf7c",
+          "checkedAt": "2026-10-23T08:23:57.129Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "タカラモノズ",
+            "relationId": "RT0062",
+            "relationBinding": "02eec1aa6cf8baf929e909c883957f2e82457345ee16f049bc9b6ba2cbbf4c92",
+            "kind": "song",
+            "sourceRef": "LACM-14181"
+          },
+          {
+            "track": 2,
+            "title": "Paradise Live",
+            "relationId": "RT0063",
+            "relationBinding": "a3cb8567f7bb0814c37e176700d8610d2fa80f53f051144152a58675ea68f4bd",
+            "kind": "song",
+            "sourceRef": "LACM-14181"
+          },
+          {
+            "track": 3,
+            "title": "タカラモノズ (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14181"
+          },
+          {
+            "track": 4,
+            "title": "Paradise Live (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14181"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14181",
+          "label": "CD",
+          "catalogNumber": "LACM-14181",
+          "price": {
+            "amount": 1200,
+            "tax": "inclusive",
+            "exclusiveAmount": 1143,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "ラブライブ！スクールアイドルフェスティバル：限定 覚醒済みSR3枚を入手できるシリアルコード（全3種よりランダムで1種）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14181"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0035",
+      "releaseName": "それは僕たちの奇跡",
+      "releaseDate": "2014-04-23",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd41",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14220",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64857/",
+          "sha256": "8169ea14b540f383c6d6e149d51212230ea6846adc090fb6140585b9d95b535b",
+          "checkedAt": "2026-10-23T08:24:00.528Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "それは僕たちの奇跡",
+            "relationId": "RT0064",
+            "relationBinding": "869b3dd13a8ed0272509a277ef0bf6d00867164af2cada1e2874073dee89d937",
+            "kind": "song",
+            "sourceRef": "LACM-14220"
+          },
+          {
+            "track": 2,
+            "title": "だってだって噫無情",
+            "relationId": "RT0065",
+            "relationBinding": "2e9d667676876906b944f347a132d2b47630b9e2541fd0ec8df9096cc0741fc9",
+            "kind": "song",
+            "sourceRef": "LACM-14220"
+          },
+          {
+            "track": 3,
+            "title": "それは僕たちの奇跡 (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14220"
+          },
+          {
+            "track": 4,
+            "title": "だってだって噫無情 (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14220"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14220",
+          "label": "CD＋DVD",
+          "catalogNumber": "LACM-14220",
+          "price": {
+            "amount": 2000,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "[Loveca+]μ'sの目指せ！No.1！！カード（シリアルコード付・全9種よりランダムで1種）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            },
+            {
+              "text": "ラブライブ！スクールアイドルフェスティバル：先行配信の覚醒済みR3枚を入手できるシリアルコード（全3種）／有効期限：2014年10月31日23時59分",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            },
+            {
+              "text": "A：高坂穂乃果・西木野真姫・東條希／B：園田海未・小泉花陽・矢澤にこ／C：絢瀬絵里・南ことり・星空凛（各Loveca+に対応する3人のコード）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [
+            {
+              "text": "TVアニメ「ラブライブ！」2期オープニングテーマ「それは僕たちの奇跡」ノンテロップ映像",
+              "sourceRef": "official"
+            }
+          ],
+          "specifications": [],
+          "sourceRef": "LACM-14220"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0036",
+      "releaseName": "どんなときもずっと",
+      "releaseDate": "2014-05-08",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd42",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14230",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64865/",
+          "sha256": "2804fad2566cfc0a94a8f9aac7eb12d202d76cb2e59785e191d7acddc93fc232",
+          "checkedAt": "2026-10-23T08:24:03.169Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "どんなときもずっと",
+            "relationId": "RT0066",
+            "relationBinding": "47051c2be058074b7159458ba7a72be3977f9933218c5a99671e7ddf063989ab",
+            "kind": "song",
+            "sourceRef": "LACM-14230"
+          },
+          {
+            "track": 2,
+            "title": "COLORFUL VOICE",
+            "relationId": "RT0067",
+            "relationBinding": "76eabd3226ea383aa8945fe1c11ef5e4e2f84598dde81d4096d07aafa7a07f8c",
+            "kind": "song",
+            "sourceRef": "LACM-14230"
+          },
+          {
+            "track": 3,
+            "title": "どんなときもずっと (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14230"
+          },
+          {
+            "track": 4,
+            "title": "COLORFUL VOICE (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14230"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14230",
+          "label": "CD",
+          "catalogNumber": "LACM-14230",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sのあなたと真面目に図書館デートカード（全9種よりランダムで1種）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14230"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0037",
+      "releaseName": "ユメノトビラ",
+      "releaseDate": "2014-05-28",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd43",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14241",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64867/",
+          "sha256": "d7a2a437ed8fe18dd9c1d1b286366cc2677b365262add87b1a4c9fd3011caae5",
+          "checkedAt": "2026-10-23T08:24:02.850Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "ユメノトビラ",
+            "relationId": "RT0068",
+            "relationBinding": "61e7f680984a5be2242427b62446a84806b6104d9bd91de9b9414b96b457d8c2",
+            "kind": "song",
+            "sourceRef": "LACM-14241"
+          },
+          {
+            "track": 2,
+            "title": "SENTIMENTAL StepS",
+            "relationId": "RT0069",
+            "relationBinding": "38c244f9944c1fbf3d73775224f2bc79528aa82df8088d44c3f4a59f6694c550",
+            "kind": "song",
+            "sourceRef": "LACM-14241"
+          },
+          {
+            "track": 3,
+            "title": "ユメノトビラ (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14241"
+          },
+          {
+            "track": 4,
+            "title": "SENTIMENTAL StepS (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14241"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14241",
+          "label": "CD",
+          "catalogNumber": "LACM-14241",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sのあなたと行きたい縁日カード（全9種よりランダムで1種）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14241"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0038",
+      "releaseName": "Love wing bell/Dancing stars on me!",
+      "releaseDate": "2014-06-11",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd44",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14242",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64868/",
+          "sha256": "a9778320e0062db2fcf05dd0bdd9ef496a86be94747765e22fee4c1e94c71cec",
+          "checkedAt": "2026-10-23T08:24:07.269Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "Love wing bell",
+            "relationId": "RT0070",
+            "relationBinding": "7f840751b19560714d77028ea7dca426e52f05a53db3dd31e83836f268f75c65",
+            "kind": "song",
+            "sourceRef": "LACM-14242"
+          },
+          {
+            "track": 2,
+            "title": "Dancing stars on me!",
+            "relationId": "RT0071",
+            "relationBinding": "4b0e02636a4e010a82efed35e8193ab3255f44caf54adfa4b6b7bff2ca233e7b",
+            "kind": "song",
+            "sourceRef": "LACM-14242"
+          },
+          {
+            "track": 3,
+            "title": "Love wing bell (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14242"
+          },
+          {
+            "track": 4,
+            "title": "Dancing stars on me! (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14242"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14242",
+          "label": "CD",
+          "catalogNumber": "LACM-14242",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sの理想の結婚式カード（全9種よりランダムで1種）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14242"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0040",
+      "releaseName": "KiRa-KiRa Sensation!/Happy maker!",
+      "releaseDate": "2014-07-09",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd46",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14243",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/64943/",
+          "sha256": "43f190fb58e4e7bc4f37e3c304265f6d8a1f977802f6ab6b3cebfdf1c01ec649",
+          "checkedAt": "2026-10-23T08:24:08.527Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "KiRa-KiRa Sensation!",
+            "relationId": "RT0073",
+            "relationBinding": "3848ec05e604755683d8f7b890a4e87fa28f4047597cf629816a0408e73f8817",
+            "kind": "song",
+            "sourceRef": "LACM-14243"
+          },
+          {
+            "track": 2,
+            "title": "Happy maker!",
+            "relationId": "RT0074",
+            "relationBinding": "20337d08759d03f346363a13f221c8389642c65d63939f65a2dd74ce38449db9",
+            "kind": "song",
+            "sourceRef": "LACM-14243"
+          },
+          {
+            "track": 3,
+            "title": "KiRa-KiRa Sensation! (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14243"
+          },
+          {
+            "track": 4,
+            "title": "Happy maker! (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14243"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14243",
+          "label": "CD",
+          "catalogNumber": "LACM-14243",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sのあなたと行きたい海水浴カード（全9種よりランダムで1種）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14243"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0045",
+      "releaseName": "Shangri-La Shower",
+      "releaseDate": "2014-10-01",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd47",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14260",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/65170/",
+          "sha256": "3b0aa2466a535b61cf060b53eff33e0216141cd30a3ea054037494b08192250a",
+          "checkedAt": "2026-10-23T08:24:09.217Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "Shangri-La Shower",
+            "relationId": "RT0079",
+            "relationBinding": "b324ac134524479bf9a09ef45b6d8175cbe267f57225f4ecc4fa564f72353735",
+            "kind": "song",
+            "sourceRef": "LACM-14260"
+          },
+          {
+            "track": 2,
+            "title": "るてしキスキしてる",
+            "relationId": "RT0080",
+            "relationBinding": "28f73587682ba3f929760e1172ed5a8c2df366c03f8e153a1110b78de2043329",
+            "kind": "song",
+            "sourceRef": "LACM-14260"
+          },
+          {
+            "track": 3,
+            "title": "Shangri-La Shower (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14260"
+          },
+          {
+            "track": 4,
+            "title": "るてしキスキしてる (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14260"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14260",
+          "label": "CD",
+          "catalogNumber": "LACM-14260",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "PlayStation®Vita「ラブライブ！ School idol paradise」水着コスチュームのプロダクトコード／有効期間：2014年10月1日～2015年9月30日",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14260"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0047",
+      "releaseName": "永遠フレンズ",
+      "releaseDate": "2014-11-12",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd49",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14291",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/65330/",
+          "sha256": "dcc43f80b039d83ffd9bb24418d52fec1f8a48ae4f482c526924c6811ac99908",
+          "checkedAt": "2026-10-23T08:24:13.246Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "永遠フレンズ",
+            "relationId": "RT0082",
+            "relationBinding": "0e37f98fa2d3af5c945312b4b94b266633d667576d268589f48cf874864b52c6",
+            "kind": "song",
+            "sourceRef": "LACM-14291"
+          },
+          {
+            "track": 2,
+            "title": "小夜啼鳥恋詩",
+            "relationId": "RT0083",
+            "relationBinding": "070d1bbde8b6d02d3425eb420277facfc929f4839d5fad87199f665550677703",
+            "kind": "song",
+            "sourceRef": "LACM-14291"
+          },
+          {
+            "track": 3,
+            "title": "永遠フレンズ -Off Vocal-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14291"
+          },
+          {
+            "track": 4,
+            "title": "小夜啼鳥恋詩 -Off Vocal-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14291"
+          },
+          {
+            "track": 5,
+            "title": "カモナ! 真姫ハウス (ミニドラマ)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-14291"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14291",
+          "label": "CD",
+          "catalogNumber": "LACM-14291",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "ラブライブ！スクールアイドルフェスティバル：限定 覚醒済みSR1枚を入手できるシリアルコード（高坂穂乃果・南ことり・小泉花陽の全3種よりランダムで1種）／有効期限：2015年4月30日23時59分",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14291"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0049",
+      "releaseName": "秋のあなたの空遠く",
+      "releaseDate": "2014-11-26",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd50",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14292",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/65345/",
+          "sha256": "3da96fd5eb4b972157848a9f9e83f2abc86a03051d7b5ad5cd0d169ed6e29990",
+          "checkedAt": "2026-10-23T08:24:15.100Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "秋のあなたの空遠く",
+            "relationId": "RT0085",
+            "relationBinding": "a251c32000baf74932ba75ff4eb6d96c3b343a8ecb3c6cce03181de1772b82df",
+            "kind": "song",
+            "sourceRef": "LACM-14292"
+          },
+          {
+            "track": 2,
+            "title": "ふたりハピネス",
+            "relationId": "RT0086",
+            "relationBinding": "e8b0bf6301709e144c61dcc62ef546e1e43596f47c67da254585e70d29d913c1",
+            "kind": "song",
+            "sourceRef": "LACM-14292"
+          },
+          {
+            "track": 3,
+            "title": "秋のあなたの空遠く -Off Vocal-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14292"
+          },
+          {
+            "track": 4,
+            "title": "ふたりハピネス -Off Vocal-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14292"
+          },
+          {
+            "track": 5,
+            "title": "見たい知りたい! モードチェック (ミニドラマ)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-14292"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14292",
+          "label": "CD",
+          "catalogNumber": "LACM-14292",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "ラブライブ！スクールアイドルフェスティバル：限定 覚醒済みSR1枚を入手できるシリアルコード（園田海未・星空 凛・東條 希の全3種よりランダムで1種）／有効期限：2015年5月31日23時59分",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14292"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0050",
+      "releaseName": "冬がくれた予感",
+      "releaseDate": "2014-12-24",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd51",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14293",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/65366/",
+          "sha256": "8e423bf8067e019832e6e2dc1d1791dff23c30dc0856828f320b7f25e22a2b36",
+          "checkedAt": "2026-10-23T08:24:15.110Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "冬がくれた予感",
+            "relationId": "RT0087",
+            "relationBinding": "a4daece4137b21c8822320ff324960dc1e33835799ce876813763613beaf3a14",
+            "kind": "song",
+            "sourceRef": "LACM-14293"
+          },
+          {
+            "track": 2,
+            "title": "Trouble Busters",
+            "relationId": "RT0088",
+            "relationBinding": "dc811ada428690b0911b4c92d87258ccd66727d790a4226ec5bac1ecb8a3e503",
+            "kind": "song",
+            "sourceRef": "LACM-14293"
+          },
+          {
+            "track": 3,
+            "title": "冬がくれた予感 -Off Vocal-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14293"
+          },
+          {
+            "track": 4,
+            "title": "Trouble Busters -Off Vocal-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14293"
+          },
+          {
+            "track": 5,
+            "title": "夢にときめけ! 今にふりつけ! -ミニドラマ-",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "drama",
+            "sourceRef": "LACM-14293"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14293",
+          "label": "CD",
+          "catalogNumber": "LACM-14293",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "ラブライブ！スクールアイドルフェスティバル：限定 覚醒済みSR1枚を入手できるシリアルコード（絢瀬絵里・西木野真姫・矢澤にこの全3種よりランダムで1種）／有効期限：2015年6月30日23時59分",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14293"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0053",
+      "releaseName": "ミはμ'sicのミ",
+      "releaseDate": "2015-04-22",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd52",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14341",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/65729/",
+          "sha256": "4f107a947ef22733ad3a08320a73f864b92bdeb65baca3af2c65be408a4a173d",
+          "checkedAt": "2026-10-23T08:24:19.509Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "ミはμ’sicのミ",
+            "relationId": "RT0093",
+            "relationBinding": "2b4c90396330c84ca58f5732d5b16f936042a627a5227e5fdb3832c2b7dd8ad4",
+            "kind": "song",
+            "sourceRef": "LACM-14341"
+          },
+          {
+            "track": 2,
+            "title": "Super LOVE=Super LIVE!",
+            "relationId": "RT0094",
+            "relationBinding": "3658760507ce5561a2b1e59f070b40bb0e7f001441f1125eb24550a8b4457195",
+            "kind": "song",
+            "sourceRef": "LACM-14341"
+          },
+          {
+            "track": 3,
+            "title": "ミはμ’sicのミ (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14341"
+          },
+          {
+            "track": 4,
+            "title": "Super LOVE=Super LIVE! (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14341"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14341",
+          "label": "CD",
+          "catalogNumber": "LACM-14341",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14341"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0057",
+      "releaseName": "Angelic Angel／Hello,星を数えて",
+      "releaseDate": "2015-07-01",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd54",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14361",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/65815/",
+          "sha256": "3c9eed46fd870084f2d2501ecdf2c4ff7e6d542ce624af4966b0e3af5ab6ac3e",
+          "checkedAt": "2026-10-23T08:24:20.800Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "Angelic Angel",
+            "relationId": "RT0098",
+            "relationBinding": "7dde93b65db1bb3cff542118bc5744c1e8931a79d5165bd78ddd6be0e6503f52",
+            "kind": "song",
+            "sourceRef": "LACM-14361"
+          },
+          {
+            "track": 2,
+            "title": "Hello,星を数えて",
+            "relationId": "RT0099",
+            "relationBinding": "4974f93d37eea7ce2365795b18163584690c37e4be1c0a5c6ecfbc0f3fe36416",
+            "kind": "song",
+            "sourceRef": "LACM-14361"
+          },
+          {
+            "track": 3,
+            "title": "Angelic Angel (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14361"
+          },
+          {
+            "track": 4,
+            "title": "Hello,星を数えて (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14361"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14361",
+          "label": "CD",
+          "catalogNumber": "LACM-14361",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sとロングジャーニー♪カード（全9種よりランダムで1枚・片面ホログラム加工）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14361"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0058",
+      "releaseName": "SUNNY DAY SONG／？←HEARTBEAT",
+      "releaseDate": "2015-07-08",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd55",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14362",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/65818/",
+          "sha256": "41bc3e54d977609d2cb5dc86c503c9a48a2d8b81b082fabb58fe38c4b7e05c6d",
+          "checkedAt": "2026-10-23T08:24:21.144Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "SUNNY DAY SONG",
+            "relationId": "RT0100",
+            "relationBinding": "303541b79f79b800398b6daeaab3cd686a0c9cdd98f397d4deca146231642cfe",
+            "kind": "song",
+            "sourceRef": "LACM-14362"
+          },
+          {
+            "track": 2,
+            "title": "？←HEARTBEAT",
+            "relationId": "RT0101",
+            "relationBinding": "186a39af4c97a02653f8a944935e87b503bd7008d612f79797541e0223e048e3",
+            "kind": "song",
+            "sourceRef": "LACM-14362"
+          },
+          {
+            "track": 3,
+            "title": "SUNNY DAY SONG (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14362"
+          },
+          {
+            "track": 4,
+            "title": "？←HEARTBEAT (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14362"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14362",
+          "label": "CD",
+          "catalogNumber": "LACM-14362",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sと秘密のランデヴー☆カード（全9種よりランダムで1枚・片面ホログラム加工）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14362"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0059",
+      "releaseName": "僕たちはひとつの光／Future style",
+      "releaseDate": "2015-07-15",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd56",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14363",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/65819/",
+          "sha256": "028344476fec8f5a930617f1b8012ed734785ddd1c629b57fd7daa4293675da2",
+          "checkedAt": "2026-10-23T08:24:26.427Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "僕たちはひとつの光",
+            "relationId": "RT0102",
+            "relationBinding": "9f28443e5a740dff684cebd2dfd09c3e28fd9945e6b82fa3dea7126758691785",
+            "kind": "song",
+            "sourceRef": "LACM-14363"
+          },
+          {
+            "track": 2,
+            "title": "Future style",
+            "relationId": "RT0103",
+            "relationBinding": "97c6b9a360744b69eadbfe5047e2a34a9bf1614312745d15fae175eb87ad4fdb",
+            "kind": "song",
+            "sourceRef": "LACM-14363"
+          },
+          {
+            "track": 3,
+            "title": "僕たちはひとつの光 (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14363"
+          },
+          {
+            "track": 4,
+            "title": "Future style (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14363"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14363",
+          "label": "CD",
+          "catalogNumber": "LACM-14363",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "μ'sのあなたに会いに行きます！カード（全9種よりランダムで1枚・片面ホログラム加工）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14363"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0061",
+      "releaseName": "HEART to HEART!",
+      "releaseDate": "2015-10-28",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd63",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14412",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/65985/",
+          "sha256": "65fcc51b9739929c70d15ec34f3b85be6d294a3676c82c1385b169db9344280e",
+          "checkedAt": "2026-10-23T08:24:26.654Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "HEART to HEART!",
+            "relationId": "RT0105",
+            "relationBinding": "0e59a64fe38798d5a91f939b3508ff213f0091df7b3fad507f6b3c77bc09012c",
+            "kind": "song",
+            "sourceRef": "LACM-14412"
+          },
+          {
+            "track": 2,
+            "title": "嵐のなかの恋だから",
+            "relationId": "RT0106",
+            "relationBinding": "0ddffb030bf914ef80fa5d7518c04fb45289b034c40b35162de558268d988578",
+            "kind": "song",
+            "sourceRef": "LACM-14412"
+          },
+          {
+            "track": 3,
+            "title": "HEART to HEART! (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14412"
+          },
+          {
+            "track": 4,
+            "title": "嵐のなかの恋だから (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14412"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14412",
+          "label": "CD",
+          "catalogNumber": "LACM-14412",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "ラブライブ！スクールアイドルフェスティバル：限定 覚醒済みSR1枚を入手できるシリアルコード（全3種よりランダムで1種）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14412"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0062",
+      "releaseName": "WAO-WAO Powerful day!",
+      "releaseDate": "2015-11-25",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd64",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14413",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/66015/",
+          "sha256": "7b65468b3dc7deba2cf6a69d91b974c8004019d42f51c88847b8d1ff6957a6f3",
+          "checkedAt": "2026-10-23T08:24:27.162Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "WAO-WAO Powerful day!",
+            "relationId": "RT0107",
+            "relationBinding": "5d8c5d8a590fd201f1e6a31724650e0285803dedb34e65cbf669941921367b71",
+            "kind": "song",
+            "sourceRef": "LACM-14413"
+          },
+          {
+            "track": 2,
+            "title": "NO EXIT ORION",
+            "relationId": "RT0108",
+            "relationBinding": "a10f46c7bb25fcd87101ec5adff659a579c7a92bb9744c6b5adcfa8bb76f3db3",
+            "kind": "song",
+            "sourceRef": "LACM-14413"
+          },
+          {
+            "track": 3,
+            "title": "WAO-WAO Powerful day! (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14413"
+          },
+          {
+            "track": 4,
+            "title": "NO EXIT ORION (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14413"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14413",
+          "label": "CD",
+          "catalogNumber": "LACM-14413",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "ラブライブ！スクールアイドルフェスティバル：限定 覚醒済みSR1枚を入手できるシリアルコード（全3種よりランダムで1種）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14413"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0064",
+      "releaseName": "思い出以上になりたくて",
+      "releaseDate": "2015-12-23",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd65",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14414",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/66064/",
+          "sha256": "f441233575cf52461786c409e0b7128dfaf5b6820225b6a49591b6db120a2b1a",
+          "checkedAt": "2026-10-23T08:24:32.691Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "思い出以上になりたくて",
+            "relationId": "RT0110",
+            "relationBinding": "47dd12d035bc065873fc2351b95c3963516982f214d7dbbb9751f25a1b972498",
+            "kind": "song",
+            "sourceRef": "LACM-14414"
+          },
+          {
+            "track": 2,
+            "title": "春情ロマンティック",
+            "relationId": "RT0111",
+            "relationBinding": "d20bcf679083b85604b5aeaada986650eed700542e064a8716e48366bfcd240e",
+            "kind": "song",
+            "sourceRef": "LACM-14414"
+          },
+          {
+            "track": 3,
+            "title": "思い出以上になりたくて (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14414"
+          },
+          {
+            "track": 4,
+            "title": "春情ロマンティック (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14414"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14414",
+          "label": "CD",
+          "catalogNumber": "LACM-14414",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "ラブライブ！スクールアイドルフェスティバル：限定 覚醒済みSR1枚を入手できるシリアルコード（全3種よりランダムで1種）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14414"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0065",
+      "releaseName": "錯覚CROSSROADS",
+      "releaseDate": "2016-01-20",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd66",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14415",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/66088/",
+          "sha256": "6a628af7a7ad3b2f9071b03bea2f7c8e44af7a120f3ec48eb73c59afd3c71f93",
+          "checkedAt": "2026-10-23T08:24:32.157Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "錯覚CROSSROADS",
+            "relationId": "RT0112",
+            "relationBinding": "769f9579188ad77c9ca087b4b1dd05048d8fcd4d174cc9fed3f9c7db47ffa331",
+            "kind": "song",
+            "sourceRef": "LACM-14415"
+          },
+          {
+            "track": 2,
+            "title": "PSYCHIC FIRE",
+            "relationId": "RT0113",
+            "relationBinding": "6db3f5a29c0324d01e87b45cfdb6bf1dfd0427388f67716b6d8b59431244556c",
+            "kind": "song",
+            "sourceRef": "LACM-14415"
+          },
+          {
+            "track": 3,
+            "title": "錯覚CROSSROADS (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14415"
+          },
+          {
+            "track": 4,
+            "title": "PSYCHIC FIRE (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14415"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14415",
+          "label": "CD",
+          "catalogNumber": "LACM-14415",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "ラブライブ！スクールアイドルフェスティバル：限定 覚醒済みSR1枚を入手できるシリアルコード（全3種よりランダムで1種）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14415"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0066",
+      "releaseName": "MOMENT RING",
+      "releaseDate": "2016-03-02",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd67",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14449",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/66127/",
+          "sha256": "91da4d27f83b411457cb4d5d6192605a0f65d255fbf38a908ede235c3da88917",
+          "checkedAt": "2026-10-23T08:24:33.530Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "MOMENT RING",
+            "relationId": "RT0114",
+            "relationBinding": "7728370fdaccb57678cda95dce74ad1f6d1ec0f2a44dd27f0c38dd92b619fbc3",
+            "kind": "song",
+            "sourceRef": "LACM-14449"
+          },
+          {
+            "track": 2,
+            "title": "さようならへさよなら！",
+            "relationId": "RT0115",
+            "relationBinding": "8f99a49756749ef100b5d027da431568745ee3d5930e5b0f633e98e35a2d4a3b",
+            "kind": "song",
+            "sourceRef": "LACM-14449"
+          },
+          {
+            "track": 3,
+            "title": "MOMENT RING (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14449"
+          },
+          {
+            "track": 4,
+            "title": "さようならへさよなら！ (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14449"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14449",
+          "label": "CD",
+          "catalogNumber": "LACM-14449",
+          "price": {
+            "amount": 1200,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "ラブライブ！スクールアイドルフェスティバル：限定 覚醒済みSR3枚を入手できるシリアルコード（全3種よりランダムで1種）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [],
+          "specifications": [],
+          "sourceRef": "LACM-14449"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0067",
+      "releaseName": "A song for You! You? You!!",
+      "releaseDate": "2020-03-25",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd84",
+          "sha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25",
+          "checkedAt": "2026-10-23T08:19:58.452Z"
+        },
+        {
+          "key": "LACM-14950",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/68757/",
+          "sha256": "100f3a8a3e812740ccfa7c9c7a05a9b8f7148920a727edcfc58ba07de7eec3d6",
+          "checkedAt": "2026-10-23T08:24:37.206Z"
+        },
+        {
+          "key": "LACM-14951",
+          "url": "https://catalog.bandainamcomusiclive.co.jp/release/68759/",
+          "sha256": "2f0dfcc105c268cdf30bad86cc32bb65b8aaf376eb38d391d5315810a0f6a723",
+          "checkedAt": "2026-10-23T08:24:37.302Z"
+        }
+      ],
+      "cd": {
+        "medium": "CD",
+        "tracks": [
+          {
+            "track": 1,
+            "title": "A song for You! You? You!!",
+            "relationId": "RT0116",
+            "relationBinding": "c7df580ffa763edcb47db3f2db5fa9aaf4666ff1f144a783cff4ad405744bbdd",
+            "kind": "song",
+            "sourceRef": "LACM-14950"
+          },
+          {
+            "track": 2,
+            "title": "なってしまった！",
+            "relationId": "RT0117",
+            "relationBinding": "e14e72afa94c267a285f5a495e85e2b1d8b139df4b6d3990ef90ddefa6132b44",
+            "kind": "song",
+            "sourceRef": "LACM-14950"
+          },
+          {
+            "track": 3,
+            "title": "A song for You! You? You!! (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14950"
+          },
+          {
+            "track": 4,
+            "title": "なってしまった！ (Off Vocal)",
+            "relationId": null,
+            "relationBinding": null,
+            "kind": "off-vocal",
+            "sourceRef": "LACM-14950"
+          }
+        ]
+      },
+      "editions": [
+        {
+          "key": "LACM-14950",
+          "label": "BD付",
+          "catalogNumber": "LACM-14950",
+          "price": {
+            "amount": 4800,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "ラブライブ！スクールアイドルフェスティバル ALL STARSで利用できるシリアルコード",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            },
+            {
+              "text": "リリースイベント応募券（振替公演：2020年12月21日）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [
+            {
+              "text": "「A song for You! You? You!!」アニメーションPV DISC",
+              "sourceRef": "official"
+            }
+          ],
+          "specifications": [],
+          "sourceRef": "LACM-14950"
+        },
+        {
+          "key": "LACM-14951",
+          "label": "DVD付",
+          "catalogNumber": "LACM-14951",
+          "price": {
+            "amount": 3000,
+            "tax": "exclusive",
+            "exclusiveAmount": null,
+            "sourceRef": "official"
+          },
+          "included": [
+            {
+              "text": "ラブライブ！スクールアイドルフェスティバル ALL STARSで利用できるシリアルコード",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            },
+            {
+              "text": "リリースイベント応募券（振替公演：2020年12月21日）",
+              "sourceRef": "official",
+              "historical": true,
+              "initialProduction": true
+            }
+          ],
+          "videoExtras": [
+            {
+              "text": "「A song for You! You? You!!」アニメーションPV DISC",
+              "sourceRef": "official"
+            }
+          ],
+          "specifications": [],
+          "sourceRef": "LACM-14951"
+        }
+      ]
+    }
+  ]
+}

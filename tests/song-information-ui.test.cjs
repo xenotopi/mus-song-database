@@ -38,7 +38,7 @@ test('117 formal Songs: exact work text, real Release link, official link and no
   else assert.equal(links.length,0,id);
   assert.equal(cls(doc.ids.get('releaseAction'),'release-detail-link').length,0,id);
   const official=cls(doc.ids.get('releaseAction'),'official-release-link');assert.deepEqual(official.map(n=>n.attrs.href),s.officialReleaseUrl?.trim()?[s.officialReleaseUrl.trim()]:[],id);
-  assert.equal(text(doc.ids.get('releaseTitle')),s.recordingCd||s.displayName||s.songName||'作品名未設定',id);
+  assert.equal(doc.ids.has('releaseTitle'),false,id);assert.equal(doc.ids.has('releaseMeta'),false,id);assert.equal(cls(doc.ids.get('releaseSection'),'basic-release-label').length,0,id);
  }
 });
 for(const [name,debut,relations]of[
@@ -74,11 +74,11 @@ for(const width of[1280,390])test(`CD label, centered work arrow and unchanged n
   const style=e=>{const s=getComputedStyle(e);return{fontSize:s.fontSize,fontWeight:s.fontWeight,lineHeight:s.lineHeight,padding:s.padding};};
   const firstText=e=>{const w=document.createTreeWalker(e,NodeFilter.SHOW_TEXT);let t;while((t=w.nextNode()))if(t.textContent.trim())break;const r=document.createRange();r.setStart(t,t.textContent.search(/\S/));r.setEnd(t,t.textContent.search(/\S/)+1);return r.getBoundingClientRect().y;};
   const dt=link.parentElement.previousElementSibling,other=[...dl.querySelectorAll('dt')].filter(e=>e!==dt).map(e=>({label:e.textContent.trim(),term:style(e),value:style(e.nextElementSibling),offset:firstText(e.nextElementSibling)-firstText(e)}));
-  return{label:dt.textContent.trim(),href:link.getAttribute('href'),title:rect(title),arrow:rect(arrow),link:style(link),titleStyle:style(title),ddStyle:style(link.parentElement),textOffset:firstText(title)-firstText(dt),other,official:document.getElementById('releaseSection').outerHTML,ranking:document.getElementById('singerRanking').outerHTML,overflow:document.documentElement.scrollWidth>innerWidth};
+  return{label:dt.textContent.trim(),href:link.getAttribute('href'),title:rect(title),arrow:rect(arrow),link:style(link),titleStyle:style(title),ddStyle:style(link.parentElement),textOffset:firstText(title)-firstText(dt),other,official:document.getElementById('releaseAction').outerHTML,ranking:document.getElementById('singerRanking').outerHTML,overflow:document.documentElement.scrollWidth>innerWidth};
  };
  for(const id of['S001','S100']){
   let before;
-  if(baselineRoot){const old=await open(id,width,{baseline:true});try{before=await old.page.evaluate(measure);assert.equal(before.label,'収録作品');await old.page.locator('#songInfo').locator('..').screenshot({path:path.join(shots,`${id}-${width}-before.png`)});assert.deepEqual(old.errors,[]);}finally{await old.context.close();}}
+  if(baselineRoot){const old=await open(id,width,{baseline:true});try{before=await old.page.evaluate(measure);assert.equal(before.label,'収録CD');await old.page.locator('#songInfo').locator('..').screenshot({path:path.join(shots,`${id}-${width}-before.png`)});assert.deepEqual(old.errors,[]);}finally{await old.context.close();}}
   const current=await open(id,width);try{const after=await current.page.evaluate(measure);assert.equal(after.label,'収録CD');assert.ok(Math.abs(after.title.center-after.arrow.center)<.5,'title and arrow centers match');assert.equal(after.link.lineHeight,after.ddStyle.lineHeight);assert.equal(after.titleStyle.lineHeight,after.ddStyle.lineHeight);assert.equal(after.titleStyle.fontSize,after.ddStyle.fontSize);assert.equal(after.titleStyle.fontWeight,after.ddStyle.fontWeight);assert.ok(Math.abs(after.textOffset-after.other[0].offset)<2.5,'first text line aligns with ordinary information rows');assert.equal(after.arrow.width,30);assert.equal(after.arrow.height,30);assert.equal(after.overflow,false);
    if(before){assert.deepEqual(after.other,before.other);assert.equal(after.href,before.href);assert.equal(after.official,before.official);assert.equal(after.ranking,before.ranking);assert.equal(after.titleStyle.fontSize,before.titleStyle.fontSize);assert.equal(after.titleStyle.fontWeight,before.titleStyle.fontWeight);}
    await current.page.locator('#songInfo').locator('..').screenshot({path:path.join(shots,`${id}-${width}-after.png`)});rows.push({id,width,before,after});assert.deepEqual(current.errors,[]);

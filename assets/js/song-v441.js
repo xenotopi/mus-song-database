@@ -44,8 +44,6 @@ const elements = {
   xShareButton: document.getElementById("xShareButton"),
   shareMessage: document.getElementById("shareMessage"),
   releaseSection: document.getElementById("releaseSection"),
-  releaseTitle: document.getElementById("releaseTitle"),
-  releaseMeta: document.getElementById("releaseMeta"),
   releaseAction: document.getElementById("releaseAction"),
   includedReleasesSection: document.getElementById("includedReleasesSection"),
   includedReleasesCount: document.getElementById("includedReleasesCount"),
@@ -741,23 +739,6 @@ function renderSingerRanking_(
 
 
 function renderOfficialRelease_(song) {
-  elements.releaseTitle.textContent =
-    song.recordingCd || song.displayName || song.songName || "作品名未設定";
-
-  const items = [
-    ["発売日", formatDate(song.releaseDate)],
-    ["メディア", song.media || "—"],
-    ["区分", song.category || "—"]
-  ];
-
-  elements.releaseMeta.innerHTML =
-    items.map(([label, value]) => `
-      <div>
-        <dt>${escapeHtml(label)}</dt>
-        <dd>${escapeHtml(value || "—")}</dd>
-      </div>
-    `).join("");
-
   const url = String(song.officialReleaseUrl || "").trim();
 
   elements.releaseAction.innerHTML =
@@ -826,10 +807,11 @@ function renderIncludedReleases_(song) {
     const relationRows = group.relations.map(relation => {
       const position = [relation.disc == null ? "" : `Disc ${relation.disc}`, relation.track == null ? "" : `Track ${relation.track}`].filter(Boolean).join(" / ");
       const variant = relation.variant == null ? "" : String(relation.variant);
-      return `<div class="song-included-relation-row">${position ? `<span>${escapeHtml(position)}</span>` : `<span class="song-included-relation-empty">位置情報なし</span>`}${variant ? `<span class="song-included-variant">${escapeHtml(variant)}</span>` : ""}</div>`;
+      if (!position && !variant.trim()) return "";
+      return `<div class="song-included-relation-row">${position ? `<span>${escapeHtml(position)}</span>` : ""}${variant.trim() ? `<span class="song-included-variant">${escapeHtml(variant)}</span>` : ""}</div>`;
     }).join("");
     const title = titleWithChevron_(item.releaseName);
-    return `<a class="song-included-release-card mus-card-link mus-chip-link" href="release/${encodeURIComponent(group.releaseId)}.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">${title}</span><div class="song-included-release-badges">${isDebut ? '<span class="song-included-release-badge debut">初出</span>' : ""}${type ? `<span class="song-included-release-badge">${escapeHtml(type)}</span>` : ""}</div></div><p class="song-included-release-date">${item.releaseDate ? escapeHtml(formatDate(item.releaseDate)) : "発売日未登録"}</p>${singerName ? `<p class="song-included-release-singer">${escapeHtml(singerName)}</p>` : ""}<div class="song-included-relation-list">${relationRows}</div></a>`;
+    return `<a class="song-included-release-card mus-card-link mus-chip-link" href="release/${encodeURIComponent(group.releaseId)}.html"><div class="song-included-release-head"><span class="song-included-release-link mus-card-title mus-title-chip">${title}</span><div class="song-included-release-badges">${isDebut ? '<span class="song-included-release-badge debut">初出</span>' : ""}${type ? `<span class="song-included-release-badge">${escapeHtml(type)}</span>` : ""}</div></div><p class="song-included-release-date">${item.releaseDate ? escapeHtml(formatDate(item.releaseDate)) : "発売日未登録"}</p>${singerName ? `<p class="song-included-release-singer">${escapeHtml(singerName)}</p>` : ""}${relationRows ? `<div class="song-included-relation-list">${relationRows}</div>` : ""}</a>`;
   };
   const seriesGroups = new Map();
   const blocks = [];

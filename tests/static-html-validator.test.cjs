@@ -33,7 +33,7 @@ function withTypeACard() {
   const h=f.getJson(f.prefix+'manifest.json').hashes.songs.S001;
   f.editJson('song/manifest.json',m=>m.captureProvenance.inputs['songs/S001.json']={dataSha256:h.sha256,fileSha256:h.fileSha256,bytes:h.bytes});
   const title=r.releaseName.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  f.editHtml('song','S001',html=>html.replace('<div id="includedReleasesContent"></div>',`<div id="includedReleasesContent"><a class="song-included-release-card" href="release/R0001.html"><span class="song-included-release-link">${title}</span><div class="song-included-relation-row">Disc 1 / Track 1</div></a></div>`),true);
+  f.editHtml('song','S001',html=>html.replace('<span id="includedReleasesCount"></span>','<span id="includedReleasesCount">1作品・1件</span>').replace('<div id="includedReleasesContent"></div>',`<div id="includedReleasesContent"><a class="song-included-release-card" href="release/R0001.html"><span class="song-included-release-link">${title}</span><div class="song-included-relation-list"><div class="song-included-relation-row"><span>Disc 1 / Track 1</span></div></div></a></div>`),true);
   return f;
 }
 test('Song TYPE A validates the title separately from date/Relation link content',()=>{
@@ -45,6 +45,16 @@ test('Song TYPE A rejects nested links even when hashes and receipts match',()=>
 test('Song TYPE A rejects dangling titles outside cards even with matching hashes',()=>{
   const f=withTypeACard();f.editHtml('song','S001',h=>h.replace('<div id="includedReleasesContent">','<div id="includedReleasesContent"><span class="song-included-release-link">extra</span>'),true);reject(f,/title\/card count/);
 });
+
+for(const[name,mutate,pattern]of[
+ ['wrong Relation total',h=>h.replace('1作品・1件','1作品・0件'),/Relation total/],
+ ['wrong Disc/Track',h=>h.replace('Disc 1 / Track 1','Disc 9 / Track 8'),/positions\/variants/],
+ ['unexpected variant',h=>h.replace('<span>Disc 1 / Track 1</span>','<span>Disc 1 / Track 1</span><span class="song-included-variant">Wrong Mix</span>'),/positions\/variants/],
+ ['empty row',h=>h.replace('<span>Disc 1 / Track 1</span>',''),/empty relation row/],
+ ['old position placeholder',h=>h.replace('<span>Disc 1 / Track 1</span>','<span class="song-included-relation-empty">位置情報なし</span>'),/placeholder/],
+ ['duplicate basic work title',h=>h.replace('<div id="releaseAction">','<strong id="releaseTitle">Fixture CD</strong><div id="releaseAction">'),/duplicate basic/],
+ ['unregistered official link',h=>h.replace('<div id="releaseAction"></div>','<div id="releaseAction"><a class="official-release-link" href="https://example.invalid/" target="_blank" rel="noopener noreferrer">公式作品ページを見る</a></div>'),/official work/]
+])test('Song UI03 independent body rejects '+name+' with matching hashes',()=>{const f=withTypeACard();f.editHtml('song','S001',mutate,true);reject(f,pattern);});
 
 for (const type of ["song", "release"]) {
   const id = type === "song" ? "S001" : "R0001";

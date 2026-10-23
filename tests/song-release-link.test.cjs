@@ -80,25 +80,28 @@ for (const width of [1280, 390]) test(`included Releases TYPE A static / dynamic
     for(const mode of ["static","dynamic","off"]) {
       const context=await browser.newContext({viewport:{width,height:900},javaScriptEnabled:mode!=="off",hasTouch:width===390}),page=await context.newPage(),errors=[];
       page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
-      await context.route(API_PATTERN,route=>{const u=new URL(route.request().url());return route.fulfill({contentType:'text/javascript',body:`${u.searchParams.get('callback')}(${JSON.stringify({success:true,data:u.searchParams.get('action')==='revision'?STATIC_CURRENT:{}})});`});});
+      // A deterministic Discover row distinguishes completed runtime render from
+      // the already-visible static document, including after history navigation.
+      await context.route(API_PATTERN,route=>{const u=new URL(route.request().url()),action=u.searchParams.get('action'),data=action==='revision'?STATIC_CURRENT:action==='discover'?{topSingers:[{singerId:'SN0001',name:"μ's",count:1}],relatedSongs:[]}:{};return route.fulfill({contentType:'text/javascript',body:`${u.searchParams.get('callback')}(${JSON.stringify({success:true,data})});`});});
+      const runtimeReady=()=>page.locator('#singerRanking .singer-rank-row').first().waitFor();
       if(mode==='dynamic')await page.route('**/song.html?*',async route=>{const html=fs.readFileSync(path.join(ROOT,'song.html'),'utf8').replace(/<script data-song-legacy-redirect>[\s\S]*?<\/script>/,'');await route.fulfill({contentType:'text/html',body:html});});
       // Destination documents only; the real Song renderer, snapshot and CSS run above.
       await context.route('**/release/R*.html',r=>r.fulfill({contentType:'text/html',body:'<!doctype html><h1>Release destination</h1>'}));
       try {
         await page.goto(`${baseUrl}/${mode==='dynamic'?'song.html?id='+id:'song/'+id+'.html'}`,{waitUntil:'domcontentloaded'});
         await page.locator('#includedReleasesSection').waitFor({state:'visible'});
-        if(mode!=='off'){await page.locator('#status').waitFor({state:'hidden'});const decline=page.getByRole('button',{name:'同意しない',exact:true});if(await decline.isVisible())await decline.click();}
+        if(mode!=='off'){await page.locator('#status').waitFor({state:'hidden'});await runtimeReady();const decline=page.getByRole('button',{name:'同意しない',exact:true});if(await decline.isVisible())await decline.click();}
         const cards=page.locator('.song-included-release-card');
         const groups=new Map();for(const row of song.includedReleases){if(!groups.has(row.releaseId))groups.set(row.releaseId,[]);groups.get(row.releaseId).push(row);}
-        assert.equal(await cards.count(),groups.size);assert.equal(await page.locator('.song-included-relation-row').count(),song.includedReleases.length);
+        const displayed=r=>r.disc!=null||r.track!=null||String(r.variant||'').trim();assert.equal(await cards.count(),groups.size);assert.equal(await page.locator('.song-included-relation-row').count(),song.includedReleases.filter(displayed).length);assert.equal(await page.locator('#includedReleasesCount').innerText(),`${groups.size}作品・${song.includedReleases.length}件`);
         const identities=[];
         for(const card of await cards.all()) {
           assert.equal(await card.evaluate(e=>e.tagName),'A');assert.equal(await card.locator('a,button').count(),0);
           const href=await card.getAttribute('href'),releaseId=href.match(/R\d{4}/)[0],rows=groups.get(releaseId);
           assert.equal(await card.locator('.song-included-release-link').textContent(),rows[0].releaseName);
-          assert.equal(await card.locator('.song-included-relation-row').count(),rows.length);
+          assert.equal(await card.locator('.song-included-relation-row').count(),rows.filter(displayed).length);
           const positions=await card.locator('.song-included-relation-row').allTextContents();
-          rows.forEach((r,i)=>{const p=[r.disc==null?'':`Disc ${r.disc}`,r.track==null?'':`Track ${r.track}`].filter(Boolean).join(' / ')||'位置情報なし';assert.ok(positions[i].includes(p));if(r.variant)assert.ok(positions[i].includes(r.variant));});
+          rows.filter(displayed).forEach((r,i)=>{const p=[r.disc==null?'':`Disc ${r.disc}`,r.track==null?'':`Track ${r.track}`].filter(Boolean).join(' / ');if(p)assert.ok(positions[i].includes(p));if(r.variant)assert.ok(positions[i].includes(r.variant));});assert.ok(positions.every(p=>p.trim()&&!p.includes('位置情報なし')));
           identities.push({href,title:rows[0].releaseName,positions});
         }
         if(mode==='static')baseline.push(...identities);else assert.deepEqual(identities,baseline,'initial static, runtime and JS OFF identities/relations match');
@@ -117,10 +120,13 @@ for (const width of [1280, 390]) test(`included Releases TYPE A static / dynamic
           for(const options of[{button:'middle'},{modifiers:['Control']}]){const p=context.waitForEvent('page');await card.click(options);const tab=await p;await tab.waitForURL(href);await tab.close();}
           const b=await card.boundingBox();assert.equal(await card.evaluate(e=>{const b=e.getBoundingClientRect();return document.elementFromPoint(b.x+3,b.y+b.height/2)?.closest('a')===e;}),true);
           // Date and Relation areas belong to the same actual anchor, not an overlay.
-          for(const child of['.song-included-release-date','.song-included-relation-row'])assert.equal(await card.locator(child).first().evaluate(e=>e.closest('a')?.classList.contains('song-included-release-card')),true);
-          await page.mouse.click(b.x+3,b.y+b.height/2);await page.waitForURL(href);await page.goBack();await cards.first().waitFor();
-          await cards.first().focus();await page.keyboard.press('Enter');await page.waitForURL(href);await page.goBack();await cards.first().waitFor();
-          if(width===390){await cards.first().tap();await page.waitForURL(href);await page.goBack();await cards.first().waitFor();}
+          assert.equal(await card.locator('.song-included-release-date').evaluate(e=>e.closest('a')?.classList.contains('song-included-release-card')),true);
+          // The first card may intentionally have no position/variant row.
+          // Check the actual first displayed Relation area without inventing one.
+          assert.equal(await page.locator('.song-included-relation-row').first().evaluate(e=>e.closest('a')?.classList.contains('song-included-release-card')),true);
+          await page.mouse.click(b.x+3,b.y+b.height/2);await page.waitForURL(href);await page.goBack();await cards.first().waitFor();await runtimeReady();
+          await cards.first().focus();assert.equal(await cards.first().evaluate(n=>n===document.activeElement),true);await page.keyboard.press('Enter');await page.waitForURL(href);await page.goBack();await cards.first().waitFor();await runtimeReady();
+          if(width===390){await cards.first().tap();await page.waitForURL(href);await page.goBack();await cards.first().waitFor();await runtimeReady();}
         } else {
           await cards.first().click();await page.waitForURL(/\/release\/R\d{4}\.html/);await page.goBack();await cards.first().waitFor();
         }
@@ -245,7 +251,7 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
     await page.locator("#mainContent").waitFor({ state: "visible", timeout: 45000 });
     const section = page.locator("#includedReleasesSection");
     assert.match(await section.innerText(), /発売日未登録/);
-    assert.match(await section.innerText(), /位置情報なし/);
+    assert.doesNotMatch(await section.innerText(), /位置情報なし/);assert.equal(await section.locator('.song-included-relation-row').count(),1);
     assert.match(await section.innerText(), /<script>alert\(1\)<\/script>/);
     assert.match(await section.innerText(), /<b>Movie Edit<\/b>/);
     assert.equal(await section.locator("img, script, b").count(), 0);
@@ -266,9 +272,10 @@ test("曲詳細とRelease詳細の相互リンク", { timeout: 5 * 60 * 1000 }, 
       assert.equal(await page.locator("#releaseAction .release-detail-link").count(), 0);
       assert.match(new URL(await link.getAttribute("href"), baseUrl).pathname, new RegExp(`/release/${expected.releaseId}\\.html$`));
       const body = await page.locator("#releaseSection").innerText();
-      assert.match(body, new RegExp(expected.recordingCd.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
-      assert.match(body, /発売日/);
-      assert.match(body, /メディア/);
+      assert.equal(await page.locator('#releaseTitle,#releaseMeta,#releaseSection .basic-release-label').count(),0);
+      assert.doesNotMatch(body,/発売日|メディア/);
+      assert.match(body,/公式作品ページを見る/);
+      assert.equal(await page.locator('#releaseSection .official-release-link').getAttribute('href'),staticSong(expected.songId).officialReleaseUrl);
       assert.equal(await page.locator("#releaseSection .official-release-link[target='_blank']").count(), 1);
       assert.doesNotMatch(body, new RegExp(`Release ID|初出Release ID|debutRelease|${expected.releaseId}`));
       assert.deepEqual(issues, []);

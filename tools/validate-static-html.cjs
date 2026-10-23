@@ -114,6 +114,11 @@ function validateSongBody(doc, song, memberships) {
   const linked = /^R\d{4}$/.test(debutId) && song.includedReleases.some(r => r.releaseId === debutId);
   equal(debutLinks.map(n => [n.tag, n.attrs.href, cleanText(n)]), linked ? [["a", `release/${debutId}.html`, song.recordingCd || "—"]] : [], "Song debut Release identity/link mismatch");
   for (const link of debutLinks) check(descendants(link,n=>n.attrs["data-site-icon"]==="chevron-right"&&n.attrs["aria-hidden"]==="true").length===1,"Song debut arrow must be decorative and unique");
+  const officialSection = byId(doc, "releaseSection"), action = byId(doc, "releaseAction");
+  check(!doc.ids.has("releaseTitle") && !doc.ids.has("releaseMeta") && classes(officialSection, "basic-release-label").length === 0, "Song duplicate basic Release information must be absent");
+  check(descendants(officialSection, n => n.tag === "dl").length === 0 && classes(action, "release-detail-link").length === 0, "Song duplicate Release metadata/button must be absent");
+  const officialUrl = String(song.officialReleaseUrl || "").trim(), officialLinks = classes(action, "official-release-link");
+  equal(officialLinks.map(n => [n.tag, n.attrs.href, n.attrs.target, (n.attrs.rel || "").split(/\s+/).sort(), cleanText(n)]), officialUrl ? [["a", officialUrl, "_blank", ["noopener", "noreferrer"], "公式作品ページを見る"]] : [], "Song official work URL/behavior mismatch");
   const stats = byId(doc, "songStats");
   const values = classes(stats, "value").map(cleanText);
   equal(values, ["eventCount", "officialEventCount", "soloEventCount", "performanceCount"].map(key => Number(song.statistics?.[key] ?? 0).toLocaleString("ja-JP")), "Song statistics differ from snapshot");
@@ -130,7 +135,24 @@ function validateSongBody(doc, song, memberships) {
     return [link.attrs.href, cleanText(title)];
   }).sort();
   equal(actual, [...groups.values()].map(r => [`release/${r.releaseId}.html`, r.releaseName]).sort(), "Song included Release identities differ from snapshot");
-  check(classes(included, "song-included-relation-row").length === song.includedReleases.length, "Song included relation multiplicity mismatch");
+  equal(cleanText(byId(doc, "includedReleasesCount")), song.includedReleases.length ? `${groups.size}作品・${song.includedReleases.length}件` : "", "Song included Release/Relation total differs from snapshot");
+  check(classes(included, "song-included-relation-empty").length === 0, "Song position placeholder must be absent");
+  for (const card of cards) {
+    const releaseId = (card.attrs.href || "").match(/^release\/(R\d{4})\.html$/)?.[1];
+    const expected = song.includedReleases.filter(r => r.releaseId === releaseId).map(r => [
+      [r.disc == null ? "" : `Disc ${r.disc}`, r.track == null ? "" : `Track ${r.track}`].filter(Boolean).join(" / "),
+      r.variant == null ? "" : String(r.variant).replace(/\s+/g, " ").trim()
+    ]).filter(([position, variant]) => position || variant);
+    const rows = classes(card, "song-included-relation-row");
+    equal(rows.map(row => {
+      const children = row.children.filter(n => typeof n !== "string"), variants = children.filter(n => hasClass(n, "song-included-variant")), positions = children.filter(n => !hasClass(n, "song-included-variant"));
+      check(positions.length <= 1 && variants.length <= 1 && children.every(n => n.tag === "span"), "Song position/variant structure invalid");
+      const pair = [positions.length ? cleanText(positions[0]) : "", variants.length ? cleanText(variants[0]) : ""];
+      check(pair.some(Boolean), "Song empty relation row must be omitted");
+      return pair;
+    }), expected, "Song displayed positions/variants/order differ from snapshot");
+    check(classes(card, "song-included-relation-list").length === (expected.length ? 1 : 0), "Song empty relation list must be omitted");
+  }
   const history = byId(doc, "historyList");
   const rows = classes(history, "song-row"), performances = song.performances.slice(0, 20);
   check(rows.length === performances.length, "Song initial history count mismatch");

@@ -83,9 +83,7 @@
     },
     "member-analytics.html": {
       "js": [
-        "assets/js/member-analytics.js",
-        "assets/js/song-view-group-filter.js",
-        "assets/js/song-unit-memberships.js"
+        "assets/js/member-analytics.js"
       ],
       "css": [
         "assets/css/style.css",
@@ -105,11 +103,7 @@
     "release.html": {
       "js": [
         "assets/js/seo-v351.js",
-        "assets/js/release-v500.js",
-        "assets/js/detail-context.js",
-        "assets/js/singer-links.js",
-        "assets/js/release-sidecar.js",
-        "assets/js/singer-display.js"
+        "assets/js/release-v500.js"
       ],
       "css": [
         "assets/css/style.css",
@@ -128,10 +122,10 @@
     },
     "search.html": {
       "js": [
+        "assets/js/singer-display.js",
         "assets/js/common.js",
         "assets/js/api.js",
-        "assets/js/singer-links.js",
-        "assets/js/singer-display.js"
+        "assets/js/singer-links.js"
       ],
       "css": [
         "assets/css/style.css",
@@ -161,8 +155,7 @@
     "song.html": {
       "js": [
         "assets/js/seo-v351.js",
-        "assets/js/song-v441.js",
-        "assets/js/song-unit-memberships.js"
+        "assets/js/song-v441.js"
       ],
       "css": [
         "assets/css/style.css",
@@ -171,9 +164,7 @@
     },
     "songs.html": {
       "js": [
-        "assets/js/songs-v470.js",
-        "assets/js/song-view-group-filter.js",
-        "assets/js/song-unit-memberships.js"
+        "assets/js/songs-v470.js"
       ],
       "css": [
         "assets/css/style.css",
@@ -231,16 +222,26 @@
     "assets/js/kamipara-v100.js",
     "assets/js/member-analytics.js",
     "assets/js/rankings-v421.js",
+    "assets/js/release-album-products.js",
     "assets/js/release-amazon.js",
+    "assets/js/release-bluray.js",
+    "assets/js/release-contents.js",
     "assets/js/release-kamipara.js",
+    "assets/js/release-navigation.js",
+    "assets/js/release-product-facts.js",
+    "assets/js/release-sidecar.js",
+    "assets/js/release-single-products.js",
     "assets/js/release-v500.js",
+    "assets/js/release-vocals.js",
     "assets/js/releases-v500.js",
     "assets/js/secret-memory-v401.js",
     "assets/js/seo-v351.js",
+    "assets/js/singer-display.js",
     "assets/js/singer-links.js",
     "assets/js/singer-v460.js",
     "assets/js/singers-v470.js",
     "assets/js/song-hero-decorations.js",
+    "assets/js/song-unit-memberships.js",
     "assets/js/song-v441.js",
     "assets/js/song-view-group-filter.js",
     "assets/js/songs-v470.js",

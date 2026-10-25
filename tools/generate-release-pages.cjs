@@ -16,6 +16,7 @@ const { validateNavigationData, validateNavigationBody } = require("./validate-r
 const { validateBluRayData, validateBluRayBody } = require("./validate-release-bluray.cjs");
 const { validateSingleData, validateSingleBody } = require("./validate-release-single-products.cjs");
 const { validateAlbumData, validateAlbumBody } = require("./validate-release-album-products.cjs");
+const { validateSourceCollection, expectedReleaseSources } = require("./validate-release-sources.cjs");
 const root = path.resolve(__dirname, "..");
 const mime = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png" };
 
@@ -50,6 +51,8 @@ const RELEASE_RENDERER_FILES = Object.freeze([
   "data/release-vocals.json",
   "tools/validate-release-vocals.cjs",
   "assets/js/release-sidecar.js",
+  "assets/js/release-sources.js",
+  "tools/validate-release-sources.cjs",
   "assets/js/singer-display.js",
   "data/release-sidecars/R0052.json",
   "tools/validate-release-sidecar.cjs",
@@ -348,6 +351,7 @@ async function generateReleasePages({ revision, ids } = {}) {
       validateBluRayBody(parseSerializedHtml(html), release, bluRay.get(id));
       validateSingleBody(parseSerializedHtml(html), release, singles.get(id));
       validateAlbumBody(parseSerializedHtml(html), release, albums.get(id));
+      validateSourceCollection(parseSerializedHtml(html), release, expectedReleaseSources(release, {single: singles.get(id), album: albums.get(id), bluray: bluRay.get(id), sidecar}));
       pages.push({ id, html, sha256: crypto.createHash("sha256").update(html).digest("hex"), title, description, canonical });
       await page.close();
     }

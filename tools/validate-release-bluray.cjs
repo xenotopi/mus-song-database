@@ -1,6 +1,7 @@
 'use strict';
 // Independent data/HTML checks. Do not import the browser renderer.
 const crypto=require('node:crypto'),{descendants,textContent,hasClass,requireCondition:check}=require('./static-html-readonly-lib.cjs');
+const {validateSourceOwner}=require('./validate-release-sources.cjs');
 const TARGETS=['R0021','R0023','R0024','R0025','R0028','R0030','R0031','R0039','R0042','R0043','R0044','R0046','R0048','R0051','R0063'];
 const unavailableSourceUrls=new Set(['https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/sp_4thlive.html','https://www.lovelive-anime.jp/otonokizaka/bd/movie/sp_finallive.html']);
 const eq=(a,b,label)=>check(JSON.stringify(a)===JSON.stringify(b),label),hash=r=>crypto.createHash('sha256').update(JSON.stringify(r)).digest('hex'),txt=n=>textContent(n).trim();
@@ -41,7 +42,8 @@ function validateBluRayBody(doc,release,item){
   check(host.tag==='ul'&&items.length===expected.length,'Blu-ray fact count');
   items.forEach((n,i)=>{
    const e=expected[i];let detail=e.detail==='発売当時の封入物'?'':e.detail.replace('（発売当時の条件）','');
-   if(e.credit)detail=e.credit.role+' '+e.credit.name.replace(/西田亜沙子(?:先生)*/g,'西田亜沙子先生')+' '+e.credit.assignment;
+   if(e.historical&&/申込|応募|抽選/.test(e.label))detail='';
+   else if(e.credit)detail=e.credit.role+' '+e.credit.name.replace(/西田亜沙子(?:先生)*/g,'西田亜沙子先生')+' '+e.credit.assignment;
    else if(e.label==='ファイブクロス'&&e.officialName==='ファイブクロス'+e.detail)detail='';
    else detail=(e.sourceRole?e.sourceRole+'・':'')+(e.benefitContent?e.benefitContent+'／':'')+detail+(e.eventInfo?(detail?'／':'')+e.eventInfo.description:'');
    eq(descendants(n,x=>hasClass(x,'release-bd-fact-label')).map(txt),[e.officialName||e.label],'Blu-ray fact label');
@@ -52,7 +54,7 @@ function validateBluRayBody(doc,release,item){
   });
  }
  item.editions.forEach((e,i)=>{const node=editions[i],k='editions.'+e.key;check(node.tag==='details'&&Object.hasOwn(node.attrs,'open')===(e.key==='limited'),'Blu-ray initial edition state');const summary=node.children.find(n=>n.tag==='summary');check(txt(summary)===e.label,'Blu-ray edition heading');check(txt(oneField(k+'.catalogNumber'))===e.catalogNumber,'Blu-ray catalog');check(txt(oneField(k+'.price'))===e.price.amount.toLocaleString('ja-JP')+'円（税抜）','Blu-ray price');for(const field of['included','videoExtras','audioExtras','specifications'])facts(e[field],k+'.'+field);e.supplementaryDiscs.forEach((d,j)=>{facts(d.items,k+'.supplementaryDiscs.'+j);check(textContent(node).includes('出演：'+d.performers.join('、')),'Blu-ray bonus disc performers');});});
- item.editions.forEach((e,i)=>{const links=descendants(editions[i],n=>Object.hasOwn(n.attrs,'data-bd-related-link'));eq(links.map(n=>[n.attrs.href,txt(n)]),e.relatedLinks.filter(l=>!unavailableSourceUrls.has(l.url)).map(l=>[l.url,l.label]),'Blu-ray related source URLs/labels');for(const n of links)check(n.tag==='a'&&n.attrs.target==='_blank'&&n.attrs.rel==='noopener noreferrer','Blu-ray related link safety');});check(!doc.nodes.some(n=>n.tag==='a'&&unavailableSourceUrls.has(n.attrs.href)),'Blu-ray unavailable source must not be clickable');check(!textContent(section).includes('先生先生'),'Blu-ray duplicate honorific');
- const source=descendants(section,n=>hasClass(n,'release-bd-source')).flatMap(n=>descendants(n,x=>x.tag==='a'));check(source.length===1&&source[0].attrs.href===item.source.url&&source[0].attrs.target==='_blank'&&source[0].attrs.rel==='noopener noreferrer','Blu-ray source link');check(!descendants(section,n=>['release-bd-intro','release-bd-note','release-bd-historical'].some(cls=>hasClass(n,cls))).length,'Blu-ray editorial commentary must be absent');check(!descendants(section,n=>['img','iframe'].includes(n.tag)||Object.hasOwn(n.attrs,'data-relation-id')||Object.hasOwn(n.attrs,'data-singer-id')||hasClass(n,'release-included-song-row')||hasClass(n,'release-recording-vocal')).length,'Blu-ray product facts polluted record inventory');
+ item.editions.forEach(e=>validateSourceOwner(doc,'bluray-related-'+e.key,e.relatedLinks.filter(l=>!unavailableSourceUrls.has(l.url)).map(l=>l.url)));check(!doc.nodes.some(n=>n.tag==='a'&&unavailableSourceUrls.has(n.attrs.href)),'Blu-ray unavailable source must not be clickable');check(!textContent(section).includes('先生先生'),'Blu-ray duplicate honorific');
+ validateSourceOwner(doc,'bluray',[item.source.url]);check(!descendants(section,n=>['release-bd-intro','release-bd-note','release-bd-historical'].some(cls=>hasClass(n,cls))).length,'Blu-ray editorial commentary must be absent');check(!descendants(section,n=>['img','iframe'].includes(n.tag)||Object.hasOwn(n.attrs,'data-relation-id')||Object.hasOwn(n.attrs,'data-singer-id')||hasClass(n,'release-included-song-row')||hasClass(n,'release-recording-vocal')).length,'Blu-ray product facts polluted record inventory');
 }
 module.exports={TARGETS,validateBluRayData,validateBluRayBody};

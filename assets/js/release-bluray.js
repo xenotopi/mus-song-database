@@ -42,6 +42,7 @@ export function formatIllustrationCredit(credit) {
   return `${credit.role} ${name} ${credit.assignment}`;
 }
 function factDetail(fact) {
+  if (fact.historical && /申込|応募|抽選/.test(fact.label)) return '';
   if (fact.credit) return formatIllustrationCredit(fact.credit);
   if (fact.label === 'ファイブクロス' && fact.officialName === 'ファイブクロス' + fact.detail) return '';
   const detail = productDetail(fact.detail);

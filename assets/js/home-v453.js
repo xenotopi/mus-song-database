@@ -522,25 +522,37 @@ function getReleaseYearLabel(value) {
 }
 
 function renderTodayReleaseSongs(item) {
-  const songs = Array.isArray(item.includedSongs)
+  const input = Array.isArray(item.includedSongs)
     ? item.includedSongs.filter(song => String(song?.songName || "").trim())
     : [];
+  // One Song link per Release, retaining every distinct store condition.
+  // No title/Mix inference and no mutation of the underlying Relation rows.
+  const songs = [], byId = new Map();
+  for (const song of input) {
+    const id = String(song.songId || "").trim();
+    let entry = /^S\d{3}$/.test(id) ? byId.get(id) : null;
+    if (!entry) {
+      entry = { song, stores: [] }; songs.push(entry);
+      if (/^S\d{3}$/.test(id)) byId.set(id, entry);
+    }
+    const store = String(song.benefitStore || "").trim();
+    if (store && !entry.stores.includes(store)) entry.stores.push(store);
+  }
 
   if (!songs.length) return "";
 
-  const rows = songs.map(song => {
-    const store = String(song.benefitStore || "").trim();
+  const rows = songs.map(({ song, stores }) => {
     const songName = `「${escapeHtml(String(song.songName).trim())}」`;
     const songId = String(song.songId || "").trim();
     const name = /^S\d{3}$/.test(songId)
       ? `<a href="${buildSongUrl(songId)}">${songName}</a>`
       : `<span>${songName}</span>`;
-    const label = store || (item.classification === "Blu-ray" ? "収録特典曲" : "収録曲");
-    return `<div class="today-release-song"><span>${escapeHtml(label)}</span>${name}</div>`;
+    const labels = stores.length ? stores : [item.classification === "Blu-ray" ? "収録特典曲" : "収録曲"];
+    return `<div class="today-release-song"><span>${labels.map(escapeHtml).join("<br>")}</span>${name}</div>`;
   });
   const preview = rows.slice(0, 3).join("");
   const remainder = rows.length > 3
-    ? `<details class="today-release-more"><summary>残り${rows.length - 3}件の収録情報を見る</summary><div class="today-release-rest">${rows.slice(3).join("")}</div></details>`
+    ? `<details class="today-release-more"><summary>残り${rows.length - 3}曲を見る</summary><div class="today-release-rest">${rows.slice(3).join("")}</div></details>`
     : "";
   return `<div class="today-release-songs">${preview}${remainder}</div>`;
 }

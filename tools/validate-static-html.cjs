@@ -16,6 +16,7 @@ const { validateNavigationData, expectedGroups, validateNavigationBody } = requi
 const { validateBluRayData, validateBluRayBody } = require("./validate-release-bluray.cjs");
 const { validateSingleData, validateSingleBody } = require("./validate-release-single-products.cjs");
 const { validateAlbumData, validateAlbumBody } = require("./validate-release-album-products.cjs");
+const { validateSourceCollection, expectedReleaseSources } = require("./validate-release-sources.cjs");
 const { validateSongUnitMemberships, validateSongUnitBody } = require("./song-unit-membership-lib.cjs");
 const { parseUniqueJson, parseSerializedHtml, descendants, textContent, visible, hasClass, requireCondition: check } = require("./static-html-readonly-lib.cjs");
 const ROOT = path.resolve(__dirname, "..");
@@ -507,6 +508,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
           validateBluRayBody(doc, data, bluRay.get(id));
           validateReleaseContentsBody(doc, data, contents.get(id));
           validateSidecarBody(doc, data, sidecar);
+          validateSourceCollection(doc, data, expectedReleaseSources(data, {single: singles.get(id), album: albums.get(id), bluray: bluRay.get(id), sidecar}));
           validateVocalBody(doc, data, vocals);
           if (id === "R0072") validateKamiparaBody(doc, dashboard, venues);
         }

@@ -58,6 +58,22 @@ export function sidecarPresentation(row) {
   });
   return { fields, sourceGroups: [...sourceGroups.values()], conditions };
 }
+const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+// Shared evidence, with explicit store/Song/field associations. URLs and input
+// hashes remain in the original approved sidecar; this is presentation only.
+export function sidecarSourcesHtml(rows, release) {
+  const groups = new Map(), conditions = [];
+  for (const row of rows) {
+    const relation = release.includedSongs.find(r => r.relationId === row.relationId);
+    const view = sidecarPresentation(row);
+    for (const source of view.sourceGroups) {
+      if (!groups.has(source.url)) groups.set(source.url, []);
+      groups.get(source.url).push({ relationId: row.relationId, store: relation.benefitStore, song: relation.displayName || relation.songName, fields: source.labels });
+    }
+    if (view.conditions.length) conditions.push(`<dl data-sidecar-conditions="${esc(row.relationId)}">${view.conditions.map(f => `<div><dt>${esc(f.label)}</dt><dd>${esc(f.value)}</dd></div>`).join('')}</dl>`);
+  }
+  return `<details class="release-sidecar-sources release-single-sources"><summary>出典</summary><ul>${[...groups].map(([url, refs]) => `<li><a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${new URL(url).hostname === 'www.sofmap.com' ? 'ソフマップ 商品案内' : '畑亜貴 公式作品一覧'}</a><p data-sidecar-associations>${refs.map(r => esc(`${r.store}「${r.song}」：${r.fields.join('・')}`)).join('<br>')}</p></li>`).join('')}</ul>${conditions.length ? '<p>一次資料に記載されたソフマップ固有条件</p>' + conditions.join('') : ''}</details>`;
+}
 export async function attachReleaseSidecar(release, host, options = {}) {
   if (release?.releaseId !== "R0052" || !host) return;
   const local = ["localhost", "127.0.0.1", "[::1]"].includes(location.hostname);
@@ -71,28 +87,17 @@ export async function attachReleaseSidecar(release, host, options = {}) {
       const link = links[0];
       if (!link.isConnected || link.nextElementSibling?.classList.contains("release-sidecar-info")) continue;
       const block = document.createElement("div"); block.className = "release-sidecar-info";
-      const dl = document.createElement("dl"), details = document.createElement("details"), summary = document.createElement("summary");
+      const dl = document.createElement("dl");
       const presentation = sidecarPresentation(row);
-      summary.textContent = "出典"; details.open = false; details.append(summary);
       for (const field of presentation.fields) {
         const pair = document.createElement("div"), dt = document.createElement("dt"), dd = document.createElement("dd");
         pair.dataset.sidecarField = field.key; dt.textContent = field.label; dd.textContent = field.value; pair.append(dt, dd); dl.append(pair);
       }
-      for (const source of presentation.sourceGroups) {
-        const a = document.createElement("a"); a.href = source.url; a.target = "_blank"; a.rel = "noopener noreferrer";
-        a.textContent = (new URL(source.url).hostname === "www.sofmap.com" ? "ソフマップ 商品案内" : "畑亜貴 公式作品一覧") + "（" + source.labels.join("・") + "）";
-        details.append(a);
-      }
-      if (presentation.conditions.length) {
-        const heading = document.createElement("p"), conditions = document.createElement("dl");
-        heading.textContent = "一次資料に記載されたソフマップ固有条件";
-        for (const field of presentation.conditions) {
-          const pair = document.createElement("div"), dt = document.createElement("dt"), dd = document.createElement("dd");
-          dt.textContent = field.label; dd.textContent = field.value; pair.append(dt, dd); conditions.append(pair);
-        }
-        details.append(heading, conditions);
-      }
-      block.append(dl, details); link.after(block);
+      block.append(dl); link.after(block);
+    }
+    if (rows.length && host.querySelectorAll('.release-sidecar-info').length === rows.length && !host.querySelector('.release-sidecar-sources')) {
+      const sources = document.createElement('div'); sources.innerHTML = sidecarSourcesHtml(rows, release);
+      host.append(sources.firstElementChild);
     }
   } catch { /* Optional supplement must never clear successful Release content. */ }
 }

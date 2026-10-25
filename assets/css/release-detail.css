@@ -169,6 +169,21 @@ html.mus-menu-lock .release-has-context .detail-context-inner { pointer-events: 
 .release-sidecar-info summary::-webkit-details-marker{display:none}.release-sidecar-info summary::before{content:"▶";margin-right:.4em}.release-sidecar-info details[open]>summary::before{content:"▼"}
 .release-sidecar-info details a{display:block;line-height:1.6;padding:5px 0;color:var(--indigo)}
 .release-sidecar-info a:focus-visible,.release-sidecar-info summary:focus-visible{outline:2px solid var(--indigo);outline-offset:3px}
+.release-sidecar-sources { margin: .5rem 0; overflow-wrap: anywhere; }
+.release-sidecar-sources > summary { cursor: pointer; padding: .55rem .75rem; min-height: 44px; box-sizing: border-box; }
+.release-sidecar-sources p, .release-sidecar-sources > dl { margin: .3rem .75rem; font-size: 14px; line-height: 1.65; }
+.release-sidecar-sources dl > div { display: grid; grid-template-columns: 6em minmax(0,1fr); gap: .5rem; }
+.release-sidecar-sources dd { margin: 0; }
+#releaseSources { min-width: 0; overflow-wrap: anywhere; }
+.release-source-disclosure { margin-top: .75rem; }
+.release-source-disclosure > summary { cursor: pointer; min-height: 44px; padding: .4rem 0; box-sizing: border-box; color: var(--indigo); }
+.release-source-disclosure > ul { list-style: none; padding: 0; margin: 0; }
+.release-source-disclosure li { margin: .5rem 0; }
+.release-source-context, .release-source-disclosure > p, .release-source-disclosure dl { margin: .3rem 0; font-size: 14px; line-height: 1.65; }
+.release-source-disclosure dl > div { display: grid; grid-template-columns: 6em minmax(0,1fr); gap: .5rem; }
+.release-source-disclosure dd { margin: 0; }
+.release-source-disclosure summary:focus-visible { outline: 3px solid var(--indigo); outline-offset: 3px; }
+#releaseSources .release-official-link { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
 @media(max-width:620px){.release-sidecar-info{padding:0 14px 14px}.release-sidecar-info dl>div{grid-template-columns:1fr;gap:2px}.release-sidecar-info details a,.release-sidecar-info summary{min-height:44px;box-sizing:border-box}}
 /* Edition-specific Blu-ray facts. Scoped away from all existing track/BOX UI. */
 .release-bluray { min-width: 0; overflow-wrap: anywhere; }
@@ -178,7 +193,6 @@ html.mus-menu-lock .release-has-context .detail-context-inner { pointer-events: 
 .release-bd-episodes { list-style: none; padding: 0; margin: .35rem 0 .65rem; }
 .release-bd-episodes li { padding: .12rem 0; line-height: 1.55; }
 .release-bd-cd, .release-bd-edition, .release-bd-history { margin-top: .6rem; border: 1px solid #dfe3f0; border-radius: 10px; background: #fff; }
-.release-bd-edition { border-width: 1px 0 0; border-radius: 0; }
 .release-bluray summary { cursor: pointer; padding: .55rem .75rem; min-height: 44px; box-sizing: border-box; color: #24325b; font-weight: 650; line-height: 1.7; }
 .release-bluray summary:hover { background: #f5f3ff; border-radius: 13px; }
 .release-bluray summary:focus-visible, .release-bluray a:focus-visible { outline: 3px solid #7161f5; outline-offset: 3px; border-radius: 6px; }
@@ -205,7 +219,7 @@ html.mus-menu-lock .release-has-context .detail-context-inner { pointer-events: 
 .release-bd-track-copy { display: block; min-width: 0; padding-bottom: .1rem; }
 .release-bd-vocal { display: block; color: #58657e; font-size: .84rem; line-height: 1.5; }
 .release-bd-track-number { font-size: .78rem; color: #7d89a2; }
-.release-bd-song-link { display: flex; align-items: center; justify-content: space-between; gap: .7rem; min-width: 0; min-height: 44px; padding: .2rem 0; box-sizing: border-box; }
+.release-bd-song-link { display: inline-flex; width: fit-content; max-width: 100%; align-items: center; justify-content: flex-start; gap: .4rem; min-width: 0; min-height: 44px; padding: .2rem 0; box-sizing: border-box; overflow-wrap: anywhere; }
 .release-bd-song-link .site-icon-inline { flex-shrink: 0; }
 .release-bd-plain-track { padding: .2rem 0; }
 .release-bd-links { list-style: none; display: flex; flex-wrap: wrap; gap: 0 1rem; padding: 0; margin: .2rem 0; }

@@ -1,6 +1,7 @@
 'use strict';
 // Independent contract/DOM checks; never use browser renderer output as expected data.
 const crypto=require('node:crypto');
+const {records,validateSourceOwner}=require('./validate-release-sources.cjs');
 const {descendants,textContent,hasClass,requireCondition:check}=require('./static-html-readonly-lib.cjs');
 const digest=x=>crypto.createHash('sha256').update(JSON.stringify(x)).digest('hex');
 const labels={physicalMedia:'特典媒体',qualifyingProducts:'対象商品',acquisitionCondition:'入手条件'};
@@ -27,15 +28,21 @@ function expectedSidecar(sidecar,release){
 }
 function validateSidecarBody(doc,release,sidecar){
  const blocks=doc.nodes.filter(n=>hasClass(n,'release-sidecar-info'));
- if(release.releaseId!=='R0052'){check(blocks.length===0,'Sidecar leaked into unrelated Release');return;}
+ const sources=[doc.ids.get('releaseSources')].filter(Boolean);
+ if(release.releaseId!=='R0052'){check(blocks.length===0&&!records(doc).some(r=>r.owner==='sidecar'),'Sidecar leaked into unrelated Release');return;}
  const expected=expectedSidecar(sidecar,release);check(blocks.length===3,'R0052 formal sidecar missing/duplicated');
  const same=(x,y,msg)=>check(JSON.stringify(x)===JSON.stringify(y),msg),clean=n=>textContent(n).trim(),children=n=>n.children.filter(x=>typeof x!=='string');
  blocks.forEach((block,i)=>{
   const siblings=children(block.parent),previous=siblings[siblings.indexOf(block)-1];check(previous?.attrs['data-relation-id']===expected[i].relationId,'Sidecar displayed under wrong Relation');
   const pairList=children(block).find(n=>n.tag==='dl'),pairs=children(pairList).map(n=>children(n).map(clean));same(pairs,expected[i].fields,'Sidecar normal fields differ from approved uniform display');
-  const details=children(block).filter(n=>n.tag==='details');check(details.length===1&&!Object.hasOwn(details[0].attrs,'open'),'Sidecar source must initially be closed');check(children(details[0])[0].tag==='summary'&&clean(children(details[0])[0])==='出典','Sidecar source summary mismatch');
-  const links=descendants(details[0],n=>n.tag==='a');same(links.map(n=>[n.attrs.href,clean(n)]),expected[i].sources,'Sidecar source URLs/field associations mismatch');check(new Set(links.map(n=>n.attrs.href)).size===links.length,'Duplicate source URL');
-  const conditionList=children(details[0]).find(n=>n.tag==='dl');same(conditionList?children(conditionList).map(n=>children(n).map(clean)):[],expected[i].conditions,'Sidecar original store conditions missing/changed');
+  check(children(block).length===1,'Sidecar per-store duplicate sources');
  });
+ check(sources.length===1,'Shared sidecar sources missing');
+ const groups=new Map();
+ expected.forEach((row,i)=>{const relation=release.includedSongs.find(r=>r.relationId===row.relationId);for(const[url,label]of row.sources){if(!groups.has(url))groups.set(url,[]);const fields=label.slice(label.indexOf('（')+1,-1);groups.get(url).push(`${relation.benefitStore}「${relation.displayName||relation.songName}」：${fields}`);}});
+ validateSourceOwner(doc,'sidecar',[...groups.keys()]);
+ same(records(doc).filter(r=>r.owner==='sidecar').map(r=>[r.label,r.context]),[...groups].map(([url,rows])=>[new URL(url).hostname==='www.sofmap.com'?'ソフマップ 商品案内':'畑亜貴 公式作品一覧',rows.join('')]),'Sidecar store/Song/field associations');
+ const conditions=descendants(sources[0],n=>Object.hasOwn(n.attrs,'data-sidecar-conditions'));
+ same(conditions.map(n=>[n.attrs['data-sidecar-conditions'],children(n).map(n=>children(n).map(clean))]),expected.filter(r=>r.conditions.length).map(r=>[r.relationId,r.conditions]),'Sidecar original store conditions missing/changed');
 }
 module.exports={expectedSidecar,validateSidecarBody};

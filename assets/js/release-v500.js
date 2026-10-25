@@ -5,14 +5,15 @@ import { setupDetailContext } from "./detail-context.js?v=4.6.1";
 import { detailWithApiFallback, staticReleaseList, staticDetail } from "./static-detail.js?v=1.3.0";
 import { renderKamiparaRelease, hasCompletedKamiparaContent } from "./release-kamipara.js?v=1.0.0";
 import { renderAmazonProduct } from "./release-amazon.js";
-import { attachReleaseSidecar } from "./release-sidecar.js?v=1.0.0";
+import { attachReleaseSidecar } from "./release-sidecar.js?v=1.0.1";
 import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import { attachReleaseVocals } from "./release-vocals.js?v=1.3.0";
 import { loadReleaseContents } from "./release-contents.js?v=1.1.0";
 import { applyReleaseNavigation, loadReleaseNavigation, releaseNavigationModel } from "./release-navigation.js?v=1.0.0";
-import { attachReleaseBluRay } from "./release-bluray.js?v=1.1.0";
+import { attachReleaseBluRay } from "./release-bluray.js?v=1.1.1";
 import { loadSingleProduct, applySingleProduct } from "./release-single-products.js?v=1.0.1";
 import { loadAlbumProduct, applyAlbumProduct } from "./release-album-products.js?v=1.0.1";
+import { consolidateReleaseSources } from "./release-sources.js?v=1.0.0";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
@@ -637,4 +638,4 @@ async function loadRelease() {
 }
 
 // Capture waits for snapshot-backed BOX enrichment, never optional live CV.
-export const releaseReady = loadRelease();
+export const releaseReady = loadRelease().then(() => consolidateReleaseSources(releaseId));

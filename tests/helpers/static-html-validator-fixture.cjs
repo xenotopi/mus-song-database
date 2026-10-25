@@ -116,7 +116,13 @@ function buildFixture() {
         if (target === "R0052") description = name + "。2期Blu-ray最終巻発売日基準：2020/01/01。店舗別の収録情報：" + item.includedSongs.map(s => s.displayName).join("、") + "。";
         const kpHtml = target === "R0072" ? kpBody() : "", split = kpHtml.indexOf("</div><section");
         content = releaseBody(item, releaseList, {navigationData,...(target === "R0072" ? { kamipara: kpHtml.slice('<div id="includedSongsContent">'.length, split) } : {})}).replace(/^<h1>[\s\S]*?<\/h1>/, "") + (target === "R0072" ? kpHtml.slice(split + 6) : "");
-        if(target==="R0052")for(const row of item.includedSongs){const block='<div class="release-sidecar-info"><dl><div><dt>特典媒体</dt><dd>CD</dd></div><div><dt>対象商品</dt><dd>2期Blu-ray</dd></div><div><dt>入手条件</dt><dd>全巻特典</dd></div></dl><details><summary>出典</summary><a href="'+escape(fixtureSource)+'">畑亜貴 公式作品一覧（特典媒体・対象商品・入手条件）</a></details></div>';content=content.replace(new RegExp('(<a[^>]*data-relation-id="'+row.relationId+'"[\\s\\S]*?</a>)'),'$1'+block);}
+        if(target==="R0052"){
+          for(const row of item.includedSongs){const block='<div class="release-sidecar-info"><dl><div><dt>特典媒体</dt><dd>CD</dd></div><div><dt>対象商品</dt><dd>2期Blu-ray</dd></div><div><dt>入手条件</dt><dd>全巻特典</dd></div></dl></div>';content=content.replace(new RegExp('(<a[^>]*data-relation-id="'+row.relationId+'"[\\s\\S]*?</a>)'),'$1'+block);}
+          const context=item.includedSongs.map(row=>`${row.benefitStore}「${row.displayName||row.songName}」：特典媒体・対象商品・入手条件`).join('');
+          const records=[{owner:'sidecar',key:'0',url:fixtureSource,label:'畑亜貴 公式作品一覧',context}];
+          const source='<div id="releaseSources" data-release-id="R0052" data-release-source-records="'+escape(JSON.stringify(records))+'"><details class="release-source-disclosure"><summary>出典</summary><ul><li><a class="release-official-link" data-release-source-refs="'+escape(JSON.stringify([['sidecar','0']]))+'" href="'+escape(fixtureSource)+'" target="_blank" rel="noopener noreferrer">畑亜貴 公式作品一覧</a><p class="release-source-context">'+escape(context)+'</p></li></ul></details></div>';
+          content=content.replace('<div id="officialRelease"></div>','<div id="officialRelease"></div>'+source);
+        }
       }
       const html = `<!DOCTYPE html><html data-${type}-id="${target}"${type === "song" ? ` data-prerender-revision="${revision}"` : ""}>${head(type, target, name, description, ld)}<body><h1>${escape(name)}</h1><main id="mainContent">${content}</main></body></html>\n`;
       put(`${type}/${target}.html`, html);

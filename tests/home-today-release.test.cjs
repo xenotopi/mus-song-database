@@ -155,8 +155,8 @@ test("API順の先頭6件と残りの折りたたみ、長文・escape・全view
   await page.close();
 });
 
-test("多数の収録行は3件を先に表示し、残りをキーボードで開閉して全リンクを維持する", async () => {
-  const songs = Array.from({ length: 7 }, (_, i) => ({ songId: `S${String(i % 3 + 1).padStart(3, "0")}`, songName: `収録曲${i + 1}` }));
+test("多数の収録曲は3曲を先に表示し、残りをキーボードで開閉して全リンクを維持する", async () => {
+  const songs = Array.from({ length: 7 }, (_, i) => ({ songId: `S${String(i + 1).padStart(3, "0")}`, songName: `収録曲${i + 1}` }));
   for (const width of [1280, 390]) {
     const { page, issues } = await openHome({ releases: [release("R0088", { includedSongs: songs })] }, { width, height: 900 });
     const rows = page.locator(".today-release-song");
@@ -164,7 +164,7 @@ test("多数の収録行は3件を先に表示し、残りをキーボードで�
     assert.equal(await page.locator(".today-release-song:visible").count(), 3);
     assert.deepEqual(await rows.locator("a").evaluateAll(nodes => nodes.map(n => n.getAttribute("href"))), songs.map(s => `song/${s.songId}.html`));
     const summary = page.locator(".today-release-more > summary");
-    assert.equal(await summary.innerText(), "残り4件の収録情報を見る");
+    assert.equal(await summary.innerText(), "残り4曲を見る");
     await summary.press("Enter");
     assert.equal(await page.locator(".today-release-song:visible").count(), 7);
     assert.deepEqual(await rows.locator("a").allTextContents(), songs.map(s => `「${s.songName}」`));

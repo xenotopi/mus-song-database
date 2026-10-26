@@ -1,5 +1,6 @@
 import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import { loadSongUnitMembership } from "./song-unit-memberships.js?v=1.0.0";
+import { loadSongCredits, songCreditRowsHtml, songCreditSourcesHtml } from "./song-credits.js?v=1.0.0";
 import { buildSongUrl,
   apiGet,
   escapeHtml,
@@ -1011,7 +1012,7 @@ function debutReleaseHref_(song) {
     ? `release/${encodeURIComponent(id)}.html` : "";
 }
 
-function renderSong(song, membership = null) {
+function renderSong(song, membership = null, credits = null) {
   currentSong = song;
   const statistics = song.statistics || {};
 
@@ -1059,7 +1060,11 @@ function renderSong(song, membership = null) {
     <dd>${href
       ? `<a class="song-debut-release-link mus-link-primary mus-chip-link" href="${escapeHtml(href)}"><span class="mus-title-chip">${escapeHtml(value)}</span><span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></a>`
       : escapeHtml(value || "—")}</dd>`
-  ).join("");
+  ).join("") + songCreditRowsHtml(credits);
+
+  // Keep sources outside the definition list; absent/unapproved credits add no UI.
+  document.getElementById("songCreditSources")?.remove();
+  if (credits) elements.songInfo.insertAdjacentHTML("afterend", `<div id="songCreditSources">${songCreditSourcesHtml(credits)}</div>`);
 
   const statItems = [
     {
@@ -1254,8 +1259,8 @@ async function loadSong() {
       }
     }
 
-    const membership = await loadSongUnitMembership(songId);
-    renderSong(response.data, membership);
+    const [membership, credits] = await Promise.all([loadSongUnitMembership(songId), loadSongCredits(response.data)]);
+    renderSong(response.data, membership, credits);
 
     const renderedSongId = String(
       response.data?.songId || songId

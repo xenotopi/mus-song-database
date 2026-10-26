@@ -19,6 +19,7 @@ const { validateSingleData, validateSingleBody } = require("./validate-release-s
 const { validateAlbumData, validateAlbumBody } = require("./validate-release-album-products.cjs");
 const { validateSourceCollection, expectedReleaseSources } = require("./validate-release-sources.cjs");
 const { validateSongUnitMemberships, validateSongUnitBody } = require("./song-unit-membership-lib.cjs");
+const { validateSongCreditsData, validateSongCreditsBody } = require("./song-credits-lib.cjs");
 const { parseUniqueJson, parseSerializedHtml, descendants, textContent, visible, hasClass, requireCondition: check } = require("./static-html-readonly-lib.cjs");
 const ROOT = path.resolve(__dirname, "..");
 const REVISION = /^sha256-[a-f0-9]{64}$/;
@@ -110,11 +111,12 @@ function validateHead(doc, type, id, data, revision) {
   byId(doc, "mainContent");
 }
 
-function validateSongBody(doc, song, memberships) {
+function validateSongBody(doc, song, memberships, credits) {
   const info = infoValues(byId(doc, "songInfo"));
   equal(info, { 表示名: song.displayName || song.songName, バージョン: song.version || "—", 収録CD: song.recordingCd || "—",
-    発売日: formatDate(song.releaseDate), メディア: song.media || "—", 区分: song.category || "—", ...(memberships.has(song.songId) ? { 所属ユニット: memberships.get(song.songId).label } : {}) }, "Song basic information differs from snapshot");
+    発売日: formatDate(song.releaseDate), メディア: song.media || "—", 区分: song.category || "—", ...(memberships.has(song.songId) ? { 所属ユニット: memberships.get(song.songId).label } : {}), ...Object.fromEntries((credits.get(song.songId)?.rows || []).map(row => [row.label,row.value])) }, "Song basic information differs from snapshot/credit sidecar");
   validateSongUnitBody(doc, song.songId, memberships);
+  validateSongCreditsBody(doc, song.songId, credits);
   const debutId = String(song.debutRelease?.releaseId || "").trim();
   const debutLinks = classes(byId(doc, "songInfo"), "song-debut-release-link");
   const linked = /^R\d{4}$/.test(debutId) && song.includedReleases.some(r => r.releaseId === debutId);
@@ -461,6 +463,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
     const singles = validateSingleData(json("data/release-single-products.json"), Object.fromEntries(sources.release));
     const albums = validateAlbumData(json("data/release-album-products.json"), Object.fromEntries(sources.release));
     const memberships = validateSongUnitMemberships(json("data/song-unit-memberships.json"), new Set(sources.song.keys()));
+    const credits = validateSongCreditsData(json("data/song-credits.json"), sources.song);
     const kp = readSnapshot("kamipara-dashboard.json", snapshot.kamiparaDashboard);
     const dashboard = validateKamiparaDashboard(kp.wrapper.data, dataRevision);
     check(dashboard.songs.length === 10 && dashboard.events.length === 5 && dashboard.performances.length === 10, "Kamipara source counts mismatch");
@@ -509,7 +512,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
         check(!/http:\/\/127\.0\.0\.1|undefined件/.test(text), "HTML runtime/local URL leak");
         const doc = parseSerializedHtml(text), data = sources[type].get(id);
         validateHead(doc, type, id, data, revision);
-        if (type === "song") validateSongBody(doc, data, memberships);
+        if (type === "song") validateSongBody(doc, data, memberships, credits);
         else {
           validateReleaseBody(doc, data, releaseList, contents.get(id), navigationData, singles.get(id), albums.get(id), bluRay.get(id), media.get(id));
           validateAlbumBody(doc, data, albums.get(id));

@@ -58,6 +58,8 @@ function buildFixture() {
   putJson('data/release-navigation.json',navigationData);
   const unitData=JSON.parse(require('node:fs').readFileSync(path.join(root,'data/song-unit-memberships.json'),'utf8'));
   putJson('data/song-unit-memberships.json',unitData);
+  // Fictional Songs have no verified real-world credit claims.
+  putJson('data/song-credits.json',{schemaVersion:1,scope:'song_baseline_recording_credits',songs:[],evidence:[]});
   const affiliationNames={printemps:'Printemps',lily_white:'lily white',bibi:'BiBi'};
   // Fictional BOX with the same structural invariants as R0088; no production rows.
   const discCounts=[13,8,10,14,8,10,13,8,10,13,8,10,14,8,10,14,8,10,14,8,10,14,8,10,14,8,10];

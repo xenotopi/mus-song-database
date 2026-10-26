@@ -213,7 +213,7 @@ html.mus-menu-lock .release-has-context .detail-context-inner { pointer-events: 
 .release-bd-video-list summary { font-size: .84rem; font-weight: 500; }
 .release-bd-video-list ol { padding: 0 .75rem .5rem 2.3rem; margin: 0; }
 .release-bd-video-list li { padding: .12rem 0; font-size: .84rem; }
-.release-bd-cd-tracks { margin: .2rem .75rem .4rem; padding: 0; list-style: none; }
+.release-bd-cd-tracks { margin: .6rem .75rem .4rem; padding: .35rem 0 0; border-top: 1px solid #e5e8f2; list-style: none; }
 .release-bd-cd-tracks > li { display: grid; grid-template-columns: 2rem minmax(0,1fr); align-items: center; border-bottom: 1px solid #e5e8f2; min-height: 44px; line-height: 1.55; font-size: .9rem; }
 .release-bd-cd-tracks > li:last-child { border-bottom: 0; }
 .release-bd-track-copy { display: block; min-width: 0; padding-bottom: .1rem; }
@@ -275,11 +275,14 @@ html.mus-menu-lock .release-has-context .detail-context-inner { pointer-events: 
 .release-media-description, .release-media-intro { line-height: 1.7; overflow-wrap: anywhere; }
 .release-media-tracks { list-style: none; margin: 0; padding: 0; }
 .release-media-tracks > li { min-width: 0; }
-.release-media-track { display: grid; grid-template-columns: 2.5em minmax(0, 1fr); gap: 8px; padding: 8px 12px; border-top: 1px solid var(--border-color, #e2e6ee); align-items: start; }
+.release-media-track:not(.release-single-track) { display: grid; grid-template-columns: 2.5em minmax(0, 1fr); gap: 8px; padding: 8px 12px; border-top: 1px solid var(--border-color, #e2e6ee); align-items: start; }
 .release-media-title, .release-media-song-link { min-width: 0; overflow-wrap: anywhere; }
 .release-media-song-link { display: inline-flex; width: fit-content; align-items: center; gap: 6px; min-height: 44px; color: var(--link-color, #5145b7); }
 .release-media-song-link .site-icon-inline { flex: 0 0 auto; }
 .release-media-song-link:focus-visible { outline: 2px solid #6153bb; outline-offset: 3px; border-radius: 4px; }
+.release-single-track > .release-media-song-link { display: block; max-width: 100%; box-sizing: border-box; padding: .65rem 0; line-height: 1.65; font-size: 16px; }
+.release-single-track > .release-media-song-link .site-icon-inline { display: inline-block; margin-left: .35em; vertical-align: middle; }
+.release-media-link-tail { white-space: nowrap; }
 .release-media-products .release-single-edition { margin-top: 10px; }
 .release-bd-cd-tracks > li[data-bd-card-slot] { padding: 0; }
 .release-bd-cd-tracks .release-included-song-row { width: 100%; box-sizing: border-box; }

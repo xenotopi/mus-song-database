@@ -37,6 +37,10 @@ export async function loadMediaProduct(release) {
   } catch(error){if(window.__MUSDB_RELEASE_CAPTURE__)throw error;return null;}
 }
 const arrow='<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span>';
+function workLinkTitle(title) {
+  const letters = Array.from(title);
+  return `<span class="release-media-title">${esc(letters.slice(0,-4).join(''))}<span class="release-media-link-tail">${esc(letters.slice(-4).join(''))}${arrow}</span></span>`;
+}
 export function mediaCountLabel(item) {
   if(item.kind==='radio')return item.sections.length+' Disc';
   if(item.kind==='collection')return '映像 · '+item.sections[0].entries.length+'項目';
@@ -44,7 +48,7 @@ export function mediaCountLabel(item) {
   return ''; // Retain the registered-song count until the complete CD inventory is verified.
 }
 export function mediaInventoryMarkup(item) {
-  const rows=s=>s.entries.length?`<ol class="release-media-tracks">${s.entries.map(t=>t.relationId?`<li class="release-media-track" data-media-position="${t.number}" data-media-slot="${esc(t.relationId)}"><span class="release-media-track-number">${t.number}</span></li>`:`<li class="release-media-track" data-media-position="${t.number}"><span class="release-track-number">${t.number}</span>${t.songId?`<a class="release-media-song-link" href="song/${esc(t.songId)}.html">${esc(t.title)}${arrow}</a>`:`<span class="release-media-title">${esc(t.title)}</span>`}</li>`).join('')}</ol>`:'';
+  const rows=s=>s.entries.length?`<ol class="release-media-tracks">${s.entries.map(t=>t.relationId?`<li class="release-media-track" data-media-position="${t.number}" data-media-slot="${esc(t.relationId)}"><span class="release-media-track-number">${t.number}</span></li>`:`<li class="release-media-track${item.kind==='collection'?' release-single-track':''}" data-media-position="${t.number}"><span class="release-track-number release-single-track-number">${t.number}</span>${t.songId?`<a class="release-media-song-link" href="song/${esc(t.songId)}.html">${workLinkTitle(t.title)}</a>`:`<span class="release-media-title">${esc(t.title)}</span>`}</li>`).join('')}</ol>`:'';
   return `<div class="release-media-inventory release-bluray" data-release-media-ready="${item.releaseId}"><p class="release-media-intro">${esc(item.summary)}</p>${item.sections.map((s,i)=>`<details class="release-bd-cd release-media-disc" data-media-section="${i}"${i===0||!s.entries.length?' open':''}><summary>${esc(s.label)}${s.entries.length?` · ${s.entries.length}項目`:''}</summary>${s.description?`<p class="release-media-description">${esc(s.description)}</p>`:''}${rows(s)}</details>`).join('')}</div>`;
 }
 export function applyMediaProduct(release,item) {

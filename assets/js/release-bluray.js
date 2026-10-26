@@ -57,29 +57,30 @@ function editionHtml(e, tv = false) {
 export function renderBluRayProduct(item, release) {
   const host = document.createElement('section');
   host.id = 'bluRayProductSection'; host.className = 'release-card release-bluray'; host.dataset.releaseBlurayReady = release.releaseId; host.setAttribute('aria-labelledby','bluRayProductHeading');
-  host.innerHTML = `<p class="release-section-kicker">BLU-RAY DETAILS</p><h2 id="bluRayProductHeading">本編・特典・商品仕様</h2>${item.mainFeature.type === 'tv' ? '' : `<h3>本編収録情報</h3><p data-bd-main-movie>${esc(item.mainFeature.title)}（本編）</p>`}<details class="release-bd-cd"${item.mainFeature.type === 'tv' ? ' open' : ''}><summary>特典CDの収録情報（${esc(item.editions[0].label)}・全${item.bonusCD.tracks.length}トラック）</summary><p class="release-bd-cd-name" data-bd-cd-name>${esc(item.bonusCD.officialName)}</p><ol class="release-bd-cd-tracks">${item.bonusCD.tracks.map(t => {
+  host.innerHTML = `<p class="release-section-kicker">BLU-RAY DETAILS</p><h2 id="bluRayProductHeading">本編・特典・商品仕様</h2><details class="release-bd-cd" open><summary>特典CDの収録情報（${esc(item.editions[0].label)}・全${item.bonusCD.tracks.length}トラック）</summary><p class="release-bd-cd-name" data-bd-cd-name>${esc(item.bonusCD.officialName)}</p><ol class="release-bd-cd-tracks">${item.bonusCD.tracks.map(t => {
     const row = release.includedSongs.find(r => r.relationId === t.relationId);
-    if (row && item.mainFeature.type === 'tv') return `<li data-bd-cd-track="${t.track}" data-bd-cd-disc="${item.bonusCD.disc}" data-bd-card-slot="${esc(row.relationId)}"><span class="release-bd-track-number">${t.track}</span></li>`;
+    if (row) return `<li data-bd-cd-track="${t.track}" data-bd-cd-disc="${item.bonusCD.disc}" data-bd-card-slot="${esc(row.relationId)}"><span class="release-bd-track-number">${t.track}</span></li>`;
     return `<li data-bd-cd-track="${t.track}" data-bd-cd-disc="${item.bonusCD.disc}"><span class="release-bd-track-number">${t.track}</span>${row ? `<span class="release-bd-track-copy"><a class="release-bd-song-link" data-bd-relation="${esc(row.relationId)}" href="song/${esc(row.songId)}.html">${esc(row.displayName || row.songName)}<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></a><span class="release-bd-vocal" data-bd-official-singer>歌唱：${esc(t.officialSinger)}</span></span>` : `<span class="release-bd-plain-track">${esc(t.title)}</span>`}</li>`;
-  }).join('')}</ol></details><div class="release-bd-editions">${item.editions.map(e => editionHtml(e, item.mainFeature.type === 'tv')).join('')}</div><details class="release-bd-history"><summary>発売当時の予約情報</summary><p>店頭予約締切：<time datetime="${item.historicalReservationDeadline}">${esc(item.historicalReservationDeadline)}</time></p></details><p class="release-bd-source"><a href="${esc(item.source.url)}" target="_blank" rel="noopener noreferrer">出典：公式商品ページ（${esc(item.series)}${item.volume ? ` 第${item.volume}巻` : ''}）<span class="site-icon-inline" data-site-icon="external-link" aria-hidden="true"></span></a></p>`;
+  }).join('')}</ol></details><div class="release-bd-editions">${item.editions.map(e => editionHtml(e, true)).join('')}</div><details class="release-bd-history"><summary>発売当時の予約情報</summary><p>店頭予約締切：<time datetime="${item.historicalReservationDeadline}">${esc(item.historicalReservationDeadline)}</time></p></details><p class="release-bd-source"><a href="${esc(item.source.url)}" target="_blank" rel="noopener noreferrer">出典：公式商品ページ（${esc(item.series)}${item.volume ? ` 第${item.volume}巻` : ''}）<span class="site-icon-inline" data-site-icon="external-link" aria-hidden="true"></span></a></p>`;
   return host;
 }
 // Relocate the registered cards, rather than re-creating an incomplete copy.
 export function applyTvBluRayLayout(item, release, section) {
-  if (item.mainFeature.type !== 'tv') return;
+  if (!['tv','movie'].includes(item.mainFeature.type)) return;
   const included = document.getElementById('includedSongsContent');
+  const existing = document.getElementById('bluRayProductSection');
   check(included && section, 'BLURAY_TV_HOST');
   const rows = item.bonusCD.tracks.filter(t => t.relationId).map(t => ({
     slot: section.querySelector(`[data-bd-card-slot="${t.relationId}"]`),
-    row: included.querySelector(`[data-relation-id="${t.relationId}"]`)
+    row: included.querySelector(`[data-relation-id="${t.relationId}"]`) || existing?.querySelector(`[data-relation-id="${t.relationId}"]`)
   }));
   check(rows.every(r => r.slot && r.row), 'BLURAY_TV_CARD_MISSING');
-  const notes = [...included.querySelectorAll('.release-registration-details')];
+  const notes = [...included.querySelectorAll('.release-registration-details'), ...(existing?.querySelectorAll('.release-registration-details') || [])];
   rows.forEach(({slot,row}) => slot.append(row));
   section.querySelector('.release-bd-cd').append(...notes);
-  included.innerHTML = '<h3>本編</h3><ol class="release-bd-episodes">' + item.mainFeature.episodes.map(ep => `<li value="${ep.episode}" data-bd-episode="${ep.episode}">第${ep.episode}話「${esc(ep.title)}」</li>`).join('') + '</ol>';
+  included.innerHTML = '<h3>本編</h3>' + (item.mainFeature.type === 'tv' ? '<ol class="release-bd-episodes">' + item.mainFeature.episodes.map(ep => `<li value="${ep.episode}" data-bd-episode="${ep.episode}">第${ep.episode}話「${esc(ep.title)}」</li>`).join('') + '</ol>' : `<p data-bd-main-movie>${esc(item.mainFeature.title)}（本編）</p>`);
   included.dataset.releaseBdMain = release.releaseId;
-  document.getElementById('includedSongsCount').textContent = '本編 · ' + item.mainFeature.episodes.length + '話';
+  document.getElementById('includedSongsCount').textContent = item.mainFeature.type === 'tv' ? '本編 · ' + item.mainFeature.episodes.length + '話' : '映画本編';
 }
 let request;
 export async function loadBluRayProduct(release) {

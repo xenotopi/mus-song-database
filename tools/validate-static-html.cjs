@@ -234,8 +234,8 @@ function validateReleaseBody(doc, release, releaseList, productContents = null, 
   links("debutSongs","release-song-row",outside.map(s=>["song/"+s.songId+".html",s.songName||s.displayName||"曲名未設定"]),"release-song-title");
   check(visible(byId(doc,"debutSongsSection",false))===Boolean(outside.length),"Release independent origin visibility mismatch");
   const mainIncluded=byId(doc,"includedSongsContent",tracks.length>0||release.releaseId==="R0072");
-  const tv=bluRayProduct?.mainFeature.type==='tv';
-  const included=tv?one(classes(byId(doc,'bluRayProductSection'),'release-bd-cd'),'TV bonus CD inventory host'):mainIncluded;
+  const tv=bluRayProduct?.mainFeature.type==='tv',bd=tv||bluRayProduct?.mainFeature.type==='movie';
+  const included=bd?one(classes(byId(doc,'bluRayProductSection'),'release-bd-cd'),'TV bonus CD inventory host'):mainIncluded;
   check(!classes(included,"release-inclusion-error").length,"Release error DOM persisted");
   const countLabel=byId(doc,"includedSongsCount",false);
   // Legacy/synthetic body fixtures have no supplement. The full-set validator
@@ -265,7 +265,7 @@ function validateReleaseBody(doc, release, releaseList, productContents = null, 
   if(productContents)expectedCount=productContents.discs.length+" Disc · "+productContents.tracks.length+"トラック";
   if(singleProduct)expectedCount="CD · "+singleProduct.cd.tracks.length+"トラック";
   if(albumProduct?.extraTracks.length)expectedCount="CD · "+albumProduct.officialInventories[0].discs.reduce((n,d)=>n+d.tracks.length,0)+"トラック（登録曲"+tracks.length+"曲）";
-  if(tv)expectedCount='本編 · '+bluRayProduct.mainFeature.episodes.length+'話';
+  if(bd)expectedCount=tv?'本編 · '+bluRayProduct.mainFeature.episodes.length+'話':'映画本編';
   if(mediaProduct?.kind==='radio')expectedCount=mediaProduct.sections.length+' Disc';
   if(mediaProduct?.kind==='collection')expectedCount='映像 · 30項目';
   if(mediaProduct?.kind==='live')expectedCount='ライブ映像';

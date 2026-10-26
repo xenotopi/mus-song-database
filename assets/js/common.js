@@ -20,6 +20,31 @@ const SITE_METADATA = Object.freeze({
 });
 // One boundary for header layout, drawer availability, and resize closing.
 const HEADER_MOBILE_MAX = 1080;
+const HEADER_NAV_GROUPS = [
+  { key: "history", label: "歌唱履歴", sections: [{ label: "", links: [
+    ["song", "曲", "songs.html"], ["event", "イベント", "events.html"], ["venue", "会場", "venues.html"], ["singer", "歌唱名義", "singers.html"]
+  ] }] },
+  { key: "data", label: "分析・資料", sections: [
+    { label: "集計・分析", links: [["rankings", "ランキング", "rankings.html"], ["statistics", "統計", "statistics.html"], ["member-analytics", "メンバー別歌唱記録", "member-analytics.html"]] },
+    { label: "資料", links: [["release", "リリース", "releases.html"], ["kamipara", "神パラ × μ's ダッシュボード", "kamipara.html"]] }
+  ] },
+  { key: "tools", label: "ツール", sections: [{ label: "", links: [
+    ["gap-checker", "いつ振り歌唱チェッカー", "gap-checker.html"], ["gap-rankings", "歌唱ブランクランキング", "gap-rankings.html"]
+  ] }] }
+];
+
+function headerNavigation_(active, mobile = false) {
+  const scope = mobile ? "mobile" : "desktop";
+  const link = ([key, label, href], panel = false) => `<a class="${active === key ? "active" : ""}" href="${href}"${active === key ? ` aria-current="${location.pathname.endsWith('/' + href) ? 'page' : 'location'}"` : ""}>${panel ? `<span class="header-nav-link-label">${label}</span><span class="site-icon-inline header-nav-link-arrow" data-site-icon="chevron-right" aria-hidden="true"></span>` : label}</a>`;
+  return link(["home", "ホーム", "index.html"]) + HEADER_NAV_GROUPS.map(group => {
+    const selected = group.sections.some(section => section.links.some(([key]) => key === active));
+    const id = `header-${scope}-${group.key}`;
+    return `<div class="header-nav-group" data-header-nav-group="${group.key}">
+      <button class="header-nav-trigger${selected ? " active" : ""}" type="button" aria-expanded="false" aria-controls="${id}" id="${id}-trigger">${group.label}<span class="site-icon-inline header-nav-chevron" data-site-icon="chevron-down" aria-hidden="true"></span></button>
+      <div class="header-nav-panel header-nav-panel-${group.key}" id="${id}" aria-labelledby="${id}-trigger" hidden>${group.sections.map(section => `<div class="header-nav-section">${section.label ? `<h3>${section.label}</h3>` : ""}${section.links.map(item => link(item, true)).join("")}</div>`).join("")}</div>
+    </div>`;
+  }).join("") + link(["about", "About", "about.html"]);
+}
 
 /**
  * v4.7 STEP13-B
@@ -48,6 +73,7 @@ export function renderCommon(active = "") {
     );
 
   if (header) {
+    active ||= ({ "member-analytics.html": "member-analytics", "gap-checker.html": "gap-checker", "gap-rankings.html": "gap-rankings", "kamipara.html": "kamipara" })[location.pathname.split("/").pop()] || "";
     header.innerHTML = `
       <header class="site-header">
         <div class="header-inner">
@@ -107,68 +133,7 @@ export function renderCommon(active = "") {
             class="nav mus-desktop-navigation"
             id="siteNavigation"
           >
-            <a
-              class="${active === "home" ? "active" : ""}"
-              href="index.html"
-            >
-              ホーム
-            </a>
-
-            <a
-              class="${active === "song" ? "active" : ""}"
-              href="songs.html"
-            >
-              曲
-            </a>
-
-            <a
-              class="${active === "release" ? "active" : ""}"
-              href="releases.html"
-            >
-              リリース
-            </a>
-
-            <a
-              class="${active === "event" ? "active" : ""}"
-              href="events.html"
-            >
-              イベント
-            </a>
-
-            <a
-              class="${active === "venue" ? "active" : ""}"
-              href="venues.html"
-            >
-              会場
-            </a>
-
-            <a
-              class="${active === "singer" ? "active" : ""}"
-              href="singers.html"
-            >
-              歌唱名義
-            </a>
-
-            <a
-              class="${active === "rankings" ? "active" : ""}"
-              href="rankings.html"
-            >
-              ランキング
-            </a>
-
-            <a
-              class="${active === "statistics" ? "active" : ""}"
-              href="statistics.html"
-            >
-              統計
-            </a>
-
-            <a
-              class="${active === "about" ? "active" : ""}"
-              href="about.html"
-            >
-              About
-            </a>
+            ${headerNavigation_(active)}
           </nav>
         </div>
       </header>
@@ -202,41 +167,7 @@ export function renderCommon(active = "") {
         </div>
 
         <nav class="mus-mobile-drawer-nav">
-          <a class="${active === "home" ? "active" : ""}" href="index.html">
-            <span>ホーム</span>
-          </a>
-
-          <a class="${active === "song" ? "active" : ""}" href="songs.html">
-            <span>曲</span>
-          </a>
-
-          <a class="${active === "release" ? "active" : ""}" href="releases.html">
-            <span>リリース</span>
-          </a>
-
-          <a class="${active === "event" ? "active" : ""}" href="events.html">
-            <span>イベント</span>
-          </a>
-
-          <a class="${active === "venue" ? "active" : ""}" href="venues.html">
-            <span>会場</span>
-          </a>
-
-          <a class="${active === "singer" ? "active" : ""}" href="singers.html">
-            <span>歌唱名義</span>
-          </a>
-
-          <a class="${active === "rankings" ? "active" : ""}" href="rankings.html">
-            <span>ランキング</span>
-          </a>
-
-          <a class="${active === "statistics" ? "active" : ""}" href="statistics.html">
-            <span>統計</span>
-          </a>
-
-          <a class="${active === "about" ? "active" : ""}" href="about.html">
-            <span>About</span>
-          </a>
+          ${headerNavigation_(active, true)}
         </nav>
       </aside>`;
   }
@@ -266,6 +197,7 @@ export function renderCommon(active = "") {
 
   setupGlobalSearch_();
   setupMobileNavigation_();
+  setupHeaderNavigation_();
   setupBackToTop_();
   observeHeaderSearchPosition_();
 }
@@ -329,7 +261,14 @@ function setupGlobalSearch_() {
     currentLinks = [];
   }
 
+  document.addEventListener("musdb:navigation-open", () => {
+    window.clearTimeout(timer);
+    requestId += 1; // A late search response must not reopen over navigation.
+    closeSuggestions();
+  });
+
   function openSuggestions() {
+    document.dispatchEvent(new Event("musdb:search-open"));
     suggestions.hidden = false;
     input.setAttribute(
       "aria-expanded",
@@ -1450,6 +1389,62 @@ function observeHeaderSearchPosition_() {
   }
 }
 
+// Disclosure navigation, not an application menu: native links and Tab order
+// remain available, with explicit buttons controlling each group.
+function setupHeaderNavigation_() {
+  const desktop = document.getElementById("siteNavigation");
+  const drawer = document.getElementById("musMobileDrawer");
+  const groups = [...document.querySelectorAll("#siteHeader .header-nav-group")];
+  const button = group => group.querySelector(".header-nav-trigger");
+  const set = (group, open) => {
+    button(group).setAttribute("aria-expanded", String(open));
+    const panel = group.querySelector(".header-nav-panel");
+    panel.hidden = !open;
+    if (!open) panel.style.removeProperty("left");
+  };
+  const close = root => groups.filter(group => root?.contains(group)).forEach(group => set(group, false));
+  const open = group => {
+    close(desktop?.contains(group) ? desktop : drawer);
+    document.dispatchEvent(new Event("musdb:navigation-open"));
+    set(group, true);
+    if (desktop?.contains(group)) {
+      const panel = group.querySelector(".header-nav-panel"), trigger = button(group).getBoundingClientRect();
+      panel.style.left = "0px";
+      const rect = panel.getBoundingClientRect(), edge = document.documentElement.clientWidth - 12;
+      // Prefer the button's left edge; align its right edge near the viewport
+      // edge. Adjust layout position (not transform) to avoid scroll overflow.
+      let offset = rect.right > edge ? trigger.right - rect.right : 0;
+      if (rect.left + offset < 12) offset = 12 - rect.left;
+      panel.style.left = `${offset}px`;
+    }
+  };
+  for (const group of groups) {
+    const trigger = button(group);
+    trigger.addEventListener("click", () => trigger.getAttribute("aria-expanded") === "true" ? set(group, false) : open(group));
+    group.addEventListener("keydown", event => {
+      if (!desktop?.contains(group)) return; // Existing drawer Escape closes it.
+      if (event.key === "ArrowDown" && event.target === trigger) {
+        event.preventDefault(); open(group); group.querySelector(".header-nav-panel a")?.focus();
+      }
+      if (event.key === "Escape" && trigger.getAttribute("aria-expanded") === "true") {
+        event.preventDefault(); event.stopPropagation(); set(group, false); trigger.focus();
+      }
+    });
+  }
+  document.addEventListener("click", event => {
+    if (!groups.some(group => desktop?.contains(group) && group.contains(event.target))) close(desktop);
+  });
+  // Native Tab/pointer focusout can briefly expose BODY before the destination
+  // receives focus. Closing there hides the destination and cancels the click.
+  document.addEventListener("focusin", event => {
+    if (!desktop?.contains(event.target)) close(desktop);
+  });
+  document.getElementById("globalSearchInput")?.addEventListener("focus", () => { close(desktop); close(drawer); });
+  document.addEventListener("musdb:search-open", () => { close(desktop); close(drawer); });
+  drawer?.addEventListener("musdb:drawer-close", () => close(drawer));
+  window.addEventListener("resize", () => { close(desktop); close(drawer); });
+}
+
 
 
 /**
@@ -1491,6 +1486,7 @@ function setupMobileNavigation_() {
     );
 
   const openMenu = () => {
+    document.dispatchEvent(new Event("musdb:navigation-open"));
     overlay.hidden = false;
 
     window.requestAnimationFrame(
@@ -1535,6 +1531,7 @@ function setupMobileNavigation_() {
   const closeMenu = (
     restoreFocus = false
   ) => {
+    drawer.dispatchEvent(new Event("musdb:drawer-close"));
     overlay.classList.remove(
       "is-open"
     );
@@ -1601,6 +1598,9 @@ function setupMobileNavigation_() {
     "click",
     () => closeMenu(true)
   );
+
+  document.getElementById("globalSearchInput")?.addEventListener("focus", () => { if (isOpen()) closeMenu(); });
+  document.addEventListener("musdb:search-open", () => { if (isOpen()) closeMenu(); });
 
   drawer
     .querySelectorAll("a")

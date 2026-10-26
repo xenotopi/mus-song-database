@@ -6,7 +6,7 @@ import { buildSongUrl,
 
 import {
   renderCommon
-} from "./common.js?v=4.10.1&cache=release-ux&songUrls=1";
+} from "./common.js?v=4.11.0&cache=release-ux&songUrls=1";
 
 import { prepareSongViewGroups, createSongViewGroupFilter, loadSongGroupMemberships } from "./song-view-group-filter.js?v=2";
 

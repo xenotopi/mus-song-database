@@ -129,6 +129,32 @@ a{color:inherit}
   color:var(--indigo);
 }
 
+/* Shared disclosure navigation: the header search keeps the flexible column. */
+.header-nav-group{position:relative;min-width:0}
+.header-nav-trigger{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:36px;padding:8px 10px;border:0;border-radius:999px;background:transparent;color:var(--navy);font:inherit;font-size:14px;font-weight:800;line-height:1.65;cursor:pointer}
+.header-nav-trigger:is(:hover,.active,[aria-expanded="true"]){background:var(--indigo-soft);color:var(--indigo)}
+.header-nav-trigger:focus-visible{outline:3px solid var(--indigo);outline-offset:-3px}
+.header-nav-chevron{display:inline-flex;transition:transform .15s ease}
+.header-nav-trigger[aria-expanded="true"] .header-nav-chevron{transform:rotate(180deg)}
+.header-nav-panel{position:absolute;left:0;top:calc(100% + 9px);z-index:1100;display:block;width:292px;max-width:calc(100vw - 24px);padding:4px;border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:0 8px 24px rgba(23,32,51,.09);white-space:normal}
+.header-nav-section{min-width:0}
+.header-nav-section+.header-nav-section{border-top:1px solid var(--line)}
+.header-nav-section h3{margin:0;padding:6px 12px;background:#f5f6fb;color:var(--muted);font-size:12px;font-weight:700;line-height:1.65}
+.site-header .header-nav-panel a,.mus-mobile-drawer-nav .header-nav-panel a{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-width:0;min-height:44px;margin:0;padding:8px 12px;border:0;border-radius:6px;background:transparent;color:var(--navy);font-size:14px;font-weight:600;line-height:1.65;text-decoration:none;overflow-wrap:anywhere}
+.site-header .header-nav-panel a+a,.mus-mobile-drawer-nav .header-nav-panel a+a{border-top:1px solid #edf0f6}
+.header-nav-link-label{min-width:0}
+.header-nav-link-arrow{display:inline-flex;flex:none;color:#9299ac;font-size:12px}
+.header-nav-trigger,.header-nav-panel a{-webkit-tap-highlight-color:transparent}
+.site-header .header-nav-panel a:is(:hover,.active),.mus-mobile-drawer-nav .header-nav-panel a:is(:hover,.active){background:var(--indigo-soft);color:var(--indigo)}
+.header-nav-panel a:is(:hover,.active) .header-nav-link-arrow{color:var(--indigo)}
+@media(min-width:1081px){.site-header .global-search-wrap{width:100%;max-width:340px;justify-self:center}}
+@media(max-width:1080px){
+  .mus-mobile-drawer-nav .header-nav-trigger{width:100%;justify-content:space-between;min-height:50px;padding:0 16px;border:1px solid var(--line);border-radius:14px;background:#fff}
+  .mus-mobile-drawer-nav .header-nav-trigger:is(.active,[aria-expanded="true"]){border-color:#c8c4fb;background:var(--indigo-soft);color:var(--indigo)}
+  .mus-mobile-drawer-nav .header-nav-panel{position:static;width:100%;max-width:none;margin-top:6px;padding:4px;box-shadow:none;border-radius:12px}
+}
+@media(prefers-reduced-motion:reduce){.header-nav-chevron{transition:none}}
+
 main{
   max-width:var(--max);
   margin:auto;

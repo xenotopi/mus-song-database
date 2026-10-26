@@ -7,7 +7,7 @@ import { buildSongUrl,
 
 import {
   renderCommon
-} from "./common.js?v=4.10.1&cache=release-ux&songUrls=1";
+} from "./common.js?v=4.11.0&cache=release-ux&songUrls=1";
 import { staticEventDetail } from "./static-detail.js?v=1.3.0";
 
 

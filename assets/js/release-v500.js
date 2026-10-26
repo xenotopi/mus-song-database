@@ -1,5 +1,5 @@
 import { buildSongUrl, apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema&songUrls=1";
-import { renderCommon } from "./common.js?v=4.10.1&cache=release-ux&songUrls=1";
+import { renderCommon } from "./common.js?v=4.11.0&cache=release-ux&songUrls=1";
 import { buildSingerUrl } from "./singer-links.js?v=4.8.0";
 import { setupDetailContext } from "./detail-context.js?v=4.6.1";
 import { detailWithApiFallback, staticReleaseList, staticDetail } from "./static-detail.js?v=1.3.0";

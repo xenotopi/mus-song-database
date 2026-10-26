@@ -1,108 +1,46 @@
 "use strict";
-
-const assert = require("node:assert/strict");
-const fs = require("node:fs");
-const http = require("node:http");
-const path = require("node:path");
-const test = require("node:test");
-const { chromium } = require("playwright");
-
-const ROOT = path.resolve(__dirname, "..");
-const MIME = { ".css": "text/css", ".html": "text/html", ".js": "text/javascript", ".json": "application/json", ".png": "image/png", ".svg": "image/svg+xml", ".webmanifest": "application/manifest+json" };
-let server;
-let browser;
-let baseUrl;
-
-test.before(async () => {
-  server = http.createServer((request, response) => {
-    const pathname = decodeURIComponent(new URL(request.url, "http://127.0.0.1").pathname);
-    const file = path.resolve(ROOT, pathname === "/" ? "index.html" : pathname.replace(/^\/+/, ""));
-    const relative = path.relative(ROOT, file);
-    if (relative.startsWith("..") || path.isAbsolute(relative) || !fs.existsSync(file) || !fs.statSync(file).isFile()) { response.writeHead(404).end(); return; }
-    response.writeHead(200, { "content-type": `${MIME[path.extname(file)] || "application/octet-stream"}; charset=utf-8`, "cache-control": "no-store" });
-    fs.createReadStream(file).pipe(response);
-  });
-  await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
-  baseUrl = `http://127.0.0.1:${server.address().port}`;
-  browser = await chromium.launch({ headless: true, channel: process.env.MUSDB_E2E_BROWSER_CHANNEL || undefined });
+// Actual page HTML/CSS + common header only; other entries are suppressed in the
+// HTTP fixture response. Source HTML, formal pages, data and APIs are not changed.
+const a=require('node:assert/strict'),fs=require('node:fs'),http=require('node:http'),p=require('node:path'),test=require('node:test'),os=require('node:os'),{chromium}=require('playwright');
+const root=p.resolve(__dirname,'..'),out=process.env.HEADER_NAV_WORK||fs.mkdtempSync(p.join(os.tmpdir(),'header-nav-')),results=[];
+const history=[['曲','songs.html'],['イベント','events.html'],['会場','venues.html'],['歌唱名義','singers.html']],data=[['ランキング','rankings.html'],['統計','statistics.html'],['メンバー別歌唱記録','member-analytics.html'],['リリース','releases.html'],["神パラ × μ's ダッシュボード",'kamipara.html']],tools=[['いつ振り歌唱チェッカー','gap-checker.html'],['歌唱ブランクランキング','gap-rankings.html']],all=[['ホーム','index.html'],...history,...data,...tools,['About','about.html']];
+const pages=[['index.html','home','index.html'],['songs.html','song','songs.html'],['events.html','event','events.html'],['venues.html','venue','venues.html'],['releases.html','release','releases.html'],['singers.html','singer','singers.html'],['rankings.html','rankings','rankings.html'],['statistics.html','statistics','statistics.html'],['member-analytics.html','','member-analytics.html'],['gap-checker.html','','gap-checker.html'],['gap-rankings.html','','gap-rankings.html'],['kamipara.html','','kamipara.html'],['about.html','about','about.html'],['search.html','',''],['song/S005.html','song','songs.html'],['release/R0003.html','release','releases.html'],['event.html','event','events.html'],['venue.html','venue','venues.html'],['singer.html','singer','singers.html']];
+let server,browser,origin;const reference=new Map();
+test.before(async()=>{fs.mkdirSync(p.join(out,'images'),{recursive:true});server=http.createServer((req,res)=>{let name=new URL(req.url,'http://local').pathname;const isolated=name.startsWith('/__header__/');if(isolated)name=name.slice('/__header__'.length);const file=p.resolve(root,'.'+name);if(!file.startsWith(root+p.sep)||!fs.existsSync(file)||!fs.statSync(file).isFile())return res.writeHead(404).end();let body=fs.readFileSync(file);if(isolated){const active=pages.find(row=>'/'+row[0]===name)?.[1]||'';body=Buffer.from(body.toString().replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,'').replace(/<base\b[^>]*>/gi,'').replace('<head>','<head><base href="/">').replace('</body>','<script type="module">import {renderCommon} from "/assets/js/common.js";renderCommon('+JSON.stringify(active)+');window.__headerReady=true;</script></body>'));}res.writeHead(200,{'content-type':({'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.png':'image/png'})[p.extname(file)]||'application/octet-stream','cache-control':'no-store'});res.end(body);});await new Promise(r=>server.listen(0,'127.0.0.1',r));origin='http://127.0.0.1:'+server.address().port;browser=await chromium.launch({channel:'chrome',headless:true});});
+test.after(async()=>{await browser?.close();await new Promise(r=>server?.close(r));fs.writeFileSync(p.join(out,'results.json'),JSON.stringify({scope:'Actual page templates and CSS; common header runtime; search fixture only',results},null,2));});
+async function open(file='index.html',width=1280,hold=false){const context=await browser.newContext({viewport:{width,height:900},hasTouch:width===390,reducedMotion:'reduce'}),page=await context.newPage(),errors=[],pending=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});await context.addInitScript(()=>{localStorage.setItem('musdb_analytics_consent','rejected');window.__navFocusTrace=[];for(const type of ['focusin','focusout','click'])document.addEventListener(type,event=>{const record=phase=>window.__navFocusTrace.push({phase,type,target:event.target.id||event.target.getAttribute('href')||event.target.tagName,active:document.activeElement?.id||document.activeElement?.getAttribute('href')||document.activeElement?.tagName,expanded:[...document.querySelectorAll('#siteNavigation .header-nav-trigger')].map(n=>n.getAttribute('aria-expanded'))});record('event');if(type==='focusout')queueMicrotask(()=>record('microtask'));},true);});await context.route('**/*',async route=>{const u=new URL(route.request().url());if(u.origin===origin)return route.continue();if(u.searchParams.has('callback')){const action=u.searchParams.get('action'),payload=action==='revision'?{dataRevision:'header-nav-fixture'}:{results:{songs:[{songId:'S005',songName:'Love marginal'}],events:[],venues:[],singers:[],releases:[]}};const respond=()=>route.fulfill({contentType:'text/javascript',body:u.searchParams.get('callback')+'('+JSON.stringify({success:true,data:payload})+');'+(action==='search'?'window.__searchFixtureDelivered=true;':'')});if(hold&&action==='search')return new Promise(resolve=>pending.push(async()=>{await respond();resolve();}));return respond();}return route.fulfill({status:200,contentType:'text/css',body:''});});await page.goto(origin+'/__header__/'+file,{waitUntil:'load',timeout:30000});await page.waitForFunction(()=>window.__headerReady===true);await page.evaluate(()=>document.fonts.ready);return{context,page,errors,pending};}
+const metrics=page=>page.evaluate(()=>{const rect=selector=>{const n=document.querySelector(selector),r=n.getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom,display:getComputedStyle(n).display};};return{width:innerWidth,header:rect('.site-header'),brand:rect('.brand'),search:rect('.global-search-wrap'),input:rect('#globalSearchInput'),nav:rect('#siteNavigation'),menu:rect('#musMobileMenuButton'),overflow:document.documentElement.scrollWidth>innerWidth};});
+async function drawer(page){await page.locator('#musMobileMenuButton').click();await page.waitForFunction(()=>document.getElementById('musMobileDrawer').classList.contains('is-open'));}
+const group=(page,key,mobile=false)=>page.locator((mobile?'.mus-mobile-drawer-nav':'#siteNavigation')+' [data-header-nav-group="'+key+'"]');
+async function shot(page,name){await page.screenshot({path:p.join(out,'images',name+'.png'),animations:'disabled'});}
+for(const [file,active,selected]of pages)for(const width of[1280,390])test('common template '+file+' '+width,async()=>{const x=await open(file,width);try{const state=await metrics(x.page);a.equal(state.overflow,false);a.ok(state.input.width>=180);for(const nav of['#siteNavigation','.mus-mobile-drawer-nav']){a.deepEqual(await x.page.locator(nav+' a').evaluateAll(ns=>ns.map(n=>[n.textContent.trim(),n.getAttribute('href')])),all);a.deepEqual(await x.page.locator(nav+' a[aria-current]').evaluateAll(ns=>ns.map(n=>n.getAttribute('href'))),selected?[selected]:[]);const expected=history.some(([,href])=>href===selected)?'history':data.some(([,href])=>href===selected)?'data':tools.some(([,href])=>href===selected)?'tools':null;a.deepEqual(await x.page.locator(nav+' .header-nav-trigger.active').evaluateAll(ns=>ns.map(n=>n.closest('[data-header-nav-group]').dataset.headerNavGroup)),expected?[expected]:[]);}a.deepEqual(await x.page.locator('#siteNavigation > a, #siteNavigation > .header-nav-group > button').allTextContents().then(ns=>ns.map(n=>n.trim())),['ホーム','歌唱履歴','分析・資料','ツール','About']);a.equal(await x.page.locator('#globalSearchEnhancementStyles').count(),1);if(width===1280){a.ok(state.search.width<=340);a.notEqual(state.nav.display,'none');a.equal(state.menu.display,'none');a.ok(state.brand.right<=state.search.x&&state.search.right<=state.nav.x);a.ok(state.nav.right<=width);}else{a.equal(state.nav.display,'none');a.notEqual(state.menu.display,'none');}if(file==='index.html')reference.set(width,state);else a.deepEqual(state,reference.get(width),'Header layout must match Home');a.deepEqual(x.errors,[]);results.push({file,width,status:'PASS',metrics:state});}catch(e){await shot(x.page,file.replaceAll('/','-')+'-'+width+'-failure');fs.writeFileSync(p.join(out,'failure.html'),await x.page.content());throw e;}finally{await x.context.close();}});
+for(const width of[1080,1081,1440])test('responsive boundary '+width,async()=>{const x=await open('index.html',width);try{const m=await metrics(x.page);a.equal(m.nav.display==='none',width<=1080);a.equal(m.menu.display==='none',width>1080);a.equal(m.overflow,false);a.ok(m.input.width>=180);if(width>1080){a.ok(m.search.width<=340);for(const key of ['history','data','tools']){const g=group(x.page,key);await g.locator('button').click();const r=await g.locator('.header-nav-panel').boundingBox();a.ok(r.x>=0&&r.x+r.width<=width);a.equal(await x.page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);}}results.push({width,status:'PASS',metrics:m});}finally{await x.context.close();}});
+for(const width of[1280,1440])test('desktop vertical panels, rows, hover and screenshots '+width,async()=>{
+ const x=await open('index.html',width);try{
+  await shot(x.page,width+'-normal');let previous=null,appearance=null;
+  for(const key of['history','data','tools']){
+   const g=group(x.page,key),b=g.locator('button'),panel=g.locator('.header-nav-panel'),items={history,data,tools}[key];await b.click();a.equal(await b.getAttribute('aria-expanded'),'true');if(previous)a.equal(await group(x.page,previous).locator('button').getAttribute('aria-expanded'),'false');
+   a.deepEqual(await g.locator('a').evaluateAll(ns=>ns.map(n=>[n.textContent.trim(),n.getAttribute('href')])),items);a.deepEqual(await g.locator('h3').allTextContents(),key==='data'?['集計・分析','資料']:[]);
+   const r=await panel.boundingBox(),br=await b.boundingBox();a.ok(r.x>=0&&r.x+r.width<=width);a.ok(r.y>=br.y+br.height&&r.y<=br.y+br.height+11);a.ok(r.x<br.x+br.width&&r.x+r.width>br.x);
+   if(key==='data'){a.equal(await b.innerText(),'分析・資料');a.equal(await panel.evaluate(n=>document.getElementById(n.getAttribute('aria-labelledby')).textContent.trim()),'分析・資料');}
+   const style=await panel.evaluate(n=>{const c=getComputedStyle(n);return{display:c.display,columns:c.gridTemplateColumns,border:c.border,padding:c.padding,radius:c.borderRadius,shadow:c.boxShadow,background:c.backgroundColor};});a.equal(style.display,'block');a.equal(style.columns,'none');if(appearance)a.deepEqual(style,appearance);else appearance=style;
+   const rows=await g.locator('a').evaluateAll(ns=>ns.map(n=>{const r=n.getBoundingClientRect();return{height:r.height,width:r.width,left:r.x};}));a.ok(rows.every(n=>n.height>=44&&n.width===r.width-10&&n.left===r.x+5));a.equal(await g.locator('.header-nav-link-arrow[aria-hidden="true"] svg').count(),items.length);a.ok((await g.locator('.header-nav-section a+a').evaluateAll(ns=>ns.map(n=>getComputedStyle(n).borderTopWidth))).every(w=>w==='1px'));
+   await shot(x.page,width+'-'+key);await g.locator('a').first().hover();a.equal(await g.locator('a').first().evaluate(n=>getComputedStyle(n).backgroundColor),'rgb(238, 242, 255)');a.equal(await g.locator('a').first().evaluate(n=>getComputedStyle(n).color),'rgb(79, 70, 229)');await shot(x.page,width+'-'+key+'-hover');a.equal(await x.page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);previous=key;
+  }
+  const tb=group(x.page,'tools').locator('button');await tb.focus();await x.page.keyboard.press('Escape');a.equal(await tb.getAttribute('aria-expanded'),'false');a.equal(await tb.evaluate(n=>n===document.activeElement),true);const hb=group(x.page,'history').locator('button');await hb.click();await x.page.locator('main').click({position:{x:10,y:10}});a.equal(await hb.getAttribute('aria-expanded'),'false');const db=group(x.page,'data').locator('button');await db.click();await db.click();a.equal(await db.getAttribute('aria-expanded'),'false');a.deepEqual(x.errors,[]);results.push({width,status:'PASS',states:['normal','history','data','tools'],appearance});
+ }finally{await x.context.close();}
 });
-
-test.after(async () => {
-  await browser?.close();
-  await new Promise(resolve => server?.close(resolve));
+test('mobile three accordions, row dividers, scrolling and screenshots',async()=>{
+ const x=await open('index.html',390);try{
+  await shot(x.page,'390-normal');await drawer(x.page);await shot(x.page,'390-menu');a.equal(await x.page.locator('html').evaluate(n=>n.classList.contains('mus-menu-lock')),true);let previous=null;
+  for(const key of['history','data','tools']){const g=group(x.page,key,true),b=g.locator('button');await b.tap();a.equal(await b.getAttribute('aria-expanded'),'true');if(key==='data'){a.equal(await b.innerText(),'分析・資料');a.equal(await g.locator('.header-nav-panel').evaluate(n=>document.getElementById(n.getAttribute('aria-labelledby')).textContent.trim()),'分析・資料');}if(previous)a.equal(await group(x.page,previous,true).locator('button').getAttribute('aria-expanded'),'false');a.deepEqual(await g.locator('h3').allTextContents(),key==='data'?['集計・分析','資料']:[]);a.equal(await g.locator('.header-nav-link-arrow[aria-hidden="true"] svg').count(),{history,data,tools}[key].length);a.ok((await g.locator('a').evaluateAll(ns=>ns.map(n=>n.getBoundingClientRect().height))).every(h=>h>=44));a.ok((await g.locator('.header-nav-section a+a').evaluateAll(ns=>ns.map(n=>getComputedStyle(n).borderTopWidth))).every(w=>w==='1px'));await shot(x.page,'390-'+key);await g.locator('a').first().hover();a.equal(await g.locator('a').first().evaluate(n=>getComputedStyle(n).backgroundColor),'rgb(238, 242, 255)');await shot(x.page,'390-'+key+'-hover');previous=key;}
+  const last=group(x.page,'tools',true).locator('a').last();await last.scrollIntoViewIfNeeded();a.equal(await last.evaluate(n=>{const r=n.getBoundingClientRect(),d=n.closest('.mus-mobile-drawer').getBoundingClientRect();return r.top>=d.top&&r.bottom<=d.bottom;}),true);await x.page.keyboard.press('Escape');a.equal(await x.page.locator('#musMobileDrawer').getAttribute('aria-hidden'),'true');for(const key of['history','data','tools'])a.equal(await group(x.page,key,true).locator('button').getAttribute('aria-expanded'),'false');a.equal(await x.page.locator('html').evaluate(n=>n.classList.contains('mus-menu-lock')),false);await drawer(x.page);await x.page.locator('#musMobileMenuOverlay').click({position:{x:5,y:200}});a.equal(await x.page.locator('#musMobileMenuButton').getAttribute('aria-expanded'),'false');a.deepEqual(x.errors,[]);results.push({width:390,status:'PASS',states:['normal','history','data','tools'],scroll:true});
+ }finally{await x.context.close();}
 });
-
-async function open(pathname, viewport) {
-  const page = await browser.newPage({ viewport });
-  const issues = [];
-  page.on("console", message => { if (["error", "warning"].includes(message.type())) issues.push(`${message.type()}: ${message.text()}`); });
-  page.on("pageerror", error => issues.push(`pageerror: ${error.message}`));
-  await page.goto(`${baseUrl}${pathname}`, { waitUntil: "domcontentloaded" });
-  await page.locator("#siteHeader .site-header").waitFor({ state: "visible", timeout: 15000 });
-  return { page, issues };
-}
-
-test("共通ナビ Release追加", { timeout: 4 * 60 * 1000 }, async t => {
-  await t.test("PCナビは指定順・一行・非衝突", async () => {
-    const { page, issues } = await open("/releases.html", { width: 1440, height: 900 });
-    const expected = ["ホーム", "曲", "リリース", "イベント", "会場", "歌唱名義", "ランキング", "統計", "About"];
-    assert.deepEqual(await page.locator(".mus-desktop-navigation a").allTextContents().then(values => values.map(value => value.trim())), expected);
-    for (const width of [1440, 1280, 1081]) {
-      await page.setViewportSize({ width, height: 900 });
-      const layout = await page.evaluate(() => {
-        const brand = document.querySelector(".site-header .brand").getBoundingClientRect();
-        const search = document.querySelector(".site-header .global-search-wrap").getBoundingClientRect();
-        const nav = document.querySelector(".mus-desktop-navigation");
-        const navBox = nav.getBoundingClientRect();
-        const links = [...nav.querySelectorAll("a")].map(link => link.getBoundingClientRect());
-        return {
-          bodyWidth: document.body.scrollWidth,
-          documentWidth: document.documentElement.scrollWidth,
-          innerWidth: window.innerWidth,
-          display: getComputedStyle(nav).display,
-          navHeight: navBox.height,
-          linkTops: links.map(box => Math.round(box.top)),
-          collision: brand.right > search.left || search.right > navBox.left
-        };
-      });
-      assert.equal(layout.display === "none", false, `${width}px desktop nav`);
-      assert.equal(new Set(layout.linkTops).size, 1, `${width}px nav wrap`);
-      assert.equal(layout.collision, false, `${width}px brand/search/nav collision`);
-      assert.ok(layout.documentWidth <= layout.innerWidth && layout.bodyWidth <= layout.innerWidth, `${width}px overflow`);
-    }
-    assert.equal(await page.locator(".mus-desktop-navigation a.active[href='releases.html']").count(), 1);
-    assert.deepEqual(issues, []);
-    await page.close();
-  });
-
-  await t.test("Release一覧・詳細でactiveになる", async () => {
-    for (const pathname of ["/releases.html", "/release.html?id=R0015"]) {
-      const { page, issues } = await open(pathname, { width: 1280, height: 900 });
-      assert.equal(await page.locator(".mus-desktop-navigation a.active[href='releases.html']").count(), 1);
-      assert.equal(await page.locator(".mus-mobile-drawer-nav a.active[href='releases.html']").count(), 1);
-      assert.deepEqual(issues, []);
-      await page.close();
-    }
-  });
-
-  await t.test("mobile drawerの表示・開閉・キーボード操作", async () => {
-    const { page, issues } = await open("/releases.html", { width: 900, height: 900 });
-    for (const width of [1080, 1024, 981, 980, 900, 768, 620, 390]) {
-      await page.setViewportSize({ width, height: 900 });
-      assert.equal(await page.locator(".mus-desktop-navigation").evaluate(node => getComputedStyle(node).display), "none", `${width}px desktop hidden`);
-      assert.notEqual(await page.locator("#musMobileMenuButton").evaluate(node => getComputedStyle(node).display), "none", `${width}px menu visible`);
-      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), true, `${width}px overflow`);
-    }
-    await page.locator("#musMobileMenuButton").click();
-    assert.equal(await page.locator("#musMobileMenuButton").getAttribute("aria-expanded"), "true");
-    assert.equal(await page.locator("#musMobileDrawer").getAttribute("aria-hidden"), "false");
-    assert.equal(await page.locator(".mus-mobile-drawer-nav a.active[href='releases.html']").count(), 1);
-    await page.keyboard.press("Escape");
-    assert.equal(await page.locator("#musMobileMenuButton").getAttribute("aria-expanded"), "false");
-    await page.locator("#musMobileMenuButton").click();
-    await page.locator("#musMobileMenuClose").click();
-    assert.equal(await page.locator("#musMobileDrawer").getAttribute("aria-hidden"), "true");
-    assert.deepEqual(issues, []);
-    await page.close();
-  });
+test('keyboard disclosure and Tab use native links',async()=>{const x=await open();try{const h=group(x.page,'history'),b=h.locator('button');await b.focus();await x.page.keyboard.press('ArrowDown');a.equal(await h.locator('a').first().evaluate(n=>n===document.activeElement),true);await x.page.keyboard.press('Tab');a.equal(await h.locator('a').nth(1).evaluate(n=>n===document.activeElement),true);await x.page.keyboard.press('Escape');a.equal(await b.evaluate(n=>n===document.activeElement),true);a.equal(await b.getAttribute('aria-expanded'),'false');await x.page.keyboard.press('Enter');a.equal(await b.getAttribute('aria-expanded'),'true');}finally{fs.writeFileSync(p.join(out,'keyboard-focus.json'),JSON.stringify(await x.page.evaluate(()=>window.__navFocusTrace),null,2));await x.context.close();}});
+for(const width of[1280,390])test('search and navigation mutually exclude without changing query '+width,async()=>{const x=await open('index.html',width);try{const input=x.page.locator('#globalSearchInput');await input.fill('Love');await x.page.locator('.global-suggest-item').first().waitFor();a.equal(await input.getAttribute('aria-expanded'),'true');if(width===390)await drawer(x.page);const d=group(x.page,'data',width===390);await d.locator('button').click();a.equal(await x.page.locator('#globalSearchSuggestions').isVisible(),false);a.equal(await input.inputValue(),'Love');await input.focus();a.equal(await d.locator('button').getAttribute('aria-expanded'),'false');if(width===390)a.equal(await x.page.locator('#musMobileDrawer').getAttribute('aria-hidden'),'true');await input.fill('Love m');await x.page.locator('.global-suggest-item').first().waitFor();await x.page.keyboard.press('ArrowDown');a.equal(await x.page.locator('.global-suggest-item[aria-selected="true"]').count(),1);await x.page.keyboard.press('Escape');a.equal(await x.page.locator('#globalSearchSuggestions').isVisible(),false);a.deepEqual(x.errors,[]);}finally{await x.context.close();}});
+test('late search response cannot reopen over a selected disclosure',async()=>{const x=await open('index.html',1280,true);try{await x.page.locator('#globalSearchInput').fill('Love');await x.page.waitForFunction(()=>document.getElementById('globalSearchInput').getAttribute('aria-expanded')==='true');await new Promise((resolve,reject)=>{const deadline=Date.now()+30000;const poll=()=>{if(x.pending.length)return resolve();if(Date.now()>deadline)return reject(new Error('Search fixture request not observed'));setTimeout(poll,10);};poll();});const d=group(x.page,'data');await d.locator('button').click();await x.pending[0]();await x.page.waitForFunction(()=>window.__searchFixtureDelivered===true);await x.page.evaluate(()=>new Promise(requestAnimationFrame));a.equal(await d.locator('button').getAttribute('aria-expanded'),'true');a.equal(await x.page.locator('#globalSearchSuggestions').isVisible(),false);a.equal(await x.page.locator('#globalSearchInput').inputValue(),'Love');a.deepEqual(x.errors,[]);}finally{await x.context.close();}});
+test('resize closes both desktop disclosure and mobile drawer safely',async()=>{const x=await open();try{await group(x.page,'data').locator('button').click();await x.page.setViewportSize({width:1080,height:900});a.equal(await group(x.page,'data').locator('button').getAttribute('aria-expanded'),'false');await drawer(x.page);await group(x.page,'data',true).locator('button').click();await x.page.setViewportSize({width:1081,height:900});await x.page.waitForFunction(()=>document.getElementById('musMobileDrawer').getAttribute('aria-hidden')==='true');a.equal(await group(x.page,'data',true).locator('button').getAttribute('aria-expanded'),'false');a.equal(await x.page.locator('html').evaluate(n=>n.classList.contains('mus-menu-lock')),false);}finally{await x.context.close();}});
+for(const width of[1280,390])test('all thirteen native destinations including tools '+width,async()=>{
+ for(const[,href]of all)a.ok(fs.existsSync(p.join(root,href)),href);const x=await open('index.html',width);try{for(const[,href]of all){await x.page.goto(origin+'/__header__/index.html');await x.page.waitForFunction(()=>window.__headerReady===true);if(width===390)await drawer(x.page);const nav=width===390?'.mus-mobile-drawer-nav':'#siteNavigation',key=history.some(([,h])=>h===href)?'history':data.some(([,h])=>h===href)?'data':tools.some(([,h])=>h===href)?'tools':null;if(key){const b=group(x.page,key,width===390).locator('button');if(width===390)await b.tap();else await b.click();}const dest=origin+'/'+href;await x.page.route(dest,r=>r.fulfill({contentType:'text/html',body:'<!doctype html><head><title>Native destination</title></head><body>Destination</body>'}));const link=x.page.locator(nav+' a[href="'+href+'"]');if(width===390)await link.tap();else await link.click();await x.page.waitForURL(dest);a.equal(x.page.url(),dest);}a.deepEqual(x.errors,[]);}finally{await x.context.close();}
 });

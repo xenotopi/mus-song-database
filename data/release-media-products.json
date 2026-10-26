@@ -1226,6 +1226,84 @@
       ]
     },
     {
+      "releaseId": "R0075",
+      "kind": "fandisc",
+      "releaseName": "ラブライブ！ ～国立音ノ木坂学院案内～",
+      "relationBinding": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "summary": "TVアニメ1期のダイジェストと撮り下ろしロケ映像を収録したファンディスク。",
+      "sources": [
+        {
+          "key": "press-release",
+          "url": "https://www.bandainamco.co.jp/files/pr20131224_lovelivefandisc_hp.pdf",
+          "label": "バンダイビジュアル 商品資料（2013年12月24日・PDF）",
+          "kind": "official"
+        },
+        {
+          "key": "product",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/bd/tv1st/#bd08",
+          "label": "公式商品ページ",
+          "kind": "official"
+        }
+      ],
+      "sections": [
+        {
+          "label": "TVアニメ1期ダイジェスト",
+          "description": "録り下ろしナレーションによる第1期の振り返り映像。",
+          "sourceKey": "press-release",
+          "entries": []
+        },
+        {
+          "label": "「ラブライ部 ニコ生課外活動 ～ことほのまき～」出張版",
+          "description": "秋葉原周辺の撮り下ろしロケ映像。出演：内田彩（南ことり役）、新田恵海（高坂穂乃果役）、Pile（西木野真姫役）。ナレーション：三森すずこ（園田海未役）。",
+          "sourceKey": "press-release",
+          "entries": []
+        },
+        {
+          "label": "音ノ木坂スクールマップ",
+          "description": "TVアニメの映像とともに、学院の屋上・講堂などの主要スポットを紹介。",
+          "sourceKey": "press-release",
+          "entries": []
+        }
+      ],
+      "editions": [
+        {
+          "label": "封入特典CD",
+          "facts": [
+            "μ'sメンバー9名による録り下ろしメッセージ",
+            "「ラブライブ！μ’s広報部 ～にこりんぱな～」出張版：徳井青空（矢澤にこ役）・飯田里穂（星空凛役）・久保ユリカ（小泉花陽役）による録り下ろしラジオ"
+          ],
+          "sourceKey": "press-release"
+        },
+        {
+          "label": "封入特典・パッケージ",
+          "facts": [
+            "特製カード「Loveca+（ラブカプラス）」：ジャケットイラスト使用・全1種",
+            "ブックレット「G’s課外活動 ～のぞまきえり～」出張版：原案・公野櫻子による希・真姫・絵里とゲスト海未のクロストーク、描き下ろしイラスト、キャストコメント",
+            "キャラクターデザイン・アニメーションディレクター 西田亜沙子先生 描き下ろしジャケット"
+          ],
+          "sourceKey": "press-release"
+        },
+        {
+          "label": "品番・発売情報",
+          "facts": [
+            "品番：BCXA-0704",
+            "発売日：2013年12月25日",
+            "発売時価格：6,000円（税抜）"
+          ],
+          "sourceKey": "product"
+        },
+        {
+          "label": "収録時間・映像音声仕様",
+          "facts": [
+            "収録時間：100分",
+            "リニアPCM（ステレオ）／AVC／BD25G",
+            "16：9・1080i High Definition"
+          ],
+          "sourceKey": "press-release"
+        }
+      ]
+    },
+    {
       "releaseId": "R0076",
       "kind": "radio",
       "releaseName": "ラブライブ！μ’s広報部～にこりんぱな～ vol.2",

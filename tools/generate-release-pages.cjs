@@ -289,6 +289,18 @@ async function generateReleasePages({ revision, ids } = {}) {
       if (sha256(wrapper.data) !== manifest.hashes.releases[id]?.sha256) throw new Error(`${id}: snapshot hash mismatch`);
       const release = wrapper.data;
       const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+      const targetUrl = `${origin}/release.html?id=${id}`;
+      console.log("[release-capture] " + JSON.stringify({ id, url: targetUrl }));
+      const diagnosticDirectory = process.env.MUSDB_RELEASE_DIAGNOSTIC_DIR;
+      const observation = { id, targetUrl, console: [], pageerror: [], responses: [], failed: [], pending: new Set() };
+      if (diagnosticDirectory) {
+        page.on("console", message => observation.console.push({ type: message.type(), text: message.text() }));
+        page.on("pageerror", error => observation.pageerror.push(error.message));
+        page.on("response", response => observation.responses.push({ url: response.url(), status: response.status(), contentType: response.headers()["content-type"] }));
+        page.on("request", request => observation.pending.add(request));
+        page.on("requestfinished", request => observation.pending.delete(request));
+        page.on("requestfailed", request => { observation.pending.delete(request); observation.failed.push({ url: request.url(), error: request.failure()?.errorText }); });
+      }
       await page.addInitScript(() => { window.__MUSDB_RELEASE_CAPTURE__ = true; });
       await page.route("**/*", route => {
         const url = new URL(route.request().url());
@@ -296,8 +308,23 @@ async function generateReleasePages({ revision, ids } = {}) {
         if (url.searchParams.get("callback")) return route.fulfill({ contentType: "text/javascript", body: `${url.searchParams.get("callback")}(${JSON.stringify({ success: true, data: captureJsonpData(url, kamipara) })});` });
         return route.abort();
       });
-      await page.goto(`${origin}/release.html?id=${id}`);
-      await page.waitForFunction(() => !document.getElementById("mainContent").hidden && document.getElementById("status").hidden);
+      try {
+        await page.goto(targetUrl);
+        await page.waitForFunction(() => !document.getElementById("mainContent").hidden && document.getElementById("status").hidden);
+      } catch (error) {
+        if (error.name === "TimeoutError" && diagnosticDirectory) {
+          const directory = path.resolve(diagnosticDirectory, id), saveErrors = [];
+          fs.mkdirSync(directory, { recursive: true });
+          const save = async (name, action) => { try { await action(); } catch (failure) { saveErrors.push({ name, error: failure.message }); } };
+          const result = { ...observation, pending: [...observation.pending].map(request => request.url()), error: error.message, at: new Date().toISOString(), node: process.version, platform: process.platform };
+          await save("state", async () => { result.state = await page.evaluate(() => ({ url: location.href, readyState: document.readyState, mainContent: document.getElementById("mainContent")?.outerHTML, status: document.getElementById("status")?.outerHTML, navigation: performance.getEntriesByType("navigation").map(entry => entry.toJSON()) })); });
+          await save("DOM", async () => fs.writeFileSync(path.join(directory, "dom.html"), await page.content()));
+          await save("screenshot", async () => page.screenshot({ path: path.join(directory, "screen.png"), fullPage: true }));
+          result.saveErrors = saveErrors;
+          fs.writeFileSync(path.join(directory, "timeout.json"), JSON.stringify(result, null, 2));
+        }
+        throw error;
+      }
       // Basic details can now appear before supplemental list metadata arrives.
       // Reuse the loaded module's completion promise; never capture that interim DOM.
       await page.evaluate(async () => {

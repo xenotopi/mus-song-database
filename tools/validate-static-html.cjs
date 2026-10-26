@@ -266,6 +266,7 @@ function validateReleaseBody(doc, release, releaseList, productContents = null, 
   if(singleProduct)expectedCount="CD · "+singleProduct.cd.tracks.length+"トラック";
   if(albumProduct?.extraTracks.length)expectedCount="CD · "+albumProduct.officialInventories[0].discs.reduce((n,d)=>n+d.tracks.length,0)+"トラック（登録曲"+tracks.length+"曲）";
   if(bd)expectedCount=tv?'本編 · '+bluRayProduct.mainFeature.episodes.length+'話':'映画本編';
+  if(mediaProduct?.kind==='fandisc')expectedCount='映像 · '+mediaProduct.sections.length+'項目';
   if(mediaProduct?.kind==='radio')expectedCount=mediaProduct.sections.length+' Disc';
   if(mediaProduct?.kind==='collection')expectedCount='映像 · 30項目';
   if(mediaProduct?.kind==='live')expectedCount='ライブ映像';

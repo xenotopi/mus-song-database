@@ -1,5 +1,5 @@
 // Supplementary product inventory. Never creates a Song, Relation or performance.
-const targets = new Set(['R0016','R0041','R0054','R0055','R0056','R0060','R0069','R0073','R0074','R0076','R0079','R0080','R0083','R0084','R0085','R0086','R0087']);
+const targets = new Set(['R0016','R0041','R0054','R0055','R0056','R0060','R0069','R0073','R0074','R0075','R0076','R0079','R0080','R0083','R0084','R0085','R0086','R0087']);
 const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
 const check = (ok,why) => { if(!ok)throw Error(why); };
 const digest = async v => [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(v))))].map(n=>n.toString(16).padStart(2,'0')).join('');
@@ -10,7 +10,7 @@ export async function resolveMediaProduct(release,data) {
   check(matches.length===1 && targets.has(release.releaseId),'MEDIA_IDENTITY');
   const item=matches[0];
   check(item.releaseName===release.releaseName && item.relationBinding===await digest(release.includedSongs),'MEDIA_RELATION_BINDING');
-  check(['radio','live','collection','ticket'].includes(item.kind) && item.summary && item.sections?.length && item.sources?.length,'MEDIA_PRODUCT');
+  check(['radio','live','collection','ticket','fandisc'].includes(item.kind) && item.summary && item.sections?.length && item.sources?.length,'MEDIA_PRODUCT');
   const keys=new Set();
   for(const s of item.sources){const url=new URL(s.url);check(url.protocol==='https:' && !url.username && !url.password && s.key && !keys.has(s.key) && s.label && ['official','press','retailer'].includes(s.kind),'MEDIA_SOURCE');keys.add(s.key);}
   const bound=new Set();
@@ -32,23 +32,24 @@ let request;
 export async function loadMediaProduct(release) {
   if(!targets.has(release.releaseId))return null;
   try {
-    request ||= fetch(new URL('../../data/release-media-products.json?v=1.0.0',import.meta.url),{cache:'no-cache',signal:AbortSignal.timeout(8000)}).then(r=>{if(!r.ok)throw Error('MEDIA_HTTP');return r.json();}).catch(e=>{request=null;throw e;});
+    request ||= fetch(new URL('../../data/release-media-products.json?v=1.0.1',import.meta.url),{cache:'no-cache',signal:AbortSignal.timeout(8000)}).then(r=>{if(!r.ok)throw Error('MEDIA_HTTP');return r.json();}).catch(e=>{request=null;throw e;});
     return await resolveMediaProduct(release,await request);
   } catch(error){if(window.__MUSDB_RELEASE_CAPTURE__)throw error;return null;}
 }
 const arrow='<span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span>';
 function workLinkTitle(title) {
   const letters = Array.from(title);
-  return `<span class="release-media-title">${esc(letters.slice(0,-4).join(''))}<span class="release-media-link-tail">${esc(letters.slice(-4).join(''))}${arrow}</span></span>`;
+  return `<span class="mus-title-chip">${esc(letters.slice(0,-2).join(''))}<span class="mus-title-tail">${esc(letters.slice(-2).join(''))}${arrow}</span></span>`;
 }
 export function mediaCountLabel(item) {
+  if(item.kind==='fandisc')return '映像 · '+item.sections.length+'項目';
   if(item.kind==='radio')return item.sections.length+' Disc';
   if(item.kind==='collection')return '映像 · '+item.sections[0].entries.length+'項目';
   if(item.kind==='live')return 'ライブ映像';
   return ''; // Retain the registered-song count until the complete CD inventory is verified.
 }
 export function mediaInventoryMarkup(item) {
-  const rows=s=>s.entries.length?`<ol class="release-media-tracks">${s.entries.map(t=>t.relationId?`<li class="release-media-track" data-media-position="${t.number}" data-media-slot="${esc(t.relationId)}"><span class="release-media-track-number">${t.number}</span></li>`:`<li class="release-media-track${item.kind==='collection'?' release-single-track':''}" data-media-position="${t.number}"><span class="release-track-number release-single-track-number">${t.number}</span>${t.songId?`<a class="release-media-song-link" href="song/${esc(t.songId)}.html">${workLinkTitle(t.title)}</a>`:`<span class="release-media-title">${esc(t.title)}</span>`}</li>`).join('')}</ol>`:'';
+  const rows=s=>s.entries.length?`<ol class="release-media-tracks${item.kind==='collection'?' release-work-track-list':''}">${s.entries.map(t=>t.relationId?`<li class="release-media-track" data-media-position="${t.number}" data-media-slot="${esc(t.relationId)}"><span class="release-media-track-number">${t.number}</span></li>`:t.songId?`<li class="release-media-work-track" data-media-position="${t.number}"><a class="release-work-track-row mus-card-link mus-chip-link" href="song/${esc(t.songId)}.html"><span class="release-track-number">${t.number}</span><span class="release-included-song-copy">${workLinkTitle(t.title)}</span></a></li>`:`<li class="release-media-track" data-media-position="${t.number}"><span class="release-track-number release-single-track-number">${t.number}</span><span class="release-media-title">${esc(t.title)}</span></li>`).join('')}</ol>`:'';
   return `<div class="release-media-inventory release-bluray" data-release-media-ready="${item.releaseId}"><p class="release-media-intro">${esc(item.summary)}</p>${item.sections.map((s,i)=>`<details class="release-bd-cd release-media-disc" data-media-section="${i}"${i===0||!s.entries.length?' open':''}><summary>${esc(s.label)}${s.entries.length?` · ${s.entries.length}項目`:''}</summary>${s.description?`<p class="release-media-description">${esc(s.description)}</p>`:''}${rows(s)}</details>`).join('')}</div>`;
 }
 export function applyMediaProduct(release,item) {

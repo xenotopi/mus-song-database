@@ -47,13 +47,15 @@ html.mus-menu-lock .release-has-context .detail-context-inner { pointer-events: 
 .release-content :is(.release-included-song-title, .release-child-title, .release-event-title, .release-song-title) { display: inline; }
 .release-included-song-meta { margin-top: 5px; }
 .release-content a.release-included-song-row { display: flex; gap: 12px; align-items: center; }
-.release-content .release-product-track-row { display: flex; gap: 12px; align-items: center; min-width: 0; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.release-content :is(.release-product-track-row, .release-work-track-row) { display: flex; gap: 12px; align-items: center; min-width: 0; padding: 14px 16px; border-bottom: 1px solid var(--line); }
 .release-product-track-title { color: var(--navy); font-size: 16px; font-weight: 900; line-height: 1.8; overflow-wrap: anywhere; }
 .release-track-number { flex: 0 0 28px; text-align: center; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
 .release-included-song-copy { display: block; flex: 1; min-width: 0; }
 /* Product track inventory: equal column starts for linked and non-linked rows. */
 .release-product-track-list { --release-track-columns: 28px 8.5rem minmax(0, 1fr); }
+.release-work-track-list { --release-track-columns: 28px minmax(0, 1fr); }
 .release-content .release-product-track-list > :is(.release-included-song-row, .release-product-track-row),
+.release-content .release-work-track-list > li > .release-work-track-row,
 .release-track-columns { display: grid; grid-template-columns: var(--release-track-columns); column-gap: 12px; align-items: center; }
 .release-track-columns { padding: 10px 16px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 12px; }
 .release-track-columns > :first-child { text-align: center; }
@@ -112,9 +114,11 @@ html.mus-menu-lock .release-has-context .detail-context-inner { pointer-events: 
   .release-info dd a { min-height: 44px; }
   .release-included-count { flex: 1 1 100%; }
   .release-content .release-included-song-row { padding: 14px 12px; }
-  .release-content .release-product-track-row { padding: 14px 12px; }
+  .release-content :is(.release-product-track-row, .release-work-track-row) { padding: 14px 12px; }
   .release-product-track-list { --release-track-columns: 22px 5.5rem minmax(0, 1fr); }
+  .release-work-track-list { --release-track-columns: 22px minmax(0, 1fr); }
   .release-content .release-product-track-list > :is(.release-included-song-row, .release-product-track-row),
+  .release-content .release-work-track-list > li > .release-work-track-row,
   .release-track-columns { column-gap: 8px; }
   .release-track-columns { padding: 10px 12px; }
   .release-box-controls { grid-template-columns: minmax(0, 1fr); gap: 10px; }
@@ -275,14 +279,8 @@ html.mus-menu-lock .release-has-context .detail-context-inner { pointer-events: 
 .release-media-description, .release-media-intro { line-height: 1.7; overflow-wrap: anywhere; }
 .release-media-tracks { list-style: none; margin: 0; padding: 0; }
 .release-media-tracks > li { min-width: 0; }
-.release-media-track:not(.release-single-track) { display: grid; grid-template-columns: 2.5em minmax(0, 1fr); gap: 8px; padding: 8px 12px; border-top: 1px solid var(--border-color, #e2e6ee); align-items: start; }
-.release-media-title, .release-media-song-link { min-width: 0; overflow-wrap: anywhere; }
-.release-media-song-link { display: inline-flex; width: fit-content; align-items: center; gap: 6px; min-height: 44px; color: var(--link-color, #5145b7); }
-.release-media-song-link .site-icon-inline { flex: 0 0 auto; }
-.release-media-song-link:focus-visible { outline: 2px solid #6153bb; outline-offset: 3px; border-radius: 4px; }
-.release-single-track > .release-media-song-link { display: block; max-width: 100%; box-sizing: border-box; padding: .65rem 0; line-height: 1.65; font-size: 16px; }
-.release-single-track > .release-media-song-link .site-icon-inline { display: inline-block; margin-left: .35em; vertical-align: middle; }
-.release-media-link-tail { white-space: nowrap; }
+.release-media-track { display: grid; grid-template-columns: 2.5em minmax(0, 1fr); gap: 8px; padding: 8px 12px; border-top: 1px solid var(--border-color, #e2e6ee); align-items: start; }
+.release-media-title { min-width: 0; overflow-wrap: anywhere; }
 .release-media-products .release-single-edition { margin-top: 10px; }
 .release-bd-cd-tracks > li[data-bd-card-slot] { padding: 0; }
 .release-bd-cd-tracks .release-included-song-row { width: 100%; box-sizing: border-box; }

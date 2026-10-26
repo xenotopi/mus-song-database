@@ -12,7 +12,8 @@ function offlineDocument(html){const parsed=parseSerializedHtml(html),cache=new 
  function wrap(n){if(!n)return null;if(cache.has(n))return cache.get(n);const el={
   get id(){return n.attrs.id||'';},set id(v){n.attrs.id=String(v);},get className(){return n.attrs.class||'';},set className(v){n.attrs.class=String(v);},
   get textContent(){return textContent(n);},set textContent(v){n.children=[String(v)];},
-  get innerHTML(){return n.children.map(serialize).join('');},set innerHTML(v){const d=parseSerializedHtml('<!doctype html><html><head></head><body>'+v+'</body></html>'),body=d.nodes.find(x=>x.tag==='body');n.children=body.children;for(const c of n.children)if(typeof c!=='string')c.parent=n;},
+  get innerHTML(){return n.children.map(serialize).join('');},set innerHTML(v){const d=parseSerializedHtml('<!doctype html><html><head></head><body>'+v+'</body></html>'),body=d.nodes.find(x=>x.tag==='body');for(const c of n.children)if(typeof c!=='string')c.parent=null;n.children=body.children;for(const c of n.children)if(typeof c!=='string')c.parent=n;},
+  get hidden(){return Object.hasOwn(n.attrs,'hidden');},set hidden(v){if(v)n.attrs.hidden='';else delete n.attrs.hidden;},
   get outerHTML(){return serialize(n);},get parentElement(){return n.parent?.attrs?wrap(n.parent):null;},get firstElementChild(){return this.children[0]||null;},get children(){return n.children.filter(x=>typeof x!=='string').map(wrap);},
   get previousElementSibling(){const siblings=n.parent?.children.filter(x=>typeof x!=='string')||[];return wrap(siblings[siblings.indexOf(n)-1]);},get nextElementSibling(){const siblings=n.parent?.children.filter(x=>typeof x!=='string')||[];return wrap(siblings[siblings.indexOf(n)+1]);},
   get isConnected(){let p=n;while(p.parent)p=p.parent;return p===parsed.document;},

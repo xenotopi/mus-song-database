@@ -28,6 +28,7 @@ export function consolidateReleaseSources(releaseId, doc = document) {
   };
   collect('single',doc.querySelector('#singleProductSection .release-single-sources'),'特典・商品仕様');
   collect('album',doc.querySelector('#albumProductSection .release-single-sources'),'特典・商品仕様');
+  collect('media',doc.querySelector('.release-media-sources'),'収録内容・商品仕様');
   collect('bluray',doc.querySelector('#bluRayProductSection .release-bd-source'),'本編・特典・商品仕様');
   for (const edition of doc.querySelectorAll('#bluRayProductSection [data-bd-edition]')) {
     const links = edition.querySelector('.release-bd-links');

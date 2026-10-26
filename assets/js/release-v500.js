@@ -9,11 +9,12 @@ import { attachReleaseSidecar } from "./release-sidecar.js?v=1.0.1";
 import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import { attachReleaseVocals } from "./release-vocals.js?v=1.3.0";
 import { loadReleaseContents } from "./release-contents.js?v=1.1.0";
-import { applyReleaseNavigation, loadReleaseNavigation, releaseNavigationModel } from "./release-navigation.js?v=1.0.0";
-import { attachReleaseBluRay } from "./release-bluray.js?v=1.1.1";
+import { applyReleaseNavigation, loadReleaseNavigation, releaseNavigationModel } from "./release-navigation.js?v=1.1.0";
+import { attachReleaseBluRay, loadBluRayProduct } from "./release-bluray.js?v=1.2.0";
+import { loadMediaProduct, applyMediaProduct } from "./release-media-products.js?v=1.0.0";
 import { loadSingleProduct, applySingleProduct } from "./release-single-products.js?v=1.0.1";
 import { loadAlbumProduct, applyAlbumProduct } from "./release-album-products.js?v=1.0.1";
-import { consolidateReleaseSources } from "./release-sources.js?v=1.0.0";
+import { consolidateReleaseSources } from "./release-sources.js?v=1.1.0";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
@@ -479,7 +480,8 @@ function editionLabel(value) {
 function updateSectionNav() {
   const nav = $("releaseSectionNav");
   if (!nav) return;
-  const sections = [["includedSongsSection", "収録内容"], ["singleProductSection", "特典・商品仕様"], ["albumProductSection", "特典・商品仕様"], ["bluRayProductSection", "本編・特典"], ["kamiparaHistorySection", "神パラ歌唱履歴"], ["debutSongsSection", "初出・由来"], ["relatedReleasesSection", "関連作品"], ["relatedEventsSection", "関連イベント"], ["releaseInformationSection", "作品情報"]].filter(([id]) => $(id) && !$(id).hidden);
+  const sections = [["includedSongsSection", "収録内容"], ["singleProductSection", "特典・商品仕様"], ["albumProductSection", "特典・商品仕様"], ["bluRayProductSection", "本編・特典"],
+    ["mediaProductSection", "特典・商品仕様"], ["kamiparaHistorySection", "神パラ歌唱履歴"], ["debutSongsSection", "初出・由来"], ["relatedReleasesSection", "関連作品"], ["relatedEventsSection", "関連イベント"], ["releaseInformationSection", "作品情報"]].filter(([id]) => $(id) && !$(id).hidden);
   nav.innerHTML = sections.map(([id, label]) => `<a href="${escapeHtml(releaseDocumentHref(id))}">${label}</a>`).join("");
   nav.hidden = sections.length === 0;
 }
@@ -604,6 +606,17 @@ async function loadRelease() {
       catalogNumber: release.catalogNumber ?? listRelease.catalogNumber,
       officialName: release.officialName ?? listRelease.officialName
     } : release;
+    // Preload supplements before touching a completed static inventory. A failed
+    // optional fetch must not replace captured episodes/video/CD cards with a
+    // partial Relation-only view.
+    const bluRayProduct = await loadBluRayProduct(resolvedRelease);
+    const mediaProduct = await loadMediaProduct(resolvedRelease);
+    if (hasPrerenderedContent && ((!bluRayProduct && elements.includedSongsContent.dataset.releaseBdMain === releaseId) ||
+        (!mediaProduct && elements.includedSongsContent.dataset.releaseMediaReady === releaseId))) {
+      if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
+      updateSectionNav();
+      return;
+    }
     const albumProduct = await loadAlbumProduct(resolvedRelease);
     if (!albumProduct && hasPrerenderedContent && elements.includedSongsContent.dataset.releaseAlbumReady === releaseId) {
       if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
@@ -625,7 +638,8 @@ async function loadRelease() {
     await attachReleaseVocals(resolvedRelease, elements.includedSongsContent);
     applySingleProduct(resolvedRelease, singleProduct);
     applyAlbumProduct(resolvedRelease, albumProduct);
-    await attachReleaseBluRay(resolvedRelease);
+    await attachReleaseBluRay(resolvedRelease, bluRayProduct);
+    applyMediaProduct(resolvedRelease, mediaProduct);
     await hydrateBoxMembers(boxView, safeReleaseList, response);
     if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
     if (resolvedRelease.releaseId === "R0072") await renderKamiparaRelease();

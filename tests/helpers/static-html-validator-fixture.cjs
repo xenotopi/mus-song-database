@@ -50,6 +50,7 @@ function buildFixture() {
   putJson("data/release-vocals.json", { schemaVersion: 1, singers: [], releases: [] });
   putJson("data/release-contents.json", { schemaVersion: 2, scope: "release-product-track-list-only", releases: [] });
   // Synthetic CD-only inputs do not represent any of the official Blu-ray products.
+  putJson("data/release-media-products.json", { schemaVersion: 1, scope: "release-media-product-facts-only", releases: [] });
   putJson("data/release-bluray-products.json", { schemaVersion: 1, scope: "release-bluray-product-facts-only", releases: [] });
   putJson("data/release-single-products.json", { schemaVersion: 1, scope: "release-single-product-facts-only", releases: [] });
   putJson("data/release-album-products.json", { schemaVersion: 1, scope: "release-album-product-facts-only", releases: [] });

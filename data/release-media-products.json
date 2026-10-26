@@ -1,0 +1,2221 @@
+{
+  "schemaVersion": 1,
+  "scope": "release-media-product-facts-only",
+  "releases": [
+    {
+      "releaseId": "R0016",
+      "kind": "radio",
+      "releaseName": "にこりんぱな テーマソングDJCD",
+      "relationBinding": "6f6a8233d82bb6aa14d9814091a3dabe255e48ee98b84559bb3cb6a865f334e5",
+      "summary": "にこりんぱなのテーマソング2曲・Off Vocal・DJトラックを収録。",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd16",
+          "label": "公式商品情報",
+          "kind": "official",
+          "contentSha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25"
+        }
+      ],
+      "sections": [
+        {
+          "label": "CD",
+          "description": "出演：徳井青空（矢澤にこ役）／飯田里穂（星空凛役）／久保ユリカ（小泉花陽役）",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "Listen to my heart!!",
+              "relationId": "RT0034"
+            },
+            {
+              "number": 2,
+              "title": "after school NAVIGATORS",
+              "relationId": "RT0035"
+            },
+            {
+              "number": 3,
+              "title": "Listen to my heart!!（Off Vocal）"
+            },
+            {
+              "number": 4,
+              "title": "after school NAVIGATORS（Off Vocal）"
+            },
+            {
+              "number": 5,
+              "title": "ラブライ部 テーマソングDJCDでもラジオ課外活動～にこりんぱな～［DJトラック］"
+            }
+          ]
+        }
+      ],
+      "editions": [
+        {
+          "label": "テーマソングDJCD",
+          "facts": [
+            "品番：LACA-15244",
+            "発売当時価格：2,000円（税込）／1,905円（税抜）",
+            "初回生産分：にこりんぱなのべしゃりの決め手カード（全3種から1枚）"
+          ],
+          "sourceKey": "official"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0041",
+      "kind": "live",
+      "releaseName": "ラブライブ！μ's →NEXT LoveLive! 2014～ENDLESS PARADE～",
+      "relationBinding": "0cb7d6d328438293d9f6b5cac869de8329cfcc21db82a6365d27052b7df1956f",
+      "summary": "ライブ映像作品／収録公演：2014年2月9日・さいたまスーパーアリーナ",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd45",
+          "label": "公式Blu-ray商品情報",
+          "kind": "official",
+          "contentSha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25"
+        }
+      ],
+      "sections": [
+        {
+          "label": "Disc 1",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "オープニング"
+            },
+            {
+              "number": 2,
+              "title": "Music S.T.A.R.T!!／μ’s"
+            },
+            {
+              "number": 3,
+              "title": "僕らは今のなかで／μ's"
+            },
+            {
+              "number": 4,
+              "title": "―MC1―"
+            },
+            {
+              "number": 5,
+              "title": "夏色えがおで1,2,Jump!／μ’s"
+            },
+            {
+              "number": 6,
+              "title": "Wonderful Rush／μ’s"
+            },
+            {
+              "number": 7,
+              "title": "微熱からMystery／lily white （園田海未（CV.三森すずこ）・星空凛（CV.飯田里穂）・東條希（CV.楠田亜衣奈））"
+            },
+            {
+              "number": 8,
+              "title": "―MC＜lily white＞―"
+            },
+            {
+              "number": 9,
+              "title": "キミのくせに！／lily white （園田海未（CV.三森すずこ）・星空凛（CV.飯田里穂）・東條希（CV.楠田亜衣奈））"
+            },
+            {
+              "number": 10,
+              "title": "Cutie Panther／BiBi （絢瀬絵里（CV.南條愛乃）・西木野真姫（CV.Pile）・矢澤にこ（CV.徳井青空））"
+            },
+            {
+              "number": 11,
+              "title": "―MC＜BiBi＞―"
+            },
+            {
+              "number": 12,
+              "title": "夏、終わらないで。／BiBi （絢瀬絵里（CV.南條愛乃）・西木野真姫（CV.Pile）・矢澤にこ（CV.徳井青空））"
+            },
+            {
+              "number": 13,
+              "title": "UNBALANCED LOVE／Printemps （高坂穂乃果（CV.新田恵海）・南ことり（CV.内田彩）・小泉花陽（CV.久保ユリカ））"
+            },
+            {
+              "number": 14,
+              "title": "―MC＜Printemps＞―"
+            },
+            {
+              "number": 15,
+              "title": "Pure girls project／Printemps （高坂穂乃果（CV.新田恵海）・南ことり（CV.内田彩）・小泉花陽（CV.久保ユリカ））"
+            },
+            {
+              "number": 16,
+              "title": "輝夜の城で踊りたい／μ's"
+            },
+            {
+              "number": 17,
+              "title": "―MC2―"
+            },
+            {
+              "number": 18,
+              "title": "もぎゅっと”love”で接近中！／μ’s"
+            },
+            {
+              "number": 19,
+              "title": "baby maybe 恋のボタン／μ's"
+            },
+            {
+              "number": 20,
+              "title": "LOVELESS WORLD／μ's"
+            },
+            {
+              "number": 21,
+              "title": "Mermaid festa vol.1／μ's"
+            },
+            {
+              "number": 22,
+              "title": "―MC3―"
+            },
+            {
+              "number": 23,
+              "title": "No brand girls／μ's"
+            },
+            {
+              "number": 24,
+              "title": "Snow halation／μ's"
+            }
+          ]
+        },
+        {
+          "label": "Disc 2",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "START:DASH!!／μ's"
+            },
+            {
+              "number": 2,
+              "title": "友情ノーチェンジ／μ's"
+            },
+            {
+              "number": 3,
+              "title": "―MC4―"
+            },
+            {
+              "number": 4,
+              "title": "僕らのLIVE君とのLIFE／μ's"
+            },
+            {
+              "number": 5,
+              "title": "きっと青春が聞こえる／μ's"
+            },
+            {
+              "number": 6,
+              "title": "Finale"
+            }
+          ]
+        },
+        {
+          "label": "映像特典",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "「ラブライブ！μ's→NEXT LoveLive！2014"
+            },
+            {
+              "number": 2,
+              "title": "幕間ドラマ1『まずはジェットなコースター』"
+            },
+            {
+              "number": 3,
+              "title": "幕間ドラマ２ 『次は恐怖なお化け屋敷』"
+            },
+            {
+              "number": 4,
+              "title": "幕間ドラマ3 『ライブはすてきな観覧車』"
+            }
+          ]
+        }
+      ],
+      "editions": [
+        {
+          "label": "0209 Blu-ray",
+          "facts": [
+            "品番：LABX-8058～9",
+            "Blu-ray 2枚組",
+            "発売当時価格：8,500円（税抜）"
+          ],
+          "sourceKey": "official"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0054",
+      "kind": "ticket",
+      "releaseName": "「ラブライブ！The School Idol Movie」特典付前売券第3弾 ユニットシングル Printemps「MUSEUMでどうしたい？」",
+      "relationBinding": "8561847f35dddada064db7e1d4bbf498bdf51d335e726637284ef0412006d543",
+      "summary": "劇場版『ラブライブ！The School Idol Movie』第3弾前売券に付属するPrintempsの新曲シングルCD。CDジャケットに前売券を封入。",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/sp_movie_ticket05.html",
+          "label": "公式第3弾前売券案内",
+          "kind": "official"
+        }
+      ],
+      "sections": [
+        {
+          "label": "特典CD",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "MUSEUMでどうしたい？",
+              "relationId": "RT0095"
+            }
+          ]
+        }
+      ],
+      "editions": [
+        {
+          "label": "ユニット別・特典CD付前売券",
+          "facts": [
+            "価格：2,500円（税込・前売券を含む）",
+            "1種類につき対応するユニットのCD1枚"
+          ],
+          "sourceKey": "official"
+        }
+      ],
+      "pending": [
+        "Off Vocalの収録順・表記：一次資料のトラックリスト未確認のため未掲載"
+      ]
+    },
+    {
+      "releaseId": "R0055",
+      "kind": "ticket",
+      "releaseName": "「ラブライブ！The School Idol Movie」特典付前売券第3弾 ユニットシングル BiBi「最低で最高のParadiso」",
+      "relationBinding": "b674670b3fdc9f562301ffb334daa7f081551e75929b9a6ebab71b6de68d81d2",
+      "summary": "劇場版『ラブライブ！The School Idol Movie』第3弾前売券に付属するBiBiの新曲シングルCD。CDジャケットに前売券を封入。",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/sp_movie_ticket05.html",
+          "label": "公式第3弾前売券案内",
+          "kind": "official"
+        }
+      ],
+      "sections": [
+        {
+          "label": "特典CD",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "最低で最高のParadiso",
+              "relationId": "RT0096"
+            }
+          ]
+        }
+      ],
+      "editions": [
+        {
+          "label": "ユニット別・特典CD付前売券",
+          "facts": [
+            "価格：2,500円（税込・前売券を含む）",
+            "1種類につき対応するユニットのCD1枚"
+          ],
+          "sourceKey": "official"
+        }
+      ],
+      "pending": [
+        "Off Vocalの収録順・表記：一次資料のトラックリスト未確認のため未掲載"
+      ]
+    },
+    {
+      "releaseId": "R0056",
+      "kind": "ticket",
+      "releaseName": "「ラブライブ！The School Idol Movie」特典付前売券第3弾 ユニットシングル lily white「乙姫心で恋宮殿」",
+      "relationBinding": "13e8aafebe6c099c550695e798dbdd848ff1d9d1ce1662fbd4086fa01271425f",
+      "summary": "劇場版『ラブライブ！The School Idol Movie』第3弾前売券に付属するlily whiteの新曲シングルCD。CDジャケットに前売券を封入。",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/sp_movie_ticket05.html",
+          "label": "公式第3弾前売券案内",
+          "kind": "official"
+        }
+      ],
+      "sections": [
+        {
+          "label": "特典CD",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "乙姫心で恋宮殿",
+              "relationId": "RT0097"
+            }
+          ]
+        }
+      ],
+      "editions": [
+        {
+          "label": "ユニット別・特典CD付前売券",
+          "facts": [
+            "価格：2,500円（税込・前売券を含む）",
+            "1種類につき対応するユニットのCD1枚"
+          ],
+          "sourceKey": "official"
+        }
+      ],
+      "pending": [
+        "Off Vocalの収録順・表記：一次資料のトラックリスト未確認のため未掲載"
+      ]
+    },
+    {
+      "releaseId": "R0060",
+      "kind": "live",
+      "releaseName": "ラブライブ！ μ's Go→Go! LoveLive! 2015 ～Dream Sensation!～",
+      "relationBinding": "1b152cfcd5f0e39f1cba5db4da7e516979b5e593e96995169a5f019d5bec68fc",
+      "summary": "ライブ映像作品／収録公演：2015年1月31日・2月1日／さいたまスーパーアリーナ",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd62",
+          "label": "公式Blu-ray商品情報",
+          "kind": "official",
+          "contentSha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25"
+        },
+        {
+          "key": "cd61",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd61",
+          "label": "公式商品情報：Blu-ray Day1",
+          "kind": "official",
+          "contentSha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25"
+        },
+        {
+          "key": "cd60",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd60",
+          "label": "公式商品情報：Blu-ray Day2",
+          "kind": "official",
+          "contentSha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25"
+        }
+      ],
+      "sections": [
+        {
+          "label": "Day 1 · Disc 1",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "オープニング"
+            },
+            {
+              "number": 2,
+              "title": "それは僕たちの奇跡／μ's"
+            },
+            {
+              "number": 3,
+              "title": "僕らは今のなかで／μ's"
+            },
+            {
+              "number": 4,
+              "title": "― MC1 ―"
+            },
+            {
+              "number": 5,
+              "title": "Music S.T.A.R.T!!／μ's"
+            },
+            {
+              "number": 6,
+              "title": "ユメノトビラ／μ's"
+            },
+            {
+              "number": 7,
+              "title": "― MC2 ―"
+            },
+            {
+              "number": 8,
+              "title": "タカラモノズ／μ's"
+            },
+            {
+              "number": 9,
+              "title": "Shangri-La Shower／μ's"
+            },
+            {
+              "number": 10,
+              "title": "― MC ことほのうみ ―"
+            },
+            {
+              "number": 11,
+              "title": "Love wing bell ／星空 凛（CV.飯田里穂）、西木野真姫（CV.Pile）、小泉花陽（CV.久保ユリカ）、 絢瀬絵里（CV.南條愛乃）、東條 希（CV.楠田亜衣奈）、矢澤にこ（CV.徳井青空）"
+            },
+            {
+              "number": 12,
+              "title": "― MC3 ―"
+            },
+            {
+              "number": 13,
+              "title": "Dancing stars on me!／μ's"
+            },
+            {
+              "number": 14,
+              "title": "― MC4 ―"
+            },
+            {
+              "number": 15,
+              "title": "もぎゅっと\"love\"で接近中！／μ's"
+            },
+            {
+              "number": 16,
+              "title": "COLORFUL VOICE／μ's"
+            },
+            {
+              "number": 17,
+              "title": "永遠フレンズ／Printemps"
+            },
+            {
+              "number": 18,
+              "title": "― MC Printemps ―"
+            },
+            {
+              "number": 19,
+              "title": "小夜啼鳥恋詩／Printemps"
+            },
+            {
+              "number": 20,
+              "title": "秋のあなたの空遠く／lily white"
+            },
+            {
+              "number": 21,
+              "title": "― MC lily white ―"
+            },
+            {
+              "number": 22,
+              "title": "ふたりハピネス／lily white"
+            },
+            {
+              "number": 23,
+              "title": "Trouble Busters／BiBi"
+            },
+            {
+              "number": 24,
+              "title": "― MC BiBi ―"
+            },
+            {
+              "number": 25,
+              "title": "冬がくれた予感／BiBi"
+            },
+            {
+              "number": 26,
+              "title": "輝夜の城で踊りたい／μ's"
+            },
+            {
+              "number": 27,
+              "title": "だってだって噫無情／μ's"
+            },
+            {
+              "number": 28,
+              "title": "Snow halation／μ's"
+            },
+            {
+              "number": 29,
+              "title": "Wonderful Rush／μ's"
+            },
+            {
+              "number": 30,
+              "title": "― MC5 ―"
+            },
+            {
+              "number": 31,
+              "title": "No brand girls／μ's"
+            },
+            {
+              "number": 32,
+              "title": "KiRa-KiRa Sensation!／μ's"
+            }
+          ]
+        },
+        {
+          "label": "Day 1 · Disc 2",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "START:DASH!!／μ's"
+            },
+            {
+              "number": 2,
+              "title": "Happy maker!／μ's"
+            },
+            {
+              "number": 3,
+              "title": "Oh,Love&Peace!／μ's"
+            },
+            {
+              "number": 5,
+              "title": "Dreamin’ Go! Go!!／μ's"
+            },
+            {
+              "number": 6,
+              "title": "― MC6 ―"
+            },
+            {
+              "number": 7,
+              "title": "どんなときもずっと／μ's"
+            },
+            {
+              "number": 8,
+              "title": "Finale"
+            }
+          ]
+        },
+        {
+          "label": "Day 1 · 映像特典",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "幕間ドラマA"
+            },
+            {
+              "number": 2,
+              "title": "幕間ドラマB"
+            },
+            {
+              "number": 3,
+              "title": "幕間ドラマC"
+            },
+            {
+              "number": 4,
+              "title": "ラブライブ！μ's音楽の軌跡 Part1"
+            },
+            {
+              "number": 5,
+              "title": "ラブライブ！μ's音楽の軌跡 Part2"
+            },
+            {
+              "number": 6,
+              "title": "「ラブライブ！μ's Go→Go! LoveLive！2015 アンコールアニメーション 0131Ver."
+            }
+          ]
+        },
+        {
+          "label": "Day 2 · Disc 1",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "オープニング"
+            },
+            {
+              "number": 2,
+              "title": "それは僕たちの奇跡／μ's"
+            },
+            {
+              "number": 3,
+              "title": "僕らのLIVE 君とのLIFE／μ's"
+            },
+            {
+              "number": 4,
+              "title": "― MC1 ―"
+            },
+            {
+              "number": 5,
+              "title": "夏色えがおで1,2,Jump!／μ's"
+            },
+            {
+              "number": 6,
+              "title": "ユメノトビラ／μ's"
+            },
+            {
+              "number": 7,
+              "title": "― MC2 ―"
+            },
+            {
+              "number": 8,
+              "title": "タカラモノズ／μ's"
+            },
+            {
+              "number": 9,
+              "title": "Shangri-La Shower／μ's"
+            },
+            {
+              "number": 10,
+              "title": "シアワセ行きのSMILING!／高坂穂乃果（CV.新田恵海）"
+            },
+            {
+              "number": 11,
+              "title": "ずるいよMagnetic today／西木野真姫（CV.Pile）・矢澤にこ（CV.徳井青空）"
+            },
+            {
+              "number": 12,
+              "title": "くるりんMIRACLE／星空 凛（CV.飯田里穂）"
+            },
+            {
+              "number": 13,
+              "title": "Storm in Lover／園田海未（CV.三森すずこ）・絢瀬絵里（CV.南條愛乃）"
+            },
+            {
+              "number": 14,
+              "title": "もしもからきっと／東條 希（CV.楠田亜衣奈）"
+            },
+            {
+              "number": 15,
+              "title": "好きですが、好きですか？ ／南ことり（CV.内田 彩）・小泉花陽（CV.久保ユリカ）"
+            },
+            {
+              "number": 16,
+              "title": "ススメ→トゥモロウ ／高坂穂乃果（CV.新田恵海）、南ことり（CV.内田 彩）、園田海未（CV.三森すずこ）"
+            },
+            {
+              "number": 17,
+              "title": "Love wing bell ／星空 凛（CV.飯田里穂）、西木野真姫（CV.Pile）、小泉花陽（CV.久保ユリカ）、 絢瀬絵里（CV.南條愛乃）、東條 希（CV.楠田亜衣奈）、矢澤にこ（CV.徳井青空）"
+            },
+            {
+              "number": 18,
+              "title": "― MC3 ―"
+            },
+            {
+              "number": 19,
+              "title": "Dancing stars on me!／μ's"
+            },
+            {
+              "number": 20,
+              "title": "― MC4 ―"
+            },
+            {
+              "number": 21,
+              "title": "もぎゅっと\"love\"で接近中！／μ's"
+            },
+            {
+              "number": 22,
+              "title": "そして最後のページには／μ's"
+            },
+            {
+              "number": 23,
+              "title": "Snow halation／μ's"
+            },
+            {
+              "number": 24,
+              "title": "Wonderful Rush／μ's"
+            },
+            {
+              "number": 25,
+              "title": "― MC5 ―"
+            },
+            {
+              "number": 26,
+              "title": "No brand girls／μ's"
+            },
+            {
+              "number": 27,
+              "title": "KiRA-KiRa Sensation!／μ's"
+            }
+          ]
+        },
+        {
+          "label": "Day 2 · Disc 2",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "僕らは今のなかで／μ's"
+            },
+            {
+              "number": 2,
+              "title": "― MC6 ―"
+            },
+            {
+              "number": 3,
+              "title": "SENTIMENTAL StepS／μ's"
+            },
+            {
+              "number": 4,
+              "title": "― MC7 ―"
+            },
+            {
+              "number": 5,
+              "title": "Happy maker!／μ's"
+            },
+            {
+              "number": 6,
+              "title": "Oh,Love&Peace!／μ's"
+            },
+            {
+              "number": 7,
+              "title": "Dreamin’ Go! Go!!／μ's"
+            },
+            {
+              "number": 8,
+              "title": "― MC8 ―"
+            },
+            {
+              "number": 9,
+              "title": "愛してるばんざーい！／μ's"
+            },
+            {
+              "number": 10,
+              "title": "どんなときもずっと／μ's"
+            },
+            {
+              "number": 11,
+              "title": "Finale"
+            }
+          ]
+        },
+        {
+          "label": "Day 2 · 映像特典",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "幕間ドラマA"
+            },
+            {
+              "number": 2,
+              "title": "幕間ドラマD"
+            },
+            {
+              "number": 3,
+              "title": "幕間ドラマB"
+            },
+            {
+              "number": 4,
+              "title": "ラブライブ！μ's音楽の軌跡 Part1"
+            },
+            {
+              "number": 5,
+              "title": "ラブライブ！μ's音楽の軌跡 Part2"
+            },
+            {
+              "number": 6,
+              "title": "「ラブライブ！μ's Go→Go! LoveLive！2015 アンコールアニメーション 0201Ver."
+            }
+          ]
+        }
+      ],
+      "editions": [
+        {
+          "label": "Blu-ray Memorial BOX",
+          "facts": [
+            "品番：LABX-8110～3",
+            "Blu-ray 4枚組",
+            "発売当時価格：18,000円（税抜）"
+          ],
+          "sourceKey": "official"
+        },
+        {
+          "label": "Blu-ray Day1",
+          "facts": [
+            "品番：LABX-8114～5",
+            "Blu-ray 2枚組",
+            "発売当時価格：9,000円（税抜）"
+          ],
+          "sourceKey": "cd61"
+        },
+        {
+          "label": "Blu-ray Day2",
+          "facts": [
+            "品番：LABX-8116～7",
+            "Blu-ray 2枚組",
+            "発売当時価格：9,000円（税抜）"
+          ],
+          "sourceKey": "cd60"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0069",
+      "kind": "live",
+      "releaseName": "ラブライブ！μ's First LoveLive! Blu-ray",
+      "relationBinding": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "summary": "ライブ映像作品／収録公演：2012年2月19日・横浜BLITZ",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd17",
+          "label": "公式Blu-ray商品情報",
+          "kind": "official",
+          "contentSha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25"
+        }
+      ],
+      "sections": [
+        {
+          "label": "Disc 1",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "僕らのLIVE 君とのLIFE\t  μ'ｓ"
+            },
+            {
+              "number": 2,
+              "title": "MC1"
+            },
+            {
+              "number": 3,
+              "title": "Mermaid festa vol.1\t μ'ｓ"
+            },
+            {
+              "number": 4,
+              "title": "夏色えがおで1,2,Jump!\t  μ'ｓ"
+            },
+            {
+              "number": 5,
+              "title": "ダイヤモンドプリンセスの憂鬱 BiBi 絢瀬絵里(南條愛乃)・西木野真姫(Pile)・矢澤にこ(徳井青空)）"
+            },
+            {
+              "number": 6,
+              "title": "MC（BiBi）"
+            },
+            {
+              "number": 7,
+              "title": "ラブノベルス BiBi 絢瀬絵里(南條愛乃)・西木野真姫(Pile)・矢澤にこ(徳井青空)）"
+            },
+            {
+              "number": 8,
+              "title": "Love marginal Printemps 高坂穂乃果(新田恵海)・南ことり(内田 彩)・小泉花陽(久保ユリカ)）"
+            },
+            {
+              "number": 9,
+              "title": "sweet&sweet holiday Printemps 高坂穂乃果(新田恵海)・南ことり(内田 彩)・小泉花陽(久保ユリカ)）"
+            },
+            {
+              "number": 10,
+              "title": "MC（Printemps）"
+            },
+            {
+              "number": 11,
+              "title": "もうひとりじゃないよ　高坂穂乃果(新田恵海)"
+            },
+            {
+              "number": 12,
+              "title": "スピカテリブル\t南ことり(内田 彩)"
+            },
+            {
+              "number": 13,
+              "title": "私たちは未来の花　園田海未(三森すずこ)"
+            },
+            {
+              "number": 14,
+              "title": "MC（lily white）"
+            },
+            {
+              "number": 15,
+              "title": "知らないLove＊教えてLove lily white 園田海未(三森すずこ)・星空凛(飯田里穂)・東條希(楠田亜衣奈)）"
+            },
+            {
+              "number": 16,
+              "title": "あ・の・ね・が・ん・ば・れ！ lily white 園田海未(三森すずこ)・星空凛(飯田里穂)・東條希(楠田亜衣奈)）"
+            },
+            {
+              "number": 17,
+              "title": "MC2"
+            },
+            {
+              "number": 18,
+              "title": "もぎゅっと\"love\"で接近中！　 μ'ｓ"
+            },
+            {
+              "number": 19,
+              "title": "baby maybe 恋のボタン　 μ'ｓ"
+            },
+            {
+              "number": 20,
+              "title": "MC3"
+            },
+            {
+              "number": 21,
+              "title": "Snow halation　 μ'ｓ"
+            }
+          ]
+        },
+        {
+          "label": "Disc 2",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 22,
+              "title": "友情ノーチェンジ　 μ'ｓ"
+            },
+            {
+              "number": 23,
+              "title": "MC4"
+            },
+            {
+              "number": 24,
+              "title": "愛してるばんざーい！　 μ'ｓ"
+            },
+            {
+              "number": 25,
+              "title": "MC5"
+            },
+            {
+              "number": 26,
+              "title": "僕らのLIVE 君とのLIFE〜Finale　 μ'ｓ"
+            }
+          ]
+        },
+        {
+          "label": "映像特典",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "オープニング映像"
+            },
+            {
+              "number": 2,
+              "title": "ライブドラマ「プロローグ　〜ライブをはじめよう！〜」"
+            },
+            {
+              "number": 3,
+              "title": "ライブドラマ「レッスン開始！」"
+            },
+            {
+              "number": 4,
+              "title": "ライブドラマ「そして N/ N/ライブ当日！」"
+            },
+            {
+              "number": 5,
+              "title": "ライブドラマ「アンコール！アンコール！」"
+            }
+          ]
+        }
+      ],
+      "editions": [
+        {
+          "label": "Blu-ray",
+          "facts": [
+            "品番：LABX-8021～2",
+            "Blu-ray 2枚組",
+            "発売当時価格：7,500円（税込）／7,143円（税抜）",
+            "初回生産限定：ライブ直前メッセージ入り特製ラージサイズLoveca（Blu-rayバージョン）"
+          ],
+          "sourceKey": "official"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0073",
+      "kind": "radio",
+      "releaseName": "ラブライブ！μ’s広報部～にこりんぱな～ vol.1",
+      "relationBinding": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "summary": "ラジオCD Vol.1。",
+      "sources": [
+        {
+          "key": "program",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=13424",
+          "label": "公式発売案内",
+          "kind": "official"
+        },
+        {
+          "key": "inventory",
+          "url": "https://www.animate-onlineshop.jp/pn/%E3%80%90DJCD%E3%80%91%E3%83%A9%E3%82%B8%E3%82%AACD%2B%E3%83%A9%E3%83%96%E3%83%A9%E3%82%A4%E3%83%96%21%CE%BC%27s%E5%BA%83%E5%A0%B1%E9%83%A8%EF%BD%9E%E3%81%AB%E3%81%93%E3%82%8A%E3%82%93%E3%81%B1%E3%81%AA%EF%BD%9E%2BVol.1/pd/1201555/",
+          "label": "アニメイト 商品情報",
+          "kind": "retailer"
+        }
+      ],
+      "sections": [
+        {
+          "label": "Disc 1 · オーディオCD",
+          "description": "録りおろしラジオ／出演：徳井青空（矢澤にこ役）／飯田里穂（星空凛役）／久保ユリカ（小泉花陽役）／ゲスト：三森すずこ（園田海未役）",
+          "sourceKey": "program",
+          "entries": []
+        },
+        {
+          "label": "Disc 2 · データCD",
+          "description": "第1回～第8回",
+          "sourceKey": "inventory",
+          "entries": []
+        }
+      ],
+      "editions": []
+    },
+    {
+      "releaseId": "R0074",
+      "kind": "live",
+      "releaseName": "ラブライブ！μ's 3rd Anniversary LoveLive! Blu-ray",
+      "relationBinding": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "summary": "ライブ映像作品／収録公演：2013年6月16日・パシフィコ横浜 国立大ホール",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd29",
+          "label": "公式Blu-ray商品情報",
+          "kind": "official",
+          "contentSha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25"
+        }
+      ],
+      "sections": [
+        {
+          "label": "Disc 1",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "僕らは今のなかで μ’s"
+            },
+            {
+              "number": 2,
+              "title": "僕らのLIVE 君とのLIFE μ’s"
+            },
+            {
+              "number": 3,
+              "title": "MC1"
+            },
+            {
+              "number": 4,
+              "title": "Wonderful Rush μ’s"
+            },
+            {
+              "number": 5,
+              "title": "夏色えがおで1,2,Jump! μ’s"
+            },
+            {
+              "number": 6,
+              "title": "ススメ→トゥモロウ 高坂穂乃果（CV.新田恵海）、南ことり（CV.内田 彩）、園田海未（CV.三森すずこ）"
+            },
+            {
+              "number": 7,
+              "title": "夢なき夢は夢じゃない 高坂穂乃果（CV.新田恵海）"
+            },
+            {
+              "number": 8,
+              "title": "ぶる～べりぃ♡とれいん 南ことり（CV.内田 彩）"
+            },
+            {
+              "number": 9,
+              "title": "私たちは未来の花 園田海未（CV.三森すずこ）"
+            },
+            {
+              "number": 10,
+              "title": "なわとび 小泉花陽（CV.久保ユリカ）"
+            },
+            {
+              "number": 11,
+              "title": "恋のシグナルRin rin rin! 星空凛（CV.飯田里穂）"
+            },
+            {
+              "number": 12,
+              "title": "Daring!! 西木野真姫（CV.Pile）"
+            },
+            {
+              "number": 13,
+              "title": "まほうつかいはじめました！ 矢澤にこ（CV.徳井青空）"
+            },
+            {
+              "number": 14,
+              "title": "ありふれた悲しみの果て 絢瀬絵里（CV.南條愛乃）"
+            },
+            {
+              "number": 15,
+              "title": "純愛レンズ 東條希（CV.楠田亜衣奈）"
+            },
+            {
+              "number": 16,
+              "title": "START:DASH!! 高坂穂乃果（CV.新田恵海）、南ことり（CV.内田彩）、園田海未（CV.三森すずこ）"
+            },
+            {
+              "number": 17,
+              "title": "これからのSomeday 高坂穂乃果（CV.新田恵海）、南ことり（CV.内田彩）、園田海未（CV.三森すずこ）、 星空凛（CV．飯田里穂）、西木野真姫（CV.Pile）、小泉花陽（CV.久保ユリカ）、 矢澤にこ（CV.徳井青空）"
+            },
+            {
+              "number": 18,
+              "title": "MC2"
+            },
+            {
+              "number": 19,
+              "title": "もぎゅっと”love”で接近中！ μ's"
+            },
+            {
+              "number": 20,
+              "title": "Wonder zone μ's"
+            },
+            {
+              "number": 21,
+              "title": "輝夜の城で踊りたい μ's"
+            },
+            {
+              "number": 22,
+              "title": "MC3"
+            },
+            {
+              "number": 23,
+              "title": "WILD STARS μ's"
+            },
+            {
+              "number": 24,
+              "title": "MC4"
+            },
+            {
+              "number": 25,
+              "title": "No brand girls μ's"
+            },
+            {
+              "number": 26,
+              "title": "Snow halation μ's"
+            }
+          ]
+        },
+        {
+          "label": "Disc 2",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "START:DASH!! μ's"
+            },
+            {
+              "number": 2,
+              "title": "MC5"
+            },
+            {
+              "number": 3,
+              "title": "きっと青春が聞こえる μ's"
+            },
+            {
+              "number": 4,
+              "title": "僕らは今のなかで(Finale) μ's"
+            }
+          ]
+        },
+        {
+          "label": "映像特典",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "ライブドラマPart1 ライブの練習！？"
+            },
+            {
+              "number": 2,
+              "title": "ライブドラマPart2 いきなりファッションショー！"
+            },
+            {
+              "number": 3,
+              "title": "ライブドラマPart3 ライブ直前！"
+            }
+          ]
+        }
+      ],
+      "editions": [
+        {
+          "label": "Blu-ray",
+          "facts": [
+            "品番：LABX-8044～5",
+            "Blu-ray 2枚組",
+            "発売当時価格：7,619円（税抜）",
+            "初回生産限定：μ’sのライブであなたにアピール！カード（全1種）"
+          ],
+          "sourceKey": "official"
+        }
+      ]
+    },
+    {
+      "releaseId": "R0076",
+      "kind": "radio",
+      "releaseName": "ラブライブ！μ’s広報部～にこりんぱな～ vol.2",
+      "relationBinding": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "summary": "ラジオCD Vol.2。",
+      "sources": [
+        {
+          "key": "program",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=13971",
+          "label": "公式発売案内",
+          "kind": "official"
+        }
+      ],
+      "sections": [
+        {
+          "label": "Disc 1 · オーディオCD",
+          "description": "新規録りおろしラジオ／出演：徳井青空（矢澤にこ役）／飯田里穂（星空凛役）／久保ユリカ（小泉花陽役）",
+          "sourceKey": "program",
+          "entries": []
+        },
+        {
+          "label": "Disc 2 · データCD",
+          "description": "第9回～第16回（一部再編集）",
+          "sourceKey": "program",
+          "entries": []
+        }
+      ],
+      "editions": []
+    },
+    {
+      "releaseId": "R0079",
+      "kind": "radio",
+      "releaseName": "ラブライブ！μ’s広報部～にこりんぱな～ vol.3",
+      "relationBinding": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "summary": "ラジオCD Vol.3。",
+      "sources": [
+        {
+          "key": "program",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=8287",
+          "label": "公式発売案内",
+          "kind": "official"
+        }
+      ],
+      "sections": [
+        {
+          "label": "Disc 1 · オーディオCD",
+          "description": "新規録りおろしラジオ／出演：徳井青空（矢澤にこ役）／飯田里穂（星空凛役）／久保ユリカ（小泉花陽役）／ゲスト：南條愛乃（絢瀬絵里役）／楠田亜衣奈（東條希役）",
+          "sourceKey": "program",
+          "entries": []
+        },
+        {
+          "label": "Disc 2 · データCD",
+          "description": "第17回～第26回（一部再編集）",
+          "sourceKey": "program",
+          "entries": []
+        }
+      ],
+      "editions": []
+    },
+    {
+      "releaseId": "R0080",
+      "kind": "radio",
+      "releaseName": "ラブライブ！μ’s広報部～にこりんぱな～ vol.4",
+      "relationBinding": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "summary": "ラジオCD Vol.4。",
+      "sources": [
+        {
+          "key": "program",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=8658",
+          "label": "公式発売案内",
+          "kind": "official"
+        }
+      ],
+      "sections": [
+        {
+          "label": "Disc 1 · オーディオCD",
+          "description": "公開録音（2014年10月5日・第1部）／出演：徳井青空（矢澤にこ役）／飯田里穂（星空凛役）／久保ユリカ（小泉花陽役）／ゲスト：新田恵海（高坂穂乃果役）",
+          "sourceKey": "program",
+          "entries": []
+        },
+        {
+          "label": "Disc 2 · データCD",
+          "description": "第27回～第36回（一部再編集）",
+          "sourceKey": "program",
+          "entries": []
+        }
+      ],
+      "editions": []
+    },
+    {
+      "releaseId": "R0083",
+      "kind": "radio",
+      "releaseName": "ラブライブ！μ’s広報部～にこりんぱな～ vol.5",
+      "relationBinding": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "summary": "ラジオCD Vol.5。",
+      "sources": [
+        {
+          "key": "program",
+          "url": "https://www.sunrise-inc.co.jp/work/news.php?id=8658",
+          "label": "公式発売案内",
+          "kind": "official"
+        }
+      ],
+      "sections": [
+        {
+          "label": "Disc 1 · オーディオCD",
+          "description": "公開録音（2014年10月5日・第2部）／出演：徳井青空（矢澤にこ役）／飯田里穂（星空凛役）／久保ユリカ（小泉花陽役）／ゲスト：新田恵海（高坂穂乃果役）",
+          "sourceKey": "program",
+          "entries": []
+        },
+        {
+          "label": "Disc 2 · データCD",
+          "description": "第37回～第46回（一部再編集）",
+          "sourceKey": "program",
+          "entries": []
+        }
+      ],
+      "editions": []
+    },
+    {
+      "releaseId": "R0084",
+      "kind": "radio",
+      "releaseName": "ラブライブ！μ’s広報部～にこりんぱな～ vol.6",
+      "relationBinding": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "summary": "ラジオCD Vol.6。",
+      "sources": [
+        {
+          "key": "program",
+          "url": "https://www.animatetimes.com/news/details.php?id=1456295436",
+          "label": "アニメイトタイムズ 発売案内",
+          "kind": "press"
+        }
+      ],
+      "sections": [
+        {
+          "label": "Disc 1 · オーディオCD",
+          "description": "新規録りおろしラジオ／出演：徳井青空（矢澤にこ役）／飯田里穂（星空凛役）／久保ユリカ（小泉花陽役）",
+          "sourceKey": "program",
+          "entries": []
+        },
+        {
+          "label": "Disc 2 · データCD",
+          "description": "第47回～第59回（一部再編集）",
+          "sourceKey": "program",
+          "entries": []
+        },
+        {
+          "label": "Disc 3 · データCD",
+          "description": "第60回～第72回（一部再編集）",
+          "sourceKey": "program",
+          "entries": []
+        }
+      ],
+      "editions": []
+    },
+    {
+      "releaseId": "R0085",
+      "kind": "radio",
+      "releaseName": "ラブライブ！μ’s広報部～にこりんぱな～ vol.7",
+      "relationBinding": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "summary": "ラジオCD Vol.7。",
+      "sources": [
+        {
+          "key": "program",
+          "url": "https://www.animate-onlineshop.jp/pn/%E3%80%90DJCD%E3%80%91%E3%83%A9%E3%82%B8%E3%82%AACD%2B%E3%83%A9%E3%83%96%E3%83%A9%E3%82%A4%E3%83%96%21%CE%BC%E2%80%99s%E5%BA%83%E5%A0%B1%E9%83%A8%EF%BD%9E%E3%81%AB%E3%81%93%E3%82%8A%E3%82%93%E3%81%B1%E3%81%AA%EF%BD%9E%2BVol.7/pd/1402946/",
+          "label": "アニメイト 商品情報",
+          "kind": "retailer"
+        }
+      ],
+      "sections": [
+        {
+          "label": "Disc 1 · オーディオCD",
+          "description": "新規録りおろしラジオ／出演：徳井青空（矢澤にこ役）／飯田里穂（星空凛役）／久保ユリカ（小泉花陽役）／ゲスト：新田恵海（高坂穂乃果役）",
+          "sourceKey": "program",
+          "entries": []
+        },
+        {
+          "label": "Disc 2 · データCD",
+          "description": "第73回～第85回（一部再編集）",
+          "sourceKey": "program",
+          "entries": []
+        },
+        {
+          "label": "Disc 3 · データCD",
+          "description": "第86回～第98回（一部再編集）",
+          "sourceKey": "program",
+          "entries": []
+        }
+      ],
+      "editions": []
+    },
+    {
+      "releaseId": "R0086",
+      "kind": "collection",
+      "releaseName": "ラブライブ！μ's Live Collection",
+      "relationBinding": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "summary": "アニメーションPV・ダンス映像集（1st～6thシングル、TVアニメ1期・2期、劇場版）。",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/bd/live_collection/",
+          "label": "公式商品情報",
+          "kind": "official"
+        }
+      ],
+      "sections": [
+        {
+          "label": "収録映像",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "僕らのLIVE 君とのLIFE",
+              "songId": "S001"
+            },
+            {
+              "number": 2,
+              "title": "Snow halation",
+              "songId": "S003"
+            },
+            {
+              "number": 3,
+              "title": "夏色えがおで1,2,Jump!",
+              "songId": "S011"
+            },
+            {
+              "number": 4,
+              "title": "もぎゅっと”love”で接近中！",
+              "songId": "S017"
+            },
+            {
+              "number": 5,
+              "title": "Wonderful Rush",
+              "songId": "S032"
+            },
+            {
+              "number": 6,
+              "title": "僕らは今のなかで",
+              "songId": "S036"
+            },
+            {
+              "number": 7,
+              "title": "ススメ→トゥモロウ",
+              "songId": "S040"
+            },
+            {
+              "number": 8,
+              "title": "START:DASH!!（TVアニメ1期第3話Ver.）",
+              "songId": "S041"
+            },
+            {
+              "number": 9,
+              "title": "これからのSomeday",
+              "songId": "S042"
+            },
+            {
+              "number": 10,
+              "title": "僕らのLIVE 君とのLIFE（TVアニメ1期第8話Ver.）",
+              "songId": "S001"
+            },
+            {
+              "number": 11,
+              "title": "Wonder zone",
+              "songId": "S043"
+            },
+            {
+              "number": 12,
+              "title": "No brand girls",
+              "songId": "S045"
+            },
+            {
+              "number": 13,
+              "title": "START:DASH!!（TVアニメ1期第13話Ver.）",
+              "songId": "S046"
+            },
+            {
+              "number": 14,
+              "title": "きっと青春が聞こえる",
+              "songId": "S038"
+            },
+            {
+              "number": 15,
+              "title": "Music S.T.A.R.T!!",
+              "songId": "S060"
+            },
+            {
+              "number": 16,
+              "title": "それは僕たちの奇跡",
+              "songId": "S064"
+            },
+            {
+              "number": 17,
+              "title": "ユメノトビラ",
+              "songId": "S068"
+            },
+            {
+              "number": 18,
+              "title": "Love wing bell",
+              "songId": "S070"
+            },
+            {
+              "number": 19,
+              "title": "Dancing stars on me!",
+              "songId": "S071"
+            },
+            {
+              "number": 20,
+              "title": "Snow halation（TVアニメ2期第9話Ver.）",
+              "songId": "S003"
+            },
+            {
+              "number": 21,
+              "title": "KiRa-KiRa Sensation!",
+              "songId": "S073"
+            },
+            {
+              "number": 22,
+              "title": "僕らは今のなかで（TVアニメ2期第12話Ver.）",
+              "songId": "S036"
+            },
+            {
+              "number": 23,
+              "title": "Happy maker!",
+              "songId": "S074"
+            },
+            {
+              "number": 24,
+              "title": "どんなときもずっと",
+              "songId": "S066"
+            },
+            {
+              "number": 25,
+              "title": "Hello,星を数えて",
+              "songId": "S099"
+            },
+            {
+              "number": 26,
+              "title": "Angelic Angel",
+              "songId": "S098"
+            },
+            {
+              "number": 27,
+              "title": "？←HEARTBEAT",
+              "songId": "S101"
+            },
+            {
+              "number": 28,
+              "title": "Future style",
+              "songId": "S103"
+            },
+            {
+              "number": 29,
+              "title": "SUNNY DAY SONG",
+              "songId": "S100"
+            },
+            {
+              "number": 30,
+              "title": "僕たちはひとつの光",
+              "songId": "S102"
+            }
+          ]
+        }
+      ],
+      "editions": [
+        {
+          "label": "Blu-ray",
+          "sourceKey": "official",
+          "facts": [
+            "品番：BCXA-1155",
+            "発売当時価格：6,500円（税抜）",
+            "5.1ch音声",
+            "16Pブックレット",
+            "キャラクターデザイン・アニメーションディレクター 室田雄平 描き下ろしジャケット",
+            "三方背ケース",
+            "映像特典：第66回NHK紅白歌合戦 ラブライブ！スペシャルアニメーション",
+            "映像特典：ラブライブ！×ウォータリングキスミント コラボCM"
+          ]
+        }
+      ]
+    },
+    {
+      "releaseId": "R0087",
+      "kind": "live",
+      "releaseName": "ラブライブ！μ's Final LoveLive! ～μ'sic Forever♪♪♪♪♪♪♪♪♪～ Blu-ray Memorial BOX",
+      "relationBinding": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "summary": "ライブ映像作品／収録公演：2016年3月31日・4月1日／東京ドーム",
+      "sources": [
+        {
+          "key": "official",
+          "url": "https://www.lovelive-anime.jp/otonokizaka/release.php#cd72",
+          "label": "公式Blu-ray商品情報",
+          "kind": "official",
+          "contentSha256": "95073aaccf7cf28296542d65f1f2e0554e2ccb5da827bf9cb2575af025e4fd25"
+        }
+      ],
+      "sections": [
+        {
+          "label": "Day 1 · Disc 1",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "オープニング"
+            },
+            {
+              "number": 2,
+              "title": "僕らのLIVE 君とのLIFE／μ’s"
+            },
+            {
+              "number": 3,
+              "title": "僕らは今のなかで／μ's"
+            },
+            {
+              "number": 4,
+              "title": "―MC1―"
+            },
+            {
+              "number": 5,
+              "title": "夏色えがおで1,2,Jump!／μ’s"
+            },
+            {
+              "number": 6,
+              "title": "Wonderful Rush／μ’s"
+            },
+            {
+              "number": 7,
+              "title": "友情ノーチェンジ／μ’s"
+            },
+            {
+              "number": 8,
+              "title": "もぎゅっと”love”で接近中！／μ’s"
+            },
+            {
+              "number": 9,
+              "title": "baby maybe 恋のボタン／μ’s"
+            },
+            {
+              "number": 10,
+              "title": "Music S.T.A.R.T!!／μ’s"
+            },
+            {
+              "number": 11,
+              "title": "―MC2―"
+            },
+            {
+              "number": 12,
+              "title": "ユメノトビラ／μ’s"
+            },
+            {
+              "number": 13,
+              "title": "ススメ→トゥモロウ ／高坂穂乃果(CV.新田恵海)、南ことり(CV.内田 彩)・園田海未(CV.三森すずこ)"
+            },
+            {
+              "number": 14,
+              "title": "Wonder zone／μ’s"
+            },
+            {
+              "number": 15,
+              "title": "これからのSomeday／μ’s"
+            },
+            {
+              "number": 16,
+              "title": "Love wing bell／μ’s"
+            },
+            {
+              "number": 17,
+              "title": "―MC3―"
+            },
+            {
+              "number": 18,
+              "title": "Dancing stars on me!／μ’s"
+            },
+            {
+              "number": 19,
+              "title": "Happy maker!／μ's"
+            }
+          ]
+        },
+        {
+          "label": "Day 1 · Disc 2",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "WAO-WAO Powerful day! ／Printemps(高坂穂乃果(CV.新田恵海)、南ことり(CV.内田 彩)、小泉花陽(CV.久保ユリカ))"
+            },
+            {
+              "number": 2,
+              "title": "―MC Printemps―"
+            },
+            {
+              "number": 3,
+              "title": "NO EXIT ORION ／Printemps(高坂穂乃果(CV.新田恵海)、南ことり(CV.内田 彩)、小泉花陽(CV.久保ユリカ))"
+            },
+            {
+              "number": 4,
+              "title": "sweet&sweet holiday ／Printemps(高坂穂乃果(CV.新田恵海)、南ことり(CV.内田 彩)、小泉花陽(CV.久保ユリカ))"
+            },
+            {
+              "number": 5,
+              "title": "思い出以上になりたくて ／lily white(園田海未(CV.三森すずこ)、星空 凛(CV.飯田里穂)、東條 希(CV.楠田亜衣奈))"
+            },
+            {
+              "number": 6,
+              "title": "ふたりハピネス ／lily white(園田海未(CV.三森すずこ)、星空 凛(CV.飯田里穂)、東條 希(CV.楠田亜衣奈))"
+            },
+            {
+              "number": 7,
+              "title": "―MC lily white―"
+            },
+            {
+              "number": 8,
+              "title": "春情ロマンティック ／lily white(園田海未(CV.三森すずこ)、星空 凛(CV.飯田里穂)、東條 希(CV.楠田亜衣奈))"
+            },
+            {
+              "number": 9,
+              "title": "Cutie Panther ／BiBi(絢瀬絵里(CV.南條愛乃)、西木野真姫(CV.Pile)、矢澤にこ(CV.徳井青空))"
+            },
+            {
+              "number": 10,
+              "title": "PSYCHIC FIRE ／BiBi(絢瀬絵里(CV.南條愛乃)、西木野真姫(CV.Pile)、矢澤にこ(CV.徳井青空))"
+            },
+            {
+              "number": 11,
+              "title": "―MC BiBi―"
+            },
+            {
+              "number": 12,
+              "title": "錯覚CROSSROADS ／BiBi(絢瀬絵里(CV.南條愛乃)、西木野真姫(CV.Pile)、矢澤にこ(CV.徳井青空))"
+            },
+            {
+              "number": 13,
+              "title": "Angelic Angel／μ's"
+            },
+            {
+              "number": 14,
+              "title": "―MC4―"
+            },
+            {
+              "number": 15,
+              "title": "輝夜の城で踊りたい／μ's"
+            },
+            {
+              "number": 16,
+              "title": "だってだって噫無情／μ’s"
+            },
+            {
+              "number": 17,
+              "title": "Hello,星を数えて ／星空 凛(CV.飯田里穂)・西木野真姫(CV.Pile)・小泉花陽(CV.久保ユリカ)"
+            },
+            {
+              "number": 18,
+              "title": "？←HEARTBEAT ／絢瀬絵里(CV.南條愛乃)・東條 希(CV.楠田亜衣奈)・矢澤にこ(CV.徳井青空)"
+            },
+            {
+              "number": 19,
+              "title": "Future style ／高坂穂乃果(CV.新田恵海)・南 ことり(CV.内田 彩)・園田海未(CV.三森すずこ)"
+            }
+          ]
+        },
+        {
+          "label": "Day 1 · Disc 3",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "それは僕たちの奇跡／μ’s"
+            },
+            {
+              "number": 2,
+              "title": "―MC5―"
+            },
+            {
+              "number": 3,
+              "title": "ミはμ’sicのミ／μ’s"
+            },
+            {
+              "number": 4,
+              "title": "Super LOVE=Super LIVE!／μ’s"
+            },
+            {
+              "number": 5,
+              "title": "No brand girls／μ’s"
+            },
+            {
+              "number": 6,
+              "title": "KiRa-KiRa Sensation!／μ’s"
+            },
+            {
+              "number": 7,
+              "title": "―MC6―"
+            },
+            {
+              "number": 8,
+              "title": "SUNNY DAY SONG／μ’s"
+            },
+            {
+              "number": 9,
+              "title": "―ENCORE―"
+            },
+            {
+              "number": 10,
+              "title": "START:DASH!!／μ’s"
+            },
+            {
+              "number": 11,
+              "title": "Snow halation／μ’s"
+            },
+            {
+              "number": 12,
+              "title": "―MC7―"
+            },
+            {
+              "number": 13,
+              "title": "Oh,Love&Peace!／μ’s"
+            },
+            {
+              "number": 14,
+              "title": "きっと青春が聞こえる／μ’s"
+            },
+            {
+              "number": 15,
+              "title": "―MC8―"
+            },
+            {
+              "number": 16,
+              "title": "MOMENT RING／μ’s"
+            },
+            {
+              "number": 17,
+              "title": "―W-ENCORE―"
+            },
+            {
+              "number": 18,
+              "title": "僕たちはひとつの光／μ’s"
+            },
+            {
+              "number": 19,
+              "title": "Finale"
+            }
+          ]
+        },
+        {
+          "label": "Day 1 · 映像特典",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "オープニングアニメーション0331"
+            },
+            {
+              "number": 2,
+              "title": "μ’s Chronicle ～Part.1～"
+            },
+            {
+              "number": 3,
+              "title": "μ’s Chronicle ～Part.2～"
+            },
+            {
+              "number": 4,
+              "title": "μ’s Chronicle ～Part.3～"
+            },
+            {
+              "number": 5,
+              "title": "μ’s Chronicle ～Part.4～"
+            },
+            {
+              "number": 6,
+              "title": "μ’s Chronicle ～Part.5～"
+            },
+            {
+              "number": 7,
+              "title": "μ’s Chronicle ～Epilogue～"
+            },
+            {
+              "number": 8,
+              "title": "Encore Movie"
+            },
+            {
+              "number": 9,
+              "title": "W-Encore Movie"
+            }
+          ]
+        },
+        {
+          "label": "Day 2 · Disc 1",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "オープニング"
+            },
+            {
+              "number": 2,
+              "title": "僕らのLIVE 君とのLIFE／μ’s"
+            },
+            {
+              "number": 3,
+              "title": "僕らは今のなかで／μ's"
+            },
+            {
+              "number": 4,
+              "title": "―MC1―"
+            },
+            {
+              "number": 5,
+              "title": "夏色えがおで1,2,Jump!／μ’s"
+            },
+            {
+              "number": 6,
+              "title": "Wonderful Rush／μ’s"
+            },
+            {
+              "number": 7,
+              "title": "友情ノーチェンジ／μ’s"
+            },
+            {
+              "number": 8,
+              "title": "もぎゅっと”love”で接近中！／μ’s"
+            },
+            {
+              "number": 9,
+              "title": "baby maybe 恋のボタン／μ’s"
+            },
+            {
+              "number": 10,
+              "title": "Music S.T.A.R.T!!／μ’s"
+            },
+            {
+              "number": 11,
+              "title": "―MC2―"
+            },
+            {
+              "number": 12,
+              "title": "ユメノトビラ／μ’s"
+            },
+            {
+              "number": 13,
+              "title": "ススメ→トゥモロウ ／高坂穂乃果(CV.新田恵海)、南ことり(CV.内田 彩)・園田海未(CV.三森すずこ)"
+            },
+            {
+              "number": 14,
+              "title": "Wonder zone／μ’s"
+            },
+            {
+              "number": 15,
+              "title": "これからのSomeday／μ’s"
+            },
+            {
+              "number": 16,
+              "title": "Love wing bell／μ’s"
+            },
+            {
+              "number": 17,
+              "title": "―MC3―"
+            },
+            {
+              "number": 18,
+              "title": "Dancing stars on me!／μ’s"
+            },
+            {
+              "number": 19,
+              "title": "Happy maker!／μ's"
+            }
+          ]
+        },
+        {
+          "label": "Day 2 · Disc 2",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "WAO-WAO Powerful day! ／Printemps(高坂穂乃果(CV.新田恵海)、南ことり(CV.内田 彩)、小泉花陽(CV.久保ユリカ))"
+            },
+            {
+              "number": 2,
+              "title": "―MC Printemps―"
+            },
+            {
+              "number": 3,
+              "title": "NO EXIT ORION ／Printemps(高坂穂乃果(CV.新田恵海)、南ことり(CV.内田 彩)、小泉花陽(CV.久保ユリカ))"
+            },
+            {
+              "number": 4,
+              "title": "sweet&sweet holiday ／Printemps(高坂穂乃果(CV.新田恵海)、南ことり(CV.内田 彩)、小泉花陽(CV.久保ユリカ))"
+            },
+            {
+              "number": 5,
+              "title": "思い出以上になりたくて ／lily white(園田海未(CV.三森すずこ)、星空 凛(CV.飯田里穂)、東條 希(CV.楠田亜衣奈))"
+            },
+            {
+              "number": 6,
+              "title": "ふたりハピネス ／lily white(園田海未(CV.三森すずこ)、星空 凛(CV.飯田里穂)、東條 希(CV.楠田亜衣奈))"
+            },
+            {
+              "number": 7,
+              "title": "―MC lily white―"
+            },
+            {
+              "number": 8,
+              "title": "春情ロマンティック ／lily white(園田海未(CV.三森すずこ)、星空 凛(CV.飯田里穂)、東條 希(CV.楠田亜衣奈))"
+            },
+            {
+              "number": 9,
+              "title": "Cutie Panther ／BiBi(絢瀬絵里(CV.南條愛乃)、西木野真姫(CV.Pile)、矢澤にこ(CV.徳井青空))"
+            },
+            {
+              "number": 10,
+              "title": "PSYCHIC FIRE ／BiBi(絢瀬絵里(CV.南條愛乃)、西木野真姫(CV.Pile)、矢澤にこ(CV.徳井青空))"
+            },
+            {
+              "number": 11,
+              "title": "―MC BiBi―"
+            },
+            {
+              "number": 12,
+              "title": "錯覚CROSSROADS ／BiBi(絢瀬絵里(CV.南條愛乃)、西木野真姫(CV.Pile)、矢澤にこ(CV.徳井青空))"
+            },
+            {
+              "number": 13,
+              "title": "Angelic Angel／μ's"
+            },
+            {
+              "number": 14,
+              "title": "―MC4―"
+            },
+            {
+              "number": 15,
+              "title": "輝夜の城で踊りたい／μ's"
+            },
+            {
+              "number": 16,
+              "title": "だってだって噫無情／μ’s"
+            },
+            {
+              "number": 17,
+              "title": "Hello,星を数えて ／星空 凛(CV.飯田里穂)・西木野真姫(CV.Pile)・小泉花陽(CV.久保ユリカ)"
+            },
+            {
+              "number": 18,
+              "title": "？←HEARTBEAT ／絢瀬絵里(CV.南條愛乃)・東條 希(CV.楠田亜衣奈)・矢澤にこ(CV.徳井青空)"
+            },
+            {
+              "number": 19,
+              "title": "Future style ／高坂穂乃果(CV.新田恵海)・南 ことり(CV.内田 彩)・園田海未(CV.三森すずこ)"
+            }
+          ]
+        },
+        {
+          "label": "Day 2 · Disc 3",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "それは僕たちの奇跡／μ’s"
+            },
+            {
+              "number": 2,
+              "title": "―MC5―"
+            },
+            {
+              "number": 3,
+              "title": "ミはμ’sicのミ／μ’s"
+            },
+            {
+              "number": 4,
+              "title": "Super LOVE=Super LIVE!／μ’s"
+            },
+            {
+              "number": 5,
+              "title": "No brand girls／μ’s"
+            },
+            {
+              "number": 6,
+              "title": "KiRa-KiRa Sensation!／μ’s"
+            },
+            {
+              "number": 7,
+              "title": "―MC6―"
+            },
+            {
+              "number": 8,
+              "title": "SUNNY DAY SONG／μ’s"
+            },
+            {
+              "number": 9,
+              "title": "―ENCORE―"
+            },
+            {
+              "number": 10,
+              "title": "START:DASH!!／μ’s"
+            },
+            {
+              "number": 11,
+              "title": "Snow halation／μ’s"
+            },
+            {
+              "number": 12,
+              "title": "Oh,Love&Peace!／μ’s"
+            },
+            {
+              "number": 13,
+              "title": "どんなときもずっと／μ’s"
+            },
+            {
+              "number": 14,
+              "title": "―MC7―"
+            },
+            {
+              "number": 15,
+              "title": "MOMENT RING／μ’s"
+            },
+            {
+              "number": 16,
+              "title": "―W-ENCORE―"
+            },
+            {
+              "number": 17,
+              "title": "僕たちはひとつの光／μ’s"
+            },
+            {
+              "number": 18,
+              "title": "Grand Finale"
+            }
+          ]
+        },
+        {
+          "label": "Day 2 · 映像特典",
+          "description": "",
+          "sourceKey": "official",
+          "entries": [
+            {
+              "number": 1,
+              "title": "オープニングアニメーション0401"
+            },
+            {
+              "number": 2,
+              "title": "μ’s Chronicle ～Part.1～"
+            },
+            {
+              "number": 3,
+              "title": "μ’s Chronicle ～Part.2～"
+            },
+            {
+              "number": 4,
+              "title": "μ’s Chronicle ～Part.3～"
+            },
+            {
+              "number": 5,
+              "title": "μ’s Chronicle ～Part.4～"
+            },
+            {
+              "number": 6,
+              "title": "μ’s Chronicle ～Part.5～"
+            },
+            {
+              "number": 7,
+              "title": "μ’s Chronicle ～Epilogue～"
+            },
+            {
+              "number": 8,
+              "title": "Encore Movie"
+            },
+            {
+              "number": 9,
+              "title": "W-Encore Movie"
+            }
+          ]
+        }
+      ],
+      "editions": [
+        {
+          "label": "Blu-ray Memorial BOX",
+          "facts": [
+            "品番：LABX-8155～60",
+            "Blu-ray 6枚組",
+            "発売当時価格：18,000円（税抜）",
+            "描き下ろし三方背BOX"
+          ],
+          "sourceKey": "official"
+        }
+      ]
+    }
+  ]
+}

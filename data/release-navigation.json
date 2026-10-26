@@ -16,6 +16,9 @@
     ] },
     { "key": "best-live-collection", "label": "Best Live! collection", "members": [
       { "releaseId": "R0070" }, { "releaseId": "R0081" }
+    ] },
+    { "key": "movie-third-ticket-cds", "label": "劇場版 第3弾前売券特典CD", "members": [
+      { "releaseId": "R0054", "label": "Printemps" }, { "releaseId": "R0055", "label": "BiBi" }, { "releaseId": "R0056", "label": "lily white" }
     ] }
   ]
 }

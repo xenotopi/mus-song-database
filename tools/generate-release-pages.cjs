@@ -14,6 +14,7 @@ const { validateVocalData, validateVocalBody } = require("./validate-release-voc
 const { validateReleaseContentsData, validateReleaseContentsBody } = require("./validate-release-contents.cjs");
 const { validateNavigationData, validateNavigationBody } = require("./validate-release-navigation.cjs");
 const { validateBluRayData, validateBluRayBody } = require("./validate-release-bluray.cjs");
+const { validateMediaData, validateMediaBody } = require("./validate-release-media-products.cjs");
 const { validateSingleData, validateSingleBody } = require("./validate-release-single-products.cjs");
 const { validateAlbumData, validateAlbumBody } = require("./validate-release-album-products.cjs");
 const { validateSourceCollection, expectedReleaseSources } = require("./validate-release-sources.cjs");
@@ -38,6 +39,9 @@ const RELEASE_RENDERER_FILES = Object.freeze([
   "tools/detail-snapshot-lib.cjs",
   "tools/capture-provenance.cjs",
   "assets/js/release-v500.js",
+  "assets/js/release-media-products.js",
+  "data/release-media-products.json",
+  "tools/validate-release-media-products.cjs",
   "assets/js/release-bluray.js",
   "data/release-bluray-products.json",
   "tools/validate-release-bluray.cjs",
@@ -248,6 +252,9 @@ async function generateReleasePages({ revision, ids } = {}) {
     Object.fromEntries(ids.map(id => [id, capture.snapshot(`releases/${id}.json`).data])));
   const bluRay = validateBluRayData(JSON.parse(capture.source("data/release-bluray-products.json")),
     Object.fromEntries(ids.map(id => [id, capture.snapshot(`releases/${id}.json`).data])));
+  const media = validateMediaData(JSON.parse(capture.source("data/release-media-products.json")),
+    Object.fromEntries(ids.map(id => [id, capture.snapshot(`releases/${id}.json`).data])),
+    new Set(Object.keys(manifest.hashes.songs)));
   const singles = validateSingleData(JSON.parse(capture.source("data/release-single-products.json")),
     Object.fromEntries(ids.map(id => [id, capture.snapshot(`releases/${id}.json`).data])));
   const albums = validateAlbumData(JSON.parse(capture.source("data/release-album-products.json")),
@@ -349,9 +356,10 @@ async function generateReleasePages({ revision, ids } = {}) {
       validateReleaseContentsBody(parseSerializedHtml(html), release, contents.get(id));
       validateNavigationBody(parseSerializedHtml(html), release, navigationList, navigationData);
       validateBluRayBody(parseSerializedHtml(html), release, bluRay.get(id));
+      validateMediaBody(parseSerializedHtml(html), release, media.get(id));
       validateSingleBody(parseSerializedHtml(html), release, singles.get(id));
       validateAlbumBody(parseSerializedHtml(html), release, albums.get(id));
-      validateSourceCollection(parseSerializedHtml(html), release, expectedReleaseSources(release, {single: singles.get(id), album: albums.get(id), bluray: bluRay.get(id), sidecar}));
+      validateSourceCollection(parseSerializedHtml(html), release, expectedReleaseSources(release, {single: singles.get(id), album: albums.get(id), bluray: bluRay.get(id), sidecar, media: media.get(id)}));
       pages.push({ id, html, sha256: crypto.createHash("sha256").update(html).digest("hex"), title, description, canonical });
       await page.close();
     }

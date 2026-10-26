@@ -8,7 +8,7 @@ const {parseSerializedHtml}=require('../tools/static-html-readonly-lib.cjs');
 let ui;
 test.before(async()=>{ui=await import('data:text/javascript;base64,'+fs.readFileSync(p.join(root,'assets/js/song-credits.js')).toString('base64'));});
 const expected={S005:['畑 亜貴','藤末 樹','藤末 樹・松坂 康司'],S036:['畑 亜貴','森慎太郎','森慎太郎'],S041:['畑 亜貴','佐々木裕','佐々木裕'],S046:['畑 亜貴','佐々木裕','佐々木裕']};
-function doc(resolved){return parseSerializedHtml(`<!doctype html><html><head></head><body><dl id="songInfo">${ui.songCreditRowsHtml(resolved)}</dl>${ui.songCreditSourcesHtml(resolved)}</body></html>`);}
+function doc(resolved){return parseSerializedHtml(`<!doctype html><html><head></head><body><dl id="songInfo"></dl>${ui.songCreditHeroHtml(resolved)}<div id="songCreditSources">${ui.songCreditSourcesHtml(resolved)}</div></body></html>`);}
 for(const id of Object.keys(expected))test(`${id}: official scoped credits, order, sources and independent body check`,()=>{
  const result=ui.songCredits(data,song(id));a.deepEqual(result.rows.map(r=>r.value),expected[id]);a.deepEqual(result.rows.map(r=>r.label),['作詞','作曲','編曲']);
  a.equal(result.recording.relationId,{S005:'RT0005',S036:'RT0036',S041:'RT0041',S046:'RT0046'}[id]);
@@ -31,7 +31,7 @@ for(const [label,change] of [
  ['duplicate Song ID',d=>d.songs.push(structuredClone(d.songs[0]))]
 ])test('reject '+label,()=>{const d=structuredClone(data);change(d);a.equal(ui.songCredits(d,song('S005')),null);a.throws(()=>validateSongCreditsData(d,songs));});
 test('3/9-person entries do not inherit or overwrite each other',()=>{const d=structuredClone(data);d.songs=d.songs.filter(s=>s.songId!=='S041');a.equal(ui.songCredits(d,song('S041')),null);a.ok(ui.songCredits(d,song('S046')));});
-test('independent serialized validator rejects missing, changed and duplicate fields/sources',()=>{const resolved=ui.songCredits(data,song('S005')),checked=validateSongCreditsData(data,songs),html=`<!doctype html><html><head></head><body><dl id="songInfo">${ui.songCreditRowsHtml(resolved)}</dl>${ui.songCreditSourcesHtml(resolved)}</body></html>`;
+test('independent serialized validator rejects missing, changed and duplicate fields/sources',()=>{const resolved=ui.songCredits(data,song('S005')),checked=validateSongCreditsData(data,songs),html=`<!doctype html><html><head></head><body><dl id="songInfo"></dl>${ui.songCreditHeroHtml(resolved)}<div id="songCreditSources">${ui.songCreditSourcesHtml(resolved)}</div></body></html>`;
  validateSongCreditsBody(parseSerializedHtml(html),'S005',checked);
  for(const bad of [html.replace('藤末 樹・松坂 康司','別人'),html.replace('</dl>',ui.songCreditRowsHtml(resolved)+'</dl>'),html.replace('<details','<details open'),html.replace('https://akihata.jp/works/music/388/','https://example.test/wrong')])a.throws(()=>validateSongCreditsBody(parseSerializedHtml(bad),'S005',checked));
 });
@@ -67,5 +67,5 @@ for(const [label,id,change]of [
 test('all 117 publication candidates match independent HTML expectations; user evidence is not an invented official link',()=>{
  const checked=validateSongCreditsData(data,songs);
  for(const s of data.songs){a.ok(s.credits.every(c=>c.publishAllowed===true));const result=ui.songCredits(data,song(s.songId));a.equal(result.rows.length,3);validateSongCreditsBody(doc(result),s.songId,checked);if(result.sources.some(e=>e.kind==='user_confirmation')){const html=ui.songCreditSourcesHtml(result);a.match(html,/ユーザー確認資料/);a.doesNotMatch(html,/undefined|physical_item_report|creator_correction_report/);}}
- const result=ui.songCredits(data,song('S075')),html=ui.songCreditSourcesHtml(result);a.throws(()=>validateSongCreditsBody(parseSerializedHtml('<!doctype html><html><body><dl id="songInfo">'+ui.songCreditRowsHtml(result)+'</dl>'+html.replace('ユーザー確認資料','<a href="https://example.test/fake">ユーザー確認資料</a>')+'</body></html>'),'S075',checked));
+ const result=ui.songCredits(data,song('S075')),html=ui.songCreditSourcesHtml(result);a.throws(()=>validateSongCreditsBody(parseSerializedHtml('<!doctype html><html><body><dl id="songInfo"></dl>'+ui.songCreditHeroHtml(result)+'<div id="songCreditSources">'+html.replace('ユーザー確認資料','<a href="https://example.test/fake">ユーザー確認資料</a>')+'</div></body></html>'),'S075',checked));
 });

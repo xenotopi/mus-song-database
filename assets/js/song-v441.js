@@ -1,6 +1,6 @@
 import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import { loadSongUnitMembership } from "./song-unit-memberships.js?v=1.0.0";
-import { loadSongCredits, songCreditRowsHtml, songCreditSourcesHtml } from "./song-credits.js?v=1.0.0";
+import { loadSongCredits, songCreditHeroHtml, songCreditSourcesHtml } from "./song-credits.js?v=1.1.0";
 import { buildSongUrl,
   apiGet,
   escapeHtml,
@@ -1033,6 +1033,8 @@ function renderSong(song, membership = null, credits = null) {
     `${displayName}｜μ's Song Database`;
 
   elements.songName.textContent = displayName;
+  document.getElementById("songHeroCredits")?.remove();
+  elements.songName.insertAdjacentHTML("afterend", songCreditHeroHtml(credits));
   const breadcrumbName = document.querySelector('[data-song-breadcrumb-name]');
   if (breadcrumbName) breadcrumbName.textContent = displayName;
 
@@ -1060,7 +1062,7 @@ function renderSong(song, membership = null, credits = null) {
     <dd>${href
       ? `<a class="song-debut-release-link mus-link-primary mus-chip-link" href="${escapeHtml(href)}"><span class="mus-title-chip">${escapeHtml(value)}</span><span class="site-icon-inline mus-link-chevron" data-site-icon="chevron-right" aria-hidden="true"></span></a>`
       : escapeHtml(value || "—")}</dd>`
-  ).join("") + songCreditRowsHtml(credits);
+  ).join("");
 
   // Keep sources outside the definition list; absent/unapproved credits add no UI.
   document.getElementById("songCreditSources")?.remove();

@@ -11,6 +11,7 @@ const { beginCapture } = require("./capture-provenance.cjs");
 const { expectedSidecar, validateSidecarBody } = require("./validate-release-sidecar.cjs");
 const { parseSerializedHtml } = require("./static-html-readonly-lib.cjs");
 const { validateVocalData, validateVocalBody } = require("./validate-release-vocals.cjs");
+const { validateReleaseCreditSources, validateReleaseSongCreditsBody } = require("./song-credits-lib.cjs");
 const { validateReleaseContentsData, validateReleaseContentsBody } = require("./validate-release-contents.cjs");
 const { validateNavigationData, validateNavigationBody } = require("./validate-release-navigation.cjs");
 const { validateBluRayData, validateBluRayBody } = require("./validate-release-bluray.cjs");
@@ -39,6 +40,10 @@ const RELEASE_RENDERER_FILES = Object.freeze([
   "tools/detail-snapshot-lib.cjs",
   "tools/capture-provenance.cjs",
   "assets/js/release-v500.js",
+  "assets/js/release-song-credits.js",
+  "assets/js/song-credits.js",
+  "data/song-credits.json",
+  "tools/song-credits-lib.cjs",
   "assets/js/release-media-products.js",
   "data/release-media-products.json",
   "tools/validate-release-media-products.cjs",
@@ -241,6 +246,8 @@ async function generateReleasePages({ revision, ids } = {}) {
   const css = pinReleaseCss({ audit: entry => console.log("[release-css-audit] " + JSON.stringify({ ...entry, revision })) });
   const capture = beginCapture({ root, type: "release", revision, ids, rendererFiles: RELEASE_RENDERER_FILES, rendererFingerprint });
   const { manifest, rendererSha256 } = capture;
+  const creditData = JSON.parse(capture.source("data/song-credits.json"));
+  const releaseCredits = validateReleaseCreditSources(creditData, Object.fromEntries(ids.map(id => [id, capture.snapshot(`releases/${id}.json`).data])));
   const pinnedTemplate = capture.source("release.html");
   const navigationList = capture.snapshot("release-list.json").data;
   const navigationData = validateNavigationData(JSON.parse(capture.source("data/release-navigation.json")), navigationList);
@@ -380,6 +387,7 @@ async function generateReleasePages({ revision, ids } = {}) {
       if (html.includes("http://127.0.0.1")) throw new Error(`${id}: local URL leaked`);
       validateSidecarBody(parseSerializedHtml(html), release, sidecar);
       validateVocalBody(parseSerializedHtml(html), release, vocals);
+      validateReleaseSongCreditsBody(parseSerializedHtml(html), release, releaseCredits, creditData);
       validateReleaseContentsBody(parseSerializedHtml(html), release, contents.get(id));
       validateNavigationBody(parseSerializedHtml(html), release, navigationList, navigationData);
       validateBluRayBody(parseSerializedHtml(html), release, bluRay.get(id));

@@ -35,14 +35,40 @@ function validateSongCreditsData(data,songs){
 }
 function validateSongCreditsBody(doc,songId,credits){
  const wanted=credits.get(songId),host=doc.ids.get('songInfo');check(host,'Song information missing');
- const terms=descendants(host,n=>n.tag==='dt'&&Object.values(roles).includes(textContent(n).trim()));
+ check(descendants(host,n=>n.tag==='dt'&&Object.values(roles).includes(textContent(n).trim())).length===0,'Song basic information duplicates hero credits');
+ const hero=doc.ids.get('songHeroCredits');check(Boolean(hero)===Boolean(wanted?.rows.length),'Song hero credits missing/unexpected');
+ if(hero)check(hero.tag==='dl'&&hasClass(hero,'song-hero-credits'),'Song hero credit structure mismatch');
+ const terms=hero?descendants(hero,n=>n.tag==='dt'):[];
  const actual=terms.map(dt=>{const siblings=dt.parent.children.filter(n=>typeof n!=='string'),dd=siblings[siblings.indexOf(dt)+1];check(dd?.tag==='dd','Song credit value missing');return[textContent(dt).trim(),textContent(dd).trim()];});
  check(JSON.stringify(actual)===JSON.stringify((wanted?.rows||[]).map(r=>[r.label,r.value])),'Song credit labels/order/names mismatch');
+ if(hero){check(descendants(hero,n=>n.tag==='dd').length===terms.length,'Song hero credit value count mismatch');for(const[order,dt]of terms.entries()){const r=wanted.rows[order],dd=dt.parent.children.filter(n=>typeof n!=='string')[1];check(dt.attrs['data-song-credit']===r.role&&dd?.attrs['data-song-credit']===r.role,'Song hero credit role mismatch');}}
  const sources=descendants(doc.html,n=>hasClass(n,'song-credit-sources'));
  check(sources.length===(wanted?.rows.length?1:0),'Song credit source missing/unexpected');
- if(sources.length){const node=sources[0];check(node.tag==='details'&&!Object.hasOwn(node.attrs,'open'),'Song credit sources must start collapsed');const summary=descendants(node,n=>n.tag==='summary');check(summary.length===1&&textContent(summary[0]).trim()==='クレジットの出典','Song credit source summary mismatch');
+ if(sources.length){const node=sources[0],container=doc.ids.get('songCreditSources');check(container&&descendants(container,n=>n===node).length===1&&(!hero||!descendants(hero,n=>n===node).length),'Song credit sources must remain in basic information');check(node.tag==='details'&&!Object.hasOwn(node.attrs,'open'),'Song credit sources must start collapsed');const summary=descendants(node,n=>n.tag==='summary');check(summary.length===1&&textContent(summary[0]).trim()==='クレジットの出典','Song credit source summary mismatch');
   const links=descendants(node,n=>n.tag==='a');check(JSON.stringify(links.map(n=>[n.attrs.href,textContent(n).trim(),n.attrs.target,(n.attrs.rel||'').split(/\s+/).sort()]))===JSON.stringify(wanted.sources.filter(e=>e.kind!=='user_confirmation').map(e=>[e.url,e.title,'_blank',['noopener','noreferrer']])),'Song credit source links differ');
   const items=descendants(node,n=>n.tag==='li');check(JSON.stringify(items.map(n=>textContent(n).trim()))===JSON.stringify(wanted.sources.map(e=>`${e.kind==='user_confirmation'?'ユーザー確認資料':e.title}（${e.labels.join('・')}／${e.catalogNumber}・Disc ${e.disc} Track ${e.track}）`)),'Song credit source attribution differs');
  }
 }
-module.exports={validateSongCreditsData,validateSongCreditsBody};
+// Capture already pins all Release sources. Validate the declared original
+// Relation against those sources; the complete validator also checks the real
+// Song baseline/version with validateSongCreditsData(data, snapshotSongs).
+function validateReleaseCreditSources(data,releases){
+ const originals=new Map();
+ for(const item of data.songs){const r=item.recording,release=releases[r?.releaseId],rows=release?.includedSongs?.filter(t=>t.relationId===r.relationId&&t.songId===item.songId&&(t.variant||null)===r.variant)||[];
+  check(rows.length===1,'Release credit original Relation mismatch');
+  originals.set(item.songId,{songId:item.songId,version:r.songVersion,debutRelease:{releaseId:r.releaseId},includedReleases:rows.map(t=>({...t,releaseId:r.releaseId}))});
+ }
+ return validateSongCreditsData(data,originals);
+}
+function validateReleaseSongCreditsBody(doc,release,credits,data){
+ const expected=[];
+ for(const t of release.includedSongs){const item=data.songs.find(s=>s.songId===t.songId),r=item?.recording,original=r&&r.releaseId===release.releaseId&&r.relationId===t.relationId&&(t.variant||null)===r.variant&&(t.disc==null||t.disc===r.disc)&&(t.track==null||t.track===r.track);
+  const rows=(credits.get(t.songId)?.rows||[]).filter(row=>row.role!=='arranger'||original);if(rows.length)expected.push({t,rows});
+ }
+ const blocks=doc.nodes.filter(n=>hasClass(n,'release-song-credits'));check(blocks.length===expected.length,'Release Song credit count mismatch');
+ for(const{t,rows}of expected){const anchors=doc.nodes.filter(n=>hasClass(n,'release-included-song-row')&&n.attrs['data-relation-id']===t.relationId);check(anchors.length===1,'Release Song credit Relation missing/duplicate');const anchor=anchors[0],found=descendants(anchor,n=>hasClass(n,'release-song-credits'));check(found.length===1&&!descendants(anchor,n=>hasClass(n,'release-credits')).length,'Release Song credit duplicate/missing');const block=found[0],lines=block.children.filter(n=>typeof n!=='string');
+  check(JSON.stringify(lines.map(n=>[n.tag,n.attrs['data-release-credit'],textContent(n)]))===JSON.stringify(rows.map(r=>['span',r.role,`${r.label}：${r.value}`])),'Release Song credit role/name/order mismatch');check(textContent(block)===rows.map(r=>`${r.label}：${r.value}`).join(' ／ '),'Release Song credit separators mismatch');
+  const copy=block.parent,siblings=copy.children.filter(n=>typeof n!=='string'),title=siblings.find(n=>hasClass(n,'release-included-song-title')),vocal=siblings.find(n=>hasClass(n,'release-recording-vocal')),meta=siblings.find(n=>hasClass(n,'release-included-song-meta'));check(title&&siblings.indexOf(block)>siblings.indexOf(vocal||title)&&(!meta||siblings.indexOf(block)<siblings.indexOf(meta)),'Release Song credit title/vocal/Mix position mismatch');
+ }
+}
+module.exports={validateSongCreditsData,validateSongCreditsBody,validateReleaseCreditSources,validateReleaseSongCreditsBody};

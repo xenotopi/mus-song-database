@@ -15,6 +15,7 @@ import { loadMediaProduct, applyMediaProduct } from "./release-media-products.js
 import { loadSingleProduct, applySingleProduct } from "./release-single-products.js?v=1.0.1";
 import { loadAlbumProduct, applyAlbumProduct } from "./release-album-products.js?v=1.0.1";
 import { consolidateReleaseSources } from "./release-sources.js?v=1.1.0";
+import { attachReleaseSongCredits } from "./release-song-credits.js?v=1.0.0";
 
 renderCommon("release");
 const $ = id => document.getElementById(id);
@@ -494,7 +495,13 @@ function renderRelease(release, releaseList = [], approvedMetadata = null, produ
   elements.releaseName.textContent = name;
   elements.breadcrumbName.textContent = name;
   const dateLabel = ["R0032", "R0052"].includes(release.releaseId) ? `Blu-ray最終巻発売日：${date}` : date;
-  elements.heroMeta.innerHTML = `<span>${escapeHtml(dateLabel)}</span><span>${escapeHtml(classification)}</span>${releaseType ? `<span>${escapeHtml(releaseType)}</span>` : ""}`;
+  const cd = classification === "CD", hero = elements.releaseName.closest(".release-hero");
+  hero.classList.toggle("release-cd-hero", cd);
+  // Reuse the site's decorative SVG sizing and line style, scoped to CD only.
+  hero.querySelector(".release-hero-kicker").innerHTML = cd ? '<svg class="site-icon release-cd-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2"/></svg><span>CD RELEASE</span>' : 'RELEASE DETAIL';
+  elements.heroMeta.innerHTML = cd
+    ? `<span>${escapeHtml(dateLabel)}</span>${releaseType ? `<span class="release-hero-badge">${escapeHtml(releaseType)}</span>` : ""}`
+    : `<span>${escapeHtml(dateLabel)}</span><span>${escapeHtml(classification)}</span>${releaseType ? `<span>${escapeHtml(releaseType)}</span>` : ""}`;
   document.title = `${name}｜μ's Song Database`;
   const info = [];
   const parentReleaseId = String(release.parentReleaseId || "").trim();
@@ -640,6 +647,7 @@ async function loadRelease() {
     applyAlbumProduct(resolvedRelease, albumProduct);
     await attachReleaseBluRay(resolvedRelease, bluRayProduct);
     applyMediaProduct(resolvedRelease, mediaProduct);
+    await attachReleaseSongCredits(resolvedRelease, elements.mainContent);
     await hydrateBoxMembers(boxView, safeReleaseList, response);
     if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
     if (resolvedRelease.releaseId === "R0072") await renderKamiparaRelease();

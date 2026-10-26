@@ -1267,6 +1267,11 @@
     #songInfo .song-debut-release-link .mus-title-chip{min-width:0;line-height:inherit}
     #songInfo .song-debut-release-link .mus-link-chevron{flex:0 0 30px;margin-inline-start:0}
     .song-credit-sources{margin-top:14px;font-size:14px;overflow-wrap:anywhere}
+    .song-hero-v46 .song-hero-credits{display:flex;flex-wrap:wrap;gap:4px 18px;margin:10px 0 0;color:rgba(255,255,255,.82);font-size:13px;font-weight:500;line-height:1.65;position:relative;z-index:1}
+    .song-hero-credits>div{display:flex;gap:4px;min-width:0;max-width:100%}
+    .song-hero-credits dt{flex:none;font-weight:500}.song-hero-credits dt::after{content:"："}
+    .song-hero-credits dd{min-width:0;margin:0;font-weight:600;overflow-wrap:anywhere}
+    @media(min-width:621px){.song-hero-v46:has(.song-dialogue-decoration:not([hidden])) .song-hero-credits{max-width:58%}}
     .song-credit-sources summary{display:list-item;cursor:pointer;min-height:44px;padding:10px 0;color:var(--indigo);font-weight:700}
     .song-credit-sources summary:focus-visible{outline:3px solid var(--indigo);outline-offset:3px}
     .song-credit-sources ul{margin:0;padding-left:20px}
@@ -1777,7 +1782,7 @@
       }
     }
 
-  </style><link rel="canonical" href="https://mus-song-db.com/song/S099.html"><script type="application/ld+json">{
+  </style><link rel="canonical" data-seo-dynamic="true" href="https://mus-song-db.com/song/S099.html"><script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "MusicRecording",
   "@id": "https://mus-song-db.com/song/S099.html#recording",
@@ -1953,7 +1958,7 @@
 
       <p class="song-hero-decoration song-intro-decoration" id="songIntroDecoration" hidden=""></p>
 
-      <h1 id="songName">Hello,星を数えて</h1>
+      <h1 id="songName">Hello,星を数えて</h1><dl id="songHeroCredits" class="song-hero-credits" aria-label="楽曲クレジット"><div><dt data-song-credit="lyricist">作詞</dt><dd data-song-credit="lyricist">畑 亜貴</dd></div><div><dt data-song-credit="composer">作曲</dt><dd data-song-credit="composer">山口朗彦</dd></div><div><dt data-song-credit="arranger">編曲</dt><dd data-song-credit="arranger">山口朗彦</dd></div></dl>
 
       <p id="heroMeta">S099 ｜ 映画｜挿入歌｜2015/07/01</p>
 
@@ -2045,7 +2050,7 @@
     <dt>メディア</dt>
     <dd>映画</dd>
     <dt>区分</dt>
-    <dd>挿入歌</dd><dt data-song-credit="lyricist">作詞</dt><dd data-song-credit="lyricist">畑 亜貴</dd><dt data-song-credit="composer">作曲</dt><dd data-song-credit="composer">山口朗彦</dd><dt data-song-credit="arranger">編曲</dt><dd data-song-credit="arranger">山口朗彦</dd></dl><div id="songCreditSources"><details class="song-credit-sources"><summary>クレジットの出典</summary><ul><li><a href="https://www.lovelive-anime.jp/otonokizaka/release.php#cd54" target="_blank" rel="noopener noreferrer">Angelic Angel／Hello,星を数えて／初出商品クレジット</a><span>（作詞・作曲・編曲／LACM-14361・Disc 1 Track 2）</span></li></ul></details></div>
+    <dd>挿入歌</dd></dl><div id="songCreditSources"><details class="song-credit-sources"><summary>クレジットの出典</summary><ul><li><a href="https://www.lovelive-anime.jp/otonokizaka/release.php#cd54" target="_blank" rel="noopener noreferrer">Angelic Angel／Hello,星を数えて／初出商品クレジット</a><span>（作詞・作曲・編曲／LACM-14361・Disc 1 Track 2）</span></li></ul></details></div>
 
         <div id="releaseSection" class="basic-release">
           <div class="official-release-action" id="releaseAction"><div class="official-release-links">
@@ -2855,7 +2860,7 @@
 })();
 </script>
 
-<script type="module" src="assets/js/song-v441.js?v=5.6.0&amp;cache=output-revision&amp;songUrls=1"></script>
+<script type="module" src="assets/js/song-v441.js?v=5.6.1&amp;cache=output-revision&amp;songUrls=1"></script>
 
   <script>
     (() => {

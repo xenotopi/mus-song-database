@@ -1,6 +1,10 @@
 /* Release-only prototype. No shared link or renderer dependencies are changed. */
 .release-hero { min-height: 0; padding: 25px 28px; }
 .release-hero h1 { font-size: clamp(26px, 3.5vw, 39px); }
+.release-cd-hero .release-hero-kicker { display: flex; align-items: center; gap: 9px; }
+.release-cd-icon { width: 26px; height: 26px; flex: none; }
+.release-cd-hero .release-hero-meta { align-items: center; gap: 8px 12px; }
+.release-hero-badge { display: inline-flex; padding: 2px 10px; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; background: rgba(255,255,255,.08); line-height: 1.65; }
 .release-content { display: grid; grid-template-columns: minmax(0, 1fr); }
 .release-content > [hidden] { display: none; }
 .release-included-head { align-items: start; flex-wrap: wrap; gap: 10px 18px; }
@@ -75,6 +79,8 @@ html.mus-menu-lock .release-has-context .detail-context-inner { pointer-events: 
 .release-box-controls > a[hidden], .release-box-status:empty { display: none; }
 .release-box-status { margin: 0; color: var(--muted); font-size: 12px; }
 .release-product-name, .release-credits { display: block; margin-top: 6px; color: var(--muted); font-size: 13px; font-weight: 500; overflow-wrap: anywhere; }
+.release-song-credits { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; font-weight: 500; line-height: 1.65; overflow-wrap: anywhere; }
+.release-song-credits > span { display: inline; }
 .release-metadata-entry { border-bottom: 1px solid var(--line); }
 .release-metadata-entry:last-child { border-bottom: 0; }
 .release-metadata-entry .release-included-song-row { border-bottom: 0; }

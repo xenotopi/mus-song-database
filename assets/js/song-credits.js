@@ -61,6 +61,11 @@ export function songCreditRowsHtml(credits) {
   return (credits?.rows || []).map(row => `<dt data-song-credit="${row.role}">${row.label}</dt><dd data-song-credit="${row.role}">${esc(row.value)}</dd>`).join("");
 }
 
+export function songCreditHeroHtml(credits) {
+  if (!credits?.rows.length) return "";
+  return `<dl id="songHeroCredits" class="song-hero-credits" aria-label="楽曲クレジット">${credits.rows.map(row => `<div><dt data-song-credit="${row.role}">${row.label}</dt><dd data-song-credit="${row.role}">${esc(row.value)}</dd></div>`).join("")}</dl>`;
+}
+
 export function songCreditSourcesHtml(credits) {
   if (!credits?.rows.length) return "";
   return `<details class="song-credit-sources"><summary>クレジットの出典</summary><ul>${credits.sources.map(source => `<li>${source.kind === "user_confirmation" ? "ユーザー確認資料" : `<a href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.title)}</a>`}<span>（${esc(source.labels.join("・"))}／${esc(source.catalogNumber)}・Disc ${source.disc} Track ${source.track}）</span></li>`).join("")}</ul></details>`;

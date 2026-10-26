@@ -1288,6 +1288,11 @@
     #songInfo .song-debut-release-link .mus-title-chip{min-width:0;line-height:inherit}
     #songInfo .song-debut-release-link .mus-link-chevron{flex:0 0 30px;margin-inline-start:0}
     .song-credit-sources{margin-top:14px;font-size:14px;overflow-wrap:anywhere}
+    .song-hero-v46 .song-hero-credits{display:flex;flex-wrap:wrap;gap:4px 18px;margin:10px 0 0;color:rgba(255,255,255,.82);font-size:13px;font-weight:500;line-height:1.65;position:relative;z-index:1}
+    .song-hero-credits>div{display:flex;gap:4px;min-width:0;max-width:100%}
+    .song-hero-credits dt{flex:none;font-weight:500}.song-hero-credits dt::after{content:"："}
+    .song-hero-credits dd{min-width:0;margin:0;font-weight:600;overflow-wrap:anywhere}
+    @media(min-width:621px){.song-hero-v46:has(.song-dialogue-decoration:not([hidden])) .song-hero-credits{max-width:58%}}
     .song-credit-sources summary{display:list-item;cursor:pointer;min-height:44px;padding:10px 0;color:var(--indigo);font-weight:700}
     .song-credit-sources summary:focus-visible{outline:3px solid var(--indigo);outline-offset:3px}
     .song-credit-sources ul{margin:0;padding-left:20px}
@@ -1644,7 +1649,7 @@
 
 <script
     type="module"
-    src="assets/js/song-v441.js?v=5.6.0&amp;cache=output-revision&songUrls=1"
+    src="assets/js/song-v441.js?v=5.6.1&amp;cache=output-revision&songUrls=1"
   ></script>
 
   <script>

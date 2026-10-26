@@ -20,7 +20,8 @@ function releaseBody(r,list,options={}){
  if(x.catalogNumber)info["品番"]=x.catalogNumber;
  const fields={"正式商品名":"official","シリーズ":"series","親BOX":"parent","対象キャラクター／歌唱名義":"featured","エディション":"edition","品番":"catalog"};
  const outside=(r.debutSongs||[]).filter(s=>!rows.some(t=>t.songId===s.songId));
- let body='<h1>'+e(r.releaseName)+'</h1><div id="heroMeta">'+[(['R0032','R0052'].includes(r.releaseId)?'Blu-ray最終巻発売日：':'')+(r.releaseDate?r.releaseDate.replaceAll("-","/"):"発売日未登録"),r.classification||"分類未設定",...(r.releaseType?[r.releaseType]:[])].map(s=>'<span>'+e(s)+'</span>').join("")+'</div>';
+ const cd=r.classification==='CD';
+ let body='<h1>'+e(r.releaseName)+'</h1><p class="release-hero-kicker">'+(cd?'CD RELEASE':'RELEASE DETAIL')+'</p>'+(cd?'<svg class="release-cd-icon" aria-hidden="true"></svg>':'')+'<div id="heroMeta">'+[(['R0032','R0052'].includes(r.releaseId)?'Blu-ray最終巻発売日：':'')+(r.releaseDate?r.releaseDate.replaceAll("-","/"):"発売日未登録"),...(cd?[]:[r.classification||"分類未設定"]),...(r.releaseType?[r.releaseType]:[])].map((s,i)=>'<span'+(cd&&i===1?' class="release-hero-badge"':'')+'>'+e(s)+'</span>').join("")+'</div>';
  body+='<article id="releaseInformationSection"><dl id="releaseInfo"'+(Object.keys(info).length?"":" hidden")+'>'+Object.entries(info).map(([k,v])=>'<div class="release-info-row" data-release-info-field="'+fields[k]+'"'+(k==="対象キャラクター／歌唱名義"?' data-release-featured':'')+'><dt>'+e(k)+'</dt><dd>'+(k==="親BOX"?a("","release/"+parent.releaseId+".html",v):e(v))+'</dd></div>').join("")+'</dl><div id="officialRelease">'+(r.officialReleaseUrl?a("",r.officialReleaseUrl,"公式作品ページを見る"):"")+'</div></article>';
  const navigationData=options.navigationData||require('../../data/release-navigation.json'),groups=expectedGroups(x,list,navigationData),related=parent||children.length||siblings.length||groups.length;
  body+=navigationFixture(r,list,navigationData);

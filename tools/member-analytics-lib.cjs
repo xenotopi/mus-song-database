@@ -8,13 +8,18 @@ function assert(condition, message) { if (!condition) throw new Error(message); 
 function buildMemberAnalytics(songDetails, singerList) {
   const official = singerList?.official;
   const solo = singerList?.solo;
-  assert(Array.isArray(official) && official.length === 49 && Array.isArray(solo) && solo.length === 23, "Singer list must contain 49 official and 23 solo names");
+  assert(Array.isArray(official) && official.length > 0 && Array.isArray(solo) && solo.length > 0, "Singer list must contain official and solo names");
+  assert(official.every(s => s.category === "公式") && solo.every(s => s.category === "ソロ"), "Singer list category mismatch");
+  let expectedPerformanceCount = 0;
   const singers = [...official, ...solo];
+  assert(singerList.summary?.official === official.length && singerList.summary?.solo === solo.length && singerList.summary?.total === singers.length, "Singer list source count mismatch");
   const singerById = new Map();
   const shortToMember = new Map();
   for (const singer of singers) {
     assert(/^SN\d{4}$/.test(singer.singerId) && !singerById.has(singer.singerId), `Invalid or duplicate Singer ID: ${singer.singerId}`);
     assert(["公式", "ソロ"].includes(singer.category), `${singer.singerId}: invalid category`);
+    assert(Number.isSafeInteger(singer.performanceCount) && singer.performanceCount >= 0, `${singer.singerId}: invalid source performance count`);
+    expectedPerformanceCount += singer.performanceCount;
     assert(Array.isArray(singer.memberShorts) && singer.memberShorts.length === singer.memberCount, `${singer.singerId}: invalid member count`);
     assert(singer.memberShorts.join("＆") === singer.memberComposition, `${singer.singerId}: member composition mismatch`);
     assert(Array.isArray(singer.members) && singer.members.length === singer.memberShorts.length, `${singer.singerId}: member mapping incomplete`);
@@ -67,7 +72,7 @@ function buildMemberAnalytics(songDetails, singerList) {
       castPerformanceCount: performanceCounts[1], castEventCount: events[1].size
     };
   }).sort((a, b) => a.songId.localeCompare(b.songId));
-  assert(sourcePerformanceCount === 1400, `Expected 1400 performance rows, got ${sourcePerformanceCount}`);
+  assert(sourcePerformanceCount === expectedPerformanceCount, `Singer/Song performance count mismatch: expected ${expectedPerformanceCount}, got ${sourcePerformanceCount}`);
   const summarize = state => state.map(row => ({ memberName: row.memberName, performanceCount: row.performanceCount, uniqueSongCount: row.songs.size, eventCount: row.events.size }));
   const data = { characterMembers: [...CHARACTER_MEMBERS], castMembers: [...CAST_MEMBERS], songs, characterSummary: summarize(summaryState[0]), castSummary: summarize(summaryState[1]) };
   validateMemberAnalytics(data);

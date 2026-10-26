@@ -1,0 +1,59 @@
+{
+  "snapshot": {
+    "revision": "sha256-6fdbbc6ce4f103d9f222f9ac6d2f2d9954f91c327421e553422e442029c1a9dd",
+    "outputRevision": "sha256-6fdbbc6ce4f103d9f222f9ac6d2f2d9954f91c327421e553422e442029c1a9dd",
+    "dataRevision": "sha256-7192e9317a6fb98418a20aba5fd97839b9e81d15a1c9629429c97cb7b68b562f",
+    "generatedAt": "2026-10-25T15:24:03.618Z",
+    "source": "public-api"
+  },
+  "data": {
+    "releaseId": "R0043",
+    "releaseDate": "2014-08-27",
+    "releaseName": "「ラブライブ！」2期Blu-ray 第3巻",
+    "classification": "Blu-ray",
+    "sourceMedia": "Blu-ray",
+    "officialReleaseUrl": "https://www.lovelive-anime.jp/otonokizaka/bd/tv2nd/#bd03",
+    "todayEligible": true,
+    "note": "",
+    "releaseType": "アニメBlu-ray",
+    "releaseSeries": null,
+    "editionType": null,
+    "parentReleaseId": null,
+    "featuredSinger": null,
+    "catalogNumber": null,
+    "officialName": null,
+    "debutSongs": [
+      {
+        "songId": "S077",
+        "songName": "くるりんMIRACLE",
+        "displayName": "くるりんMIRACLE"
+      }
+    ],
+    "relatedEvents": [],
+    "includedSongs": [
+      {
+        "relationId": "RT0077",
+        "songId": "S077",
+        "songName": "くるりんMIRACLE",
+        "displayName": "くるりんMIRACLE",
+        "disc": null,
+        "track": null,
+        "displayOrder": 1,
+        "variant": null,
+        "benefitStore": null
+      }
+    ],
+    "includedSongsMeta": {
+      "status": "complete",
+      "confirmedCount": 1,
+      "pendingCount": 0,
+      "publicNote": null
+    },
+    "_cache": {
+      "source": "static",
+      "hit": true,
+      "mode": "snapshot",
+      "revision": "sha256-7192e9317a6fb98418a20aba5fd97839b9e81d15a1c9629429c97cb7b68b562f"
+    }
+  }
+}

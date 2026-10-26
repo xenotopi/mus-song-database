@@ -465,7 +465,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
     check(dashboard.performances.every(p => dashboard.songs.some(s => s.songId === p.songId) && dashboard.events.some(e => e.eventId === p.eventId) && Array.isArray(p.performers) && p.performers.every(person => dashboard.performers.some(v => v.performerId === person.performerId))), "Kamipara source references invalid");
     inputs.release["kamipara-dashboard.json"] = kp.input;
     const venues = new Map();
-    check(object(snapshot.hashes.events) && snapshot.counts.events === 353 && Object.keys(snapshot.hashes.events).length === 353, "Event auxiliary snapshot completeness mismatch");
+    check(object(snapshot.hashes.events) && Number.isSafeInteger(snapshot.counts.events) && snapshot.counts.events > 0 && Object.keys(snapshot.hashes.events).length === snapshot.counts.events, "Event auxiliary snapshot completeness mismatch");
     exactIds(directory(prefix + "events").filter(f => f.endsWith(".json")), Object.keys(snapshot.hashes.events).map(id => `${id}.json`), "Event snapshot directory");
     const wanted = new Set(dashboard.events.map(e => e.venueId).filter(Boolean));
     for (const [id, hash] of Object.entries(snapshot.hashes.events)) {

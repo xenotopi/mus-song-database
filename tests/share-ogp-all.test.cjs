@@ -23,13 +23,13 @@ function escaped(value) {
   return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
 
-test("all 470 share pages match current snapshots and remain outside sitemap", () => {
+test("all current share pages match current snapshots and remain outside sitemap", () => {
   const sitemap = fs.readFileSync(path.join(ROOT, "sitemap.xml"), "utf8");
   assert.doesNotMatch(sitemap, /\/share\//);
-  assert.equal((sitemap.match(/<loc>/g) || []).length, 241);
+  assert.equal((sitemap.match(/<loc>/g) || []).length, 242);
   const paths = new Set();
   let total = 0;
-  for (const [type, expected] of [["song", 117], ["event", 353]]) {
+  for (const [type, expected] of [["song", 117], ["event", manifest.counts.events]]) {
     const ids = Object.keys(manifest.hashes[`${type}s`]).sort();
     const files = fs.readdirSync(path.join(ROOT, "share", type)).filter(name => name.endsWith(".html"));
     assert.equal(ids.length, expected);
@@ -68,7 +68,7 @@ test("all 470 share pages match current snapshots and remain outside sitemap", (
       assert.doesNotMatch(html, /xenotopi\.github\.io|http-equiv="refresh"/i);
     }
   }
-  assert.equal(total, 470);
+  assert.equal(total, 117 + manifest.counts.events);
 });
 
 test("spot share actions and layouts work for Song and Event at 1280/390", { timeout: 120000 }, async () => {

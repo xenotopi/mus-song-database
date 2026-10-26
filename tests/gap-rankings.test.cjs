@@ -8,10 +8,13 @@ const data=JSON.parse(fs.readFileSync(path.join(root,'data/gap-rankings.json')))
 const event=(id,date,category='公式')=>({eventId:id,eventName:id,date,category});
 const song=(id,ids)=>({songId:id,songName:id,performances:ids.map(eventId=>({eventId,type:'ソロ',singerCategory:'ソロ'}))});
 const payload=async(events,songs)=> (await model).buildPayload(songs,events);
-test('117 Songs / 1400 records: derived data is reproducible without writes',async()=>{
+test('current Song records: derived data is reproducible without writes',async()=>{
   const bytes=fs.readFileSync(path.join(root,'data/current.json'));
   assert.deepEqual(await require('../tools/generate-gap-rankings.cjs').generate({write:false}),data);
-  assert.equal(data.payload.songs.length,117);assert.equal(data.payload.songs.reduce((n,s)=>n+s.recordCount,0),1400);
+  const base=path.join(root,'data/snapshots',current.outputRevision);
+  const manifest=JSON.parse(fs.readFileSync(path.join(base,'manifest.json')));
+  const sourceCount=Object.keys(manifest.hashes.songs).reduce((n,id)=>n+JSON.parse(fs.readFileSync(path.join(base,'songs',id+'.json'))).data.performances.length,0);
+  assert.equal(data.payload.songs.length,117);assert.equal(data.payload.songs.reduce((n,s)=>n+s.recordCount,0),sourceCount);
   assert.deepEqual(fs.readFileSync(path.join(root,'data/current.json')),bytes);
 });
 test('formal Event category and date take precedence; unknown category uses raw type',async()=>{

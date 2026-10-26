@@ -101,11 +101,12 @@ function validateEventReferences(id, data, references) {
 function validateEventFiles(root, manifest, revision, dataRevision = manifest.dataRevision || revision) {
   const hashes = manifest.hashes?.events || {};
   const ids = Object.keys(hashes);
-  if (manifest.counts?.events !== 353 || ids.length !== 353 || new Set(ids).size !== 353) {
+  const count = manifest.counts?.events;
+  if (!Number.isSafeInteger(count) || count <= 0 || ids.length !== count || new Set(ids).size !== count) {
     throw new Error("Event manifest count mismatch");
   }
   const files = fs.readdirSync(path.join(root, "events")).filter(name => name.endsWith(".json"));
-  if (files.length !== 353) throw new Error("Event snapshot file count mismatch");
+  if (files.length !== count) throw new Error("Event snapshot file count mismatch");
   for (const id of ids) {
     const body = fs.readFileSync(path.join(root, "events", `${id}.json`), "utf8");
     const wrapper = JSON.parse(body);
@@ -197,9 +198,9 @@ async function generateAllEvents(revision, dataRevision, revisionRoot) {
   }
   if ((baseManifest.dataRevision || revision) !== dataRevision) throw new Error("Base snapshot data revision mismatch");
   validateBaseFiles(revisionRoot, baseManifest, revision, dataRevision);
-  if (baseManifest.counts?.events === 353) {
+  if (Number.isSafeInteger(baseManifest.counts?.events) && baseManifest.counts.events > 0) {
     validateEventFiles(revisionRoot, baseManifest, revision, dataRevision);
-    process.stdout.write(`${JSON.stringify({ revision, events: 353, reused: true }, null, 2)}\n`);
+    process.stdout.write(`${JSON.stringify({ revision, events: baseManifest.counts.events, reused: true }, null, 2)}\n`);
     return;
   }
   if (baseManifest.counts?.events || fs.existsSync(path.join(revisionRoot, "events"))) {
@@ -213,8 +214,8 @@ async function generateAllEvents(revision, dataRevision, revisionRoot) {
   }
   const history = historyPayload.data.events;
   const eventIds = history?.map(item => item.eventId);
-  if (!Array.isArray(eventIds) || eventIds.length !== 353 || new Set(eventIds).size !== 353) {
-    throw new Error("eventHistory must contain 353 distinct Events");
+  if (!Array.isArray(eventIds) || eventIds.length === 0 || eventIds.some(id => !/^EV\d+$/.test(id)) || new Set(eventIds).size !== eventIds.length) {
+    throw new Error("eventHistory must contain distinct valid Event IDs");
   }
   const references = {
     events: new Set(eventIds),
@@ -229,15 +230,15 @@ async function generateAllEvents(revision, dataRevision, revisionRoot) {
     const wrapper = await eventSnapshot(id, revision, dataRevision, generatedAt);
     validateEventReferences(id, wrapper.data, references);
     completed += 1;
-    if (completed % 25 === 0 || completed === 353) process.stdout.write(`Event ${completed}/353 validated\n`);
+    if (completed % 25 === 0 || completed === eventIds.length) process.stdout.write(`Event ${completed}/${eventIds.length} validated\n`);
     return wrapper;
-  }).catch(error => { throw new Error(`Event generation stopped after ${completed}/353 complete pairs: ${error.message}`); });
+  }).catch(error => { throw new Error(`Event generation stopped after ${completed}/${eventIds.length} complete pairs: ${error.message}`); });
   await assertCurrentApiRevisions(revision, dataRevision);
   const stagingRoot = path.join(SNAPSHOT_ROOT, `.staging-events-${process.pid}`);
   if (fs.existsSync(stagingRoot)) throw new Error(`Staging path already exists: ${stagingRoot}`);
   fs.mkdirSync(path.join(stagingRoot, "events"), { recursive: true });
   const manifest = structuredClone(baseManifest);
-  manifest.counts.events = 353;
+  manifest.counts.events = eventIds.length;
   manifest.eventsGeneratedAt = generatedAt;
   manifest.hashes.events = {};
   wrappers.forEach((wrapper, index) => {
@@ -251,7 +252,7 @@ async function generateAllEvents(revision, dataRevision, revisionRoot) {
   fs.renameSync(path.join(stagingRoot, "events"), path.join(revisionRoot, "events"));
   fs.renameSync(path.join(stagingRoot, "manifest.json"), path.join(revisionRoot, "manifest.json"));
   fs.rmdirSync(stagingRoot);
-  process.stdout.write(`${JSON.stringify({ revision, events: 353, eventApi: 353, discoverApi: 353, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
+  process.stdout.write(`${JSON.stringify({ revision, events: eventIds.length, eventApi: eventIds.length, discoverApi: eventIds.length, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
 }
 
 async function eventSnapshot(id, revision, dataRevision, generatedAt) {

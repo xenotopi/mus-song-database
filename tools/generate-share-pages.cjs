@@ -17,10 +17,10 @@ if (manifest.revision !== revision) throw new Error("Snapshot manifest revision 
 const targets = [];
 
 if (all) {
-  if (selection.length !== 1 || manifest.counts?.songs !== 117 || manifest.counts?.events !== 353) {
-    throw new Error("--all requires the complete current Song 117 / Event 353 snapshot");
+  if (selection.length !== 1 || manifest.counts?.songs !== 117 || !Number.isSafeInteger(manifest.counts?.events) || manifest.counts.events <= 0) {
+    throw new Error("--all requires the complete current Song / Event snapshot");
   }
-  for (const [type, count, pattern] of [["song", 117, /^S\d+$/], ["event", 353, /^EV\d+$/]]) {
+  for (const [type, count, pattern] of [["song", 117, /^S\d+$/], ["event", manifest.counts.events, /^EV\d+$/]]) {
     const ids = Object.keys(manifest.hashes?.[`${type}s`] || {}).sort();
     const files = fs.readdirSync(path.join(ROOT, "data/snapshots", revision, `${type}s`)).filter(name => name.endsWith(".json"));
     if (ids.length !== count || files.length !== count || ids.some(id => !pattern.test(id) || !files.includes(`${id}.json`))) {

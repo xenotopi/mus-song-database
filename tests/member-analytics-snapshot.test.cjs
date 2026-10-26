@@ -54,6 +54,9 @@ test("Member Analytics changes manifest fingerprint without altering old snapsho
   assert.notEqual(snapshotDataFingerprint(original), snapshotDataFingerprint(manifest));
   assert.equal(manifest.counts.releases, 114);
   assert.equal(manifest.counts.songs, 117);
-  assert.equal(manifest.counts.events, 353);
+  assert.ok(Number.isSafeInteger(manifest.counts.events) && manifest.counts.events > 0);
+  const expectedEvents = Object.keys(manifest.hashes.events).sort();
+  assert.equal(manifest.counts.events, expectedEvents.length);
+  assert.deepEqual(fs.readdirSync(path.join(directory, "events")).filter(f => f.endsWith(".json")).map(f => f.slice(0, -5)).sort(), expectedEvents);
   assert.equal(manifest.counts.kamiparaDashboard, 1);
 });

@@ -57,7 +57,7 @@ function beginCapture({ root, type, revision, ids, rendererFiles, rendererFinger
     const dashboard = validateKamiparaDashboard(snapshot("kamipara-dashboard.json", manifest.kamiparaDashboard).data, dataRevision);
     check(dashboard.songs.length === 10 && dashboard.events.length === 5 && dashboard.performances.length === 10, "Capture Kamipara completeness mismatch");
     const events = manifest.hashes?.events || {};
-    check(manifest.counts.events === 353 && Object.keys(events).length === 353 && Object.keys(events).every(id => /^EV\d+$/.test(id)), "Capture Event source completeness mismatch");
+    check(Number.isSafeInteger(manifest.counts.events) && manifest.counts.events > 0 && Object.keys(events).length === manifest.counts.events && Object.keys(events).every(id => /^EV\d+$/.test(id)), "Capture Event source completeness mismatch");
     requireDirectory("events", Object.keys(events));
     for (const [id, hash] of Object.entries(events)) validateEventSnapshot(id, snapshot(`events/${id}.json`, hash), revision, dataRevision);
   }

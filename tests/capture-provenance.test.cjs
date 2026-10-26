@@ -99,6 +99,24 @@ test("source directory ID drift during capture rejects publication", () => {
   const f = setup(), c = f.start("release"); f.fixture.files.delete(f.fixture.prefix + "events/EV0353.json");
   assert.throws(() => c.session.publish(c.pages, c.manifest), /ENOENT|changed during capture/);
 });
+
+test("Event capture accepts an expanded source ID set and rejects count or physical file mismatch", () => {
+  const f = setup(), prefix = f.fixture.prefix;
+  const original = f.fixture.getJson(prefix + "events/EV0353.json");
+  const metadata = f.fixture.getJson(prefix + "manifest.json").hashes.events.EV0353;
+  const wrapper = { ...original, data: structuredClone(original.data) };
+  wrapper.data.event.eventId = "EV0354"; wrapper.data.discover.eventId = "EV0354";
+  const bytes = Buffer.from(JSON.stringify(wrapper, null, 2) + "\n");
+  const crypto = require("node:crypto"), { sha256 } = require("../tools/detail-snapshot-lib.cjs");
+  f.fixture.files.set(prefix + "events/EV0354.json", bytes);
+  f.fixture.editJson(prefix + "manifest.json", m => { m.counts.events++; m.hashes.events.EV0354 = { ...metadata, sha256: sha256(wrapper.data), fileSha256: crypto.createHash("sha256").update(bytes).digest("hex"), bytes: bytes.length }; });
+  assert.doesNotThrow(() => f.start("release"));
+  f.fixture.editJson(prefix + "manifest.json", m => m.counts.events++);
+  assert.throws(() => f.start("release"), /Event source completeness/);
+  f.fixture.editJson(prefix + "manifest.json", m => m.counts.events--);
+  f.fixture.files.delete(prefix + "events/EV0354.json");
+  assert.throws(() => f.start("release"), /source directory mismatch/);
+});
 for (const fault of ["missing", "duplicate", "html", "bytes"]) {
   test(`captured output ${fault} is refused before a manifest write`, () => {
     const f = setup(), c = f.start("song");
@@ -155,7 +173,7 @@ for (const type of ["song", "release"]) test(`${type}: failure during real gener
   const before = watched.map(file => fs.readFileSync(path.join(root, file)));
   let started = false, closed = false;
   t.mock.method(chromium, "launch", async () => ({
-    async newPage() { return { async route() {}, async goto() { started = true; throw new Error("synthetic capture interruption"); } }; },
+    async newPage() { return { async addInitScript() {}, async route() {}, async goto() { started = true; throw new Error("synthetic capture interruption"); } }; },
     async close() { closed = true; }
   }));
   t.mock.method(fs, "writeFileSync", () => { throw new Error("must not publish incomplete capture"); });

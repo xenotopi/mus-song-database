@@ -8,7 +8,7 @@ async function generate({root=ROOT,write=true}={}) {
   const pointer=JSON.parse(fs.readFileSync(path.join(root,'data/current.json')));
   const base=path.join(root,'data/snapshots',pointer.outputRevision);
   const manifestBytes=fs.readFileSync(path.join(base,'manifest.json')),manifest=JSON.parse(manifestBytes);
-  if(manifest.outputRevision!==pointer.outputRevision||manifest.dataRevision!==pointer.dataRevision||manifest.counts.songs!==117||manifest.counts.events!==353)throw Error('Snapshot manifest不一致');
+  if(manifest.outputRevision!==pointer.outputRevision||manifest.dataRevision!==pointer.dataRevision||manifest.counts.songs!==117||!Number.isSafeInteger(manifest.counts.events)||manifest.counts.events<=0)throw Error('Snapshot manifest不一致');
   const inputs={};
   function load(type,id){const relative=`${type}/${id}.json`,bytes=fs.readFileSync(path.join(base,relative)),wrapper=JSON.parse(bytes),entry=manifest.hashes[type][id];
     if(!entry||digest(bytes)!==entry.fileSha256||bytes.length!==entry.bytes||sha256(wrapper.data)!==entry.sha256)throw Error('Snapshot hash不一致: '+relative);
@@ -20,7 +20,7 @@ async function generate({root=ROOT,write=true}={}) {
   const songIds=fs.readdirSync(path.join(base,'songs')).filter(f=>f.endsWith('.json')).map(f=>f.slice(0,-5)).sort();
   if(songIds.join()!==Array.from({length:117},(_,i)=>'S'+String(i+1).padStart(3,'0')).join())throw Error('Song ID集合不一致');
   const eventIds=fs.readdirSync(path.join(base,'events')).filter(f=>f.endsWith('.json')).map(f=>f.slice(0,-5)).sort();
-  if(eventIds.length!==353||eventIds.join()!==Object.keys(manifest.hashes.events).sort().join())throw Error('Event ID集合不一致');
+  if(eventIds.length!==manifest.counts.events||eventIds.some(id=>!/^EV\d+$/.test(id))||eventIds.join()!==Object.keys(manifest.hashes.events).sort().join())throw Error('Event ID集合不一致');
   const payload=buildPayload(songIds.map(id=>load('songs',id)),eventIds.map(id=>load('events',id)));
   const data={schemaVersion:1,source:{outputRevision:pointer.outputRevision,dataRevision:pointer.dataRevision,manifestSha256:digest(manifestBytes),inputsSha256:sha256(inputs)},payloadSha256:digest(JSON.stringify(payload)),payload};
   validateDataset(data,pointer);

@@ -81,6 +81,24 @@ export async function staticEventDetail(id, options = {}) {
   return { data: wrapper.data, source: "static", stale, revision: current.revision, dataRevision };
 }
 
+// Reuse the snapshot's existing detail inventory; no eager requests or ID master.
+export async function randomDetailUrl(type) {
+  if (type !== "song" && type !== "event") throw new Error("Unsupported random detail type");
+  const { current } = await currentPointer();
+  const manifest = await fetchJson(`data/snapshots/${current.revision}/manifest.json`);
+  if (manifest.revision !== current.revision || manifest.dataRevision !== dataRevisionOf(current)) throw new Error("Random detail manifest revision mismatch");
+  const plural = type === "song" ? "songs" : "events";
+  const entries = manifest.hashes?.[plural];
+  const pattern = type === "song" ? /^S\d{3}$/ : /^EV\d+$/;
+  const ids = entries && typeof entries === "object" ? Object.keys(entries).sort() : [];
+  if (!ids.length || ids.length !== manifest.counts?.[plural] || ids.some(id => !pattern.test(id) || !/^[a-f0-9]{64}$/.test(entries[id]?.fileSha256) || !(entries[id]?.bytes > 0))) throw new Error("Random detail inventory invalid");
+  const id = ids[Math.floor(Math.random() * ids.length)];
+  // Verify the selected record is readable and belongs to this revision before navigating.
+  if (type === "song") await staticDetail("song", id);
+  else await staticEventDetail(id);
+  return type === "song" ? `song/${id}.html` : `event.html?id=${encodeURIComponent(id)}`;
+}
+
 export async function detailWithApiFallback(type, id, apiFetch, options = {}) {
   try {
     return await staticDetail(type, id, options);

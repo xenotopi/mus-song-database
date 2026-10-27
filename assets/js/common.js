@@ -1,5 +1,6 @@
 import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import './icons.js?v=2';
+import { randomDetailUrl } from "./static-detail.js?v=1.4.0";
 import { buildSongUrl,
   apiGet,
   escapeHtml,
@@ -176,14 +177,44 @@ export function renderCommon(active = "") {
     footer.innerHTML = `
       <footer class="site-footer">
         <div class="site-footer-main">
-          <div>
-            <b>μ's Song Database</b><br>
-            μ's歌唱履歴データベース
+          <div class="footer-brand">
+            <a class="brand-lockup" href="index.html"><span class="brand-mu">μ</span><span class="brand-copy"><b class="brand-rest">'s Song Database</b><small>μ's歌唱履歴データベース</small></span></a>
+            <p>楽曲と歌唱記録から、μ'sの歩んだ足跡を巡る。</p>
           </div>
-          <div>© μ's Song Database Project</div>
+          <nav class="footer-links" aria-label="フッターの主要ページ">
+            <div><h2>歌唱履歴</h2><a href="songs.html">曲一覧</a><a href="events.html">イベント一覧</a><a href="venues.html">会場一覧</a><a href="singers.html">歌唱名義</a></div>
+            <div><h2>もっと探す</h2><a href="releases.html">リリース</a><a href="rankings.html">ランキング</a><a href="statistics.html">統計</a><a href="gap-checker.html">いつ振り歌唱チェッカー</a><a href="gap-rankings.html">歌唱ブランクランキング</a><a href="about.html">About</a></div>
+          </nav>
         </div>
-        <p class="site-footer-disclosure">Amazonのアソシエイトとして、μ's Song Databaseは適格販売により収入を得ています。</p>
+        <section class="footer-explore" aria-labelledby="footerExploreTitle">
+          <h2 id="footerExploreTitle">もう少し、μ'sの足跡を巡る。</h2>
+          <div class="footer-cards">
+            <button class="footer-card" type="button" data-footer-random="song"><span class="site-icon-inline" data-site-icon="music-2" aria-hidden="true"></span><span>ランダムに1曲</span></button>
+            <button class="footer-card" type="button" data-footer-random="event"><span class="site-icon-inline" data-site-icon="calendar-days" aria-hidden="true"></span><span>ランダムに<wbr><span class="footer-nowrap">1イベント</span></span></button>
+            <a class="footer-card" href="index.html#topSection"><span class="site-icon-inline" data-site-icon="history" aria-hidden="true"></span><span>今日は何の日</span></a>
+          </div>
+          <p class="footer-status" role="status" aria-live="polite" hidden></p>
+        </section>
+        <div class="footer-feedback-area"><div><h2>情報の訂正・追加のお願い</h2><p>記録の間違いや不足に気づいたら、お知らせください。</p></div><a class="footer-feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSdTfw1VIig4-xEkp7v8pq58RMPALgX6mliUXkxEkC31PHXbVA/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer external">情報提供フォーム<span class="site-icon-inline" data-site-icon="external-link" aria-hidden="true"></span></a></div>
+        <div class="footer-bottom"><small>© μ's Song Database Project</small></div>
+        <div class="muse-line footer-muse-line" aria-hidden="true">${'<i></i>'.repeat(9)}</div>
       </footer>`;
+    footer.querySelectorAll('[data-footer-random]').forEach(button => {
+      button.addEventListener('click', async () => {
+        const status = footer.querySelector('.footer-status');
+        button.disabled = true;
+        status.hidden = false;
+        status.textContent = '記録を選んでいます…';
+        try {
+          const href = await randomDetailUrl(button.dataset.footerRandom);
+          location.assign(new URL(href, document.baseURI).href);
+        } catch {
+          status.textContent = '記録を取得できませんでした。もう一度お試しください。';
+        } finally {
+          button.disabled = false;
+        }
+      });
+    });
   }
 
   document

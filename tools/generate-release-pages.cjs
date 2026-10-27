@@ -23,8 +23,8 @@ const root = path.resolve(__dirname, "..");
 const mime = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png" };
 
 // Code that produces/validates the serialized DOM on the query-URL capture path.
-// External CSS is not inlined. Amazon's pathname-only branch and interactive
-// search's singer-links helper do not run during capture. Snapshot data has its
+// External CSS is not inlined. Interactive search's singer-links helper does
+// not run during capture. Snapshot data has its
 // own revision/hash guards and must not be included in this renderer hash.
 const RELEASE_RENDERER_FILES = Object.freeze([
   "release.html",

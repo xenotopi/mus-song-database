@@ -253,9 +253,8 @@ async function assertPageCase(t, context, baseUrl, pageCase) {
     assert.ok((await page.title()).includes("μ's Song Database"), `${pageCase.name}: title`);
     assert.equal(await page.locator("#siteHeader .site-header").count(), 1, `${pageCase.name}: 共通ヘッダー`);
     assert.equal(await page.locator("#siteFooter .site-footer").count(), 1, `${pageCase.name}: 共通フッター`);
-    const disclosure = page.locator("#siteFooter .site-footer-disclosure");
-    assert.equal(await disclosure.textContent(), "Amazonのアソシエイトとして、μ's Song Databaseは適格販売により収入を得ています。", `${pageCase.name}: Amazon参加表示`);
-    assert.ok(await disclosure.evaluate(element => Number.parseFloat(getComputedStyle(element).fontSize) >= 14), `${pageCase.name}: Amazon参加表示の文字サイズ`);
+    assert.equal(await page.locator('#siteFooter .footer-feedback').innerText(), '情報提供フォーム', pageCase.name + ': 訂正窓口');
+    assert.equal(await page.locator('.site-footer-disclosure, .release-amazon').count(), 0, pageCase.name + ': 広告なし');
     assert.deepEqual(diagnostics.localFailures, [], `${pageCase.name}: ローカルasset失敗`);
 
     if (diagnostics.apiFailures.length) {

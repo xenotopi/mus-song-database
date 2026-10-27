@@ -1,5 +1,5 @@
 import { apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema";
-import { renderCommon } from "./common.js?v=4.11.0&cache=release-ux&songUrls=1";
+import { renderCommon } from "./common.js?v=4.12.0&cache=release-ux&songUrls=1";
 import { staticKamiparaDashboard } from "./static-detail.js?v=1.3.0";
 
 renderCommon();

@@ -125,7 +125,7 @@ test("memorial BOX children arrive after first basic render", async () => {
     assert.deepEqual(s.errors, []);
   } finally { s.gate.resolve(); await s.page.close(); }
 });
-test("R0072 runs Kamipara once; R0010 Amazon survives final render", async () => {
+test("R0072 runs Kamipara once; R0010 remains ad-free after final render", async () => {
   for (const id of ["R0072", "R0010"]) {
     const s = await open({ id, prerender: true });
     try {
@@ -137,7 +137,7 @@ test("R0072 runs Kamipara once; R0010 Amazon survives final render", async () =>
         assert.equal(await s.page.locator(".release-kp-performance").count(), 10);
         assert.deepEqual(await s.page.locator(".release-kp-track").allTextContents(), Array.from({ length: 10 }, (_, i) => String(i + 1).padStart(2, "0")));
         assert.equal(await s.page.locator(".release-inclusion-error,.release-kp-retry").count(), 0);
-      } else assert.equal(await s.page.locator(".release-amazon-link").count(), 1);
+      } else assert.equal(await s.page.locator(".release-amazon-link").count(), 0);
       assert.deepEqual(s.errors, []);
     } finally { s.gate.resolve(); await s.page.close(); }
   }

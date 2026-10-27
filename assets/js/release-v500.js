@@ -1,10 +1,9 @@
 import { buildSongUrl, apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema&songUrls=1";
-import { renderCommon } from "./common.js?v=4.11.0&cache=release-ux&songUrls=1";
+import { renderCommon } from "./common.js?v=4.12.0&cache=release-ux&songUrls=1";
 import { buildSingerUrl } from "./singer-links.js?v=4.8.0";
 import { setupDetailContext } from "./detail-context.js?v=4.6.1";
 import { detailWithApiFallback, staticReleaseList, staticDetail } from "./static-detail.js?v=1.3.0";
 import { renderKamiparaRelease, hasCompletedKamiparaContent } from "./release-kamipara.js?v=1.0.0";
-import { renderAmazonProduct } from "./release-amazon.js";
 import { attachReleaseSidecar } from "./release-sidecar.js?v=1.0.1";
 import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import { attachReleaseVocals } from "./release-vocals.js?v=1.3.0";
@@ -596,7 +595,6 @@ async function loadRelease() {
       } catch {
         // A list outage must not erase successful details or completed prerender.
         if (boxView) boxView.host.querySelector("[data-box-status]").textContent = "メンバー情報を取得できません。Disc選択をご利用ください。";
-        if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
         if (release.releaseId === "R0072") await renderKamiparaRelease();
         updateSectionNav();
         return;
@@ -620,20 +618,17 @@ async function loadRelease() {
     const mediaProduct = await loadMediaProduct(resolvedRelease);
     if (hasPrerenderedContent && ((!bluRayProduct && elements.includedSongsContent.dataset.releaseBdMain === releaseId) ||
         (!mediaProduct && elements.includedSongsContent.dataset.releaseMediaReady === releaseId))) {
-      if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
       updateSectionNav();
       return;
     }
     const albumProduct = await loadAlbumProduct(resolvedRelease);
     if (!albumProduct && hasPrerenderedContent && elements.includedSongsContent.dataset.releaseAlbumReady === releaseId) {
-      if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
       updateSectionNav();
       return;
     }
     const singleProduct = await loadSingleProduct(resolvedRelease);
     // Failed optional data must not erase a previously captured complete inventory.
     if (!singleProduct && hasPrerenderedContent && elements.includedSongsContent.dataset.releaseSingleInventory === releaseId) {
-      if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
       updateSectionNav();
       return;
     }
@@ -649,7 +644,6 @@ async function loadRelease() {
     applyMediaProduct(resolvedRelease, mediaProduct);
     await attachReleaseSongCredits(resolvedRelease, elements.mainContent);
     await hydrateBoxMembers(boxView, safeReleaseList, response);
-    if (pathReleaseId) void renderAmazonProduct(releaseId, elements.officialRelease);
     if (resolvedRelease.releaseId === "R0072") await renderKamiparaRelease();
     updateSectionNav();
   } catch (error) {

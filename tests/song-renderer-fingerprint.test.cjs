@@ -117,7 +117,7 @@ test("Every included Song dependency change alters the fingerprint without disk 
 
 test("Release/Event-only JS and unrelated CSS changes leave Song fingerprint unchanged", t => {
   const current = rendererFingerprint();
-  const excluded = ["assets/js/release-v500.js", "assets/js/event-v310.js", "assets/css/release-amazon.css", "assets/css/member-analytics.css"];
+  const excluded = ["assets/js/release-v500.js", "assets/js/event-v310.js", "assets/css/member-analytics.css"];
   const readFileSync = fs.readFileSync;
   for (const file of excluded) {
     assert.ok(fs.statSync(path.join(root, file)).isFile(), file);

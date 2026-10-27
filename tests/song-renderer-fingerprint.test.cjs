@@ -86,7 +86,7 @@ test("Song fingerprint explicitly covers the entry and its transitive capture im
   assert.ok(SONG_RENDERER_FILES.includes("tools/generate-song-pages.cjs"));
   for (const file of SONG_RENDERER_FILES) {
     assert.ok(fs.statSync(path.join(root, file)).isFile(), file);
-    assert.ok(!file.startsWith("data/") && !file.startsWith("assets/css/"), file);
+    assert.ok((!file.startsWith("data/") || ["data/song-credits.json", "data/song-unit-memberships.json", "data/song-youtube.json"].includes(file)) && !file.startsWith("assets/css/"), file);
     const source = fs.readFileSync(path.join(root, file), "utf8");
     if (file === "song.html") {
       for (const match of source.matchAll(/<script[^>]+src="([^"?]+)/g)) {

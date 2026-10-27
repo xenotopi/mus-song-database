@@ -42,6 +42,8 @@ const RELEASE_RENDERER_FILES = Object.freeze([
   "assets/js/release-v500.js",
   "assets/js/release-song-credits.js",
   "assets/js/song-credits.js",
+  "assets/js/song-youtube.js",
+  "data/song-youtube.json",
   "data/song-credits.json",
   "tools/song-credits-lib.cjs",
   "assets/js/release-media-products.js",

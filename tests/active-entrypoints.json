@@ -229,8 +229,8 @@
     "assets/js/release-navigation.js",
     "assets/js/release-product-facts.js",
     "assets/js/release-sidecar.js",
-    "assets/js/release-sources.js",
     "assets/js/release-single-products.js",
+    "assets/js/release-sources.js",
     "assets/js/release-v500.js",
     "assets/js/release-vocals.js",
     "assets/js/releases-v500.js",
@@ -244,6 +244,7 @@
     "assets/js/song-unit-memberships.js",
     "assets/js/song-v441.js",
     "assets/js/song-view-group-filter.js",
+    "assets/js/song-youtube.js",
     "assets/js/songs-v470.js",
     "assets/js/static-detail.js",
     "assets/js/statistics-v470.js",
@@ -258,6 +259,7 @@
     "assets/css/member-analytics.css",
     "assets/css/release-detail.css",
     "assets/css/song-view-group-filter.css",
+    "assets/css/song-youtube.css",
     "assets/css/style.css"
   ]
 }

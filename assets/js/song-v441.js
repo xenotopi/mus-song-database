@@ -1,3 +1,4 @@
+import { renderSongYoutube } from "./song-youtube.js?v=1.0.0";
 import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import { loadSongUnitMembership } from "./song-unit-memberships.js?v=1.0.0";
 import { loadSongCredits, songCreditHeroHtml, songCreditSourcesHtml } from "./song-credits.js?v=1.1.0";
@@ -1263,6 +1264,7 @@ async function loadSong() {
 
     const [membership, credits] = await Promise.all([loadSongUnitMembership(songId), loadSongCredits(response.data)]);
     renderSong(response.data, membership, credits);
+    await renderSongYoutube(response.data, elements.mainContent);
 
     const renderedSongId = String(
       response.data?.songId || songId
@@ -1404,4 +1406,4 @@ elements.historyYearReset.addEventListener(
 elements.shareButton.addEventListener("click", shareCurrentSong_);
 elements.copyUrlButton.addEventListener("click", copyCurrentUrl_);
 
-loadSong();
+export const songReady = loadSong();

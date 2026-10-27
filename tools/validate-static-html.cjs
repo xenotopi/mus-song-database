@@ -111,6 +111,34 @@ function validateHead(doc, type, id, data, revision) {
   byId(doc, "mainContent");
 }
 
+function validateYoutubeBody(doc, type, item, audio) {
+  check(audio?.schemaVersion === 1 && object(audio.songs), 'YouTube data schema invalid');
+  for (const [id, row] of Object.entries(audio.songs)) {
+    check(/^S\d{3}$/.test(id) && /^[A-Za-z0-9_-]{11}$/.test(row.videoId) && row.publicationStatus === 'approved_for_publication' && row.contentType === 'official_audio' && row.embedAllowedAtVerification === true && row.sourceUrl === 'https://www.youtube.com/watch?v=' + row.videoId, 'YouTube publication/source invalid');
+  }
+  check(!doc.nodes.some(n => n.tag === 'iframe' && /youtube/.test(n.attrs.src || '')), 'Initial YouTube iframe is forbidden');
+  const match = (row, releaseId, t) => row.recording.releaseId === releaseId && row.recording.relationId === t.relationId && (t.variant ?? null) === row.recording.variant && (t.disc ?? null) === row.recording.disc && (t.track ?? null) === row.recording.track && t.displayOrder === row.recording.displayOrder;
+  if (type === 'song') {
+    const row = audio.songs[item.songId], section = doc.ids.get('songYoutubeSection');
+    if (!row) { check(!section, 'Unregistered Song has YouTube UI'); return; }
+    check(item.version === row.recording.songVersion && item.debutRelease?.releaseId === row.recording.releaseId && item.includedReleases.filter(t => match(row, t.releaseId, t)).length === 1, 'YouTube Song recording mismatch');
+    const stats = byId(doc, 'songStats');
+    check(section && section.parent === stats.parent && section.parent.children.indexOf(section) < section.parent.children.indexOf(stats), 'YouTube audio/statistics placement mismatch');
+    check(section.attrs['data-video-id'] === row.videoId, 'YouTube video ID mismatch');
+    check(descendants(section, n => n.tag === 'img' && n.attrs.src === 'https://i.ytimg.com/vi/' + row.videoId + '/hqdefault.jpg').length === 1, 'YouTube preview image missing/mismatched');
+    check(descendants(section, n => n.tag === 'a' && n.attrs.href === row.sourceUrl).length === 1, 'YouTube fallback missing/mismatched');
+  } else {
+    const expected = (item.includedSongs || []).filter(t => { const row = audio.songs[t.songId]; return row && match(row, item.releaseId, t); });
+    const actual = doc.nodes.filter(n => Object.hasOwn(n.attrs, 'data-youtube-relation'));
+    equal(actual.map(n => n.attrs['data-youtube-relation']).sort(), expected.map(t => t.relationId).sort(), 'Release YouTube binding mismatch');
+    for (const node of actual) {
+      check(node.tag === 'details' && !Object.hasOwn(node.attrs, 'open') && descendants(node, n => n.tag === 'summary' && textContent(n).trim() === '公式音源を聴く').length === 1, 'Release audio must start collapsed');
+      const siblings = node.parent.children.filter(n => typeof n !== 'string'), prior = siblings[siblings.indexOf(node) - 1];
+      check(prior?.tag === 'a' && prior.attrs['data-relation-id'] === node.attrs['data-youtube-relation'], 'Release audio is attached to wrong track');
+    }
+  }
+}
+
 function validateSongBody(doc, song, memberships, credits) {
   const info = infoValues(byId(doc, "songInfo"));
   equal(info, { 表示名: song.displayName || song.songName, バージョン: song.version || "—", 収録CD: song.recordingCd || "—",
@@ -466,6 +494,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
     const singles = validateSingleData(json("data/release-single-products.json"), Object.fromEntries(sources.release));
     const albums = validateAlbumData(json("data/release-album-products.json"), Object.fromEntries(sources.release));
     const memberships = validateSongUnitMemberships(json("data/song-unit-memberships.json"), new Set(sources.song.keys()));
+    const audioData = json("data/song-youtube.json");
     const creditData = json("data/song-credits.json");
     const credits = validateSongCreditsData(creditData, sources.song);
     const kp = readSnapshot("kamipara-dashboard.json", snapshot.kamiparaDashboard);
@@ -516,6 +545,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
         check(!/http:\/\/127\.0\.0\.1|undefined件/.test(text), "HTML runtime/local URL leak");
         const doc = parseSerializedHtml(text), data = sources[type].get(id);
         validateHead(doc, type, id, data, revision);
+        validateYoutubeBody(doc, type, data, audioData);
         if (type === "song") validateSongBody(doc, data, memberships, credits);
         else {
           validateReleaseBody(doc, data, releaseList, contents.get(id), navigationData, singles.get(id), albums.get(id), bluRay.get(id), media.get(id));
@@ -558,7 +588,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
   return result;
 }
 
-module.exports = { validateStaticHtml, validateReleaseBody, validateKamiparaBody, releaseDescription };
+module.exports = { validateYoutubeBody, validateStaticHtml, validateReleaseBody, validateKamiparaBody, releaseDescription };
 if (require.main === module) {
   const args = process.argv.slice(2);
   const revision = args.length === 2 && args[0] === "--revision" ? args[1] : undefined;

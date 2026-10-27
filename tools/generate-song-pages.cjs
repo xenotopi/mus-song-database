@@ -28,6 +28,8 @@ const SONG_RENDERER_FILES = Object.freeze([
   "assets/js/singer-display.js",
   "assets/js/song-unit-memberships.js",
   "assets/js/song-credits.js",
+  "assets/js/song-youtube.js",
+  "data/song-youtube.json",
   "data/song-credits.json",
   "data/song-unit-memberships.json",
   "tools/song-unit-membership-lib.cjs",
@@ -130,6 +132,7 @@ async function generateSongPages({ revision, ids } = {}) {
       });
       await page.goto(`${origin}/song.html?id=${id}`);
       await page.waitForFunction(() => !document.getElementById("mainContent").hidden && document.getElementById("status").hidden);
+      await page.evaluate(async () => { const entry = document.querySelector('script[src*="assets/js/song-v441.js"]'); await (await import(entry.src)).songReady; });
       const dates = song.performances.map(p => p.date).filter(Boolean).sort();
       const title = `${song.displayName || song.songName}｜μ's Song Database`;
       const description = `${song.displayName || song.songName}の発売・収録情報と歌唱記録。発売日${song.releaseDate || "未登録"}、歌唱記録${song.performances.length}件。${dates.length ? `現行DBの初回歌唱日${dates[0]}、最終歌唱日${dates.at(-1)}。` : "現行DBに歌唱記録はありません。"}`;

@@ -1,3 +1,4 @@
+import { attachReleaseYoutube } from "./song-youtube.js?v=1.0.0";
 import { buildSongUrl, apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema&songUrls=1";
 import { renderCommon } from "./common.js?v=4.13.0&cache=release-ux&songUrls=1";
 import { buildSingerUrl } from "./singer-links.js?v=4.8.0";
@@ -643,6 +644,7 @@ async function loadRelease() {
     await attachReleaseBluRay(resolvedRelease, bluRayProduct);
     applyMediaProduct(resolvedRelease, mediaProduct);
     await attachReleaseSongCredits(resolvedRelease, elements.mainContent);
+    await attachReleaseYoutube(resolvedRelease, elements.includedSongsContent);
     await hydrateBoxMembers(boxView, safeReleaseList, response);
     if (resolvedRelease.releaseId === "R0072") await renderKamiparaRelease();
     updateSectionNav();

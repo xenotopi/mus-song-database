@@ -185,6 +185,7 @@ export function renderCommon(active = "") {
             <div><h2>歌唱履歴</h2><a href="songs.html">曲一覧</a><a href="events.html">イベント一覧</a><a href="venues.html">会場一覧</a><a href="singers.html">歌唱名義</a></div>
             <div><h2>もっと探す</h2><a href="releases.html">リリース</a><a href="rankings.html">ランキング</a><a href="statistics.html">統計</a><a href="gap-checker.html">いつ振り歌唱チェッカー</a><a href="gap-rankings.html">歌唱ブランクランキング</a><a href="about.html">About</a></div>
           </nav>
+        <div class="footer-feedback-area"><div><h2>情報の訂正・追加のお願い</h2><p>記録の間違いや不足に気づいたら、お知らせください。</p></div><a class="footer-feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSdTfw1VIig4-xEkp7v8pq58RMPALgX6mliUXkxEkC31PHXbVA/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer external">情報提供フォーム<span class="site-icon-inline" data-site-icon="external-link" aria-hidden="true"></span></a></div>
         </div>
         <section class="footer-explore" aria-labelledby="footerExploreTitle">
           <h2 id="footerExploreTitle">もう少し、μ'sの足跡を巡る。</h2>
@@ -195,7 +196,6 @@ export function renderCommon(active = "") {
           </div>
           <p class="footer-status" role="status" aria-live="polite" hidden></p>
         </section>
-        <div class="footer-feedback-area"><div><h2>情報の訂正・追加のお願い</h2><p>記録の間違いや不足に気づいたら、お知らせください。</p></div><a class="footer-feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSdTfw1VIig4-xEkp7v8pq58RMPALgX6mliUXkxEkC31PHXbVA/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer external">情報提供フォーム<span class="site-icon-inline" data-site-icon="external-link" aria-hidden="true"></span></a></div>
         <div class="footer-bottom"><small>© μ's Song Database Project</small></div>
         <div class="muse-line footer-muse-line" aria-hidden="true">${'<i></i>'.repeat(9)}</div>
       </footer>`;

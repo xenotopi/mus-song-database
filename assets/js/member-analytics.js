@@ -1,5 +1,5 @@
 import { buildSongUrl } from "./api.js?v=5.3.0&cache=song-static-urls&songUrls=1";
-import { renderCommon } from "./common.js?v=4.12.0&cache=release-ux&songUrls=1";
+import { renderCommon } from "./common.js?v=4.13.0&cache=release-ux&songUrls=1";
 import { staticMemberAnalytics } from "./static-detail.js";
 import { prepareSongViewGroups, loadSongGroupMemberships } from "./song-view-group-filter.js?v=2";
 

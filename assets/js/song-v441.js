@@ -1,4 +1,4 @@
-import { renderSongYoutube } from "./song-youtube.js?v=1.1.0";
+import { renderSongYoutube } from "./song-youtube.js?v=1.1.1";
 import { singerDisplayName } from "./singer-display.js?v=1.0.0";
 import { loadSongUnitMembership } from "./song-unit-memberships.js?v=1.0.0";
 import { loadSongCredits, songCreditHeroHtml, songCreditSourcesHtml } from "./song-credits.js?v=1.1.0";

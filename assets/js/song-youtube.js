@@ -1,6 +1,6 @@
 // Optional, independently curated audio references; never alter Song/performance data.
 const DATA_URL = new URL("../../data/song-youtube.json?v=1.1.0", import.meta.url);
-const STYLE_URL = new URL("../css/song-youtube.css?v=1.1.0", import.meta.url);
+const STYLE_URL = new URL("../css/song-youtube.css?v=1.1.1", import.meta.url);
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]"]);
 let pending;
 
@@ -72,9 +72,15 @@ function createExternalLink(row, id, songId, inline = false) {
   link.href = row.sourceUrl;
   link.target = '_blank';
   link.rel = 'noopener noreferrer';
-  link.textContent = 'YouTubeで聴く ↗';
-  link.setAttribute('aria-label', `${row.title}をYouTubeで聴く（新しいタブで開く）`);
-  section.append(link);
+  link.textContent = '公式音源を聴く ↗';
+  link.setAttribute('aria-label', `${row.title}の公式音源を聴く（YouTube・新しいタブ）`);
+  if (inline) {
+    section.setAttribute('aria-labelledby', id + '-heading');
+    const kicker = document.createElement('p'); kicker.className = 'kicker'; kicker.textContent = 'OFFICIAL AUDIO';
+    const heading = document.createElement('h2'); heading.id = id + '-heading'; heading.textContent = '公式音源';
+    const note = document.createElement('p'); note.className = 'song-youtube-note'; note.textContent = 'YouTubeで開きます（新しいタブ）';
+    section.append(kicker, heading, link, note);
+  } else section.append(link);
   return section;
 }
 async function loadData() {

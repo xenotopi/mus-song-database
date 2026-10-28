@@ -5,7 +5,7 @@ const read=id=>require('../data/snapshots/'+cur.revision+'/releases/'+id+'.json'
 function baseline(id){return fs.readFileSync(p.join(root,'release',id+'.html'),'utf8').replace(/<div\b[^>]*data-youtube-external-relation="[^"]*"[^>]*>[\s\S]*?<\/div>/g,'');}
 function fragment(html,rid){const marker='data-relation-id="'+rid+'"',at=html.indexOf(marker);a.ok(at>=0);a.equal(html.indexOf(marker,at+marker.length),-1);const begin=html.lastIndexOf('<a ',at),end=html.indexOf('</a>',at)+4;a.ok(begin>=0&&end>at);return html.slice(begin,end);}
 for(const[id,songId,rid,videoId,neighbour]of specs){const release=read(id),item=products.find(x=>x.releaseId===id),recording=release.includedSongs.find(x=>x.relationId===rid),base=baseline(id),song=fragment(base,rid),url='https://www.youtube.com/watch?v='+videoId;
- const link='<a class="song-youtube-external song-youtube-external-button" href="'+url+'" target="_blank" rel="noopener noreferrer" aria-label="'+recording.songName+'をYouTubeで聴く（新しいタブで開く）">YouTubeで聴く ↗</a>',container='<div class="song-youtube-external-only" data-youtube-external-relation="'+rid+'" data-video-id="'+videoId+'">'+link+'</div>',good=base.replace(song,song+container),check=h=>validateSingleBody(parseSerializedHtml(h),release,item);
+ const link='<a class="song-youtube-external song-youtube-external-button" href="'+url+'" target="_blank" rel="noopener noreferrer" aria-label="'+recording.songName+'の公式音源を聴く（YouTube・新しいタブ）">公式音源を聴く ↗</a>',container='<div class="song-youtube-external-only" data-youtube-external-relation="'+rid+'" data-video-id="'+videoId+'">'+link+'</div>',good=base.replace(song,song+container),check=h=>validateSingleBody(parseSerializedHtml(h),release,item);
  test(id+' retains one exact Song link with optional verified external link',()=>{a.doesNotThrow(()=>check(base));a.doesNotThrow(()=>check(good));});
  const bad={
   'missing Song':good.replace(song,''),
@@ -17,7 +17,7 @@ for(const[id,songId,rid,videoId,neighbour]of specs){const release=read(id),item=
   'wrong external video':good.replace('data-video-id="'+videoId+'"','data-video-id="wrong"'),
   'same tab':good.replace(container,container.replace('_blank','_self')),
   'missing safety rel':good.replace(container,container.replace('noopener noreferrer','noopener')),
-  'wrong label':good.replace(container,container.replace('YouTubeで聴く ↗','wrong')),
+  'wrong label':good.replace(container,container.replace('公式音源を聴く ↗','wrong')),
   'duplicate external':good.replace(container,container+container),
   'hidden external':good.replace(container,container.replace('<div ','<div hidden ')),
   'wrong placement':base.replace(song,container+song),
@@ -29,4 +29,4 @@ for(const[id,songId,rid,videoId,neighbour]of specs){const release=read(id),item=
  };
  for(const[name,html]of Object.entries(bad))test(id+' rejects '+name,()=>{a.notEqual(html,good);a.throws(()=>check(html));});
 }
-test('external allowlist cannot authorize a different Single',()=>{const release=read('R0001'),item=products.find(x=>x.releaseId==='R0001'),base=baseline('R0001'),song=fragment(base,'RT0001'),extra='<div class="song-youtube-external-only" data-youtube-external-relation="RT0001" data-video-id="nGP-3iqhKy0"><a href="https://www.youtube.com/watch?v=nGP-3iqhKy0" target="_blank" rel="noopener noreferrer">YouTubeで聴く ↗</a></div>';a.throws(()=>validateSingleBody(parseSerializedHtml(base.replace(song,song+extra)),release,item));});
+test('external allowlist cannot authorize a different Single',()=>{const release=read('R0001'),item=products.find(x=>x.releaseId==='R0001'),base=baseline('R0001'),song=fragment(base,'RT0001'),extra='<div class="song-youtube-external-only" data-youtube-external-relation="RT0001" data-video-id="nGP-3iqhKy0"><a href="https://www.youtube.com/watch?v=nGP-3iqhKy0" target="_blank" rel="noopener noreferrer">公式音源を聴く ↗</a></div>';a.throws(()=>validateSingleBody(parseSerializedHtml(base.replace(song,song+extra)),release,item));});

@@ -139,8 +139,8 @@ function validateExternalYoutubeBody(doc, type, item, audio) {
     check(links.length === 1, 'YouTube external link must be unique');
     const link = links[0];
     check(link.attrs.href === row.sourceUrl && link.attrs.target === '_blank' &&
-      hasClass(link, 'song-youtube-external-button') && cleanText(link) === 'YouTubeで聴く ↗' &&
-      link.attrs['aria-label'] === row.title + 'をYouTubeで聴く（新しいタブで開く）', 'YouTube external link mismatch');
+      hasClass(link, 'song-youtube-external-button') && cleanText(link) === '公式音源を聴く ↗' &&
+      link.attrs['aria-label'] === row.title + 'の公式音源を聴く（YouTube・新しいタブ）', 'YouTube external link mismatch');
     equal((link.attrs.rel || '').split(/\s+/).sort(), ['noopener', 'noreferrer'], 'YouTube external rel invalid');
   }
   const songNodes = doc.nodes.filter(n => Object.hasOwn(n.attrs, 'data-youtube-external-song'));
@@ -156,6 +156,11 @@ function validateExternalYoutubeBody(doc, type, item, audio) {
       item.includedReleases.filter(t => matches(row, t.releaseId, t)).length === 1, 'Song external recording mismatch');
     const stats = byId(doc, 'songStats');
     check(section === songNodes[0] && section.parent === stats.parent && section.parent.children.indexOf(section) < section.parent.children.indexOf(stats), 'Song external/statistics placement mismatch');
+    const content = section.children.filter(n => typeof n !== 'string');
+    equal(content.map(n => n.tag), ['p', 'h2', 'a', 'p'], 'External Song content order mismatch');
+    check(hasClass(content[0], 'kicker') && cleanText(content[0]) === 'OFFICIAL AUDIO', 'External Song kicker mismatch');
+    check(content[1].attrs.id === 'songYoutubeExternalSection-heading' && cleanText(content[1]) === '公式音源' && section.attrs['aria-labelledby'] === content[1].attrs.id, 'External Song heading mismatch');
+    check(hasClass(content[3], 'song-youtube-note') && cleanText(content[3]) === 'YouTubeで開きます（新しいタブ）', 'External Song note mismatch');
     button(section, row);
   } else {
     const expected = (item.includedSongs || []).filter(t => external[t.songId] && matches(external[t.songId], item.releaseId, t));

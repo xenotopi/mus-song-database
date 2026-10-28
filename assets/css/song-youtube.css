@@ -30,9 +30,10 @@
 .song-youtube-preview>span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:8px 12px;border-radius:8px;background:rgba(23,32,51,.88);color:white;font-size:13px;white-space:nowrap}
 .song-youtube-inline .song-youtube-note{font-size:12px;margin:6px 0;line-height:1.6}
 .song-youtube-inline .song-youtube-external{font-size:13px;min-height:44px;padding:6px 0}
+.song-youtube-external-only h2{margin:0}
 .song-youtube-external-only{margin:8px 0 14px;max-width:100%;min-width:0}
 .song-youtube-external-only.song-youtube-inline{margin:0 0 18px;padding-bottom:18px}
-.song-youtube-external-button,.song-youtube-inline .song-youtube-external-button{padding:8px 12px;border:1px solid var(--line);background:var(--indigo-soft,#f0edff);overflow-wrap:anywhere}
+.song-youtube-external-button,.song-youtube-inline .song-youtube-external-button{padding:10px 12px;border:1px solid var(--line);background:#fff;font-weight:700;text-decoration:none;overflow-wrap:anywhere}
 .release-single-track>.song-youtube-external-only{grid-column:2/-1}
 @media(max-width:600px){
   .song-audio-stats{padding:16px 6px}

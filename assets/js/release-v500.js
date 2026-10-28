@@ -1,4 +1,4 @@
-import { attachReleaseYoutube } from "./song-youtube.js?v=1.1.0";
+import { attachReleaseYoutube } from "./song-youtube.js?v=1.1.1";
 import { buildSongUrl, apiGet, escapeHtml, formatDate } from "./api.js?v=5.3.0&cache=solo-live-schema&songUrls=1";
 import { renderCommon } from "./common.js?v=4.13.0&cache=release-ux&songUrls=1";
 import { buildSingerUrl } from "./singer-links.js?v=4.8.0";

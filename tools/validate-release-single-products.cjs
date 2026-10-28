@@ -36,7 +36,7 @@ function validateTrackLinks(row,release,recording,links){
  check(siblings.indexOf(container)===siblings.indexOf(songLinks[0])+1,'Single external position');
  const children=descendants(container,n=>n.tag==='a');
  check(children.length===1&&children[0]===link&&!descendants(container,n=>['iframe','img','button','details'].includes(n.tag)).length,'Single external-only content');
- check(hasClass(link,'song-youtube-external-button')&&link.attrs.href==='https://www.youtube.com/watch?v='+allowed.videoId&&link.attrs.target==='_blank'&&text(link)==='YouTubeで聴く ↗'&&link.attrs['aria-label']===recording.songName+'をYouTubeで聴く（新しいタブで開く）','Single external URL/label');
+ check(hasClass(link,'song-youtube-external-button')&&link.attrs.href==='https://www.youtube.com/watch?v='+allowed.videoId&&link.attrs.target==='_blank'&&text(link)==='公式音源を聴く ↗'&&link.attrs['aria-label']===recording.songName+'の公式音源を聴く（YouTube・新しいタブ）','Single external URL/label');
  eq((link.attrs.rel||'').split(/\s+/).sort(),['noopener','noreferrer'],'Single external safety attributes');
 }
 function validateSingleBody(doc,release,item){

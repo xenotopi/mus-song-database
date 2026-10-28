@@ -111,6 +111,66 @@ function validateHead(doc, type, id, data, revision) {
   byId(doc, "mainContent");
 }
 
+function validateExternalYoutubeBody(doc, type, item, audio) {
+  const external = audio.externalLinks ?? {};
+  check(object(external), 'YouTube external data schema invalid');
+  const videos = new Set(Object.values(audio.songs).map(row => row.videoId));
+  for (const [id, row] of Object.entries(external)) {
+    const r = row.recording;
+    check(/^S\d{3}$/.test(id) && !audio.songs[id] && row.mode === 'external_only' &&
+      row.publicationStatus === 'approved_for_publication' && row.contentType === 'official_audio' &&
+      /^[A-Za-z0-9_-]{11}$/.test(row.videoId || '') && typeof row.title === 'string' && row.title.trim() &&
+      row.sourceUrl === 'https://www.youtube.com/watch?v=' + row.videoId &&
+      row.loadMode === undefined && row.embedAllowedAtVerification === undefined && row.recordingBasis === undefined,
+      'YouTube external publication/source invalid');
+    check(!videos.has(row.videoId), 'Duplicate YouTube external video ID'); videos.add(row.videoId);
+    check(/^R\d{4}$/.test(r?.releaseId || '') && /^RT\d{4}$/.test(r?.relationId || '') &&
+      typeof r?.songVersion === 'string' && r.songVersion && r.variant === null &&
+      [r.disc, r.track].every(n => n === null || Number.isInteger(n) && n > 0) &&
+      Number.isInteger(r.displayOrder) && r.displayOrder > 0, 'YouTube external recording invalid');
+  }
+  const matches = (row, releaseId, t) => row.recording.releaseId === releaseId && row.recording.relationId === t.relationId &&
+    (t.disc ?? null) === row.recording.disc && (t.track ?? null) === row.recording.track &&
+    (t.variant ?? null) === row.recording.variant && t.displayOrder === row.recording.displayOrder;
+  function button(node, row) {
+    check(node.tag === 'div' && hasClass(node, 'song-youtube-external-only') && node.attrs['data-video-id'] === row.videoId, 'YouTube external container invalid');
+    check(descendants(node, n => ['iframe', 'img', 'button', 'details'].includes(n.tag)).length === 0, 'YouTube external must not contain player/preview');
+    const links = descendants(node, n => n.tag === 'a');
+    check(links.length === 1, 'YouTube external link must be unique');
+    const link = links[0];
+    check(link.attrs.href === row.sourceUrl && link.attrs.target === '_blank' &&
+      hasClass(link, 'song-youtube-external-button') && cleanText(link) === 'YouTubeで聴く ↗' &&
+      link.attrs['aria-label'] === row.title + 'をYouTubeで聴く（新しいタブで開く）', 'YouTube external link mismatch');
+    equal((link.attrs.rel || '').split(/\s+/).sort(), ['noopener', 'noreferrer'], 'YouTube external rel invalid');
+  }
+  const songNodes = doc.nodes.filter(n => Object.hasOwn(n.attrs, 'data-youtube-external-song'));
+  const relationNodes = doc.nodes.filter(n => Object.hasOwn(n.attrs, 'data-youtube-external-relation'));
+  const buttons = doc.nodes.filter(n => hasClass(n, 'song-youtube-external-button'));
+  if (type === 'song') {
+    const row = external[item.songId], section = doc.ids.get('songYoutubeExternalSection');
+    equal(relationNodes.length, 0, 'Song has Release external marker');
+    equal(songNodes.map(n => n.attrs['data-youtube-external-song']), row ? [item.songId] : [], 'Song external binding mismatch');
+    equal(buttons.length, row ? 1 : 0, 'Song external button count mismatch');
+    if (!row) { check(!section, 'Unregistered Song has external UI'); return; }
+    check(item.version === row.recording.songVersion && item.debutRelease?.releaseId === row.recording.releaseId &&
+      item.includedReleases.filter(t => matches(row, t.releaseId, t)).length === 1, 'Song external recording mismatch');
+    const stats = byId(doc, 'songStats');
+    check(section === songNodes[0] && section.parent === stats.parent && section.parent.children.indexOf(section) < section.parent.children.indexOf(stats), 'Song external/statistics placement mismatch');
+    button(section, row);
+  } else {
+    const expected = (item.includedSongs || []).filter(t => external[t.songId] && matches(external[t.songId], item.releaseId, t));
+    equal(songNodes.length, 0, 'Release has Song external marker');
+    equal(relationNodes.map(n => n.attrs['data-youtube-external-relation']).sort(), expected.map(t => t.relationId).sort(), 'Release external binding mismatch');
+    equal(buttons.length, expected.length, 'Release external button count mismatch');
+    for (const node of relationNodes) {
+      const track = expected.find(t => t.relationId === node.attrs['data-youtube-external-relation']);
+      const siblings = node.parent.children.filter(n => typeof n !== 'string'), prior = siblings[siblings.indexOf(node) - 1];
+      check(prior?.tag === 'a' && prior.attrs['data-relation-id'] === track.relationId && prior.attrs.href === 'song/' + track.songId + '.html', 'External link attached to wrong track');
+      button(node, external[track.songId]);
+    }
+  }
+}
+
 function validateYoutubeBody(doc, type, item, audio) {
   check(audio?.schemaVersion === 1 && object(audio.songs), 'YouTube data schema invalid');
   const videoIds = new Set();
@@ -123,6 +183,7 @@ function validateYoutubeBody(doc, type, item, audio) {
     if (box) check(row.recording?.releaseId === 'R0090' && row.recording.songVersion === '通常' && row.recording.variant === null && Number.isInteger(row.recording.disc) && row.recording.disc > 0 && Number.isInteger(row.recording.track) && row.recording.track > 0 && Number.isInteger(row.recording.displayOrder) && row.recording.displayOrder > 0 && row.loadMode === 'click', 'YouTube BOX recording scope invalid');
     else check(row.recording?.releaseId !== 'R0090', 'YouTube BOX recording requires explicit basis');
   }
+  validateExternalYoutubeBody(doc, type, item, audio);
   check(!doc.nodes.some(n => n.tag === 'iframe' && /youtube/.test(n.attrs.src || '')), 'Initial YouTube iframe is forbidden');
   const match = (row, releaseId, t) => row.recording.releaseId === releaseId && row.recording.relationId === t.relationId && (t.variant ?? null) === row.recording.variant && (t.disc ?? null) === row.recording.disc && (t.track ?? null) === row.recording.track && t.displayOrder === row.recording.displayOrder;
   if (type === 'song') {
@@ -512,6 +573,7 @@ function validateStaticHtml({ revision, repoRoot = ROOT, readFile = file => fs.r
     const albums = validateAlbumData(json("data/release-album-products.json"), Object.fromEntries(sources.release));
     const memberships = validateSongUnitMemberships(json("data/song-unit-memberships.json"), new Set(sources.song.keys()));
     const audioData = json("data/song-youtube.json");
+    check(Object.keys(audioData.externalLinks || {}).every(id => sources.song.has(id)), 'Unknown external YouTube Song ID');
     const creditData = json("data/song-credits.json");
     const credits = validateSongCreditsData(creditData, sources.song);
     const kp = readSnapshot("kamipara-dashboard.json", snapshot.kamiparaDashboard);

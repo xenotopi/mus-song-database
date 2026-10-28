@@ -2761,5 +2761,64 @@
       },
       "bindingEvidence": "REMAINING-13A 楽曲台帳117!G112 user-designated URL; 思い出以上になりたくて; 2015-12-23; 公式配信商品・発売日・単曲名・歌唱者・公式収録位置を既存Relationと照合。; https://www.youtube.com/watch?v=so4dr9yNcek ; https://www.lovelive-anime.jp/otonokizaka/release.php#cd65 ; https://catalog.bandainamcomusiclive.co.jp/release/66064/; real embed playback PASS batch-6-results.json; explicit recording only, no inheritance to other releases."
     }
+  },
+  "externalLinks": {
+    "S068": {
+      "mode": "external_only",
+      "videoId": "nGP-3iqhKy0",
+      "title": "ユメノトビラ",
+      "sourceUrl": "https://www.youtube.com/watch?v=nGP-3iqhKy0",
+      "publicationStatus": "approved_for_publication",
+      "contentType": "official_audio",
+      "recording": {
+        "releaseId": "R0037",
+        "relationId": "RT0068",
+        "songVersion": "通常",
+        "variant": null,
+        "disc": null,
+        "track": null,
+        "displayOrder": 1
+      },
+      "sourceKind": "user_confirmed_G_column",
+      "embedUnavailableReason": "user_confirmed_error_150"
+    },
+    "S099": {
+      "mode": "external_only",
+      "videoId": "YErKL8h7eUQ",
+      "title": "Hello,星を数えて",
+      "sourceUrl": "https://www.youtube.com/watch?v=YErKL8h7eUQ",
+      "publicationStatus": "approved_for_publication",
+      "contentType": "official_audio",
+      "recording": {
+        "releaseId": "R0057",
+        "relationId": "RT0099",
+        "songVersion": "通常",
+        "variant": null,
+        "disc": null,
+        "track": null,
+        "displayOrder": 2
+      },
+      "sourceKind": "user_confirmed_G_column",
+      "embedUnavailableReason": "user_confirmed_error_150"
+    },
+    "S105": {
+      "mode": "external_only",
+      "videoId": "dkl6n38q3r0",
+      "title": "HEART to HEART!",
+      "sourceUrl": "https://www.youtube.com/watch?v=dkl6n38q3r0",
+      "publicationStatus": "approved_for_publication",
+      "contentType": "official_audio",
+      "recording": {
+        "releaseId": "R0061",
+        "relationId": "RT0105",
+        "songVersion": "通常",
+        "variant": null,
+        "disc": null,
+        "track": null,
+        "displayOrder": 1
+      },
+      "sourceKind": "user_confirmed_G_column",
+      "embedUnavailableReason": "user_confirmed_error_150"
+    }
   }
 }

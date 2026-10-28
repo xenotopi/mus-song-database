@@ -1,6 +1,6 @@
 // Optional, independently curated audio references; never alter Song/performance data.
-const DATA_URL = new URL("../../data/song-youtube.json", import.meta.url);
-const STYLE_URL = new URL("../css/song-youtube.css", import.meta.url);
+const DATA_URL = new URL("../../data/song-youtube.json?v=1.1.0", import.meta.url);
+const STYLE_URL = new URL("../css/song-youtube.css?v=1.1.0", import.meta.url);
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]"]);
 let pending;
 
@@ -28,6 +28,55 @@ export function youtubeRecord(data, songId, hostname = location.hostname) {
   return row;
 }
 
+// External-only references never enter the embeddable registry or createPlayer.
+export function externalYoutubeRecord(data, songId) {
+  if (data?.schemaVersion !== 1 || !/^S\d{3}$/.test(songId) || data.songs?.[songId]) return null;
+  const row = data.externalLinks?.[songId], r = row?.recording;
+  if (!row || row.mode !== 'external_only' || row.publicationStatus !== 'approved_for_publication' ||
+      row.contentType !== 'official_audio' || !/^[A-Za-z0-9_-]{11}$/.test(row.videoId || '') ||
+      typeof row.title !== 'string' || !row.title.trim() ||
+      row.sourceUrl !== `https://www.youtube.com/watch?v=${row.videoId}` ||
+      row.loadMode !== undefined || row.embedAllowedAtVerification !== undefined || row.recordingBasis !== undefined ||
+      !/^R\d{4}$/.test(r?.releaseId || '') || !/^RT\d{4}$/.test(r?.relationId || '') ||
+      typeof r?.songVersion !== 'string' || !r.songVersion || r.variant !== null ||
+      ![r.disc, r.track].every(n => n === null || Number.isInteger(n) && n > 0) ||
+      !Number.isInteger(r.displayOrder) || r.displayOrder < 1) return null;
+  if (Object.values(data.songs || {}).some(other => other.videoId === row.videoId) ||
+      Object.entries(data.externalLinks).some(([id, other]) => id !== songId && other?.videoId === row.videoId)) return null;
+  return row;
+}
+export function releaseExternalYoutubeRecord(data, release, track) {
+  const row = externalYoutubeRecord(data, track?.songId), r = row?.recording;
+  if (!r || release?.releaseId !== r.releaseId || track.relationId !== r.relationId ||
+      (track.variant ?? null) !== r.variant || (track.disc ?? null) !== r.disc ||
+      (track.track ?? null) !== r.track || track.displayOrder !== r.displayOrder) return null;
+  return row;
+}
+export function songExternalYoutubeRecord(data, song) {
+  const row = externalYoutubeRecord(data, song?.songId);
+  if (!row || song.version !== row.recording.songVersion || song.debutRelease?.releaseId !== row.recording.releaseId) return null;
+  const bindings = song.includedReleases?.filter(t => t.releaseId === row.recording.releaseId && t.relationId === row.recording.relationId) || [];
+  if (bindings.length !== 1 || !releaseExternalYoutubeRecord(data, {releaseId: bindings[0].releaseId}, {...bindings[0], songId: song.songId})) return null;
+  return row;
+}
+function createExternalLink(row, id, songId, inline = false) {
+  ensureStyle();
+  const section = document.createElement('div');
+  section.id = id;
+  section.className = 'song-youtube-external-only' + (inline ? ' song-youtube-inline' : '');
+  section.dataset.videoId = row.videoId;
+  if (inline) section.dataset.youtubeExternalSong = songId;
+  else section.dataset.youtubeExternalRelation = row.recording.relationId;
+  const link = document.createElement('a');
+  link.className = 'song-youtube-external song-youtube-external-button';
+  link.href = row.sourceUrl;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.textContent = 'YouTubeで聴く ↗';
+  link.setAttribute('aria-label', `${row.title}をYouTubeで聴く（新しいタブで開く）`);
+  section.append(link);
+  return section;
+}
 async function loadData() {
   pending ||= fetch(DATA_URL, { signal: AbortSignal.timeout(3000) })
     .then(response => response.ok ? response.json() : null).catch(() => null);
@@ -58,12 +107,13 @@ export function songYoutubeRecord(data, song, hostname = location.hostname) {
 export async function renderSongYoutube(song, after) {
   if (!after?.isConnected) return null;
   const data = await loadData(), row = songYoutubeRecord(data, song);
-  if (!row) return null;
-  const existing = document.getElementById('songYoutubeSection');
+  const external = row ? null : songExternalYoutubeRecord(data, song);
+  if (!row && !external) return null;
+  const existing = document.getElementById('songYoutubeSection') || document.getElementById('songYoutubeExternalSection');
   const statsCard = after.querySelector('#songStats')?.closest('.card');
   if (!statsCard) return null;
-  const section = createPlayer(row, 'songYoutubeSection', true);
-  if (row.recordingBasis === 'complete_best_box') {
+  const section = row ? createPlayer(row, 'songYoutubeSection', true) : createExternalLink(external, 'songYoutubeExternalSection', song.songId, true);
+  if (row?.recordingBasis === 'complete_best_box') {
     const binding = song.includedReleases.find(t => t.releaseId === row.recording.releaseId && t.relationId === row.recording.relationId);
     const source = document.createElement('p'); source.className = 'song-youtube-note';
     source.dataset.youtubeRecordingSource = 'complete_best_box';
@@ -82,11 +132,18 @@ export async function attachReleaseYoutube(release, host) {
   const data = await loadData();
   for (const track of release.includedSongs || []) {
     const row = releaseYoutubeRecord(data, release, track);
-    if (!row) continue;
+    const external = row ? null : releaseExternalYoutubeRecord(data, release, track);
+    if (!row && !external) continue;
     const anchors = [...host.querySelectorAll('.release-included-song-row[data-relation-id]')].filter(n => n.dataset.relationId === track.relationId);
     if (anchors.length !== 1 || anchors[0].getAttribute('href') !== 'song/' + track.songId + '.html') continue;
-    const existing = host.querySelector('[data-youtube-relation="' + track.relationId + '"]');
+    const existing = host.querySelector('[data-youtube-relation="' + track.relationId + '"], [data-youtube-external-relation="' + track.relationId + '"]');
     ensureStyle();
+    if (external) {
+      const section = createExternalLink(external, 'releaseYoutubeExternal-' + track.relationId, track.songId);
+      if (existing) existing.replaceWith(section);
+      else anchors[0].after(section);
+      continue;
+    }
     const details = document.createElement('details'); details.className = 'song-youtube-disclosure'; details.dataset.youtubeRelation = track.relationId;
     const summary = document.createElement('summary'); summary.textContent = '公式音源を聴く'; details.append(summary);
     details.addEventListener('toggle', () => { if (details.open && !details.querySelector('.song-youtube')) details.append(createPlayer(row, 'releaseYoutube-' + track.relationId)); });

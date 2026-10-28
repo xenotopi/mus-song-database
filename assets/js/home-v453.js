@@ -57,7 +57,7 @@ async function loadTodayEvent(button, panel) {
     const listTag = order === "unconfirmed" ? "ul" : "ol";
     panel.innerHTML = songs.length ? `<p class="today-event-order">${escapeHtml(note)}</p><${listTag}>${songs.map(song => {
       const position = order === "setlist" ? song.setlistPosition : order === "relative" ? song.relativePosition : null;
-      return `<li${position ? ` value="${position}"` : ""}>${/^S\d{3}$/.test(song.songId) ? `<a href="${buildSongUrl(song.songId)}">${escapeHtml(song.songName || "曲名未設定")}</a>` : escapeHtml(song.songName || "曲名未設定")}</li>`;
+      return `<li${position ? ` value="${position}"` : ""}>${/^S\d{3}$/.test(song.songId) ? `<a href="${buildSongUrl(song.songId)}"><span class="mus-title-chip mus-chip-link">${titleWithChevron(song.songName || "曲名未設定")}</span></a>` : escapeHtml(song.songName || "曲名未設定")}</li>`;
     }).join("")}</${listTag}>` : "登録済みの歌唱記録はありません。";
     panel.dataset.loaded = "true";
   } catch {
@@ -521,6 +521,8 @@ function getReleaseYearLabel(value) {
     : "";
 }
 
+function todayItemLink(href,title,badge,meta,extraClass='') { const name=href?'<b class="mus-title-chip mus-chip-link">'+titleWithChevron(title)+'</b>':'<b>'+escapeHtml(title)+'</b>';const body=(badge||'')+name+(meta?'<div class="home-ranking-meta">'+escapeHtml(meta)+'</div>':'');const attrs='class="today-item'+extraClass+'"';return href?'<a '+attrs+' href="'+escapeHtml(href)+'">'+body+'</a>':'<div '+attrs+'>'+body+'</div>'; }
+
 function renderTodayReleaseSongs(item) {
   const input = Array.isArray(item.includedSongs)
     ? item.includedSongs.filter(song => String(song?.songName || "").trim())
@@ -542,11 +544,11 @@ function renderTodayReleaseSongs(item) {
   if (!songs.length) return "";
 
   const rows = songs.map(({ song, stores }) => {
-    const songName = `「${escapeHtml(String(song.songName).trim())}」`;
+    const songName = `「${String(song.songName).trim()}」`;
     const songId = String(song.songId || "").trim();
     const name = /^S\d{3}$/.test(songId)
-      ? `<a href="${buildSongUrl(songId)}">${songName}</a>`
-      : `<span>${songName}</span>`;
+      ? `<a href="${buildSongUrl(songId)}"><span class="mus-title-chip mus-chip-link">${titleWithChevron(songName)}</span></a>`
+      : `<span>${escapeHtml(songName)}</span>`;
     const labels = stores.length ? stores : [item.classification === "Blu-ray" ? "収録特典曲" : "収録曲"];
     return `<div class="today-release-song"><span>${labels.map(escapeHtml).join("<br>")}</span>${name}</div>`;
   });
@@ -621,104 +623,11 @@ function renderToday(today) {
   renderTodaySummary(today);
 
   const groups = [
-    {
-      title:
-        "この日に発売された作品",
-
-      items:
-        getTodayReleases(today),
-
-      omitWhenEmpty:
-        true,
-
-      render:
-        item => {
-          const anniversary =
-            renderReleaseAnniversaryLabel(
-              item.anniversary
-            );
-
-          const meta =
-            [
-              getReleaseYearLabel(
-                item.releaseDate
-              ),
-              item.classification
-            ]
-              .filter(Boolean)
-              .join("｜");
-
-          const content = `
-              ${anniversary ? `<span class="today-anniversary-badge">${escapeHtml(anniversary)}</span>` : ""}
-              <b>${escapeHtml(item.releaseName || "リリース名未設定")}</b>
-              ${meta ? `<div class="home-ranking-meta">${escapeHtml(meta)}</div>` : ""}
-          `;
-          const songs = renderTodayReleaseSongs(item);
-          const releaseLink = `<a class="today-item${songs ? " today-release-main" : ""}" href="release/${encodeURIComponent(item.releaseId)}.html">${content}</a>`;
-          return songs
-            ? `<div class="today-release-entry">${releaseLink}${songs}</div>`
-            : releaseLink;
-        }
-    },
-    {
-      title:
-        "この日に開催されたイベント",
-
-      items:
-        today.events || [],
-
-      render:
-        item => `
-          <div class="today-event-entry"><a class="today-item" href="event.html?id=${encodeURIComponent(item.eventId)}">
-            <span class="today-anniversary-badge">${escapeHtml(renderAnniversaryLabel(item.date))}</span>
-            <b>${escapeHtml(item.eventName || "イベント名未設定")}</b>
-            <div class="home-ranking-meta">
-              ${escapeHtml(
-                [
-                  item.date ? item.date.slice(0,4) + "年" : "",
-                  item.category,
-                  item.eventType
-                ]
-                  .filter(Boolean)
-                  .join("｜")
-              )}
-            </div>
-          </a><button type="button" class="today-event-toggle" data-today-event="${escapeHtml(item.eventId)}" aria-label="${escapeHtml(item.eventName || "イベント")}の曲を見る" aria-expanded="false" aria-controls="today-songs-${escapeHtml(item.eventId)}">曲を見る</button><div class="today-event-songs" id="today-songs-${escapeHtml(item.eventId)}" hidden></div></div>
-        `
-    },
-    {
-      title:
-        "この日に初披露された曲",
-
-      items:
-        today.firstPerformedSongs || [],
-
-      render:
-        item => `
-          <a class="today-item" href="${buildSongUrl(item.songId)}">
-            <span class="today-anniversary-badge first">${escapeHtml(renderAnniversaryLabel(item.date))}</span>
-            <b>${escapeHtml(item.songName || "曲名未設定")}</b>
-            <div class="home-ranking-meta">${escapeHtml(item.date ? item.date.slice(0,4) + "年に初披露" : "")}</div>
-          </a>
-        `
-    },
-    {
-      title:
-        "この日に最後に歌われた曲",
-
-      items:
-        today.lastPerformedSongs || [],
-
-      render:
-        item => `
-          <a class="today-item" href="${buildSongUrl(item.songId)}">
-            <span class="today-anniversary-badge last">${escapeHtml(renderAnniversaryLabel(item.date))}</span>
-            <b>${escapeHtml(item.songName || "曲名未設定")}</b>
-            <div class="home-ranking-meta">${escapeHtml(item.date ? item.date.slice(0,4) + "年に最終披露" : "")}</div>
-          </a>
-        `
-    }
-  ];
+{title:'この日に発売された作品',items:getTodayReleases(today),omitWhenEmpty:true,render:item=>{const anniversary=renderReleaseAnniversaryLabel(item.anniversary),meta=[getReleaseYearLabel(item.releaseDate),item.classification].filter(Boolean).join('｜'),songs=renderTodayReleaseSongs(item),link=todayItemLink('release/'+encodeURIComponent(item.releaseId)+'.html',item.releaseName||'リリース名未設定',anniversary?'<span class="today-anniversary-badge">'+escapeHtml(anniversary)+'</span>':'',meta,songs?' today-release-main':'');return songs?'<div class="today-release-entry">'+link+songs+'</div>':link;}},
+{title:'この日に開催されたイベント',items:today.events||[],render:item=>{const valid=/^EV[0-9]{4}$/.test(item.eventId||''),name=item.eventName||'イベント名未設定',link=todayItemLink(valid?'event.html?id='+encodeURIComponent(item.eventId):null,name,'<span class="today-anniversary-badge">'+escapeHtml(renderAnniversaryLabel(item.date))+'</span>',[item.date?item.date.slice(0,4)+'年':'',item.category,item.eventType].filter(Boolean).join('｜'));return '<div class="today-event-entry">'+link+(valid?'<button type="button" class="today-event-toggle" data-today-event="'+escapeHtml(item.eventId)+'" aria-label="'+escapeHtml(name)+'の曲を見る" aria-expanded="false" aria-controls="today-songs-'+escapeHtml(item.eventId)+'">曲を見る</button><div class="today-event-songs" id="today-songs-'+escapeHtml(item.eventId)+'" hidden></div>':'')+'</div>';}},
+{title:'この日に初披露された曲',items:today.firstPerformedSongs||[],render:item=>todayItemLink(/^S[0-9]{3}$/.test(item.songId||'')?buildSongUrl(item.songId):null,item.songName||'曲名未設定','<span class="today-anniversary-badge first">'+escapeHtml(renderAnniversaryLabel(item.date))+'</span>',item.date?item.date.slice(0,4)+'年に初披露':'')},
+{title:'この日に最後に歌われた曲',items:today.lastPerformedSongs||[],render:item=>todayItemLink(/^S[0-9]{3}$/.test(item.songId||'')?buildSongUrl(item.songId):null,item.songName||'曲名未設定','<span class="today-anniversary-badge last">'+escapeHtml(renderAnniversaryLabel(item.date))+'</span>',item.date?item.date.slice(0,4)+'年に最終披露':'')}
+];
 
   if (
     !groups.some(
@@ -951,9 +860,9 @@ function renderTopSongs(items) {
   elements.topSongs.innerHTML =
     items.length
       ? items.map(item => `
-          <a class="home-ranking-row mus-chip-link" href="${buildSongUrl(item.songId)}">
+          <a class="home-ranking-row home-top-song-row" href="${buildSongUrl(item.songId)}">
             <span class="home-rank">${escapeHtml(item.rank)}</span>
-            <span class="home-ranking-name mus-title-chip">${titleWithChevron(item.songName || "曲名未設定")}</span>
+            <span class="home-ranking-name mus-title-chip mus-chip-link">${titleWithChevron(item.songName || "曲名未設定")}</span>
             <span class="home-ranking-meta">イベント ${Number(item.eventCount || 0).toLocaleString("ja-JP")}件</span>
             <span class="home-ranking-count">${Number(item.performanceCount || 0).toLocaleString("ja-JP")}回</span>
           </a>

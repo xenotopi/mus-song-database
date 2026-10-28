@@ -31,27 +31,28 @@ function release(id, overrides = {}) {
   return { releaseId: id, releaseDate: "2012-09-05", releaseName: `Release ${id}`, classification: "CD", anniversary: 14, ...overrides };
 }
 
-async function installApiFixture(page, todayOverrides) {
+async function installApiFixture(page, todayOverrides, options = {}) {
   await page.route(/script\.google(?:usercontent)?\.com\//, route => {
     const url = new URL(route.request().url());
     const callback = url.searchParams.get("callback");
     const action = url.searchParams.get("action");
     let data = {};
     if (action === "revision") data = { dataRevision: REVISION };
-    if (action === "home") data = homeData(todayOverrides);
+    if (action === "home") data = { ...homeData(todayOverrides), topSongs: options.topSongs || [] };
+    if (action === "event") { const cur = JSON.parse(fs.readFileSync(path.join(ROOT,"data/current.json"))); data = JSON.parse(fs.readFileSync(path.join(ROOT,"data/snapshots",cur.revision,"events",url.searchParams.get("id")+".json"))).data.event; }
     if (action === "release") data = { releaseId: url.searchParams.get("id"), releaseDate: "2012-09-05", releaseName: "Wonderful Rush", classification: "CD", releaseType: "シングル", sourceMedia: "CD", officialReleaseUrl: "", todayEligible: true, note: "", relatedEvents: [], debutSongs: [] };
     return route.fulfill({ status: 200, contentType: "text/javascript", body: `${callback}(${JSON.stringify({ success: true, generatedAt: "2026-09-05T00:00:00+09:00", data })});` });
   });
 }
 
 async function openHome(todayOverrides, viewport = { width: 1280, height: 900 }, options = {}) {
-  const page = await browser.newPage({ viewport, timezoneId: options.timezoneId });
+  const page = await browser.newPage({ viewport, timezoneId: options.timezoneId, hasTouch: viewport.width === 390 });
   if (options.clock) await page.clock.install({ time: new Date(options.clock) });
   const issues = [];
   page.on("console", message => { if (["error", "warning"].includes(message.type())) issues.push(`${message.type()}: ${message.text()}`); });
   page.on("pageerror", error => issues.push(`pageerror: ${error.message}`));
   page.on("requestfailed", request => issues.push(`requestfailed: ${request.url()} ${request.failure()?.errorText || ""}`));
-  await installApiFixture(page, todayOverrides);
+  await installApiFixture(page, todayOverrides, options);
   await page.goto(`${baseUrl}/index.html`, { waitUntil: "domcontentloaded" });
   await page.locator("#topSection").waitFor({ state: "visible", timeout: 45000 });
   await page.waitForFunction(() => document.querySelector("#todaySummary")?.textContent.includes("本日の記録"), null, { timeout: 45000 });
@@ -188,7 +189,7 @@ test("JST年境界の周年はブラウザの現地年ではなく対象日の�
   await page.close();
 });
 
-test("12月25日の既存ReleaseデータをPC・スマホで表示し画像保存する", async () => {
+test("12月25日R0052/R0090のSong集合・順序・リンクとS100一意表示をPC・スマホで確認", async () => {
   const current = JSON.parse(fs.readFileSync(path.join(ROOT, "data/current.json"), "utf8"));
   const releases = ["R0052", "R0090"].map(id => {
     const data = JSON.parse(fs.readFileSync(path.join(ROOT, "data/snapshots", current.revision, "releases", `${id}.json`), "utf8")).data;
@@ -200,7 +201,19 @@ test("12月25日の既存ReleaseデータをPC・スマホで表示し画像保�
     const decline = page.getByRole("button", { name: "同意しない", exact: true });
     if (await decline.isVisible()) await decline.click();
     assert.equal(await page.locator(".today-release-entry").count(), 2);
-    assert.equal(await page.locator(".today-release-song").count(), releases.reduce((n, r) => n + r.includedSongs.length, 0));
+    // Independent first-appearance projection from preserved Relation data, not renderer output.
+    const expected = releases.map(r => r.includedSongs.filter((song,index,all) => all.findIndex(other => other.songId === song.songId) === index));
+    assert.deepEqual(expected.map(rows => rows.length), [3,115]);
+    assert.equal(await page.locator(".today-release-song").count(), 118);
+    for (let i=0;i<releases.length;i++) {
+      const entry=page.locator(".today-release-entry").nth(i),links=entry.locator(".today-release-song a"),ids=expected[i].map(song => song.songId);
+      assert.equal(await entry.locator(".today-release-song").count(),ids.length);
+      assert.equal(new Set(ids).size,ids.length);
+      assert.deepEqual(await links.evaluateAll(nodes=>nodes.map(n=>n.getAttribute("href"))),ids.map(id=>"song/"+id+".html"));
+      assert.deepEqual(await links.allTextContents(),expected[i].map(song=>"「"+song.songName.trim()+"」"));
+    }
+    assert.equal(releases[1].includedSongs.filter(song=>song.songId === "S100").length,2);
+    assert.equal(await page.locator(".today-release-entry").nth(1).locator('.today-release-song a[href="song/S100.html"]').count(),1);
     assert.equal(await page.locator(".today-release-more").count(), 1);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
     if (process.env.MUSDB_HOME_TODAY_QA_DIR) {
@@ -282,3 +295,38 @@ test("通常Blu-ray・店舗特典・収録曲なしを同じTodayで表示す�
   assert.deepEqual(issues, []);
   await page.close();
 });
+
+
+// Home title-chip behavior: reuse the existing browser/server/date fixture.
+const chipCurrent = JSON.parse(fs.readFileSync(path.join(ROOT,"data/current.json")));
+const chipSnapshot = (type,id) => JSON.parse(fs.readFileSync(path.join(ROOT,"data/snapshots",chipCurrent.revision,type,id+".json"))).data;
+const chipBox = chipSnapshot("releases","R0089");
+const chipEvent = chipSnapshot("events","EV0354").event;
+const chipTop = [...JSON.parse(fs.readFileSync(path.join(ROOT,"data/gap-rankings.json"))).payload.songs].sort((a,b)=>b.recordCount-a.recordCount||a.id.localeCompare(b.id)).slice(0,5).map((song,i)=>({rank:i+1,songId:song.id,songName:song.name,performanceCount:song.recordCount,eventCount:new Set(song.dates.flatMap(d=>d.all)).size}));
+const chipShots = process.env.MUSDB_HOME_UI_QA_DIR;
+async function chipState(locator) { return locator.evaluate(async n=>{ const arrow=n.querySelector('.mus-link-chevron');if(arrow){getComputedStyle(arrow).transform;await new Promise(requestAnimationFrame);await Promise.all(arrow.getAnimations().map(a=>a.finished));}const c=getComputedStyle(n);return {color:c.color,background:c.backgroundColor,decoration:c.textDecorationLine,transform:arrow?getComputedStyle(arrow).transform:null};}); }
+async function chipMetrics(page) { return page.locator('#topSongs .home-rank,#topSongs .home-ranking-meta,#topSongs .home-ranking-count').evaluateAll(ns=>ns.map(n=>{const s=getComputedStyle(n);return {text:n.textContent,color:s.color,background:s.backgroundColor,fontSize:s.fontSize,fontWeight:s.fontWeight,transform:s.transform};})); }
+async function chipReady(page){await page.locator('#topSongs .home-ranking-row').nth(4).waitFor();await page.waitForFunction(()=>document.querySelectorAll('#todayContent .mus-link-chevron svg').length>0);const decline=page.getByRole('button',{name:'同意しない',exact:true});if(await decline.isVisible())await decline.click();}
+for (const width of [1280,390]) {
+ test('Today/TOP5 title-only hover, keyboard, links and expansion '+width,async()=>{
+  const fixture={releases:[{...chipBox,anniversary:8}],events:[{...chipEvent}],firstPerformedSongs:[{songId:'S001',songName:'僕らのLIVE 君とのLIFE',date:'2010-01-01'}],lastPerformedSongs:[{songId:'S117',songName:'これから',date:'2016-01-01'}]};
+  const {page,issues}=await openHome(fixture,{width,height:900},{topSongs:chipTop});try{await chipReady(page);const activate=async n=>width===390?n.tap():n.click();
+   assert.deepEqual(await page.locator('#topSongs .home-ranking-name').allTextContents(),chipTop.map(x=>x.songName));assert.deepEqual(await page.locator('#topSongs .home-ranking-row').evaluateAll(ns=>ns.map(n=>n.getAttribute('href'))),chipTop.map(x=>'song/'+x.songId+'.html'));
+   assert.deepEqual(await page.locator('#topSongs .home-rank').allTextContents(),chipTop.map(x=>String(x.rank)));assert.deepEqual(await page.locator('#topSongs .home-ranking-count').allTextContents(),chipTop.map(x=>x.performanceCount.toLocaleString('ja-JP')+'回'));assert.deepEqual(await page.locator('#topSongs .home-ranking-meta').allTextContents(),chipTop.map(x=>'イベント '+x.eventCount.toLocaleString('ja-JP')+'件'));
+   const row=page.locator('#topSongs .home-ranking-row').first(),label=row.locator('.mus-link-label'),metrics=await chipMetrics(page);await row.scrollIntoViewIfNeeded();await page.mouse.move(0,0);const plain=await chipState(label),rowBg=await row.evaluate(n=>getComputedStyle(n).backgroundColor);const arrowBox=await row.locator('.mus-link-chevron').boundingBox();assert.equal(arrowBox.width,30);assert.equal(arrowBox.height,30);
+   if(width===1280){await row.locator('.home-rank').hover();assert.deepEqual(await chipState(label),plain);assert.equal(await row.evaluate(n=>getComputedStyle(n).backgroundColor),rowBg);await row.locator('.home-ranking-meta').hover();assert.deepEqual(await chipState(label),plain);await label.hover();const hot=await chipState(label);assert.notEqual(hot.color,plain.color);assert.ok(hot.decoration.includes('underline'));assert.equal(await row.evaluate(n=>getComputedStyle(n).backgroundColor),rowBg);assert.deepEqual(await chipMetrics(page),metrics);}
+   await page.mouse.move(0,0);await row.focus();await page.keyboard.press('Tab');await page.keyboard.press('Shift+Tab');assert.equal(await row.evaluate(n=>n.matches(':focus-visible')),true);assert.equal(await label.evaluate(n=>getComputedStyle(n).outlineStyle),'solid');assert.deepEqual(await chipMetrics(page),metrics);
+   const today=page.locator('#todayContent a.today-item').first(),todayLabel=today.locator('.mus-link-label');await today.scrollIntoViewIfNeeded();await page.mouse.move(0,0);const normal=await chipState(todayLabel),todayBg=await today.evaluate(n=>getComputedStyle(n).backgroundColor);
+   if(width===1280){await today.locator('.home-ranking-meta').hover();assert.deepEqual(await chipState(todayLabel),normal);await todayLabel.hover();assert.notEqual((await chipState(todayLabel)).color,normal.color);assert.equal(await today.evaluate(n=>getComputedStyle(n).backgroundColor),todayBg);}
+   await page.mouse.move(0,0);await today.focus();await page.keyboard.press('Tab');await page.keyboard.press('Shift+Tab');assert.equal(await todayLabel.evaluate(n=>getComputedStyle(n).outlineStyle),'solid');
+   if(chipShots){fs.mkdirSync(chipShots,{recursive:true});await page.screenshot({path:path.join(chipShots,'today-'+width+'.png')});await row.scrollIntoViewIfNeeded();if(width===1280)await label.hover();await page.screenshot({path:path.join(chipShots,'top5-'+width+'.png')});}
+   const songs=page.locator('.today-release-songs');assert.equal(await songs.locator('a').count(),19);assert.equal(await songs.locator('a:visible').count(),3);const more=songs.locator('details');assert.equal(await more.locator('summary').innerText(),'残り16曲を見る');await activate(more.locator('summary'));assert.equal(await songs.locator('a:visible').count(),19);await activate(more.locator('summary'));assert.equal(await songs.locator('a:visible').count(),3);
+   const toggle=page.locator('[data-today-event="EV0354"]'),panel=page.locator('#today-songs-EV0354');assert.equal(await toggle.getAttribute('aria-expanded'),'false');await activate(toggle);await panel.locator('a').first().waitFor();assert.equal(await toggle.getAttribute('aria-expanded'),'true');assert.equal(await panel.locator('a').first().getAttribute('href'),'song/S077.html');assert.equal(await panel.locator('.mus-link-chevron').count(),1);await activate(toggle);assert.equal(await panel.isVisible(),false);await activate(toggle);assert.equal(await panel.isVisible(),true);assert.equal(await panel.locator('a').count(),1);
+   for(const [selector,href,keyboard] of [['#todayContent a[href="release/R0089.html"]','release/R0089.html',false],['.today-release-song a','song/'+chipBox.includedSongs[0].songId+'.html',false],['.today-event-entry a.today-item','event.html?id=EV0354',false],['#topSongs .home-ranking-row','song/'+chipTop[0].songId+'.html',true]]){const link=page.locator(selector).first(),target=new URL(href,baseUrl+'/').href;await page.route(u=>u.href===target,r=>r.fulfill({contentType:'text/html',body:'<!doctype html><title>QA navigation boundary</title>'}));const dest=page.waitForURL(target);if(keyboard){await link.focus();await page.keyboard.press('Enter');}else await activate(link);await dest;assert.equal(page.url(),target);await page.goBack({waitUntil:'domcontentloaded'});await chipReady(page);}
+   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));assert.deepEqual(issues,[]);
+  }catch(e){if(chipShots){fs.mkdirSync(chipShots,{recursive:true});fs.writeFileSync(path.join(chipShots,'FAIL-'+width+'-behaviour.html'),await page.content());await page.screenshot({path:path.join(chipShots,'FAIL-'+width+'-behaviour.png'),fullPage:true}).catch(()=>{});}throw e;}finally{await page.close();}
+ });
+ test('Today/TOP5 long titles wrap with adjacent chips; missing IDs have no link '+width,async()=>{
+  const long='長い作品名・曲名の折り返し LongUnbrokenTitle'.repeat(8),top=chipTop.map((x,i)=>i?x:{...x,songName:long});const {page,issues}=await openHome({releases:[{...chipBox,releaseName:long}],events:[{eventName:'リンク先のないイベント',date:'2016-01-01'}],firstPerformedSongs:[{songName:'リンク先のない曲'}],lastPerformedSongs:[]},{width,height:900},{topSongs:top});try{await chipReady(page);const titles=page.locator('#todayContent .today-group');const missingEvent=titles.filter({has:page.getByRole('heading',{name:'この日に開催されたイベント'})}),missingSong=titles.filter({has:page.getByRole('heading',{name:'この日に初披露された曲'})});assert.equal(await missingEvent.locator('a,.mus-link-chevron,button').count(),0);assert.equal(await missingSong.locator('a,.mus-link-chevron').count(),0);const tails=await page.locator('#todayContent a.today-item .mus-title-tail,#topSongs .home-ranking-row:first-child .mus-title-tail').evaluateAll(ns=>ns.map(n=>{const range=document.createRange();range.selectNodeContents(n.firstChild);const t=range.getBoundingClientRect(),a=n.querySelector('.mus-link-chevron').getBoundingClientRect();return {right:a.right,width:innerWidth,sameLine:Math.abs(a.y+a.height/2-t.y-t.height/2)<5,adjacent:a.x-t.right>=7&&a.x-t.right<=9,inside:n.closest('a').scrollWidth<=n.closest('a').clientWidth+1};}));assert.ok(tails.every(x=>x.right<=x.width+1&&x.sameLine&&x.adjacent&&x.inside),JSON.stringify(tails));assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));assert.deepEqual(await page.locator('#topSongs .home-ranking-count').allTextContents(),chipTop.map(x=>x.performanceCount.toLocaleString('ja-JP')+'回'));assert.deepEqual(issues,[]);if(chipShots){await page.locator('#topSongs').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(chipShots,'long-top5-'+width+'.png')});}}catch(e){if(chipShots){fs.mkdirSync(chipShots,{recursive:true});fs.writeFileSync(path.join(chipShots,'FAIL-'+width+'-long.html'),await page.content());await page.screenshot({path:path.join(chipShots,'FAIL-'+width+'-long.png'),fullPage:true}).catch(()=>{});}throw e;}finally{await page.close();}
+ });
+}

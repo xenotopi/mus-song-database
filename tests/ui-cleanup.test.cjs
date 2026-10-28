@@ -14,7 +14,9 @@ const official=r=>'<div id="officialRelease">'+(r.officialReleaseUrl?'<a class="
 async function consolidated(body,r){const doc=offlineDocument(wrap(body));(await sourceModule).consolidateReleaseSources(r.releaseId,doc);return doc.serialize();}
 function checkSidecar(body){const doc=parse(body);validateSidecarBody(doc,r52,side);validateSourceCollection(doc,r52,expectedReleaseSources(r52,{sidecar:side}));}
 const home=read('assets/js/home-v453.js'),start=home.indexOf('function renderTodayReleaseSongs(item)'),end=home.indexOf('function renderTodaySummary',start);
-const today=vm.runInNewContext('('+home.slice(start,end).trim()+')',{escapeHtml:esc,buildSongUrl:id=>'song/'+id+'.html'});
+const chevronStart=home.indexOf('function titleWithChevron(title)'),chevronEnd=home.indexOf('function renderTopSongs(items)',chevronStart);
+const titleWithChevron=vm.runInNewContext('('+home.slice(chevronStart,chevronEnd).trim()+')',{escapeHtml:esc});
+const today=vm.runInNewContext('('+home.slice(start,end).trim()+')',{escapeHtml:esc,titleWithChevron,buildSongUrl:id=>'song/'+id+'.html'});
 const data=json('data/release-bluray-products.json'),side=json('data/release-sidecars/R0052.json'),r52=release('R0052');
 const {validateSidecarBody}=require('../tools/validate-release-sidecar.cjs'),{validateBluRayData,validateBluRayBody}=require('../tools/validate-release-bluray.cjs');
 test('Today: R0089 retains first-occurrence order, 70 Relations -> 19 Song links, 3 + 16',()=>{

@@ -6,7 +6,7 @@ const snap=path.join(root,'data/snapshots',pointer.outputRevision);
 const event=JSON.parse(fs.readFileSync(path.join(snap,'events/EV0353.json'))).data.event;
 const rankingPayload=JSON.parse(fs.readFileSync(path.join(root,'data/gap-rankings.json'))).payload;
 const topSongs=[...rankingPayload.songs].sort((a,b)=>b.recordCount-a.recordCount||a.id.localeCompare(b.id)).slice(0,5).map((s,i)=>({rank:i+1,songId:s.id,songName:s.name,performanceCount:s.recordCount,eventCount:new Set(s.dates.flatMap(d=>d.all)).size}));
-let browser,server,base;const shots=fs.mkdtempSync(path.join(os.tmpdir(),'musdb-ui-links-'));
+let browser,server,base;const shots=process.env.MUSDB_UI_LINK_QA_DIR||fs.mkdtempSync(path.join(os.tmpdir(),'musdb-ui-links-'));fs.mkdirSync(shots,{recursive:true});
 test.before(async()=>{
   server=http.createServer((req,res)=>{const file=path.resolve(root,'.'+new URL(req.url,'http://local').pathname);if(!file.startsWith(root+path.sep)){res.writeHead(403).end();return;}try{res.setHeader('Content-Type',({'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.png':'image/png','.json':'application/json','.webmanifest':'application/manifest+json'})[path.extname(file)]||'application/octet-stream');res.end(fs.readFileSync(file));}catch{res.writeHead(404).end();}});
   await new Promise(r=>server.listen(0,'127.0.0.1',r));base='http://127.0.0.1:'+server.address().port;
@@ -87,6 +87,8 @@ for(const width of[1280,390])for(const kind of['gap','home','venue'])test(`${kin
 for(const width of[1280,390])test(`Home shared title chips, TOP5 and inline wrapped Event ${width}`,async()=>{
   const{context,page,errors}=await open('home',width,'長いイベント名の折返し検証 '+event.eventName+' LongUnbrokenEnglishEventTitle'.repeat(3));try{
     await page.emulateMedia({reducedMotion:'no-preference'});
+    const input=await page.evaluate(()=>({hover:matchMedia('(hover:hover)').matches,fine:matchMedia('(pointer:fine)').matches,coarse:matchMedia('(pointer:coarse)').matches,reduce:matchMedia('(prefers-reduced-motion:reduce)').matches}));
+    assert.deepEqual(input,{hover:width===1280,fine:width===1280,coarse:width===390,reduce:false});
     await page.locator('#topSongs .home-ranking-row').nth(4).waitFor();
     assert.deepEqual(await page.locator('#topSongs .home-ranking-name').allTextContents(),topSongs.map(s=>s.songName));
     assert.deepEqual(await page.locator('#topSongs .home-ranking-count').allTextContents(),topSongs.map(s=>s.performanceCount.toLocaleString('ja-JP')+'回'));
@@ -95,19 +97,20 @@ for(const width of[1280,390])test(`Home shared title chips, TOP5 and inline wrap
     assert.equal(await page.locator('a a').count(),0);
     const links=[...await page.locator('#topSongs .home-ranking-row').all(),page.locator('.recent-event'),page.locator('.recent-song-name').first()];
     for(const link of links){
-      const chip=link.locator('.mus-link-chevron');await chip.locator('svg').waitFor();await link.scrollIntoViewIfNeeded();await page.mouse.move(0,0);await link.evaluate(e=>e.blur());await page.waitForTimeout(220);
+      const isTop5=await link.evaluate(n=>n.classList.contains('home-top-song-row')),feedback=isTop5?link.locator('.mus-link-label'):link;const chip=link.locator('.mus-link-chevron');await chip.locator('svg').waitFor();await link.scrollIntoViewIfNeeded();await page.mouse.move(0,0);await link.evaluate(e=>e.blur());await page.waitForTimeout(220);
       const before=await link.boundingBox(),b=await chip.boundingBox(),svg=await chip.locator('svg').boundingBox();
       assert.equal(b.width,30);assert.equal(b.height,30);assert.equal(svg.width,16);assert.equal(svg.height,16);assert.ok(before.height>=44);
       assert.ok(Math.abs(b.x+b.width/2-svg.x-svg.width/2)<1);assert.ok(Math.abs(b.y+b.height/2-svg.y-svg.height/2)<1);
       assert.equal(await chip.evaluate(e=>getComputedStyle(e).backgroundColor),'rgb(242, 239, 255)');
       assert.equal(await link.locator('.mus-title-chip').evaluate(e=>getComputedStyle(e).color),'rgb(23, 32, 51)');
       assert.equal(await chip.evaluate(e=>{const tail=e.parentElement,n=tail.firstChild,r=document.createRange();r.selectNodeContents(n);const t=r.getBoundingClientRect(),b=e.getBoundingClientRect();return b.x-t.right>=7&&b.x-t.right<=9&&Math.abs((b.y+b.height/2)-(t.y+t.height/2))<5;}),true,'chip follows final characters, not the card edge');
-      await link.hover();await page.waitForTimeout(250);assert.ok(Math.abs((await chip.boundingBox()).x-b.x-3)<.1);assert.deepEqual(await link.boundingBox(),before);
-      await page.mouse.move(0,0);await page.keyboard.press('Tab');await link.focus();await page.waitForTimeout(250);assert.equal(await link.evaluate(e=>getComputedStyle(e).outlineStyle),'solid');assert.match(await chip.evaluate(e=>getComputedStyle(e).transform),/matrix\(1, 0, 0, 1, 3, 0\)/);
-      console.log(JSON.stringify({width,href:await link.getAttribute('href'),chip:30,svg:16,hoverDelta:3,layoutUnchanged:true}));
+      const expectedHoverDelta=isTop5&&!(input.hover&&input.fine)?0:3;
+      await feedback.hover();await page.waitForTimeout(250);assert.ok(Math.abs((await chip.boundingBox()).x-b.x-expectedHoverDelta)<.1,'hover displacement follows measured pointer capability');assert.deepEqual(await link.boundingBox(),before);
+      await page.mouse.move(0,0);await page.keyboard.press('Tab');await link.focus();await page.waitForTimeout(250);assert.equal(await feedback.evaluate(e=>getComputedStyle(e).outlineStyle),'solid');assert.match(await chip.evaluate(e=>getComputedStyle(e).transform),/matrix\(1, 0, 0, 1, 3, 0\)/);
+      console.log(JSON.stringify({width,href:await link.getAttribute('href'),chip:30,svg:16,hoverDelta:expectedHoverDelta,input,layoutUnchanged:true}));
     }
     const row=page.locator('#topSongs .home-ranking-row').first();await row.scrollIntoViewIfNeeded();const b=await row.boundingBox();assert.equal(await row.evaluate(e=>{const b=e.getBoundingClientRect();return document.elementFromPoint(b.x+3,b.y+b.height/2)?.closest('a')===e;}),true);
-    const href=await row.getAttribute('href');await page.mouse.click(b.x+3,b.y+b.height/2);await page.waitForURL(new URL(href,base+'/').href);await page.goBack();await row.waitFor();await newTab(context,row);await row.focus();await page.keyboard.press('Enter');await page.waitForURL(new URL(href,base+'/').href);await page.goBack();await row.waitFor();
+    const href=await row.getAttribute('href');await page.mouse.click(b.x+3,b.y+b.height/2);await page.waitForURL(new URL(href,base+'/').href);await page.goBack();await row.waitFor();if(width===390){await row.tap();await page.waitForURL(new URL(href,base+'/').href);await page.goBack();await row.waitFor();}await newTab(context,row);await row.focus();await page.keyboard.press('Enter');await page.waitForURL(new URL(href,base+'/').href);await page.goBack();await row.waitFor();
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
     assert.equal(await page.locator('#topSongs .home-ranking-row,.recent-card').evaluateAll(es=>es.every(e=>e.scrollWidth<=e.clientWidth)),true);
     await row.scrollIntoViewIfNeeded();await page.mouse.move(0,0);await page.screenshot({path:path.join(shots,`home-top5-${width}.png`)});
@@ -119,7 +122,7 @@ for(const width of[1280,390])test(`Home shared chips reduced motion ${width}`,as
   const{context,page,errors}=await open('home',width);try{
     await page.emulateMedia({reducedMotion:'reduce'});
     for(const selector of['#topSongs .home-ranking-row','.recent-event','.recent-song-name']){
-      const link=page.locator(selector).first(),chip=link.locator('.mus-link-chevron');await link.hover();await page.waitForTimeout(220);assert.equal(await chip.evaluate(e=>getComputedStyle(e).transform),'none');assert.equal(await chip.evaluate(e=>getComputedStyle(e).transitionDuration),'0s');await page.mouse.move(0,0);await page.keyboard.press('Tab');await link.focus();assert.equal(await link.evaluate(e=>getComputedStyle(e).outlineStyle),'solid');assert.equal(await chip.evaluate(e=>getComputedStyle(e).transform),'none');
+      const link=page.locator(selector).first(),chip=link.locator('.mus-link-chevron'),feedback=await link.evaluate(n=>n.classList.contains('home-top-song-row'))?link.locator('.mus-link-label'):link;await feedback.hover();await page.waitForTimeout(220);assert.equal(await chip.evaluate(e=>getComputedStyle(e).transform),'none');assert.equal(await chip.evaluate(e=>getComputedStyle(e).transitionDuration),'0s');await page.mouse.move(0,0);await page.keyboard.press('Tab');await link.focus();assert.equal(await feedback.evaluate(e=>getComputedStyle(e).outlineStyle),'solid');assert.equal(await chip.evaluate(e=>getComputedStyle(e).transform),'none');
     }
     assert.deepEqual(errors,[]);
   }finally{await context.close();}

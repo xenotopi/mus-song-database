@@ -290,7 +290,7 @@
     .today-event-songs[hidden]{display:none}
     .today-event-songs ol,.today-event-songs ul{padding-left:24px;margin:6px 0}
     .today-event-songs a{display:inline-block;min-height:36px;padding:5px 2px;color:var(--indigo);font-weight:700;text-decoration:none}
-    .today-event-songs a:hover{text-decoration:underline}
+    .today-event-songs .mus-link-label:hover{text-decoration:underline}
     .today-event-order{color:var(--muted);font-size:13px;margin:8px 0 0}
 
     .today-release-entry:last-child {
@@ -327,7 +327,7 @@
       text-decoration: none;
     }
 
-    .today-release-song a:hover {
+    .today-release-song .mus-link-label:hover {
       text-decoration: underline;
     }
 
@@ -2150,9 +2150,9 @@
       .home-kamipara-card:hover .home-kamipara-stat{border-color:#a9dcf4;background:rgba(169,220,244,.09)}
       .home-tool-card:hover .home-tool-cta{transform:translateX(8px)}
       .home-kamipara-card:hover .home-kamipara-cta{transform:translateX(8px);text-decoration:underline;text-underline-offset:4px}
-      .home-tool-card:hover .home-tool-cta,.home-ranking-row:hover .home-ranking-name{text-decoration:underline;text-underline-offset:3px}
-      .home-top-songs-card .home-ranking-row:hover .home-ranking-name{color:var(--indigo)}
-      .today-item:hover,.home-ranking-row:hover{background:#e9e6ff}
+      .home-tool-card:hover .home-tool-cta,.home-ranking-row:not(.home-top-song-row):hover .home-ranking-name{text-decoration:underline;text-underline-offset:3px}
+      .home-top-songs-card .home-ranking-row:not(.home-top-song-row):hover .home-ranking-name{color:var(--indigo)}
+      .home-ranking-row:not(.home-top-song-row):hover{background:#e9e6ff}
       .home-recent-section .recent-event:hover{color:var(--indigo)}
       .home-recent-section .recent-event:hover::after{transform:translateX(6px)}
       .home-recent-section a.recent-meta-link:hover{color:var(--indigo);background:#eef2ff;text-decoration:underline;text-underline-offset:3px}
@@ -2161,12 +2161,12 @@
       .home-more-button:hover{background:var(--indigo);color:#fff;border-color:var(--indigo);transform:translateY(-2px);box-shadow:0 10px 22px rgba(58,48,130,.24)}
     }
     .home-explore-card:focus-visible,.home-tool-card:focus-visible,.home-kamipara-card:focus-visible{outline:3px solid var(--indigo);outline-offset:3px}
-    .home-tool-card:focus-visible .home-tool-cta,.home-ranking-row:focus-visible .home-ranking-name{text-decoration:underline;text-underline-offset:3px}
+    .home-tool-card:focus-visible .home-tool-cta,.home-ranking-row:not(.home-top-song-row):focus-visible .home-ranking-name{text-decoration:underline;text-underline-offset:3px}
     .home-kamipara-card:focus-visible{outline-color:#a9dcf4}
-    .today-item:focus-visible,.home-ranking-row:focus-visible,.recent-event:focus-visible,a.recent-meta-link:focus-visible,.recent-song-name:focus-visible,.recent-singer-link:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+    .home-ranking-row:not(.home-top-song-row):focus-visible,.recent-event:focus-visible,a.recent-meta-link:focus-visible,.recent-song-name:focus-visible,.recent-singer-link:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
     .home-about-link:focus-visible{outline:3px solid #a9dcf4;outline-offset:3px}
     a.recent-meta-link:focus-visible,.recent-song-name:focus-visible,.recent-singer-link:focus-visible,.recent-event:focus-visible .recent-event-label,.home-about-link:focus-visible{text-decoration:underline;text-underline-offset:3px}
-    .today-item:focus-visible,.home-ranking-row:focus-visible,.recent-song-name:focus-visible,.home-recent-section .recent-singer-link:focus-visible,.home-recent-section .recent-event:focus-visible .recent-event-label{background:#e9e6ff}
+    .home-ranking-row:not(.home-top-song-row):focus-visible,.recent-song-name:focus-visible,.home-recent-section .recent-singer-link:focus-visible,.home-recent-section .recent-event:focus-visible .recent-event-label{background:#e9e6ff}
     .home-more-button:focus-visible{outline:3px solid var(--indigo);outline-offset:3px;background:var(--indigo);color:#fff}
     .home-explore-card:active,.home-tool-card:active,.home-kamipara-card:active{transform:translateY(-1px)}
     .home-more-button:active{transform:translateY(0);background:#332a9e;color:#fff}
@@ -2177,6 +2177,16 @@
       .home-explore-card,.home-tool-card,.home-kamipara-card,.home-kamipara-card::before,.home-kamipara-stat,.home-kamipara-cta,.home-explore-arrow,.home-explore-icon,.home-explore-card::before,.home-recent-section .recent-event > .site-row-chevron,.home-tool-icon,.home-tool-card::before,.home-tool-cta,.home-more-button{transition:none}
       .home-explore-card:hover,.home-tool-card:hover,.home-kamipara-card:hover,.home-explore-card:active,.home-tool-card:active,.home-kamipara-card:active,.home-tool-card:hover .home-tool-cta{transform:none}
     }
+
+    /* Home title-only feedback; row click targets and data remain unchanged. */
+    #todayContent a:focus-visible,#topSongs .home-top-song-row:focus-visible{outline:none;background:transparent}
+    #todayContent a:focus-visible .mus-link-label,#topSongs .home-top-song-row:focus-visible .mus-link-label{outline:3px solid var(--indigo);outline-offset:3px;border-radius:4px;color:var(--indigo);text-decoration:underline;text-underline-offset:3px}
+    @media (hover:hover) and (pointer:fine){
+      #todayContent .mus-link-label:hover,#topSongs .mus-link-label:hover{color:var(--indigo);text-decoration:underline;text-underline-offset:3px;background:#f2efff;border-radius:4px}
+      #todayContent .mus-link-label:hover .mus-link-chevron,#topSongs .mus-link-label:hover .mus-link-chevron{transform:translateX(3px)}
+    }
+    #todayContent a:focus-visible .mus-link-chevron,#topSongs .home-top-song-row:focus-visible .mus-link-chevron{transform:translateX(3px)}
+    @media(prefers-reduced-motion:reduce){#todayContent .mus-link-chevron,#topSongs .mus-link-chevron{transform:none!important}}
   </style>
 
   <script src="assets/js/seo-v351.js?v=4.6.2&amp;cache=domain-c&songUrls=1" defer></script>
@@ -2329,7 +2339,7 @@
             <div class="birthday-content" id="birthdayContent"></div>
           </section>
 
-          <div class="today-content-v45" id="todayContent"></div>
+          <div class="today-content-v45 mus-link-scope" id="todayContent"></div>
         </div>
       </article>
     </section>
@@ -2459,6 +2469,6 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/home-v453.js?v=4.9.11&amp;cache=today-unique-songs&songUrls=1&headerNav=3&footer=3"></script>
+  <script type="module" src="assets/js/home-v453.js?v=4.9.12&amp;cache=today-top5-links&songUrls=1&headerNav=3&footer=3"></script>
 </body>
 </html>

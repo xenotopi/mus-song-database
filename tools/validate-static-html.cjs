@@ -113,20 +113,37 @@ function validateHead(doc, type, id, data, revision) {
 
 function validateYoutubeBody(doc, type, item, audio) {
   check(audio?.schemaVersion === 1 && object(audio.songs), 'YouTube data schema invalid');
+  const videoIds = new Set();
   for (const [id, row] of Object.entries(audio.songs)) {
     check(/^S\d{3}$/.test(id) && /^[A-Za-z0-9_-]{11}$/.test(row.videoId) && row.publicationStatus === 'approved_for_publication' && row.contentType === 'official_audio' && row.embedAllowedAtVerification === true && row.sourceUrl === 'https://www.youtube.com/watch?v=' + row.videoId, 'YouTube publication/source invalid');
+    check(/^UC[A-Za-z0-9_-]{22}$/.test(row.channelId || ''), 'YouTube channel ID invalid');
+    check(!videoIds.has(row.videoId), 'Duplicate YouTube video ID'); videoIds.add(row.videoId);
+    const box = row.recordingBasis === 'complete_best_box';
+    check(row.recordingBasis === undefined || box, 'Unknown YouTube recording basis');
+    if (box) check(row.recording?.releaseId === 'R0090' && row.recording.songVersion === '通常' && row.recording.variant === null && Number.isInteger(row.recording.disc) && row.recording.disc > 0 && Number.isInteger(row.recording.track) && row.recording.track > 0 && Number.isInteger(row.recording.displayOrder) && row.recording.displayOrder > 0 && row.loadMode === 'click', 'YouTube BOX recording scope invalid');
+    else check(row.recording?.releaseId !== 'R0090', 'YouTube BOX recording requires explicit basis');
   }
   check(!doc.nodes.some(n => n.tag === 'iframe' && /youtube/.test(n.attrs.src || '')), 'Initial YouTube iframe is forbidden');
   const match = (row, releaseId, t) => row.recording.releaseId === releaseId && row.recording.relationId === t.relationId && (t.variant ?? null) === row.recording.variant && (t.disc ?? null) === row.recording.disc && (t.track ?? null) === row.recording.track && t.displayOrder === row.recording.displayOrder;
   if (type === 'song') {
     const row = audio.songs[item.songId], section = doc.ids.get('songYoutubeSection');
     if (!row) { check(!section, 'Unregistered Song has YouTube UI'); return; }
-    check(item.version === row.recording.songVersion && item.debutRelease?.releaseId === row.recording.releaseId && item.includedReleases.filter(t => match(row, t.releaseId, t)).length === 1, 'YouTube Song recording mismatch');
+    const box = row.recordingBasis === 'complete_best_box';
+    const bindings = item.includedReleases.filter(t => match(row, t.releaseId, t));
+    check(item.version === row.recording.songVersion && (box || item.debutRelease?.releaseId === row.recording.releaseId) && bindings.length === 1, 'YouTube Song recording mismatch');
     const stats = byId(doc, 'songStats');
     check(section && section.parent === stats.parent && section.parent.children.indexOf(section) < section.parent.children.indexOf(stats), 'YouTube audio/statistics placement mismatch');
     check(section.attrs['data-video-id'] === row.videoId, 'YouTube video ID mismatch');
     check(descendants(section, n => n.tag === 'img' && n.attrs.src === 'https://i.ytimg.com/vi/' + row.videoId + '/hqdefault.jpg').length === 1, 'YouTube preview image missing/mismatched');
     check(descendants(section, n => n.tag === 'a' && n.attrs.href === row.sourceUrl).length === 1, 'YouTube fallback missing/mismatched');
+    const sourceNodes = descendants(section, n => Object.hasOwn(n.attrs, 'data-youtube-recording-source'));
+    if (box) {
+      check(sourceNodes.length === 1 && sourceNodes[0].attrs['data-youtube-recording-source'] === 'complete_best_box', 'YouTube BOX source missing/mismatched');
+      const links = descendants(sourceNodes[0], n => n.tag === 'a');
+      check(links.length === 1 && links[0].attrs.href === 'release/R0090.html' && cleanText(links[0]) === "μ's Complete BEST BOX", 'YouTube BOX source link invalid');
+      const date = bindings[0].releaseDate || '', year = /^\d{4}-\d{2}-\d{2}$/.test(date) ? '（' + date.slice(0, 4) + '年）' : '';
+      check(cleanText(sourceNodes[0]) === "収録音源：μ's Complete BEST BOX" + year + ' / Disc ' + row.recording.disc + ' / Track ' + row.recording.track, 'YouTube BOX source position invalid');
+    } else check(sourceNodes.length === 0, 'Non-BOX audio has BOX source');
   } else {
     const expected = (item.includedSongs || []).filter(t => { const row = audio.songs[t.songId]; return row && match(row, item.releaseId, t); });
     const actual = doc.nodes.filter(n => Object.hasOwn(n.attrs, 'data-youtube-relation'));
@@ -351,7 +368,7 @@ function validateReleaseBody(doc, release, releaseList, productContents = null, 
     const host=ancestor(n=>hasClass(n,"release-disc-details")||hasClass(n,"release-disc-group"));
     if(g.disc!==null||g.collapsible){
       check(host,"Release Disc group missing");
-      const title=one(descendants(host,n=>n.tag==="summary"||hasClass(n,"release-disc-heading")),"Release Disc heading missing");
+      const title=one(host.children.filter(n=>typeof n!=="string"&&(host.tag==="details"?n.tag==="summary":host.tag==="section"&&n.tag==="h3"&&hasClass(n,"release-disc-heading"))),"Release Disc heading missing");
       const trackCount=productContents?productContents.discs.find(d=>String(d.disc)===g.disc).tracks.length:g.data.length;
       equal(cleanText(title),(g.disc===null?"Disc未登録":"Disc "+g.disc)+(g.common?" · "+g.common:"")+trackCount+(g.data.every(r=>r.track!=null)?"トラック":"件"),"Release Disc/heading variant mismatch");
     }else check(!host,"Release unregistered Disc must not be invented");

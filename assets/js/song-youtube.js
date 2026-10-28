@@ -18,6 +18,13 @@ export function youtubeRecord(data, songId, hostname = location.hostname) {
     if (!LOCAL_HOSTS.has(hostname)) return null;
   } else if (row.publicationStatus !== "approved_for_publication") return null;
   if (row.contentType !== "official_audio" || !/^R\d{4}$/.test(row.recording?.releaseId || "") || !/^RT\d{4}$/.test(row.recording?.relationId || "") || typeof row.recording?.songVersion !== "string") return null;
+  const box = row.recordingBasis === 'complete_best_box';
+  if (row.recordingBasis !== undefined && !box) return null;
+  if (box && (row.recording.releaseId !== 'R0090' || row.recording.songVersion !== '通常' || row.recording.variant !== null ||
+      !Number.isInteger(row.recording.disc) || row.recording.disc < 1 || !Number.isInteger(row.recording.track) || row.recording.track < 1 ||
+      !Number.isInteger(row.recording.displayOrder) || row.recording.displayOrder < 1 || row.loadMode !== 'click')) return null;
+  if (!box && row.recording.releaseId === 'R0090') return null;
+  if (Object.entries(data.songs).some(([id, other]) => id !== songId && other?.videoId === row.videoId)) return null;
   return row;
 }
 
@@ -39,17 +46,32 @@ export function releaseYoutubeRecord(data, release, track, hostname = location.h
       (track.track ?? null) !== r.track || track.displayOrder !== r.displayOrder) return null;
   return row;
 }
+export function songYoutubeRecord(data, song, hostname = location.hostname) {
+  const row = youtubeRecord(data, song?.songId, hostname);
+  if (!row || song.version !== row.recording.songVersion) return null;
+  const box = row.recordingBasis === 'complete_best_box';
+  if (!box && song.debutRelease?.releaseId !== row.recording.releaseId) return null;
+  const bindings = song.includedReleases?.filter(t => t.releaseId === row.recording.releaseId && t.relationId === row.recording.relationId) || [];
+  if (bindings.length !== 1 || !releaseYoutubeRecord(data, {releaseId: bindings[0].releaseId}, {...bindings[0], songId: song.songId}, hostname)) return null;
+  return row;
+}
 export async function renderSongYoutube(song, after) {
   if (!after?.isConnected) return null;
-  const data = await loadData(), row = youtubeRecord(data, song?.songId);
-  const bindings = song?.includedReleases?.filter(t => t.relationId === row?.recording?.relationId) || [];
-  if (!row || song.version !== row.recording.songVersion || song.debutRelease?.releaseId !== row.recording.releaseId || bindings.length !== 1 ||
-      !releaseYoutubeRecord(data, {releaseId: bindings[0].releaseId}, { ...bindings[0], songId: song.songId })) return null;
+  const data = await loadData(), row = songYoutubeRecord(data, song);
+  if (!row) return null;
   const existing = document.getElementById('songYoutubeSection');
-
   const statsCard = after.querySelector('#songStats')?.closest('.card');
   if (!statsCard) return null;
   const section = createPlayer(row, 'songYoutubeSection', true);
+  if (row.recordingBasis === 'complete_best_box') {
+    const binding = song.includedReleases.find(t => t.releaseId === row.recording.releaseId && t.relationId === row.recording.relationId);
+    const source = document.createElement('p'); source.className = 'song-youtube-note';
+    source.dataset.youtubeRecordingSource = 'complete_best_box';
+    const link = document.createElement('a'); link.href = 'release/R0090.html'; link.textContent = "μ's Complete BEST BOX";
+    const year = /^\d{4}-\d{2}-\d{2}$/.test(binding.releaseDate || '') ? '（' + binding.releaseDate.slice(0, 4) + '年）' : '';
+    source.append('収録音源：', link, year + ' / Disc ' + row.recording.disc + ' / Track ' + row.recording.track);
+    section.querySelector('.song-youtube-credit').after(source);
+  }
   statsCard.classList.add('song-audio-stats');
   if (existing) existing.replaceWith(section);
   else statsCard.prepend(section);

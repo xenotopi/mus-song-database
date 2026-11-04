@@ -1,0 +1,6 @@
+/* Shared by the member directory and analytics; no generic anchor changes. */
+:is(.singers-member-link,.member-analytics-person-link){gap:4px;align-items:center}
+.singers-member-arrow{display:inline-flex;align-items:center;justify-content:center;flex:none;color:var(--indigo);background:#f0edfb;border-radius:5px;width:20px;height:22px;padding:0;font-size:16px;line-height:1;align-self:center}
+.singers-member-arrow .site-icon{display:block;width:14px;height:14px}
+:is(.singers-member-link,.member-analytics-person-link):hover{color:var(--indigo);text-decoration:underline}
+:is(.singers-member-link,.member-analytics-person-link):focus-visible{outline:3px solid var(--indigo);outline-offset:3px;border-radius:3px}

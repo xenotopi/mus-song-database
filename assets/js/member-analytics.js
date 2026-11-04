@@ -54,8 +54,9 @@ function memberLink(name, fullName, index) {
   const link = element('a', 'member-analytics-person-link', name);
   link.href = buildSingerUrl(person);
   link.setAttribute('aria-label', `${fullName}の歌唱メンバー詳細`);
-  const arrow = element('span', '', '›');
+  const arrow = element('span', 'singers-member-arrow', '›');
   arrow.setAttribute('aria-hidden', 'true');
+  arrow.setAttribute('data-site-icon', 'chevron-right');
   link.append(arrow);
   return link;
 }

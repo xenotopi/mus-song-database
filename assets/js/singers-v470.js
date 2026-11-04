@@ -343,9 +343,9 @@ function renderMajorMembers() {
     return `
       <div class="singers-member-card"
         style="--member-color:${escapeHtml(filter.color || "#dfdced")}">
-        <a class="singers-member-link" href="${buildSingerUrl(item)}"><span>${escapeHtml(filter.label)}</span><span class="singers-member-arrow" aria-hidden="true">›</span></a>
+        <a class="singers-member-link" href="${buildSingerUrl(item)}"><span>${escapeHtml(filter.label)}</span><span class="singers-member-arrow" data-site-icon="chevron-right" aria-hidden="true">›</span></a>
         <span class="singers-member-divider" aria-hidden="true">｜</span>
-        <a class="singers-member-link" href="${buildSingerUrl(cast.item)}"><span>${escapeHtml(cast.filter.label)}</span><span class="singers-member-arrow" aria-hidden="true">›</span></a>
+        <a class="singers-member-link" href="${buildSingerUrl(cast.item)}"><span>${escapeHtml(cast.filter.label)}</span><span class="singers-member-arrow" data-site-icon="chevron-right" aria-hidden="true">›</span></a>
       </div>
     `;
   }).join("");

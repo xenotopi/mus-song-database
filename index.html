@@ -1059,24 +1059,34 @@
     }
 
     .home-search-button-v45 {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      align-self: stretch;
       min-width: 122px;
       min-height: 58px;
       padding: 0 22px;
-      border: 1px solid rgba(255,255,255,.3);
+      border: 1px solid #c4b5fd;
       border-radius: 16px;
-      background: rgba(255,255,255,.12);
-      color: #fff;
-      font-size: 13px;
+      background: #e9e2ff;
+      color: var(--navy);
+      font-size: 14px;
       font-weight: 900;
-      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(9,14,40,.18);
       cursor: pointer;
-      transition: .15s ease;
+      transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
     }
 
     .home-search-button-v45:hover {
-      background: #fff;
-      color: var(--indigo);
-      transform: translateY(-2px);
+      background: #f3efff;
+      border-color: #ddd6fe;
+      box-shadow: 0 6px 16px rgba(9,14,40,.22);
+    }
+
+    .home-search-button-v45:focus-visible {
+      outline: 3px solid #fff;
+      outline-offset: 3px;
+      box-shadow: 0 0 0 5px rgba(99,102,241,.45);
     }
 
     .home-system-status {
@@ -1526,11 +1536,6 @@
 
       .home-search-form-v45 {
         grid-template-columns: 1fr;
-      }
-
-      .home-search-button-v45 {
-        background: #fff;
-        color: var(--indigo);
       }
 
       .home-explore {
@@ -2187,13 +2192,12 @@
     }
     #todayContent a:focus-visible .mus-link-chevron,#topSongs .home-top-song-row:focus-visible .mus-link-chevron{transform:translateX(3px)}
     @media(prefers-reduced-motion:reduce){#todayContent .mus-link-chevron,#topSongs .mus-link-chevron{transform:none!important}}
-    .home-search-examples{display:grid;gap:4px;margin:10px auto 0;max-width:760px;text-align:left;font-size:13px;line-height:1.6}
-    .home-search-examples>span{font-weight:700;color:#514b76}
-    .home-search-examples>div{display:flex;flex-wrap:wrap;align-items:center;gap:3px 8px}
-    .home-search-examples b{color:#5d5777;font-size:12px;min-width:28px}
-    .home-search-examples a{display:inline-flex;align-items:center;min-height:32px;padding:2px 7px;max-width:100%;border:1px solid #dfd9ee;border-radius:8px;background:#fff;color:#55478b;text-decoration:none;overflow-wrap:anywhere}
-    .home-search-examples a:hover{background:#f0edfb;border-color:#afa2d6}
-    .home-search-examples a:focus-visible{outline:3px solid #7866bd;outline-offset:2px}
+    .home-search-examples{display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;margin:12px 0 0;text-align:left;font-size:14px;line-height:1.7}
+    .home-search-examples>span{font-weight:800;color:#fff;white-space:nowrap}
+    .home-search-examples a{display:inline-flex;align-items:center;min-height:36px;max-width:100%;color:rgba(255,255,255,.86);text-decoration:underline;text-underline-offset:4px;overflow-wrap:anywhere}
+    .home-search-examples a:hover{color:#fff;text-decoration-thickness:2px}
+    .home-search-examples a:focus-visible{color:#fff;outline:3px solid #fff;outline-offset:3px;border-radius:3px}
+    @media(min-width:901px){.home-hero-inner{width:100% !important;max-width:none !important}}
   </style>
 
   <script src="assets/js/seo-v351.js?v=4.6.2&amp;cache=domain-c&songUrls=1" defer></script>
@@ -2237,9 +2241,9 @@
           </button>
         </form>
         <div class="home-search-examples" aria-label="試しに検索">
-          <span>試しに検索</span>
-          <div><b>名義</b><a href="search.html?q=%CE%BC%27s">μ's</a><a href="search.html?q=Printemps">Printemps</a><a href="search.html?q=lily%20white">lily white</a><a href="search.html?q=BiBi">BiBi</a><a href="search.html?q=%E3%81%88%E3%81%BF%E3%81%A4%E3%82%93">えみつん</a></div>
-          <div><b>楽曲</b><a href="search.html?q=%E3%81%BC%E3%82%89%E3%82%89%E3%82%89">ぼららら</a><a href="search.html?q=%E3%82%B9%E3%83%8E%E3%83%8F%E3%83%AC">スノハレ</a><a href="search.html?q=%E5%A4%8F%E8%89%B2%E3%81%88%E3%81%8C%E3%81%8A%E3%81%A71%2C2%2CJump%21">夏色えがおで1,2,Jump!</a></div>
+          <span>試しに検索：</span>
+          <a href="search.html?q=%CE%BC%27s">μ's</a><a href="search.html?q=Printemps">Printemps</a><a href="search.html?q=lily%20white">lily white</a><a href="search.html?q=BiBi">BiBi</a><a href="search.html?q=%E3%81%88%E3%81%BF%E3%81%A4%E3%82%93">えみつん</a>
+          <a href="search.html?q=%E3%81%BC%E3%82%89%E3%82%89%E3%82%89">ぼららら</a><a href="search.html?q=%E3%82%B9%E3%83%8E%E3%83%8F%E3%83%AC">スノハレ</a><a href="search.html?q=%E5%A4%8F%E8%89%B2%E3%81%88%E3%81%8C%E3%81%8A%E3%81%A71%2C2%2CJump%21">夏色えがおで1,2,Jump!</a>
         </div>
       </div>
 

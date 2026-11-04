@@ -1,4 +1,6 @@
-import { buildSongUrl } from "./api.js?v=5.3.0&cache=song-static-urls&songUrls=1";
+import { buildSongUrl, apiGet } from "./api.js?v=5.3.0&cache=song-static-urls&songUrls=1";
+import { findIndividual } from './singer-members.js?v=1';
+import { buildSingerUrl } from './singer-links.js?v=4.8.0';
 import { renderCommon } from "./common.js?v=4.13.0&cache=release-ux&songUrls=1";
 import { staticMemberAnalytics } from "./static-detail.js";
 import { prepareSongViewGroups, loadSongGroupMemberships } from "./song-view-group-filter.js?v=2";
@@ -23,6 +25,7 @@ const shortNames = {
   cast: ["新田", "南條", "内田", "三森", "飯田", "Pile", "楠田", "久保", "徳井"]
 };
 let data;
+let singerCatalog;
 let orderedSongs;
 let filterGroups;
 const selectedGroups = new Set();
@@ -36,11 +39,25 @@ function element(tag, className, text) {
 }
 
 function columnHead(name, fullName, index) {
-  const th = element("th", "member-analytics-person-head", name);
+  const th = element("th", "member-analytics-person-head");
+  th.append(memberLink(name, fullName, index));
   th.style.setProperty("--member-color", colors[index]);
   th.title = fullName;
   th.setAttribute("aria-label", fullName);
   return th;
+}
+
+function memberLink(name, fullName, index) {
+  const key = singerCatalog?.memberFilters?.[mode === 'cast' ? 'solo' : 'official']?.[index]?.key;
+  const person = findIndividual(singerCatalog, mode === 'cast' ? 'ソロ' : '公式', key);
+  if (!person || person.displayName !== fullName) return element('span', '', name);
+  const link = element('a', 'member-analytics-person-link', name);
+  link.href = buildSingerUrl(person);
+  link.setAttribute('aria-label', `${fullName}の歌唱メンバー詳細`);
+  const arrow = element('span', '', '›');
+  arrow.setAttribute('aria-hidden', 'true');
+  link.append(arrow);
+  return link;
 }
 
 function renderSummary(rows, names) {
@@ -63,7 +80,8 @@ function renderSummary(rows, names) {
   rows.forEach((row, index) => {
     const item = element("div", "member-analytics-mobile-person");
     item.style.setProperty("--member-color", colors[index]);
-    const name = element("strong", "", names[index]);
+    const name = element("strong");
+    name.append(memberLink(names[index], row.memberName, index));
     name.title = row.memberName;
     item.append(name);
     for (const [key, unit] of [["performanceCount", "件"], ["uniqueSongCount", "曲"], ["eventCount", "イベント"]]) {
@@ -123,7 +141,7 @@ function renderTable(fullNames, names, songs, countKey) {
       const cell = element("span", count === 0 ? "member-analytics-zero" : count === maximum ? "member-analytics-maximum" : "");
       cell.title = fullNames[index];
       cell.style.setProperty("--member-color", colors[index]);
-      cell.append(element("span", "", names[index]), element("strong", "", count));
+      cell.append(memberLink(names[index], fullNames[index], index), element("strong", "", count));
       grid.append(cell);
     });
     article.append(header, grid);
@@ -252,7 +270,8 @@ buttons.forEach(button => button.addEventListener("click", () => {
 Promise.all([staticMemberAnalytics(), fetch("data/song-view-groups.json").then(response => {
   if (!response.ok) throw new Error("Song view groups unavailable");
   return response.json();
-}), loadSongGroupMemberships()]).then(([result, master, memberships]) => {
+}), loadSongGroupMemberships(), apiGet('singerList').then(response => response.data).catch(() => null)]).then(([result, master, memberships, catalog]) => {
+  singerCatalog = catalog;
   data = result.data;
   ({ groups: filterGroups, songs: orderedSongs } = prepareGroups(master, data.songs, memberships));
   renderFilters();

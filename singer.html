@@ -158,6 +158,15 @@
       color:var(--indigo);
       text-decoration:underline;
     }
+    .singer-related{display:grid;gap:14px}
+    .singer-related h3{font-size:14px;margin:0 0 6px;color:var(--muted)}
+    .singer-related details{border:1px solid #dfdced;border-radius:12px;padding:0 12px}
+    .singer-related summary{cursor:pointer;min-height:44px;align-content:center;font-weight:700}
+    .singer-related-links{display:flex;flex-wrap:wrap;gap:6px 12px;padding:4px 0 10px}
+    .singer-related-link{display:inline-flex;align-items:center;gap:5px;min-height:36px;max-width:100%;color:var(--navy);text-decoration:none;overflow-wrap:anywhere}
+    .singer-related-link span{flex:none;color:var(--indigo)}
+    .singer-related-link:hover{color:var(--indigo);text-decoration:underline}
+    .singer-related-link:focus-visible,.singer-related summary:focus-visible{outline:3px solid var(--indigo);outline-offset:3px;border-radius:4px}
   </style>
 
   <script src="assets/js/seo-v351.js?v=4.8.0&amp;cache=domain-c&songUrls=1" defer></script>
@@ -168,7 +177,7 @@
   <div id="siteHeader"></div>
 
   <main class="singer-page mus-link-scope">
-    <div class="breadcrumb"><a href="index.html">ホーム</a> <span class="site-icon-inline site-breadcrumb-icon" data-site-icon="chevron-right" aria-hidden="true"></span> 歌唱名義詳細</div>
+    <div class="breadcrumb"><a href="index.html">ホーム</a> <span class="site-icon-inline site-breadcrumb-icon" data-site-icon="chevron-right" aria-hidden="true"></span> <span id="singerPageType">歌唱名義詳細</span></div>
 
     <section class="singer-hero singer-hero-v46">
       <p class="singer-kicker">SINGING NAME DETAIL</p>
@@ -245,11 +254,15 @@
       </div>
       <div class="singer-song-list" id="songsList"></div>
     </section>
+    <section class="singer-section" id="singerRelatedSection" hidden>
+      <h2>関連する歌唱名義</h2>
+      <div id="singerRelated" class="singer-related"></div>
+    </section>
   </main>
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/singer-v460.js?v=4.9.6&amp;cache=revision-nonblocking&songUrls=1&headerNav=3&footer=3"></script>
+  <script type="module" src="assets/js/singer-v460.js?v=4.10.0&amp;cache=revision-nonblocking&songUrls=1&headerNav=3&footer=3"></script>
   <script type="module">
     import {
       setupDetailContext

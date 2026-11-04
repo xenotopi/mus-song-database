@@ -195,7 +195,10 @@
       font-weight:800;
     }
 
-    .singers-compare-link{ margin:22px 0 0; }
+    .singers-compare-link{display:inline-flex;align-items:center;gap:8px;margin:22px 0 0;padding:10px 14px;border:1px dashed #aea3d8;border-radius:10px;background:#f6f4ff;color:var(--indigo);font-weight:700;text-decoration:none;min-height:44px}
+    .singers-compare-link:hover{background:#eeebfc}
+    .singers-compare-link:focus-visible{outline:3px solid var(--indigo);outline-offset:3px}
+    .singers-member-arrow{flex:none;color:var(--indigo);background:#f0edfb;border-radius:5px;padding:0 5px;line-height:22px}
 
     .singers-mus-link[hidden]{ display:none; }
 
@@ -207,10 +210,10 @@
 
     .singers-member-card{
       display:grid;
-      grid-template-columns:max-content max-content max-content;
+      grid-template-columns:minmax(0,1fr) 1px minmax(0,1fr);
       justify-content:center;
       align-items:center;
-      gap:5px;
+      gap:10px;
       min-width:0;
       padding:12px;
       border:1px solid #dfdced;
@@ -223,6 +226,10 @@
     }
 
     .singers-member-link{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      min-height:36px;
       min-width:0;
       color:inherit;
       text-decoration:none;
@@ -230,8 +237,9 @@
     }
 
     .singers-member-divider{
-      color:var(--muted);
-      font-weight:400;
+      background:#dfdced;
+      align-self:stretch;
+      font-size:0;
     }
 
     .singers-member-link:hover{
@@ -689,7 +697,7 @@
       </div>
       <a class="singers-mus-link" id="musLink" hidden>μ's の歌唱記録を見る <span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></a>
       <div class="singers-member-grid" id="majorMembers"></div>
-      <a class="singers-mus-link singers-compare-link" href="member-analytics.html">メンバー別歌唱記録を比較 <span class="site-icon-inline " data-site-icon="arrow-right" aria-hidden="true"></span></a>
+      <a class="singers-compare-link" href="member-analytics.html"><span class="site-icon-inline" data-site-icon="chart-no-axes-column-increasing" aria-hidden="true"></span> メンバー別歌唱記録を比較 <span aria-hidden="true">›</span></a>
     </section>
 
     <section class="singers-section" id="listSection" hidden>
@@ -763,7 +771,7 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/singers-v470.js?v=4.9.17&amp;cache=member-pairs&headerNav=3&footer=3"></script>
+  <script type="module" src="assets/js/singers-v470.js?v=4.10.0&amp;cache=member-pairs&headerNav=3&footer=3"></script>
 
 <style>
 /* STEP14-B FINAL: singing-name color lines */

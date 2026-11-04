@@ -1,4 +1,6 @@
 import { singerDisplayName } from "./singer-display.js?v=1.0.0";
+import { individualSingers, relatedSingers } from './singer-members.js?v=1';
+import { buildSingerUrl } from './singer-links.js?v=4.8.0';
 import { buildSongUrl,
   apiGet,
   escapeHtml,
@@ -310,7 +312,7 @@ function setupFilters() {
   });
 }
 
-function render(data) {
+function render(data, catalog) {
   const summary = data.summary || {};
   const originalName = data.displayName || data.singerName || "歌唱名義未設定";
   const name = singerDisplayName(data, originalName);
@@ -318,8 +320,21 @@ function render(data) {
   el.singerName.textContent = name;
   renderSingerColors(originalName);
 
-  document.title =
-    `${name} | 歌唱名義詳細 | μ's Song Database`;
+  const personal = data.aggregationScope === 'participant' || individualSingers(catalog).some(item => item.singerId === data.singerId);
+  const type = personal ? '歌唱メンバー詳細' : '歌唱名義詳細';
+  document.title = `${name} | ${type} | μ's Song Database`;
+  document.getElementById('singerPageType').textContent = type;
+  document.querySelector('.singer-kicker').textContent = personal ? 'SINGING MEMBER DETAIL' : 'SINGING NAME DETAIL';
+  document.querySelector('.singer-sub').textContent = personal
+    ? '合同名義での参加を含む、このメンバーの歌唱履歴を確認できます。'
+    : 'この歌唱名義が残してきた歌唱履歴を確認できます。';
+  const related = relatedSingers(catalog, data.singerId);
+  const relatedHost = document.getElementById('singerRelated');
+  const links = items => items.map(item => `<a class="singer-related-link" href="${buildSingerUrl(item)}">${escapeHtml(singerDisplayName(item, item.displayName))}<span aria-hidden="true">›</span></a>`).join('');
+  relatedHost.innerHTML = related.map(group => group.collapsed
+    ? `<details><summary>${escapeHtml(group.label)}</summary><div class="singer-related-links">${links(group.items)}</div></details>`
+    : `<div><h3>${escapeHtml(group.label)}</h3><div class="singer-related-links">${links(group.items)}</div></div>`).join('');
+  document.getElementById('singerRelatedSection').hidden = !related.length;
 
   if (
     data.singerId &&
@@ -387,16 +402,18 @@ async function loadSinger() {
   el.retryButton.hidden = true;
 
   try {
+    const catalogPromise = apiGet('singerList').then(response => response.data).catch(() => null);
     const response = await apiGet(
       "singer",
       {
         id: singerId,
         name: singerName,
-        category: singerCategory
+        category: singerCategory,
+        viewScope: 'participant-v1'
       }
     );
     const singerData = response.data || response;
-    render(singerData);
+    render(singerData, await catalogPromise);
 
     const renderedSingerId = String(
       singerData.singerId || singerId

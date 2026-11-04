@@ -1,5 +1,5 @@
 import { singerDisplayName } from "./singer-display.js?v=1.0.0";
-import { individualSingers, relatedSingers } from './singer-members.js?v=1';
+import { individualSingers, findIndividual, relatedSingers } from './singer-members.js?v=2-singer-related-ux-02';
 import { buildSingerUrl } from './singer-links.js?v=4.8.0';
 import { buildSongUrl,
   apiGet,
@@ -312,6 +312,41 @@ function setupFilters() {
   });
 }
 
+function renderSingerMemberNavigation(catalog, currentId) {
+  const host = document.getElementById('singerMemberNavigation');
+  host.hidden = true;
+  host.innerHTML = '';
+  host.onchange = null;
+  if (!individualSingers(catalog).some(person => person.singerId === currentId)) return;
+  const keys = (catalog?.memberFilters?.official || []).map(filter => filter.key);
+  if (keys.length !== 9 || new Set(keys).size !== 9) return;
+  const groups = [{ label: 'キャラクター', category: '公式' }, { label: 'キャスト', category: 'ソロ' }]
+    .map(group => ({ ...group, items: keys.map(key => findIndividual(catalog, group.category, key)) }));
+  if (groups.some(group => group.items.some(item => !item))) return;
+  const members = groups.flatMap(group => group.items);
+  const index = members.findIndex(item => item.singerId === currentId);
+  if (index < 0) return;
+  const link = (item, forward) => '<a class="song-switch-link' + (forward ? ' next' : '') + (item ? '' : ' disabled') +
+    '" id="' + (forward ? 'nextMemberButton' : 'previousMemberButton') + '"' +
+    (item ? ' href="' + buildSingerUrl(item) + '"' : ' aria-disabled="true" tabindex="-1"') + '>' +
+    '<span class="song-switch-label">' + (forward ? '次のメンバー <span class="site-icon-inline" data-site-icon="arrow-right" aria-hidden="true"></span>' : '<span class="site-icon-inline" data-site-icon="arrow-left" aria-hidden="true"></span> 前のメンバー') + '</span>' +
+    '<span class="song-switch-title">' + escapeHtml(item ? item.displayName : forward ? '次のメンバーはいません' : '前のメンバーはいません') + '</span></a>';
+  host.innerHTML = link(members[index - 1], false) +
+    '<div class="song-switch-select-wrap"><label for="singerMemberPicker">メンバーを切り替える</label>' +
+    '<select class="song-switch-select" id="singerMemberPicker">' + groups.map(group =>
+      '<optgroup label="' + group.label + '">' + group.items.map(item =>
+        '<option value="' + buildSingerUrl(item) + '"' + (item.singerId === currentId ? ' selected' : '') + '>' +
+        escapeHtml(item.displayName) + '</option>').join('') + '</optgroup>').join('') + '</select></div>' +
+    link(members[index + 1], true);
+  host.onchange = event => {
+    if (event.target.id === 'singerMemberPicker' && members.some(item => buildSingerUrl(item) === event.target.value)) {
+      window.location.assign(event.target.value);
+    }
+  };
+  host.hidden = false;
+}
+
+
 function render(data, catalog) {
   const summary = data.summary || {};
   const originalName = data.displayName || data.singerName || "歌唱名義未設定";
@@ -328,12 +363,15 @@ function render(data, catalog) {
   document.querySelector('.singer-sub').textContent = personal
     ? '合同名義での参加を含む、このメンバーの歌唱履歴を確認できます。'
     : 'この歌唱名義が残してきた歌唱履歴を確認できます。';
+  renderSingerMemberNavigation(catalog, data.singerId);
   const related = relatedSingers(catalog, data.singerId);
+  const relatedOrder = ['担当キャスト', 'キャラクター', '関連ユニット', 'ほかのメンバー', '参加した歌唱名義'];
+  related.sort((a, b) => relatedOrder.indexOf(a.label) - relatedOrder.indexOf(b.label));
   const relatedHost = document.getElementById('singerRelated');
-  const links = items => items.map(item => `<a class="singer-related-link" href="${buildSingerUrl(item)}">${escapeHtml(singerDisplayName(item, item.displayName))}<span aria-hidden="true">›</span></a>`).join('');
-  relatedHost.innerHTML = related.map(group => group.collapsed
-    ? `<details><summary>${escapeHtml(group.label)}</summary><div class="singer-related-links">${links(group.items)}</div></details>`
-    : `<div><h3>${escapeHtml(group.label)}</h3><div class="singer-related-links">${links(group.items)}</div></div>`).join('');
+  const links = group => `<div class="singer-related-links${group.layout === 'cards' ? ' singer-related-cards' : ''}">${group.items.map(item => `<a class="singer-related-link" href="${buildSingerUrl(item)}"><span class="singer-related-label">${escapeHtml(singerDisplayName(item, item.displayName))}</span><span class="singers-member-arrow" data-site-icon="chevron-right" aria-hidden="true"></span></a>`).join('')}</div>`;
+  relatedHost.innerHTML = related.map(group => group.collapsed && group.label !== 'ほかのメンバー'
+    ? `<details><summary>${escapeHtml(group.label)}</summary>${links(group)}</details>`
+    : `<div><h3>${escapeHtml(group.label)}</h3>${links(group)}</div>`).join('');
   document.getElementById('singerRelatedSection').hidden = !related.length;
 
   if (

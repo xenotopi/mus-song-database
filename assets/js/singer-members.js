@@ -20,9 +20,9 @@ export function relatedSingers(catalog, id) {
   if (!current) return [];
   const person = individualSingers(catalog).some(item => item.singerId === id);
   const groups = [];
-  const add = (label, items, collapsed = false) => {
+  const add = (label, items, collapsed = false, layout) => {
     const unique = [...new Map(items.filter(item => item && item.singerId !== id).map(item => [item.singerId, item])).values()];
-    if (unique.length) groups.push({ label, items: unique, collapsed });
+    if (unique.length) groups.push({ label, items: unique, collapsed, ...(layout ? { layout } : {}) });
   };
   if (person) {
     const key = current.memberShorts[0];
@@ -31,8 +31,11 @@ export function relatedSingers(catalog, id) {
       singerDisplayName(item) && item.memberShorts.includes(key));
     add('関連ユニット', units);
     add('参加した歌唱名義', all.filter(item => item.category === current.category && item.memberCount > 1 &&
-      item.performanceCount > 0 && item.memberShorts.includes(key) && !units.some(unit => unit.singerId === item.singerId)), true);
-    add('ほかのメンバー', individualSingers(catalog).filter(item => item.category === current.category), true);
+      item.performanceCount > 0 && item.memberShorts.includes(key) && !units.some(unit => unit.singerId === item.singerId)), true, 'cards');
+    const peerKeys = (catalog.memberFilters?.official || []).map(filter => filter.key);
+    const peers = peerKeys.length === 9 && new Set(peerKeys).size === 9
+      ? peerKeys.map(peerKey => findIndividual(catalog, current.category, peerKey)) : [];
+    add('ほかのメンバー', peers, true);
   } else {
     add('構成メンバー', (current.memberShorts || []).map(key => findIndividual(catalog, current.category, key)));
   }

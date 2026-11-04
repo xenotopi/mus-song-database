@@ -55,9 +55,7 @@
     /* v4.6 Singer Detail */
     .singer-hero-v46{
       position:relative;overflow:hidden;padding-bottom:38px;
-      background:
-        radial-gradient(circle at 88% 8%,rgba(126,111,255,.20),transparent 27%),
-        linear-gradient(135deg,#18213d 0%,#293263 54%,#5147c9 100%);
+      background:#2A3269;
       box-shadow:0 18px 46px rgba(30,34,76,.12)
     }
     .singer-color-line{
@@ -163,14 +161,137 @@
     .singer-related details{border:1px solid #dfdced;border-radius:12px;padding:0 12px}
     .singer-related summary{cursor:pointer;min-height:44px;align-content:center;font-weight:700}
     .singer-related-links{display:flex;flex-wrap:wrap;gap:6px 12px;padding:4px 0 10px}
-    .singer-related-link{display:inline-flex;align-items:center;gap:5px;min-height:36px;max-width:100%;color:var(--navy);text-decoration:none;overflow-wrap:anywhere}
-    .singer-related-link span{flex:none;color:var(--indigo)}
+    .singer-related-link{display:inline-flex;align-items:center;gap:4px;min-height:36px;min-width:0;max-width:100%;color:var(--navy);text-decoration:none;overflow-wrap:anywhere}
+    .singer-related-label{min-width:0;overflow-wrap:anywhere}
     .singer-related-link:hover{color:var(--indigo);text-decoration:underline}
     .singer-related-link:focus-visible,.singer-related summary:focus-visible{outline:3px solid var(--indigo);outline-offset:3px;border-radius:4px}
+    .singer-related-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .singer-related-cards .singer-related-link{display:flex;width:100%;min-height:48px;padding:12px 14px;border:1px solid #dfdced;border-radius:12px;background:#fff}
+    .singer-related-cards .singer-related-label{flex:1}
+    .singer-related-cards .singer-related-link:hover{border-color:#b6a6e4;background:#f6f4ff}
+    @media(max-width:680px){.singer-related-cards{grid-template-columns:minmax(0,1fr)}}
+    .singer-member-navigation {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) 280px minmax(0,1fr);
+      gap: 12px;
+    }
+
+    .singer-member-navigation .song-switch-link,
+    .singer-member-navigation .song-switch-select-wrap {
+      min-height: 82px;
+      padding: 13px 15px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .singer-member-navigation .song-switch-link {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .singer-member-navigation .song-switch-link.next {
+      text-align: right;
+      align-items: flex-end;
+    }
+
+    .singer-member-navigation .song-switch-link.disabled {
+      opacity: .48;
+      pointer-events: none;
+    }
+
+    .singer-member-navigation .song-switch-label {
+      color: var(--muted);
+      font-size:14px;
+      font-weight: 800;
+    }
+
+    .singer-member-navigation .song-switch-title {
+      margin-top: 5px;
+      color: var(--navy);
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.4;
+    }
+
+    .singer-member-navigation .song-switch-select-wrap {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .singer-member-navigation .song-switch-select-wrap label {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .singer-member-navigation .song-switch-select {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: #fff;
+      color: var(--navy);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    @media (max-width: 760px) {
+      .singer-member-navigation {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .singer-member-navigation .song-switch-select-wrap {
+        grid-column: 1 / -1;
+        grid-row: 1;
+      }
+
+      .singer-member-navigation .song-switch-link {
+        min-height: 72px;
+      }
+    }
+
+
+    .singer-member-navigation .song-switch-link,.singer-member-navigation .song-switch-select-wrap,.singer-member-navigation .song-switch-select{min-width:0}
+    .singer-member-navigation .song-switch-title{overflow-wrap:anywhere}
+    .singer-member-navigation .song-switch-link:focus-visible,.singer-member-navigation .song-switch-select:focus-visible{outline:3px solid var(--indigo);outline-offset:3px}
+
+    /* Song switcher final overrides, limited to this page navigation. */
+    .singer-member-navigation {
+      border-color: #cfc8ff !important;
+      background:
+        radial-gradient(circle at 88% 0, rgba(79,70,229,.10), transparent 35%),
+        linear-gradient(180deg,#fbfaff,#fff) !important;
+      box-shadow: 0 12px 32px rgba(79,70,229,.10) !important;
+        }
+    .singer-member-navigation label {
+      color: var(--indigo) !important;
+      font-size: 14px !important;
+      font-weight: 900 !important;
+        }
+    .singer-member-navigation .song-switch-label {
+      color: var(--indigo) !important;
+      font-size:14px !important;
+      font-weight: 900 !important;
+        }
+    @media (max-width: 760px) {
+      .singer-member-navigation {
+        grid-column: 1 / -1 !important;
+        grid-row: 1 !important;
+            }
+    }
+
   </style>
 
   <script src="assets/js/seo-v351.js?v=4.8.0&amp;cache=domain-c&songUrls=1" defer></script>
   <link rel="stylesheet" href="assets/css/link-ui.css?v=2">
+  <link rel="stylesheet" href="assets/css/singer-member-links.css?v=1">
 </head>
 
 <body>
@@ -188,6 +309,8 @@
 
     <div class="singer-status" id="status">データを読み込んでいます...</div>
     <button id="retryButton" type="button" hidden>再試行</button>
+
+    <nav class="singer-member-navigation" id="singerMemberNavigation" aria-label="歌唱メンバーを切り替える" hidden></nav>
 
     <section class="singer-summary" id="summary" hidden>
       <article class="singer-summary-card"><div class="singer-summary-value" id="performanceCount">0</div><div class="singer-summary-label">歌唱記録数</div></article>
@@ -262,7 +385,7 @@
 
   <div id="siteFooter"></div>
 
-  <script type="module" src="assets/js/singer-v460.js?v=4.10.0&amp;cache=revision-nonblocking&songUrls=1&headerNav=3&footer=3"></script>
+  <script type="module" src="assets/js/singer-v460.js?v=4.10.1-singer-related-ux-02&amp;cache=revision-nonblocking&songUrls=1&headerNav=3&footer=3"></script>
   <script type="module">
     import {
       setupDetailContext

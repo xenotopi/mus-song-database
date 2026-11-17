@@ -32,16 +32,16 @@ test("Member Analytics snapshot schema, revision and manifest hashes", () => {
 test("Member Analytics representative Song counts", () => {
   const songs = new Map(wrapper.data.songs.map(song => [song.songId, song]));
   // Batch2 EV0321 correction includes Honoka/Rin/Maki instead of Maki alone.
-  assert.deepEqual(songs.get("S003").characterCounts, [50, 15, 33, 27, 35, 50, 30, 26, 25]);
-  assert.equal(songs.get("S003").characterTotal, 291);
+  assert.deepEqual(songs.get("S003").characterCounts, [52, 15, 35, 27, 37, 52, 30, 28, 27]);
+  assert.equal(songs.get("S003").characterTotal, 303);
   assert.deepEqual(songs.get("S003").castCounts, [18, 1, 0, 3, 9, 16, 4, 7, 14]);
   assert.equal(songs.get("S003").castTotal, 72);
   assert.deepEqual(songs.get("S041").characterCounts, [1, 0, 1, 1, 0, 0, 0, 0, 0]);
   assert.equal(songs.get("S041").characterTotal, 3);
   assert.equal(songs.get("S041").castTotal, 0);
-  assert.equal(songs.get("S046").characterTotal, 180);
+  assert.equal(songs.get("S046").characterTotal, 186);
   assert.equal(songs.get("S046").castTotal, 14);
-  assert.equal(songs.get("S045").characterTotal, 247);
+  assert.equal(songs.get("S045").characterTotal, 259);
   assert.equal(songs.get("S045").castTotal, 17);
   assert.equal(songs.get("S071").characterTotal, 84);
   assert.equal(songs.get("S071").castTotal, 9);

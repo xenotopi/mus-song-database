@@ -15,6 +15,7 @@ const SNAPSHOT_ROOT = path.join(ROOT, "data", "snapshots");
 const DENIED_FIELDS = new Set(["internalNote", "sourceResearchNote", "adminInfo", "pendingCandidateIds", "fixtureSourceUrl"]);
 
 async function api(action, params = {}, attempts = 8) {
+  if (process.env?.AUTO_SYNC_NETWORK_ENFORCE === "1") attempts = 1; // CI transport owns bounded retries.
   let lastError;
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     try {

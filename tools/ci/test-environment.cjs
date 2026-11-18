@@ -5,7 +5,9 @@ function childEnvironment(stage,{outputDirectory,guardPath,parentEnv=process.env
  const env={...parentEnv,AUTO_SYNC_NETWORK_ENFORCE:'1',AUTO_SYNC_NETWORK_LOG:path.join(outputDirectory,'network.jsonl'),NODE_OPTIONS:'--require '+guardPath};
  // Never let an inherited diagnostic setting leak into mocks or browser tests.
  delete env.MUSDB_RELEASE_DIAGNOSTIC_DIR;
- if(stage==='snapshot')env.MUSDB_RELEASE_DIAGNOSTIC_DIR=path.join(outputDirectory,'release-diagnostics');
+ if(['snapshot','offline-capture'].includes(stage))env.MUSDB_RELEASE_DIAGNOSTIC_DIR=path.join(outputDirectory,'release-diagnostics');
+ delete env.AUTO_SYNC_ALLOW_TIMEOUT_RETRY;
+ if(stage==='snapshot'&&env.AUTO_SYNC_NETWORK_MODE!=='offline')env.AUTO_SYNC_ALLOW_TIMEOUT_RETRY='1';
  return env;
 }
 

@@ -2,6 +2,12 @@ name: AUTO-SYNC-02 read-only dry run
 
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: Saved-snapshot checks only, or also fresh API generation
+        type: choice
+        default: offline
+        options: [offline, full]
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [main]
@@ -9,6 +15,7 @@ on:
       - '.github/workflows/auto-sync-dry-run.yml'
       - 'tools/ci/**'
       - 'tests/auto-sync-dry-run.test.cjs'
+      - 'tests/ci-request-policy.test.cjs'
 
 permissions:
   contents: read
@@ -64,7 +71,12 @@ jobs:
         run: node tests/node_modules/playwright/cli.js install chromium
       - name: Preflight Playwright test Chromium before generation
         run: node tools/ci/test-environment.cjs --preflight
+      - name: Validate saved snapshot without GAS
+        env:
+          AUTO_SYNC_NETWORK_MODE: offline
+        run: node tools/ci/offline-check.cjs
       - name: Generate and validate without publication
+        if: github.event_name != 'workflow_dispatch' || inputs.mode == 'full'
         run: node tools/ci/auto-sync-dry-run.cjs
       - name: Preserve generated files and all available evidence
         if: always()

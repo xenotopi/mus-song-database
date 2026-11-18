@@ -60,6 +60,10 @@ jobs:
           node --version > "$AUTO_SYNC_OUTPUT/node-version.txt"
           /opt/google/chrome/chrome --version > "$AUTO_SYNC_OUTPUT/chrome-version.txt"
           dpkg-query -W fonts-noto-cjk > "$AUTO_SYNC_OUTPUT/font-version.txt"
+      - name: Install Playwright test Chromium
+        run: node tests/node_modules/playwright/cli.js install chromium
+      - name: Preflight Playwright test Chromium before generation
+        run: node tools/ci/test-environment.cjs --preflight
       - name: Generate and validate without publication
         run: node tools/ci/auto-sync-dry-run.cjs
       - name: Preserve generated files and all available evidence

@@ -28,9 +28,14 @@ jobs:
     timeout-minutes: 90
     env:
       AUTO_SYNC_CI: '1'
-      AUTO_SYNC_OUTPUT: ${{ runner.temp }}/auto-sync-02
       CHROME_VERSION: '158.0.8127.36'
     steps:
+      - name: Initialize dry-run output
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf 'AUTO_SYNC_OUTPUT=%s/auto-sync-02\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+          mkdir -p "$RUNNER_TEMP/auto-sync-02"
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false

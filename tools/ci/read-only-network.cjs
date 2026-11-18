@@ -1,0 +1,11 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path');
+const allowed=new Set(['revision','releaseList','rankings','kamiparaDashboard','song','release','eventHistory','event','discover','singerList']);
+function classify(status,code){if(status===403||status===401)return'ACCESS_DENIED';if(status===429)return'RATE_LIMIT';if(status>=500)return'UPSTREAM_SERVER';if(status>=400)return'HTTP_CLIENT';return code==='ENOTFOUND'||code==='EAI_AGAIN'?'DNS':'NETWORK_OR_PAYLOAD';}
+function needsGeneration(current,remote){return current.dataRevision!==remote.dataRevision||current.outputRevision!==remote.outputRevision;}
+function semantic(value){if(Array.isArray(value))return value.map(semantic);if(!value||typeof value!=='object')return value;return Object.fromEntries(Object.keys(value).filter(k=>k!=='_cache').sort().map(k=>[k,semantic(value[k])]));}
+function validateRequest(input,init={}){const u=new URL(typeof input==='string'||input instanceof URL?input:input.url),method=String(init.method||input.method||'GET').toUpperCase();if(method!=='GET')throw Error('DRY_RUN_WRITE_REQUEST_REJECTED');if(['127.0.0.1','localhost'].includes(u.hostname))return u;if(u.protocol!=='https:'||u.hostname!=='script.google.com'||!allowed.has(u.searchParams.get('action')))throw Error('DRY_RUN_EXTERNAL_REQUEST_REJECTED');return u;}
+function install(){if(process.env.AUTO_SYNC_NETWORK_ENFORCE!=='1')return;const original=global.fetch;global.fetch=async(input,init)=>{let url;const start=Date.now();try{url=validateRequest(input,init);const r=await original(input,init);if(url.hostname==='script.google.com'){if(!r.ok)throw Object.assign(Error('HTTP '+r.status),{httpStatus:r.status});const p=await r.clone().json();if(p?.success!==true)throw Error('API_PAYLOAD_FAILURE');}record({url:String(url),status:r.status,ms:Date.now()-start});return r;}catch(e){record({url:String(url||input),status:e.httpStatus,category:classify(e.httpStatus,e.cause?.code||e.code),error:e.message,cause:e.cause?.code,ms:Date.now()-start,retry:false});console.error('DRY_RUN_NETWORK_STOP '+e.message);process.exit(72);}};}
+function record(row){if(process.env.AUTO_SYNC_NETWORK_LOG)fs.appendFileSync(process.env.AUTO_SYNC_NETWORK_LOG,JSON.stringify({...row,at:new Date().toISOString(),pid:process.pid})+'\n');}
+module.exports={classify,needsGeneration,semantic,validateRequest};
+install();

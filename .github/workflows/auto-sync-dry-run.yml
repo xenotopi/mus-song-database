@@ -1,0 +1,67 @@
+name: AUTO-SYNC-02 read-only dry run
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths:
+      - '.github/workflows/auto-sync-dry-run.yml'
+      - 'tools/ci/**'
+      - 'tests/auto-sync-dry-run.test.cjs'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: auto-sync-02-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  dry-run:
+    if: >-
+      github.ref != 'refs/heads/main' &&
+      (github.event_name == 'workflow_dispatch' ||
+       (github.event.pull_request.head.repo.full_name == github.repository &&
+        github.event.pull_request.head.ref == 'auto-sync-02-dry-run-20261118'))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      AUTO_SYNC_CI: '1'
+      AUTO_SYNC_OUTPUT: ${{ runner.temp }}/auto-sync-02
+      CHROME_VERSION: '158.0.8127.36'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24.19.0'
+      - name: Install locked dependencies and pinned Chrome/font
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci --prefix tests --ignore-scripts
+          sudo apt-get update
+          sudo apt-get install -y 'fonts-noto-cjk=1:20230817+repack1-3' libnss3 libatk-bridge2.0-0t64 libxkbcommon0 libgbm1 libasound2t64
+          test "$(dpkg-query -W -f='${Version}' fonts-noto-cjk)" = '1:20230817+repack1-3'
+          curl --fail --silent --show-error --location --retry 0 "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" -o "$RUNNER_TEMP/chrome.zip"
+          unzip -q "$RUNNER_TEMP/chrome.zip" -d "$RUNNER_TEMP/pinned-chrome"
+          sudo mkdir -p /opt/google/chrome
+          sudo ln -sf "$RUNNER_TEMP/pinned-chrome/chrome-linux64/chrome" /opt/google/chrome/chrome
+          mkdir -p "$AUTO_SYNC_OUTPUT"
+          node --version > "$AUTO_SYNC_OUTPUT/node-version.txt"
+          /opt/google/chrome/chrome --version > "$AUTO_SYNC_OUTPUT/chrome-version.txt"
+          dpkg-query -W fonts-noto-cjk > "$AUTO_SYNC_OUTPUT/font-version.txt"
+      - name: Generate and validate without publication
+        run: node tools/ci/auto-sync-dry-run.cjs
+      - name: Preserve generated files and all available evidence
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: auto-sync-02-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/auto-sync-02
+          if-no-files-found: error
+          retention-days: 7

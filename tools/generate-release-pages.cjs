@@ -8,6 +8,7 @@ const crypto = require("node:crypto");
 const { chromium } = require("../tests/node_modules/playwright");
 const { sha256, validateSnapshot, validateEventSnapshot, validateKamiparaDashboard } = require("./detail-snapshot-lib.cjs");
 const { beginCapture } = require("./capture-provenance.cjs");
+const { withSnapshotOperation } = require("./snapshot-publication.cjs");
 const { expectedSidecar, validateSidecarBody } = require("./validate-release-sidecar.cjs");
 const { parseSerializedHtml } = require("./static-html-readonly-lib.cjs");
 const { validateVocalData, validateVocalBody } = require("./validate-release-vocals.cjs");
@@ -39,6 +40,7 @@ const RELEASE_RENDERER_FILES = Object.freeze([
   "tools/generate-release-pages.cjs",
   "tools/detail-snapshot-lib.cjs",
   "tools/capture-provenance.cjs",
+  "tools/snapshot-publication.cjs",
   "assets/js/release-v500.js",
   "assets/js/release-song-credits.js",
   "assets/js/song-credits.js",
@@ -240,6 +242,10 @@ function prepareReleaseUiForCapture({ id }) {
 }
 
 async function generateReleasePages({ revision, ids } = {}) {
+  return withSnapshotOperation(root, () => captureReleasePages({ revision, ids }));
+}
+
+async function captureReleasePages({ revision, ids } = {}) {
   const pointer = JSON.parse(fs.readFileSync(path.join(root, "data/current.json"), "utf8"));
   revision ||= pointer.revision;
   const initialManifest = JSON.parse(fs.readFileSync(path.join(root, "data/snapshots", revision, "manifest.json"), "utf8"));

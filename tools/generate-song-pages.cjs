@@ -9,6 +9,7 @@ const { chromium } = require("../tests/node_modules/playwright");
 const root = path.resolve(__dirname, "..");
 const { sha256, validateSnapshot } = require("./detail-snapshot-lib.cjs");
 const { beginCapture } = require("./capture-provenance.cjs");
+const { withSnapshotOperation } = require("./snapshot-publication.cjs");
 const { validateSongUnitMemberships, validateSongUnitBody } = require("./song-unit-membership-lib.cjs");
 const { validateSongCreditsData, validateSongCreditsBody } = require("./song-credits-lib.cjs");
 const { parseSerializedHtml } = require("./static-html-readonly-lib.cjs");
@@ -24,6 +25,7 @@ const SONG_RENDERER_FILES = Object.freeze([
   "tools/generate-song-pages.cjs",
   "tools/detail-snapshot-lib.cjs",
   "tools/capture-provenance.cjs",
+  "tools/snapshot-publication.cjs",
   "assets/js/song-v441.js",
   "assets/js/singer-display.js",
   "assets/js/song-unit-memberships.js",
@@ -83,6 +85,10 @@ function buildSongStructuredData(song, canonical, description) {
   return recording;
 }
 async function generateSongPages({ revision, ids } = {}) {
+  return withSnapshotOperation(root, () => captureSongPages({ revision, ids }));
+}
+
+async function captureSongPages({ revision, ids } = {}) {
   const pointer = JSON.parse(fs.readFileSync(path.join(root, "data/current.json"), "utf8"));
   revision ||= pointer.revision;
   const initialManifest = JSON.parse(fs.readFileSync(path.join(root, "data/snapshots", revision, "manifest.json"), "utf8"));

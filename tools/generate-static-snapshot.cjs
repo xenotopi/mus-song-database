@@ -6,6 +6,8 @@ const { sha256, validateDetail, validateSnapshot, validateEventSnapshot, validat
 const { buildMemberAnalytics, validateMemberAnalytics } = require("./member-analytics-lib.cjs");
 const { generateSongPages } = require("./generate-song-pages.cjs");
 const { generateReleasePages } = require("./generate-release-pages.cjs");
+const { withSnapshotOperation, reusableSingerList } = require("./snapshot-publication.cjs");
+const { switchVerifiedCurrent } = require("./snapshot-html-reuse.cjs");
 
 const API = "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec";
 const ROOT = path.resolve(__dirname, "..");
@@ -157,7 +159,7 @@ function validateBaseFiles(root, manifest, revision, dataRevision = manifest.dat
   }
 }
 
-async function generateMemberAnalytics(revision, dataRevision, revisionRoot) {
+async function generateMemberAnalytics(revision, dataRevision, revisionRoot, singerReference) {
   const manifestPath = path.join(revisionRoot, "manifest.json");
   const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
   validateBaseFiles(revisionRoot, manifest, revision, dataRevision);
@@ -167,7 +169,7 @@ async function generateMemberAnalytics(revision, dataRevision, revisionRoot) {
     process.stdout.write(`${JSON.stringify({ revision, memberAnalytics: 1, reused: true }, null, 2)}\n`);
     return;
   }
-  const payload = await api("singerList", {}, 1);
+  const payload = reusableSingerList(singerReference, revision, dataRevision) ?? await api("singerList", {}, 1);
   assertRevision(payload, dataRevision, "singerList");
   const songDetails = Object.keys(manifest.hashes.songs).sort().map(id =>
     JSON.parse(fs.readFileSync(path.join(revisionRoot, "songs", `${id}.json`), "utf8")).data
@@ -253,6 +255,7 @@ async function generateAllEvents(revision, dataRevision, revisionRoot) {
   fs.renameSync(path.join(stagingRoot, "manifest.json"), path.join(revisionRoot, "manifest.json"));
   fs.rmdirSync(stagingRoot);
   process.stdout.write(`${JSON.stringify({ revision, events: eventIds.length, eventApi: eventIds.length, discoverApi: eventIds.length, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
+  return { outputRevision: revision, dataRevision, payload: structuredClone(singersPayload) };
 }
 
 async function eventSnapshot(id, revision, dataRevision, generatedAt) {
@@ -292,7 +295,18 @@ async function generateEventPreview(ids) {
   process.stdout.write(`${JSON.stringify({ revision, previewOnly: true, eventIds: ids, directory: path.relative(ROOT, previewRoot) }, null, 2)}\n`);
 }
 
-async function switchCurrent(revision) {
+async function switchCurrent(revision, { reuseVerifiedHtml = false } = {}) {
+  return withSnapshotOperation(ROOT, async lease => {
+    if (reuseVerifiedHtml) {
+      const result = switchVerifiedCurrent({ root: ROOT, revision, lease });
+      process.stdout.write(`${JSON.stringify({ revision, reusedHtml: true, capturePages: 0, provenance: result.provenance })}\n`);
+      return;
+    }
+    return switchCurrentWithCapture(revision);
+  });
+}
+
+async function switchCurrentWithCapture(revision) {
   const revisionRoot = path.join(SNAPSHOT_ROOT, revision);
   const manifestPath = path.join(revisionRoot, "manifest.json");
   if (!fs.existsSync(manifestPath)) throw new Error(`Snapshot does not exist: ${revision}`);
@@ -312,12 +326,16 @@ async function switchCurrent(revision) {
 }
 
 async function generate() {
+  return withSnapshotOperation(ROOT, generateSnapshot);
+}
+
+async function generateSnapshot() {
   const revisionPayload = await api("revision");
   const { dataRevision, outputRevision: revision } = apiRevisions(revisionPayload);
   const revisionRoot = path.join(SNAPSHOT_ROOT, revision);
   if (fs.existsSync(revisionRoot)) {
-    await generateAllEvents(revision, dataRevision, revisionRoot);
-    await generateMemberAnalytics(revision, dataRevision, revisionRoot);
+    const singers = await generateAllEvents(revision, dataRevision, revisionRoot);
+    await generateMemberAnalytics(revision, dataRevision, revisionRoot, singers);
     await generateSongPages({ revision });
     await generateReleasePages({ revision });
     return;
@@ -385,19 +403,22 @@ async function generate() {
   } else {
     fs.renameSync(stagingRoot, revisionRoot);
   }
-  await generateAllEvents(revision, dataRevision, revisionRoot);
-  await generateMemberAnalytics(revision, dataRevision, revisionRoot);
+  const singers = await generateAllEvents(revision, dataRevision, revisionRoot);
+  await generateMemberAnalytics(revision, dataRevision, revisionRoot, singers);
   await generateSongPages({ revision });
   await generateReleasePages({ revision });
   process.stdout.write(`${JSON.stringify({ revision, releases: 114, songs: 117, details: 231, kamiparaDashboard: 1, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
 }
 
+async function runCli() {
 const switchIndex = process.argv.indexOf("--switch-current");
+const reuseVerifiedHtml = process.argv.includes("--reuse-verified-html");
 const eventIdsIndex = process.argv.indexOf("--event-ids");
 const memberIndex = process.argv.indexOf("--member-analytics");
 if (switchIndex >= 0 && eventIdsIndex >= 0) throw new Error("Preview generation cannot switch current.json");
+if (reuseVerifiedHtml && switchIndex < 0) throw new Error("--reuse-verified-html requires --switch-current");
 const operation = switchIndex >= 0
-  ? Promise.resolve().then(() => switchCurrent(process.argv[switchIndex + 1]))
+  ? Promise.resolve().then(() => switchCurrent(process.argv[switchIndex + 1], { reuseVerifiedHtml }))
   : eventIdsIndex >= 0
     ? generateEventPreview(process.argv.slice(eventIdsIndex + 1))
     : memberIndex >= 0
@@ -408,4 +429,8 @@ const operation = switchIndex >= 0
           await generateMemberAnalytics(revision, dataRevision, revisionRoot);
         })
     : generate();
-operation.catch(error => { console.error(error); process.exitCode = 1; });
+return operation;
+}
+
+module.exports = { generate, switchCurrent, runCli };
+if (require.main === module) withSnapshotOperation(ROOT, runCli).catch(error => { console.error(error); process.exitCode = 1; });

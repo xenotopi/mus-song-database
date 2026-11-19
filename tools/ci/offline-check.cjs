@@ -4,7 +4,7 @@ const source=path.resolve(__dirname,'../..'),out=path.join(process.env.AUTO_SYNC
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex'),read=f=>JSON.parse(fs.readFileSync(f));
 const result={status:'RUNNING',mode:'saved-snapshot-offline',freshApiGeneration:false,steps:[],browser:{pass:0,fail:0,notRun:4}},started=Date.now();
 fs.mkdirSync(out,{recursive:true});const save=()=>fs.writeFileSync(path.join(out,'result.json'),JSON.stringify(result,null,2)+'\n');
-const tests=['auto-sync-dry-run','ci-request-policy','snapshot-publication','detail-snapshot','static-html-validator','member-analytics-source-counts','capture-provenance','member-analytics-snapshot','gap-rankings','event-static-ui','event-related-releases-ui'].map(x=>'tests/'+x+'.test.cjs');
+const tests=['event-batch-client','capture-canonical','ci-canonical-comparison','ci-batch-trial','auto-sync-dry-run','ci-request-policy','snapshot-publication','detail-snapshot','static-html-validator','member-analytics-source-counts','capture-provenance','member-analytics-snapshot','gap-rankings','event-static-ui','event-related-releases-ui'].map(x=>'tests/'+x+'.test.cjs');
 const git=args=>cp.execFileSync('git',['--no-optional-locks','-C',source,...args],{encoding:'utf8',maxBuffer:32*1024*1024});
 (async()=>{
  assert.equal(process.env.AUTO_SYNC_CI,'1');assert.equal(git(['diff','--name-only']),'');assert.equal(git(['diff','--cached','--name-only']),'');

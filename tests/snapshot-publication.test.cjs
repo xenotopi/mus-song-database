@@ -124,7 +124,7 @@ test("both renderer fingerprints pin the shared lock and every local capture imp
 
 // Exercise the actual orchestration source with an in-memory public API and the
 // real capture receipt producer. Fictional HTML is NOT a Chrome/browser PASS.
-async function orchestration(t, reuse) {
+async function orchestration(t, reuse, transport = 'legacy', useCli = false) {
   const f = setup(t), source = new Map(f.files), sourceManifest = f.fixture.getJson(f.fixture.prefix + "manifest.json");
   const data = relative => JSON.parse(source.get(f.fixture.prefix + relative)).data;
   const character = require("../tools/member-analytics-lib.cjs").CHARACTER_MEMBERS;
@@ -137,6 +137,7 @@ async function orchestration(t, reuse) {
   ];
   const singerList = { official: [singers[0]], solo: [singers[1]], summary: { official: 1, solo: 1, total: 2 }, _cache: { revision: f.fixture.dataRevision } };
   const apiCalls = [], captureCalls = [];
+  let batchCalls = 0;
   function fetch(url) {
     const u = new URL(url), action = u.searchParams.get("action"), id = u.searchParams.get("id"); apiCalls.push(action);
     let payload;
@@ -167,13 +168,22 @@ async function orchestration(t, reuse) {
   const module = { exports: {} };
   const request = name => name === "node:fs" ? f.io : name === "./generate-song-pages.cjs" ? { generateSongPages: () => capture("song") } :
     name === "./generate-release-pages.cjs" ? { generateReleasePages: () => capture("release") } :
-    name === "./snapshot-html-reuse.cjs" ? { switchVerifiedCurrent: options => switchVerifiedCurrent({ ...options, io: f.io }) } : actualRequire(name);
+    name === "./snapshot-html-reuse.cjs" ? { switchVerifiedCurrent: options => switchVerifiedCurrent({ ...options, io: f.io }) } :
+    name === "./event-batch-client.cjs" && transport === 'batch-v1' ? { ...actualRequire(name), fetchEventBatches: async options => {
+      batchCalls++; assert.equal(options.dataRevision, f.fixture.dataRevision); assert.equal(options.outputRevision, f.fixture.revision); assert.equal(options.batchSize, 8);
+      assert.deepEqual(Array.from(options.ids), Object.keys(sourceManifest.hashes.events));
+      return options.ids.map(id => data(`events/${id}.json`));
+    } } : actualRequire(name);
   const FixedDate = class extends Date { constructor(...args) { super(...(args.length ? args : ["2026-11-18T00:00:00Z"])); } };
   vm.runInNewContext(fs.readFileSync(path.join(sourceRoot, "tools/generate-static-snapshot.cjs"), "utf8"), {
     require: request, module, __dirname: path.join(f.root, "tools"), Buffer, URL, AbortSignal, structuredClone, Date: FixedDate,
     setTimeout, fetch, console, process: { pid: process.pid, argv: [], stdout: { write() {} } }
   });
-  await module.exports.generate();
+  if (useCli) await module.exports.runCli();
+  else if (transport === 'batch-v1') await module.exports.generate({ eventTransport: transport });
+  else await module.exports.generate();
+  assert.equal(batchCalls, transport === 'batch-v1' ? 1 : 0);
+  assert.equal(apiCalls.filter(a => a === 'event' || a === 'discover').length, transport === 'batch-v1' ? 0 : Object.keys(sourceManifest.hashes.events).length * 2);
   assert.equal(captureCalls.length, 231); assert.equal(apiCalls.filter(a => a === "singerList").length, 1);
   const outputBefore = new Map(f.files);
   await module.exports.switchCurrent(f.fixture.revision, { reuseVerifiedHtml: reuse });
@@ -188,4 +198,10 @@ test("normal generation captures 231 once; verified switch preserves legacy HTML
   const legacy = await orchestration(t, false), reused = await orchestration(t, true);
   assert.deepEqual([...reused.keys()].sort(), [...legacy.keys()].sort());
   for (const [file, bytes] of legacy) assert.deepEqual(reused.get(file), bytes, file);
+});
+
+test("explicit batch orchestration preserves default CLI data/manifests/provenance; transport is tested independently", async t => {
+  const legacy = await orchestration(t, true, 'legacy', true), batch = await orchestration(t, true, 'batch-v1');
+  assert.deepEqual([...batch.keys()].sort(), [...legacy.keys()].sort());
+  for (const [file, bytes] of legacy) assert.deepEqual(batch.get(file), bytes, file);
 });

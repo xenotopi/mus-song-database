@@ -8,6 +8,7 @@ const { generateSongPages } = require("./generate-song-pages.cjs");
 const { generateReleasePages } = require("./generate-release-pages.cjs");
 const { withSnapshotOperation, reusableSingerList } = require("./snapshot-publication.cjs");
 const { switchVerifiedCurrent } = require("./snapshot-html-reuse.cjs");
+const { fetchEventBatches, eventTransportOptions } = require("./event-batch-client.cjs");
 
 const API = "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec";
 const ROOT = path.resolve(__dirname, "..");
@@ -193,7 +194,7 @@ async function generateMemberAnalytics(revision, dataRevision, revisionRoot, sin
   process.stdout.write(`${JSON.stringify({ revision, memberAnalytics: 1, songs: data.songs.length, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
 }
 
-async function generateAllEvents(revision, dataRevision, revisionRoot) {
+async function generateAllEvents(revision, dataRevision, revisionRoot, options = {}) {
   const baseManifest = JSON.parse(fs.readFileSync(path.join(revisionRoot, "manifest.json"), "utf8"));
   if (baseManifest.revision !== revision || baseManifest.counts?.releases !== 114 ||
       baseManifest.counts?.songs !== 117 || baseManifest.counts?.kamiparaDashboard !== 1) {
@@ -229,7 +230,17 @@ async function generateAllEvents(revision, dataRevision, revisionRoot) {
   };
   let completed = 0;
   const generatedAt = new Date().toISOString();
-  const wrappers = await mapLimit(eventIds, 2, async id => {
+  const wrappers = options.eventTransport === 'batch-v1' ? (await fetchEventBatches({
+    api, ids: eventIds, dataRevision, outputRevision: revision, batchSize: options.eventBatchSize || 8,
+    onBatch: row => process.stdout.write(`Event batch ${JSON.stringify(row)}\n`)
+  })).map((data, index) => {
+    const id = eventIds[index], wrapper = { snapshot: snapshotMetadata(revision, dataRevision, generatedAt), data };
+    validateEventSnapshot(id, wrapper, revision, dataRevision);
+    assertNoInternalLeak(data);
+    validateEventReferences(id, data, references);
+    completed += 1;
+    return wrapper;
+  }) : await mapLimit(eventIds, 2, async id => {
     const wrapper = await eventSnapshot(id, revision, dataRevision, generatedAt);
     validateEventReferences(id, wrapper.data, references);
     completed += 1;
@@ -255,7 +266,8 @@ async function generateAllEvents(revision, dataRevision, revisionRoot) {
   fs.renameSync(path.join(stagingRoot, "events"), path.join(revisionRoot, "events"));
   fs.renameSync(path.join(stagingRoot, "manifest.json"), path.join(revisionRoot, "manifest.json"));
   fs.rmdirSync(stagingRoot);
-  process.stdout.write(`${JSON.stringify({ revision, events: eventIds.length, eventApi: eventIds.length, discoverApi: eventIds.length, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
+  process.stdout.write(`${JSON.stringify({ revision, events: eventIds.length, eventApi: options.eventTransport === 'batch-v1' ? 0 : eventIds.length, discoverApi: options.eventTransport === 'batch-v1' ? 0 : eventIds.length,
+    ...(options.eventTransport === 'batch-v1' ? { eventBatchApi: Math.ceil(eventIds.length / (options.eventBatchSize || 8)), eventTransport: 'batch-v1' } : {}), directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
   return { outputRevision: revision, dataRevision, payload: structuredClone(singersPayload) };
 }
 
@@ -326,16 +338,18 @@ async function switchCurrentWithCapture(revision) {
   process.stdout.write(`${revision}\n`);
 }
 
-async function generate() {
-  return withSnapshotOperation(ROOT, generateSnapshot);
+async function generate(options = {}) {
+  if (options.eventTransport && !['legacy', 'batch-v1'].includes(options.eventTransport)) throw new Error('Unknown Event transport');
+  if (options.eventBatchSize !== undefined && (!Number.isInteger(options.eventBatchSize) || options.eventBatchSize < 1 || options.eventBatchSize > 8 || options.eventTransport !== 'batch-v1')) throw new Error('Invalid Event batch size');
+  return withSnapshotOperation(ROOT, () => generateSnapshot(options));
 }
 
-async function generateSnapshot() {
+async function generateSnapshot(options = {}) {
   const revisionPayload = await api("revision");
   const { dataRevision, outputRevision: revision } = apiRevisions(revisionPayload);
   const revisionRoot = path.join(SNAPSHOT_ROOT, revision);
   if (fs.existsSync(revisionRoot)) {
-    const singers = await generateAllEvents(revision, dataRevision, revisionRoot);
+    const singers = await generateAllEvents(revision, dataRevision, revisionRoot, options);
     await generateMemberAnalytics(revision, dataRevision, revisionRoot, singers);
     await generateSongPages({ revision });
     await generateReleasePages({ revision });
@@ -404,7 +418,7 @@ async function generateSnapshot() {
   } else {
     fs.renameSync(stagingRoot, revisionRoot);
   }
-  const singers = await generateAllEvents(revision, dataRevision, revisionRoot);
+  const singers = await generateAllEvents(revision, dataRevision, revisionRoot, options);
   await generateMemberAnalytics(revision, dataRevision, revisionRoot, singers);
   await generateSongPages({ revision });
   await generateReleasePages({ revision });
@@ -412,10 +426,12 @@ async function generateSnapshot() {
 }
 
 async function runCli() {
+const transport = eventTransportOptions(process.argv.slice(2));
 const switchIndex = process.argv.indexOf("--switch-current");
 const reuseVerifiedHtml = process.argv.includes("--reuse-verified-html");
 const eventIdsIndex = process.argv.indexOf("--event-ids");
 const memberIndex = process.argv.indexOf("--member-analytics");
+if (transport.mode === 'batch-v1' && [switchIndex, eventIdsIndex, memberIndex].some(i => i >= 0)) throw new Error('Batch transport requires full generation');
 if (switchIndex >= 0 && eventIdsIndex >= 0) throw new Error("Preview generation cannot switch current.json");
 if (reuseVerifiedHtml && switchIndex < 0) throw new Error("--reuse-verified-html requires --switch-current");
 const operation = switchIndex >= 0
@@ -429,7 +445,7 @@ const operation = switchIndex >= 0
           if (!fs.existsSync(revisionRoot)) throw new Error(`Snapshot does not exist: ${revision}`);
           await generateMemberAnalytics(revision, dataRevision, revisionRoot);
         })
-    : generate();
+    : generate({ eventTransport: transport.mode, ...(transport.mode === 'batch-v1' ? { eventBatchSize: transport.batchSize } : {}) });
 return operation;
 }
 

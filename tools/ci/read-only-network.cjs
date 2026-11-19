@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path');
-const allowed=new Set(['revision','releaseList','rankings','kamiparaDashboard','song','release','eventHistory','venueHistory','event','discover','singerList']);
+const allowed=new Set(['revision','releaseList','rankings','kamiparaDashboard','song','release','eventHistory','venueHistory','event','discover','singerList','eventBatch']);
 function classify(status,code){if(status===403||status===401)return'ACCESS_DENIED';if(status===429)return'RATE_LIMIT';if(status>=500)return'UPSTREAM_SERVER';if(status>=400)return'HTTP_CLIENT';return code==='ENOTFOUND'||code==='EAI_AGAIN'?'DNS':'NETWORK_OR_PAYLOAD';}
 function needsGeneration(current,remote){return current.dataRevision!==remote.dataRevision||current.outputRevision!==remote.outputRevision;}
 function semantic(value){if(Array.isArray(value))return value.map(semantic);if(!value||typeof value!=='object')return value;return Object.fromEntries(Object.keys(value).filter(k=>k!=='_cache').sort().map(k=>[k,semantic(value[k])]));}

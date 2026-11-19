@@ -78,11 +78,14 @@ jobs:
       - name: Generate and validate without publication
         if: github.event_name != 'workflow_dispatch' || inputs.mode == 'full'
         run: node tools/ci/auto-sync-dry-run.cjs
+      - name: Prepare public artifact without raw HTTP or redirect credentials
+        if: always()
+        run: node tools/ci/batch-trial-contract.cjs --package-artifact "$AUTO_SYNC_OUTPUT" "$RUNNER_TEMP/auto-sync-12-artifact"
       - name: Preserve generated files and all available evidence
         if: always()
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: auto-sync-02-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/auto-sync-02
+          path: ${{ runner.temp }}/auto-sync-12-artifact
           if-no-files-found: error
           retention-days: 7

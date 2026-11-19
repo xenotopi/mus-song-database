@@ -8,6 +8,7 @@ const crypto = require("node:crypto");
 const { chromium } = require("../tests/node_modules/playwright");
 const { sha256, validateSnapshot, validateEventSnapshot, validateKamiparaDashboard } = require("./detail-snapshot-lib.cjs");
 const { beginCapture } = require("./capture-provenance.cjs");
+const { serializeCanonicalForCapture } = require("./capture-canonical.cjs");
 const { withSnapshotOperation } = require("./snapshot-publication.cjs");
 const { expectedSidecar, validateSidecarBody } = require("./validate-release-sidecar.cjs");
 const { parseSerializedHtml } = require("./static-html-readonly-lib.cjs");
@@ -40,6 +41,7 @@ const RELEASE_RENDERER_FILES = Object.freeze([
   "tools/generate-release-pages.cjs",
   "tools/detail-snapshot-lib.cjs",
   "tools/capture-provenance.cjs",
+  "tools/capture-canonical.cjs",
   "tools/snapshot-publication.cjs",
   "assets/js/release-v500.js",
   "assets/js/release-song-credits.js",
@@ -390,7 +392,7 @@ async function captureReleasePages({ revision, ids } = {}) {
       }, { id, title, description, canonical });
       await page.evaluate(prepareReleaseUiForCapture, { id });
       await page.evaluate(removeRuntimeTopForCapture, { templateHtml: pinnedTemplate?.toString("utf8") });
-      const html = (await page.content()).replace(/[\t ]+$/gm, "") + "\n";
+      const html = (await page.evaluate(serializeCanonicalForCapture, { canonical })).replace(/[\t ]+$/gm, "") + "\n";
       if (await page.locator('link[rel="canonical"]').count() !== 1 || await page.locator("h1").innerText() !== name) throw new Error(`${id}: raw HTML validation failed`);
       if (html.includes("http://127.0.0.1")) throw new Error(`${id}: local URL leaked`);
       validateSidecarBody(parseSerializedHtml(html), release, sidecar);

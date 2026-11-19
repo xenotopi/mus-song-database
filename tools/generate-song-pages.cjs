@@ -9,6 +9,7 @@ const { chromium } = require("../tests/node_modules/playwright");
 const root = path.resolve(__dirname, "..");
 const { sha256, validateSnapshot } = require("./detail-snapshot-lib.cjs");
 const { beginCapture } = require("./capture-provenance.cjs");
+const { serializeCanonicalForCapture } = require("./capture-canonical.cjs");
 const { withSnapshotOperation } = require("./snapshot-publication.cjs");
 const { validateSongUnitMemberships, validateSongUnitBody } = require("./song-unit-membership-lib.cjs");
 const { validateSongCreditsData, validateSongCreditsBody } = require("./song-credits-lib.cjs");
@@ -25,6 +26,7 @@ const SONG_RENDERER_FILES = Object.freeze([
   "tools/generate-song-pages.cjs",
   "tools/detail-snapshot-lib.cjs",
   "tools/capture-provenance.cjs",
+  "tools/capture-canonical.cjs",
   "tools/snapshot-publication.cjs",
   "assets/js/song-v441.js",
   "assets/js/singer-display.js",
@@ -201,7 +203,7 @@ async function captureSongPages({ revision, ids } = {}) {
           }
         }, { recording, canonical });
       }
-      const html = (await page.content()).replace(/[\t ]+$/gm, "") + "\n";
+      const html = (await page.evaluate(serializeCanonicalForCapture, { canonical })).replace(/[\t ]+$/gm, "") + "\n";
       if (await page.locator('link[rel="canonical"]').count() !== 1 || await page.locator("h1").innerText() !== (song.displayName || song.songName)) throw new Error(`${id}: rendered HTML validation failed`);
       if (html.includes("http://127.0.0.1") || html.includes("undefined件")) throw new Error(`${id}: runtime data leak`);
       validateSongUnitBody(parseSerializedHtml(html), id, memberships);

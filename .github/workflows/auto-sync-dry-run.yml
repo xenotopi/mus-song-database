@@ -26,11 +26,7 @@ concurrency:
 
 jobs:
   dry-run:
-    if: >-
-      github.ref != 'refs/heads/main' &&
-      (github.event_name == 'workflow_dispatch' ||
-       (github.event.pull_request.head.repo.full_name == github.repository &&
-        github.event.pull_request.head.ref == 'auto-sync-02-dry-run-20261118'))
+    if: github.ref != 'refs/heads/main' && github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     env:

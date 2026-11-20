@@ -1,0 +1,10 @@
+'use strict';
+const {test}=require('node:test'),assert=require('assert/strict'),{expectedMigration,comparePage}=require('../tools/ci/canonical-comparison.cjs');
+const url='https://mus-song-db.com/song/S001.html',tag=`<link rel="canonical" data-seo-dynamic="true" href="${url}">`,old='<!DOCTYPE html><html><head><title>same</title>'+tag+'<script type="application/ld+json">{}</script></head><body><main>content</main></body></html>';
+test('complete expected HTML contains the exact canonical and preserves every other byte',()=>{const expected=expectedMigration(old,url);assert.ok(expected.includes(`<link rel="canonical" href="${url}"></head>`));assert.equal(comparePage('song','S001',old,expected).status,'PASS');});
+test('an unrelated body change fails full comparison',()=>assert.throws(()=>comparePage('song','S001',old,expectedMigration(old,url).replace('>content<','>changed<')),/Full HTML/));
+test('wrong canonical URL fails',()=>assert.throws(()=>comparePage('song','S001',old,expectedMigration(old,url).replace(url,url+'?x=1')),/Canonical URL/));
+test('canonical duplicate fails',()=>assert.throws(()=>expectedMigration(old.replace(tag,tag+tag),url),/Exactly one/));
+test('unreviewed canonical attribute fails',()=>assert.throws(()=>expectedMigration(old.replace(tag,tag.replace(' href=',' data-unknown="x" href=')),url),/Unknown canonical attribute/));
+test('old runtime marker is not allowed in the new canonical',()=>assert.throws(()=>comparePage('song','S001',old,expectedMigration(old,url).replace('<link rel="canonical"','<link data-seo-dynamic="true" rel="canonical"')),/Unknown canonical attribute/));
+test('moving the new canonical before title fails placement',()=>{const fixed=expectedMigration(old,url),canonical=`<link rel="canonical" href="${url}">`,bad=fixed.replace(canonical,'').replace('<title>',canonical+'<title>');assert.throws(()=>comparePage('song','S001',old,bad),/final head child/);});

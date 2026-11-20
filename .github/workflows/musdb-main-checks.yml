@@ -1,0 +1,36 @@
+name: MUSDB pull request CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  main-checks:
+    name: musdb-main-checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.19.0'
+          package-manager-cache: false
+      - run: npm ci --prefix tests --ignore-scripts --no-audit --no-fund
+      - name: Run synthetic contracts without GAS
+        env:
+          AUTO_SYNC_NETWORK_MODE: offline
+          AUTO_SYNC_NETWORK_ENFORCE: '1'
+          NODE_OPTIONS: --require ./tools/ci/read-only-network.cjs
+        run: >-
+          node --test --test-concurrency=1
+          tests/auto-sync-policy.test.cjs
+          tests/auto-sync-pipeline.test.cjs
+          tests/auto-sync-signed-readiness.test.cjs
+          tests/auto-sync-site.test.cjs
+          tests/auto-sync-retention.test.cjs

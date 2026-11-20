@@ -169,15 +169,44 @@ test('publication verification rejects an update beginning after the last deploy
   assert.equal(policy.failureDisposition('verify',{code:'SUPERSEDED'}).exitCode,1);
 });
 
-test('inactive templates scope each key to its check and never give PR or deploy action the signing key',()=>{
+test('protected templates scope signing keys and the approved PR trial stays offline and read-only',()=>{
   const {yaml}=require(path.join(path.dirname(require.resolve('playwright/package.json')),'../playwright-core/lib/utilsBundle.js'));
   const root=path.resolve(__dirname,'..');
   const templates=['monitor','publish','safety-trial'].map(name=>{
-    assert.equal(fs.existsSync(path.join(root,'.github/workflows/auto-sync-'+name+'.yml')),false);
-    const parsed=yaml.parseDocument(fs.readFileSync(path.join(root,'.github/workflow-templates/auto-sync-'+name+'.yml'),'utf8'));
+    const filename='auto-sync-'+name+'.yml';
+    const active=path.join(root,'.github/workflows',filename);
+    const template=fs.readFileSync(path.join(root,'.github/workflow-templates',filename));
+    if (name==='safety-trial') {
+      if (fs.existsSync(active)) assert.deepEqual(fs.readFileSync(active),template);
+    } else {
+      assert.equal(fs.existsSync(active),false);
+    }
+    const parsed=yaml.parseDocument(template.toString('utf8'));
     assert.deepEqual(parsed.errors,[]);
     return parsed.toJS();
   });
+  const trial=templates[2];
+  assert.deepEqual(trial.permissions,{contents:'read'});
+  assert.doesNotMatch(JSON.stringify(trial),/\bsecrets\b/);
+  assert.deepEqual(Object.keys(trial.jobs),['contracts']);
+  const contracts=trial.jobs.contracts;
+  assert.equal(contracts.permissions,undefined);
+  assert.equal(contracts.environment,undefined);
+  assert.equal(contracts.steps.length,4);
+  const [checkout,setup,install,synthetic]=contracts.steps;
+  assert.match(checkout.uses,/^actions\/checkout@[a-f0-9]{40}$/);
+  assert.equal(checkout.with['persist-credentials'],false);
+  assert.match(setup.uses,/^actions\/setup-node@[a-f0-9]{40}$/);
+  assert.equal(install.run,'npm ci --prefix tests --ignore-scripts');
+  assert.deepEqual(synthetic.env,{
+    AUTO_SYNC_NETWORK_MODE:'offline',
+    AUTO_SYNC_NETWORK_ENFORCE:'1',
+    NODE_OPTIONS:'--require ./tools/ci/read-only-network.cjs'
+  });
+  assert.equal(synthetic.run,[
+    'node --test --test-concurrency=1','tests/auto-sync-policy.test.cjs','tests/auto-sync-pipeline.test.cjs',
+    'tests/auto-sync-signed-readiness.test.cjs','tests/auto-sync-site.test.cjs','tests/auto-sync-retention.test.cjs'
+  ].join(' '));
   const keyEnv='MUSDB_SYNC_SIGNING_KEY';
   let keySteps=0;
   for (const workflow of templates) for (const job of Object.values(workflow.jobs)) {

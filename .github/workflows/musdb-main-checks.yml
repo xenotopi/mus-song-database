@@ -1,0 +1,29 @@
+name: MUSDB pull request CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  main-checks:
+    name: musdb-main-checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.19.0'
+          package-manager-cache: false
+      - name: Run existing API and snapshot contract tests
+        run: >-
+          node --test --test-concurrency=1
+          tests/api-jsonp-timeout.test.cjs
+          tests/detail-snapshot.test.cjs
+          tests/member-analytics-source-counts.test.cjs

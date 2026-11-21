@@ -1,0 +1,100 @@
+name: MUSDB Pages baseline migration
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: Publish the verified baseline after switching Pages to GitHub Actions
+        type: boolean
+        default: false
+
+permissions: {}
+
+concurrency:
+  group: musdb-pages-production
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    if: github.repository == 'xenotopi/mus-song-database' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      PUBLISHED_SHA: '9159d5624fe90b9f83816874d7d52660fc01ab18'
+      PUBLISHED_TREE_SHA256: '975e067eab7b8ad7ea5121dc93e74b35c636af3a7d4b703e8ef0ca5abca8ba00'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ env.PUBLISHED_SHA }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.19.0'
+          package-manager-cache: false
+      - name: Stage and verify the previously published files
+        run: |
+          node <<'NODE'
+          const assert = require('node:assert/strict');
+          const { execFileSync } = require('node:child_process');
+          const { createHash } = require('node:crypto');
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const git = (...args) => execFileSync('git', ['--no-optional-locks', ...args], { maxBuffer: 8 * 1024 * 1024 });
+          assert.equal(git('rev-parse', 'HEAD').toString().trim(), process.env.PUBLISHED_SHA);
+          assert.equal(git('status', '--porcelain=v2', '--untracked-files=all', '--ignored').length, 0);
+          const entries = git('ls-tree', '-rz', 'HEAD').toString('utf8').split('\0').filter(row => {
+            return row && !row.slice(row.indexOf('\t') + 1).split('/').some(part => part === '.git' || part === '.github');
+          });
+          assert.equal(entries.length, 7637);
+          const treeHash = createHash('sha256').update(entries.join('\0')).digest('hex');
+          assert.equal(treeHash, process.env.PUBLISHED_TREE_SHA256);
+          const destination = path.join(process.env.RUNNER_TEMP, 'pages-bootstrap');
+          fs.mkdirSync(destination);
+          const manifest = entries.map(row => {
+            const match = /^(100644|100755) blob ([a-f0-9]{40})\t(.+)$/.exec(row);
+            assert.ok(match, 'Unexpected baseline entry');
+            const [, mode, oid, file] = match;
+            assert.ok(!/[\\:\x00-\x1f]/.test(file) && !file.split('/').some(part => !part || part === '.' || part === '..'));
+            assert.ok(fs.lstatSync(file).isFile(), file);
+            const bytes = fs.readFileSync(file);
+            const blobHash = createHash('sha1').update('blob ' + bytes.length + '\0').update(bytes).digest('hex');
+            assert.equal(blobHash, oid, file);
+            const target = path.join(destination, file);
+            fs.mkdirSync(path.dirname(target), { recursive: true });
+            fs.writeFileSync(target, bytes, { mode: Number.parseInt(mode.slice(3), 8), flag: 'wx' });
+            return { file, bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex') };
+          });
+          fs.writeFileSync(path.join(process.env.RUNNER_TEMP, 'pages-bootstrap-manifest.json'),
+            JSON.stringify({ source: process.env.PUBLISHED_SHA, treeHash, files: manifest }, null, 2) + '\n',
+            { flag: 'wx' });
+          console.log('Verified ' + entries.length + ' published files from ' + process.env.PUBLISHED_SHA);
+          NODE
+      # Match the existing branch build's exclusions and preserve dotfiles such as .nojekyll.
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+        if: inputs.deploy
+        with:
+          path: ${{ runner.temp }}/pages-bootstrap
+
+  deploy:
+    if: inputs.deploy
+    needs: prepare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Require Actions source and unchanged domain settings
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          settings=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq '[.build_type, .cname, .https_enforced] | @tsv')
+          test "$settings" = $'workflow\tmus-song-db.com\ttrue'
+      - id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e

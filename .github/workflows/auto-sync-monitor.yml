@@ -1,0 +1,60 @@
+name: MUSDB one-time signed readiness check
+
+on:
+  workflow_dispatch:
+    inputs:
+      send:
+        description: Send the separately authorized signed readiness POST
+        type: boolean
+        default: false
+      expected_main:
+        description: Approved main commit SHA
+        type: string
+        required: true
+      data_revision:
+        description: Approved dataRevision
+        type: string
+        required: true
+      output_revision:
+        description: Approved outputRevision
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  signed-readiness:
+    if: >-
+      inputs.send &&
+      github.repository == 'xenotopi/mus-song-database' &&
+      github.repository_id == '1318600615' &&
+      github.event_name == 'workflow_dispatch' &&
+      github.ref == 'refs/heads/main' && github.ref_protected &&
+      github.workflow_ref == 'xenotopi/mus-song-database/.github/workflows/auto-sync-monitor.yml@refs/heads/main' &&
+      github.workflow_sha == github.sha && github.sha == inputs.expected_main &&
+      github.run_number == 1 && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    environment:
+      name: musdb-sync-signing
+      deployment: false
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.19.0'
+          package-manager-cache: false
+      - name: Check signed readiness once
+        env:
+          MUSDB_SYNC_SMOKE_SEND: ${{ inputs.send }}
+          MUSDB_SYNC_EXPECTED_MAIN: ${{ inputs.expected_main }}
+          MUSDB_SYNC_EXPECTED_DATA_REVISION: ${{ inputs.data_revision }}
+          MUSDB_SYNC_EXPECTED_OUTPUT_REVISION: ${{ inputs.output_revision }}
+          MUSDB_SYNC_SIGNING_ENABLED: ${{ vars.MUSDB_SYNC_SIGNING_ENABLED }}
+          MUSDB_SYNC_SIGNING_KID: ${{ vars.MUSDB_SYNC_SIGNING_KID }}
+          MUSDB_SYNC_SIGNING_KEY: ${{ vars.MUSDB_SYNC_SIGNING_ENABLED == 'true' && secrets.MUSDB_SYNC_SIGNING_KEY || '' }}
+        run: node .github/scripts/check-signed-readiness.cjs

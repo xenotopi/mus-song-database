@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "enabled": false,
+  "enabled": true,
   "repository": "xenotopi/mus-song-database",
   "branch": "main",
   "siteUrl": "https://mus-song-db.com/",
   "apiUrl": "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec",
   "readinessUrl": null,
   "signedReadiness": {
-    "enabled": false,
+    "enabled": true,
     "audience": "musdb-readiness:production",
     "repositoryId": "1318600615"
   },

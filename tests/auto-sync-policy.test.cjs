@@ -19,7 +19,7 @@ for(const status of [403,429,500])test('HTTP '+status+' blocks monitoring withou
 test('incomplete API envelope and timeout reject without extra requests',async()=>{for(const kind of ['partial','timeout']){let calls=0;const c=client(f.config,{fetch:async()=>{calls++;if(kind==='timeout')throw new DOMException('timed out','TimeoutError');return response({success:true,data:{dataRevision:f.target.dataRevision}});}});await assert.rejects(c.latest());assert.equal(calls,1);}});
 test('HTTP adapter refuses unknown hosts, actions and cross-project readiness',async()=>{let calls=0;const c=client(f.config,{fetch:async()=>{calls++;return response({});}});for(const u of ['https://evil.invalid/a','http://mus-song-db.com/','https://script.google.com/macros/s/other/exec?action=revision','https://script.google.com/macros/s/public-fixture/exec?action=updateAll'])await assert.rejects(c.get(u));assert.equal(calls,0);});
 test('public marker requires actual publisher workflow success, not a deployment claim',async()=>{const current={...f.target,revision:f.target.outputRevision,manifest:'./'+f.target.outputRevision+'/manifest.json'},manifest={revision:f.target.outputRevision,dataRevision:f.target.dataRevision},bytes=x=>Buffer.from(JSON.stringify(x)),release={schemaVersion:1,...f.target,sourceSha:f.sourceSha,fingerprint:f.fingerprint,runId:2,currentSha256:p.sha(bytes(current)),snapshotManifestSha256:p.sha(bytes(manifest))};for(const state of ['in_progress','failure','success']){const c=client(f.config,{fetch:async(url,init)=>{const u=new URL(url);if(u.hostname==='api.github.com'){assert.equal(init.headers.authorization,'Bearer token');return response({head_sha:f.sourceSha,head_branch:'main',path:f.config.publishWorkflowPath,id:2,run_number:2,status:state==='in_progress'?state:'completed',conclusion:state==='in_progress'?null:state});}if(u.pathname.endsWith('current.json'))return response(current);if(u.pathname.endsWith('manifest.json'))return response(manifest);return response(release);},token:'token'});assert.equal((await c.published()).verified,state==='success');}});
-test('scheduled observation and manual publication preserve the reviewed permission boundaries',()=>{
+test('dispatch-only monitoring and publication preserve the reviewed permission boundaries',()=>{
   const {yaml}=require(path.join(path.dirname(require.resolve('playwright/package.json')),'../playwright-core/lib/utilsBundle.js'));
   const github=path.resolve(__dirname,'../.github');
   function load(directory,name) {
@@ -31,9 +31,10 @@ test('scheduled observation and manual publication preserve the reviewed permiss
   const monitorName='auto-sync-revision-monitor.yml';
   const expectedMonitor=load('workflow-templates',monitorName);
   assert.deepEqual(expectedMonitor.on.schedule,[{cron:'7,22,37,52 * * * *'}]);
+  delete expectedMonitor.on.schedule;
   expectedMonitor.jobs.monitor.if=expectedMonitor.jobs.monitor.if.replace(
     "github.ref == 'refs/heads/main'",
-    "(github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'"
+    "github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'"
   );
   expectedMonitor.jobs.monitor.steps.push({
     name:'Save blocked or failed monitor evidence',
@@ -47,7 +48,7 @@ test('scheduled observation and manual publication preserve the reviewed permiss
     }
   });
   const monitor=load('workflows',monitorName);
-  assert.deepEqual(Object.keys(monitor.on),['schedule','workflow_dispatch']);
+  assert.deepEqual(Object.keys(monitor.on),['workflow_dispatch']);
   assert.deepEqual(monitor.permissions,{contents:'read',actions:'read'});
   assert.deepEqual(monitor,expectedMonitor);
 

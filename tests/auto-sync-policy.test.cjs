@@ -19,7 +19,7 @@ for(const status of [403,429,500])test('HTTP '+status+' blocks monitoring withou
 test('incomplete API envelope and timeout reject without extra requests',async()=>{for(const kind of ['partial','timeout']){let calls=0;const c=client(f.config,{fetch:async()=>{calls++;if(kind==='timeout')throw new DOMException('timed out','TimeoutError');return response({success:true,data:{dataRevision:f.target.dataRevision}});}});await assert.rejects(c.latest());assert.equal(calls,1);}});
 test('HTTP adapter refuses unknown hosts, actions and cross-project readiness',async()=>{let calls=0;const c=client(f.config,{fetch:async()=>{calls++;return response({});}});for(const u of ['https://evil.invalid/a','http://mus-song-db.com/','https://script.google.com/macros/s/other/exec?action=revision','https://script.google.com/macros/s/public-fixture/exec?action=updateAll'])await assert.rejects(c.get(u));assert.equal(calls,0);});
 test('public marker requires actual publisher workflow success, not a deployment claim',async()=>{const current={...f.target,revision:f.target.outputRevision,manifest:'./'+f.target.outputRevision+'/manifest.json'},manifest={revision:f.target.outputRevision,dataRevision:f.target.dataRevision},bytes=x=>Buffer.from(JSON.stringify(x)),release={schemaVersion:1,...f.target,sourceSha:f.sourceSha,fingerprint:f.fingerprint,runId:2,currentSha256:p.sha(bytes(current)),snapshotManifestSha256:p.sha(bytes(manifest))};for(const state of ['in_progress','failure','success']){const c=client(f.config,{fetch:async(url,init)=>{const u=new URL(url);if(u.hostname==='api.github.com'){assert.equal(init.headers.authorization,'Bearer token');return response({head_sha:f.sourceSha,head_branch:'main',path:f.config.publishWorkflowPath,id:2,run_number:2,status:state==='in_progress'?state:'completed',conclusion:state==='in_progress'?null:state});}if(u.pathname.endsWith('current.json'))return response(current);if(u.pathname.endsWith('manifest.json'))return response(manifest);return response(release);},token:'token'});assert.equal((await c.published()).verified,state==='success');}});
-test('manual first publication preserves the reviewed jobs and permission boundaries',()=>{
+test('scheduled observation and manual publication preserve the reviewed permission boundaries',()=>{
   const {yaml}=require(path.join(path.dirname(require.resolve('playwright/package.json')),'../playwright-core/lib/utilsBundle.js'));
   const github=path.resolve(__dirname,'../.github');
   function load(directory,name) {
@@ -31,13 +31,23 @@ test('manual first publication preserves the reviewed jobs and permission bounda
   const monitorName='auto-sync-revision-monitor.yml';
   const expectedMonitor=load('workflow-templates',monitorName);
   assert.deepEqual(expectedMonitor.on.schedule,[{cron:'7,22,37,52 * * * *'}]);
-  delete expectedMonitor.on.schedule;
   expectedMonitor.jobs.monitor.if=expectedMonitor.jobs.monitor.if.replace(
     "github.ref == 'refs/heads/main'",
-    "github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'"
+    "(github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'"
   );
+  expectedMonitor.jobs.monitor.steps.push({
+    name:'Save blocked or failed monitor evidence',
+    if:"${{ !cancelled() && (steps.observe.outcome == 'failure' || steps.observe.outputs.decision == 'BLOCKED') }}",
+    uses:'actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4',
+    with:{
+      name:'sync-monitor-evidence',
+      path:'${{ runner.temp }}/musdb-sync/state.json\n${{ runner.temp }}/musdb-sync/http-summary-monitor.json\n',
+      'retention-days':14,
+      'if-no-files-found':'warn'
+    }
+  });
   const monitor=load('workflows',monitorName);
-  assert.deepEqual(Object.keys(monitor.on),['workflow_dispatch']);
+  assert.deepEqual(Object.keys(monitor.on),['schedule','workflow_dispatch']);
   assert.deepEqual(monitor.permissions,{contents:'read',actions:'read'});
   assert.deepEqual(monitor,expectedMonitor);
 
@@ -79,3 +89,85 @@ test('manual first publication preserves the reviewed jobs and permission bounda
   assert.match(text,/PAGES_DEPLOY_CONCLUSION/);
 });
 test('post-upload freshness check precedes deployment and trial remains read-only',()=>{const root=path.resolve(__dirname,'..'),text=fs.readFileSync(path.join(root,'.github/workflow-templates/auto-sync-publish.yml'),'utf8'),trial=fs.readFileSync(path.join(root,'.github/workflow-templates/auto-sync-safety-trial.yml'),'utf8'),{yaml}=require(path.join(path.dirname(require.resolve('playwright/package.json')),'../playwright-core/lib/utilsBundle.js')),t=yaml.parse(trial);assert.ok(text.indexOf('id: freshness')>text.indexOf('actions/upload-pages-artifact@'));assert.match(text,/if: steps\.freshness\.outputs\.allowed == 'true'/);assert.match(trial,/contents: read/);assert.doesNotMatch(trial,/pages: write|id-token: write|actions: write|pull_request_target/);assert.ok(Object.hasOwn(t.on,'workflow_dispatch'));assert.deepEqual(t.on.pull_request.branches,['main']);assert.match(t.jobs.contracts.if,/head.repo.full_name == github.repository/);assert.match(t.jobs.contracts.if,/auto-sync-19-production-integration-20261121/);const active=path.join(root,'.github/workflows/auto-sync-safety-trial.yml');if(fs.existsSync(active))assert.equal(fs.readFileSync(active,'utf8').replace(/\r\n/g,'\n'),trial.replace(/\r\n/g,'\n'),'Approved trial promotion must preserve exact permissions and behavior');});
+
+for (const outcome of ['NO_OP','CHECK','BLOCKED','FAIL']) test('monitor CLI records '+outcome+' using only unsigned reads',t=>{
+  const cp=require('node:child_process');
+  const root=path.resolve(__dirname,'..'),dir=f.folder(t);
+  const configFile=path.join(root,'tools/auto-sync/config.json');
+  const settings=require(configFile),localFingerprint=p.sourceFingerprint(root);
+  const sourceSha=cp.execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim();
+  const shaPrefix=f.target.outputRevision;
+  const site=new URL(settings.siteUrl);
+  const current={...f.target,revision:shaPrefix,manifest:'./'+shaPrefix+'/manifest.json'};
+  const manifest={...f.target,revision:shaPrefix};
+  const release={
+    schemaVersion:1,...f.target,sourceSha,runId:99,
+    fingerprint:outcome==='CHECK'?(localFingerprint==='1'.repeat(64)?'2':'1').repeat(64):localFingerprint,
+    currentSha256:p.sha(JSON.stringify(current)),snapshotManifestSha256:p.sha(JSON.stringify(manifest))
+  };
+  const revisionUrl=new URL(settings.apiUrl);
+  revisionUrl.searchParams.set('action','revision');
+  const repo='https://api.github.com/repos/'+settings.repository;
+  const replies=[
+    [revisionUrl.href,outcome==='FAIL'?503:200,{success:true,data:f.target}],
+    [new URL('data/current.json',site).href,200,current],
+    [new URL('data/snapshots/'+shaPrefix+'/manifest.json',site).href,200,manifest],
+    [new URL('data/sync-release.json',site).href,200,release],
+    [repo+'/actions/runs/99',200,{id:99,head_sha:sourceSha,head_branch:'main',path:settings.publishWorkflowPath,run_number:1,status:'completed',conclusion:'success'}],
+    [repo+'/commits/main',200,{sha:sourceSha}]
+  ];
+  const preload=path.join(dir,'mock-fetch.cjs'),outputs=path.join(dir,'github-output');
+  fs.writeFileSync(preload,`
+    const assert=require('node:assert/strict');
+    require(${JSON.stringify(configFile)}).enabled=true;
+    const replies=${JSON.stringify(replies)};
+    global.fetch=async (url,init)=>{
+      assert.equal(init.method,'GET');
+      assert.equal(init.body,undefined);
+      const next=replies.shift();
+      assert.ok(next,'Unexpected extra network request');
+      assert.equal(String(url),next[0]);
+      return new Response(JSON.stringify(next[2]),{status:next[1]});
+    };
+  `);
+  const env={...process.env,GITHUB_OUTPUT:outputs,GITHUB_RUN_ID:'100',GITHUB_RUN_NUMBER:'2',
+    MUSDB_AUTO_SYNC_ENABLED:outcome==='BLOCKED'?'false':'true'};
+  delete env.GITHUB_TOKEN;
+  delete env.MUSDB_SYNC_SIGNING_KEY;
+  const run=cp.spawnSync(process.execPath,['--require',preload,'tools/auto-sync/cli.cjs','monitor','--out='+dir],
+    {cwd:root,env,encoding:'utf8',timeout:15000});
+  assert.ifError(run.error);
+  assert.equal(run.status,outcome==='FAIL'?1:0,run.stderr);
+  const state=JSON.parse(fs.readFileSync(path.join(dir,'state.json')));
+  const network=JSON.parse(fs.readFileSync(path.join(dir,'http-summary-monitor.json')));
+  assert.deepEqual(network.signedChecks,[]);
+  assert.equal(network.retries,0);
+  assert.equal(network.contentWrites,0);
+  assert.equal(network.rawHttpBodiesSaved,false);
+  assert.equal(network.reads.length,outcome==='BLOCKED'?0:outcome==='FAIL'?1:replies.length);
+  const planFile=path.join(dir,'plan.json');
+  if (outcome==='FAIL') {
+    assert.equal(state.state,'failed');
+    assert.match(state.error,/Read HTTP 503/);
+    assert.equal(network.reads[0].status,'FAIL');
+    assert.equal(fs.existsSync(planFile),false);
+    assert.equal(fs.existsSync(outputs),false);
+    return;
+  }
+  const actionsOutput=fs.readFileSync(outputs,'utf8');
+  assert.match(actionsOutput,new RegExp('^decision='+outcome+'$','m'));
+  if (outcome==='BLOCKED') {
+    assert.equal(state.state,'blocked');
+    assert.equal(state.reason,'ACTIVATION_DISABLED');
+    assert.equal(fs.existsSync(planFile),false);
+    return;
+  }
+  assert.equal(state.state,outcome==='NO_OP'?'published':'waiting');
+  assert.equal(state.decision,outcome);
+  const {planId,...plan}=JSON.parse(fs.readFileSync(planFile));
+  assert.equal(planId,p.sha(JSON.stringify(plan)));
+  assert.deepEqual(plan.target,f.target);
+  assert.equal(plan.decision,outcome);
+  assert.equal(plan.monitorRunId,100);
+  assert.equal(Object.hasOwn(plan,'completionSha256'),false);
+});

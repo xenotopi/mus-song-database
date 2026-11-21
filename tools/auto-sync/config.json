@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "enabled": false,
+  "repository": "xenotopi/mus-song-database",
+  "branch": "main",
+  "siteUrl": "https://mus-song-db.com/",
+  "apiUrl": "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec",
+  "readinessUrl": null,
+  "signedReadiness": {
+    "enabled": false,
+    "audience": "musdb-readiness:production",
+    "repositoryId": "1318600615"
+  },
+  "monitorWorkflowPath": ".github/workflows/auto-sync-revision-monitor.yml",
+  "publishWorkflowPath": ".github/workflows/auto-sync-publish.yml",
+  "minimumStableSeconds": 60,
+  "maximumReadinessAgeSeconds": 120,
+  "buildBudgetMinutes": 70,
+  "eventTransport": "batch-v1",
+  "eventBatchSize": 8
+}

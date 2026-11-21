@@ -6,6 +6,9 @@ const { sha256, validateDetail, validateSnapshot, validateEventSnapshot, validat
 const { buildMemberAnalytics, validateMemberAnalytics } = require("./member-analytics-lib.cjs");
 const { generateSongPages } = require("./generate-song-pages.cjs");
 const { generateReleasePages } = require("./generate-release-pages.cjs");
+const { withSnapshotOperation, reusableSingerList } = require("./snapshot-publication.cjs");
+const { switchVerifiedCurrent } = require("./snapshot-html-reuse.cjs");
+const { fetchEventBatches, eventTransportOptions } = require("./event-batch-client.cjs");
 
 const API = "https://script.google.com/macros/s/AKfycbxCz1UYaUn7CPxwoKUlfMG2tMmv9HjdVBPtZBCXoEo8GoTE4WneNvUflvpqRYpAM-_i/exec";
 const ROOT = path.resolve(__dirname, "..");
@@ -13,6 +16,7 @@ const SNAPSHOT_ROOT = path.join(ROOT, "data", "snapshots");
 const DENIED_FIELDS = new Set(["internalNote", "sourceResearchNote", "adminInfo", "pendingCandidateIds", "fixtureSourceUrl"]);
 
 async function api(action, params = {}, attempts = 8) {
+  if (process.env?.AUTO_SYNC_NETWORK_ENFORCE === "1") attempts = 1; // CI transport owns bounded retries.
   let lastError;
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     try {
@@ -157,7 +161,7 @@ function validateBaseFiles(root, manifest, revision, dataRevision = manifest.dat
   }
 }
 
-async function generateMemberAnalytics(revision, dataRevision, revisionRoot) {
+async function generateMemberAnalytics(revision, dataRevision, revisionRoot, singerReference) {
   const manifestPath = path.join(revisionRoot, "manifest.json");
   const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
   validateBaseFiles(revisionRoot, manifest, revision, dataRevision);
@@ -167,7 +171,7 @@ async function generateMemberAnalytics(revision, dataRevision, revisionRoot) {
     process.stdout.write(`${JSON.stringify({ revision, memberAnalytics: 1, reused: true }, null, 2)}\n`);
     return;
   }
-  const payload = await api("singerList", {}, 1);
+  const payload = reusableSingerList(singerReference, revision, dataRevision) ?? await api("singerList", {}, 1);
   assertRevision(payload, dataRevision, "singerList");
   const songDetails = Object.keys(manifest.hashes.songs).sort().map(id =>
     JSON.parse(fs.readFileSync(path.join(revisionRoot, "songs", `${id}.json`), "utf8")).data
@@ -190,7 +194,7 @@ async function generateMemberAnalytics(revision, dataRevision, revisionRoot) {
   process.stdout.write(`${JSON.stringify({ revision, memberAnalytics: 1, songs: data.songs.length, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
 }
 
-async function generateAllEvents(revision, dataRevision, revisionRoot) {
+async function generateAllEvents(revision, dataRevision, revisionRoot, options = {}) {
   const baseManifest = JSON.parse(fs.readFileSync(path.join(revisionRoot, "manifest.json"), "utf8"));
   if (baseManifest.revision !== revision || baseManifest.counts?.releases !== 114 ||
       baseManifest.counts?.songs !== 117 || baseManifest.counts?.kamiparaDashboard !== 1) {
@@ -226,7 +230,17 @@ async function generateAllEvents(revision, dataRevision, revisionRoot) {
   };
   let completed = 0;
   const generatedAt = new Date().toISOString();
-  const wrappers = await mapLimit(eventIds, 2, async id => {
+  const wrappers = options.eventTransport === 'batch-v1' ? (await fetchEventBatches({
+    api, ids: eventIds, dataRevision, outputRevision: revision, batchSize: options.eventBatchSize || 8,
+    onBatch: row => process.stdout.write(`Event batch ${JSON.stringify(row)}\n`)
+  })).map((data, index) => {
+    const id = eventIds[index], wrapper = { snapshot: snapshotMetadata(revision, dataRevision, generatedAt), data };
+    validateEventSnapshot(id, wrapper, revision, dataRevision);
+    assertNoInternalLeak(data);
+    validateEventReferences(id, data, references);
+    completed += 1;
+    return wrapper;
+  }) : await mapLimit(eventIds, 2, async id => {
     const wrapper = await eventSnapshot(id, revision, dataRevision, generatedAt);
     validateEventReferences(id, wrapper.data, references);
     completed += 1;
@@ -252,7 +266,9 @@ async function generateAllEvents(revision, dataRevision, revisionRoot) {
   fs.renameSync(path.join(stagingRoot, "events"), path.join(revisionRoot, "events"));
   fs.renameSync(path.join(stagingRoot, "manifest.json"), path.join(revisionRoot, "manifest.json"));
   fs.rmdirSync(stagingRoot);
-  process.stdout.write(`${JSON.stringify({ revision, events: eventIds.length, eventApi: eventIds.length, discoverApi: eventIds.length, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
+  process.stdout.write(`${JSON.stringify({ revision, events: eventIds.length, eventApi: options.eventTransport === 'batch-v1' ? 0 : eventIds.length, discoverApi: options.eventTransport === 'batch-v1' ? 0 : eventIds.length,
+    ...(options.eventTransport === 'batch-v1' ? { eventBatchApi: Math.ceil(eventIds.length / (options.eventBatchSize || 8)), eventTransport: 'batch-v1' } : {}), directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
+  return { outputRevision: revision, dataRevision, payload: structuredClone(singersPayload) };
 }
 
 async function eventSnapshot(id, revision, dataRevision, generatedAt) {
@@ -292,7 +308,18 @@ async function generateEventPreview(ids) {
   process.stdout.write(`${JSON.stringify({ revision, previewOnly: true, eventIds: ids, directory: path.relative(ROOT, previewRoot) }, null, 2)}\n`);
 }
 
-async function switchCurrent(revision) {
+async function switchCurrent(revision, { reuseVerifiedHtml = false } = {}) {
+  return withSnapshotOperation(ROOT, async lease => {
+    if (reuseVerifiedHtml) {
+      const result = switchVerifiedCurrent({ root: ROOT, revision, lease });
+      process.stdout.write(`${JSON.stringify({ revision, reusedHtml: true, capturePages: 0, provenance: result.provenance })}\n`);
+      return;
+    }
+    return switchCurrentWithCapture(revision);
+  });
+}
+
+async function switchCurrentWithCapture(revision) {
   const revisionRoot = path.join(SNAPSHOT_ROOT, revision);
   const manifestPath = path.join(revisionRoot, "manifest.json");
   if (!fs.existsSync(manifestPath)) throw new Error(`Snapshot does not exist: ${revision}`);
@@ -311,13 +338,19 @@ async function switchCurrent(revision) {
   process.stdout.write(`${revision}\n`);
 }
 
-async function generate() {
+async function generate(options = {}) {
+  if (options.eventTransport && !['legacy', 'batch-v1'].includes(options.eventTransport)) throw new Error('Unknown Event transport');
+  if (options.eventBatchSize !== undefined && (!Number.isInteger(options.eventBatchSize) || options.eventBatchSize < 1 || options.eventBatchSize > 8 || options.eventTransport !== 'batch-v1')) throw new Error('Invalid Event batch size');
+  return withSnapshotOperation(ROOT, () => generateSnapshot(options));
+}
+
+async function generateSnapshot(options = {}) {
   const revisionPayload = await api("revision");
   const { dataRevision, outputRevision: revision } = apiRevisions(revisionPayload);
   const revisionRoot = path.join(SNAPSHOT_ROOT, revision);
   if (fs.existsSync(revisionRoot)) {
-    await generateAllEvents(revision, dataRevision, revisionRoot);
-    await generateMemberAnalytics(revision, dataRevision, revisionRoot);
+    const singers = await generateAllEvents(revision, dataRevision, revisionRoot, options);
+    await generateMemberAnalytics(revision, dataRevision, revisionRoot, singers);
     await generateSongPages({ revision });
     await generateReleasePages({ revision });
     return;
@@ -385,19 +418,24 @@ async function generate() {
   } else {
     fs.renameSync(stagingRoot, revisionRoot);
   }
-  await generateAllEvents(revision, dataRevision, revisionRoot);
-  await generateMemberAnalytics(revision, dataRevision, revisionRoot);
+  const singers = await generateAllEvents(revision, dataRevision, revisionRoot, options);
+  await generateMemberAnalytics(revision, dataRevision, revisionRoot, singers);
   await generateSongPages({ revision });
   await generateReleasePages({ revision });
   process.stdout.write(`${JSON.stringify({ revision, releases: 114, songs: 117, details: 231, kamiparaDashboard: 1, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
 }
 
+async function runCli() {
+const transport = eventTransportOptions(process.argv.slice(2));
 const switchIndex = process.argv.indexOf("--switch-current");
+const reuseVerifiedHtml = process.argv.includes("--reuse-verified-html");
 const eventIdsIndex = process.argv.indexOf("--event-ids");
 const memberIndex = process.argv.indexOf("--member-analytics");
+if (transport.mode === 'batch-v1' && [switchIndex, eventIdsIndex, memberIndex].some(i => i >= 0)) throw new Error('Batch transport requires full generation');
 if (switchIndex >= 0 && eventIdsIndex >= 0) throw new Error("Preview generation cannot switch current.json");
+if (reuseVerifiedHtml && switchIndex < 0) throw new Error("--reuse-verified-html requires --switch-current");
 const operation = switchIndex >= 0
-  ? Promise.resolve().then(() => switchCurrent(process.argv[switchIndex + 1]))
+  ? Promise.resolve().then(() => switchCurrent(process.argv[switchIndex + 1], { reuseVerifiedHtml }))
   : eventIdsIndex >= 0
     ? generateEventPreview(process.argv.slice(eventIdsIndex + 1))
     : memberIndex >= 0
@@ -407,5 +445,9 @@ const operation = switchIndex >= 0
           if (!fs.existsSync(revisionRoot)) throw new Error(`Snapshot does not exist: ${revision}`);
           await generateMemberAnalytics(revision, dataRevision, revisionRoot);
         })
-    : generate();
-operation.catch(error => { console.error(error); process.exitCode = 1; });
+    : generate({ eventTransport: transport.mode, ...(transport.mode === 'batch-v1' ? { eventBatchSize: transport.batchSize } : {}) });
+return operation;
+}
+
+module.exports = { generate, switchCurrent, runCli };
+if (require.main === module) withSnapshotOperation(ROOT, runCli).catch(error => { console.error(error); process.exitCode = 1; });

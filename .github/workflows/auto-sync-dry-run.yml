@@ -1,0 +1,87 @@
+name: AUTO-SYNC-02 read-only dry run
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Saved-snapshot checks only, or also fresh API generation
+        type: choice
+        default: offline
+        options: [offline, full]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths:
+      - '.github/workflows/auto-sync-dry-run.yml'
+      - 'tools/ci/**'
+      - 'tests/auto-sync-dry-run.test.cjs'
+      - 'tests/ci-request-policy.test.cjs'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: auto-sync-02-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  dry-run:
+    if: github.ref != 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      AUTO_SYNC_CI: '1'
+      CHROME_VERSION: '158.0.8127.36'
+    steps:
+      - name: Initialize dry-run output
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf 'AUTO_SYNC_OUTPUT=%s/auto-sync-02\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+          mkdir -p "$RUNNER_TEMP/auto-sync-02"
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24.19.0'
+      - name: Install locked dependencies and pinned Chrome/font
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci --prefix tests --ignore-scripts
+          sudo apt-get update
+          sudo apt-get install -y 'fonts-noto-cjk=1:20230817+repack1-3' libnss3 libatk-bridge2.0-0t64 libxkbcommon0 libgbm1 libasound2t64
+          test "$(dpkg-query -W -f='${Version}' fonts-noto-cjk)" = '1:20230817+repack1-3'
+          curl --fail --silent --show-error --location --retry 0 "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" -o "$RUNNER_TEMP/chrome.zip"
+          unzip -q "$RUNNER_TEMP/chrome.zip" -d "$RUNNER_TEMP/pinned-chrome"
+          sudo mkdir -p /opt/google/chrome
+          sudo ln -sf "$RUNNER_TEMP/pinned-chrome/chrome-linux64/chrome" /opt/google/chrome/chrome
+          mkdir -p "$AUTO_SYNC_OUTPUT"
+          node --version > "$AUTO_SYNC_OUTPUT/node-version.txt"
+          /opt/google/chrome/chrome --version > "$AUTO_SYNC_OUTPUT/chrome-version.txt"
+          dpkg-query -W fonts-noto-cjk > "$AUTO_SYNC_OUTPUT/font-version.txt"
+      - name: Install Playwright test Chromium
+        run: node tests/node_modules/playwright/cli.js install chromium
+      - name: Preflight Playwright test Chromium before generation
+        run: node tools/ci/test-environment.cjs --preflight
+      - name: Validate saved snapshot without GAS
+        env:
+          AUTO_SYNC_NETWORK_MODE: offline
+        run: node tools/ci/offline-check.cjs
+      - name: Generate and validate without publication
+        if: github.event_name != 'workflow_dispatch' || inputs.mode == 'full'
+        run: node tools/ci/auto-sync-dry-run.cjs
+      - name: Prepare public artifact without raw HTTP or redirect credentials
+        if: always()
+        run: node tools/ci/batch-trial-contract.cjs --package-artifact "$AUTO_SYNC_OUTPUT" "$RUNNER_TEMP/auto-sync-12-artifact"
+      - name: Preserve generated files and all available evidence
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: auto-sync-02-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/auto-sync-12-artifact
+          if-no-files-found: error
+          retention-days: 7

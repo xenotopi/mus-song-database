@@ -1,6 +1,8 @@
-# Manual first-publication workflow. The scheduled template remains inactive.
+# Read-only monitor. The runtime flag must be enabled separately.
 name: MUSDB revision monitor
 on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
   workflow_dispatch:
     inputs:
       retry_failed_run:
@@ -18,7 +20,7 @@ jobs:
   monitor:
     if: >-
       github.repository == 'xenotopi/mus-song-database' && github.repository_id == '1318600615' &&
-      github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.ref_protected && vars.MUSDB_AUTO_SYNC_ENABLED == 'true'
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && github.ref_protected && vars.MUSDB_AUTO_SYNC_ENABLED == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -43,3 +45,13 @@ jobs:
           path: ${{ runner.temp }}/musdb-sync/*.json
           retention-days: 14
           if-no-files-found: error
+      - name: Save blocked or failed monitor evidence
+        if: ${{ !cancelled() && (steps.observe.outcome == 'failure' || steps.observe.outputs.decision == 'BLOCKED') }}
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        with:
+          name: sync-monitor-evidence
+          path: |
+            ${{ runner.temp }}/musdb-sync/state.json
+            ${{ runner.temp }}/musdb-sync/http-summary-monitor.json
+          retention-days: 14
+          if-no-files-found: warn

@@ -1,0 +1,48 @@
+# INACTIVE TEMPLATE. Activation requires explicit approval, main review, and
+# moving this file to .github/workflows. No schedule is installed by this file.
+name: MUSDB revision monitor
+on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:
+    inputs:
+      retry_failed_run:
+        description: Explicit acknowledgement of the last failed publisher run ID
+        type: string
+        required: false
+        default: ''
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: musdb-revision-monitor
+  cancel-in-progress: false
+jobs:
+  monitor:
+    if: >-
+      github.repository == 'xenotopi/mus-song-database' && github.repository_id == '1318600615' &&
+      github.ref == 'refs/heads/main' && github.ref_protected && vars.MUSDB_AUTO_SYNC_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.19.0'
+      - id: observe
+        name: Compare revision, published state and source fingerprint
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          MUSDB_AUTO_SYNC_ENABLED: ${{ vars.MUSDB_AUTO_SYNC_ENABLED }}
+          ACK_RUN: ${{ inputs.retry_failed_run }}
+        run: node tools/auto-sync/cli.cjs monitor --out="$RUNNER_TEMP/musdb-sync" --retry-failed-run="${ACK_RUN:-none}"
+      - name: Save unsigned monitor plan and read-only status
+        if: steps.observe.outputs.decision == 'CHECK' || steps.observe.outputs.decision == 'NO_OP'
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        with:
+          name: sync-monitor-plan
+          path: ${{ runner.temp }}/musdb-sync/*.json
+          retention-days: 14
+          if-no-files-found: error

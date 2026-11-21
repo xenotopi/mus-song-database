@@ -19,15 +19,14 @@ const signingEnvironment = (kind='publish') => ({
   MUSDB_SYNC_SIGNING_ENABLED:'true',MUSDB_SYNC_SIGNING_KID:'fixture',
   GITHUB_REPOSITORY:config.repository,GITHUB_REPOSITORY_ID:config.signedReadiness.repositoryId,
   GITHUB_REF:'refs/heads/main',GITHUB_WORKFLOW_REF:workflowRef(kind),GITHUB_SHA:sourceSha,
-  GITHUB_EVENT_NAME:kind==='publish'?'workflow_run':'workflow_dispatch',GITHUB_RUN_ID:'100',GITHUB_RUN_ATTEMPT:'1'
+  GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_RUN_ID:'100',GITHUB_RUN_ATTEMPT:'1'
 });
 const response = data => new Response(JSON.stringify({success:true,data}),{headers:{'content-type':'application/json'}});
 const allowedContext = {phase:'build-start',sourceSha,fingerprint};
 
-test('checked-in OFF and runtime OFF each independently prevent all signature traffic',async()=>{
-  assert.equal(actualConfig.enabled,false);
-  assert.equal(actualConfig.signedReadiness.enabled,false);
-  for (const [settings,enabled] of [[actualConfig,'true'],[config,'false']]) {
+test('the signed-readiness file flag and runtime flag independently prevent signature traffic when OFF',async()=>{
+  const signingOff={...config,signedReadiness:{...config.signedReadiness,enabled:false}};
+  for (const [settings,enabled] of [[signingOff,'true'],[config,'false']]) {
     let calls=0;
     const env={...signingEnvironment(),MUSDB_SYNC_SIGNING_ENABLED:enabled};
     const http=client(settings,{env,signingKey:key,fetch:async()=>{calls++;}});
@@ -194,23 +193,21 @@ test('publication verification rejects an update beginning after the last deploy
   assert.equal(policy.failureDisposition('verify',{code:'SUPERSEDED'}).exitCode,1);
 });
 
-test('protected templates scope signing keys and the approved PR trial stays offline and read-only',()=>{
+test('manual workflows scope signing keys and the approved PR trial stays offline and read-only',()=>{
   const {yaml}=require(path.join(path.dirname(require.resolve('playwright/package.json')),'../playwright-core/lib/utilsBundle.js'));
   const root=path.resolve(__dirname,'..');
-  const templates=['revision-monitor','publish','safety-trial'].map(name=>{
+  const workflows=['revision-monitor','publish','safety-trial'].map(name=>{
     const filename='auto-sync-'+name+'.yml';
     const active=path.join(root,'.github/workflows',filename);
     const template=fs.readFileSync(path.join(root,'.github/workflow-templates',filename));
     if (name==='safety-trial') {
       if (fs.existsSync(active)) assert.deepEqual(fs.readFileSync(active),template);
-    } else {
-      assert.equal(fs.existsSync(active),false);
     }
-    const parsed=yaml.parseDocument(template.toString('utf8'));
+    const parsed=yaml.parseDocument((name==='safety-trial'?template:fs.readFileSync(active)).toString('utf8'));
     assert.deepEqual(parsed.errors,[]);
     return parsed.toJS();
   });
-  const [monitor,publisher,trial]=templates;
+  const [monitor,publisher,trial]=workflows;
   assert.doesNotMatch(JSON.stringify(monitor),/\bsecrets\b|MUSDB_SYNC_SIGNING|pages: write/);
   assert.equal(monitor.jobs.monitor.environment,undefined);
   assert.equal(publisher.jobs.deploy.environment.name,'musdb-sync-signing');
@@ -237,7 +234,7 @@ test('protected templates scope signing keys and the approved PR trial stays off
   ].join(' '));
   const keyEnv='MUSDB_SYNC_SIGNING_KEY';
   let keySteps=0;
-  for (const workflow of templates) for (const job of Object.values(workflow.jobs)) {
+  for (const workflow of workflows) for (const job of Object.values(workflow.jobs)) {
     assert.equal(job.env?.[keyEnv],undefined);
     for (const step of job.steps) if (step.env?.[keyEnv]) {
       keySteps++;

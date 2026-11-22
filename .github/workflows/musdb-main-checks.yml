@@ -28,3 +28,4 @@ jobs:
           tests/detail-snapshot.test.cjs
           tests/member-analytics-source-counts.test.cjs
           tests/auto-sync-frozen-source.test.cjs
+          tests/auto-sync-publication-diff.test.cjs

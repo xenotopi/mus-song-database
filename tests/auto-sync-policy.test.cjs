@@ -19,7 +19,7 @@ for(const status of [403,429,500])test('HTTP '+status+' blocks monitoring withou
 test('incomplete API envelope and timeout reject without extra requests',async()=>{for(const kind of ['partial','timeout']){let calls=0;const c=client(f.config,{fetch:async()=>{calls++;if(kind==='timeout')throw new DOMException('timed out','TimeoutError');return response({success:true,data:{dataRevision:f.target.dataRevision}});}});await assert.rejects(c.latest());assert.equal(calls,1);}});
 test('HTTP adapter refuses unknown hosts, actions and cross-project readiness',async()=>{let calls=0;const c=client(f.config,{fetch:async()=>{calls++;return response({});}});for(const u of ['https://evil.invalid/a','http://mus-song-db.com/','https://script.google.com/macros/s/other/exec?action=revision','https://script.google.com/macros/s/public-fixture/exec?action=updateAll'])await assert.rejects(c.get(u));assert.equal(calls,0);});
 test('public marker requires actual publisher workflow success, not a deployment claim',async()=>{const current={...f.target,revision:f.target.outputRevision,manifest:'./'+f.target.outputRevision+'/manifest.json'},manifest={revision:f.target.outputRevision,dataRevision:f.target.dataRevision},bytes=x=>Buffer.from(JSON.stringify(x)),release={schemaVersion:1,...f.target,sourceSha:f.sourceSha,fingerprint:f.fingerprint,runId:2,currentSha256:p.sha(bytes(current)),snapshotManifestSha256:p.sha(bytes(manifest))};for(const state of ['in_progress','failure','success']){const c=client(f.config,{fetch:async(url,init)=>{const u=new URL(url);if(u.hostname==='api.github.com'){assert.equal(init.headers.authorization,'Bearer token');return response({head_sha:f.sourceSha,head_branch:'main',path:f.config.publishWorkflowPath,id:2,run_number:2,status:state==='in_progress'?state:'completed',conclusion:state==='in_progress'?null:state});}if(u.pathname.endsWith('current.json'))return response(current);if(u.pathname.endsWith('manifest.json'))return response(manifest);return response(release);},token:'token'});assert.equal((await c.published()).verified,state==='success');}});
-test('dispatch-only monitoring and publication preserve the reviewed permission boundaries',()=>{
+test('manual and completion-event workflows preserve the reviewed permission boundaries',()=>{
   const {yaml}=require(path.join(path.dirname(require.resolve('playwright/package.json')),'../playwright-core/lib/utilsBundle.js'));
   const github=path.resolve(__dirname,'../.github');
   function load(directory,name) {
@@ -50,6 +50,22 @@ test('dispatch-only monitoring and publication preserve the reviewed permission 
   const monitor=load('workflows',monitorName);
   assert.deepEqual(Object.keys(monitor.on),['workflow_dispatch']);
   assert.deepEqual(monitor.permissions,{contents:'read',actions:'read'});
+  assert.equal(monitor.concurrency.queue,'max');
+  delete monitor.concurrency.queue;
+  assert.deepEqual(monitor.on.workflow_dispatch.inputs.completion_notice,{
+    description:'Completion generation and both revisions from the authorized management script',
+    type:'string',required:false,default:''
+  });
+  delete monitor.on.workflow_dispatch.inputs.completion_notice;
+  const monitorEnv=monitor.jobs.monitor.steps.find(step=>step.id==='observe').env;
+  for(const [key,value] of Object.entries({
+    MUSDB_EVENT_MONITOR_ENABLED:'${{ vars.MUSDB_EVENT_MONITOR_ENABLED }}',
+    MUSDB_EVENT_ACTOR_ID:'${{ vars.MUSDB_EVENT_ACTOR_ID }}',
+    MUSDB_COMPLETION_NOTICE:'${{ inputs.completion_notice }}'
+  })) {
+    assert.equal(monitorEnv[key],value);
+    delete monitorEnv[key];
+  }
   assert.deepEqual(monitor,expectedMonitor);
 
   const publishName='auto-sync-publish.yml';
@@ -57,20 +73,13 @@ test('dispatch-only monitoring and publication preserve the reviewed permission 
   assert.deepEqual(expectedPublisher.on.workflow_run,{
     workflows:['MUSDB revision monitor'],types:['completed'],branches:['main']
   });
-  delete expectedPublisher.on.workflow_run;
   expectedPublisher.on.workflow_dispatch.inputs.publish={
     description:'Authorize deployment only if all publication gates pass',
     type:'boolean',required:true,default:false
   };
-  expectedPublisher.jobs.plan.if=expectedPublisher.jobs.plan.if.replace(
-    "(github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success')",
-    "github.event_name == 'workflow_dispatch' && inputs.publish == true"
-  );
-  expectedPublisher.jobs.plan.steps.find(step=>step.id==='monitor').env.MONITOR_RUN_ID='${{ inputs.monitor_run_id }}';
   const publisher=load('workflows',publishName);
-  assert.deepEqual(Object.keys(publisher.on),['workflow_dispatch']);
-  assert.deepEqual(publisher,expectedPublisher);
-  assert.deepEqual(publisher.concurrency,{group:'musdb-pages-production','cancel-in-progress':false});
+  assert.deepEqual(Object.keys(publisher.on),['workflow_run','workflow_dispatch']);
+  assert.deepEqual(publisher.concurrency,{group:'musdb-pages-production','cancel-in-progress':false,queue:'max'});
   assert.deepEqual(publisher.permissions,{contents:'read',actions:'read'});
   assert.deepEqual(publisher.jobs.deploy.permissions,{
     contents:'read',actions:'read',pages:'write','id-token':'write'
@@ -88,6 +97,77 @@ test('dispatch-only monitoring and publication preserve the reviewed permission 
   const text=fs.readFileSync(path.join(github,'workflows',publishName),'utf8');
   assert.doesNotMatch(text,/pull_request_target|git push|contents: write|enablement: true/);
   assert.match(text,/PAGES_DEPLOY_CONCLUSION/);
+
+  // Validate each authorized addition before comparing the unchanged baseline, step by step.
+  const newGuard=[
+    "((github.event_name == 'workflow_dispatch' && inputs.publish == true) ||",
+    " (github.event_name == 'workflow_run' && vars.MUSDB_EVENT_PUBLICATION_ENABLED == 'true' &&",
+    "  vars.MUSDB_PUBLICATION_FENCE_ENABLED == 'true' && vars.MUSDB_EVENT_ACTOR_ID != '' &&",
+    "  github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.run_attempt == 1 &&",
+    "  format('{0}', github.event.workflow_run.actor.id) == vars.MUSDB_EVENT_ACTOR_ID))"
+  ].join(' ');
+  assert.ok(publisher.jobs.plan.if.replace(/\s+/g,' ').includes(newGuard.replace(/\s+/g,' ')));
+  const expectedGuard=expectedPublisher.jobs.plan.if;
+  assert.ok(publisher.jobs.plan.if.startsWith(expectedGuard.slice(0,expectedGuard.indexOf("(github.event_name"))));
+  publisher.jobs.plan.if=expectedGuard;
+  for(const [key,value] of Object.entries({
+    MUSDB_EVENT_PUBLICATION_ENABLED:'${{ vars.MUSDB_EVENT_PUBLICATION_ENABLED }}',
+    MUSDB_EVENT_ACTOR_ID:'${{ vars.MUSDB_EVENT_ACTOR_ID }}',
+    MUSDB_RUN_REF_PROTECTED:'${{ github.ref_protected }}',
+    MUSDB_PUBLICATION_FENCE_ENABLED:'${{ vars.MUSDB_PUBLICATION_FENCE_ENABLED }}'
+  })) {
+    assert.equal(publisher.env[key],value);
+    delete publisher.env[key];
+  }
+  const build=publisher.jobs.build;
+  const authorize=build.steps.findIndex(step=>step.id==='authorize');
+  assert.ok(authorize>0);
+  assert.deepEqual(build.steps.splice(authorize-1,1)[0],{
+    name:'Require durable confirmation of the automatic monitor run',
+    if:"github.event_name == 'workflow_run'",
+    env:{MUSDB_DIRECT_FENCE_KEY:'${{ secrets.MUSDB_DIRECT_AUTO_KEY }}'},
+    run:'node tools/auto-sync/publication-fence.cjs check'
+  });
+  const fenceEnv={MUSDB_DIRECT_FENCE_KEY:"${{ github.event_name == 'workflow_run' && secrets.MUSDB_DIRECT_AUTO_KEY || github.event_name == 'workflow_dispatch' && secrets.MUSDB_DIRECT_MANUAL_KEY || '' }}"};
+  const buildEnv=build.steps.find(step=>step.id==='build').env;
+  assert.equal(buildEnv.MUSDB_DIRECT_FENCE_KEY,fenceEnv.MUSDB_DIRECT_FENCE_KEY);
+  delete buildEnv.MUSDB_DIRECT_FENCE_KEY;
+  const deploy=publisher.jobs.deploy, baseline=expectedPublisher.jobs.deploy;
+  assert.equal(deploy.if,baseline.if+" && vars.MUSDB_PUBLICATION_FENCE_ENABLED == 'true' && vars.MUSDB_PAGES_DEPLOY_ENABLED == 'true'");
+  deploy.if=baseline.if;
+  const freshness=deploy.steps.find(step=>step.id==='freshness');
+  const oldFreshness=baseline.steps.find(step=>step.id==='freshness');
+  assert.equal(freshness.if,"steps.fence.outputs.acquired == 'true'");
+  assert.equal(freshness.name,'Recheck after upload while the publication fence is held');
+  freshness.if=oldFreshness.if;
+  freshness.name=oldFreshness.name;
+  const pages=deploy.steps.find(step=>step.id==='pages');
+  assert.equal(pages.if,"steps.begin.outputs.allowed == 'true'");
+  pages.if=baseline.steps.find(step=>step.id==='pages').if;
+  const at=deploy.steps.indexOf(freshness);
+  assert.match(deploy.steps[at-2].uses,/^actions\/upload-pages-artifact@/);
+  assert.deepEqual(deploy.steps.splice(at-1,1)[0],{
+    id:'fence',name:'Acquire the publication fence shared with management updates',
+    if:"steps.gate.outputs.allowed == 'true'",env:fenceEnv,run:'node tools/auto-sync/publication-fence.cjs acquire'
+  });
+  assert.deepEqual(deploy.steps.splice(at,1)[0],{
+    id:'begin',name:'Persist that a Pages request may be issued',
+    if:"steps.freshness.outputs.allowed == 'true'",env:fenceEnv,run:'node tools/auto-sync/publication-fence.cjs begin'
+  });
+  assert.deepEqual(deploy.steps.splice(at+1,1)[0],{
+    name:'Release only if the Pages request could not have been issued',
+    if:"${{ !cancelled() && steps.fence.outputs.acquired == 'true' && steps.begin.outcome == 'skipped' && steps.pages.outcome == 'skipped' }}",
+    env:fenceEnv,run:'node tools/auto-sync/publication-fence.cjs abandon'
+  });
+  const verify=publisher.jobs.verify;
+  const verification=verify.steps.findIndex(step=>/ cli\.cjs verify |\/cli\.cjs verify /.test(step.run||''));
+  assert.ok(verification>=0);
+  assert.deepEqual(verify.steps.splice(verification+1,1)[0],{
+    name:'Release the publication fence after successful production verification',
+    env:fenceEnv,run:'node tools/auto-sync/publication-fence.cjs verified'
+  });
+  delete publisher.concurrency.queue;
+  assert.deepEqual(publisher,expectedPublisher);
 });
 test('post-upload freshness check precedes deployment and trial remains read-only',()=>{const root=path.resolve(__dirname,'..'),text=fs.readFileSync(path.join(root,'.github/workflow-templates/auto-sync-publish.yml'),'utf8'),trial=fs.readFileSync(path.join(root,'.github/workflow-templates/auto-sync-safety-trial.yml'),'utf8'),{yaml}=require(path.join(path.dirname(require.resolve('playwright/package.json')),'../playwright-core/lib/utilsBundle.js')),t=yaml.parse(trial);assert.ok(text.indexOf('id: freshness')>text.indexOf('actions/upload-pages-artifact@'));assert.match(text,/if: steps\.freshness\.outputs\.allowed == 'true'/);assert.match(trial,/contents: read/);assert.doesNotMatch(trial,/pages: write|id-token: write|actions: write|pull_request_target/);assert.ok(Object.hasOwn(t.on,'workflow_dispatch'));assert.deepEqual(t.on.pull_request.branches,['main']);assert.match(t.jobs.contracts.if,/head.repo.full_name == github.repository/);assert.match(t.jobs.contracts.if,/auto-sync-19-production-integration-20261121/);const active=path.join(root,'.github/workflows/auto-sync-safety-trial.yml');if(fs.existsSync(active))assert.equal(fs.readFileSync(active,'utf8').replace(/\r\n/g,'\n'),trial.replace(/\r\n/g,'\n'),'Approved trial promotion must preserve exact permissions and behavior');});
 

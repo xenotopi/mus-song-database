@@ -136,7 +136,12 @@ async function authorizeBuild({http,candidate,completionOptions}) {
   }
   const lastFailure = readiness?.state==='ready'?await http.lastFailure():null;
   if (sourceSha!==await http.mainSha()) throw superseded('Main advanced during build authorization');
-  return policy.decide({...observation,readiness,lastFailure});
+  const decision = policy.decide({...observation,readiness,lastFailure});
+  if (decision.decision==='BUILD' && readiness.sourceImageSha256 !== undefined) {
+    assert.match(readiness.sourceImageSha256,/^[a-f0-9]{64}$/,'Invalid completed source image');
+    return {...decision,sourceImageSha256:readiness.sourceImageSha256};
+  }
+  return decision;
 }
 
 function superseded(message) {
@@ -155,6 +160,9 @@ async function confirmPlan({http,plan,phase,getFingerprint,context,completionOpt
   if (readiness?.state==='running') throw superseded('GAS update running');
   assert.ok(policy.completion(readiness,latest,completionOptions).ready,'Strict update completion unavailable');
   if (policy.sha(readiness.completionId)!==plan.completionSha256) throw superseded('Completion generation superseded');
+  if (plan.sourceImageSha256 && readiness.sourceImageSha256!==plan.sourceImageSha256) {
+    throw superseded('Completed source image superseded');
+  }
   assert.equal(getFingerprint(),fingerprint,'Build source changed during readiness check');
   if (await http.mainSha()!==mainSha) throw superseded('Main advanced during readiness check');
   return {latest,published,readiness,fingerprint,context:{...context,mainSha}};

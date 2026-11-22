@@ -27,3 +27,4 @@ jobs:
           tests/api-jsonp-timeout.test.cjs
           tests/detail-snapshot.test.cjs
           tests/member-analytics-source-counts.test.cjs
+          tests/auto-sync-frozen-source.test.cjs

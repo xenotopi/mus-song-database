@@ -1,5 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),cp=require('node:child_process'),assert=require('node:assert/strict');const policy=require('./policy.cjs'),{client}=require('./http.cjs'),site=require('./site.cjs'),{validateMonitorRun,dataBindings}=require('./pipeline.cjs'),{monitor,authorizeBuild,confirmPlan}=require('./readiness-client.cjs');
+const {completionNotice,validateAutomaticMonitorRun,authorizeAutomaticBuild}=require('./completion-event.cjs');
+const {freezeSource}=require('./frozen-source.cjs');
 const root=path.resolve(__dirname,'../..'),config=require('./config.json'),command=process.argv[2],options=Object.fromEntries(process.argv.slice(3).map(a=>{assert.match(a,/^--[a-z-]+=.+$/);const i=a.indexOf('=');return[a.slice(2,i),a.slice(i+1)];}));
 const out=path.resolve(options.out||process.env.RUNNER_TEMP&&path.join(process.env.RUNNER_TEMP,'musdb-sync')||path.join(root,'../sync-local-output'));fs.mkdirSync(out,{recursive:true});const records=[],signedChecks=[];
 const signingKey=process.env.MUSDB_SYNC_SIGNING_KEY;
@@ -11,6 +13,27 @@ const fingerprint=()=>policy.sourceFingerprint(root),plan=()=>read(path.resolve(
 const completionOptions={maxAgeSeconds:config.maximumReadinessAgeSeconds,stableSeconds:config.minimumStableSeconds};
 function superseded(message){throw Object.assign(new Error(message),{code:'SUPERSEDED'});}
 function freshPlan(plan,phase){return confirmPlan({http,plan,phase,getFingerprint:fingerprint,context:runInfo(),completionOptions});}
+const automatic=()=>process.env.GITHUB_EVENT_NAME==='workflow_run';
+function eventConfig(){return {...config,repositoryId:Number(config.signedReadiness.repositoryId),monitorWorkflowId:425885956,
+  trustedDispatchActorId:Number(process.env.MUSDB_EVENT_ACTOR_ID)};}
+function automaticContext(mainSha){return {config:eventConfig(),mainSha,enabled:process.env.MUSDB_EVENT_PUBLICATION_ENABLED==='true',
+  invocation:{event:process.env.GITHUB_EVENT_NAME,protected:process.env.MUSDB_RUN_REF_PROTECTED==='true',
+    repositoryId:Number(process.env.GITHUB_REPOSITORY_ID),ref:process.env.GITHUB_REF,sha:git('rev-parse','HEAD'),
+    runAttempt:Number(process.env.GITHUB_RUN_ATTEMPT)}};}
+function noticeInput(retryFailedRunId){
+  const value=process.env.MUSDB_COMPLETION_NOTICE;
+  if (!value) return null;
+  const settings=eventConfig();
+  assert.equal(process.env.MUSDB_EVENT_MONITOR_ENABLED,'true','Event monitoring disabled');
+  assert.ok(Number.isSafeInteger(settings.trustedDispatchActorId)&&settings.trustedDispatchActorId>0,'Missing trusted actor');
+  assert.equal(Number(process.env.GITHUB_ACTOR_ID),settings.trustedDispatchActorId,'Untrusted completion monitor actor');
+  assert.equal(process.env.GITHUB_RUN_ATTEMPT,'1','Completion monitor reruns require manual handling');
+  assert.equal(retryFailedRunId,null,'An automatic notice cannot acknowledge a failed publication');
+  assert.ok(value.length<=512,'Invalid notice length');
+  let notice;
+  try { notice=JSON.parse(value); } catch { throw new Error('Invalid completion notice JSON'); }
+  return completionNotice(notice);
+}
 async function validatePlan(p,{candidate=false}={}) {
   const {planId,...fields}=p;
   assert.equal(policy.sha(JSON.stringify(fields)),planId,'Plan hash mismatch');
@@ -22,11 +45,12 @@ async function validatePlan(p,{candidate=false}={}) {
   assert.match(p.fingerprint,/^[a-f0-9]{64}$/);
   if (candidate) {
     assert.ok(['CHECK','NO_OP'].includes(p.decision));
-    assert.ok(!Object.hasOwn(p,'completionSha256'));
+    assert.ok(!Object.hasOwn(p,'completionSha256')&&!Object.hasOwn(p,'sourceImageSha256'));
     assert.ok(p.retryFailedRunId===null||/^[1-9]\d*$/.test(p.retryFailedRunId));
   } else {
     assert.equal(p.decision,'BUILD');
     assert.match(p.completionSha256,/^[a-f0-9]{64}$/);
+    assert.match(p.sourceImageSha256,/^[a-f0-9]{64}$/,'An update with a confirmed source image is required');
     assert.equal(p.authorizedRunId,runInfo().runId);
   }
   assert.ok(!Object.hasOwn(p,'completionId'));
@@ -35,10 +59,10 @@ async function validatePlan(p,{candidate=false}={}) {
   return p;
 }
 async function guard(p,checks){const fresh=await freshPlan(p,'pre-deploy');return policy.deploymentGate({config,enabledVariable:process.env.MUSDB_AUTO_SYNC_ENABLED,plan:p,...fresh,checks});}
-function run(name,args){const {childEnvironment}=require('../ci/test-environment.cjs'),deadline=Number(process.env.AUTO_SYNC_DEADLINE_MS),env=childEnvironment(name,{outputDirectory:out,guardPath:path.join(root,'tools/ci/read-only-network.cjs')});delete env.AUTO_SYNC_CAPTURE_LOG;if(['snapshot','switch-local-current'].includes(name)){env.AUTO_SYNC_CAPTURE_LOG=path.join(out,'capture.jsonl');env.NODE_OPTIONS+=' --require '+path.join(root,'tools/ci/batch-trial-contract.cjs');}if(name==='related-tests'){env.AUTO_SYNC_NETWORK_MODE='offline';delete env.AUTO_SYNC_ALLOW_TIMEOUT_RETRY;}const a=fs.openSync(path.join(out,name+'.stdout.log'),'wx'),b=fs.openSync(path.join(out,name+'.stderr.log'),'wx'),begin=Date.now();let r;try{r=cp.spawnSync(process.execPath,args,{cwd:root,env,stdio:['ignore',a,b],timeout:Math.max(1,deadline-Date.now())});}finally{fs.closeSync(a);fs.closeSync(b);}const row={name,seconds:(Date.now()-begin)/1000,exit:r.status};fs.appendFileSync(path.join(out,'steps.jsonl'),JSON.stringify(row)+'\n');assert.ok(!r.error&&r.status===0,name+' failed; no unconditional retry');return fs.readFileSync(path.join(out,name+'.stdout.log'),'utf8');}
+function run(name,args,frozen){const {childEnvironment}=require('../ci/test-environment.cjs'),deadline=Number(process.env.AUTO_SYNC_DEADLINE_MS),env=childEnvironment(name,{outputDirectory:out,guardPath:path.join(root,'tools/ci/read-only-network.cjs')});delete env.AUTO_SYNC_CAPTURE_LOG;delete env.MUSDB_DIRECT_FENCE_KEY;delete env.MUSDB_FROZEN_SOURCE_TOKEN;delete env.MUSDB_FROZEN_SOURCE_STAMP;if(frozen){env.MUSDB_FROZEN_SOURCE_TOKEN=frozen.token;env.MUSDB_FROZEN_SOURCE_STAMP=frozen.stamp;}if(['snapshot','switch-local-current'].includes(name)){env.AUTO_SYNC_CAPTURE_LOG=path.join(out,'capture.jsonl');env.NODE_OPTIONS+=' --require '+path.join(root,'tools/ci/batch-trial-contract.cjs');}if(name==='related-tests'){env.AUTO_SYNC_NETWORK_MODE='offline';delete env.AUTO_SYNC_ALLOW_TIMEOUT_RETRY;}const a=fs.openSync(path.join(out,name+'.stdout.log'),'wx'),b=fs.openSync(path.join(out,name+'.stderr.log'),'wx'),begin=Date.now();let r;try{r=cp.spawnSync(process.execPath,args,{cwd:root,env,stdio:['ignore',a,b],timeout:Math.max(1,deadline-Date.now())});}finally{fs.closeSync(a);fs.closeSync(b);}const row={name,seconds:(Date.now()-begin)/1000,exit:r.status};fs.appendFileSync(path.join(out,'steps.jsonl'),JSON.stringify(row)+'\n');assert.ok(!r.error&&r.status===0,name+' failed; no unconditional retry');return fs.readFileSync(path.join(out,name+'.stdout.log'),'utf8');}
 async function build(){const p=await validatePlan(plan());assert.equal(config.enabled,true,'Activation file remains disabled');assert.equal(process.env.MUSDB_AUTO_SYNC_ENABLED,'true');assert.equal(p.decision,'BUILD');const current=read(path.join(root,'data/current.json')),baseline=read(path.join(root,'data/snapshots',current.outputRevision,'manifest.json'));const initial=await freshPlan(p,'build-start');if(initial.published?.verified&&policy.same(initial.published,p.target)&&initial.published.fingerprint===p.fingerprint){state='published';status({decision:'NO_OP',reason:'Queued duplicate already verified'});output('validated','false');return;}assert.equal(git('status','--porcelain=v2'),'');assert.equal(process.version,'v24.19.0');assert.equal(require('../../tests/node_modules/playwright/package.json').version,'1.62.1');const probe=await require('../../tests/node_modules/playwright').chromium.launch({channel:'chrome',headless:true});const chrome=probe.version();await probe.close();assert.equal(chrome,'158.0.8127.36');save('environment.json',{node:process.version,chrome,playwright:'1.62.1'});process.env.AUTO_SYNC_EXPECTED_DATA_REVISION=p.target.dataRevision;process.env.AUTO_SYNC_EXPECTED_OUTPUT_REVISION=p.target.outputRevision;process.env.AUTO_SYNC_DEADLINE_MS=String(Date.now()+config.buildBudgetMinutes*60000);
  const tests=['event-batch-client','capture-canonical','ci-canonical-comparison','ci-batch-trial','auto-sync-dry-run','ci-request-policy','snapshot-publication','detail-snapshot','static-html-validator','member-analytics-source-counts','capture-provenance','member-analytics-snapshot','gap-rankings','event-static-ui','event-related-releases-ui','auto-sync-policy','auto-sync-pipeline','auto-sync-signed-readiness','auto-sync-site','auto-sync-retention'].map(n=>'tests/'+n+'.test.cjs');state='validating-code';status();const testLog=run('related-tests',['--test','--test-concurrency=1','--test-reporter=tap',...tests]);assert.match(testLog,/^# fail 0$/m);assert.match(testLog,/^# cancelled 0$/m);
- state='generating';status();const contract=require('../ci/batch-trial-contract.cjs'),retained=await require('./retain-snapshots.cjs').retainSnapshots({root,published:initial.published,get:http.get,siteUrl:config.siteUrl,deadline:Number(process.env.AUTO_SYNC_DEADLINE_MS)});save('retained-snapshots.json',retained);const selected=path.join(root,'data/snapshots',p.target.outputRevision,'manifest.json'),trustedExisting=retained.revisions.includes(p.target.outputRevision)||(initial.published.bootstrap&&policy.same(initial.published,p.target)&&fs.existsSync(selected)&&policy.sha(fs.readFileSync(selected))===initial.published.snapshotManifestSha256);if(trustedExisting)run('snapshot',['tools/auto-sync/capture-existing.cjs',p.target.outputRevision]);else{assert.equal(fs.existsSync(path.dirname(selected)),false,'Existing target snapshot is not proven published; refuse overwrite');run('snapshot',contract.generatorArgs);}contract.verifyCaptures(contract.captureRows(path.join(out,'capture.jsonl')));const validate=name=>{const v=JSON.parse(run(name,['tools/validate-static-html.cjs','--revision',p.target.outputRevision]));assert.equal(v.status,'PASS');assert.equal(v.integrity,'PASS');assert.equal(v.provenance,'VERIFIED');return v;};state='validating';status();validate('validator-before-current');const manifests=['song','release'].map(t=>policy.sha(fs.readFileSync(path.join(root,t,'manifest.json'))));const sw=run('switch-local-current',['tools/generate-static-snapshot.cjs','--switch-current',p.target.outputRevision,'--reuse-verified-html']);assert.match(sw,/"reusedHtml":true/);assert.match(sw,/"capturePages":0/);assert.equal(contract.captureRows(path.join(out,'capture.jsonl')).length,231);assert.deepEqual(['song','release'].map(t=>policy.sha(fs.readFileSync(path.join(root,t,'manifest.json')))),manifests);
+ state='generating';status();const contract=require('../ci/batch-trial-contract.cjs'),retained=await require('./retain-snapshots.cjs').retainSnapshots({root,published:initial.published,get:http.get,siteUrl:config.siteUrl,deadline:Number(process.env.AUTO_SYNC_DEADLINE_MS)});save('retained-snapshots.json',retained);const selected=path.join(root,'data/snapshots',p.target.outputRevision,'manifest.json'),trustedExisting=initial.published?.verified===true&&policy.same(initial.published,p.target)&&initial.published.release?.sourceImageSha256===p.sourceImageSha256&&retained.revisions.includes(p.target.outputRevision);if(trustedExisting)run('snapshot',['tools/auto-sync/capture-existing.cjs',p.target.outputRevision]);else{assert.equal(fs.existsSync(path.dirname(selected)),false,'Existing target snapshot is not proven published; refuse overwrite');const frozen=await freezeSource(p);run('snapshot',contract.generatorArgs,frozen);}contract.verifyCaptures(contract.captureRows(path.join(out,'capture.jsonl')));const validate=name=>{const v=JSON.parse(run(name,['tools/validate-static-html.cjs','--revision',p.target.outputRevision]));assert.equal(v.status,'PASS');assert.equal(v.integrity,'PASS');assert.equal(v.provenance,'VERIFIED');return v;};state='validating';status();validate('validator-before-current');const manifests=['song','release'].map(t=>policy.sha(fs.readFileSync(path.join(root,t,'manifest.json'))));const sw=run('switch-local-current',['tools/generate-static-snapshot.cjs','--switch-current',p.target.outputRevision,'--reuse-verified-html']);assert.match(sw,/"reusedHtml":true/);assert.match(sw,/"capturePages":0/);assert.equal(contract.captureRows(path.join(out,'capture.jsonl')).length,231);assert.deepEqual(['song','release'].map(t=>policy.sha(fs.readFileSync(path.join(root,t,'manifest.json')))),manifests);
  for(const [name,args]of [['gap',['tools/generate-gap-rankings.cjs']],['gap-check',['tools/generate-gap-rankings.cjs','--check']],['share',['tools/generate-share-pages.cjs','--all']],['share-check',['tools/generate-share-pages.cjs','--all','--check']],['sitemap',['tools/generate-sitemap.cjs','--snapshot']],['sitemap-check',['tools/generate-sitemap.cjs','--snapshot','--check']]])run(name,args);const validator=validate('validator-final'),bindings=dataBindings(root,p.target.outputRevision,initial.published.verified?read(path.join(root,'data/snapshots',initial.published.outputRevision,'manifest.json')):baseline),{inspect}=require('../ci/canonical-comparison.cjs');for(const type of ['song','release'])for(const id of Object.keys(read(path.join(root,type,'manifest.json')).pages))inspect(fs.readFileSync(path.join(root,type,id+'.html'),'utf8'),'https://mus-song-db.com/'+type+'/'+id+'.html',{final:true});
  const browser=await require('../ci/event-browser-qa.cjs').run({root,out});assert.equal(browser.pass,4);assert.equal(browser.fail,0);assert.equal(fingerprint(),p.fingerprint,'Unexpected source mutation');await freshPlan(p,'build-end');const checks={capture:'PASS',validator:'PASS',integrity:'PASS',provenance:'VERIFIED',bindings:'PASS',derived:'PASS',privacy:'PASS',regressions:'PASS',browser:'PASS'};const destination=path.join(out,'site');const packaged=site.buildSite({root,destination,plan:p,checks,...runInfo(),previousPublished:initial.published?.verified?initial.published:initial.published?.lastVerified});site.verifySite(destination);save('build.json',{status:'PASS',plan:p,checks,bindings,validator,browser,capture:231,switchCapture:0,release:packaged.release,files:packaged.files.length});state='validated';status();output('site',destination);output('validated','true');
 }
@@ -50,20 +74,49 @@ async function build(){const p=await validatePlan(plan());assert.equal(config.en
  if(command==='monitor'){
    const sourceSha=git('rev-parse','HEAD'), retryFailedRunId=options['retry-failed-run']==='none'?null:options['retry-failed-run']||null;
    assert.ok(retryFailedRunId===null||/^[1-9]\d*$/.test(retryFailedRunId));
+   const notice=noticeInput(retryFailedRunId);
    const d=await monitor({http,sourceSha,fingerprint:fingerprint()});
-   const p={schemaVersion:1,repository:config.repository,sourceSha,monitorRunId:runInfo().runId,createdAt:new Date().toISOString(),...d,enabled:config.enabled,retryFailedRunId};
+   if(notice&&!policy.same(notice,d.target)){
+     state='blocked';status({decision:'BLOCKED',reason:'NOTICE_REVISION_SUPERSEDED'});output('decision','BLOCKED');return;
+   }
+   const p={schemaVersion:1,repository:config.repository,sourceSha,monitorRunId:runInfo().runId,createdAt:new Date().toISOString(),...d,enabled:config.enabled,retryFailedRunId,...(notice?{completionNotice:notice}:{})};
    p.planId=policy.sha(JSON.stringify(p));save('plan.json',p);
    state=p.decision==='NO_OP'?'published':'waiting';status({decision:p.decision,reason:p.reason});output('decision',p.decision);
  }
- else if(command==='validate-monitor'){const id=Number(options['run-id']);assert.ok(Number.isSafeInteger(id)&&id>0);const r=(await http.gh('/actions/runs/'+id)).json();assert.equal(r.id,id);validateMonitorRun(r,config);if(r.head_sha!==await http.mainSha())superseded('Monitor superseded by a newer main');save('monitor-run.json',{id:r.id,head:r.head_sha});output('run_id',r.id);}
+ else if(command==='validate-monitor'){
+   const id=Number(options['run-id']);assert.ok(Number.isSafeInteger(id)&&id>0);
+   const r=(await http.gh('/actions/runs/'+id)).json();assert.equal(r.id,id);validateMonitorRun(r,config);
+   const mainSha=await http.mainSha();
+   if(r.head_sha!==mainSha)superseded('Monitor superseded by a newer main');
+   if(automatic()){
+     validateAutomaticMonitorRun({run:r,...automaticContext(mainSha)});
+     const response=(await http.gh('/actions/runs/'+id+'/artifacts?per_page=100')).json();
+     assert.ok(Array.isArray(response.artifacts)&&response.total_count===response.artifacts.length,'Incomplete monitor artifact inventory');
+     const artifacts=response.artifacts.filter(item=>item.name==='sync-monitor-plan'&&item.expired===false);
+     if(artifacts.length===0){state='blocked';status({reason:'MONITOR_HAS_NO_CANDIDATE'});output('decision','BLOCKED');return;}
+     assert.equal(artifacts.length,1,'Ambiguous monitor artifact');
+   }
+   save('monitor-run.json',{id:r.id,head:r.head_sha});output('run_id',r.id);
+ }
  else if(command==='validate-plan'){
    const p=await validatePlan(plan(),{candidate:true}), m=read(path.join(out,'monitor-run.json'));
    assert.equal(p.monitorRunId,m.id);assert.equal(p.sourceSha,m.head);
+   if(automatic()&&p.decision==='CHECK')completionNotice(p.completionNotice);
    output('decision',p.decision);save('candidate-plan.json',p);
  }
  else if(command==='authorize-plan'){
    const candidate=await validatePlan(plan(),{candidate:true});
-   const authorized=await authorizeBuild({http,candidate,completionOptions});
+   const authorized=automatic()
+     ? await authorizeAutomaticBuild({http,candidate,run:(await http.gh('/actions/runs/'+candidate.monitorRunId)).json(),
+         ...automaticContext(await http.mainSha()),completionOptions})
+     : await authorizeBuild({http,candidate,completionOptions});
+   if(candidate.completionNotice&&authorized.decision==='BUILD'&&
+       completionNotice(candidate.completionNotice).completionIdSha256!==authorized.completionSha256){
+     state='blocked';status({decision:'BLOCKED',reason:'NOTICE_GENERATION_SUPERSEDED'});output('decision','BLOCKED');return;
+   }
+   if(authorized.decision==='BUILD'&&!authorized.sourceImageSha256){
+     state='blocked';status({decision:'BLOCKED',reason:'COMPLETED_SOURCE_IMAGE_REQUIRED'});output('decision','BLOCKED');return;
+   }
    if(authorized.decision==='BUILD'){
      const {planId:observationId,...observed}=candidate;
      const accepted={...observed,...authorized,observationId,authorizedRunId:runInfo().runId};
@@ -73,7 +126,7 @@ async function build(){const p=await validatePlan(plan());assert.equal(config.en
    status({decision:authorized.decision,reason:authorized.reason});output('decision',authorized.decision);
  }
  else if(command==='build')await build();
- else if(command==='predeploy'){const p=await validatePlan(plan()),v=site.verifySite(path.resolve(options.site)),b=read(path.resolve(options.build));assert.equal(b.status,'PASS');assert.equal(v.release.planId,p.planId);assert.equal(v.release.runId,Number(process.env.GITHUB_RUN_ID));assert.deepEqual(v.release,b.release);const settings=(await http.gh('/pages')).json();assert.equal(settings.build_type,'workflow','Pages source must be deliberately switched before activation');await guard(p,b.checks);state='deploying';status();output('allowed','true');console.log('DEPLOY_GATE_PASS');}
+ else if(command==='predeploy'){const p=await validatePlan(plan()),v=site.verifySite(path.resolve(options.site)),b=read(path.resolve(options.build));assert.equal(b.status,'PASS');assert.equal(v.release.planId,p.planId);assert.equal(v.release.sourceImageSha256,p.sourceImageSha256);assert.equal(v.release.runId,Number(process.env.GITHUB_RUN_ID));assert.deepEqual(v.release,b.release);const settings=(await http.gh('/pages')).json();assert.equal(settings.build_type,'workflow','Pages source must be deliberately switched before activation');await guard(p,b.checks);state='deploying';status();output('allowed','true');console.log('DEPLOY_GATE_PASS');}
  else if(command==='verify'){const p=await validatePlan(plan()),local=site.verifySite(path.resolve(options.site)),release=(await http.get(new URL('data/sync-release.json',config.siteUrl))).json(),current=(await http.get(new URL('data/current.json',config.siteUrl))).json(),manifest=(await http.get(new URL('data/snapshots/'+p.target.outputRevision+'/manifest.json',config.siteUrl))).bytes,remoteFiles=(await http.get(new URL('data/sync-files.json',config.siteUrl))).bytes;assert.deepEqual(release,local.release);assert.equal(policy.sha(remoteFiles),release.filesManifestSha256);const rows=JSON.parse(remoteFiles).files,paths=['index.html','event.html','member-analytics.html','song/S001.html','release/R0036.html','assets/js/common.js','data/song-youtube.json'];const events=Object.keys(read(path.join(path.resolve(options.site),'data/snapshots',p.target.outputRevision,'manifest.json')).hashes.events).slice(-2);paths.push(...events.map(id=>'data/snapshots/'+p.target.outputRevision+'/events/'+id+'.json'));paths.push(...require('./public-card-tools.json'));for(const name of paths){const expected=rows.find(r=>r.path===name);assert.ok(expected,name);const b=(await http.get(new URL(name,config.siteUrl),{maxBytes:16*1024*1024})).bytes;assert.equal(b.length,expected.bytes);assert.equal(policy.sha(b),expected.sha256,'Public bytes mismatch '+name);}const fresh=await freshPlan(p,'post-deploy');const verified=policy.verifiedDeployment({plan:p,release,current,manifestBytes:manifest,expectedManifestSha:release.snapshotManifestSha256,deployConclusion:process.env.PAGES_DEPLOY_CONCLUSION,latest:fresh.latest,readiness:fresh.readiness,fingerprint:fresh.fingerprint});assert.equal(p.sourceSha,await http.mainSha());state='published';status({verification:verified});save('verification.json',{status:'VERIFIED',runId:Number(process.env.GITHUB_RUN_ID),checks:paths.length+4,target:p.target,at:new Date().toISOString()});console.log('PAGES_AND_HTTP_VERIFIED');}
  else if(command==='evidence'){const target=path.resolve(options.destination),staging=target+'-input';assert.equal(fs.existsSync(staging),false);fs.mkdirSync(staging);for(const name of fs.readdirSync(out))if(name!=='site')fs.cpSync(path.join(out,name),path.join(staging,name),{recursive:true});require('../ci/batch-trial-contract.cjs').packageArtifact(staging,target);console.log('SANITIZED_EVIDENCE_READY');}
  else throw Error('Unknown command');

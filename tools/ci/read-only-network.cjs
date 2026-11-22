@@ -13,7 +13,11 @@ function install(){
  const allowRetry=process.env.AUTO_SYNC_ALLOW_TIMEOUT_RETRY==='1';
  if(allowRetry&&!Number.isFinite(deadline))throw Error('Bounded retry requires a trial deadline');
  const {createReadOnlyFetch}=require('./request-policy.cjs');
- const guarded=createReadOnlyFetch({fetch:original,classify,record,deadline,allowRetry,validateRequest(input,init){
+ const token=process.env.MUSDB_FROZEN_SOURCE_TOKEN,stamp=process.env.MUSDB_FROZEN_SOURCE_STAMP;
+ delete process.env.MUSDB_FROZEN_SOURCE_TOKEN;
+ delete process.env.MUSDB_FROZEN_SOURCE_STAMP;
+ const transport=token||stamp?require('../auto-sync/frozen-source.cjs').frozenTransport({token,stamp,fetch:original}):original;
+ const guarded=createReadOnlyFetch({fetch:transport,classify,record,deadline,allowRetry,validateRequest(input,init){
   return validateTrialRequest(input,init,mode);
  },expectedDataRevision:process.env.AUTO_SYNC_EXPECTED_DATA_REVISION,expectedOutputRevision:process.env.AUTO_SYNC_EXPECTED_OUTPUT_REVISION});
  global.fetch=async(...args)=>{try{return await guarded(...args);}catch(e){console.error('DRY_RUN_NETWORK_STOP '+e.message);process.exit(72);}};

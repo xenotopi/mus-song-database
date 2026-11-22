@@ -114,7 +114,8 @@ test('manual and completion-event workflows preserve the reviewed permission bou
     MUSDB_EVENT_PUBLICATION_ENABLED:'${{ vars.MUSDB_EVENT_PUBLICATION_ENABLED }}',
     MUSDB_EVENT_ACTOR_ID:'${{ vars.MUSDB_EVENT_ACTOR_ID }}',
     MUSDB_RUN_REF_PROTECTED:'${{ github.ref_protected }}',
-    MUSDB_PUBLICATION_FENCE_ENABLED:'${{ vars.MUSDB_PUBLICATION_FENCE_ENABLED }}'
+    MUSDB_PUBLICATION_FENCE_ENABLED:'${{ vars.MUSDB_PUBLICATION_FENCE_ENABLED }}',
+    MUSDB_PAGES_DEPLOY_ENABLED:'${{ vars.MUSDB_PAGES_DEPLOY_ENABLED }}'
   })) {
     assert.equal(publisher.env[key],value);
     delete publisher.env[key];
@@ -168,6 +169,41 @@ test('manual and completion-event workflows preserve the reviewed permission bou
   });
   delete publisher.concurrency.queue;
   assert.deepEqual(publisher,expectedPublisher);
+});
+test('a single explicit Pages switch stops manual, automatic and recovery requests before contacting GAS',async()=>{
+  const {publicationFence}=require('../tools/auto-sync/publication-fence.cjs');
+  const config=require('../tools/auto-sync/config.json');
+  const fs=require('node:fs'),path=require('node:path');
+  const root=path.resolve(__dirname,'..'),load=name=>fs.readFileSync(path.join(root,'.github/workflows',name),'utf8');
+  const recovery=load('auto-sync-pages-migration.yml'),publisher=load('auto-sync-publish.yml');
+  const switchCheck=/vars\.MUSDB_PAGES_DEPLOY_ENABLED == 'true'/;
+  assert.match(recovery.slice(recovery.indexOf('  deploy:')),switchCheck);
+  assert.match(recovery.slice(recovery.indexOf('  deploy:')),/inputs\.recovery_ticket != ''/);
+  assert.match(recovery,/if: steps\.recovery\.outputs\.allowed == 'true'/);
+  assert.match(publisher.slice(publisher.indexOf('  deploy:')),switchCheck);
+  assert.match(publisher,/if: steps\.begin\.outputs\.allowed == 'true'/);
+  const env={MUSDB_PUBLICATION_FENCE_ENABLED:'true',MUSDB_EVENT_PUBLICATION_ENABLED:'true',MUSDB_RUN_REF_PROTECTED:'true',
+    GITHUB_REPOSITORY:config.repository,GITHUB_REPOSITORY_ID:config.signedReadiness.repositoryId,GITHUB_REF:'refs/heads/main',
+    GITHUB_RUN_ID:'1',GITHUB_RUN_ATTEMPT:'1',GITHUB_SHA:'1'.repeat(40),MUSDB_DIRECT_FENCE_KEY:'2'.repeat(64)};
+  let calls=0;
+  const fetch=async()=>{calls++;throw new Error('sentinel');};
+  for (const [event,workflow,action] of [
+    ['workflow_dispatch',config.publishWorkflowPath,'acquire'],
+    ['workflow_dispatch',config.publishWorkflowPath,'begin'],
+    ['workflow_run',config.publishWorkflowPath,'acquire'],
+    ['workflow_run',config.publishWorkflowPath,'begin'],
+    ['workflow_dispatch','.github/workflows/auto-sync-pages-migration.yml','baseline-begin']
+  ]) {
+    const context={...env,GITHUB_EVENT_NAME:event,GITHUB_WORKFLOW_REF:config.repository+'/'+workflow+'@refs/heads/main'};
+    for(const value of [undefined,'false','TRUE'])await assert.rejects(publicationFence(action, {
+      env:{...context,MUSDB_PAGES_DEPLOY_ENABLED:value},fetch
+    }),/Pages deployment disabled/);
+    assert.equal(calls,0);
+    await assert.rejects(publicationFence(action,{env:{...context,MUSDB_PAGES_DEPLOY_ENABLED:'true'},fetch}),
+      /PUBLICATION_FENCE_UNCONFIRMED/);
+    assert.equal(calls,1);
+    calls=0;
+  }
 });
 test('post-upload freshness check precedes deployment and trial remains read-only',()=>{const root=path.resolve(__dirname,'..'),text=fs.readFileSync(path.join(root,'.github/workflow-templates/auto-sync-publish.yml'),'utf8'),trial=fs.readFileSync(path.join(root,'.github/workflow-templates/auto-sync-safety-trial.yml'),'utf8'),{yaml}=require(path.join(path.dirname(require.resolve('playwright/package.json')),'../playwright-core/lib/utilsBundle.js')),t=yaml.parse(trial);assert.ok(text.indexOf('id: freshness')>text.indexOf('actions/upload-pages-artifact@'));assert.match(text,/if: steps\.freshness\.outputs\.allowed == 'true'/);assert.match(trial,/contents: read/);assert.doesNotMatch(trial,/pages: write|id-token: write|actions: write|pull_request_target/);assert.ok(Object.hasOwn(t.on,'workflow_dispatch'));assert.deepEqual(t.on.pull_request.branches,['main']);assert.match(t.jobs.contracts.if,/head.repo.full_name == github.repository/);assert.match(t.jobs.contracts.if,/auto-sync-19-production-integration-20261121/);const active=path.join(root,'.github/workflows/auto-sync-safety-trial.yml');if(fs.existsSync(active))assert.equal(fs.readFileSync(active,'utf8').replace(/\r\n/g,'\n'),trial.replace(/\r\n/g,'\n'),'Approved trial promotion must preserve exact permissions and behavior');});
 

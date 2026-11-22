@@ -2,7 +2,9 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { sha256, validateDetail, validateSnapshot, validateEventSnapshot, validateKamiparaDashboard, snapshotDataFingerprint } = require("./detail-snapshot-lib.cjs");
+const assert = require("node:assert/strict");
+const { tmpdir } = require("node:os");
+const { sha256, validateDetail, validateSnapshot, validateEventSnapshot, validateKamiparaDashboard, snapshotDataFingerprint, assertSnapshotIdentity } = require("./detail-snapshot-lib.cjs");
 const { buildMemberAnalytics, validateMemberAnalytics } = require("./member-analytics-lib.cjs");
 const { generateSongPages } = require("./generate-song-pages.cjs");
 const { generateReleasePages } = require("./generate-release-pages.cjs");
@@ -248,7 +250,7 @@ async function generateAllEvents(revision, dataRevision, revisionRoot, options =
     return wrapper;
   }).catch(error => { throw new Error(`Event generation stopped after ${completed}/${eventIds.length} complete pairs: ${error.message}`); });
   await assertCurrentApiRevisions(revision, dataRevision);
-  const stagingRoot = path.join(SNAPSHOT_ROOT, `.staging-events-${process.pid}`);
+  const stagingRoot = path.join(path.dirname(revisionRoot), `.staging-events-${process.pid}`);
   if (fs.existsSync(stagingRoot)) throw new Error(`Staging path already exists: ${stagingRoot}`);
   fs.mkdirSync(path.join(stagingRoot, "events"), { recursive: true });
   const manifest = structuredClone(baseManifest);
@@ -341,18 +343,52 @@ async function switchCurrentWithCapture(revision) {
 async function generate(options = {}) {
   if (options.eventTransport && !['legacy', 'batch-v1'].includes(options.eventTransport)) throw new Error('Unknown Event transport');
   if (options.eventBatchSize !== undefined && (!Number.isInteger(options.eventBatchSize) || options.eventBatchSize < 1 || options.eventBatchSize > 8 || options.eventTransport !== 'batch-v1')) throw new Error('Invalid Event batch size');
+  if (options.verifyExisting) {
+    const { getFrozenSourceStamp } = require("./ci/read-only-network.cjs");
+    assert.match(getFrozenSourceStamp() || "", /^[a-f0-9]{64}$/, "Snapshot reuse proof requires a frozen source");
+  }
   return withSnapshotOperation(ROOT, () => generateSnapshot(options));
 }
 
 async function generateSnapshot(options = {}) {
   const revisionPayload = await api("revision");
   const { dataRevision, outputRevision: revision } = apiRevisions(revisionPayload);
+  if (options.verifyExisting) {
+    assert.equal(revision, options.verifyExisting, "Frozen output revision differs from the published snapshot");
+    assert.equal(dataRevision, process.env.AUTO_SYNC_EXPECTED_DATA_REVISION, "Frozen data revision differs from the published snapshot");
+    const existing = path.join(SNAPSHOT_ROOT, revision);
+    const scratch = fs.mkdtempSync(path.join(tmpdir(), "musdb-snapshot-proof-"));
+    try {
+      const candidate = path.join(scratch, revision);
+      await generateSnapshotFiles(revision, dataRevision, candidate, options);
+      const readChecked = directory => {
+        const manifest = JSON.parse(fs.readFileSync(path.join(directory, "manifest.json"), "utf8"));
+        assert.equal(manifest.outputRevision, revision);
+        assert.equal(manifest.counts?.memberAnalytics, 1);
+        validateBaseFiles(directory, manifest, revision, dataRevision);
+        validateEventFiles(directory, manifest, revision, dataRevision);
+        const stamp = JSON.parse(fs.readFileSync(path.join(directory, "revision.json"), "utf8"));
+        assert.deepEqual([stamp.revision, stamp.outputRevision, stamp.dataRevision], [revision, revision, dataRevision]);
+        return manifest;
+      };
+      const dataSha256 = assertSnapshotIdentity(readChecked(existing), readChecked(candidate));
+      const sourceImageSha256 = require("./ci/read-only-network.cjs").getFrozenSourceStamp();
+      process.stdout.write(`${JSON.stringify({ status: "VERIFIED_EXISTING_SNAPSHOT", dataRevision, outputRevision: revision, dataSha256, sourceImageSha256 })}\n`);
+      return;
+    } finally {
+      fs.rmSync(scratch, { recursive: true, force: true });
+    }
+  }
   const revisionRoot = path.join(SNAPSHOT_ROOT, revision);
+  await generateSnapshotFiles(revision, dataRevision, revisionRoot, options);
+  await generateSongPages({ revision });
+  await generateReleasePages({ revision });
+}
+
+async function generateSnapshotFiles(revision, dataRevision, revisionRoot, options) {
   if (fs.existsSync(revisionRoot)) {
     const singers = await generateAllEvents(revision, dataRevision, revisionRoot, options);
     await generateMemberAnalytics(revision, dataRevision, revisionRoot, singers);
-    await generateSongPages({ revision });
-    await generateReleasePages({ revision });
     return;
   }
   const [releaseListPayload, rankingsPayload, kamiparaPayload] = await Promise.all([
@@ -387,7 +423,7 @@ async function generateSnapshot(options = {}) {
   });
   await assertCurrentApiRevisions(revision, dataRevision);
 
-  const stagingRoot = path.join(SNAPSHOT_ROOT, `.staging-${process.pid}`);
+  const stagingRoot = path.join(path.dirname(revisionRoot), `.staging-${process.pid}`);
   fs.rmSync(stagingRoot, { recursive: true, force: true });
   fs.mkdirSync(stagingRoot, { recursive: true });
   const manifest = { revision, outputRevision: revision, dataRevision, generatedAt, counts: { releases: 114, songs: 117, details: 231, kamiparaDashboard: 1 }, hashes: { releases: {}, songs: {} } };
@@ -420,8 +456,6 @@ async function generateSnapshot(options = {}) {
   }
   const singers = await generateAllEvents(revision, dataRevision, revisionRoot, options);
   await generateMemberAnalytics(revision, dataRevision, revisionRoot, singers);
-  await generateSongPages({ revision });
-  await generateReleasePages({ revision });
   process.stdout.write(`${JSON.stringify({ revision, releases: 114, songs: 117, details: 231, kamiparaDashboard: 1, directory: path.relative(ROOT, revisionRoot) }, null, 2)}\n`);
 }
 
@@ -431,6 +465,15 @@ const switchIndex = process.argv.indexOf("--switch-current");
 const reuseVerifiedHtml = process.argv.includes("--reuse-verified-html");
 const eventIdsIndex = process.argv.indexOf("--event-ids");
 const memberIndex = process.argv.indexOf("--member-analytics");
+const proofIndex = process.argv.indexOf("--verify-existing-snapshot");
+let verifyExisting;
+if (proofIndex >= 0) {
+  verifyExisting = process.argv[proofIndex + 1];
+  assert.match(verifyExisting, /^sha256-[a-f0-9]{64}$/);
+  assert.ok([switchIndex, eventIdsIndex, memberIndex].every(index => index < 0));
+  assert.equal(transport.mode, "batch-v1");
+  assert.equal(process.env.AUTO_SYNC_NETWORK_ENFORCE, "1");
+}
 if (transport.mode === 'batch-v1' && [switchIndex, eventIdsIndex, memberIndex].some(i => i >= 0)) throw new Error('Batch transport requires full generation');
 if (switchIndex >= 0 && eventIdsIndex >= 0) throw new Error("Preview generation cannot switch current.json");
 if (reuseVerifiedHtml && switchIndex < 0) throw new Error("--reuse-verified-html requires --switch-current");
@@ -445,7 +488,7 @@ const operation = switchIndex >= 0
           if (!fs.existsSync(revisionRoot)) throw new Error(`Snapshot does not exist: ${revision}`);
           await generateMemberAnalytics(revision, dataRevision, revisionRoot);
         })
-    : generate({ eventTransport: transport.mode, ...(transport.mode === 'batch-v1' ? { eventBatchSize: transport.batchSize } : {}) });
+    : generate({ verifyExisting, eventTransport: transport.mode, ...(transport.mode === 'batch-v1' ? { eventBatchSize: transport.batchSize } : {}) });
 return operation;
 }
 

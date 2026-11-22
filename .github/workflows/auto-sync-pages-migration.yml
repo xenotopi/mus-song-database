@@ -77,7 +77,7 @@ jobs:
           NODE
       # Match the existing branch build's exclusions and preserve dotfiles such as .nojekyll.
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
-        if: inputs.deploy
+        if: inputs.deploy && vars.MUSDB_PAGES_DEPLOY_ENABLED == 'true'
         with:
           path: ${{ runner.temp }}/pages-bootstrap
 
@@ -86,7 +86,7 @@ jobs:
       inputs.deploy && inputs.recovery_ticket != '' && github.repository_id == '1318600615' &&
       github.ref == 'refs/heads/main' && github.ref_protected && github.run_attempt == 1 &&
       vars.MUSDB_AUTO_SYNC_ENABLED != 'true' && vars.MUSDB_EVENT_PUBLICATION_ENABLED != 'true' &&
-      vars.MUSDB_PUBLICATION_FENCE_ENABLED == 'true'
+      vars.MUSDB_PUBLICATION_FENCE_ENABLED == 'true' && vars.MUSDB_PAGES_DEPLOY_ENABLED == 'true'
     needs: prepare
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -117,6 +117,7 @@ jobs:
         name: Consume the baseline approval and hold the publication fence
         env:
           MUSDB_PUBLICATION_FENCE_ENABLED: ${{ vars.MUSDB_PUBLICATION_FENCE_ENABLED }}
+          MUSDB_PAGES_DEPLOY_ENABLED: ${{ vars.MUSDB_PAGES_DEPLOY_ENABLED }}
           MUSDB_RUN_REF_PROTECTED: ${{ github.ref_protected }}
           MUSDB_DIRECT_FENCE_KEY: ${{ secrets.MUSDB_DIRECT_BASELINE_KEY }}
           MUSDB_BASELINE_RECOVERY_TICKET: ${{ inputs.recovery_ticket }}

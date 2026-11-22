@@ -25,6 +25,7 @@ env:
   MUSDB_EVENT_ACTOR_ID: ${{ vars.MUSDB_EVENT_ACTOR_ID }}
   MUSDB_RUN_REF_PROTECTED: ${{ github.ref_protected }}
   MUSDB_PUBLICATION_FENCE_ENABLED: ${{ vars.MUSDB_PUBLICATION_FENCE_ENABLED }}
+  MUSDB_PAGES_DEPLOY_ENABLED: ${{ vars.MUSDB_PAGES_DEPLOY_ENABLED }}
 concurrency:
   group: musdb-pages-production
   cancel-in-progress: false

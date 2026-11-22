@@ -64,6 +64,9 @@ function invocation(action,env){
   const baseline=action==='baseline-begin';
   const workflow=baseline?'.github/workflows/auto-sync-pages-migration.yml':config.publishWorkflowPath;
   assert.equal(env.MUSDB_PUBLICATION_FENCE_ENABLED,'true');
+  if (['acquire','begin','baseline-begin'].includes(action)) {
+    assert.equal(env.MUSDB_PAGES_DEPLOY_ENABLED,'true','Pages deployment disabled');
+  }
   assert.equal(env.GITHUB_REPOSITORY,config.repository);
   assert.equal(env.GITHUB_REPOSITORY_ID,config.signedReadiness.repositoryId);
   assert.equal(env.GITHUB_REF,'refs/heads/'+config.branch);

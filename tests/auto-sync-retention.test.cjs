@@ -27,7 +27,7 @@ function identityManifest() {
 }
 
 test('complete independently generated snapshot can prove identical data despite different envelope timestamps',()=>{
-  const {assertSnapshotIdentity}=require('../tools/detail-snapshot-lib.cjs');
+  const {assertSnapshotIdentity}=require('../tools/auto-sync/snapshot-identity.cjs');
   const before=identityManifest(),candidate=structuredClone(before);
   before.generatedAt='old';
   candidate.generatedAt='new';

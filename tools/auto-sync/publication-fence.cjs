@@ -5,6 +5,8 @@ const fs=require('node:fs');
 const path=require('node:path');
 const {createHash,createHmac,randomBytes}=require('node:crypto');
 const config=require('./config.json');
+const {requirePagesDeployment}=require('./publication-mode.cjs');
+const {selectRecoveryTarget,recoveryAssetBinding}=require('./recovery-target.cjs');
 
 const domain='musdb-publication-v1';
 const operations={
@@ -14,7 +16,7 @@ const operations={
   begin:['publish/begin','DEPLOY_ALLOWED'],
   abandon:['publish/abandon','RELEASED'],
   verified:['publish/verified','RELEASED'],
-  'baseline-begin':['baseline/begin','DEPLOY_ALLOWED']
+  'baseline-begin':['baseline/begin-v3','DEPLOY_ALLOWED']
 };
 
 function signedCommand({role,route,payload,key,issuedAt,nonce}){
@@ -65,7 +67,7 @@ function invocation(action,env){
   const workflow=baseline?'.github/workflows/auto-sync-pages-migration.yml':config.publishWorkflowPath;
   assert.equal(env.MUSDB_PUBLICATION_FENCE_ENABLED,'true');
   if (['acquire','begin','baseline-begin'].includes(action)) {
-    assert.equal(env.MUSDB_PAGES_DEPLOY_ENABLED,'true','Pages deployment disabled');
+    requirePagesDeployment(env);
   }
   assert.equal(env.GITHUB_REPOSITORY,config.repository);
   assert.equal(env.GITHUB_REPOSITORY_ID,config.signedReadiness.repositoryId);
@@ -88,6 +90,12 @@ async function publicationFence(action,{env=process.env,fetch=global.fetch,paylo
   assert.ok(Object.hasOwn(operations,action),'Unknown publication operation');
   const [route,...allowed]=operations[action];
   const {role,mode,run}=invocation(action,env);
+  if (action==='baseline-begin') {
+    const target=selectRecoveryTarget(payload.targetId);
+    assert.equal(payload.targetSha256,target.targetSha256,'Recovery target does not match the verified bundle');
+    assert.ok(typeof payload.ticket==='string' && /^[a-f0-9]{32}$/.test(payload.ticket),'Missing one-time approval');
+    assert.deepEqual(payload.asset,recoveryAssetBinding(target),'Recovery approval does not bind the pinned Release Asset');
+  }
   const result=await callDirect({role,route,payload:{...payload,mode,run},key:env.MUSDB_DIRECT_FENCE_KEY,fetch});
   assert.ok(allowed.includes(result.status),'Publication state not confirmed');
   return result.status;
@@ -95,8 +103,12 @@ async function publicationFence(action,{env=process.env,fetch=global.fetch,paylo
 
 function deploymentPayload(action,env){
   if(action==='baseline-begin'){
-    assert.match(env.MUSDB_BASELINE_RECOVERY_TICKET,/^[a-f0-9]{32}$/);
-    return {ticket:env.MUSDB_BASELINE_RECOVERY_TICKET};
+    requirePagesDeployment(env);
+    const target=selectRecoveryTarget(env.MUSDB_RECOVERY_TARGET),asset=recoveryAssetBinding(target);
+    assert.equal(env.MUSDB_RECOVERY_RELEASE_ID,String(asset.releaseId),'Prepared recovery Release differs from the pinned Release');
+    assert.equal(env.MUSDB_RECOVERY_ASSET_ID,String(asset.assetId),'Prepared recovery Asset differs from the pinned Asset');
+    return {ticket:env.MUSDB_BASELINE_RECOVERY_TICKET,targetId:target.id,
+      targetSha256:env.MUSDB_RECOVERY_TARGET_SHA256,asset};
   }
   if(!['begin','verified','check'].includes(action))return {};
   const filename=action==='check'?'candidate-plan.json':'accepted-plan.json';

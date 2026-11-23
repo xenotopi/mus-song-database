@@ -4,9 +4,12 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 async function captureExisting({root,revision,expectedDataRevision}){assert.match(revision,/^sha256-[a-f0-9]{64}$/);const base=path.join(root,'data/snapshots',revision),manifest=JSON.parse(fs.readFileSync(path.join(base,'manifest.json')));assert.equal(manifest.dataRevision,expectedDataRevision);assert.equal(manifest.revision,revision);return require('../snapshot-publication.cjs').withSnapshotOperation(root,async()=>{const songs=await require('../generate-song-pages.cjs').generateSongPages({revision}),releases=await require('../generate-release-pages.cjs').generateReleasePages({revision});assert.equal(songs.count,117);assert.equal(releases.length,114);return{capturePages:231,reusedPublishedSnapshotBytes:true};});}
 const policy=require('./policy.cjs');
+const {confirmPublishedSnapshot}=require('./publication-mode.cjs');
 async function generateVerifiedSnapshot({root,plan,published,retained,generatorArgs,freezeSource,run,save}){
   const target=path.join(root,'data/snapshots',plan.target.outputRevision);
-  if(!fs.existsSync(target)){
+  const legacy=Object.hasOwn(plan,'publishedSnapshot');
+  confirmPublishedSnapshot(plan,published);
+  if(!fs.existsSync(target)&&!legacy){
     const frozen=await freezeSource(plan);
     run('snapshot',generatorArgs,frozen);
     return;
@@ -15,6 +18,10 @@ async function generateVerifiedSnapshot({root,plan,published,retained,generatorA
     'Existing target snapshot is not proven published; refuse overwrite');
   assert.equal(policy.sha(fs.readFileSync(path.join(target,'manifest.json'))),published.release.snapshotManifestSha256,
     'Existing snapshot manifest differs from published bytes');
+  if(legacy){
+    run('snapshot',['tools/auto-sync/capture-existing.cjs',plan.target.outputRevision]);
+    return;
+  }
   const prior=published.release.sourceImageSha256;
   if(prior===undefined){
     const frozen=await freezeSource(plan);

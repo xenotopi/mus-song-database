@@ -6,6 +6,7 @@ const config=require('./config.json');
 const {client}=require('./http.cjs');
 const policy=require('./policy.cjs');
 const {callDirect}=require('./publication-fence.cjs');
+const {selectRecoveryTarget,recoveryAssetBinding,verifyRecoveryArchive,verifyRecoveryOrigin,verifyRecoverySite}=require('./recovery-target.cjs');
 
 const commands=new Set(['status','enter','enroll','reconcile','approve-baseline','cancel-baseline','close']);
 const pagesStates={succeed:'succeeded',deployment_failed:'failed',cancelled:'cancelled'};
@@ -26,6 +27,13 @@ async function refreshRecoveryEvidence({entered,state,http,now=Date.now}){
   assert.ok(policy.same(expected,publicRevision)&&expected.sha256===sha256);
   evidence.publicSite={...publicRevision,sha256};
   const lease=state.lease;
+  if(lease?.kind==='baseline'&&lease.inventorySha256){
+    assert.equal(expected.path,'data/sync-release.json','Recovery requires the published release receipt');
+    const inventory=await http.get(new URL('data/sync-files.json',config.siteUrl));
+    const inventorySha256=policy.sha(inventory.bytes);
+    assert.equal(inventorySha256,marker.json().filesManifestSha256,'Recovery inventory disagrees with published release');
+    evidence.publicSite.inventorySha256=inventorySha256;
+  }
   if(lease&&lease.kind!=='update'){
     const actual=(await http.gh('/actions/runs/'+lease.run.runId)).json();
     assert.equal(String(actual.id),lease.run.runId);
@@ -57,7 +65,20 @@ async function main(){
     console.log(JSON.stringify((await send('status',{})).view,null,2));
     return;
   }
-  const payload=JSON.parse(fs.readFileSync(process.argv[3],'utf8'));
+  let payload=JSON.parse(fs.readFileSync(process.argv[3],'utf8'));
+  if(command==='approve-baseline'){
+    const {archive,bundle,targetId,incident,serial,ticket,sourceSha}=payload;
+    const target=selectRecoveryTarget(targetId);
+    const asset=recoveryAssetBinding(target);
+    assert.equal(typeof archive,'string','A local verified recovery ZIP is required');
+    assert.equal(typeof bundle,'string','A local verified recovery bundle is required');
+    verifyRecoveryArchive(target,fs.readFileSync(archive));
+    verifyRecoverySite(target,bundle);
+    const http=client(config,{token:process.env.MUSDB_RECOVERY_GITHUB_READER});
+    assert.equal(await http.mainSha(),sourceSha,'Approval source is not latest main');
+    await verifyRecoveryOrigin({http,target});
+    payload={incident,serial,ticket,sourceSha,targetId,targetSha256:target.targetSha256,asset};
+  }
   if(command==='reconcile'||command==='close'){
     const state=(await send('status',{})).view;
     assert.equal(payload.serial,state.serial);

@@ -3,6 +3,8 @@ const fs=require('node:fs'),path=require('node:path'),cp=require('node:child_pro
 const {completionNotice,validateAutomaticMonitorRun,authorizeAutomaticBuild}=require('./completion-event.cjs');
 const {freezeSource}=require('./frozen-source.cjs');
 const {fileEntry,loadPublishedBaseline,comparePublication,trackedSourceMatches}=require('./publication-diff.cjs');
+const {bindPublicationSource,confirmPublishedSnapshot,requirePagesDeployment,validatePublicationSource}=require('./publication-mode.cjs');
+const {selectRecoveryTarget,recoveryAssetBinding,verifyRecoveryArchive,verifyRecoveryOrigin,verifyRecoverySite}=require('./recovery-target.cjs');
 const root=path.resolve(__dirname,'../..'),config=require('./config.json'),command=process.argv[2],options=Object.fromEntries(process.argv.slice(3).map(a=>{assert.match(a,/^--[a-z-]+=.+$/);const i=a.indexOf('=');return[a.slice(2,i),a.slice(i+1)];}));
 const out=path.resolve(options.out||process.env.RUNNER_TEMP&&path.join(process.env.RUNNER_TEMP,'musdb-sync')||path.join(root,'../sync-local-output'));fs.mkdirSync(out,{recursive:true});const records=[],signedChecks=[];
 const signingKey=process.env.MUSDB_SYNC_SIGNING_KEY;
@@ -13,7 +15,11 @@ function git(...a){const r=cp.spawnSync('git',['--no-optional-locks','-C',root,.
 const fingerprint=()=>policy.sourceFingerprint(root),plan=()=>read(path.resolve(options.plan||path.join(out,'plan.json'))),runInfo=()=>({repository:process.env.GITHUB_REPOSITORY,ref:process.env.GITHUB_REF,event:process.env.GITHUB_EVENT_NAME,sha:git('rev-parse','HEAD'),runId:Number(process.env.GITHUB_RUN_ID),runNumber:Number(process.env.GITHUB_RUN_NUMBER)});
 const completionOptions={maxAgeSeconds:config.maximumReadinessAgeSeconds,stableSeconds:config.minimumStableSeconds};
 function superseded(message){throw Object.assign(new Error(message),{code:'SUPERSEDED'});}
-function freshPlan(plan,phase){return confirmPlan({http,plan,phase,getFingerprint:fingerprint,context:runInfo(),completionOptions});}
+async function freshPlan(plan,phase){
+ const observed=await confirmPlan({http,plan,phase,getFingerprint:fingerprint,context:runInfo(),completionOptions});
+ if(phase!=='post-deploy')confirmPublishedSnapshot(plan,observed.published);
+ return observed;
+}
 const automatic=()=>process.env.GITHUB_EVENT_NAME==='workflow_run';
 function eventConfig(){return {...config,repositoryId:Number(config.signedReadiness.repositoryId),monitorWorkflowId:425885956,
   trustedDispatchActorId:Number(process.env.MUSDB_EVENT_ACTOR_ID)};}
@@ -46,12 +52,12 @@ async function validatePlan(p,{candidate=false}={}) {
   assert.match(p.fingerprint,/^[a-f0-9]{64}$/);
   if (candidate) {
     assert.ok(['CHECK','NO_OP'].includes(p.decision));
-    assert.ok(!Object.hasOwn(p,'completionSha256')&&!Object.hasOwn(p,'sourceImageSha256'));
+    assert.ok(!Object.hasOwn(p,'completionSha256')&&!Object.hasOwn(p,'sourceImageSha256')&&!Object.hasOwn(p,'publishedSnapshot'));
     assert.ok(p.retryFailedRunId===null||/^[1-9]\d*$/.test(p.retryFailedRunId));
   } else {
     assert.equal(p.decision,'BUILD');
     assert.match(p.completionSha256,/^[a-f0-9]{64}$/);
-    assert.match(p.sourceImageSha256,/^[a-f0-9]{64}$/,'An update with a confirmed source image is required');
+    validatePublicationSource(p,process.env);
     assert.equal(p.authorizedRunId,runInfo().runId);
   }
   assert.ok(!Object.hasOwn(p,'completionId'));
@@ -63,6 +69,20 @@ function confirmDiffBaseline(published,expected){
   assert.ok(published?.verified && published.runId===expected.runId &&
     published.release.filesManifestSha256===expected.filesManifestSha256 &&
     published.receiptEntry.sha256===expected.receiptSha256,'Verified publication baseline changed');
+}
+async function requireRecoveryContext(){
+  requirePagesDeployment(process.env);
+  const env=process.env;
+  assert.equal(env.GITHUB_EVENT_NAME,'workflow_dispatch');
+  assert.equal(env.GITHUB_REPOSITORY,config.repository);
+  assert.equal(env.GITHUB_REPOSITORY_ID,config.signedReadiness.repositoryId);
+  assert.equal(env.GITHUB_REF,'refs/heads/'+config.branch);
+  assert.equal(env.MUSDB_RUN_REF_PROTECTED,'true');
+  assert.equal(env.GITHUB_RUN_ATTEMPT,'1');
+  assert.equal(env.GITHUB_WORKFLOW_REF,config.repository+'/.github/workflows/auto-sync-pages-migration.yml@'+env.GITHUB_REF);
+  const sourceSha=git('rev-parse','HEAD');
+  assert.equal(env.GITHUB_SHA,sourceSha,'Recovery workflow checkout changed');
+  assert.equal(await http.mainSha(),sourceSha,'Recovery workflow source no longer latest main');
 }
 async function auditPublicationDiff({published,verified,directory,verifiedDerived}){
   let result;
@@ -159,17 +179,17 @@ async function build(){const p=await validatePlan(plan());assert.equal(config.en
  }
  else if(command==='authorize-plan'){
    const candidate=await validatePlan(plan(),{candidate:true});
-   const authorized=automatic()
+    const result=automatic()
      ? await authorizeAutomaticBuild({http,candidate,run:(await http.gh('/actions/runs/'+candidate.monitorRunId)).json(),
          ...automaticContext(await http.mainSha()),completionOptions})
      : await authorizeBuild({http,candidate,completionOptions});
-   if(candidate.completionNotice&&authorized.decision==='BUILD'&&
-       completionNotice(candidate.completionNotice).completionIdSha256!==authorized.completionSha256){
+    if(candidate.completionNotice&&result.decision==='BUILD'&&
+        completionNotice(candidate.completionNotice).completionIdSha256!==result.completionSha256){
      state='blocked';status({decision:'BLOCKED',reason:'NOTICE_GENERATION_SUPERSEDED'});output('decision','BLOCKED');return;
    }
-   if(authorized.decision==='BUILD'&&!authorized.sourceImageSha256){
-     state='blocked';status({decision:'BLOCKED',reason:'COMPLETED_SOURCE_IMAGE_REQUIRED'});output('decision','BLOCKED');return;
-   }
+    const published=result.decision==='BUILD'&&!Object.hasOwn(result,'sourceImageSha256')?await http.published():null;
+    const authorized=bindPublicationSource(result,published,process.env);
+    if(authorized.decision==='BUILD')validatePublicationSource(authorized,process.env);
    if(authorized.decision==='BUILD'){
      const {planId:observationId,...observed}=candidate;
      const accepted={...observed,...authorized,observationId,authorizedRunId:runInfo().runId};
@@ -179,14 +199,62 @@ async function build(){const p=await validatePlan(plan());assert.equal(config.en
    status({decision:authorized.decision,reason:authorized.reason});output('decision',authorized.decision);
  }
  else if(command==='build')await build();
- else if(command==='predeploy'){const p=await validatePlan(plan()),v=site.verifySite(path.resolve(options.site)),b=read(path.resolve(options.build));assert.equal(b.status,'PASS');assert.equal(v.release.planId,p.planId);assert.equal(v.release.sourceImageSha256,p.sourceImageSha256);assert.equal(v.release.runId,Number(process.env.GITHUB_RUN_ID));assert.deepEqual(v.release,b.release);const settings=(await http.gh('/pages')).json();assert.equal(settings.build_type,'workflow','Pages source must be deliberately switched before activation');
+ else if(command==='recovery-select'){
+  requirePagesDeployment(process.env);
+  const target=selectRecoveryTarget(options.target);
+  const binding=recoveryAssetBinding(target);
+  await requireRecoveryContext();
+  await verifyRecoveryOrigin({http,target});
+  output('asset_id',binding.assetId);
+ }
+ else if(command==='recovery-archive'){
+  requirePagesDeployment(process.env);
+  const target=selectRecoveryTarget(options.target);
+  verifyRecoveryArchive(target,fs.readFileSync(path.resolve(options.archive)));
+ }
+ else if(command==='recovery-diff'){
+  requirePagesDeployment(process.env);
+  const target=selectRecoveryTarget(options.target);
+  const directory=path.resolve(options.site);
+  for(const name of ['data/sync-release.json','data/sync-files.json']){
+    assert.ok(fs.existsSync(path.join(directory,name)),'Recovery bundle has no verified publication receipt or inventory');
+  }
+  const verified=verifyRecoverySite(target,directory);
+  const binding=recoveryAssetBinding(target);
+  await requireRecoveryContext();
+  const published=await http.published();
+  const diff=await auditPublicationDiff({published,verified,directory});
+  if(diff.status==='NO_OP'){
+    state='published';status({decision:'NO_OP',reason:'Selected recovery content is already verified'});
+    output('allowed','false');return;
+  }
+  assert.equal(diff.status,'PASS');
+  output('run_id',diff.baseline.runId);output('receipt_sha256',diff.baseline.receiptSha256);
+  output('inventory_sha256',diff.baseline.filesManifestSha256);output('target_sha256',target.targetSha256);
+  output('release_id',binding.releaseId);output('asset_id',binding.assetId);output('allowed','true');
+ }
+ else if(command==='recheck-recovery'){
+  requirePagesDeployment(process.env);
+  const target=selectRecoveryTarget(options.target);
+  const binding=recoveryAssetBinding(target);
+  assert.equal(options['release-id'],String(binding.releaseId),'Recovery Release changed after preparation');
+  assert.equal(options['asset-id'],String(binding.assetId),'Recovery Asset changed after preparation');
+  await requireRecoveryContext();
+  assert.equal(options['target-sha256'],target.targetSha256,'Recovery target changed after preparation');
+  await verifyRecoveryOrigin({http,target});
+  const baseline={runId:Number(options['run-id']),receiptSha256:options['receipt-sha256'],filesManifestSha256:options['inventory-sha256']};
+  assert.ok(Number.isSafeInteger(baseline.runId)&&baseline.runId>0);
+  for(const hash of [baseline.receiptSha256,baseline.filesManifestSha256])assert.match(hash,/^[a-f0-9]{64}$/);
+  confirmDiffBaseline(await http.published(),baseline);output('allowed','true');
+ }
+ else if(command==='predeploy'){requirePagesDeployment(process.env);const p=await validatePlan(plan()),v=site.verifySite(path.resolve(options.site)),b=read(path.resolve(options.build));assert.equal(b.status,'PASS');assert.equal(v.release.planId,p.planId);assert.equal(v.release.sourceImageSha256,p.sourceImageSha256);assert.equal(v.release.runId,Number(process.env.GITHUB_RUN_ID));assert.deepEqual(v.release,b.release);const settings=(await http.gh('/pages')).json();assert.equal(settings.build_type,'workflow','Pages source must be deliberately switched before activation');
   assert.equal(b.publicationDiff?.status,'PASS','A build-time publication diff is required');
   const published=await http.published();
   confirmDiffBaseline(published,b.publicationDiff.baseline);
   const publicationDiff=await auditPublicationDiff({published,verified:v,directory:path.resolve(options.site),verifiedDerived:b.verifiedDerived});
   assert.equal(publicationDiff.status,'PASS','No public payload change to deploy');
   assert.deepEqual(publicationDiff,b.publicationDiff,'Publication diff changed after the build');
-  await guard(p,b.checks,publicationDiff.baseline);state='deploying';status();output('allowed','true');console.log('DEPLOY_GATE_PASS');}
+  await guard(p,b.checks,publicationDiff.baseline);state='deploying';status();output('legacy',String(Object.hasOwn(p,'publishedSnapshot')));output('allowed','true');console.log('DEPLOY_GATE_PASS');}
  else if(command==='verify'){const p=await validatePlan(plan()),local=site.verifySite(path.resolve(options.site)),release=(await http.get(new URL('data/sync-release.json',config.siteUrl))).json(),current=(await http.get(new URL('data/current.json',config.siteUrl))).json(),manifest=(await http.get(new URL('data/snapshots/'+p.target.outputRevision+'/manifest.json',config.siteUrl))).bytes,remoteFiles=(await http.get(new URL('data/sync-files.json',config.siteUrl))).bytes;assert.deepEqual(release,local.release);assert.equal(policy.sha(remoteFiles),release.filesManifestSha256);const rows=JSON.parse(remoteFiles).files,paths=['index.html','event.html','member-analytics.html','song/S001.html','release/R0036.html','assets/js/common.js','data/song-youtube.json'];const events=Object.keys(read(path.join(path.resolve(options.site),'data/snapshots',p.target.outputRevision,'manifest.json')).hashes.events).slice(-2);paths.push(...events.map(id=>'data/snapshots/'+p.target.outputRevision+'/events/'+id+'.json'));paths.push(...require('./public-card-tools.json'));for(const name of paths){const expected=rows.find(r=>r.path===name);assert.ok(expected,name);const b=(await http.get(new URL(name,config.siteUrl),{maxBytes:16*1024*1024})).bytes;assert.equal(b.length,expected.bytes);assert.equal(policy.sha(b),expected.sha256,'Public bytes mismatch '+name);}const fresh=await freshPlan(p,'post-deploy');const verified=policy.verifiedDeployment({plan:p,release,current,manifestBytes:manifest,expectedManifestSha:release.snapshotManifestSha256,deployConclusion:process.env.PAGES_DEPLOY_CONCLUSION,latest:fresh.latest,readiness:fresh.readiness,fingerprint:fresh.fingerprint});assert.equal(p.sourceSha,await http.mainSha());state='published';status({verification:verified});save('verification.json',{status:'VERIFIED',runId:Number(process.env.GITHUB_RUN_ID),checks:paths.length+4,target:p.target,at:new Date().toISOString()});console.log('PAGES_AND_HTTP_VERIFIED');}
  else if(command==='evidence'){const target=path.resolve(options.destination),staging=target+'-input';assert.equal(fs.existsSync(staging),false);fs.mkdirSync(staging);for(const name of fs.readdirSync(out))if(name!=='site')fs.cpSync(path.join(out,name),path.join(staging,name),{recursive:true});require('../ci/batch-trial-contract.cjs').packageArtifact(staging,target);console.log('SANITIZED_EVIDENCE_READY');}
  else throw Error('Unknown command');

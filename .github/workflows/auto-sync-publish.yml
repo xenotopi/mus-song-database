@@ -134,7 +134,7 @@ jobs:
       - id: build
         if: steps.authorize.outputs.decision == 'BUILD'
         env:
-          MUSDB_DIRECT_FENCE_KEY: ${{ github.event_name == 'workflow_run' && secrets.MUSDB_DIRECT_AUTO_KEY || github.event_name == 'workflow_dispatch' && secrets.MUSDB_DIRECT_MANUAL_KEY || '' }}
+          MUSDB_DIRECT_SOURCE_KEY: ${{ github.event_name == 'workflow_run' && secrets.MUSDB_DIRECT_AUTO_SOURCE_KEY || github.event_name == 'workflow_dispatch' && secrets.MUSDB_DIRECT_MANUAL_SOURCE_KEY || '' }}
           MUSDB_SYNC_SIGNING_ENABLED: ${{ vars.MUSDB_SYNC_SIGNING_ENABLED }}
           MUSDB_SYNC_SIGNING_KID: ${{ vars.MUSDB_SYNC_SIGNING_KID }}
           MUSDB_SYNC_SIGNING_KEY: ${{ vars.MUSDB_SYNC_SIGNING_ENABLED == 'true' && secrets.MUSDB_SYNC_SIGNING_KEY || '' }}

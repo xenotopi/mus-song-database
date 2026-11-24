@@ -93,7 +93,7 @@ test('a recovery ticket binds the Asset ID, ZIP and both revisions before reachi
   let calls=0;
   const fetch=async (url,{body})=>{
     calls++;
-    assert.match(String(url),/\/musdb-publication-v1$/);
+    assert.match(String(url),/\/exec$/);
     const [,role,operation,,nonce,actual]=JSON.parse(body);
     assert.equal(role,'baseline');assert.equal(operation,'baseline/begin-v3');
     assert.equal(actual.targetId,target.id);assert.equal(actual.targetSha256,target.targetSha256);

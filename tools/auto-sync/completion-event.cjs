@@ -5,15 +5,16 @@ const {authorizeBuild}=require('./readiness-client.cjs');
 const {validateMonitorRun}=require('./pipeline.cjs');
 const policy=require('./policy.cjs');
 
-const noticeFields=['completionIdSha256','dataRevision','outputRevision','schemaVersion'];
+const noticeFields=['completionIdSha256','dataRevision','outputRevision','schemaVersion','sourceImageSha256'];
 
 function completionNotice(value) {
   assert.ok(value&&typeof value==='object'&&!Array.isArray(value),'INVALID_NOTICE');
   assert.deepEqual(Object.keys(value).sort(),noticeFields,'INVALID_NOTICE_FIELDS');
-  assert.equal(value.schemaVersion,1,'INVALID_NOTICE_VERSION');
+  assert.equal(value.schemaVersion,2,'INVALID_NOTICE_VERSION');
   assert.match(value.completionIdSha256,/^[a-f0-9]{64}$/,'INVALID_COMPLETION_DIGEST');
   const revisions=policy.revisions(value);
-  return {schemaVersion:1,completionIdSha256:value.completionIdSha256,...revisions};
+  assert.match(value.sourceImageSha256,/^[a-f0-9]{64}$/,'INVALID_SOURCE_IMAGE_DIGEST');
+  return {schemaVersion:2,completionIdSha256:value.completionIdSha256,...revisions,sourceImageSha256:value.sourceImageSha256};
 }
 
 function validateAutomaticMonitorRun({run,config,invocation,mainSha,enabled}) {
@@ -52,7 +53,8 @@ function validateAutomaticCandidate({candidate,run,config,invocation,mainSha,ena
 async function authorizeAutomaticBuild({http,candidate,run,config,invocation,mainSha,enabled,completionOptions}) {
   const notice=validateAutomaticCandidate({candidate,run,config,invocation,mainSha,enabled});
   const result=await authorizeBuild({http,candidate,completionOptions});
-  if (result.decision==='BUILD'&&result.completionSha256!==notice.completionIdSha256) {
+  if (result.decision==='BUILD'&&(result.completionSha256!==notice.completionIdSha256||
+      result.sourceImageSha256!==notice.sourceImageSha256)) {
     return {decision:'BLOCKED',reason:'NOTICE_GENERATION_SUPERSEDED',target:result.target};
   }
   return result;

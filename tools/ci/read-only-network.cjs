@@ -15,9 +15,11 @@ function install(){
  if(allowRetry&&!Number.isFinite(deadline))throw Error('Bounded retry requires a trial deadline');
  const {createReadOnlyFetch}=require('./request-policy.cjs');
  const token=process.env.MUSDB_FROZEN_SOURCE_TOKEN,stamp=process.env.MUSDB_FROZEN_SOURCE_STAMP;
+ const completionSha256=process.env.MUSDB_FROZEN_SOURCE_COMPLETION;
  delete process.env.MUSDB_FROZEN_SOURCE_TOKEN;
  delete process.env.MUSDB_FROZEN_SOURCE_STAMP;
- const transport=token||stamp?require('../auto-sync/frozen-source.cjs').frozenTransport({token,stamp,fetch:original}):original;
+ delete process.env.MUSDB_FROZEN_SOURCE_COMPLETION;
+ const transport=token||stamp||completionSha256?require('../auto-sync/frozen-source.cjs').frozenTransport({token,stamp,completionSha256,fetch:original}):original;
  if(transport!==original)frozenSourceStamp=stamp;
  const guarded=createReadOnlyFetch({fetch:transport,classify,record,deadline,allowRetry,validateRequest(input,init){
   return validateTrialRequest(input,init,mode);

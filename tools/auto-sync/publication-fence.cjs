@@ -82,7 +82,9 @@ function invocation(action,env){
   assert.match(env.GITHUB_RUN_ID,/^[1-9][0-9]{0,19}$/);
   assert.match(env.GITHUB_RUN_ATTEMPT,/^[1-9][0-9]{0,5}$/);
   assert.match(env.GITHUB_SHA,/^[a-f0-9]{40}$/);
-  return {role:baseline?'baseline':auto?'publisher':'manual',mode:auto?'auto':'manual',
+  const mode=auto?'auto':'manual';
+  const role=action==='open-source'?'source_'+mode:baseline?'baseline':auto?'publisher':'manual';
+  return {role,mode,
     run:{runId:env.GITHUB_RUN_ID,attempt:Number(env.GITHUB_RUN_ATTEMPT),sourceSha:env.GITHUB_SHA}};
 }
 
@@ -96,7 +98,8 @@ async function publicationFence(action,{env=process.env,fetch=global.fetch,paylo
     assert.ok(typeof payload.ticket==='string' && /^[a-f0-9]{32}$/.test(payload.ticket),'Missing one-time approval');
     assert.deepEqual(payload.asset,recoveryAssetBinding(target),'Recovery approval does not bind the pinned Release Asset');
   }
-  const result=await callDirect({role,route,payload:{...payload,mode,run},key:env.MUSDB_DIRECT_FENCE_KEY,fetch});
+  const key=action==='open-source'?env.MUSDB_DIRECT_SOURCE_KEY:env.MUSDB_DIRECT_FENCE_KEY;
+  const result=await callDirect({role,route,payload:{...payload,mode,run},key,fetch});
   assert.ok(allowed.includes(result.status),'Publication state not confirmed');
   return result.status;
 }

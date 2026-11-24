@@ -1,5 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path');
+let frozenSourceStamp;
 const allowed=new Set(['revision','releaseList','rankings','kamiparaDashboard','song','release','eventHistory','venueHistory','event','discover','singerList','eventBatch']);
 function classify(status,code){if(status===403||status===401)return'ACCESS_DENIED';if(status===429)return'RATE_LIMIT';if(status>=500)return'UPSTREAM_SERVER';if(status>=400)return'HTTP_CLIENT';return code==='ENOTFOUND'||code==='EAI_AGAIN'?'DNS':'NETWORK_OR_PAYLOAD';}
 function needsGeneration(current,remote){return current.dataRevision!==remote.dataRevision||current.outputRevision!==remote.outputRevision;}
@@ -13,7 +14,12 @@ function install(){
  const allowRetry=process.env.AUTO_SYNC_ALLOW_TIMEOUT_RETRY==='1';
  if(allowRetry&&!Number.isFinite(deadline))throw Error('Bounded retry requires a trial deadline');
  const {createReadOnlyFetch}=require('./request-policy.cjs');
- const guarded=createReadOnlyFetch({fetch:original,classify,record,deadline,allowRetry,validateRequest(input,init){
+ const token=process.env.MUSDB_FROZEN_SOURCE_TOKEN,stamp=process.env.MUSDB_FROZEN_SOURCE_STAMP;
+ delete process.env.MUSDB_FROZEN_SOURCE_TOKEN;
+ delete process.env.MUSDB_FROZEN_SOURCE_STAMP;
+ const transport=token||stamp?require('../auto-sync/frozen-source.cjs').frozenTransport({token,stamp,fetch:original}):original;
+ if(transport!==original)frozenSourceStamp=stamp;
+ const guarded=createReadOnlyFetch({fetch:transport,classify,record,deadline,allowRetry,validateRequest(input,init){
   return validateTrialRequest(input,init,mode);
  },expectedDataRevision:process.env.AUTO_SYNC_EXPECTED_DATA_REVISION,expectedOutputRevision:process.env.AUTO_SYNC_EXPECTED_OUTPUT_REVISION});
  global.fetch=async(...args)=>{try{return await guarded(...args);}catch(e){console.error('DRY_RUN_NETWORK_STOP '+e.message);process.exit(72);}};
@@ -23,5 +29,5 @@ function install(){
  }
 }
 function record(row){if(process.env.AUTO_SYNC_NETWORK_LOG)fs.appendFileSync(process.env.AUTO_SYNC_NETWORK_LOG,JSON.stringify({...row,at:new Date().toISOString(),pid:process.pid})+'\n');}
-module.exports={classify,needsGeneration,semantic,validateRequest,validateTrialRequest};
+module.exports={classify,needsGeneration,semantic,validateRequest,validateTrialRequest,getFrozenSourceStamp:()=>frozenSourceStamp};
 install();

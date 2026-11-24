@@ -1,6 +1,10 @@
-# Manual first-publication workflow. A monitor run alone cannot trigger deployment.
+# Manual publication plus the guarded completion-event route.
 name: MUSDB validated Pages publisher
 on:
+  workflow_run:
+    workflows: [MUSDB revision monitor]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
     inputs:
       monitor_run_id:
@@ -17,15 +21,27 @@ permissions:
   actions: read
 env:
   MUSDB_AUTO_SYNC_ENABLED: ${{ vars.MUSDB_AUTO_SYNC_ENABLED }}
+  MUSDB_EVENT_MONITOR_ENABLED: ${{ vars.MUSDB_EVENT_MONITOR_ENABLED }}
+  MUSDB_EVENT_PUBLICATION_ENABLED: ${{ vars.MUSDB_EVENT_PUBLICATION_ENABLED }}
+  MUSDB_EVENT_ACTOR_ID: ${{ vars.MUSDB_EVENT_ACTOR_ID }}
+  MUSDB_RUN_REF_PROTECTED: ${{ github.ref_protected }}
+  MUSDB_PUBLICATION_FENCE_ENABLED: ${{ vars.MUSDB_PUBLICATION_FENCE_ENABLED }}
+  MUSDB_LEGACY_MANUAL_ENABLED: ${{ vars.MUSDB_LEGACY_MANUAL_ENABLED }}
+  MUSDB_PAGES_DEPLOY_ENABLED: ${{ vars.MUSDB_PAGES_DEPLOY_ENABLED }}
 concurrency:
   group: musdb-pages-production
   cancel-in-progress: false
+  queue: max
 jobs:
   plan:
     if: >-
       github.repository == 'xenotopi/mus-song-database' && github.repository_id == '1318600615' &&
       github.ref == 'refs/heads/main' && github.ref_protected && vars.MUSDB_AUTO_SYNC_ENABLED == 'true' &&
-      github.event_name == 'workflow_dispatch' && inputs.publish == true
+      ((github.event_name == 'workflow_dispatch' && inputs.publish == true) ||
+       (github.event_name == 'workflow_run' && vars.MUSDB_EVENT_PUBLICATION_ENABLED == 'true' &&
+        vars.MUSDB_PUBLICATION_FENCE_ENABLED == 'true' && vars.MUSDB_EVENT_ACTOR_ID != '' &&
+        github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.run_attempt == 1 &&
+        format('{0}', github.event.workflow_run.actor.id) == vars.MUSDB_EVENT_ACTOR_ID))
     runs-on: ubuntu-24.04
     outputs:
       decision: ${{ steps.plan.outputs.decision }}
@@ -40,7 +56,7 @@ jobs:
         name: Validate trusted monitor identity before artifact download
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          MONITOR_RUN_ID: ${{ inputs.monitor_run_id }}
+          MONITOR_RUN_ID: ${{ github.event.workflow_run.id || inputs.monitor_run_id }}
         run: node tools/auto-sync/cli.cjs validate-monitor --run-id="$MONITOR_RUN_ID" --out="$RUNNER_TEMP/musdb-sync"
       - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         if: steps.monitor.outputs.run_id != ''
@@ -82,6 +98,11 @@ jobs:
         with:
           name: sync-candidate-plan
           path: ${{ runner.temp }}/plan
+      - name: Require durable confirmation of the automatic monitor run
+        if: github.event_name == 'workflow_run'
+        env:
+          MUSDB_DIRECT_FENCE_KEY: ${{ secrets.MUSDB_DIRECT_AUTO_KEY }}
+        run: node tools/auto-sync/publication-fence.cjs check
       - id: authorize
         name: Bind fresh signed readiness to the verified monitor candidate
         env:
@@ -113,6 +134,7 @@ jobs:
       - id: build
         if: steps.authorize.outputs.decision == 'BUILD'
         env:
+          MUSDB_DIRECT_FENCE_KEY: ${{ github.event_name == 'workflow_run' && secrets.MUSDB_DIRECT_AUTO_KEY || github.event_name == 'workflow_dispatch' && secrets.MUSDB_DIRECT_MANUAL_KEY || '' }}
           MUSDB_SYNC_SIGNING_ENABLED: ${{ vars.MUSDB_SYNC_SIGNING_ENABLED }}
           MUSDB_SYNC_SIGNING_KID: ${{ vars.MUSDB_SYNC_SIGNING_KID }}
           MUSDB_SYNC_SIGNING_KEY: ${{ vars.MUSDB_SYNC_SIGNING_ENABLED == 'true' && secrets.MUSDB_SYNC_SIGNING_KEY || '' }}
@@ -154,7 +176,11 @@ jobs:
           retention-days: 14
   deploy:
     needs: [plan, build]
-    if: needs.build.outputs.validated == 'true' && vars.MUSDB_AUTO_SYNC_ENABLED == 'true'
+    if: >-
+      needs.build.outputs.validated == 'true' && vars.MUSDB_AUTO_SYNC_ENABLED == 'true' && vars.MUSDB_PAGES_DEPLOY_ENABLED == 'true' &&
+      (vars.MUSDB_PUBLICATION_FENCE_ENABLED == 'true' ||
+       (github.event_name == 'workflow_dispatch' && inputs.publish == true && vars.MUSDB_LEGACY_MANUAL_ENABLED == 'true' &&
+        vars.MUSDB_EVENT_MONITOR_ENABLED != 'true' && vars.MUSDB_EVENT_PUBLICATION_ENABLED != 'true'))
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
@@ -167,6 +193,7 @@ jobs:
       url: ${{ steps.pages.outputs.page_url }}
     outputs:
       deployed: ${{ steps.pages.outcome }}
+      fenced: ${{ steps.begin.outputs.allowed }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
@@ -196,12 +223,18 @@ jobs:
           MUSDB_AUTO_SYNC_ENABLED: ${{ vars.MUSDB_AUTO_SYNC_ENABLED }}
         run: node tools/auto-sync/cli.cjs predeploy --plan="$RUNNER_TEMP/plan/accepted-plan.json" --site="$RUNNER_TEMP/site" --build="$RUNNER_TEMP/receipt/build.json" --out="$RUNNER_TEMP/musdb-sync"
       - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b
-        if: steps.gate.outputs.allowed == 'true'
+        if: vars.MUSDB_PAGES_DEPLOY_ENABLED == 'true' && steps.gate.outputs.allowed == 'true'
         with:
           path: ${{ runner.temp }}/site
+      - id: fence
+        name: Acquire the publication fence shared with management updates
+        if: steps.gate.outputs.allowed == 'true' && steps.gate.outputs.legacy == 'false'
+        env:
+          MUSDB_DIRECT_FENCE_KEY: ${{ github.event_name == 'workflow_run' && secrets.MUSDB_DIRECT_AUTO_KEY || github.event_name == 'workflow_dispatch' && secrets.MUSDB_DIRECT_MANUAL_KEY || '' }}
+        run: node tools/auto-sync/publication-fence.cjs acquire
       - id: freshness
-        name: Recheck immediately after upload and before deployment
-        if: steps.gate.outputs.allowed == 'true'
+        name: Recheck the approved package and completion after upload
+        if: steps.gate.outputs.allowed == 'true' && (steps.fence.outputs.acquired == 'true' || steps.gate.outputs.legacy == 'true')
         env:
           MUSDB_SYNC_SIGNING_ENABLED: ${{ vars.MUSDB_SYNC_SIGNING_ENABLED }}
           MUSDB_SYNC_SIGNING_KID: ${{ vars.MUSDB_SYNC_SIGNING_KID }}
@@ -209,9 +242,23 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           MUSDB_AUTO_SYNC_ENABLED: ${{ vars.MUSDB_AUTO_SYNC_ENABLED }}
         run: node tools/auto-sync/cli.cjs predeploy --plan="$RUNNER_TEMP/plan/accepted-plan.json" --site="$RUNNER_TEMP/site" --build="$RUNNER_TEMP/receipt/build.json" --out="$RUNNER_TEMP/musdb-sync"
+      - id: begin
+        name: Persist that a Pages request may be issued
+        if: steps.freshness.outputs.allowed == 'true' && steps.fence.outputs.acquired == 'true'
+        env:
+          MUSDB_DIRECT_FENCE_KEY: ${{ github.event_name == 'workflow_run' && secrets.MUSDB_DIRECT_AUTO_KEY || github.event_name == 'workflow_dispatch' && secrets.MUSDB_DIRECT_MANUAL_KEY || '' }}
+        run: node tools/auto-sync/publication-fence.cjs begin
       - id: pages
-        if: steps.freshness.outputs.allowed == 'true'
+        if: >-
+          vars.MUSDB_PAGES_DEPLOY_ENABLED == 'true' && steps.freshness.outputs.allowed == 'true' &&
+          (steps.begin.outputs.allowed == 'true' ||
+           (github.event_name == 'workflow_dispatch' && inputs.publish == true && steps.gate.outputs.legacy == 'true' && steps.freshness.outputs.legacy == 'true'))
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+      - name: Release only if the Pages request could not have been issued
+        if: ${{ !cancelled() && steps.fence.outputs.acquired == 'true' && steps.begin.outcome == 'skipped' && steps.pages.outcome == 'skipped' }}
+        env:
+          MUSDB_DIRECT_FENCE_KEY: ${{ github.event_name == 'workflow_run' && secrets.MUSDB_DIRECT_AUTO_KEY || github.event_name == 'workflow_dispatch' && secrets.MUSDB_DIRECT_MANUAL_KEY || '' }}
+        run: node tools/auto-sync/publication-fence.cjs abandon
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         if: always()
         with:
@@ -249,6 +296,11 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           PAGES_DEPLOY_CONCLUSION: ${{ needs.deploy.outputs.deployed }}
         run: node tools/auto-sync/cli.cjs verify --plan="$RUNNER_TEMP/plan/accepted-plan.json" --site="$RUNNER_TEMP/site" --out="$RUNNER_TEMP/musdb-sync"
+      - name: Release the publication fence after successful production verification
+        if: needs.deploy.outputs.fenced == 'true'
+        env:
+          MUSDB_DIRECT_FENCE_KEY: ${{ github.event_name == 'workflow_run' && secrets.MUSDB_DIRECT_AUTO_KEY || github.event_name == 'workflow_dispatch' && secrets.MUSDB_DIRECT_MANUAL_KEY || '' }}
+        run: node tools/auto-sync/publication-fence.cjs verified
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         if: always()
         with:

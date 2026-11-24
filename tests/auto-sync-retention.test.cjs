@@ -7,5 +7,64 @@ test('different checkout bytes are replaced only with proven published raw bytes
 test('partial HTTP body does not overwrite an existing valid file',async t=>{const x=fixture(t),file=path.join(x.root,x.name);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,'existing');const get=x.get;x.get=async u=>String(u).endsWith('sync-files.json')?get(u):{bytes:Buffer.from('partial')};await assert.rejects(retainSnapshots(x),/Published snapshot bytes/);assert.equal(fs.readFileSync(file,'utf8'),'existing');});
 test('wrong published manifest hash blocks all data copying',async t=>{const x=fixture(t);x.published.release.filesManifestSha256='0'.repeat(64);await assert.rejects(retainSnapshots(x));assert.equal(fs.existsSync(path.join(x.root,'data')),false);assert.equal(x.calls.length,1);});
 test('missing trusted predecessor is explicitly bootstrap, never a fabricated verification',async t=>{const x=fixture(t);x.published.verified=false;assert.equal((await retainSnapshots(x)).status,'BOOTSTRAP');assert.equal(x.calls.length,0);});
-test('source-only capture uses existing official producers and does not call API generator',()=>{const s=fs.readFileSync(path.join(__dirname,'../tools/auto-sync/capture-existing.cjs'),'utf8'),cli=fs.readFileSync(path.join(__dirname,'../tools/auto-sync/cli.cjs'),'utf8');assert.match(s,/withSnapshotOperation/);assert.match(s,/generateSongPages/);assert.match(s,/generateReleasePages/);assert.doesNotMatch(s,/generate-static-snapshot|fetch\(/);assert.match(cli,/assert.equal\(fs.existsSync\(path.dirname\(selected\)\),false/);assert.match(cli,/run\('snapshot',contract.generatorArgs\)/);});
-test('same-revision orchestration holds the real shared lease and preserves input bytes',async t=>{const root=f.folder(t),file=path.join(root,'data/snapshots',f.target.outputRevision,'manifest.json');fs.mkdirSync(path.dirname(file),{recursive:true});const bytes=Buffer.from(JSON.stringify({revision:f.target.outputRevision,dataRevision:f.target.dataRevision}));fs.writeFileSync(file,bytes);const vm=require('node:vm'),module={exports:{}},calls=[],lease=require('../tools/snapshot-publication.cjs');function loader(name){if(name==='../snapshot-publication.cjs')return lease;if(name==='../generate-song-pages.cjs')return{generateSongPages:async o=>lease.withSnapshotOperation(root,async()=>{assert.ok(fs.existsSync(path.join(root,'.snapshot-operation.lock')));calls.push(['song',o.revision]);return{count:117};})};if(name==='../generate-release-pages.cjs')return{generateReleasePages:async o=>lease.withSnapshotOperation(root,async()=>{calls.push(['release',o.revision]);return Array.from({length:114});})};return require(name);}vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../tools/auto-sync/capture-existing.cjs'),'utf8'),{require:loader,module,console,process:{argv:[]}});const r=await module.exports.captureExisting({root,revision:f.target.outputRevision,expectedDataRevision:f.target.dataRevision});assert.equal(r.capturePages,231);assert.equal(r.reusedPublishedSnapshotBytes,true);assert.deepEqual(calls,[['song',f.target.outputRevision],['release',f.target.outputRevision]]);assert.ok(fs.readFileSync(file).equals(bytes));assert.equal(fs.existsSync(path.join(root,'.snapshot-operation.lock')),false);await assert.rejects(module.exports.captureExisting({root,revision:f.target.outputRevision,expectedDataRevision:f.old.dataRevision}));assert.equal(calls.length,2);});
+test('source-only capture uses existing official producers and does not call API generator',()=>{
+  const s=fs.readFileSync(path.join(__dirname,'../tools/auto-sync/capture-existing.cjs'),'utf8');
+  const capture=s.slice(s.indexOf('async function captureExisting'),s.indexOf('const policy='));
+  assert.match(capture,/withSnapshotOperation/);assert.match(capture,/generateSongPages/);assert.match(capture,/generateReleasePages/);
+  assert.doesNotMatch(capture,/generate-static-snapshot|fetch\(/);
+  const cli=fs.readFileSync(path.join(__dirname,'../tools/auto-sync/cli.cjs'),'utf8');
+  assert.match(cli,/\.generateVerifiedSnapshot\(\{root,plan:p,published:initial.published,retained,/);
+  assert.match(s,/if\(!fs.existsSync\(target\)&&!legacy\)\{\s+const frozen=await freezeSource\(plan\);\s+run\('snapshot',generatorArgs,frozen\)/);
+  assert.match(s,/Existing target snapshot is not proven published; refuse overwrite/);
+});
+
+function identityManifest() {
+  const dataRevision=f.target.dataRevision,outputRevision=f.target.outputRevision;
+  const digest='3'.repeat(64),hashes=(prefix,n)=>Object.fromEntries(Array.from({length:n},(_,i)=>[prefix+(i+1),{sha256:digest}]));
+  return {revision:outputRevision,outputRevision,dataRevision,counts:{songs:117,releases:114,events:1,memberAnalytics:1},
+    hashes:{songs:hashes('S',117),releases:hashes('R',114),events:hashes('EV',1)},
+    releaseList:{count:114,sha256:digest},kamiparaDashboard:{sha256:digest},memberAnalytics:{sha256:digest}};
+}
+
+test('complete independently generated snapshot can prove identical data despite different envelope timestamps',()=>{
+  const {assertSnapshotIdentity}=require('../tools/auto-sync/snapshot-identity.cjs');
+  const before=identityManifest(),candidate=structuredClone(before);
+  before.generatedAt='old';
+  candidate.generatedAt='new';
+  candidate.hashes.songs.S1.fileSha256='1'.repeat(64);
+  assert.match(assertSnapshotIdentity(before,candidate),/^[a-f0-9]{64}$/);
+  candidate.hashes.songs.S1.sha256='4'.repeat(64);
+  assert.throws(()=>assertSnapshotIdentity(before,candidate),/differs from the frozen input/);
+  delete candidate.hashes.songs.S1.sha256;
+  assert.throws(()=>assertSnapshotIdentity(before,candidate),/Missing snapshot data digest/);
+});
+
+test('frozen same-revision reuse of a pre-stamp publication requires independent generation proof',async t=>{
+  const {generateVerifiedSnapshot}=require('../tools/auto-sync/capture-existing.cjs');
+  const root=f.folder(t),manifestPath=path.join(root,'data/snapshots',f.target.outputRevision,'manifest.json');
+  fs.mkdirSync(path.dirname(manifestPath),{recursive:true});
+  const original=Buffer.from(JSON.stringify(identityManifest()));
+  fs.writeFileSync(manifestPath,original);
+  const plan={target:f.target,sourceImageSha256:'5'.repeat(64)},calls=[];
+  const opts={root,plan,published:{...f.target,verified:true,release:{snapshotManifestSha256:sha(original)}},
+    retained:{revisions:[f.target.outputRevision]},generatorArgs:['generator','--event-transport=batch-v1'],
+    freezeSource:async input=>{assert.equal(input,plan);return {token:'trial'};},
+    run:(name,args,frozen)=>{
+      calls.push(name);
+      if(name==='snapshot-proof'){
+        assert.deepEqual(args,['generator','--event-transport=batch-v1','--verify-existing-snapshot',f.target.outputRevision]);
+        assert.deepEqual(frozen,{token:'trial'});
+        return JSON.stringify({status:'VERIFIED_EXISTING_SNAPSHOT',...f.target,dataSha256:'6'.repeat(64),sourceImageSha256:plan.sourceImageSha256});
+      }
+      assert.deepEqual(args,['tools/auto-sync/capture-existing.cjs',f.target.outputRevision]);
+    },
+    save:(name,proof)=>{assert.equal(name,'existing-snapshot-proof.json');assert.equal(proof.dataSha256,'6'.repeat(64));}
+  };
+  await generateVerifiedSnapshot(opts);
+  assert.deepEqual(calls,['snapshot-proof','snapshot']);
+  await assert.rejects(generateVerifiedSnapshot({...opts,run:()=>{throw Error('Existing snapshot data differs from the frozen input');}}),/differs from the frozen input/);
+  await assert.rejects(generateVerifiedSnapshot({...opts,retained:{revisions:[]}}),/not proven published/);
+  await assert.rejects(generateVerifiedSnapshot({...opts,published:{...opts.published,release:{...opts.published.release,sourceImageSha256:'7'.repeat(64)}}}),/different frozen input/);
+  assert.deepEqual(fs.readFileSync(manifestPath),original);
+});
+test('same-revision orchestration holds the real shared lease and preserves input bytes',async t=>{const root=f.folder(t),file=path.join(root,'data/snapshots',f.target.outputRevision,'manifest.json');fs.mkdirSync(path.dirname(file),{recursive:true});const bytes=Buffer.from(JSON.stringify({revision:f.target.outputRevision,dataRevision:f.target.dataRevision}));fs.writeFileSync(file,bytes);const vm=require('node:vm'),module={exports:{}},calls=[],lease=require('../tools/snapshot-publication.cjs');function loader(name){if(name==='./policy.cjs'||name==='./publication-mode.cjs')return require('../tools/auto-sync/'+name.slice(2));if(name==='../snapshot-publication.cjs')return lease;if(name==='../generate-song-pages.cjs')return{generateSongPages:async o=>lease.withSnapshotOperation(root,async()=>{assert.ok(fs.existsSync(path.join(root,'.snapshot-operation.lock')));calls.push(['song',o.revision]);return{count:117};})};if(name==='../generate-release-pages.cjs')return{generateReleasePages:async o=>lease.withSnapshotOperation(root,async()=>{calls.push(['release',o.revision]);return Array.from({length:114});})};return require(name);}vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../tools/auto-sync/capture-existing.cjs'),'utf8'),{require:loader,module,console,process:{argv:[]}});const r=await module.exports.captureExisting({root,revision:f.target.outputRevision,expectedDataRevision:f.target.dataRevision});assert.equal(r.capturePages,231);assert.equal(r.reusedPublishedSnapshotBytes,true);assert.deepEqual(calls,[['song',f.target.outputRevision],['release',f.target.outputRevision]]);assert.ok(fs.readFileSync(file).equals(bytes));assert.equal(fs.existsSync(path.join(root,'.snapshot-operation.lock')),false);await assert.rejects(module.exports.captureExisting({root,revision:f.target.outputRevision,expectedDataRevision:f.old.dataRevision}));assert.equal(calls.length,2);});

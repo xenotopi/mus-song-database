@@ -14,14 +14,18 @@ async function freezeSource(plan, {fence=publicationFence}={}) {
     sourceSha:plan.sourceSha, monitorRunId:String(plan.monitorRunId),
     notice:plan.completionNotice, tokenSha256:sha(token)
   }});
-  return {token,stamp:plan.sourceImageSha256};
+  return {token,stamp:plan.sourceImageSha256,completionSha256:plan.completionSha256};
 }
 
-function frozenTransport({token,stamp,fetch,httpUrl=config.apiUrl}){
+function frozenTransport({token,stamp,completionSha256,fetch,httpUrl=config.apiUrl}){
   assert.match(token,/^[a-f0-9]{64}$/);
   assert.match(stamp,/^[a-f0-9]{64}$/);
   assert.equal(httpUrl,config.apiUrl);
-  const endpoint=new URL(httpUrl+'/musdb-frozen-read-v1');
+  assert.match(completionSha256,/^[a-f0-9]{64}$/);
+  const endpoint=new URL(httpUrl);
+  assert.equal(endpoint.origin,'https://script.google.com');
+  assert.match(endpoint.pathname,/^\/macros\/s\/[A-Za-z0-9_-]+\/exec$/);
+  assert.ok(!endpoint.search&&!endpoint.hash&&!endpoint.username&&!endpoint.password);
   return async (input,init={})=>{
     const request=new URL(typeof input==='string'||input instanceof URL?input:input.url);
     if(['127.0.0.1','localhost'].includes(request.hostname))return fetch(input,init);
@@ -46,6 +50,7 @@ function frozenTransport({token,stamp,fetch,httpUrl=config.apiUrl}){
       const payload=await response.json();
       assert.equal(payload?.success,true);
       assert.equal(payload.sourceImageSha256,stamp);
+      assert.equal(payload.sourceCompletionSha256,completionSha256);
       return Response.json(payload);
     }catch(error){
       // Allow only explicit timeout handling in the existing read-only policy. Never log body or URL.

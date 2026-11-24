@@ -28,9 +28,9 @@ function signedCommand({role,route,payload,key,issuedAt,nonce}){
 
 async function callDirect({role,route,payload,key,fetch=global.fetch,now=Date.now}){
   try{
-    const endpoint=new URL(config.apiUrl+'/'+domain);
+    const endpoint=new URL(config.apiUrl);
     assert.equal(endpoint.origin,'https://script.google.com');
-    assert.match(endpoint.pathname,/^\/macros\/s\/[A-Za-z0-9_-]+\/exec\/musdb-publication-v1$/);
+    assert.match(endpoint.pathname,/^\/macros\/s\/[A-Za-z0-9_-]+\/exec$/);
     assert.ok(!endpoint.search&&!endpoint.hash&&!endpoint.username&&!endpoint.password);
     const nonce=randomBytes(16).toString('hex');
     const body=signedCommand({role,route,payload,key,issuedAt:now(),nonce});

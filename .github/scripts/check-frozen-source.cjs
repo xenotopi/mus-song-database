@@ -31,7 +31,7 @@ function approvedContext(env, readyKey, sourceKey) {
     GITHUB_REF: 'refs/heads/main', GITHUB_REF_PROTECTED: 'true', GITHUB_WORKFLOW_REF: workflowRef,
     GITHUB_WORKFLOW_SHA: sourceSha, GITHUB_SHA: sourceSha, GITHUB_EVENT_NAME: 'workflow_dispatch',
     GITHUB_ACTOR: 'xenotopi', GITHUB_ACTOR_ID: '311514545', GITHUB_TRIGGERING_ACTOR: 'xenotopi',
-    GITHUB_RUN_NUMBER: '2', GITHUB_RUN_ATTEMPT: '1', MUSDB_FROZEN_TRIAL_SEND: 'true',
+    GITHUB_RUN_NUMBER: '3', GITHUB_RUN_ATTEMPT: '1', MUSDB_FROZEN_TRIAL_SEND: 'true',
     MUSDB_SYNC_SIGNING_ENABLED: 'true', MUSDB_SYNC_SIGNING_KID: 'as54-ready-v1',
     MUSDB_SYNC_EXPECTED_DATA_REVISION: target.dataRevision, MUSDB_SYNC_EXPECTED_OUTPUT_REVISION: target.outputRevision,
   };
@@ -43,8 +43,61 @@ function approvedContext(env, readyKey, sourceKey) {
   return {runId: env.GITHUB_RUN_ID, attempt: 1, sourceSha};
 }
 
-async function check({env, readyKey, sourceKey, root, request = globalThis.fetch, now = Date.now}) {
+function networkErrorType(error) {
+  const code = error.cause?.code ?? error.code;
+  if (error.name === 'TimeoutError' || ['ETIMEDOUT', 'UND_ERR_CONNECT_TIMEOUT', 'UND_ERR_HEADERS_TIMEOUT', 'UND_ERR_BODY_TIMEOUT'].includes(code)) return 'TIMEOUT';
+  if (error.name === 'AbortError') return 'ABORTED';
+  if (['ENOTFOUND', 'EAI_AGAIN', 'EAI_FAIL'].includes(code)) return 'DNS';
+  if (['ECONNREFUSED', 'ECONNRESET', 'EPIPE', 'ENETUNREACH', 'EHOSTUNREACH', 'UND_ERR_SOCKET'].includes(code)) return 'CONNECTION';
+  if (typeof code === 'string' && /^(ERR_TLS_|ERR_SSL_|CERT_|DEPTH_ZERO_SELF_SIGNED_CERT|UNABLE_TO_VERIFY_LEAF_SIGNATURE)/.test(code)) return 'TLS';
+  return 'NETWORK';
+}
+
+async function inspectLiveTarget({githubToken, request, expectedMain}) {
+  const diagnostics = {
+    githubMain: {httpStatus: null, errorType: null, expectedMatches: null},
+    gasRevision: {httpStatus: null, errorType: null, expectedMatches: null},
+  };
+  const http = client(config, {token: githubToken ?? null, fetch: async (input, options) => {
+    const origin = new URL(input).origin;
+    const github = origin === 'https://api.github.com';
+    assert.ok(options.method === 'GET' && (github || origin === 'https://script.google.com'));
+    const result = diagnostics[github ? 'githubMain' : 'gasRevision'];
+    const headers = new Headers(options.headers);
+    if (github && (!githubToken || headers.get('authorization') !== 'Bearer ' + githubToken)) {
+      result.errorType = 'GITHUB_AUTH_UNAVAILABLE';
+      throw Error('GITHUB_AUTH_UNAVAILABLE');
+    }
+    if (!github && headers.has('authorization')) {
+      result.errorType = 'UNEXPECTED_CREDENTIAL';
+      throw Error('UNEXPECTED_CREDENTIAL');
+    }
+    try {
+      const response = await request(input, github ? {...options, redirect: 'manual'} : options);
+      result.httpStatus = response.status;
+      return response;
+    } catch (error) {
+      result.errorType = networkErrorType(error);
+      throw error;
+    }
+  }});
+  const [main, revision] = await Promise.allSettled([http.mainSha(), http.latest()]);
+  function finish(result, response, match) {
+    if (response.status === 'fulfilled') {
+      result.expectedMatches = match(response.value);
+      if (!result.expectedMatches) result.errorType = 'VALUE_MISMATCH';
+    } else if (!result.errorType) {
+      result.errorType = result.httpStatus === null ? 'REQUEST_REJECTED' : result.httpStatus === 200 ? 'INVALID_RESPONSE' : 'HTTP_STATUS';
+    }
+  }
+  finish(diagnostics.githubMain, main, value => value === expectedMain);
+  finish(diagnostics.gasRevision, revision, value => same(value, target));
+  return diagnostics;
+}
+
+async function check({env, readyKey, sourceKey, githubToken, root, request = globalThis.fetch, now = Date.now}) {
   let stage = 'CONTEXT';
+  const liveChecks = [];
   let signedBody;
   let readyRequests = 0;
   let issuedAt;
@@ -53,11 +106,10 @@ async function check({env, readyKey, sourceKey, root, request = globalThis.fetch
     const head = execFileSync('git', ['--no-optional-locks', 'rev-parse', 'HEAD'], {cwd: root, encoding: 'utf8'}).trim();
     assert.equal(head, run.sourceSha);
     const fingerprint = sourceFingerprint(root);
-    const http = client(config, {fetch: request, token: null});
     async function verifyLiveTarget() {
-      const [main, live] = await Promise.all([http.mainSha(), http.latest()]);
-      assert.equal(main, run.sourceSha);
-      assert.ok(same(live, target));
+      const checked = await inspectLiveTarget({githubToken, request, expectedMain: run.sourceSha});
+      liveChecks.push({stage, ...checked});
+      assert.ok(checked.githubMain.expectedMatches === true && checked.gasRevision.expectedMatches === true);
     }
     const readyOptions = {
       apiUrl: config.apiUrl, target, now,
@@ -131,18 +183,20 @@ async function check({env, readyKey, sourceKey, root, request = globalThis.fetch
     stage = 'FINAL_CHECK';
     await verifyLiveTarget();
     return {status: 'PASS', runId: run.runId, main: run.sourceSha, ready: true, replayRejected: true,
-      frozenIssued: true, frozenReads: 2, ...target, completionSha256, sourceImageSha256};
+      frozenIssued: true, frozenReads: 2, ...target, completionSha256, sourceImageSha256, liveChecks};
   } catch {
-    return {status: 'STOP', stage};
+    return {status: 'STOP', stage, liveChecks};
   }
 }
 
 if (require.main === module) {
   const readyKey = process.env.MUSDB_SYNC_SIGNING_KEY;
   const sourceKey = process.env.MUSDB_DIRECT_MANUAL_SOURCE_KEY;
+  const githubToken = process.env.GITHUB_TOKEN;
   delete process.env.MUSDB_SYNC_SIGNING_KEY;
   delete process.env.MUSDB_DIRECT_MANUAL_SOURCE_KEY;
-  check({env: process.env, readyKey, sourceKey, root: path.resolve(__dirname, '../..')}).then(result => {
+  delete process.env.GITHUB_TOKEN;
+  check({env: process.env, readyKey, sourceKey, githubToken, root: path.resolve(__dirname, '../..')}).then(result => {
     console.log(JSON.stringify(result));
     if (result.status !== 'PASS') process.exitCode = 1;
   });

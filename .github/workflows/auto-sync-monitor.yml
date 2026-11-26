@@ -8,7 +8,7 @@ on:
         type: boolean
         default: false
       frozen_source_trial:
-        description: Run the separately authorized AUTO-SYNC-60 fixed-input check
+        description: Run the separately authorized AUTO-SYNC-61 fixed-input check
         type: boolean
         default: false
       expected_main:
@@ -71,7 +71,7 @@ jobs:
       github.workflow_ref == 'xenotopi/mus-song-database/.github/workflows/auto-sync-monitor.yml@refs/heads/main' &&
       github.workflow_sha == github.sha && github.sha == inputs.expected_main &&
       github.actor_id == '311514545' && github.actor == github.triggering_actor &&
-      github.run_number == 2 && github.run_attempt == 1 &&
+      github.run_number == 3 && github.run_attempt == 1 &&
       vars.MUSDB_AUTO_SYNC_ENABLED != 'true' && vars.MUSDB_EVENT_MONITOR_ENABLED != 'true' &&
       vars.MUSDB_EVENT_PUBLICATION_ENABLED != 'true' && vars.MUSDB_PAGES_DEPLOY_ENABLED != 'true' &&
       vars.MUSDB_LEGACY_MANUAL_ENABLED != 'true' && vars.MUSDB_PUBLICATION_FENCE_ENABLED != 'true'
@@ -91,6 +91,7 @@ jobs:
           package-manager-cache: false
       - name: Verify READY, replay rejection and frozen data
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           MUSDB_FROZEN_TRIAL_SEND: ${{ inputs.send && inputs.frozen_source_trial }}
           MUSDB_SYNC_EXPECTED_MAIN: ${{ inputs.expected_main }}
           MUSDB_SYNC_EXPECTED_DATA_REVISION: ${{ inputs.data_revision }}
